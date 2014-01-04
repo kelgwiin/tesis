@@ -1,0 +1,5 @@
+Configuraciones de la Base de Datos
+
+Usuario:admin
+Clave:admin
+Nombre de la BD: TI

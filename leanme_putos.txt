@@ -1,0 +1,15 @@
+CREAR UN VIRTUAL HOST EN UBUNTU
+
+Se crea un virtual host para acceder al proyecto por su nombre desde el navegador, i.e, escribir en el URL "nombre_del_proyecto" en este caso "creator" en vez de "localhost/creator/trunk".
+
+1. sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/creator
+2. sudo nano /etc/apache2/sites-available/creator
+	Agregar lineas:
+	2.1 ServerName creator
+	2.2 DocumentRoot /var/www/creator/trunk
+3. sudo cp /etc/apache2/sites-available/creator /etc/apache2/sites-eneabled/creator
+4. sudo nano /etc/hosts
+	Agregar lineas:
+	4.1	127.0.0.1 creator
+5. sudo service apache2 restart
+
