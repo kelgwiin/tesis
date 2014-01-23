@@ -4,19 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="f6rnando">
+    <meta name="author" content="#">
     <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
-
     <title>Tesis Suprema</title>
-
     <!-- Bootstrap core CSS -->
-    <link href="assets/front/sb-admin/css/bootstrap.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/bootstrap.css" >
     <!-- Add custom CSS here -->
-    <link href="assets/front/sb-admin/css/sb-admin.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/front/sb-admin/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/sb-admin.css" >
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/font-awesome/css/font-awesome.min.css">
     <!-- Page Specific CSS -->
-    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/css/morris-0.4.3.min.css">
   </head>
 
   <body>
