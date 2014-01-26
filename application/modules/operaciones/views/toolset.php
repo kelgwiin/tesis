@@ -1,11 +1,28 @@
 <script>
+
+STOOLS = {
+	base_url : '<?php echo site_url(); ?>',
+	getvalue: function(oid,ip,comm,timeout) {
+		/*$.ajax({
+            'url' : this.base_url + '/snmp/get_value_oid',
+            'type' : 'POST', //the way you want to send data to your URL
+            'data' : {objeto : oid, direccion : ip, tiempo : timeout},
+            'success' : function(data){ //probably this request will return anything, it'll be put in var "data"
+                if(data){
+                    return data;
+                }
+            }
+        });//*/
+        return ([(new Date()).getTime(),Math.random()]);
+    }
+}
+
 $(function () {
     $(document).ready(function() {
         Highcharts.setOptions({
             global: { useUTC: false }
         });
-    
-        var chart;
+    	var chart;
         $('#grafica-general').highcharts({
             chart: {
                 type: 'spline',
@@ -17,12 +34,10 @@ $(function () {
                         var series1 = this.series[0],
                         	series2 = this.series[1];
                         setInterval(function() {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random(),
-                                x1 = (new Date()).getTime(), // current time
-                                y1 = Math.random();
-                            series1.addPoint([x, y], true, true);
-                            series2.addPoint([x1, y1], true, true);
+                            var snmp1 = STOOLS.getvalue(),
+                            	snmp2 = STOOLS.getvalue();
+                            series1.addPoint([snmp1[0], snmp1[1]], true, true);
+                            series2.addPoint([snmp2[0], snmp2[1]], true, true);
                         }, 2000);
                     }
                 }
@@ -54,7 +69,7 @@ $(function () {
             series: 
             [
             	{
-	                name: 'Random data',
+	                name: 'CPU',
 	                data: (function() {
 	                    // generate an array of random data
 	                    var data = [],
@@ -71,7 +86,7 @@ $(function () {
 	                })()
 	            },
 	            {
-	                name: 'Random data',
+	                name: 'Memoria',
 	                data: (function() {
 	                    // generate an array of random data
 	                    var data = [],
