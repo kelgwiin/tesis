@@ -1,5 +1,4 @@
 <div id="page-wrapper">
-
         <div class="row">
           <div class="col-lg-12">
             <h1>Inicio <small>Panel de Módulos</small></h1>
@@ -23,7 +22,7 @@
                   </div>
                 </div>
               </div>
-              <a href="#">
+              <a href="<?php echo site_url('index.php/operaciones');?>/">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">
@@ -179,7 +178,7 @@
                   </div>
                 </div>
               </div>
-              <a href="#">
+              <a href="<?php echo site_url('index.php/cargar_datos');?>/">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">
