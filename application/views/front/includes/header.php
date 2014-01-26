@@ -13,13 +13,23 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/sb-admin.css" >
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/font-awesome/css/font-awesome.min.css">
     <!-- Page Specific CSS -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/css/morris-0.4.3.min.css">
+    
   </head>
 
   <body>
+  	<?php $mensajes[] = array('avatar' => 'http://placehold.it/50x50',
+			  					'nombre' => 'John Smith',
+								'mensaje' => "Hey, Te quería preguntar algo...Prueba Interna Mensaje. :)",
+								'hora' => "4:34 PM" );
+	      $num_msg = count($mensajes);
+		  $alertas[] = array('alerta_id' => 1,
+		  					 'prioridad' => 'Danger',
+		  					 'categoria' => "Operaciones",
+							 'desc' => "Alerta máxima (Prueba)");
+		  $num_ale = count($alertas);
+    ?>
 
     <div id="wrapper">
-
       <!-- Sidebar -->
       <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -54,63 +64,46 @@
               </ul>
             </li>
           </ul>
-
-          <ul class="nav navbar-nav navbar-right navbar-user">
+		  <ul class="nav navbar-nav navbar-right navbar-user">
             <li class="dropdown messages-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> Messages <span class="badge">7</span> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              	<i class="fa fa-envelope"></i> Mensajes 
+              		<span class="badge"><?php echo $num_msg; ?></span> <b class="caret"></b> <!-- Hacer una función que pregunte constantemente por mensajes para sistema -->
+              </a>
               <ul class="dropdown-menu">
-                <li class="dropdown-header">7 New Messages</li>
+                <li class="dropdown-header"><?php echo $num_msg; ?> Mensajes Nuevos</li>
+                <?php foreach($mensajes as $m){ ?>
                 <li class="message-preview">
                   <a href="#">
-                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
-                    <span class="name">John Smith:</span>
-                    <span class="message">Hey there, I wanted to ask you something...</span>
-                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
+                    <span class="avatar"><img src="<?php echo $m['avatar']; ?>"></span>
+                    <span class="name"><?php echo $m['nombre']; ?>:</span>
+                    <span class="message"><?php echo $m['mensaje']; ?></span>
+                    <span class="time"><i class="fa fa-clock-o"></i> <?php echo $m['hora']; ?></span>
                   </a>
                 </li>
                 <li class="divider"></li>
-                <li class="message-preview">
-                  <a href="#">
-                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
-                    <span class="name">John Smith:</span>
-                    <span class="message">Hey there, I wanted to ask you something...</span>
-                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
-                  </a>
-                </li>
-                <li class="divider"></li>
-                <li class="message-preview">
-                  <a href="#">
-                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
-                    <span class="name">John Smith:</span>
-                    <span class="message">Hey there, I wanted to ask you something...</span>
-                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
-                  </a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="#">View Inbox <span class="badge">7</span></a></li>
+                <?php } ?>                
+                <li><a href="#">Ver Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
               </ul>
             </li>
             <li class="dropdown alerts-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> Alerts <span class="badge">3</span> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> Alertas <span class="badge"><?php echo $num_ale; ?></span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Default <span class="label label-default">Default</span></a></li>
-                <li><a href="#">Primary <span class="label label-primary">Primary</span></a></li>
-                <li><a href="#">Success <span class="label label-success">Success</span></a></li>
-                <li><a href="#">Info <span class="label label-info">Info</span></a></li>
-                <li><a href="#">Warning <span class="label label-warning">Warning</span></a></li>
-                <li><a href="#">Danger <span class="label label-danger">Danger</span></a></li>
+              	<?php foreach($alertas as $a){ ?>
+                <li><a href="#"><?php echo $a['categoria']; ?> <span class="label label-<?php echo strtolower($a['prioridad']); ?>"><?php echo $a['desc']; ?></span></a></li>
                 <li class="divider"></li>
-                <li><a href="#">View All</a></li>
+                <?php } ?>
+                <li><a href="#">Ver Todas</a></li> <!-- Enlace a alertas -->
               </ul>
             </li>
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
-                <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                <li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
+                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
+                <li><a href="#"><i class="fa fa-gear"></i> Preferencias</a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+                <li><a href="#"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
               </ul>
             </li>
           </ul>

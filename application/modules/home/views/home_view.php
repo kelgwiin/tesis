@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="col-lg-3">
-            <div class="panel panel-warning">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="col-lg-3">
-            <div class="panel panel-danger">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
@@ -90,7 +90,7 @@
             </div>
           </div>
           <div class="col-lg-3">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
@@ -116,7 +116,7 @@
             </div>
           </div>
           <div class="col-lg-3">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
@@ -132,6 +132,84 @@
                   <div class="row">
                     <div class="col-xs-6">
                       Revisar
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-users fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-center">
+                    <p class="announcement-text">Acceso de Usuarios</p>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Examinar
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-sitemap fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-center">
+                    <p class="announcement-text">Cargar Infraestructura</p>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Examinar
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-wrench fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-center">
+                    <p class="announcement-text">Ajustes de Sistema</p>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Examinar
                     </div>
                     <div class="col-xs-6 text-right">
                       <i class="fa fa-arrow-circle-right"></i>
