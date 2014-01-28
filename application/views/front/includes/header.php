@@ -51,18 +51,29 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">Tesis suprema</a>
+          <a class="navbar-brand" href="<?php echo base_url(); ?>">Tesis suprema</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li class="active"><a href="<?php echo site_url('index.php');?>/"><i class="fa fa-flag"></i> Inicio</a></li>
-            <li><a href="charts.html"><i class="fa fa-bar-chart-o"></i> Charts</a></li>
-            <li><a href="tables.html"><i class="fa fa-table"></i> Tables</a></li>
-            <li><a href="forms.html"><i class="fa fa-edit"></i> Forms</a></li>
-            <li><a href="typography.html"><i class="fa fa-font"></i> Typography</a></li>
-            <li><a href="bootstrap-elements.html"><i class="fa fa-desktop"></i> Bootstrap Elements</a></li>
+            <li class="active"><a href="<?php echo base_url(); ?>"><i class="fa fa-flag"></i> Inicio</a></li>
+            <li><a href="<?php echo base_url(); ?>index.php/operaciones/"><i class="fa fa-bar-chart-o"></i> Gestión de Operaciones</a></li>
+            <li><a href="tables.html"><i class="fa fa-table"></i> Acuerdos de Niveles de Servicio</a></li>
+            <!-- Gestion de la Capacidad -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> Gestión de Capacidad <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/">Descripción</a></li>
+                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/ComponentesIT/">Componetes IT</a></li>
+                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/">Servicios</a></li>
+                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Departamentos/">Departamentos</a></li>
+                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Umbrales">Umbrales</a></li>
+              </ul>
+            </li>  
+            <!-- Gestion de la Capacidad -->
+            <li><a href="typography.html"><i class="fa fa-font"></i> Gestión de Riesgos</a></li>
+            <li><a href="bootstrap-elements.html"><i class="fa fa-desktop"></i> Gestión de Costos</a></li>
             <li><a href="bootstrap-grid.html"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
             <li><a href="blank-page.html"><i class="fa fa-file"></i> Blank Page</a></li>
             <li class="dropdown">

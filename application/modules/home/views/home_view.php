@@ -1,4 +1,5 @@
 <div id="page-wrapper">
+	
         <div class="row">
           <div class="col-lg-12">
             <h1>Inicio <small>Panel de Módulos</small></h1>
@@ -10,6 +11,7 @@
         </div><!-- /.row -->
 
         <div class="row">
+        	
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -36,6 +38,7 @@
               </a>
             </div>
           </div>
+          
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -48,7 +51,7 @@
                   </div>
                 </div>
               </div>
-              <a href="#">
+              <a href="<?php echo base_url(); ?>index.php/Capacidad/">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">
@@ -62,6 +65,7 @@
               </a>
             </div>
           </div>
+          
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -88,6 +92,7 @@
               </a>
             </div>
           </div>
+          
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -114,6 +119,7 @@
               </a>
             </div>
           </div>
+          
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -140,6 +146,7 @@
               </a>
             </div>
           </div>
+          
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -166,6 +173,7 @@
               </a>
             </div>
           </div>
+          
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -192,6 +200,7 @@
               </a>
             </div>
           </div>
+          
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -218,5 +227,6 @@
               </a>
             </div>
           </div>
+          
         </div><!-- /.row -->
       </div>
