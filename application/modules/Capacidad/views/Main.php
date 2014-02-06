@@ -119,29 +119,180 @@ $(function (){
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          Welcome to SB Admin by <a class="alert-link" href="http://startbootstrap.com">Start Bootstrap</a>! Feel free to use this template for your admin needs! We are using a few different plugins to handle the dynamic tables and charts, so make sure you check out the necessary documentation links provided.
+          En el contexto de las tecnologías de la información o IT, el término capacidad, se emplea tanto para 
+          describir la cantidad de información que es capaz de contener o almacenar un dispositivo, 
+          como la habilidad que tienen los componentes IT para tratar los datos y convertirlos en información.
         </div>
         
 	</div>
 	
 	<div class="col-lg-12">
 		
-		<div class="panel panel-info">	
-			
-			<div class="panel-heading">
-			  	
-				<h3 class="panel-title">Salud de Sistema</h3>
-			    
-			</div>
-		
-			<div class="panel-body">
-		  	
-				<div id="grafica-general" style="min-width: 310px; height: 200px; margin: 0 auto"></div>
-		  
-			</div>
-		  
+		<div class="row">
+	        	
+	          <div class="col-lg-3">
+	            <div class="panel panel-info">
+	              <div class="panel-heading">
+	                <div class="row">
+	                  <div class="col-xs-6">
+	                    <i class="fa fa-cogs fa-5x"></i>
+	                  </div>
+	                  <div class="col-xs-6 text-center">
+	                    <p class="announcement-text">Analizar Estado de Componentes IT</p>
+	                  </div>
+	                </div>
+	              </div>
+	              <a href="<?php echo site_url('index.php/Capacidad/ComponentesIT/');?>/">
+	                <div class="panel-footer announcement-bottom">
+	                  <div class="row">
+	                    <div class="col-xs-6">
+	                      Examinar
+	                    </div>
+	                    <div class="col-xs-6 text-right">
+	                      <i class="fa fa-arrow-circle-right"></i>
+	                    </div>
+	                  </div>
+	                </div>
+	              </a>
+	            </div>
+	          </div>
+	          
+	          <div class="col-lg-3">
+	            <div class="panel panel-info">
+	              <div class="panel-heading">
+	                <div class="row">
+	                  <div class="col-xs-6">
+	                    	<i class="fa fa-users fa-5x"></i>
+	                  </div>
+	                  <div class="col-xs-6 text-center">
+	                    <p class="announcement-text">Analizar Estado de los Servicios</p>
+	                  </div>
+	                </div>
+	              </div>
+	              <a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/">
+	                <div class="panel-footer announcement-bottom">
+	                  <div class="row">
+	                    <div class="col-xs-6">
+	                      Examinar
+	                    </div>
+	                    <div class="col-xs-6 text-right">
+	                      <i class="fa fa-arrow-circle-right"></i>
+	                    </div>
+	                  </div>
+	                </div>
+	              </a>
+	            </div>
+	          </div>
+	          
+	          <div class="col-lg-3">
+	            <div class="panel panel-info">
+	              <div class="panel-heading">
+	                <div class="row">
+	                  <div class="col-xs-6">
+	                 		<i class="fa fa-sitemap fa-5x"></i>
+	                  </div>
+	                  <div class="col-xs-6 text-center">
+	                    <p class="announcement-text">Analizar Estado de los Departamentos</p>
+	                  </div>
+	                </div>
+	              </div>
+	              <a href="<?php echo base_url(); ?>index.php/Capacidad/Departamentos/">
+	                <div class="panel-footer announcement-bottom">
+	                  <div class="row">
+	                    <div class="col-xs-6">
+	                      Examinar
+	                    </div>
+	                    <div class="col-xs-6 text-right">
+	                      <i class="fa fa-arrow-circle-right"></i>
+	                    </div>
+	                  </div>
+	                </div>
+	              </a>
+	            </div>
+	          </div>
+	          
+	          <div class="col-lg-3">
+	            <div class="panel panel-info">
+	              <div class="panel-heading">
+	                <div class="row">
+	                  <div class="col-xs-6">
+	                  		<i class="fa fa-wrench fa-5x"></i>
+	                  </div>
+	                  <div class="col-xs-6 text-center">
+	                    <p class="announcement-text">Umbrales</p>
+	                  </div>
+	                </div>
+	              </div>
+	              <a href="<?php echo base_url(); ?>index.php/Capacidad/Umbrales/">
+	                <div class="panel-footer announcement-bottom">
+	                  <div class="row">
+	                    <div class="col-xs-6">
+	                      Examinar
+	                    </div>
+	                    <div class="col-xs-6 text-right">
+	                      <i class="fa fa-arrow-circle-right"></i>
+	                    </div>
+	                  </div>
+	                </div>
+	              </a>
+	            </div>
+	          </div>
+	          
+	          <div class="col-lg-3">
+	            <div class="panel panel-info">
+	              <div class="panel-heading">
+	                <div class="row">
+	                  <div class="col-xs-6">
+	                    	<i class="fa fa-book fa-5x"></i>
+	                  </div>
+	                  <div class="col-xs-6 text-center">
+	                    <p class="announcement-text">Documentación</p>
+	                  </div>
+	                </div>
+	              </div>
+	              <a href="<?php echo base_url(); ?>index.php/Capacidad/Documentacion/">
+	                <div class="panel-footer announcement-bottom">
+	                  <div class="row">
+	                    <div class="col-xs-6">
+	                      Revisar
+	                    </div>
+	                    <div class="col-xs-6 text-right">
+	                      <i class="fa fa-arrow-circle-right"></i>
+	                    </div>
+	                  </div>
+	                </div>
+	              </a>
+	            </div>
+	          </div>
+	          
+	          <div class="col-lg-3">
+	            <div class="panel panel-info">
+	              <div class="panel-heading">
+	                <div class="row">
+	                  <div class="col-xs-6">
+	                    <i class="fa fa-flag fa-5x"></i>
+	                  </div>
+	                  <div class="col-xs-6 text-center">
+	                    <p class="announcement-text">Módulos del Sistema</p>
+	                  </div>
+	                </div>
+	              </div>
+	              <a href="#">
+	                <div class="panel-footer announcement-bottom">
+	                  <div class="row">
+	                    <div class="col-xs-6">
+	                      Examinar
+	                    </div>
+	                    <div class="col-xs-6 text-right">
+	                      <i class="fa fa-arrow-circle-right"></i>
+	                    </div>
+	                  </div>
+	                </div>
+	              </a>
+	            </div>
+	          </div>	          
+	          
+	        </div><!-- /.row -->
 		</div>
-		
-	</div>
 	
 </div>
