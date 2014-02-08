@@ -98,7 +98,7 @@ $(function () {
 	                  </div>
 	                </div>
 	              </div>
-	              <a href="<?php echo site_url('index.php/Capacidad/ComponentesIT/Procesos');?>/">
+	              <a href="<?php echo site_url('index.php/Capacidad/ComponentesIT/Procesador');?>/">
 	                <div class="panel-footer announcement-bottom">
 	                  <div class="row">
 	                    <div class="col-xs-6">
@@ -179,7 +179,7 @@ $(function () {
 	                  </div>
 	                </div>
 	              </div>
-	              <a href="<?php echo site_url('index.php/Capacidad/ComponentesIT/Comunicaciones');?>/">
+	              <a href="<?php echo site_url('index.php/Capacidad/ComponentesIT/Redes');?>/">
 	                <div class="panel-footer announcement-bottom">
 	                  <div class="row">
 	                    <div class="col-xs-6">

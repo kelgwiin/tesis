@@ -63,10 +63,10 @@ $(function () {
 <div id="page-wrapper">
 
 	<div class="col-lg-12">
-    	<h1>Procesos del Servicio: <?php echo $nombre_servicio; ?></h1>
+    	<h1>Memoria</h1>
         
         <ol class="breadcrumb">
-          <li class="active"><i class="fa fa-dashboard"></i> Consumo de CPU del Servicio: <?php echo $nombre_servicio; ?></li>
+          <li class="active"><i class="fa fa-dashboard"></i> Consumo de Memoria RAM</li>
         </ol>
         
         <div class="alert alert-success alert-dismissable">
@@ -82,7 +82,7 @@ $(function () {
 			
 			<div class="panel-heading">
 	       
-				<h3 class="panel-title">Recursos consumidos por el Servicio.</h3>
+				<h3 class="panel-title">Recursos consumidos por el Sistema.</h3>
 	        	
 	      	</div>
 	      
@@ -100,7 +100,7 @@ $(function () {
 
 			<div class="col-lg-6">
 				
-				<h2>Listado de Procesos del Servicio: <?php echo $nombre_servicio; ?></h2>
+				<h2>Listado de Procesos consumiendo recursos en Memoria.</h2>
 				<div class="table-responsive">
 				
 				<table class="table table-bordered table-hover table-striped tablesorter">

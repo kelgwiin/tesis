@@ -9,7 +9,12 @@ $route['operaciones'] = "operaciones/toolset";
 $route['operaciones/'] = "operaciones/toolset";
 /* Rutas Para el Modulo de Gestión de La capacidad */
 $route['Capacidad/'] = "Capacidad/Capacidad";
+/* Modulo Componentes IT */
 $route['Capacidad/ComponentesIT'] = "Capacidad/Capacidad/ComponentesIT";
+$route['Capacidad/ComponentesIT/Procesador'] = "Capacidad/Capacidad/ProcesadorComponentesIT";
+$route['Capacidad/ComponentesIT/Memoria'] = "Capacidad/Capacidad/MemoriaComponentesIT";
+$route['Capacidad/ComponentesIT/Almacenamiento'] = "Capacidad/Capacidad/AlmacenamientoComponentesIT";
+$route['Capacidad/ComponentesIT/Redes'] = "Capacidad/Capacidad/RedesComponentesIT";
 /* Modulo Servicios */
 $route['Capacidad/Servicios'] = "Capacidad/Capacidad/Servicios";
 $route['Capacidad/Servicios/(:any)'] = "Capacidad/Capacidad/Servicio";

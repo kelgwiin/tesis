@@ -116,7 +116,7 @@ $(function () {
 	                <tbody>
 	                	<tr class="active">
 		                	<td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio1">Servicio1</a> 
+		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio1">Proceso1</a> 
 		                    </td>
 		                    <td>1265</td>
 		                    <td>32.3%</td>
@@ -125,7 +125,7 @@ $(function () {
 	                  
 						<tr class="success">
 							<td>
-								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio2">Servicio2</a>
+								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio2">Proceso2</a>
 							</td>
 							<td>261</td>
 							<td>33.3%</td>
@@ -134,7 +134,7 @@ $(function () {
 	                  
 	                 	<tr class="warning">
 	                    	<td>
-								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio3">Servicio3</a>
+								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio3">Proceso3</a>
 							</td>
 	                   		<td>665</td>
 	                    	<td>21.3%</td>
@@ -143,7 +143,7 @@ $(function () {
 	                  
 	                  	<tr class="danger">
 	                    	<td>
-	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio4">Servicio4</a>
+	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio4">Proceso4</a>
 	                    	</td>
 	                    	<td>9516</td>
 	                    	<td>89.3%</td>
@@ -152,7 +152,7 @@ $(function () {
 	                  
 	                  	<tr>
 	                   		<td>
-	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio5">Servicio5</a>
+	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio5">Proceso5</a>
 		                    </td>
 		                    <td>23</td>
 		                    <td>34.3%</td>
@@ -161,7 +161,7 @@ $(function () {
 	                  
 	                  	<tr>
 		                    <td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio6">Servicio6</a>
+		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio6">Proceso6</a>
 		                    </td>
 		                    <td>421</td>
 		                    <td>60.3%</td>
@@ -170,7 +170,7 @@ $(function () {
 	                  
 	                  	<tr>
 		                    <td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio7">Servicio7</a>
+		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio7">Proceso7</a>
 		                    </td>
 		                    <td>1233</td>
 		                    <td>93.2%</td>
