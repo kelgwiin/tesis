@@ -128,6 +128,33 @@
                     <i class="fa fa-suitcase fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
+                    <p class="announcement-text">Gestion de Disponibilidad</p>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Examinar
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div class="col-lg-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-suitcase fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-center">
                     <p class="announcement-text">Acuerdos de Niveles de Servicios</p>
                   </div>
                 </div>
@@ -145,7 +172,7 @@
                 </div>
               </a>
             </div>
-          </div>
+          </div>     
           
           <div class="col-lg-3">
             <div class="panel panel-info">
