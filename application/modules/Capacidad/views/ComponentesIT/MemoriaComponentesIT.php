@@ -1,6 +1,9 @@
 <script>
 $(function () {
     $('#container').highcharts({
+    	chart: {
+            zoomType: 'x'
+        },
         title: {
             text: 'Tasa de Uso de Recursos',
             x: -20 //center
