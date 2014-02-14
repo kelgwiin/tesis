@@ -132,7 +132,7 @@
                   </div>
                 </div>
               </div>
-              <a href="#">
+               <a href="<?php echo site_url('index.php/Disponibilidad');?>/">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">
