@@ -4,4 +4,6 @@ Usuario:admin
 Clave:admin
 Nombre de la BD: TI
 
-Prueba de commit
+La Base de Datos está dentro archivo workbench y sería más facil si le dan
+a la opción de sincronizar la bd con una conexión existente la cual debe
+estar previamente configurada.

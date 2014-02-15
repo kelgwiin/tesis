@@ -1,0 +1,4 @@
+$('#popoverMenu').popover();
+$('[data-toggle=tooltip]').tooltip();
+
+
