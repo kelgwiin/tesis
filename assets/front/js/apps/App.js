@@ -5,7 +5,7 @@ $(document).ready(function()
     //Crea la instancia de los toolitips
     $('[data-toggle=tooltip]').tooltip();
 
-    	//Showing the Component IT fields
+    	//Mostrando los campos de TI que se despliegan al dar click
     	$("a.fieldsIT").on('click', function(){
         	var rowIndex= $(this).attr("id");//get the row id
 
