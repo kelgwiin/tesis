@@ -11,4 +11,4 @@ class Home extends MX_Controller
 }
 
 /* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+/* Location: ./application/modules/home/controllers/home.php */

@@ -3,8 +3,10 @@
 $route['default_controller'] = "home";
 $route['404_override'] = '';
 
+/* Rutas para el Modulo de Carga de Infraestructura de IT (cargar_data)*/
+$route['cargar_datos'] = "cargar_data/cargar_data";
 
-$route['cargar_data'] = "cargar_data/cargar_data";
+/* Rutas del Modulo de Operaciones*/
 $route['operaciones'] = "operaciones/toolset";
 $route['operaciones/'] = "operaciones/toolset";
 /* Rutas Para el Modulo de Gestión de La capacidad */

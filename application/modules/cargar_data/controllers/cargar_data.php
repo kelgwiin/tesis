@@ -5,7 +5,7 @@ class Cargar_Data extends MX_Controller
 	public function index()
 	{
 		$data['main_content'] = $this->load->view('cargar_data_view','',TRUE);
-		$this->load->view('front/template',$data);
+		$this->load->view('cargar_data/template',$data);
 		
 	}
 }
