@@ -1,15 +1,23 @@
 <div id = "page-wrapper">
-	<!-- Breadcrumbs-->
-	<div class="row">
-		<div class="col-md-12 col-lg-12">
-			<ol class="breadcrumb">
-				<li><a href="">Inicio</a></li>
-				<li><a href="cargar_data/componentes_ti">Componentes de TI</a></li>
-			</ol>
-		</div><!-- end of: col breadcrumbs-->
-	</div> <!-- end of: row breadcrumbs-->
+<!-- Cabecera de la descripción-->
+	<div class = "row">
+		<div class="col-lg-12">
+			<h1>Componentes de TI </h1>
 
-	<h2>Componentes de TI</h2>
+			<ol class="breadcrumb">
+				<li class="active"><i class="fa fa-dashboard"></i> 
+					Carga de los componentes de tecnología de información (TI) de la organización.</li>
+			</ol>
+
+			<div class="alert alert-success alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Muestra una lista de todos los <strong>Componentes de TI</strong> que se encuentran hasta el momento cargados. Además
+					permite agregar nuevos componentes según las necesidades de la organización. De igual forma podrá
+					editar la información asociada a ellos.
+			</div>
+		</div><!-- end of col-12-->
+	</div><!-- end of row breadcrumb - Cabecera-->
+
 	<div class="row">
 		<div class = "col-lg-12"> <!-- main col-->
 			<div class="table-responsive">
@@ -172,6 +180,44 @@
 		</ul>
 	</div><!-- end of: col pagination -->
 </div><!-- end of: row pagination-->
+
+
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<br><br>
+	</div>
+</div>
+
+<!-- Direccionamiento de formularios-->
+<div class="row">
+	<div class="col-lg-4">
+		<!-- Boton de Cargar Datos Básicos-->
+		<a 	class = "btn btn-default" 
+			href = "<?php echo site_url('cargar_datos/basico');?>"
+			
+			data-toggle="tooltip"
+			data-original-title="Cargar Datos Básicos"
+			data-placement = "top"
+		>
+			Básico 
+			<i class = "fa fa-chevron-circle-left fa-2x"></i>
+		</a>
+
+		<!-- Boton de Departamentos -->
+		<a 	class = "btn btn-default" 
+			href = "<?php echo site_url('cargar_datos/departamentos');?>"
+			
+			data-toggle="tooltip"
+			data-original-title="Cargar Departamentos"
+			data-placement = "top"
+		>
+			<i class = "fa fa-chevron-circle-right fa-2x"></i>
+			Departamentos
+		</a>
+		
+	</div><!-- end of col 12 -->
+</div><!-- end of: row Direccionamiento de formularios -->
+
 </div><!-- end of: page wrapper -->
 
 
