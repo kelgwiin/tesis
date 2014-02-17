@@ -213,7 +213,7 @@
                   </div>
                 </div>
               </div>
-              <a href="<?php echo site_url('cargar_datos');?>/">
+              <a href="<?php echo site_url('index.php/cargar_data');?>/">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">
