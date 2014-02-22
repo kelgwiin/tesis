@@ -100,124 +100,109 @@
               data-title = "Servicios"
               data-container="body"
               data-content='
-              <!-- Creating Menu Apps button-->
+              <!--Menu de Apps de los Servicios-->
               
 
               <div class="row">
-               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               <div class="col-lg-4 col-md-4">
                 <!-- GESTIÓN DE OPERACIONES-->
 
-                <!--<small> Operaciones</small><br>
-                <i class="fa fa-cogs fa-2x"></i> -->
-
-                <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Gestión de Operaciones"
-                  data-placement = "top"
+                <a type="button" class="btn"
                   title="Gestión de Operaciones" 
                   href = "operaciones"  
                  >
-                 <i class="fa fa-cogs fa-2x"></i> GO
+                 <i class="fa fa-cogs fa-3x"></i> <br> <small>Gestión de<br>Operaciones</small>
                  </a>
-                  
+                </div>
+
+                <div class="col-lg-4 col-md-4">
                  <!-- GESTIÓN DE CAPACIDAD-->
-                 <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Gestión de Capacidad"
-                  data-placement = "top"
+                 <a type="button" class="btn"
                   title="Gestión de Capacidad" 
                   href = "Capacidad"  
                  >
-                 <i class="fa fa-book fa-2x"></i> GC
+                 <i class="fa fa-book fa-3x"></i> <br> <small>Gestión de<br>Capacidad</small>
                  </a> 
-                 
+                 </div>
+
+                 <div class="col-lg-4 col-md-4">
                  <!-- GESTIÓN DE RIESGOS-->
-                 <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Gestión de Riesgos"
-                  data-placement = "top"
+                 <a type="button" class="btn "
                   title="Gestión de Riesgos" 
                   href = "#"  
                  >
-                 <i class="fa fa-fire-extinguisher fa-2x"></i> GR
+                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Riesgos</small>
                  </a> 
                </div>
+
              </div>
              <br> 
 
               <div class="row">
-               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               <div class="col-lg-4 col-md-4">
                 <!-- GESTIÓN DE COSTOS-->
-                <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Gestión de Costos"
-                  data-placement = "top"
+                <a type="button" class="btn"
                   title="Gestión de Costos" 
                   href = "#"  
                  >
-                 <i class="fa fa-clipboard fa-2x"></i> GC
+                 <i class="fa fa-clipboard fa-3x"></i> <br> <small> Gestión de<br>Costos</small>
                  </a>
+                </div>
 
+                <div class="col-lg-4 col-md-4">
                  <!-- GESTIÓN DE DISPONIBILIDAD-->
-                 <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Gestión de Disponibilidad"
-                  data-placement = "top"
+                 <a type="button" class="btn"
                   title="Gestión de Disponibilidad" 
                   href = "#"  
                  >
-                 <i class="fa fa-suitcase fa-2x"></i> GD
+                 <i class="fa fa-suitcase fa-3x"></i> <br> <small>Gestión de<br>Disponibilidad</small>
                  </a> 
+                 </div>
                  
+                 <div class="col-lg-4 col-md-4">
                  <!-- ACUERDOS DE NIVELES DE SERVICIO-->
-                 <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Acuerdos de Niveles de Servicio"
-                  data-placement = "top"
+                 <a type="button" class="btn"
                   title="Acuerdos de Niveles de Servicio" 
                   href = "#"  
                  >
-                 <i class="fa fa-suitcase fa-2x"></i> NS
+                 <i class="fa fa-suitcase fa-3x"></i><br> <small>Gestión de<br>Nvls. de Serv.</small>
                  </a> 
                </div>
+
              </div>
              <br>
 
              <div class="row">
-               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               <div class="col-lg-4 col-md-4">
                 <!-- ACCESO A USUARIOS-->
-                <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Acceso a Usuarios"
-                  data-placement = "top"
+                <a type="button" class="btn"
                   title="Acceso a Usuaios" 
                   href = "#"  
                  >
-                 <i class="fa fa-users fa-2x"></i> US
+                 <i class="fa fa-users fa-3x"></i> <br> <small>Acceso<br>a Usuarios</small>
                  </a>
+                 </div>
 
+                 <div class="col-lg-4 col-md-4">
                  <!-- CARGAR INFRAESTRUCTURA-->
-                 <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Cargar Infraestructura"
-                  data-placement = "top"
+                 <a type="button" class="btn"
                   title="Cargar Infraestructura" 
                   href = "cargar_datos"  
                  >
-                 <i class="fa fa-sitemap fa-2x"></i> CI
-                 </a> 
+                 <i class="fa fa-sitemap fa-3x"></i> <br> <small>Cargar<br> Infraestructura</small>
+                 </a>
+                 </div>
                  
+                 <div class="col-lg-4 col-md-4">
                  <!-- AJUSTE DE SISTEMA-->
-                 <a type="button" class="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-original-title="Ajuste de Sistema"
-                  data-placement = "top"
+                 <a type="button" class="btn"
                   title="Ajuste de Sistema" 
                   href = "#"  
                  >
-                 <i class="fa fa-wrench fa-2x"></i> AS
+                 <i class="fa fa-wrench fa-3x"></i> <br> <small>Ajustes de<br>Sistema</small>
                  </a> 
                </div>
+
              </div>
               '
 

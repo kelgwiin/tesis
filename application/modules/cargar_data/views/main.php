@@ -15,7 +15,7 @@
 					para poder realizar cada uno de las evaluaciones en materia de "Rendimiento de Sistemas Computacionales"
 				</div>
 			</div><!-- end of col-12-->
-		</div><!-- end of row -->
+		</div><!-- end of row Cabecera-->
 
 		<!-- Menu de carga de datos-->
 		<div class="row">
