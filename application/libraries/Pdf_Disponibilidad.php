@@ -3,21 +3,16 @@
     require_once APPPATH."/third_party/fpdf/fpdf.php";
  
     //Extendemos la clase Pdf de la clase fpdf para que herede todas sus variables y funciones
-    class Pdf_PlanDisponibilidad extends FPDF {
+    class Pdf_Disponibilidad extends FPDF {
         public function __construct() {
             parent::__construct();
         }
         // El encabezado del PDF
         
-        public function Header(){
-            //$this->Image('imagenes/logo.png',10,8,22);
-            $this->SetFont('Arial','B',13);
+        public function Header(){            
+            $this->SetFont('Arial','B',10);
             $this->Cell(30);
-            $this->Cell(120,10,'PLAN DE DISPONIBILIDAD',0,0,'C');
-            $this->Ln('5');
-            $this->SetFont('Arial','B',8);
-            $this->Cell(30);
-            $this->Cell(120,10,'INFORMACION DE CONTACTO',0,0,'C');
+            $this->Cell(130,10,utf8_decode('MODULO DE GESTIÓN DE DISPONIBILIDAD'),0,0,'C');
             $this->Ln(20);
        }
        // El pie del pdf
@@ -74,7 +69,36 @@
     } 
     //Go to the next line 
     $this->Ln($h); 
+	}
+	
+	function RowColor($data) 
+	{ 
+    //Calculate the height of the row 
+    $nb=0; 
+    for($i=0;$i<count($data);$i++) 
+        $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i])); 
+    $h=5*$nb; 
+    //Issue a page break first if needed 
+    $this->CheckPageBreak($h); 
+    //Draw the cells of the row 
+    for($i=0;$i<count($data);$i++) 
+    { 
+        $w=$this->widths[$i]; 
+        $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L'; 
+        //Save the current position 
+        $x=$this->GetX(); 
+        $y=$this->GetY(); 
+        //Draw the border 
+        $this->Rect($x,$y,$w,$h,'DF');//VAN EL RELLENO 
+        //Print the text 
+        $this->MultiCell($w,5,$data[$i],'LTR',$a,0); 
+        //Put the position to the right of the cell 
+        $this->SetXY($x+$w,$y); 
+    } 
+    //Go to the next line 
+    $this->Ln($h); 
 	} 
+	 
 
 	function CheckPageBreak($h) 
 	{ 
