@@ -15,6 +15,12 @@
 					permite agregar nuevos componentes según las necesidades de la organización. De igual forma podrá
 					editar la información asociada a ellos.
 			</div>
+
+			<div class="alert alert-success alert-dismissable" id = "main-componentes-ti-guardado">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				El Componente de TI ha sido <strong>creado</strong> con Éxito!
+			</div>
+
 		</div><!-- end of col-12-->
 	</div><!-- end of row breadcrumb - Cabecera-->
 
@@ -177,17 +183,17 @@
 									<div class = "row">
 										<div class = "col-xs-6">
 											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
+												<li><p class = "text-muted">Fecha de Compra</p> 02/02/2032</li>
+												<li><p class = "text-muted">Fecha de Creación</p> 02/02/2032</li>
+												<li><p class = "text-muted">Tiempo de Vida</p> 123 (Unidad de tiempo de vida)</li>
 											</ul>
 										</div>
 										
 										<div class = "col-xs-6">
 											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
+												<li><p class = "text-muted">Precio</p> 12212 bs</li>
+												<li><p class = "text-muted">Capacidad</p> 3424 (Unidad medida capacidad abbr)</li>
+												<li><p class = "text-muted">Cantidad</p> 123</li>
 											</ul>
 										</div>
 										

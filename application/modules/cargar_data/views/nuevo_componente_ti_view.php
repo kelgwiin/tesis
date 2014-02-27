@@ -1,55 +1,81 @@
 <div id = "page-wrapper">
-	<!-- Breadcrumbs-->
-	<div class="row">
-		<div class="col-md-12 col-lg-12">
+	<!-- Cabecera de la descripción-->
+	<div class = "row">
+		<div class="col-lg-12 col-md-12">
+			<h1>Nuevo <small>Componente de TI</small></h1>
+
 			<ol class="breadcrumb">
-				<li><a href="">Inicio</a></li>
-				<li><a href="cargar_data/componentes_ti">Componentes de TI</a></li>
-				<li><a href="cargar_data/componentes_ti/nuevo">Nuevo</a></li>
-			</ol>
-		</div><!-- end of: col breadcrumbs-->
-	</div> <!-- end of: row breadcrumbs-->
+				<li class="active"><i class="fa fa-dashboard"></i> 
+					Agregando un nuevo de componente de TI a la Infraestructura</li>
+				</ol>
 
-	<h2>Nuevo Componente de TI</h2>
-	<hr>
+				<div class="alert alert-danger alert-dismissable " id = "error-componentes-ti" >
+					<button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Error, no ha ingresado valores en alguno de los campos obligatorios.
+				</div>
+			</div><!-- end of col-12-->
+		</div><!-- end of row Cabecera-->
 	
+	
+	
+	<!-- Formulario -->
 	<form action="cargar_data/componentes_ti/guardar" method="POST" role="form">
+		
+		<!-- Nombre y Categoría-->
 		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			
 			<!-- Nombre-->
-				<div class="form-group">
-					<label for="nombre" class="col-md-2 col-lg-2 control-label">Nombre: </label>
 
-					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-						<input type="text" class="form-control" id="nombre" placeholder="Nombre del componente">	
+			<div class="col-md-6 ">
+				<div class="form-group has-error" id = "nombre-componente-ti">
+					<label for="nombre" class="col-md-2 control-label">Nombre </label>
+
+					<div class="col-md-8 col-lg-8">
+						<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre del componente" required >
 					</div>
 
-				</div><!-- end of: nombre form-group-->
-			</div><!-- end of: col-6-->
+					<div class = "col-md-2 col-lg-2"  id = "nombre-componente-ti">
+						<i class = "fa fa-times text-danger"
+						data-toggle = "tooltip"
+						data-original-title = "Sólo números"
+						data-placement = "right">
+						
+						</i>
+					</div><!-- /col-2: icono -->
 
-			<!-- Categoría-->
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="form-group">
-					<label for="categoria" class="col-md-2 col-lg-2 control-label">Categoría:</label>
-					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-						<select name="categoria" id="input" class="form-control">
-							<option value=""> Seleccione</option>
+				</div><!-- /form-group: nombre-->
+			</div><!-- /col-5: Nombre-->
+
+			<!-- Categoría (lista)-->
+			<div class="col-md-6">
+
+				<div class="form-group" id = "categoria-componente-ti">
+					<label for="categoria" class="col-md-2  control-label">Categoría </label>
+					<div class="col-md-7 col-md-offset-1">
+						<select name="categoria" id="categoria" class="form-control" required>
 							<option value = "cat1">Categoría 1</option>
 							<option value = "cat1">Categoría 1</option>
 							<option value = "cat1">Categoría 1</option>
 							<option value = "cat1">Categoría 1</option>
 						</select>
-					</div><!-- end of: col-10-->	
+					</div><!-- /col-6 Categoría -->	
 
-				</div><!-- end of: Categoría form-group-->
-			</div><!-- end of: col-6-->
+					<div class = "col-md-2 col-lg-2" id = "categoria-componente-ti">
+						<i class = "fa fa-check text-success">
+						</i>
+					</div><!-- /col-2: Icono-->
+
+				</div><!--/form-group: Categoría -->
+			</div><!--/col-6-->
 			
-		</div><!-- end of: row, con  nombre y categoría-->
+		</div><!-- /row:  Nombre y Categoría-->
 		
-		<!-- Campos del componente de TI-->
-		<!-- Campos en la BD
+		
+		<!-- CARACTERÍSTICAS del Componente de TI-->
+		
+		<!-- CAMPOS DE LA BD
 			- fecha_compra
-			- fecha_creacion
+			- fecha_elaboracion ( del componente de ti, más no del registro)
 			- tiempo_vida
 			- unidad_tiempo
 			- precio
@@ -58,76 +84,219 @@
 			- activa
 			- unidad_medida (de capacidad)
 			- abrev_unidad_medida (2) -->
-
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<hr>
-				<h4> Campos: </h4>
-			<hr>
-			</div>
-		</div>
-
-		<div class="row">
-			<!-- Fecha de creación-->
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="form-group">
-					<label for="fecha_creacion" class="col-md-4 col-lg-4 control-label">Fecha de creación: </label>
-
-					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-						<input name = "fecha_creacion" type="text" class="form-control" id="fecha_creacion" placeholder="dd/mm/aa">	
-					</div>
-				</div><!-- end of: form-group-->
-			</div><!-- end of: col-6-->
-
-			<!-- Fecha de compra-->
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="form-group">
-					<label for="fecha_compra" class="col-md-4 col-lg-4 control-label">Fecha de compra: </label>
-
-					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-						<input name = "fecha_compra" type="text" class="form-control" id="fecha_compra" placeholder="dd/mm/aa">	
-					</div>
-				</div><!-- end of: form-group-->
-			</div>
-		</div>
-
+		<br>
+		<br>
 		<br>
 
 		<div class="row">
-			<!-- tiempo de vida -->
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<label for="tiempo_vida" class="col-md-4 col-lg-4 control-label">Tiempo de vida: </label>
+			<div class="col-md-12 col-lg-12">
+				<div class="panel panel-info">
 
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						<input name = "tiempo_vida" type="text" class="form-control" id="tiempo_vida" placeholder="">	
-					</div>
-			</div><!-- end of: col-6 -->
+					<div class="panel-heading">
+						<h3 class="panel-title">Características</h3>
+					</div><!-- /panel-heading -->
 
-			<!-- Unidad  de medida (tipo de inventario)-->
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<label for="tiempo_vida" class="col-md-4 col-lg-4 control-label">Unidad de tiempo de vida: </label>
+					<div class="panel-body">
+					   		
 
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<select name="unidad_medida" id="input" class="form-control">
-							<option value=""> Seleccione</option>
-							<option value = "dd">Día</option>
-							<option value = "mm">Mes</option>
-							<option value = "aa">Año</option>
-						</select>
-				</div>
-			</div><!-- end of: col-6 -->
-		</div><!-- end of: row -->
+					  		<div class = "row">
 
-		
-		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				
-			</div><!-- end of: col-6 -->
+					  			<!-- Fecha de Compra -->
 
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				
-			</div><!-- end of: col-6 -->
-		</div><!-- end of: row -->
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "fecha-compra-componente-ti">
+					  					<label for="fecha_compra" class="col-md-4 control-label">Fecha de Compra </label>
+
+					  					<div class="col-md-5">
+					  						<input type="date" name = "fecha_compra" class="form-control" id="fecha_compra" required>
+					  					</div>
+
+					  					<div class = "col-md-1 " id = "fecha-compra-componente-ti">
+					  						<i class = "fa fa-check text-success">
+					  						</i>
+					  					</div><!-- /col-2: icono-->
+
+					  					<div class = "col-md-2"></div> <!-- Vacío-->
+
+					  				</div><!-- /form-group: fecha de compra-->
+
+					  			</div><!-- /col-6: fecha de compra-->
+
+					  			<!-- Fecha de Elaboración del Componente de TI (no la del registro)-->
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "fecha-elaboracion-componente-ti">
+					  					<label for="fecha_elaboracion" class="col-md-5 control-label">Fecha de Elaboración </label>
+
+					  					<div class="col-md-5">
+					  						<input type="date" name = "fecha_elaboracion" class="form-control" id="fecha_elaboración" required>
+					  					</div><!-- /col-5: input-->
+
+					  					<div class = "col-md-1 " id = "fecha-elaboracion-componente-ti">
+					  						<i class = "fa fa-check text-success">
+					  						</i>
+					  					</div><!-- /col-2: icono-->
+
+
+					  				</div><!-- /form-group: fecha de elaboración-->
+
+					  			</div><!-- /col-6: fecha de elaboración-->
+
+					  		</div><!-- /row 1: fecha compra y elaboración -->
+
+					  		<br>
+					  		<div class = "row">
+
+					  			<!-- Tiempo de vida -->
+
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "tiempo-vida-componente-ti">
+					  					<label for="tiempo_vida" class="col-md-4 control-label">Tiempo de Vida </label>
+
+					  					<div class="col-md-5">
+					  						<input type="number" min = "1" name = "tiempo_vida" class="form-control" id="tiempo_vida" placeholder = "Tiempo de Vida" required>
+					  					</div><!-- /col-5: input-->
+
+					  					<div class = "col-md-1 " id = "tiempo-vida-componente-ti">
+					  						<i class = "fa fa-check text-success">
+					  						</i>
+					  					</div><!-- /col-2: icono-->
+
+					  					<div class = "col-md-2"></div> <!-- Vacío-->
+
+					  				</div><!-- /form-group: tiempo de vida-->
+
+					  			</div><!-- /col-6: tiempo de vida-->
+
+					  			<!-- Unidad del tiempo de vida -->
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "unidad-tiempo-vida-componente-ti">
+					  					<label for="unidad-tiempo-vida-componente-ti" class="col-md-5 control-label">Unidad de Tiempo de Vida </label>
+
+					  					<div class="col-md-5">
+					  						<select name="" id="input" class="form-control">
+					  							<option value="hh">Días</option>
+					  							<option value="mm">Meses</option>
+					  							<option value="aaaa">Años</option>
+					  						</select>
+					  					</div>
+
+					  					<div class = "col-md-2" ></div><!-- Vacío-->
+
+					  				</div><!-- /form-group: fecha de elaboración-->
+
+					  			</div><!-- /col-6: fecha de elaboración-->
+
+					  		</div><!-- /row 2: Tiempo de vida y su unidad -->
+							
+
+							<br>
+					  		<div class = "row">
+
+					  			<!-- Precio -->
+
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "precio-componente-ti">
+					  					<label for="precio" class="col-md-4 control-label">Precio </label>
+
+					  					<div class="col-md-5">
+					  						<input type="number" min = "1" name = "precio" class="form-control" id="precio" placeholder = "Precio" required>
+					  					</div><!-- /col-5: input-->
+
+					  					<div class = "col-md-1 " id = "precio-componente-ti">
+					  						<i class = "fa fa-check text-success">
+					  						</i>
+					  					</div><!-- /col-2: icono-->
+
+					  					<div class = "col-md-2"></div> <!-- Vacío-->
+
+					  				</div><!-- /form-group: Precio-->
+
+					  			</div><!-- /col-6: Precio-->
+
+					  			<!-- Cantidad -->
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "cantidad-componente-ti">
+					  					<label for="cantidad-componente-ti" class="col-md-5 control-label">Cantidad </label>
+
+					  					<div class="col-md-5">
+					  						<input type="number" name="" id="input" class="form-control"  min="1"  required="required" placeholder = "Cantidad">
+					  					</div>
+
+					  					<div class = "col-md-1 " id = "cantidad-componente-ti">
+					  						<i class = "fa fa-check text-success">
+					  						</i>
+					  					</div><!-- /col-2: icono-->
+
+					  					
+
+					  				</div><!-- /form-group: fecha de elaboración-->
+
+					  			</div><!-- /col-6: fecha de elaboración-->
+
+					  		</div><!-- /row 3: Precio y Cantidad -->
+
+					  		<br>
+					  		<div class = "row">
+
+					  			<!-- Capacidad (c/u) -->
+
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "capacidad-componente-ti">
+					  					<label for="capacidad" class="col-md-4 control-label">Capacidad (c/u)</label>
+
+					  					<div class="col-md-5">
+					  						<input type="number" min = "1" name = "capacidad" class="form-control" id="capacidad" placeholder = "Capacidad" required>
+					  						<span class = "help-block">La capacidad es por cada ítem  no la sumatoria</span>
+					  					</div><!-- /col-5: input-->
+
+					  					<div class = "col-md-1 " id = "capacidad-componente-ti">
+					  						<i class = "fa fa-check text-success">
+					  						</i>
+					  					</div><!-- /col-2: icono-->
+
+					  					<div class = "col-md-2"></div> <!-- Vacío-->
+
+					  				</div><!-- /form-group: Capacidad-->
+
+					  			</div><!-- /col-6: Precio-->
+
+					  			<!-- Unidad de Capacidad -->
+					  			<div class="col-md-6">
+					  				<div class="form-group " id = "unidad-medida-capacidad-componente-ti">
+					  					<label for="unidad-medida-capacidad-componente-ti" class="col-md-5 control-label">Unidad de Capacidad </label>
+
+					  					<!-- Viene de consulta según la -->
+					  					<div class="col-md-5">
+					  						<select name="unidad-medida-capacidad-componente-ti" id="input" class="form-control">
+					  							<option value="MB">MB</option>
+					  							<option value="KB">KB</option>
+					  							<option value="GB">GB</option>
+					  							<option value="TB">TB</option>
+					  							<option value="EB">EB</option>
+					  						</select>
+					  					</div>
+
+					  					<div class = "col-md-1 " id = "unidad-medida-capacidad-componente-ti">
+					  						<i class = "fa fa-check text-success">
+					  						</i>	
+					  					</div><!-- /col-2: icono-->
+
+					  					
+
+					  				</div><!-- /form-group: fecha de elaboración-->
+
+					  			</div><!-- /col-6: fecha de elaboración-->
+
+					  		</div><!-- /row 3: Capacidad y su Unidad -->
+
+
+					</div><!-- /panel-body-->
+				</div><!--/panel-info-->
+
+			</div><!-- /col-12-->
+		</div><!-- /row Características-->
+
+
 
 		<!-- Boton Guardar-->
 		<div class="row">
@@ -135,9 +304,42 @@
 				<button type="submit" class="btn btn-primary">Guardar</button>
 			</div>
 
+		</form><!-- /formulario -->
+
+			<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+				<a href = "<?php echo site_url('cargar_datos/componentes_ti'); ?>" class="btn btn-primary">Cancelar</a>
+			</div>
 			<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
 				
 			</div>
 		</div>
-	</form>
+	
+	
+
+
+	<!-- Conjunto de formularios dentro de Modales (TEMPORALMENTE BORRADO)-->
+
+	<!-- Agregar Categoría	-->
+	<div class="modal fade" id = "Modal-nueva-categoria-componente-ti">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Nueva <small>Categoría</small></h4>
+				</div><!-- /modal-header -->
+
+				<div class="modal-body">
+					<p>One fine body&hellip;</p>
+				</div><!-- /modal-body-->
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" id = "guardar-categoria-componente-ti">Guardar</button>
+				</div><!-- /modal-footer-->
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+</div><!-- /page-wrapper -->
 
