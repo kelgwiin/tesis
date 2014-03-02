@@ -20,7 +20,12 @@
 	
 	<!-- Formulario -->
 	<form action="cargar_data/componentes_ti/guardar" method="POST" role="form">
-		
+		<!-- Panel -->
+		<div class = "row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class = "panel panel-default">
+		<div class = "panel-body">
+
 		<!-- Nombre y Categoría-->
 		<div class="row">
 			
@@ -69,7 +74,34 @@
 			</div><!--/col-6-->
 			
 		</div><!-- /row:  Nombre y Categoría-->
+
 		
+		<!-- Descripción-->
+		<br>
+		<div class="row">
+			<div class = "col-md-12">
+				<div class="form-group has-success" id = "descripcion-componente-ti">
+					<label for="descripcion" class="col-md-2 control-label">Descripción</label>
+
+					<div class = "col-md-9">
+						<textarea name = "descripcion" id = "descripcion" class="form-control" rows="3"></textarea>
+					</div>
+
+					<div class = "col-md-1 col-lg-1" id = "descripcion-componente-ti">
+						<i class = "fa fa-check text-success">
+						</i>
+					</div><!-- /col-2: Icono-->
+				</div>
+			</div><!-- /col-12 -->
+		</div><!-- /row -->
+
+
+
+		</div><!-- /panel-body -->
+		</div><!-- /panel-default-->
+		</div><!-- /col-12: Panel -->
+		</div><!-- /row: Panel -->
+
 		
 		<!-- CARACTERÍSTICAS del Componente de TI-->
 		
@@ -84,9 +116,6 @@
 			- activa
 			- unidad_medida (de capacidad)
 			- abrev_unidad_medida (2) -->
-		<br>
-		<br>
-		<br>
 
 		<div class="row">
 			<div class="col-md-12 col-lg-12">
@@ -306,6 +335,7 @@
 
 		</form><!-- /formulario -->
 
+			<!-- Boton Cancelar-->
 			<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 				<a href = "<?php echo site_url('cargar_datos/componentes_ti'); ?>" class="btn btn-primary">Cancelar</a>
 			</div>

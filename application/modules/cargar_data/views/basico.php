@@ -12,36 +12,96 @@
 			</div>
 		</div>
 
+	<form class = "form" action="" method="POST" role="form">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="panel panel-default">
 				<div class="panel-body">
-					<form class = "form-horizontal" action="" method="POST" role="form">
-						<!--<legend>Form title</legend> -->
+					
+					<!-- Nombre-->
+					<div class = "row"> 
+						<div class = "col-md-12">
+							<div class="form-group">
+								<label for="nombre" class="col-md-1 control-label">Nombre </label>
+
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="nombre" placeholder="Nombre Organización">
+								</div>
+
+								<div class = "col-md-1" id = "nombre-moneda-basico">
+									<i class = "fa fa-check text-danger">
+									</i>
+								</div><!-- /col-2: icono -->
+								
+
+
+							</div><!-- /form-group: Nombre Organización -->		
+						</div><!-- col-12-->
+					</div><!-- /row -->
+
+					<br>
+					<!-- Moneda y abreviatura-->
+					<div class  = "row">
+
+						<!-- Nombre de Moneda-->
+						<div class = "col-md-6">
+							<div class="form-group">
+								<label for="nombre-moneda-basico" class="col-md-5 control-label">Nombre de moneda </label>
+
+								<div class="col-md-6">
+									<input type="text" class="form-control" id="nombre_moneda" placeholder="Nombre de la Moneda">
+								</div>
+
+								<div class = "col-md-1" id = "nombre-moneda-basico">
+									<i class = "fa fa-check text-success">
+									</i>
+								</div><!-- /col-2: icono -->
+							</div><!-- /form-group -->	
+						</div><!-- /col-6: Nombre de la Moneda -->		
 						
-						<div class="form-group">
-							<label for="nombre" class="col-sm-2 control-label">Nombre: </label>
+						<!-- Abreviatura de Moneda-->
+						<div class = "col-md-6">
+							<div class="form-group">
+								<label for="abreviatura-moneda-basico" class="col-md-5 control-label">Abreviatura de moneda </label>
 
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="nombre" placeholder="Nombre Organización">
-							</div>
+								<div class="col-md-6">
+									<input  maxlength = "3" type="text" class="form-control" id="abreviatura_moneda" placeholder = "Abreviatura">
+								</div>
 
-						</div>
-						
+								<div class = "col-md-1" id = "abreviatura-moneda-basico">
+									<i class = "fa fa-check text-success">
+									</i>
+								</div><!-- /col-2: icono -->
+							</div><!-- /form-group -->	
+						</div><!-- /col-6: Abreviatura de la Moneda -->		
 
-						<!-- Button-->                                  
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-default">
+					</div><!-- /row: Moneda y Abreviatura -->
+
+
+					<!-- Button-->  
+					<br>
+					<div class = "row">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-primary">
 								Guardar
 							</button>                        
-						</div>
-						
-					</form>
-				</div>
-			</div><!-- end-of: panel-->
-		</div><!-- end-of cols-->
-	</div>	<!-- end-of: row-->
 
+							<a  class="btn btn-primary"
+							href = "<?php echo site_url('cargar_datos');?>">
+							Cancelar
+						</a>        
+					</div><!-- /col-12 -->	
+				</div><!-- /row-->
+
+				</div><!-- /panel-body-->
+
+			</div><!-- /panel-->
+		</div><!-- /cols-->
+	</div>	<!-- /row-->
+
+   
+
+	</form>
 
 	<!-- Direccionamiento de formularios-->
 		<div class="row">

@@ -57,16 +57,22 @@ class Cargar_Data extends MX_Controller
 		}
 	}
 
-	public function departamentos(){
-		//Main content: Departamentos
-		$data['main_content'] = $this->load->view('departamentos','',TRUE);
-		
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(3);//lista del sidebar con el cuarto ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
+	public function departamentos($action = "list"){
 
-		$this->load->view('cargar_data/template',$data);//cargando la vista
+		switch ($action) {
+			case 'list':
+				$this->_list_dpto();
+				break;
+			
+			case 'nuevo':
+				$this->_new_dpto();
+				break;
+			
+			case 'guardar':
+				echo "Guardando y redireccionando a la lista de Dpto";
+				break;
+		}
+
 	}
 
 	public function servicios(){
@@ -82,6 +88,29 @@ class Cargar_Data extends MX_Controller
 	}
 
 
+	private function _list_dpto(){
+		//Main content: Departamentos
+		$data['main_content'] = $this->load->view('departamentos','',TRUE);
+		
+		//Sidebar content
+		//--Creando los items del sidebar.
+		$params['list'] = $this->_list(3);//lista del sidebar con el cuarto ítem activo
+		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
+
+		$this->load->view('cargar_data/template',$data);//cargando la vista
+	}
+
+	private function _new_dpto(){
+		//Main content: Formulario de Nuevo Departamento
+		$data['main_content'] = $this->load->view('nuevo_departamento_view','',TRUE);
+		
+		//Sidebar content
+		//--Creando los items del sidebar.
+		$params['list'] = $this->_list(3);//lista del sidebar con el cuarto ítem activo
+		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
+
+		$this->load->view('cargar_data/template',$data);//cargando la vista
+	}
 
 	/**
 	 * Carga la lista de los componentes de TI

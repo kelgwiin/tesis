@@ -21,8 +21,8 @@
 				El Componente de TI ha sido <strong>creado</strong> con Éxito!
 			</div>
 
-		</div><!-- end of col-12-->
-	</div><!-- end of row breadcrumb - Cabecera-->
+		</div><!-- /col-12-->
+	</div><!-- /row: breadcrumb - Cabecera-->
 
 
 	<!-- Cabecera:  Buscar, filtrar, nuevo-->
@@ -39,7 +39,7 @@
 				<!-- boton nuevo-->
 				<div class = " form-group" >
 					<a class = "btn btn-primary" 
-					href = "cargar_data/componentes_ti/nuevo"
+					href = "cargar_datos/componentes_ti/nuevo"
 					data-toggle="tooltip" 
 					data-original-title="Agregar nuevo componente de TI"
 					data-placement = "top"
@@ -74,17 +74,18 @@
 							class="btn btn-default"
 							data-toggle="tooltip"
 							data-original-title="Buscar Componente(s) de TI"
-							data-placement = "top">
+							data-placement = "top"
+							id = "btn-buscar-componente-ti">
 						<i class = "fa fa-search" ></i>
 					</button>
 				</div>
 			</div>
-		</div><!-- end of: col-6 Buscar, filtrado, nuevo-->
+		</div><!-- /col-6: Buscar, filtrado, nuevo-->
 		
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">	
 		</div></div>
-	</div><!-- end of: row Cabecera: buscar, filtrar nuevo-->
+	</div><!-- /row: Cabecera: buscar, filtrar nuevo-->
 
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -102,7 +103,7 @@
 				</div><!-- /panel-heading outter-->
 
 				<div class = "panel-body">
-
+				<!-- Columna IZQUIERDA -->
 					<div  class = "row">
 						<div class="col-xs-5 ">
 							<!-- Componente: comp1 -->
@@ -179,7 +180,15 @@
 										</div><!--/col-xs-12 -->
 									</div><!-- /row-->
 
-									<!-- Lista de características-->	
+									<!-- Lista de características-->
+									<div class="row">
+										<div class = "col-xs-12">
+											<ul>
+												<li><p class = "text-muted">Descripción</p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+											</ul>
+										</div>	
+									</div>
+
 									<div class = "row">
 										<div class = "col-xs-6">
 											<ul>
@@ -406,8 +415,7 @@
 								</div><!-- /panel-body -->
 							</div> <!-- panel-info -->
 
-
-						</div><!-- columna izquierda-->
+						</div><!-- columna Izquierda-->
 
 
 						<!-- Columna DERECHA-->
@@ -512,8 +520,6 @@
 								</div><!-- /panel-body -->
 							</div> <!-- panel-info -->
 
-								
-
 
 						</div><!-- columna Derecha-->
 
@@ -530,7 +536,7 @@
 	<div class="row">
 		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 			<a class = "btn btn-primary" 
-					href = "cargar_data/componentes_ti/nuevo"
+					href = "cargar_datos/componentes_ti/nuevo"
 					data-toggle="tooltip" 
 					data-original-title="Agregar nuevo componente de TI"
 					data-placement = "top">
@@ -539,7 +545,7 @@
 		</div>
 		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
 		</div>
-	</div>
+	</div><!-- /row: btn Nuevo-->
 
 <!-- Paginación-->
 <div class="row">
@@ -553,14 +559,10 @@
 			<li><a href="#">5</a></li>
 		<li><a href="#"><i class = "fa fa-forward"></i></a></li>
 		</ul>
-	</div><!-- end of: col pagination -->
-</div><!-- end of: row pagination-->
+	</div><!-- /col-4 -->
+</div><!-- /row: Paginación-->
 
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<br><br>
-	</div>
-</div>
+<br><br>
 
 <!-- Direccionamiento de formularios-->
 <div class="row">
