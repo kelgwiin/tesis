@@ -1,13 +1,22 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Creado: 20-01-2014
+ * @author Kelwin Gamez <kelgwiin@gmail.com>
+ */
 class Cargar_Data extends MX_Controller
 {
+	//Inicio: Variables Globales
+	private $plantilla ;//Nombre de la plantilla principal de la interfaz
+
+	//Fin: Variables Globales
+
 	/**
-	 * Creado: 20-01-2014
 	 * Constructor principal. 
 	 * @author Kelwin Gamez <kelgwiin@gmail.com>
 	 */
 	public function __construct(){
+		$this->plantilla = 'cargar_data/template';
 	}
 
 	public function index()
@@ -33,7 +42,7 @@ class Cargar_Data extends MX_Controller
 		$params['list'] = $this->_list(1);//lista del sidebar con el segundo ítem activo
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
-		$this->load->view('cargar_data/template',$data);//cargando la vista
+		$this->load->view($this->plantilla,$data);//cargando la vista
 	}
 	/**
 	 * Dependiendo del parámetro que se le pase va a ser las siguientes acciones:
@@ -75,7 +84,25 @@ class Cargar_Data extends MX_Controller
 
 	}
 
-	public function servicios(){
+	public function servicios($action = "list"){
+		switch ($action) {
+			case 'list':
+				$this->_list_service();
+				break;
+			
+			case 'nuevo':
+				$this->_new_service();
+				break;
+			
+			case 'guardar':
+				echo "Guardando y redireccionando a la lista de Servicios";
+				break;
+		}
+
+
+	}
+
+	private function _list_service(){
 		//Main content: Servicios
 		$data['main_content'] = $this->load->view('servicios','',TRUE);
 		
@@ -84,9 +111,20 @@ class Cargar_Data extends MX_Controller
 		$params['list'] = $this->_list(4);//lista del sidebar con el quinto ítem activo
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
-		$this->load->view('cargar_data/template',$data);//cargando la vista
+		$this->load->view($this->plantilla,$data);//cargando la vista
 	}
 
+	private function _new_service(){
+		//Main content: Formulario de Servicios
+		$data['main_content'] = $this->load->view('nuevo_servicio_view','',TRUE);
+		
+		//Sidebar content
+		//--Creando los items del sidebar.
+		$params['list'] = $this->_list(4);//lista del sidebar con el quinto ítem activo
+		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
+
+		$this->load->view($this->plantilla,$data);//cargando la vista	
+	}
 
 	private function _list_dpto(){
 		//Main content: Departamentos
@@ -97,7 +135,7 @@ class Cargar_Data extends MX_Controller
 		$params['list'] = $this->_list(3);//lista del sidebar con el cuarto ítem activo
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
-		$this->load->view('cargar_data/template',$data);//cargando la vista
+		$this->load->view($this->plantilla,$data);//cargando la vista
 	}
 
 	private function _new_dpto(){
@@ -109,7 +147,7 @@ class Cargar_Data extends MX_Controller
 		$params['list'] = $this->_list(3);//lista del sidebar con el cuarto ítem activo
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
-		$this->load->view('cargar_data/template',$data);//cargando la vista
+		$this->load->view($this->plantilla,$data);//cargando la vista
 	}
 
 	/**
@@ -125,7 +163,7 @@ class Cargar_Data extends MX_Controller
 		$params['list'] = $this->_list(2);//lista del sidebar con el tercer ítem activo
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
-		$this->load->view('cargar_data/template',$data);//cargando la vista
+		$this->load->view($this->plantilla,$data);//cargando la vista
 	}
 
 	/**
@@ -141,7 +179,7 @@ class Cargar_Data extends MX_Controller
 		$params['list'] = $this->_list(2);//lista del sidebar con el segundo ítem activo
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
-		$this->load->view('cargar_data/template',$data);//cargando la vista
+		$this->load->view($this->plantilla,$data);//cargando la vista
 	}
 	
 	

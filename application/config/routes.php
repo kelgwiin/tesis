@@ -12,6 +12,7 @@ $route['cargar_datos/componentes_ti/(:any)'] = "cargar_data/cargar_data/componen
 $route['cargar_datos/departamentos'] = "cargar_data/cargar_data/departamentos";
 $route['cargar_datos/departamentos/(:any)'] = "cargar_data/cargar_data/departamentos/$1";
 $route['cargar_datos/servicios'] = "cargar_data/cargar_data/servicios";
+$route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1";
 /*end of: Rutas para el Modulo de Carga de Infraestructura de IT (cargar data)*/
 
 /* Rutas del Modulo de Operaciones*/

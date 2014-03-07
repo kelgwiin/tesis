@@ -37,7 +37,7 @@
 				<!-- boton nuevo-->
 				<div class = " form-group" >
 					<a class = "btn btn-primary" 
-					href = "cargar_data/departamentos/nuevo"
+					href = "cargar_datos/departamentos/nuevo"
 					data-toggle="tooltip" 
 					data-original-title="Agregar nuevo Departamento"
 					data-placement = "top"
@@ -105,7 +105,7 @@
 					<div  class = "row">
 
 						<!-- Columna IZQUIERDA -->
-						<div class="col-xs-5 ">
+						<div class="col-xs-6 ">
 							<!-- Departamento: dpto1 -->
 							<div class="panel panel-info"><!-- Inner-->
 
@@ -214,12 +214,11 @@
 
 							<br>
 							
-
 						</div><!-- columna izquierda-->
 
 
 						<!-- Columna DERECHA-->
-						<div class="col-xs-5 col-xs-offset-1">
+						<div class="col-xs-6">
 							
 							<!-- Departamento: dpto2 -->
 							<div class="panel panel-info"><!-- Inner-->
@@ -339,7 +338,7 @@
 		</div><!-- /col 12-->
 	</div><!-- /row panel principal-->
 
-
+	<!-- Boton Nuevo -->
 	<div class="row">
 		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 			<a class = "btn btn-primary" 

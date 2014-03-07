@@ -105,7 +105,7 @@
 				<div class = "panel-body">
 				<!-- Columna IZQUIERDA -->
 					<div  class = "row">
-						<div class="col-xs-5 ">
+						<div class="col-xs-6 ">
 							<!-- Componente: comp1 -->
 							<div class="panel panel-info"><!-- Inner-->
 
@@ -419,7 +419,7 @@
 
 
 						<!-- Columna DERECHA-->
-						<div class="col-xs-5 col-xs-offset-1">
+						<div class="col-xs-6">
 							
 							<div class="panel panel-info"><!-- Inner-->
 

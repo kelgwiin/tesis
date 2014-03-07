@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/sb-admin.css" >
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/font-awesome/css/font-awesome.min.css">
     <!-- Page Specific CSS -->
-    
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/css/custom.config.css">    
     <!-- JavaScript -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/jquery-1.10.2.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/bootstrap.js"></script>

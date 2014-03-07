@@ -17,13 +17,15 @@
 		</div><!-- end of row Cabecera-->
 
 	<!-- Formulario -->
-<form class = "form-horizontal" action="cargar_data/departamentos/guardar" method="POST" role="form">
+<form class = "form-horizontal" action="cargar_datos/departamentos/guardar" method="POST" role="form">
 		<!-- Panel -->
 		<div class = "row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				
+
 				<div class = "panel panel-default">
 					<div class = "panel-body">
-
+						<h3 class = "text-primary"> Datos Básicos</h3> <hr>
 						<!-- Nombre -->
 						<div class="form-group" id = "nombre-departamento">
 							<label for="nombre" class="col-sm-2 control-label">Nombre</label>
@@ -79,7 +81,6 @@
 									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-tasks fa-2x"></i></button>
 									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-shield fa-2x"></i></button>
 									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-laptop fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-exchange fa-2x"></i></button>
 									
 								</div>
 
@@ -90,17 +91,14 @@
 						</div><!-- /form-group: Ícono-->
 
 						<!-- Lista de Componentes para copiar-->
-
+						<h3 class = "text-primary">Lista de Componentes de TI Asignables al Departamento</h3> <hr>
 						<div class = "row">
-							<div class = "col-md-10 col-md-offset-1 ">
+							<div class = "col-md-12 ">
 								<div class="panel panel-info">
-									<div class="panel-heading">
-										<h3 class="panel-title"><strong>Lista de Componentes de TI</strong></h3>
-									</div>
-										
+									
 									<div class="panel-body">
 										<div class = "row">
-											<div class = "col-md-5">
+											<div class = "col-md-4 col-md-offset-1">
 												<select size = "15" multiple class="form-control"  >
 													<option value = "1">Componente 1</option>
 													<option value = "2">Componente 2</option>
@@ -116,11 +114,12 @@
 													<option value = "6">Componente 6</option>
 													<option value = "4">Componente 4</option>
 													<option value = "5">Componente 5</option>
-													<option value = "6">Componente 6</option>
 												</select>
-											</div>
+												<span class = "help-block">Todos los Componentes de TI </span>
+											</div><!-- /col-4: Todos los Componentes de TI -->
 
-											<div class = "col-md-1">
+											<div class = "col-md-2">
+												<center>
 												<div style = "margin-top:70px">
 													<button 
 														type="button"
@@ -147,14 +146,18 @@
 
 													</button>
 												</div>
-											</div>
+												</center>
+											</div><!-- col-1: Botones de adicionar los componentes -->
 
-											<div class = "col-md-5">
+											<div class = "col-md-4">
 												<select size = "15" multiple class="form-control"  >
 													<option value = "1">Componente 1</option>
 													<option value = "2">Componente 2</option>
 												</select>
+												<span class = "help-block">Componentes asignados al Departamento </span>
 											</div>
+
+											<div class = "col-md-1"> </div><!-- Vacío -->
 										</div><!--/row: inner lista de componentes -->
 									</div>
 								</div>		
@@ -164,19 +167,20 @@
 						
 						<!-- Boton Guardar-->
 						<div class="row">
-							<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
 								<button type="submit" class="btn btn-primary">Guardar</button>
 							</div>
 
 						</form><!-- /formulario -->
 
 							<!-- Boton Cancelar-->
-							<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
 								<a href = "<?php echo site_url('cargar_datos/departamentos'); ?>" class="btn btn-primary">Cancelar</a>
 							</div>
 								
-							<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+							<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"><!-- Vacío -->
 							</div>
+
 						</div>
 
 
