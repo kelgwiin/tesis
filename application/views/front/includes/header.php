@@ -153,9 +153,9 @@
                  <!-- GESTIÓN DE DISPONIBILIDAD-->
                  <a type="button" class="btn"
                   title="Gestión de Disponibilidad" 
-                  href = "#"  
+                  href = "<?php echo site_url('Disponibilidad');?>"  
                  >
-                 <i class="fa fa-suitcase fa-3x"></i> <br> <small>Gestión de<br>Disponibilidad</small>
+                 <i class="fa fa-clock-o fa-3x"></i> <br> <small>Gestión de<br>Disponibilidad</small>
                  </a> 
                  </div>
                  
