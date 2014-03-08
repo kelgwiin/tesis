@@ -125,14 +125,14 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <i class="fa fa-suitcase fa-5x"></i>
+                    <i class="fa fa-clock-o fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
                     <p class="announcement-text">Gestion de Disponibilidad</p>
                   </div>
                 </div>
               </div>
-              <a href="#">
+               <a href="<?php echo site_url('index.php/Disponibilidad');?>/">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">
@@ -213,7 +213,7 @@
                   </div>
                 </div>
               </div>
-              <a href="<?php echo site_url('cargar_datos');?>/">
+              <a href="<?php echo site_url('index.php/cargar_data');?>/">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">
