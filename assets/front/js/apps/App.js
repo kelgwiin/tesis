@@ -165,9 +165,14 @@ $(document).ready(function()
 
 }); 
 
-
-//Lista de Funciones
-
+//--------------------
+//LISTA DE FUNCIONES  |
+//--------------------
+//
+/**
+ * Agrega un nuevo formulario de comandos y operaciones en la sección de
+ * Cronograma de Ejecución
+ */
 function add_form_comandos_operaciones(){
     var num_secuencia = $(this).attr('data-secuencia');
     var num = parseInt($('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas'))+1;//Número de fila actual
@@ -178,6 +183,10 @@ function add_form_comandos_operaciones(){
     $('[data-toggle=tooltip]').tooltip();//Enlazando tooltips nuevos
 }
 
+/**
+ * Remueve el último formulario de comandos y operaciones en la sección de
+ * Cronograma de Ejecución
+ */
 function remove_form_comandos_operaciones(){
     var num_secuencia = $(this).attr('data-secuencia');
     var num = parseInt($('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas'));//Número de fila actual

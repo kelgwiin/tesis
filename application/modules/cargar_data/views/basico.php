@@ -64,7 +64,7 @@
 							<div class="form-group">
 								<label for="abreviatura-moneda-basico" class="col-md-5 control-label">Abreviatura de moneda </label>
 
-								<div class="col-md-6">
+								<div class="col-md-5">
 									<input  maxlength = "3" type="text" class="form-control" id="abreviatura_moneda" placeholder = "Abreviatura">
 								</div>
 
@@ -72,6 +72,8 @@
 									<i class = "fa fa-check text-success">
 									</i>
 								</div><!-- /col-2: icono -->
+
+								<div class = "col-md-1"></div><!-- Vacío -->
 							</div><!-- /form-group -->	
 						</div><!-- /col-6: Abreviatura de la Moneda -->		
 
