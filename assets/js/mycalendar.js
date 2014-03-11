@@ -37,7 +37,7 @@ var Script = function () {
         eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent)
         {
             $params = {
-                'event'         : event.id,
+                'event'         : event.eventos_id,
                 'daystart'      : $.fullCalendar.formatDate( event.start, 'yyyy-MM-dd HH:mm:ss'),
                 'dayend'        : $.fullCalendar.formatDate( event.end, 'yyyy-MM-dd HH:mm:ss'),
             };
@@ -63,7 +63,7 @@ var Script = function () {
         eventDrop: function(event, dayDelta, minuteDelta, revertFunc, jsEvent)
         {
             $params = {
-                'event'         : event.id,
+                'event'         : event.eventos_id,
                 'daystart'      : $.fullCalendar.formatDate( event.start, 'yyyy-MM-dd HH:mm:ss'),
                 'dayend'        : $.fullCalendar.formatDate( event.end, 'yyyy-MM-dd HH:mm:ss'),
             };
