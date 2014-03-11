@@ -1,0 +1,205 @@
+$(document).ready(function() 
+{    
+    //Crea la instancia del popover
+    $('#popoverMenu').popover();
+
+    //Crea la instancia de los toolitips en general
+    $('[data-toggle=tooltip]').tooltip();
+
+<<<<<<< HEAD
+    //--------------------------------
+    //EVENTOS DE CARGAR DATOS BÁSICOS |
+    //--------------------------------
+    //Muestra los Mensajes de Error.
+    //Cuando no se encuentren llenos los campos obligatorios.
+    $('#btn_guardar_datos_basicos').on('click', function(){
+        //Nombre de la Organización
+        var in1 = $('input#nombre-organizacion-basico').val();
+
+       if(in1.length <= 0 ){
+            $('div[data-id=fg-nombre-organizacion-basico]').attr('class','form-group has-error');
+            $('div[data-id=icon-nombre-organizacion-basico]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-nombre-organizacion-basico]").attr('class','form-group');
+            $('div[data-id=icon-nombre-organizacion-basico]').attr('class','col-md-1 hidden');
+        }
+        
+        //Nombre de la Moneda
+        var in2 = $('input#nombre-moneda-basico').val();
+        if(in2.length <= 0 ){
+            $('div[data-id=fg-nombre-moneda-basico]').attr('class','form-group has-error');
+            $('div[data-id=icon-nombre-moneda-basico]').attr('class', "col-md-1 show");
+        }else{
+            $('div[data-id=fg-nombre-moneda-basico]').attr('class','form-group');
+            $('div[data-id=icon-nombre-moneda-basico]').attr('class', "col-md-1 hidden");
+        }
+
+        //Abreviatura de la moneda
+        var in3 = $('input#abreviatura-moneda-basico').val();
+        if(in3.length <= 0){
+            $('div[data-id=fg-abreviatura-moneda-basico]').attr('class','form-group has-error');
+            $('div[data-id=icon-abreviatura-moneda-basico]').attr('class','col-md-1 show');
+        }else{
+            $('div[data-id=fg-abreviatura-moneda-basico]').attr('class','form-group');
+            $('div[data-id=icon-abreviatura-moneda-basico]').attr('class','col-md-1 hidden');
+        }
+
+        if(in1.length <= 0 || in2.length <= 0 || in3.length <= 0){
+            $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable show');
+        }else{
+                        $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable hidden');
+        }
+        
+    });
+
+    //FIN: CARGAR DATOS BÁSICOS 
+
+
+
+
+    //--------------------------------
+    //EVENTOS DE COMPONENTES DE TI |
+    //-----------------------------
+    
+=======
+
+    //Botones Componentes de TI
+>>>>>>> origin/master
+    //btn Características: Al pulsar el caret que despliega el panel [PANEL]
+    $('a[data-fieldIT=caracteristicas]').on('click', function(){
+        var id  = $(this).attr('data-id');
+
+        //Mostrando el Panel
+        if($('div[data-id='+id+']').attr('class') == 'panel-body hidden') {
+                
+            $('div[data-id='+id+']').attr('class', 'panel-body show');
+            //cambiando el caret
+            $('i#'+id).attr('class','fa fa-caret-down fa-lg');
+        }else{
+
+            $('div[data-id='+id+']').attr('class', 'panel-body hidden');
+            //cambiando el caret
+            $('i#'+id).attr('class','fa fa-caret-right fa-lg');
+        }
+    });
+
+    //btn editar
+    $('a[data-fieldIT=editar]').on('click', function(){
+        var id_editar  = $(this).attr('data-id');
+        alert('editar id - '+id_editar);    
+    });
+
+    //btn eliminar
+    $('a[data-fieldIT=eliminar]').on('click', function(){
+        var id  = $(this).attr('data-id');
+        alert('eliminar id - '+id);    
+    });
+
+<<<<<<< HEAD
+    //FIN: COMPONENTES DE TI
+    
+
+
+
+    //---------------------
+    //EVENTOS DE SERVICIOS |
+    //---------------------
+    
+    //Btn para mostrar la lista de Comandos/Operaciones dentro del 
+    //apartado "Cronograma de Ejecución"
+    $('a[data-fieldIT=comandos-operaciones]').on('click', function(){
+        var id  = $(this).attr('data-id');
+
+        //Mostrando la lista de comandos que se encuentran ocultos en la tabla
+        if($('ul[data-id='+id+']').attr('class') == 'hidden') {
+
+            $('ul[data-id='+id+']').attr('class', 'show');
+            //cambiando el caret
+            $('i#'+id).attr('class','fa fa-caret-down fa-lg');
+        }else{
+
+            $('ul[data-id='+id+']').attr('class', 'hidden');
+            //cambiando el caret
+            $('i#'+id).attr('class','fa fa-caret-right fa-lg');
+        }
+    });
+
+    //Mostrando los sub-menus dentro de las Características de los Servicios
+    $('a[data-fieldIT=caracteristicas-servicios]').on('click', function (){
+        var titulo_tooltip = $(this).attr('data-original-title');
+        var id = $(this).attr('data-id');
+=======
+    //Fin de Componentes de TI
+    	//Mostrando los campos de TI que se despliegan al dar click
+    	$("a.fieldsIT").on('click', function(){
+        	var rowIndex= $(this).attr("id");//get the row id
+>>>>>>> origin/master
+
+        	$("div#fields"+rowIndex).collapse("toggle");//show the fields
+
+        	/*Is the row Down?*/
+        	img = $("i#i"+rowIndex).attr('class') =='fa fa-chevron-down'?
+        	'fa fa-chevron-right':'fa fa-chevron-down';
+        	$("i#i"+rowIndex).attr('class',img);
+        });
+
+
+        //editComponentIT
+        $("button#editComponentIT").on('click',function(){
+        	var rowId = $('i[class="fa fa-check-square-o"]').attr('id');
+
+        	if(typeof(rowId) != "undefined"){
+        		var rowId = $('i[class="fa fa-check-square-o"]').attr('id');
+        		alert('Hiii, editComponentIT - '+rowId);
+        	}else{
+        		alert('Your variable is null, choose at least a row');
+        	}
+
+        });
+
+        //deleteComponentIT
+        $("button#deleteComponentIT").on('click',function(){
+        	alert('Hi deleteComponentIT');
+        });
+
+
+<<<<<<< HEAD
+    //FIN: EVENTOS DE SERVICIOS
+
+
+}); 
+
+//--------------------
+//LISTA DE FUNCIONES  |
+//--------------------
+//
+/**
+ * Agrega un nuevo formulario de comandos y operaciones en la sección de
+ * Cronograma de Ejecución
+ */
+function add_form_comandos_operaciones(){
+    var num_secuencia = $(this).attr('data-secuencia');
+    var num = parseInt($('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas'))+1;//Número de fila actual
+    var form_comandos_oper = '<div class="row" data-id = "sec-'+num_secuencia+'-comando-oper-'+num+'"><!-- inner de Comandos y Operaciones --> <!-- Comando --> <div class = "col-md-3"> <input type="text" name="comando-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Comando"data-toggle = "tooltip" data-original-title = "Comando"> </div><!-- /col-3: Comando --> <!-- Operación --> <div class = "col-md-3"> <input type="text" name="operacion-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Operación"data-toggle = "tooltip" data-original-title = "Operación a ejecutar"> </div><!-- /col-3: Operación --> <div class = "col-md-6"></div><!-- Vacío--> <!-- /row: Comandos y Operaciones --> </div>';
+
+    $('div[data-fcomandos-oper=form-comando-oper-'+num_secuencia+']').append(form_comandos_oper);//Creando el nuevo formulario
+    $('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas',num);//Actualizando el contador 
+    $('[data-toggle=tooltip]').tooltip();//Enlazando tooltips nuevos
+}
+
+/**
+ * Remueve el último formulario de comandos y operaciones en la sección de
+ * Cronograma de Ejecución
+ */
+function remove_form_comandos_operaciones(){
+    var num_secuencia = $(this).attr('data-secuencia');
+    var num = parseInt($('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas'));//Número de fila actual
+        
+    if(num != 0 ){
+        $('div[data-id=sec-'+num_secuencia+'-comando-oper-'+num+']').remove();
+        $('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas',num-1);//Actualizando el contador 
+    }
+}
+=======
+    }); 
+>>>>>>> origin/master
