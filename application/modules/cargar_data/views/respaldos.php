@@ -100,3 +100,21 @@
 
 		</div> <!-- end of: main col-lg-12 -->
 	</div> <!-- end of: main row -->
+
+<?php
+
+//-----------------------
+//	NOTAS DE HMVC
+//	---------------------
+
+
+//Retornar la data de una Función en un Módulo
+	$retorno = modules::run('modulo/controlador/funcion/', $parametro1, $parametro2, $parametro...);
+
+//Cargar Controladores
+	$this->load->module('modulo/controlador', $parametro1, $parametro2, $parametro...);
+	$retorno = $this->controlador->funcion();
+
+//Cargar Modelos Vistas y Librerías: Se hace igual sólo que se antepone el nombre del Módulo
+$this->load->model('modulo/modelo_model');
+?>

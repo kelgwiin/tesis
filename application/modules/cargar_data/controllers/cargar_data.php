@@ -17,6 +17,9 @@ class Cargar_Data extends MX_Controller
 	 */
 	public function __construct(){
 		$this->plantilla = 'cargar_data/template';
+
+		//Cargando los Modelos
+		$this->load->model('datos_basicos_model');
 	}
 
 	public function index()
@@ -37,6 +40,7 @@ class Cargar_Data extends MX_Controller
 		//Main content: básico
 		$data['main_content'] = $this->load->view('basico','',TRUE);
 		
+
 		//Sidebar content
 		//--Creando los items del sidebar.
 		$params['list'] = $this->_list(1);//lista del sidebar con el segundo ítem activo

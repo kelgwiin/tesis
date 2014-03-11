@@ -11,7 +11,57 @@ $(document).ready(function()
     //Crea la instancia de los toolitips en general
     $('[data-toggle=tooltip]').tooltip();
 
-    //-----------------------------
+    //--------------------------------
+    //EVENTOS DE CARGAR DATOS BÁSICOS |
+    //--------------------------------
+    //Muestra los Mensajes de Error.
+    //Cuando no se encuentren llenos los campos obligatorios.
+    $('#btn_guardar_datos_basicos').on('click', function(){
+        //Nombre de la Organización
+        var in1 = $('input#nombre-organizacion-basico').val();
+
+       if(in1.length <= 0 ){
+            $('div[data-id=fg-nombre-organizacion-basico]').attr('class','form-group has-error');
+            $('div[data-id=icon-nombre-organizacion-basico]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-nombre-organizacion-basico]").attr('class','form-group');
+            $('div[data-id=icon-nombre-organizacion-basico]').attr('class','col-md-1 hidden');
+        }
+        
+        //Nombre de la Moneda
+        var in2 = $('input#nombre-moneda-basico').val();
+        if(in2.length <= 0 ){
+            $('div[data-id=fg-nombre-moneda-basico]').attr('class','form-group has-error');
+            $('div[data-id=icon-nombre-moneda-basico]').attr('class', "col-md-1 show");
+        }else{
+            $('div[data-id=fg-nombre-moneda-basico]').attr('class','form-group');
+            $('div[data-id=icon-nombre-moneda-basico]').attr('class', "col-md-1 hidden");
+        }
+
+        //Abreviatura de la moneda
+        var in3 = $('input#abreviatura-moneda-basico').val();
+        if(in3.length <= 0){
+            $('div[data-id=fg-abreviatura-moneda-basico]').attr('class','form-group has-error');
+            $('div[data-id=icon-abreviatura-moneda-basico]').attr('class','col-md-1 show');
+        }else{
+            $('div[data-id=fg-abreviatura-moneda-basico]').attr('class','form-group');
+            $('div[data-id=icon-abreviatura-moneda-basico]').attr('class','col-md-1 hidden');
+        }
+
+        if(in1.length <= 0 || in2.length <= 0 || in3.length <= 0){
+            $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable show');
+        }else{
+                        $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable hidden');
+        }
+        
+    });
+
+    //FIN: CARGAR DATOS BÁSICOS 
+
+
+
+
+    //--------------------------------
     //EVENTOS DE COMPONENTES DE TI |
     //-----------------------------
     
@@ -47,6 +97,7 @@ $(document).ready(function()
 
     //FIN: COMPONENTES DE TI
     
+
 
 
     //---------------------

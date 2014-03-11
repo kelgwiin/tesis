@@ -9,6 +9,11 @@
 				<li class="active"><i class="fa fa-dashboard"></i> 
 					Carga los datos básicos de la organización
 				</ol>
+
+				<div class="alert alert-danger alert-dismissable hidden" id = "error-datos-basicos-cargar-datos" >
+					<button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Error, no ha ingresado valores en alguno de los campos obligatorios.
+				</div>
 			</div>
 		</div>
 
@@ -21,15 +26,15 @@
 					<!-- Nombre-->
 					<div class = "row"> 
 						<div class = "col-md-12">
-							<div class="form-group">
+							<div class="form-group" data-id  = "fg-nombre-organizacion-basico">
 								<label for="nombre" class="col-md-1 control-label">Nombre </label>
 
 								<div class="col-md-10">
-									<input type="text" class="form-control" id="nombre" placeholder="Nombre Organización">
+									<input id = "nombre-organizacion-basico" name = "nombre" type="text" class="form-control" placeholder="Nombre Organización" required = "required">
 								</div>
 
-								<div class = "col-md-1" id = "nombre-moneda-basico">
-									<i class = "fa fa-check text-danger">
+								<div class = "col-md-1 hidden " data-id = "icon-nombre-organizacion-basico">
+									<i class = "fa fa-times text-danger">
 									</i>
 								</div><!-- /col-2: icono -->
 								
@@ -45,15 +50,15 @@
 
 						<!-- Nombre de Moneda-->
 						<div class = "col-md-6">
-							<div class="form-group">
+							<div class="form-group" data-id="fg-nombre-moneda-basico">
 								<label for="nombre-moneda-basico" class="col-md-5 control-label">Nombre de moneda </label>
 
 								<div class="col-md-6">
-									<input type="text" class="form-control" id="nombre_moneda" placeholder="Nombre de la Moneda">
+									<input type="text" name = "moneda" class="form-control" id="nombre-moneda-basico" placeholder="Nombre de la Moneda" required = "required">
 								</div>
 
-								<div class = "col-md-1" id = "nombre-moneda-basico">
-									<i class = "fa fa-check text-success">
+								<div class = "col-md-1 hidden" data-id = "icon-nombre-moneda-basico">
+									<i class = "fa fa-times text-danger">
 									</i>
 								</div><!-- /col-2: icono -->
 							</div><!-- /form-group -->	
@@ -61,15 +66,15 @@
 						
 						<!-- Abreviatura de Moneda-->
 						<div class = "col-md-6">
-							<div class="form-group">
+							<div class="form-group" data-id = "fg-abreviatura-moneda-basico">
 								<label for="abreviatura-moneda-basico" class="col-md-5 control-label">Abreviatura de moneda </label>
 
 								<div class="col-md-5">
-									<input  maxlength = "3" type="text" class="form-control" id="abreviatura_moneda" placeholder = "Abreviatura">
+									<input  nombre = "abrev_moneda" maxlength = "3" type="text" class="form-control" id="abreviatura-moneda-basico" placeholder = "Abreviatura" required = "required">
 								</div>
 
-								<div class = "col-md-1" id = "abreviatura-moneda-basico">
-									<i class = "fa fa-check text-success">
+								<div class = "col-md-1 hidden" data-id = "icon-abreviatura-moneda-basico">
+									<i class = "fa fa-times text-danger">
 									</i>
 								</div><!-- /col-2: icono -->
 
@@ -78,13 +83,31 @@
 						</div><!-- /col-6: Abreviatura de la Moneda -->		
 
 					</div><!-- /row: Moneda y Abreviatura -->
+					
+					<!-- Descripción-->
+					<br>
+					<div class="row">
+						<div class = "col-md-12">
+							<div class="form-group" data-id = "fg-descripcion-basico">
+								<label for="descripcion" class="col-md-2 control-label">Descripción</label>
 
+								<div class = "col-md-9">
+									<textarea maxlength = "200" name = "descripcion" id = "descripcion-basico" class="form-control" rows="3" ></textarea>
+								</div>
+
+								<div class = "col-md-1 hidden" data-id = "icon-descripcion-basico">
+									<i class = "fa fa-times text-danger">
+									</i>
+								</div><!-- /col-2: Icono-->
+							</div>
+						</div><!-- /col-12 -->
+					</div><!-- /row -->
 
 					<!-- Button-->  
 					<br>
 					<div class = "row">
 						<div class="col-md-12">
-							<button type="submit" class="btn btn-primary">
+							<button id = "btn_guardar_datos_basicos" type="submit" class="btn btn-primary">
 								Guardar
 							</button>                        
 
