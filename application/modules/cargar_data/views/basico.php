@@ -1,5 +1,34 @@
-	
 <div id="page-wrapper">
+	<div class = "row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<form action="<?php echo site_url('cargar_datos/basico/guardar');?>" method ="post" class="form-horizontal" role="form">
+			
+			<div class="form-group">
+				<legend>Form title</legend>
+			</div>
+
+			<div class = "form-group">
+				<label class = "col-md-5">sfdsf</label>
+
+				<div class = "col-md-7">
+					<input type="text" name="nombre_deprueba" id="inputNndff" class="form-control" value="" required="required"  title="">
+				</div>
+			</div>
+			
+
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+			
+		</form>
+		
+	</div>
+</div>
+
+
+
 	<div class = "row">
 		<div class="col-lg-12">
 
@@ -7,17 +36,29 @@
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
-					Carga los datos básicos de la organización
+					Carga o edita los datos básicos de la organización.
 				</ol>
 
 				<div class="alert alert-danger alert-dismissable hidden" id = "error-datos-basicos-cargar-datos" >
 					<button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Error, no ha ingresado valores en alguno de los campos obligatorios.
 				</div>
-			</div>
-		</div>
 
-	<form class = "form" action="" method="POST" role="form">
+				<!-- Mensaje de Guardado Exitoso -->
+				<div class="alert alert-success alert-dismissable hidden" id = "datos-basicos-guardado">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Los <strong>datos básicos</strong> han sido <em>guardados</em> con Éxito!
+				</div>
+
+				<!-- Mensaje-->
+				<div class="alert alert-success alert-dismissable hidden" id = "datos-basicos-guardado">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Los <strong>datos básicos</strong> han sido <em>actualizados</em> con Éxito!
+				</div>
+		</div><!-- /col-12-->
+	</div><!--/row -->
+
+	<form action="cargar_datos/basico/guardar"  method="POST" role="form">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="panel panel-default">
@@ -70,7 +111,7 @@
 								<label for="abreviatura-moneda-basico" class="col-md-5 control-label">Abreviatura de moneda </label>
 
 								<div class="col-md-5">
-									<input  nombre = "abrev_moneda" maxlength = "3" type="text" class="form-control" id="abreviatura-moneda-basico" placeholder = "Abreviatura" required = "required">
+									<input  name = "abrev_moneda" maxlength = "3" type="text" class="form-control" id="abreviatura-moneda-basico" placeholder = "Abreviatura" required = "required">
 								</div>
 
 								<div class = "col-md-1 hidden" data-id = "icon-abreviatura-moneda-basico">
@@ -110,7 +151,7 @@
 							<button id = "btn_guardar_datos_basicos" type="submit" class="btn btn-primary">
 								Guardar
 							</button>                        
-
+						</form>
 							<a  class="btn btn-primary"
 							href = "<?php echo site_url('cargar_datos');?>">
 							Cancelar
@@ -126,7 +167,7 @@
 
    
 
-	</form>
+	
 
 	<!-- Direccionamiento de formularios-->
 		<div class="row">

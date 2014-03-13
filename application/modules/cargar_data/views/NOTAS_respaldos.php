@@ -107,7 +107,6 @@
 //	NOTAS DE HMVC
 //	---------------------
 
-
 //Retornar la data de una Función en un Módulo
 	$retorno = modules::run('modulo/controlador/funcion/', $parametro1, $parametro2, $parametro...);
 
@@ -117,4 +116,29 @@
 
 //Cargar Modelos Vistas y Librerías: Se hace igual sólo que se antepone el nombre del Módulo
 $this->load->model('modulo/modelo_model');
+
+//------------------------------------------------------------
+// Configuraciones de mod_rewrite para que funciones htacess
+//------------------------------------------------------------
+	Este Módulo es el encargado de traducir las reglas 
+	que se encuentran en el ".htaccess". Si el servidor no
+	tiene activado este módulo no funciona.
+
+	Aparte hay que modificar el archivo que está
+	en ./sites-enabled/000-default cambiando donde 
+	aparezca :
+
+	AllowOverride None
+
+	por 
+
+	AllowOverride all
+
+	NOTA: De igual forma en httpd.config deben cambiarse esas 
+	opciones.
+
+
+	Este es el link de las configuraciones para linux: 	
+http://www.cristiantala.cl/como-instalar-mod_rewrite-de-apache-en-ubuntu-11-10/
+
 ?>

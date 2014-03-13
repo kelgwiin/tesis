@@ -7,6 +7,7 @@ $route['404_override'] = '';
 //Creado el 16-02-2014 por Kelwin Gamez
 $route['cargar_datos'] = "cargar_data/cargar_data";
 $route['cargar_datos/basico'] = "cargar_data/cargar_data/basico";
+$route['cargar_datos/basico/(:any)'] = "cargar_data/cargar_data/basico/$1";
 $route['cargar_datos/componentes_ti'] = "cargar_data/cargar_data/componentes_ti";
 $route['cargar_datos/componentes_ti/(:any)'] = "cargar_data/cargar_data/componentes_ti/$1";
 $route['cargar_datos/departamentos'] = "cargar_data/cargar_data/departamentos";

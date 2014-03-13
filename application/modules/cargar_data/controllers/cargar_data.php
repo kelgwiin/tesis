@@ -16,10 +16,12 @@ class Cargar_Data extends MX_Controller
 	 * @author Kelwin Gamez <kelgwiin@gmail.com>
 	 */
 	public function __construct(){
+		parent::__construct();
 		$this->plantilla = 'cargar_data/template';
 
 		//Cargando los Modelos
 		$this->load->model('datos_basicos_model');
+		$this->load->model('utilities/utilities_model');
 	}
 
 	public function index()
@@ -36,18 +38,35 @@ class Cargar_Data extends MX_Controller
 		
 	}
 
-	public function basico(){
-		//Main content: básico
-		$data['main_content'] = $this->load->view('basico','',TRUE);
-		
+	public function basico($action="form"){
+		switch ($action) {
+			case 'form':
+				//Main content: básico
+				$data['main_content'] = $this->load->view('basico','',TRUE);
 
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(1);//lista del sidebar con el segundo ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
-		$this->load->view($this->plantilla,$data);//cargando la vista
+				//Sidebar content
+					//--Creando los items del sidebar.
+				$params['list'] = $this->_list(1);//lista del sidebar con el segundo ítem activo
+				$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
+
+				$this->load->view($this->plantilla,$data);//cargando la vista
+				//phpinfo();	
+				break;
+
+			case 'guardar':
+				echo "GUARDANDO BASICO <br>";
+
+				$p = $this->input->post();
+				print_r($_POST);
+				print_r($p);
+
+				echo '<br>Nombre' . $this->input->post('nombre').'<br>';
+				//$this->utilities_model->add($p,'organizacion');
+				break;
+		}
 	}
+
 	/**
 	 * Dependiendo del parámetro que se le pase va a ser las siguientes acciones:
 	 * 1.- Si es "list" (valor por defecto) Muestra la lista de 
@@ -66,6 +85,12 @@ class Cargar_Data extends MX_Controller
 				break;
 			case 'guardar':
 				echo "Guardando y redireccionando a la lista de ";
+				print_r($this->input->post());
+				print_r($_POST);
+
+				echo "<br>nombre de pruebaaaaaaa<br>";
+				echo $this->input->post('nombre_deprueba');
+				echo "Fin de pruebaaaaaaa";
 				break;
 		}
 	}
@@ -82,7 +107,9 @@ class Cargar_Data extends MX_Controller
 				break;
 			
 			case 'guardar':
-				echo "Guardando y redireccionando a la lista de Dpto";
+				echo "Guardando y redireccionando a la lista de Dpto<br>";
+				print_r($this->input->post('nombre'));
+				print_r($_POST);
 				break;
 		}
 
