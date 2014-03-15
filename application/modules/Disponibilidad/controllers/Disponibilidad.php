@@ -24,10 +24,10 @@ class Disponibilidad extends MX_Controller
 			);
 
 		$files_footer	=	array(
-			'http://localhost/tesis/assets/js/jquery-1.8.3.min.js',
-			'http://localhost/tesis/assets/js/jquery-ui-1.9.2.custom.min.js',
-			'http://localhost/tesis/assets/js/fullcalendar.min.js',
-			'http://localhost/tesis/assets/js/mycalendar.js'
+			base_url('assets/js/jquery-1.8.3.min.js'),
+			base_url('assets/js/jquery-ui-1.9.2.custom.min.js'),
+			base_url('assets/js/fullcalendar.min.js'),
+			base_url('assets/js/mycalendar.js')
 			);
 
 		$files 			= 	array(
@@ -85,11 +85,11 @@ class Disponibilidad extends MX_Controller
 	{
 		$this->load->model('Disponibilidad_model','calendar');
 		$files_footer	=	array(
-			'http://localhost/tesis/assets/js/jquery-1.8.3.min.js',
-			'http://localhost/tesis/assets/js/jquery-ui-1.9.2.custom.min.js',
-			'http://localhost/tesis/assets/js/jquery.validate.min.js',
-			'http://localhost/tesis/assets/js/additional-methods.min.js',
-			'http://localhost/tesis/assets/js/form_calendar.js',
+			base_url('assets/js/jquery-1.8.3.min.js'),
+			base_url('assets/js/jquery-ui-1.9.2.custom.min.js'),
+			base_url('assets/js/jquery.validate.min.js'),
+			base_url('assets/js/additional-methods.min.js'),
+			base_url('assets/js/form_calendar.js')
 			);
 			
 		$files 			= 	array(
@@ -127,7 +127,7 @@ class Disponibilidad extends MX_Controller
     		'allDay'	=>	($this->input->post('allday')==1) ? 'true' : 'false'
     		);
     	$this->db->insert('eventos',$data);
-    	redirect('http://localhost/tesis/index.php/Disponibilidad/Calendario/','refresh');
+    	redirect('index.php/Disponibilidad/Calendario/','refresh');
     }
 		
 	public function Monitoreo()
