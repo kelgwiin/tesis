@@ -1,35 +1,5 @@
 <div id="page-wrapper">
 	<div class = "row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<form action="<?php echo site_url('cargar_datos/basico/guardar');?>" method ="post" class="form-horizontal" role="form">
-			
-			<div class="form-group">
-				<legend>Form title</legend>
-			</div>
-
-			<div class = "form-group">
-				<label class = "col-md-5">sfdsf</label>
-
-				<div class = "col-md-7">
-					<input type="text" name="nombre_deprueba" id="inputNndff" class="form-control" value="" required="required"  title="">
-				</div>
-			</div>
-			
-
-			<div class="form-group">
-				<div class="col-sm-10 col-sm-offset-2">
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
-			</div>
-			
-		</form>
-		
-	</div>
-</div>
-
-
-
-	<div class = "row">
 		<div class="col-lg-12">
 
 			<h1>Cargar Datos Básicos</h1>
@@ -45,20 +15,50 @@
 				</div>
 
 				<!-- Mensaje de Guardado Exitoso -->
-				<div class="alert alert-success alert-dismissable hidden" id = "datos-basicos-guardado">
+				<div class="alert alert-success alert-dismissable hidden" id = "msj-datos-basicos-guardado">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Los <strong>datos básicos</strong> han sido <em>guardados</em> con Éxito!
 				</div>
 
-				<!-- Mensaje-->
-				<div class="alert alert-success alert-dismissable hidden" id = "datos-basicos-guardado">
+				<!-- Mensaje de Actualizado Exitoso -->
+				<div class="alert alert-success alert-dismissable hidden" id = "msj-datos-basicos-actualizado">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Los <strong>datos básicos</strong> han sido <em>actualizados</em> con Éxito!
+				</div>
+
+				<!-- Mensaje de Error Inesperado -->
+				<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-inesperado-basico">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Ha ocurrido un error <strong>inesperado</strong>.
 				</div>
 		</div><!-- /col-12-->
 	</div><!--/row -->
 
-	<form action="cargar_datos/basico/guardar"  method="POST" role="form">
+	<!-- Botón de Editar -->
+	<div class = "row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<a  class="btn"
+				id = "btn-editar-datos-basicos-basico"
+				data-status-edicion = "off"
+				<?php 
+					if(isset($org)){
+						printf('data-organizacion-id="%d" ',$org['organizacion_id']);
+					}else{
+						echo 'disabled = "disabled" ';
+						echo 'data-organizacion-id = "-1" ';
+					}
+				?>
+				data-toggle="tooltip" 
+				data-original-title="Editar datos básicos"
+				data-placement = "top"
+				>
+			<i class = "fa fa-pencil fa-lg"></i>	
+		</a>
+		</div>
+	</div>
+
+	<!-- Inicio del Formulario -->
+	<form id = "fr-datos-basicos" action="cargar_datos/basico/guardar"  method="POST" role="form">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="panel panel-default">
@@ -71,7 +71,15 @@
 								<label for="nombre" class="col-md-1 control-label">Nombre </label>
 
 								<div class="col-md-10">
-									<input id = "nombre-organizacion-basico" name = "nombre" type="text" class="form-control" placeholder="Nombre Organización" required = "required">
+									<input  id = "nombre-organizacion-basico" name = "nombre"
+									 type="text" class="form-control" placeholder="Nombre de la Organización" required = "required"
+									 <?php 
+									 	if(isset($org)){
+									 		printf('value="%s" ',$org['nombre']);
+									 		printf('disabled="disabled" ');
+									 	}
+									 ?>
+									 >
 								</div>
 
 								<div class = "col-md-1 hidden " data-id = "icon-nombre-organizacion-basico">
@@ -95,7 +103,15 @@
 								<label for="nombre-moneda-basico" class="col-md-5 control-label">Nombre de moneda </label>
 
 								<div class="col-md-6">
-									<input type="text" name = "moneda" class="form-control" id="nombre-moneda-basico" placeholder="Nombre de la Moneda" required = "required">
+									<input type="text" name = "moneda" class="form-control" 
+									id="nombre-moneda-basico" placeholder="Nombre de la Moneda" required = "required"
+									<?php 
+									 	if(isset($org)){
+									 		printf('value="%s" ',$org['moneda']);
+									 		printf('disabled="disabled" ');
+									 	}
+									 ?>
+									>
 								</div>
 
 								<div class = "col-md-1 hidden" data-id = "icon-nombre-moneda-basico">
@@ -111,7 +127,15 @@
 								<label for="abreviatura-moneda-basico" class="col-md-5 control-label">Abreviatura de moneda </label>
 
 								<div class="col-md-5">
-									<input  name = "abrev_moneda" maxlength = "3" type="text" class="form-control" id="abreviatura-moneda-basico" placeholder = "Abreviatura" required = "required">
+									<input  name = "abrev_moneda" maxlength = "3" type="text"
+									 class="form-control" id="abreviatura-moneda-basico" placeholder = "Abreviatura" required = "required"
+									 <?php 
+									 	if(isset($org)){
+									 		printf('value="%s" ',$org['abrev_moneda']);
+									 		printf('disabled="disabled" ');
+									 	}
+									 ?>
+									 >
 								</div>
 
 								<div class = "col-md-1 hidden" data-id = "icon-abreviatura-moneda-basico">
@@ -133,7 +157,19 @@
 								<label for="descripcion" class="col-md-2 control-label">Descripción</label>
 
 								<div class = "col-md-9">
-									<textarea maxlength = "200" name = "descripcion" id = "descripcion-basico" class="form-control" rows="3" ></textarea>
+									<textarea maxlength = "200" name = "descripcion" id = "descripcion-basico" 
+									class="form-control text-left" rows="3" style = "text-align: left; padding:0"
+										<?php 
+									 	if(isset($org)){
+									 		printf(' disabled="disabled" ');
+									 	}
+									 ?>
+									 placeholder = "Descripción de la Organización"
+									><?php
+											if(isset($org)){
+												printf('%s', $org['descripcion']);
+											}
+									?></textarea>
 								</div>
 
 								<div class = "col-md-1 hidden" data-id = "icon-descripcion-basico">
@@ -148,7 +184,13 @@
 					<br>
 					<div class = "row">
 						<div class="col-md-12">
-							<button id = "btn_guardar_datos_basicos" type="submit" class="btn btn-primary">
+							<button id = "btn_guardar_datos_basicos" type="submit" class="btn btn-primary"
+								<?php 
+									 if(isset($org)){
+									 	printf('disabled="disabled" ');
+									}
+								?>
+							>
 								Guardar
 							</button>                        
 						</form>
@@ -164,8 +206,6 @@
 			</div><!-- /panel-->
 		</div><!-- /cols-->
 	</div>	<!-- /row-->
-
-   
 
 	
 

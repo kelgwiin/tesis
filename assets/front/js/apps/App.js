@@ -14,7 +14,68 @@ $(document).ready(function()
     //--------------------------------
     //EVENTOS DE CARGAR DATOS BÁSICOS |
     //--------------------------------
-    //Muestra los Mensajes de Error.
+    
+    //:: Guardar Datos Básicos ::
+    //Los son procesados a través de ajax
+    $('form#fr-datos-basicos').on('submit',function(event){
+        event.preventDefault();
+        // store reference to the form
+        var bk_this = $(this);
+
+        // grab the url from the form element
+        var url = bk_this.attr('action');
+            
+        //Obteniendo la data del form
+        var dataToSend = bk_this.serialize();
+
+        //Función procesar llamada desde el post
+        var fo_proccess = function (data){
+            if(data.estatus == "ok"){
+                //Dehabilitando todos los campos
+                $('input#nombre-organizacion-basico').attr('disabled','disabled');
+                $('input#nombre-moneda-basico').attr('disabled','disabled');
+                $('input#abreviatura-moneda-basico').attr('disabled','disabled');
+                $('textarea#descripcion-basico').attr('disabled','disabled');
+
+                //Deshabilitando el boton de guardado
+                $('button#btn_guardar_datos_basicos').attr('disabled','disabled');
+
+                //Deshabilitando mensaje de error (puede estar o no habilitado)
+                $('div#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable hidden');
+
+                //Habilitando mensaje de guardado o actualizado
+                if($('a#btn-editar-datos-basicos-basico').attr('data-status-edicion') == 'on'){
+                    $('div#msj-datos-basicos-actualizado').attr('class','alert alert-success alert-dismissable show');
+                }else{
+                    $('div#msj-datos-basicos-guardado').attr('class','alert alert-success alert-dismissable show');
+                }
+
+                //Cambiando el estatus de edición a off, poterior al guardado
+                $('a#btn-editar-datos-basicos-basico').attr('data-status-edicion','off');
+
+                //Habilitando el boton de edición
+                $('a#btn-editar-datos-basicos-basico').removeAttr('disabled');
+
+                //Colocando el id de la Organización para que este disponible para actualización
+                $('a#btn-editar-datos-basicos-basico').attr('data-organizacion-id',data.organizacion_id);
+
+                //Escondiendo msj de error inesperado
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
+            }else{
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+            }
+            
+        }//end-of: function fo_proccess
+
+        //Verificando si es actualizar para cambiar el la  llamada al controlador
+        if($('a#btn-editar-datos-basicos-basico').attr('data-status-edicion') == 'on'){
+            url = 'cargar_datos/basico/'+$('a#btn-editar-datos-basicos-basico').attr('data-organizacion-id');
+        }
+        //Haciendo la llamada post desde ajax
+        $.post( url, dataToSend, fo_proccess,'json');
+    });
+    
+    //:: Muestra los Mensajes de Error ::
     //Cuando no se encuentren llenos los campos obligatorios.
     $('#btn_guardar_datos_basicos').on('click', function(){
         //Nombre de la Organización
@@ -51,9 +112,33 @@ $(document).ready(function()
         if(in1.length <= 0 || in2.length <= 0 || in3.length <= 0){
             $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable show');
         }else{
-                        $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable hidden');
+            $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable hidden');
         }
         
+    });
+    
+    //:: btn Editar::
+    //Habilita los campos para que se puedan editar
+    $('a#btn-editar-datos-basicos-basico').on('click', function(){
+        
+        //Habilitando los campos
+        $('input#nombre-organizacion-basico').removeAttr('disabled');
+        $('input#nombre-moneda-basico').removeAttr('disabled');
+        $('input#abreviatura-moneda-basico').removeAttr('disabled');
+        $('textarea#descripcion-basico').removeAttr('disabled');
+
+        //Habilitando el boton de guardar
+        $('button#btn_guardar_datos_basicos').removeAttr('disabled');
+
+        //Activando el status de edicion
+        $(this).attr('data-status-edicion','on');
+        
+
+        //Deshabilitando el msj de guardado
+        $('div#msj-datos-basicos-guardado').attr('class','alert alert-success alert-dismissable hidden');
+        
+        //Deshabilitando el msj de actualizado
+        $('div#msj-datos-basicos-actualizado').attr('class','alert alert-success alert-dismissable hidden');
     });
 
     //FIN: CARGAR DATOS BÁSICOS 

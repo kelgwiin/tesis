@@ -37,13 +37,25 @@ class Cargar_Data extends MX_Controller
 		$this->load->view('cargar_data/template',$data);
 		
 	}
-
+	/**
+	 * Carga el formulario básico de la carga de la infraestructura
+	 * @param  string $action Es una cadena que representa si se creará el form,
+	 * si es la acción de guardar o si entra por la opción es actualizar y el valor 
+	 * será el ID asociado al la tabla organización.
+	 * @return N/A
+	 */
 	public function basico($action="form"){
 		switch ($action) {
 			case 'form':
-				//Main content: básico
-				$data['main_content'] = $this->load->view('basico','',TRUE);
+				//Obteniendo los datos básicos que ya fueron cargados
+				$row = $this->utilities_model->first_row('organizacion','organizacion_id');
+				$info['org'] = NULL;
+				if($row !== NULL){
+					$info['org'] = $row;
+				}
 
+				//Main content: básico
+				$data['main_content'] = $this->load->view('basico',$info,TRUE);
 
 				//Sidebar content
 					//--Creando los items del sidebar.
@@ -51,18 +63,29 @@ class Cargar_Data extends MX_Controller
 				$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 
 				$this->load->view($this->plantilla,$data);//cargando la vista
-				//phpinfo();	
 				break;
 
 			case 'guardar':
-				echo "GUARDANDO BASICO <br>";
-
 				$p = $this->input->post();
-				print_r($_POST);
-				print_r($p);
 
-				echo '<br>Nombre' . $this->input->post('nombre').'<br>';
-				//$this->utilities_model->add($p,'organizacion');
+				if($this->utilities_model->add($p,'organizacion')){
+					printf('{"estatus":"ok","organizacion_id":%d}',
+						$this->utilities_model->last_insert_id());
+				}else{
+					echo '{"estatus":"fail"}';
+				}
+				break;
+			
+			default:
+				//Actualizar y Recibe el id 
+				$p = $this->input->post();
+				$id_org = $action;
+				//actualizando en la base de datos.
+				if($this->utilities_model->update('organizacion',array('organizacion_id'=>$id_org),$p)){
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
 				break;
 		}
 	}
