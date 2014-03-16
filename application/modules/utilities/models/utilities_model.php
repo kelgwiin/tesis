@@ -155,6 +155,29 @@ class Utilities_model extends CI_Model {
         }
         
         return $row;
+    } 
+
+     /**
+     * Retorna un conjunto de  filas dado el nombre de la tabla y su respectivo 
+     * id. 
+     * @param  String $nom_table    Nombre de la tabla
+     * @param  String $nom_col_id   Nombre de la columna que es clave
+     * @param  Integer $id          Id de la tabla
+     * @return Array de Array       Es un array asociativo de pares (Nombre col, data col).
+     * Sino existe retorna NULL.
+     */
+    public function rows_by_id($nom_table, $nom_col_id, $id){
+        $sql = 'SELECT * FROM ' . $nom_table .
+                ' WHERE '.$nom_col_id.' = ? ;';
+
+        $q = $this->db->query($sql, array($id));
+        if($q->num_rows() > 0){
+            $rows = $q->result_array();
+        }else{
+            $rows = NULL;
+        }
+        
+        return $rows;
     }
     /**
      * @param  String $nom_table Nombre de la tabla

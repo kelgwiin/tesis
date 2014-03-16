@@ -11,6 +11,12 @@ $(document).ready(function()
     //Crea la instancia de los toolitips en general
     $('[data-toggle=tooltip]').tooltip();
 
+
+    //--------------------------------------------------------------------------------
+    //Conjunto de Eventos del Módulo Cargar Arquitectura (cargar_data)                |
+    //--------------------------------------------------------------------------------
+    //
+    //
     //--------------------------------
     //EVENTOS DE CARGAR DATOS BÁSICOS |
     //--------------------------------
@@ -64,12 +70,11 @@ $(document).ready(function()
             }else{
                 $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
             }
-            
         }//end-of: function fo_proccess
 
         //Verificando si es actualizar para cambiar el la  llamada al controlador
         if($('a#btn-editar-datos-basicos-basico').attr('data-status-edicion') == 'on'){
-            url = 'cargar_datos/basico/'+$('a#btn-editar-datos-basicos-basico').attr('data-organizacion-id');
+            url = 'index.php/cargar_datos/basico/'+$('a#btn-editar-datos-basicos-basico').attr('data-organizacion-id');
         }
         //Haciendo la llamada post desde ajax
         $.post( url, dataToSend, fo_proccess,'json');
@@ -114,7 +119,6 @@ $(document).ready(function()
         }else{
             $('#error-datos-basicos-cargar-datos').attr('class','alert alert-danger alert-dismissable hidden');
         }
-        
     });
     
     //:: btn Editar::
@@ -140,17 +144,16 @@ $(document).ready(function()
         //Deshabilitando el msj de actualizado
         $('div#msj-datos-basicos-actualizado').attr('class','alert alert-success alert-dismissable hidden');
     });
-
     //FIN: CARGAR DATOS BÁSICOS 
 
 
 
-
-    //--------------------------------
+    //-----------------------------
     //EVENTOS DE COMPONENTES DE TI |
     //-----------------------------
     
-    //btn Características: Al pulsar el caret que despliega el panel [PANEL]
+    //:: btn Características::
+    //Al pulsar el caret que despliega el panel [PANEL]
     $('a[data-fieldIT=caracteristicas]').on('click', function(){
         var id  = $(this).attr('data-id');
 
@@ -168,21 +171,161 @@ $(document).ready(function()
         }
     });
 
-    //btn editar
+    //:: btn Editar ::
     $('a[data-fieldIT=editar]').on('click', function(){
         var id_editar  = $(this).attr('data-id');
         alert('editar id - '+id_editar);    
     });
 
-    //btn eliminar
+    //:: btn Eliminar:: 
     $('a[data-fieldIT=eliminar]').on('click', function(){
         var id  = $(this).attr('data-id');
         alert('eliminar id - '+id);    
     });
 
+    //:: Mensajes de Error - btn Guardar ::
+    //Es usado para mostrar los  mensajes de error correspondientes a los campos obligatiorios
+    $('#btn-guardar-componentes-ti').on('click',function (){
+        //Nombre
+        var in1 = $('input#nombre-componente-ti').val();
+        if(in1.length <= 0 ){
+            $('div[data-id=fg-nombre-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-nombre-componente-ti]').attr('class','col-md-2 show');
+        }else{
+            $("div[data-id=fg-nombre-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-nombre-componente-ti]').attr('class','col-md-2 hidden');
+        }
+        
+        //Categoría: N/A
+        
+        //Descripción
+        var in2 = $('textarea#descripcion-componente-ti').val();
+        if(in2.length <= 0 ){
+            $('div[data-id=fg-descripcion-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-descripcion-componente-ti]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-descripcion-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-descripcion-componente-ti]').attr('class','col-md-1 hidden');
+        }
+
+        //Fecha Compra
+        var in3 = $('input#fecha-compra-componente-ti').val();
+        if(in3.length <= 0 ){
+            $('div[data-id=fg-fecha-compra-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-fecha-compra-componente-ti]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-fecha-compra-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-fecha-compra-componente-ti]').attr('class','col-md-1 hidden');
+        }
+
+        //Fecha de Elaboración
+        var in4 = $('input#fecha-elaboracion-componente-ti').val();
+        if(in4.length <= 0 ){
+            $('div[data-id=fg-fecha-elaboracion-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-fecha-elaboracion-componente-ti]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-fecha-elaboracion-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-fecha-elaboracion-componente-ti]').attr('class','col-md-1 hidden');
+        }   
+
+        //Tiempo de vida
+        var in5 = $('input#tiempo-vida-componente-ti').val();
+        if(in5.length <= 0 ){
+            $('div[data-id=fg-tiempo-vida-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-tiempo-vida-componente-ti]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-tiempo-vida-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-tiempo-vida-componente-ti]').attr('class','col-md-1 hidden');
+        }
+
+        //Unida de Tiempo de Vida: N/A
+
+        //Precio
+        var in6 = $('input#precio-componente-ti').val();
+        if(in6.length <= 0 ){
+            $('div[data-id=fg-precio-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-precio-componente-ti]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-precio-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-precio-componente-ti]').attr('class','col-md-1 hidden');
+        }
+
+        //Cantidad
+        var in7 = $('input#cantidad-componente-ti').val();
+        if(in7.length <= 0 ){
+            $('div[data-id=fg-cantidad-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-cantidad-componente-ti]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-cantidad-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-cantidad-componente-ti]').attr('class','col-md-1 hidden');
+        }
+
+        //Capacidad: N/A
+        //Maestro Unidad de Medida según la Categoría: N/A
+        
+        //Mostrando el aviso de error
+        if(in1.length <= 0 || in2.length <= 0 || in3.length <= 0 || in4.length <= 0 ||
+            in5.length <= 0 || in6.length <= 0 || in7.length <= 0){
+            $('div#msj-error-componentes-ti').attr('class','alert alert-danger alert-dismissable show');
+        }else{
+            $('div#msj-error-componentes-ti').attr('class','alert alert-danger alert-dismissable hidden');
+        }
+    });
+
+    //:: select Categoría ::
+    //Llenado de campo de Medidas según a la categoría que pertenezca
+    $('select#categoria-componente-ti').on('click',function(){
+        var id_item = $(this).val();
+        var id_last = $('select#categoria-componente-ti :last').val();
+        var base_item = ($(this).find('option:eq('+ (parseInt(id_item)-1)+')')).attr('data-base');
+        
+        if(base_item != '-1'){//Si son las categorías que poseen unidades de medida
+            url = 'index.php/cargar_datos/medidas_capacidad/'+id_item;
+            var fo = function (data){
+                $('select#ma-unidad-medida-componente-ti option').remove();
+                $('select#ma-unidad-medida-componente-ti').append(data).removeAttr('disabled');
+            }
+            dataType = 'html';
+            $.post(url,null,fo,dataType);
+        }else{
+            $('select#ma-unidad-medida-componente-ti option').remove();//Eliminando los option previos
+            $('select#ma-unidad-medida-componente-ti').attr('disabled','disabled');
+        }
+
+    });
+
+    //:: Form - Guardar componente de ti ::
+    $('form#fr-nuevo-componente-ti').on('submit',function(event){
+        event.preventDefault();
+        // store reference to the form
+        var bk_this = $(this);
+
+        // grab the url from the form element
+        var url = bk_this.attr('action');
+            
+        //Obteniendo la data del form
+        var dataToSend = bk_this.serialize();
+
+        alert(dataToSend);
+
+        //Función procesar llamada desde el post
+        var fo_proccess = function (data){
+            if(data.estatus == 'ok'){
+                $(location).attr('href','index.php/cargar_datos/componentes_ti');
+                
+                //Mostrando msj de guardado en la lista de componentes de ti
+                $('div#msj-componente-ti-guardado').attr('class','alert alert-success alert-dismissable show');
+            }else{
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+            }
+        }
+
+        //llamada del post
+        $.post(url,dataToSend, fo_proccess,'json');
+
+    });
     //FIN: COMPONENTES DE TI
     
-
 
 
     //---------------------

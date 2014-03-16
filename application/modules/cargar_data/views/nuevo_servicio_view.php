@@ -17,7 +17,7 @@
 		</div><!-- end of row Cabecera-->
 
 <!-- Formulario -->
-<form action="cargar_datos/servicios/guardar" method="POST" role="form">
+<form action="<?php echo site_url('index.php/cargar_datos/servicios/guardar');?>" method="POST" role="form">
 	<!-- Panel -->
 	<div class = "row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -396,7 +396,7 @@
 
 						<!-- Boton Cancelar-->
 						<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-							<a href = "<?php echo site_url('cargar_datos/servicios'); ?>" class="btn btn-primary">Cancelar</a>
+							<a href = "<?php echo site_url('index.php/cargar_datos/servicios'); ?>" class="btn btn-primary">Cancelar</a>
 						</div>
 
 						<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"><!-- Vacío -->

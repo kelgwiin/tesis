@@ -30,11 +30,11 @@
 										<i class="fa fa-cog fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Cargar datos básicos</p>
+										<p class="announcement-text">Cargar Datos Básicos</p>
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('cargar_datos/basico');?>/">
+							<a href="<?php echo site_url('index.php/cargar_datos/basico');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -58,11 +58,11 @@
 										<i class="fa fa-cogs fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Cargar componentes de TI</p>
+										<p class="announcement-text">Cargar Componentes de TI</p>
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('cargar_datos/componentes_ti');?>/">
+							<a href="<?php echo site_url('index.php/cargar_datos/componentes_ti');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -86,11 +86,11 @@
 										<i class="fa fa-sitemap fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Cargar departamentos</p>
+										<p class="announcement-text">Cargar Departamentos</p>
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('cargar_datos/departamentos');?>/">
+							<a href="<?php echo site_url('index.php/cargar_datos/departamentos');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -114,11 +114,11 @@
 										<i class="fa fa-list fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Cargar servicios</p>
+										<p class="announcement-text">Cargar Servicios</p>
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('cargar_datos/servicios');?>/">
+							<a href="<?php echo site_url('index.php/cargar_datos/servicios');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -137,7 +137,9 @@
 
 				<!-- Segunda fila para colocar la documentación-->
 				<div class="row">
-					<div class="col-lg-3 col-lg-offset-9"> <!-- avanza 9 columnas hacia la derecha con el offset-->
+
+					<!-- Documentación-->
+					<div class="col-lg-3 col-lg-offset-3"> <!-- avanza 9 columnas hacia la derecha con el offset-->
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<div class="row">
@@ -149,7 +151,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url(); ?>cargar_datos/documentacion/">
+							<a href="<?php echo site_url('index.php/cargar_datos/documentacion');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -163,12 +165,8 @@
 							</a>
 						</div>
 					</div>
-				</div><!-- end of row 2: inner-->
-
-
-
-				<!-- Tercera fila para colocar los módulos-->
-				<div class="row">
+					
+					<!-- Módulos-->
 					<div class="col-lg-3">
 						<div class="panel panel-info">
 							<div class="panel-heading">
@@ -177,7 +175,7 @@
 										<i class="fa fa-flag fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Módulos</p>
+										<p class="announcement-text">Módulos de Sistema</p>
 									</div>
 								</div>
 							</div>
@@ -185,7 +183,7 @@
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
-											Revisar
+											Examinar
 										</div>
 										<div class="col-xs-6 text-right">
 											<i class="fa fa-arrow-circle-right"></i>
@@ -195,7 +193,15 @@
 							</a>
 						</div>
 					</div>
-				</div><!-- end of row 3: inner-->
+
+					<!-- Vacío-->
+					<div class = "col-lg-3"></div>
+				</div><!-- end of row 2: inner-->
+
+
+
+				
+
 			</div><!-- end of: col-12-->
 		</div><!-- end of: row outter-->
 

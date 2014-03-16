@@ -16,9 +16,15 @@
 					editar la información asociada a ellos.
 			</div>
 
-			<div class="alert alert-success alert-dismissable" id = "main-componentes-ti-guardado">
+			<div class="alert alert-success alert-dismissable hidden" id = "msj-componente-ti-guardado">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				El Componente de TI ha sido <strong>creado</strong> con Éxito!
+			</div>
+
+			<!-- Mensaje de Error Inesperado -->
+			<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-inesperado-basico">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				Ha ocurrido un error <strong>inesperado</strong>.
 			</div>
 
 		</div><!-- /col-12-->
@@ -39,7 +45,7 @@
 				<!-- boton nuevo-->
 				<div class = " form-group" >
 					<a class = "btn btn-primary" 
-					href = "cargar_datos/componentes_ti/nuevo"
+					href = "<?php echo site_url('index.php/cargar_datos/componentes_ti/nuevo');?>"
 					data-toggle="tooltip" 
 					data-original-title="Agregar nuevo componente de TI"
 					data-placement = "top"
@@ -536,7 +542,7 @@
 	<div class="row">
 		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 			<a class = "btn btn-primary" 
-					href = "cargar_datos/componentes_ti/nuevo"
+					href = "<?php echo site_url('index.php/cargar_datos/componentes_ti/nuevo');?>"
 					data-toggle="tooltip" 
 					data-original-title="Agregar nuevo componente de TI"
 					data-placement = "top">
@@ -569,7 +575,7 @@
 	<div class="col-lg-4">
 		<!-- Boton de Cargar Datos Básicos-->
 		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('cargar_datos/basico');?>"
+			href = "<?php echo site_url('index.php/cargar_datos/basico');?>"
 			
 			data-toggle="tooltip"
 			data-original-title="Cargar Datos Básicos"
@@ -581,7 +587,7 @@
 
 		<!-- Boton de Departamentos -->
 		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('cargar_datos/departamentos');?>"
+			href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"
 			
 			data-toggle="tooltip"
 			data-original-title="Cargar Departamentos"

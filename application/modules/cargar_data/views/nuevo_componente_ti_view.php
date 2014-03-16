@@ -9,7 +9,7 @@
 					Agregando un nuevo de componente de TI a la Infraestructura</li>
 				</ol>
 
-				<div class="alert alert-danger alert-dismissable " id = "error-componentes-ti" >
+				<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-componentes-ti" >
 					<button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Error, no ha ingresado valores en alguno de los campos obligatorios.
 				</div>
@@ -19,7 +19,7 @@
 
 
 		<!-- Formulario -->
-		<form action="cargar_datos/componentes_ti/guardar" method="POST" role="form">
+		<form id = "fr-nuevo-componente-ti" action="<?php echo site_url('index.php/cargar_datos/componentes_ti/guardar');?>" method="POST" role="form">
 			<!-- Panel -->
 			<div class = "row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -33,14 +33,16 @@
 								<!-- Nombre-->
 
 								<div class="col-md-6 ">
-									<div class="form-group has-error" id = "nombre-componente-ti">
+									<div class="form-group" data-id = "fg-nombre-componente-ti">
 										<label for="nombre" class="col-md-2 control-label">Nombre </label>
 
 										<div class="col-md-8 col-lg-8">
-											<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre del componente" required >
+											<input type="text" class="form-control" 
+												name = "nombre" id="nombre-componente-ti" placeholder="Nombre del componente" 
+												required >
 										</div>
 
-										<div class = "col-md-2 col-lg-2"  id = "nombre-componente-ti">
+										<div class = "col-md-2 hidden"  data-id = "nombre-componente-ti">
 											<i class = "fa fa-times text-danger"
 											data-toggle = "tooltip"
 											data-original-title = "Sólo números"
@@ -55,19 +57,21 @@
 							<!-- Categoría (lista)-->
 							<div class="col-md-6">
 
-								<div class="form-group" id = "categoria-componente-ti">
+								<div class="form-group" data-id = "fg-categoria-componente-ti">
 									<label for="categoria" class="col-md-2  control-label">Categoría </label>
 									<div class="col-md-7 col-md-offset-1">
-										<select name="categoria" id="categoria" class="form-control" >
-											<option value = "cat1">Categoría 1</option>
-											<option value = "cat1">Categoría 1</option>
-											<option value = "cat1">Categoría 1</option>
-											<option value = "cat1">Categoría 1</option>
+										<select name="categoria" id="categoria-componente-ti" class="form-control" >
+											<?php
+												foreach ($categorias as $cat) {
+													printf('<option value = "%d" data-base = "%d">%s</option>',$cat['ma_categoria_id'],
+														$cat['valor_base'], $cat['nombre']);
+												}
+											?>	
 										</select>
 									</div><!-- /col-6 Categoría -->	
 
-									<div class = "col-md-2 col-lg-2" id = "categoria-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-2 hidden" id = "categoria-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: Icono-->
 
@@ -81,15 +85,16 @@
 						<br>
 						<div class="row">
 							<div class = "col-md-12">
-								<div class="form-group has-success" id = "descripcion-componente-ti">
+								<div class="form-group" data-id = "fg-descripcion-componente-ti">
 									<label for="descripcion" class="col-md-2 control-label">Descripción</label>
 
 									<div class = "col-md-9">
-										<textarea name = "descripcion" id = "descripcion" class="form-control" rows="3"></textarea>
+										<textarea name = "descripcion" id = "descripcion-componente-ti" 
+										class="form-control text-left" rows="3" required = "required"></textarea>
 									</div>
 
-									<div class = "col-md-1 col-lg-1" id = "descripcion-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-descripcion-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: Icono-->
 								</div>
@@ -119,15 +124,16 @@
 							<!-- Fecha de Compra -->
 
 							<div class="col-md-6">
-								<div class="form-group " id = "fecha-compra-componente-ti">
+								<div class="form-group " data-id = "fg-fecha-compra-componente-ti">
 									<label for="fecha_compra" class="col-md-4 control-label">Fecha de Compra </label>
 
 									<div class="col-md-5">
-										<input type="date" name = "fecha_compra" class="form-control" id="fecha_compra" required>
+										<input type="date" name = "fecha_compra"
+										 class="form-control" id="fecha-compra-componente-ti" required>
 									</div>
 
-									<div class = "col-md-1 " id = "fecha-compra-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-fecha-compra-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: icono-->
 
@@ -140,18 +146,18 @@
 							<!-- Fecha de Elaboración del Componente de TI (no la del registro)-->
 
 							<div class="col-md-6">
-								<div class="form-group " id = "fecha-elaboracion-componente-ti">
+								<div class="form-group " data-id = "fg-fecha-elaboracion-componente-ti">
 									<label for="fecha_elaboracion" class="col-md-5 control-label">Fecha de Elaboración </label>
 
 									<div class="col-md-5">
-										<input type="date" name = "fecha_elaboracion" class="form-control" id="fecha_elaboración" required>
+										<input type="date" name = "fecha_elaboracion" 
+										class="form-control" id="fecha-elaboracion-componente-ti" required>
 									</div><!-- /col-5: input-->
 
-									<div class = "col-md-1 " id = "fecha-elaboracion-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-fecha-elaboracion-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: icono-->
-
 
 								</div><!-- /form-group: fecha de elaboración-->
 
@@ -167,15 +173,17 @@
 							<!-- Tiempo de vida -->
 
 							<div class="col-md-6">
-								<div class="form-group " id = "tiempo-vida-componente-ti">
+								<div class="form-group " data-id = "fg-tiempo-vida-componente-ti">
 									<label for="tiempo_vida" class="col-md-4 control-label">Tiempo de Vida </label>
 
 									<div class="col-md-5">
-										<input type="number" min = "1" name = "tiempo_vida" class="form-control" id="tiempo_vida" placeholder = "Tiempo de Vida" required>
+										<input type="number" min = "1" name = "tiempo_vida" 
+											class="form-control" id="tiempo-vida-componente-ti"
+										 	placeholder = "Tiempo de Vida" required>
 									</div><!-- /col-5: input-->
 
-									<div class = "col-md-1 " id = "tiempo-vida-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-tiempo-vida-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: icono-->
 
@@ -186,13 +194,12 @@
 							</div><!-- /col-6: tiempo de vida-->
 
 							<!-- Unidad del tiempo de vida -->
-
 							<div class="col-md-6">
-								<div class="form-group " id = "unidad-tiempo-vida-componente-ti">
+								<div class="form-group " data-id = "fg-unidad-tiempo-vida-componente-ti">
 									<label for="unidad-tiempo-vida-componente-ti" class="col-md-5 control-label">Unidad de Tiempo de Vida </label>
 
 									<div class="col-md-5">
-										<select name="" id="input" class="form-control">
+										<select name="unidad_tiempo_vida" id="unidad-tiempo-vida-componente-ti" class="form-control">
 											<option value="hh">Días</option>
 											<option value="mm">Meses</option>
 											<option value="aaaa">Años</option>
@@ -214,17 +221,18 @@
 						<div class = "row">
 
 							<!-- Precio -->
-
 							<div class="col-md-6">
-								<div class="form-group " id = "precio-componente-ti">
+								<div class="form-group " data-id = "fg-precio-componente-ti">
 									<label for="precio" class="col-md-4 control-label">Precio </label>
 
 									<div class="col-md-5">
-										<input type="number" min = "1" name = "precio" class="form-control" id="precio" placeholder = "Precio" required>
+										<input type="number" min = "1" 
+										name = "precio" class="form-control" 
+										id="precio-componente-ti" placeholder = "Precio" required>
 									</div><!-- /col-5: input-->
 
-									<div class = "col-md-1 " id = "precio-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-precio-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: icono-->
 
@@ -236,19 +244,19 @@
 
 							<!-- Cantidad -->
 							<div class="col-md-6">
-								<div class="form-group " id = "cantidad-componente-ti">
+								<div class="form-group " data-id = "fg-cantidad-componente-ti">
 									<label for="cantidad-componente-ti" class="col-md-5 control-label">Cantidad </label>
 
 									<div class="col-md-5">
-										<input type="number" name="" id="input" class="form-control"  min="1"  required="required" placeholder = "Cantidad">
+										<input type="number" name="cantidad" id="cantidad-componente-ti" 
+										class="form-control"  min="1"  required="required" 
+										placeholder = "Cantidad">
 									</div>
 
-									<div class = "col-md-1 " id = "cantidad-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-cantidad-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: icono-->
-
-
 
 								</div><!-- /form-group: fecha de elaboración-->
 
@@ -262,18 +270,18 @@
 						<div class = "row">
 
 							<!-- Capacidad (c/u) -->
-
 							<div class="col-md-6">
-								<div class="form-group " id = "capacidad-componente-ti">
+								<div class="form-group " data-id = "fg-capacidad-componente-ti">
 									<label for="capacidad" class="col-md-4 control-label">Capacidad (c/u)</label>
 
 									<div class="col-md-5">
-										<input type="number" min = "1" name = "capacidad" class="form-control" id="capacidad" placeholder = "Capacidad" required>
-										<span class = "help-block">La capacidad es por cada ítem  no la sumatoria</span>
+										<input type="number" min = "1" name = "capacidad" 
+										class="form-control" id="capacidad-componente-ti" placeholder = "Capacidad">
+										<span class = "help-block">La capacidad es por cada ítem,  no la sumatoria</span>
 									</div><!-- /col-5: input-->
 
-									<div class = "col-md-1 " id = "capacidad-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-capacidad-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>
 									</div><!-- /col-2: icono-->
 
@@ -285,22 +293,24 @@
 
 							<!-- Unidad de Capacidad -->
 							<div class="col-md-6">
-								<div class="form-group " id = "unidad-medida-capacidad-componente-ti">
+								<div class="form-group " data-id = "fg-ma-unidad-medida-componente-ti">
 									<label for="unidad-medida-capacidad-componente-ti" class="col-md-5 control-label">Unidad de Capacidad </label>
 
-									<!-- Viene de consulta según la -->
+									<!-- Viene de consulta según la categoría elegida (Dyn)-->
 									<div class="col-md-5">
-										<select name="unidad-medida-capacidad-componente-ti" id="input" class="form-control">
-											<option value="MB">MB</option>
-											<option value="KB">KB</option>
-											<option value="GB">GB</option>
-											<option value="TB">TB</option>
-											<option value="EB">EB</option>
+										<!-- Este select se llena desde jquery al hacer click en categoría -->
+										<select name="ma_unidad_medida_id" id="ma-unidad-medida-componente-ti" class="form-control">
+											<?php
+												foreach ($unidades as $uni) {
+													printf('<option values = "%d" data-nivel = "%d">%s</option>',
+														$uni['ma_unidad_medida_id'], $uni['valor_nivel'],$uni['abrev_nombre']);
+												}
+											?>
 										</select>
 									</div>
 
-									<div class = "col-md-1 " id = "unidad-medida-capacidad-componente-ti">
-										<i class = "fa fa-check text-success">
+									<div class = "col-md-1 hidden" data-id = "icon-ma-unidad-medida-componente-ti">
+										<i class = "fa fa-times text-danger">
 										</i>	
 									</div><!-- /col-2: icono-->
 
@@ -314,14 +324,14 @@
 						<!-- Boton Guardar-->
 						<div class="row">
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-								<button type="submit" class="btn btn-primary">Guardar</button>
+								<button id = "btn-guardar-componentes-ti" type="submit" class="btn btn-primary">Guardar</button>
 							</div>
 
 						</form><!-- /formulario -->
 
 							<!-- Boton Cancelar-->
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-								<a href = "<?php echo site_url('cargar_datos/componentes_ti'); ?>" class="btn btn-primary">Cancelar</a>
+								<a href = "<?php echo site_url('index.php/cargar_datos/componentes_ti'); ?>" class="btn btn-primary">Cancelar</a>
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"></div><!-- Vacío -->
 						</div>

@@ -119,7 +119,7 @@
                  <!-- GESTIÓN DE CAPACIDAD-->
                  <a type="button" class="btn"
                   title="Gestión de Capacidad" 
-                  href = "Capacidad"  
+                  href = "<?php echo site_url("index.php/Capacidad");?>"  
                  >
                  <i class="fa fa-book fa-3x"></i> <br> <small>Gestión de<br>Capacidad</small>
                  </a> 
@@ -153,7 +153,7 @@
                  <!-- GESTIÓN DE DISPONIBILIDAD-->
                  <a type="button" class="btn"
                   title="Gestión de Disponibilidad" 
-                  href = "<?php echo site_url('Disponibilidad');?>"  
+                  href = "<?php echo site_url("index.php/Disponibilidad");?>"  
                  >
                  <i class="fa fa-clock-o fa-3x"></i> <br> <small>Gestión de<br>Disponibilidad</small>
                  </a> 
@@ -187,7 +187,7 @@
                  <!-- CARGAR INFRAESTRUCTURA-->
                  <a type="button" class="btn"
                   title="Cargar Infraestructura" 
-                  href = "cargar_datos"  
+                  href = "<?php echo site_url("index.php/cargar_datos");?>"  
                  >
                  <i class="fa fa-sitemap fa-3x"></i> <br> <small>Cargar<br> Infraestructura</small>
                  </a>

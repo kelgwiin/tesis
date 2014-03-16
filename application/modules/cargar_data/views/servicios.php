@@ -36,7 +36,7 @@
 				<!-- boton nuevo-->
 				<div class = " form-group" >
 					<a class = "btn btn-primary" 
-					href = "cargar_datos/servicios/nuevo"
+					href = "<?php echo site_url('index.php/cargar_datos/servicios/nuevo');?>"
 					data-toggle="tooltip" 
 					data-original-title="Agregar nuevo Servicio"
 					data-placement = "top"
@@ -493,7 +493,7 @@
 <div class="row">
 	<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 		<a class = "btn btn-primary" 
-			href = "cargar_datos/servicios/nuevo"
+			href = "<?php echo site_url('index.php/cargar_datos/servicios/nuevo');?>"
 			data-toggle="tooltip" 
 			data-original-title="Agregar nuevo Servicio"
 			data-placement = "top">
@@ -526,7 +526,7 @@
 	<div class="col-lg-4">
 		<!-- Boton de Departametos-->
 		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('cargar_datos/departamentos');?>"
+			href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"
 			
 			data-toggle="tooltip"
 			data-original-title="Cargar Departamentos"

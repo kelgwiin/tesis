@@ -24,8 +24,7 @@ class Cargar_Data extends MX_Controller
 		$this->load->model('utilities/utilities_model');
 	}
 
-	public function index()
-	{
+	public function index(){
 		//Main content
 		$data['main_content'] = $this->load->view('main','',TRUE);
 
@@ -107,13 +106,20 @@ class Cargar_Data extends MX_Controller
 				$this->_new_component_it();
 				break;
 			case 'guardar':
-				echo "Guardando y redireccionando a la lista de ";
-				print_r($this->input->post());
-				print_r($_POST);
+				$p = $this->input->post();
+				//Procesar la data del post para no tomar los vacíos
+				$p_procesado = array();
+				foreach ($p as $key => $value) {//Quitando los campos que estén vacíos
+					if(strlen($value) > 0){
+						$p_procesado[$key] = $value;
+					}
+				}
+				if($this->utilities_model->add('componente_ti',$p_procesado)){
+					echo '"estatus":"ok"';
+				}else{
+					echo '"estatus":"fail"';
+				}
 
-				echo "<br>nombre de pruebaaaaaaa<br>";
-				echo $this->input->post('nombre_deprueba');
-				echo "Fin de pruebaaaaaaa";
 				break;
 		}
 	}
@@ -135,7 +141,6 @@ class Cargar_Data extends MX_Controller
 				print_r($_POST);
 				break;
 		}
-
 	}
 
 	public function servicios($action = "list"){
@@ -152,8 +157,6 @@ class Cargar_Data extends MX_Controller
 				echo "Guardando y redireccionando a la lista de Servicios";
 				break;
 		}
-
-
 	}
 
 	private function _list_service(){
@@ -225,8 +228,15 @@ class Cargar_Data extends MX_Controller
 	 * @return [type] [description]
 	 */
 	private function _new_component_it(){
+		//Consultando el maestro de Categorias
+		$info['categorias'] = $this->utilities_model->all('ma_categoria');
+		
+		$first_id_cat = $info['categorias'][0]['ma_categoria_id'];
+		$info['unidades'] = $this->utilities_model->rows_by_id('ma_unidad_medida',
+			'ma_categoria_id', $first_id_cat);
+
 		//Main content: formulario de nuevo componente de ti
-		$data['main_content'] = $this->load->view('nuevo_componente_ti_view','',TRUE);
+		$data['main_content'] = $this->load->view('nuevo_componente_ti_view',$info,TRUE);
 		
 		//Sidebar content
 		//--Creando los items del sidebar.
@@ -235,8 +245,20 @@ class Cargar_Data extends MX_Controller
 
 		$this->load->view($this->plantilla,$data);//cargando la vista
 	}
-	
-	
+	/**
+	 * Dada la categoría se obtiene una lista de las unidades de medida correspondientes
+	 * @param  Integer $id_categoria ID del maestro de categoría
+	 * @return 
+	 */
+	public function medidas_capacidad_ajax($id_categoria){
+		$unidades = $this->datos_basicos_model->unidades_medida_capacidad($id_categoria);
+		$cad_options = "";
+		foreach ($unidades as $uni) {
+			$cad_options .= '<option value = "'. $uni['ma_unidad_medida_id'] .'" data-nivel = "'. 
+			$uni['valor_nivel'].'" >' . $uni['abrev_nombre'].'</option> ';
+		}
+		echo $cad_options;//Se envía a la función App
+	}
 	/**
 	 * Genera la lista de ítems para colocarlos en el menú izquierdo
 	 * @param $index_active Índice del ítem activo.
@@ -248,14 +270,14 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Descripción",
 			"active" => false,
-			"href" => "cargar_datos",
+			"href" => "index.php/cargar_datos",
 			"icon" => "fa fa-bar-chart-o"
 		
 		);
 		$l[] = array(
 			"chain" => "Básico",
 			"active" => false,
-			"href" => "cargar_datos/basico",
+			"href" => "index.php/cargar_datos/basico",
 			"icon" => "fa fa-cog"
 		
 		);
@@ -263,7 +285,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Componentes de TI",
 			"active" => false,
-			"href" => "cargar_datos/componentes_ti",
+			"href" => "index.php/cargar_datos/componentes_ti",
 			"icon" => "fa fa-cogs"
 		
 		);
@@ -271,7 +293,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Departamentos",
 			"active" => false,
-			"href" => "cargar_datos/departamentos",
+			"href" => "index.php/cargar_datos/departamentos",
 			"icon" => "fa fa-sitemap"
 		
 		);
@@ -279,7 +301,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Servicios",
 			"active" => false,
-			"href" => "cargar_datos/servicios",
+			"href" => "index.php/cargar_datos/servicios",
 			"icon" => "fa fa-list"
 		
 		);

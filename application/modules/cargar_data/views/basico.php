@@ -58,7 +58,7 @@
 	</div>
 
 	<!-- Inicio del Formulario -->
-	<form id = "fr-datos-basicos" action="cargar_datos/basico/guardar"  method="POST" role="form">
+	<form id = "fr-datos-basicos" action="index.php/cargar_datos/basico/guardar"  method="POST" role="form">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="panel panel-default">
@@ -195,7 +195,7 @@
 							</button>                        
 						</form>
 							<a  class="btn btn-primary"
-							href = "<?php echo site_url('cargar_datos');?>">
+							href = "<?php echo site_url('index.php/cargar_datos');?>">
 							Cancelar
 						</a>        
 					</div><!-- /col-12 -->	
@@ -215,7 +215,7 @@
 			<br><br>
 		<!-- Boton de Componentes TI -->
 		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('cargar_datos/componentes_ti');?>"
+			href = "<?php echo site_url('index.php/cargar_datos/componentes_ti');?>"
 			
 			data-toggle="tooltip"
 			data-original-title="Cargar Componentes de TI"
