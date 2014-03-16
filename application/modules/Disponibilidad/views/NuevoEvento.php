@@ -8,7 +8,7 @@
 <html lang="en">  
   <body>
     <div class="container">
-	   <form class="form-inline" id="frmcalendar" method="post" action="./tesis/index.php/Disponibilidad/tocalendar" novalidate="novalidate">
+	   <form class="form-inline" id="frmcalendar" method="post" action="<?php echo base_url(); ?>index.php/Disponibilidad/tocalendar" novalidate="novalidate">
        		<form class="form-inline" role="form">
   			<div class="offset1 span5 well">
     			<label for="impacto_mejoras">Fecha inicio:</label>
@@ -59,7 +59,8 @@
             <br><br>
             <center><button type="submit" class="btn btn-success">Crear evento</button></center>
             <br><br>
-            <center><button class="btn btn-default" type="button">Cancelar</button></center>
+            <center><button class="btn btn-default" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/'" type="button">Cancelar</button></center>
+		
         </div>
 
     </form>
@@ -71,18 +72,7 @@
      <script src="<?php echo $file?>"></script>
   <?php endforeach;?>
 <?php endif;?>
-    <script src="http://localhost/tesis/assets/js/bootstrap-transition.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-alert.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-modal.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-dropdown.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-tab.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-tooltip.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-popover.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-button.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-collapse.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-carousel.js"></script>
-    <script src="http://localhost/tesis/assets/js/bootstrap-typeahead.js"></script>
+ 
 
   </body>
 </html>
