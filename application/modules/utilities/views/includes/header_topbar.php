@@ -1,3 +1,4 @@
+<!-- anterior: header_sidebar.php (en header_topbar.php)-->
 <ul class="nav navbar-nav navbar-right navbar-user">
               
               <!-- Button of Apps Menu -->
@@ -172,3 +173,4 @@
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>
+      <!-- Fin de Configuraciones de header...-->

@@ -16,7 +16,15 @@
 					editar la información asociada a ellos.
 			</div>
 
-			<div class="alert alert-success alert-dismissable hidden" id = "msj-componente-ti-guardado">
+			<div
+				<?php
+					if(isset($guardado_exitoso) && $guardado_exitoso){
+						echo 'class="alert alert-success alert-dismissable show"';
+					}else{
+						echo 'class="alert alert-success alert-dismissable hidden"';
+					}
+				?> 
+				id = "msj-componente-ti-guardado">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				El Componente de TI ha sido <strong>creado</strong> con Éxito!
 			</div>
@@ -200,6 +208,7 @@
 											<ul>
 												<li><p class = "text-muted">Fecha de Compra</p> 02/02/2032</li>
 												<li><p class = "text-muted">Fecha de Creación</p> 02/02/2032</li>
+												<li><p class = "text-muted">Fecha de Elaboración</p> 02/02/2032</li>
 												<li><p class = "text-muted">Tiempo de Vida</p> 123 (Unidad de tiempo de vida)</li>
 											</ul>
 										</div>

@@ -58,7 +58,7 @@
 	</div>
 
 	<!-- Inicio del Formulario -->
-	<form id = "fr-datos-basicos" action="index.php/cargar_datos/basico/guardar"  method="POST" role="form">
+	<form id = "fr-datos-basicos" action="<?php echo site_url('index.php/cargar_datos/basico/guardar');?>"  method="POST" role="form">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="panel panel-default">

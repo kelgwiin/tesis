@@ -6,36 +6,29 @@
  */
 class Cargar_Data extends MX_Controller
 {
-	//Inicio: Variables Globales
-	private $plantilla ;//Nombre de la plantilla principal de la interfaz
-
-	//Fin: Variables Globales
-
 	/**
 	 * Constructor principal. 
 	 * @author Kelwin Gamez <kelgwiin@gmail.com>
 	 */
 	public function __construct(){
 		parent::__construct();
-		$this->plantilla = 'cargar_data/template';
 
-		//Cargando los Modelos
+		//Models
 		$this->load->model('datos_basicos_model');
 		$this->load->model('utilities/utilities_model');
+
+		//Helpers
+		$this->load->helper('date');
+
+		//Modules
+		//Cargando el módulo ./modules/utilities/utils.php
+		$this->load->module('utilities/utils');
 	}
 
 	public function index(){
-		//Main content
-		$data['main_content'] = $this->load->view('main','',TRUE);
-
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(0);//lista del sidebar con el primer ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-		
-		$this->load->view('cargar_data/template',$data);
-		
+		$this->utils->template($this->_list(0),'cargar_data/main','','Cargar Infraestructura','');
 	}
+
 	/**
 	 * Carga el formulario básico de la carga de la infraestructura
 	 * @param  string $action Es una cadena que representa si se creará el form,
@@ -52,16 +45,8 @@ class Cargar_Data extends MX_Controller
 				if($row !== NULL){
 					$info['org'] = $row;
 				}
-
-				//Main content: básico
-				$data['main_content'] = $this->load->view('basico',$info,TRUE);
-
-				//Sidebar content
-					//--Creando los items del sidebar.
-				$params['list'] = $this->_list(1);//lista del sidebar con el segundo ítem activo
-				$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-
-				$this->load->view($this->plantilla,$data);//cargando la vista
+				//Cargando los datos básicos
+				$this->utils->template($this->_list(1),'cargar_data/basico',$info,'Cargar Infraestructura','Básico');
 				break;
 
 			case 'guardar':
@@ -100,39 +85,69 @@ class Cargar_Data extends MX_Controller
 	public function componentes_ti($action="list"){
 		switch ($action) {
 			case 'list':
-				$this->_list_component_it();
+				$params_main_content['guardado_exitoso'] = false;
+				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+					$params_main_content,'Cargar Infraestructura','Componentes TI');
+				break;
+
+			case 'guardado': //Muestra el mensaje de guardado exitoso
+				$params_main_content['guardado_exitoso'] = true;
+				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
 			case 'nuevo':
-				$this->_new_component_it();
+				//Consultando el maestro de Categoria
+				$info['categorias'] = $this->utilities_model->all('ma_categoria');
+
+				$first_id_cat = $info['categorias'][0]['ma_categoria_id'];
+				$info['unidades'] = $this->utilities_model->rows_by_id('ma_unidad_medida',
+					'ma_categoria_id', $first_id_cat);
+				//Cargando la plantilla
+				$this->utils->template($this->_list(2),'cargar_data/nuevo_componente_ti_view',$info,
+				'Cargar Infraestructura','Nuevo Comp. TI');
+
 				break;
 			case 'guardar':
 				$p = $this->input->post();
-				//Procesar la data del post para no tomar los vacíos
+				//Procesar la data del post para no tomar los campos vacíos
 				$p_procesado = array();
 				foreach ($p as $key => $value) {//Quitando los campos que estén vacíos
-					if(strlen($value) > 0){
+					if(strlen($value) > 0 && $key != 'categoria'){
 						$p_procesado[$key] = $value;
 					}
 				}
-				if($this->utilities_model->add('componente_ti',$p_procesado)){
-					echo '"estatus":"ok"';
-				}else{
-					echo '"estatus":"fail"';
-				}
+				
+				//Procesando fechas
+				$fecha_compra	=	str_replace('/', '-', $p['fecha_compra']);
+    			$fecha_compra	=	date('Y-m-d H:i:s',strtotime($fecha_compra));
+    			$p_procesado['fecha_compra'] = $fecha_compra;
 
+    			$fecha_elaboracion	=	str_replace('/', '-', $p['fecha_elaboracion']);
+    			$fecha_elaboracion	=	date('Y-m-d H:i:s',strtotime($fecha_elaboracion));
+    			$p_procesado['fecha_elaboracion'] = $fecha_elaboracion;
+
+    			$p_procesado['fecha_creacion'] = date('Y-m-d H:i:s',now());
+
+    			//guardando el componente de ti
+				if($this->utilities_model->add($p_procesado,'componente_ti')){
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
 				break;
 		}
 	}
 
 	public function departamentos($action = "list"){
-
 		switch ($action) {
 			case 'list':
-				$this->_list_dpto();
+				$this->utils->template($this->_list(3),'cargar_data/departamentos','',
+				'Cargar Infraestructura','Departamentos');
 				break;
 			
 			case 'nuevo':
-				$this->_new_dpto();
+				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view','',
+				'Cargar Infraestructura','Nuevo dpto');
 				break;
 			
 			case 'guardar':
@@ -146,11 +161,13 @@ class Cargar_Data extends MX_Controller
 	public function servicios($action = "list"){
 		switch ($action) {
 			case 'list':
-				$this->_list_service();
+				$this->utils->template($this->_list(4),'cargar_data/servicios','',
+				'Cargar Infraestructura','Servicios');
 				break;
 			
 			case 'nuevo':
-				$this->_new_service();
+				$this->utils->template($this->_list(4),'cargar_data/nuevo_servicio_view','',
+				'Cargar Infraestructura','Nuevo serv.');
 				break;
 			
 			case 'guardar':
@@ -159,92 +176,6 @@ class Cargar_Data extends MX_Controller
 		}
 	}
 
-	private function _list_service(){
-		//Main content: Servicios
-		$data['main_content'] = $this->load->view('servicios','',TRUE);
-		
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(4);//lista del sidebar con el quinto ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-
-		$this->load->view($this->plantilla,$data);//cargando la vista
-	}
-
-	private function _new_service(){
-		//Main content: Formulario de Servicios
-		$data['main_content'] = $this->load->view('nuevo_servicio_view','',TRUE);
-		
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(4);//lista del sidebar con el quinto ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-
-		$this->load->view($this->plantilla,$data);//cargando la vista	
-	}
-
-	private function _list_dpto(){
-		//Main content: Departamentos
-		$data['main_content'] = $this->load->view('departamentos','',TRUE);
-		
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(3);//lista del sidebar con el cuarto ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-
-		$this->load->view($this->plantilla,$data);//cargando la vista
-	}
-
-	private function _new_dpto(){
-		//Main content: Formulario de Nuevo Departamento
-		$data['main_content'] = $this->load->view('nuevo_departamento_view','',TRUE);
-		
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(3);//lista del sidebar con el cuarto ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-
-		$this->load->view($this->plantilla,$data);//cargando la vista
-	}
-
-	/**
-	 * Carga la lista de los componentes de TI
-	 * @return [type] [description]
-	 */
-	private function _list_component_it(){
-		//Main content: lista de componentes de ti
-		$data['main_content'] = $this->load->view('componentes_ti_view','',TRUE);
-		
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(2);//lista del sidebar con el tercer ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-
-		$this->load->view($this->plantilla,$data);//cargando la vista
-	}
-
-	/**
-	 * Muestra el formulario para crear un nuevo componente de TI
-	 * @return [type] [description]
-	 */
-	private function _new_component_it(){
-		//Consultando el maestro de Categorias
-		$info['categorias'] = $this->utilities_model->all('ma_categoria');
-		
-		$first_id_cat = $info['categorias'][0]['ma_categoria_id'];
-		$info['unidades'] = $this->utilities_model->rows_by_id('ma_unidad_medida',
-			'ma_categoria_id', $first_id_cat);
-
-		//Main content: formulario de nuevo componente de ti
-		$data['main_content'] = $this->load->view('nuevo_componente_ti_view',$info,TRUE);
-		
-		//Sidebar content
-		//--Creando los items del sidebar.
-		$params['list'] = $this->_list(2);//lista del sidebar con el segundo ítem activo
-		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
-
-		$this->load->view($this->plantilla,$data);//cargando la vista
-	}
 	/**
 	 * Dada la categoría se obtiene una lista de las unidades de medida correspondientes
 	 * @param  Integer $id_categoria ID del maestro de categoría
@@ -309,6 +240,7 @@ class Cargar_Data extends MX_Controller
 		$l[$index_active]["active"] = true; //Colocar el ítem activo
 		return $l;
 	}//end of function: _list
+
 }//end of class: Cargar_Data
 
 /* End of file cargar_data.php */

@@ -1,3 +1,4 @@
+<!-- anterior: header.php (en header_sidebar.php)-->
 <!-- Sidebar -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
@@ -8,7 +9,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="cargar_datos">Cargar Infraestructura</a>
+    <a class="navbar-brand" href="cargar_datos"><?php echo $module_name;?></a>
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
@@ -27,4 +28,4 @@
       ?>
    </ul>
 
-<!-- sigue: header_topbar.php-->
+<!-- sigue: header_topbar.php (en header_sidebar.php)-->

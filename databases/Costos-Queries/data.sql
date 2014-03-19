@@ -31,7 +31,11 @@ insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) 
 	(4,'Kilobytes','KB', 1),
 	(4,'Megabytes','MB', 2),
 	(4,'Gigabytes','GB', 3),
-	(4,'Terabytes','TB', 4);
-	#los de licencia y otros no aplica.
+	(4,'Terabytes','TB', 4),
+
+	#los de licencia y otros no aplica. Pero se 
+	# se colocarán datos fictisios con fines del logo
+	(5,'NA Licencia','NA',-1),
+	(6,'NA Otros','NA',-1);
 	
 

@@ -16,8 +16,6 @@
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
 
-
-
 		<!-- Formulario -->
 		<form id = "fr-nuevo-componente-ti" action="<?php echo site_url('index.php/cargar_datos/componentes_ti/guardar');?>" method="POST" role="form">
 			<!-- Panel -->
@@ -200,9 +198,9 @@
 
 									<div class="col-md-5">
 										<select name="unidad_tiempo_vida" id="unidad-tiempo-vida-componente-ti" class="form-control">
-											<option value="hh">Días</option>
-											<option value="mm">Meses</option>
-											<option value="aaaa">Años</option>
+											<option value="DD">Días</option>
+											<option value="MM">Meses</option>
+											<option value="AA">Años</option>
 										</select>
 									</div>
 
@@ -226,9 +224,9 @@
 									<label for="precio" class="col-md-4 control-label">Precio </label>
 
 									<div class="col-md-5">
-										<input type="number" min = "1" 
+										<input type="text" pattern = "\d+.\d+"  
 										name = "precio" class="form-control" 
-										id="precio-componente-ti" placeholder = "Precio" required>
+										id="precio-componente-ti" placeholder = "0.00" required>
 									</div><!-- /col-5: input-->
 
 									<div class = "col-md-1 hidden" data-id = "icon-precio-componente-ti">
@@ -274,9 +272,10 @@
 								<div class="form-group " data-id = "fg-capacidad-componente-ti">
 									<label for="capacidad" class="col-md-4 control-label">Capacidad (c/u)</label>
 
+
 									<div class="col-md-5">
-										<input type="number" min = "1" name = "capacidad" 
-										class="form-control" id="capacidad-componente-ti" placeholder = "Capacidad">
+										<input type="text" name = "capacidad" pattern = "\d+.\d+"
+										class="form-control" id="capacidad-componente-ti" placeholder = "0.00" required = "required">
 										<span class = "help-block">La capacidad es por cada ítem,  no la sumatoria</span>
 									</div><!-- /col-5: input-->
 
@@ -302,7 +301,7 @@
 										<select name="ma_unidad_medida_id" id="ma-unidad-medida-componente-ti" class="form-control">
 											<?php
 												foreach ($unidades as $uni) {
-													printf('<option values = "%d" data-nivel = "%d">%s</option>',
+													printf('<option value = "%d" data-nivel = "%d">%s</option>',
 														$uni['ma_unidad_medida_id'], $uni['valor_nivel'],$uni['abrev_nombre']);
 												}
 											?>
@@ -314,9 +313,9 @@
 										</i>	
 									</div><!-- /col-2: icono-->
 
-								</div><!-- /form-group: fecha de elaboración-->
+								</div><!-- /form-group: Unidad de Capacidad-->
 
-							</div><!-- /col-6: fecha de elaboración-->
+							</div><!-- /col-6: Unidad Capacidad-->
 
 						</div><!-- /row 4: Capacidad y su Unidad -->
 

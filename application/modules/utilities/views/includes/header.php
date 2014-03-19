@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="#">
     <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
-    <title>Cargar Infraestructura</title>
+    <title><?php echo $title_name;?></title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/bootstrap.css" >
     <!-- Add custom CSS here -->
@@ -43,4 +43,4 @@
     ?>
 
     <div id="wrapper">
-      <!-- sigue: header_sidebar.php, Se carga dinámicamente desde el controlador -->
+      <!-- sigue: header_sidebar.php (en header.php), Se carga dinámicamente desde el controlador -->

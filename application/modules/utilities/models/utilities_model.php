@@ -45,7 +45,7 @@ class Utilities_model extends CI_Model {
         $values[$tama_values-1] = ')';
         
         $sql.= " " . $values . ";";
-        
+        //print_r ($sql);
         return $this->db->query($sql,$vals);
     }
 

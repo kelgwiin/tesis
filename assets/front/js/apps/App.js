@@ -185,7 +185,7 @@ $(document).ready(function()
 
     //:: Mensajes de Error - btn Guardar ::
     //Es usado para mostrar los  mensajes de error correspondientes a los campos obligatiorios
-    $('#btn-guardar-componentes-ti').on('click',function (){
+    $('button#btn-guardar-componentes-ti').on('click', function (){
         //Nombre
         var in1 = $('input#nombre-componente-ti').val();
         if(in1.length <= 0 ){
@@ -259,13 +259,26 @@ $(document).ready(function()
             $("div[data-id=fg-cantidad-componente-ti]").attr('class','form-group');
             $('div[data-id=icon-cantidad-componente-ti]').attr('class','col-md-1 hidden');
         }
+            
+        //Capacidad
+        var id_item = $('select#categoria-componente-ti :selected').val();//Opción de la Categoría seleccionada
+        base_item = ($('select#categoria-componente-ti').find('option:eq('+ (parseInt(id_item)-1)+')')).attr('data-base');
 
-        //Capacidad: N/A
+        var in8 = $('input#capacidad-componente-ti').val();
+
+        if(base_item != '-1' && in8.length <= 0 ){
+            $('div[data-id=fg-capacidad-componente-ti]').attr('class','form-group has-error');
+            $('div[data-id=icon-capacidad-componente-ti]').attr('class','col-md-1 show');
+        }else{
+            $("div[data-id=fg-capacidad-componente-ti]").attr('class','form-group');
+            $('div[data-id=icon-capacidad-componente-ti]').attr('class','col-md-1 hidden');
+        }
+
         //Maestro Unidad de Medida según la Categoría: N/A
         
-        //Mostrando el aviso de error
+        //Mostrando el aviso de error en la parte superior
         if(in1.length <= 0 || in2.length <= 0 || in3.length <= 0 || in4.length <= 0 ||
-            in5.length <= 0 || in6.length <= 0 || in7.length <= 0){
+            in5.length <= 0 || in6.length <= 0 || in7.length <= 0 || (base_item == '-1' && in8 <= 0) ){
             $('div#msj-error-componentes-ti').attr('class','alert alert-danger alert-dismissable show');
         }else{
             $('div#msj-error-componentes-ti').attr('class','alert alert-danger alert-dismissable hidden');
@@ -279,17 +292,19 @@ $(document).ready(function()
         var id_last = $('select#categoria-componente-ti :last').val();
         var base_item = ($(this).find('option:eq('+ (parseInt(id_item)-1)+')')).attr('data-base');
         
-        if(base_item != '-1'){//Si son las categorías que poseen unidades de medida
-            url = 'index.php/cargar_datos/medidas_capacidad/'+id_item;
-            var fo = function (data){
-                $('select#ma-unidad-medida-componente-ti option').remove();
-                $('select#ma-unidad-medida-componente-ti').append(data).removeAttr('disabled');
-            }
-            dataType = 'html';
-            $.post(url,null,fo,dataType);
+        url = 'index.php/cargar_datos/medidas_capacidad/'+id_item;
+        var fo = function (data){
+            $('select#ma-unidad-medida-componente-ti option').remove();
+            $('select#ma-unidad-medida-componente-ti').append(data).removeAttr('disabled');
+        }
+        dataType = 'html';
+        $.post(url,null,fo,dataType);
+
+        //Colocando obligatorio o no el campo de capacidad en función de categoría a la que pertenezca
+        if(base_item == '-1'){
+            $('input#capacidad-componente-ti').removeAttr('required');
         }else{
-            $('select#ma-unidad-medida-componente-ti option').remove();//Eliminando los option previos
-            $('select#ma-unidad-medida-componente-ti').attr('disabled','disabled');
+            $('input#capacidad-componente-ti').attr('required','required');
         }
 
     });
@@ -305,14 +320,10 @@ $(document).ready(function()
             
         //Obteniendo la data del form
         var dataToSend = bk_this.serialize();
-
-        alert(dataToSend);
-
         //Función procesar llamada desde el post
         var fo_proccess = function (data){
             if(data.estatus == 'ok'){
-                $(location).attr('href','index.php/cargar_datos/componentes_ti');
-                
+                $(location).attr('href','index.php/cargar_datos/componentes_ti/guardado');
                 //Mostrando msj de guardado en la lista de componentes de ti
                 $('div#msj-componente-ti-guardado').attr('class','alert alert-success alert-dismissable show');
             }else{
@@ -332,7 +343,7 @@ $(document).ready(function()
     //EVENTOS DE SERVICIOS |
     //---------------------
     
-    //Btn para mostrar la lista de Comandos/Operaciones dentro del 
+    //:: Btn para mostrar la lista de Comandos/Operaciones :: dentro del 
     //apartado "Cronograma de Ejecución"
     $('a[data-fieldIT=comandos-operaciones]').on('click', function(){
         var id  = $(this).attr('data-id');
