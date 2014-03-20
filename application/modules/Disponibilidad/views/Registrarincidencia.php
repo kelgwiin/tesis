@@ -115,7 +115,7 @@
      
 <br><br>
 
-<center><button type="submit" class="btn btn-success">Registrar</button></center>
+<center><button type="submit" class="btn btn-primary">Registrar</button></center>
 <?php echo form_close(); ?>
 <br><br>
 <center><input type="button" value="Atras" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/'"/></center>
