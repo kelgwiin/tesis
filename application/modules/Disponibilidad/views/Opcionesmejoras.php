@@ -70,7 +70,7 @@
  
 <br><br>
 
-<center><button type="submit" class="btn btn-success">Guardar</button></center>
+<center><button type="submit" class="btn btn-primary">Guardar</button></center>
 <?php echo form_close(); ?>
 <br><br>
 <center><input type="button" value="Atras" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/Plan/'"/></center>

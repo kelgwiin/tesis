@@ -1,5 +1,5 @@
 <br><center><h2>Calendario de Eventos</h2></center>
-<button class="btn btn-success" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/NuevoEvento/'" type="button">Nuevo Evento</button>
+<button class="btn btn-primary" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/NuevoEvento/'" type="button">Nuevo Evento</button>
 <button class="btn btn-default" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/'" type="button">Atras</button>
 		
 <!DOCTYPE html>
