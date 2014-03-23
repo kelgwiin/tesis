@@ -117,39 +117,65 @@
 				</div><!-- /panel-heading outter-->
 
 				<div class = "panel-body">
-				<!-- Columna IZQUIERDA -->
 					<div  class = "row">
-						<div class="col-xs-6 ">
-							<!-- Componente: comp1 -->
-							<div class="panel panel-info"><!-- Inner-->
 
-								<div class="panel-heading">
+					<!-- Columna IZQUIERDA -->
+						<div class="col-xs-6 ">		
+						<?php 
+							
+							function showCompTI($is_top,$config_pag,$list_comp_ti,
+								$list_categ,$list_unidad_medida,$org,$comp_id,$cur_page=NULL){
+								
+								//$is_top Para verificar que no haya llegado al tope
+								
+								//Para que solo entre la primera vez
+								if(!isset($comp_id)){
+									$cur_page = ($config_pag['cur_page']-1)*$config_pag['per_page'];
+									$comp_id = $list_comp_ti[$cur_page]['componente_ti_id'];
+								}
+								$j = 1;
+								$mid_per_page = (int)($config_pag['per_page']/2);
+
+							while(!$is_top && $j<= $mid_per_page){
+								$item_comp = $list_comp_ti[$cur_page];
+								$item_uni = $list_unidad_medida[$item_comp['ma_unidad_medida_id']];
+								$item_categ = $list_categ[$item_uni['ma_categoria_id']];
+
+								echo '<!-- Componente: comp'.$comp_id.' -->
+									<div class="panel panel-info"><!-- Inner-->
+
+									<div class="panel-heading">
 									<div class="row">
-										
-										<!-- Nombre de Componente & Botones (Izquierda)-->
+
+									<!-- Nombre de Componente & Botones (Izquierda)-->
 										<div class = "col-xs-10">
 											<!-- Nombre de Componente-->
 											<div class = "row">
 												<div class = "col-xs-12">
-													<p>Nombre Componente</p>
-												</div><!-- col-12 -->	
+
+									';
+								//nombre del componente
+								printf('<p>%s</p>',$item_comp['nombre']);
+
+								echo '			</div><!-- col-12 -->	
 											</div><!-- /row -->
 											
 											<!-- Botones: Desplegar, editar, eliminar-->
 											<div class="row">
 												<div class = "col-xs-6">
-													<div class="btn-group">
+													<div class="btn-group">';
+								 echo '
 														<!-- Botón de despliegue-->
 														<a  class="btn"
-															data-id = "comp1"
+															data-id = "comp'.$comp_id.'"
 															data-fieldIT = "caracteristicas"
 															data-toggle="tooltip" 
 															data-original-title="Características"
 															data-placement = "bottom">
-															<i id = "comp1" class = "fa fa-caret-right fa-lg"></i>	
+															<i id = "comp'.$comp_id.'" class = "fa fa-caret-right fa-lg"></i>	
 														</a>
 														<a  class="btn"
-															data-id = "comp1"
+															data-id = "comp'.$comp_id.'"
 															data-fieldIT = "editar"
 															data-toggle="tooltip" 
 															data-original-title="Editar"
@@ -157,14 +183,13 @@
 															<i class = "fa fa-pencil fa-lg"></i>	
 														</a>
 														<a  class="btn"
-															data-id = "comp1"
+															data-id = "comp'.$comp_id.'"
 															data-fieldIT = "eliminar"
 															data-toggle="tooltip" 
 															data-original-title="Eliminar"
 															data-placement = "bottom">
 															<i class = "fa fa-times fa-lg"></i>	
 														</a>
-
 													</div><!-- /btn-group -->
 												</div><!-- /col-xs-6-->
 
@@ -172,21 +197,20 @@
 												<div class = "col-xs-6"></div>
 											</div><!-- row -->
 
-										</div><!-- /col-xs-10 -->
-
-
-										<!-- Logotipo de Categoría (Derecha)-->
+										</div><!-- /col-xs-10 -->';
+								//categoría
+								echo '<!-- Logotipo de Categoría (Derecha)-->
 										<div class="col-xs-2">
 											<i
 												data-toggle="tooltip" 
-												data-original-title="Categ. NomCat"
+												data-original-title="Categ. '.$item_categ['nombre'].'"
 												data-placement = "top"
-												class = "fa fa-laptop fa-3x"></i>
+												class = "fa '.$item_categ['icono_fa'].' fa-3x"></i>
 										</div>
 									</div><!-- /row-->
-								</div><!-- /panel-heading-->
-
-								<div class="panel-body hidden" data-id = "comp1">
+								</div><!-- /panel-heading-->';
+								echo '
+									<div class="panel-body hidden" data-id = "comp'.$comp_id.'">
 									<!-- Etiqueta Característica -->
 									<div class = "row">
 										<div class = "col-xs-12">
@@ -198,7 +222,7 @@
 									<div class="row">
 										<div class = "col-xs-12">
 											<ul>
-												<li><p class = "text-muted">Descripción</p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+												<li><p class = "text-muted">Descripción</p> '.$item_comp['descripcion'].'</li>
 											</ul>
 										</div>	
 									</div>
@@ -206,18 +230,20 @@
 									<div class = "row">
 										<div class = "col-xs-6">
 											<ul>
-												<li><p class = "text-muted">Fecha de Compra</p> 02/02/2032</li>
-												<li><p class = "text-muted">Fecha de Creación</p> 02/02/2032</li>
-												<li><p class = "text-muted">Fecha de Elaboración</p> 02/02/2032</li>
-												<li><p class = "text-muted">Tiempo de Vida</p> 123 (Unidad de tiempo de vida)</li>
+												<li><p class = "text-muted">Fecha de Compra</p>'.$item_comp['fecha_compra'].'<br><br></li>
+												<li><p class = "text-muted">Fecha de Creación</p> '.$item_comp['fecha_creacion'].'<br><br></li>
+												<li><p class = "text-muted">Fecha de Elaboración</p> '.$item_comp['fecha_elaboracion'].'<br><br></li>
+												<li><p class = "text-muted">Tiempo de Vida</p> '.$item_comp['tiempo_vida'].' '.
+												nomtime($item_comp['unidad_tiempo_vida']).' <br><br></li>
 											</ul>
 										</div>
 										
 										<div class = "col-xs-6">
 											<ul>
-												<li><p class = "text-muted">Precio</p> 12212 bs</li>
-												<li><p class = "text-muted">Capacidad</p> 3424 (Unidad medida capacidad abbr)</li>
-												<li><p class = "text-muted">Cantidad</p> 123</li>
+												<li><p class = "text-muted">Precio</p> '.$item_comp['precio'].' '.$org['abrev_moneda'].'<br><br></li>
+												<li><p class = "text-muted">Capacidad</p> '.$item_comp['capacidad'].' '.
+												($item_uni['abrev_nombre']=='NA'?"":$item_uni['abrev_nombre']).' (c/u)<br><br></li>
+												<li><p class = "text-muted">Cantidad</p> '.$item_comp['cantidad'].'<br><br></li>
 											</ul>
 										</div>
 										
@@ -225,322 +251,45 @@
 									</div><!-- /row-->	
 
 
-								</div><!-- /panel-body -->
-							</div> <!-- panel-info -->
+									</div><!-- /panel-body -->
+									</div> <!-- panel-info -->
+									<br>
 
-							<br>
-
-							<!-- Componente: comp2-->
-							<div class="panel panel-info"><!-- Inner-->
-
-								<div class="panel-heading">
-									<div class="row">
-										
-										<!-- Nombre de Componente & Botones (Izquierda)-->
-										<div class = "col-xs-10">
-											<!-- Nombre de Componente-->
-											<div class = "row">
-												<div class = "col-xs-12">
-													<p>Nombre Componente</p>
-												</div><!-- col-12 -->	
-											</div><!-- /row -->
-											
-											<!-- Botones: Desplegar, editar, eliminar-->
-											<div class="row">
-												<div class = "col-xs-6">
-													<div class="btn-group">
-														<!-- Botón de despliegue-->
-														<a  class="btn"
-															data-id = "comp2"
-															data-fieldIT = "caracteristicas"
-															data-toggle="tooltip" 
-															data-original-title="Características"
-															data-placement = "bottom">
-															<i id = "comp2" class = "fa fa-caret-right fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "comp2"
-															data-fieldIT = "editar"
-															data-toggle="tooltip" 
-															data-original-title="Editar"
-															data-placement = "bottom">
-															<i class = "fa fa-pencil fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "comp2"
-															data-fieldIT = "eliminar"
-															data-toggle="tooltip" 
-															data-original-title="Eliminar"
-															data-placement = "bottom">
-															<i class = "fa fa-times fa-lg"></i>	
-														</a>
-
-													</div><!-- /btn-group -->
-												</div><!-- /col-xs-6-->
-
-												<!-- Vacío, completar espacio-->
-												<div class = "col-xs-6"></div>
-											</div><!-- row -->
-
-										</div><!-- /col-xs-10 -->
+								';
 
 
-										<!-- Logotipo de Categoría (Derecha)-->
-										<div class="col-xs-2">
-											<i
-												data-toggle="tooltip" 
-												data-original-title="Categ. NomCat"
-												data-placement = "top"
-												class = "fa fa-laptop fa-3x"></i>
-										</div>
-									</div><!-- /row-->
-								</div><!-- /panel-heading-->
-
-								<div class="panel-body hidden" data-id = "comp2">
-									<!-- Etiqueta Característica -->
-									<div class = "row">
-										<div class = "col-xs-12">
-											<h3>Características</h3>
-										</div><!--/col-xs-12 -->
-									</div><!-- /row-->
-
-									<!-- Lista de características-->	
-									<div class = "row">
-										<div class = "col-xs-6">
-											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
-											</ul>
-										</div>
-										
-										<div class = "col-xs-6">
-											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
-											</ul>
-										</div>
-										
+								printf('<label class ="sr-only">%s</label>',$comp_id);
+								$cur_page+=1;
+								if(isset($list_comp_ti[$cur_page])){
+									$comp_id = $list_comp_ti[$cur_page]['componente_ti_id'];
+								}else{
+									$is_top = true;
+								}
+								$j++;
+								}
+								return array('comp_id' => $comp_id,
+									'cur_page' => $cur_page,
+									'is_top' => $is_top);
+							}//endo-of function: showCompTI
 
 
-									</div><!-- /row-->	
-
-
-								</div><!-- /panel-body -->
-							</div> <!-- panel-info -->
-
-							<br>
-
-							<!-- Componente: comp3-->
-							<div class="panel panel-info"><!-- Inner-->
-
-								<div class="panel-heading">
-									<div class="row">
-										
-										<!-- Nombre de Componente & Botones (Izquierda)-->
-										<div class = "col-xs-10">
-											<!-- Nombre de Componente-->
-											<div class = "row">
-												<div class = "col-xs-12">
-													<p>Nombre Componente</p>
-												</div><!-- col-12 -->	
-											</div><!-- /row -->
-											
-											<!-- Botones: Desplegar, editar, eliminar-->
-											<div class="row">
-												<div class = "col-xs-6">
-													<div class="btn-group">
-														<!-- Botón de despliegue-->
-														<a  class="btn"
-															data-id = "comp3"
-															data-fieldIT = "caracteristicas"
-															data-toggle="tooltip" 
-															data-original-title="Características"
-															data-placement = "bottom">
-															<i id = "comp3" class = "fa fa-caret-right fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "comp3"
-															data-fieldIT = "editar"
-															data-toggle="tooltip" 
-															data-original-title="Editar"
-															data-placement = "bottom">
-															<i class = "fa fa-pencil fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "comp3"
-															data-fieldIT = "eliminar"
-															data-toggle="tooltip" 
-															data-original-title="Eliminar"
-															data-placement = "bottom">
-															<i class = "fa fa-times fa-lg"></i>	
-														</a>
-
-													</div><!-- /btn-group -->
-												</div><!-- /col-xs-6-->
-
-												<!-- Vacío, completar espacio-->
-												<div class = "col-xs-6"></div>
-											</div><!-- row -->
-
-										</div><!-- /col-xs-10 -->
-
-
-										<!-- Logotipo de Categoría (Derecha)-->
-										<div class="col-xs-2">
-											<i
-												data-toggle="tooltip" 
-												data-original-title="Categ. NomCat"
-												data-placement = "top"
-												class = "fa fa-laptop fa-3x"></i>
-										</div>
-									</div><!-- /row-->
-								</div><!-- /panel-heading-->
-
-								<div class="panel-body hidden" data-id = "comp3">
-									<!-- Etiqueta Característica -->
-									<div class = "row">
-										<div class = "col-xs-12">
-											<h3>Características</h3>
-										</div><!--/col-xs-12 -->
-									</div><!-- /row-->
-
-									<!-- Lista de características-->	
-									<div class = "row">
-										<div class = "col-xs-6">
-											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
-											</ul>
-										</div>
-										
-										<div class = "col-xs-6">
-											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
-											</ul>
-										</div>
-										
-									</div><!-- /row-->	
-
-
-								</div><!-- /panel-body -->
-							</div> <!-- panel-info -->
-
+							//Se despliegan los componentes de ti y
+							//se obtienen: cur_page, comp_id, is_top
+							$rs = showCompTI(false,$config_pag,$list_comp_ti,
+								$list_categ,$list_unidad_medida,$org,NULL);
+						?>
 						</div><!-- columna Izquierda-->
-
 
 						<!-- Columna DERECHA-->
 						<div class="col-xs-6">
-							
-							<div class="panel panel-info"><!-- Inner-->
+							<?php
+								showCompTI($rs['is_top'],$config_pag,$list_comp_ti,
+								$list_categ,$list_unidad_medida,$org,$rs['comp_id'],$rs['cur_page']);
 
-								<div class="panel-heading">
-									<div class="row">
-										
-										<!-- Nombre de Componente & Botones (Izquierda)-->
-										<div class = "col-xs-10">
-											<!-- Nombre de Componente-->
-											<div class = "row">
-												<div class = "col-xs-12">
-													<p>Nombre Componente</p>
-												</div><!-- col-12 -->	
-											</div><!-- /row -->
-											
-											<!-- Botones: Desplegar, editar, eliminar-->
-											<div class="row">
-												<div class = "col-xs-6">
-													<div class="btn-group">
-														<!-- Botón de despliegue-->
-														<a  class="btn"
-															data-id = "comp4"
-															data-fieldIT = "caracteristicas"
-															data-toggle="tooltip" 
-															data-original-title="Características"
-															data-placement = "bottom">
-															<i id = "comp4" class = "fa fa-caret-right fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "comp4"
-															data-fieldIT = "editar"
-															data-toggle="tooltip" 
-															data-original-title="Editar"
-															data-placement = "bottom">
-															<i class = "fa fa-pencil fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "comp4"
-															data-fieldIT = "eliminar"
-															data-toggle="tooltip" 
-															data-original-title="Eliminar"
-															data-placement = "bottom">
-															<i class = "fa fa-times fa-lg"></i>	
-														</a>
-
-													</div><!-- /btn-group -->
-												</div><!-- /col-xs-6-->
-
-												<!-- Vacío, completar espacio-->
-												<div class = "col-xs-6"></div>
-											</div><!-- row -->
-
-										</div><!-- /col-xs-10 -->
-
-
-										<!-- Logotipo de Categoría (Derecha)-->
-										<div class="col-xs-2">
-											<i
-												data-toggle="tooltip" 
-												data-original-title="Categ. NomCat"
-												data-placement = "top"
-												class = "fa fa-laptop fa-3x"></i>
-										</div>
-									</div><!-- /row-->
-								</div><!-- /panel-heading-->
-
-								<div class="panel-body hidden" data-id = "comp4">
-									<!-- Etiqueta Característica -->
-									<div class = "row">
-										<div class = "col-xs-12">
-											<h3>Características</h3>
-										</div><!--/col-xs-12 -->
-									</div><!-- /row-->
-
-									<!-- Lista de características-->	
-									<div class = "row">
-										<div class = "col-xs-6">
-											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
-											</ul>
-										</div>
-										
-										<div class = "col-xs-6">
-											<ul>
-												<li><p class = "text-muted">Fecha</p> 02/02/2032</li>
-												<li><p class = "text-muted">Capacidad</p> 25</li>
-												<li><p class = "text-muted">Descripción</p> sdfdfdfdfd</li>
-											</ul>
-										</div>
-										
-
-
-									</div><!-- /row-->	
-
-
-								</div><!-- /panel-body -->
-							</div> <!-- panel-info -->
-
-
+							?>
 						</div><!-- columna Derecha-->
 
-
-
-					</div><!-- inner row-->
+					</div><!-- inner row (Dos Columnas)-->
 
 				</div><!-- /panel-body-->			
 			</div><!-- /panel info-->
@@ -564,50 +313,42 @@
 
 <!-- Paginación-->
 <div class="row">
-	<div class="col-xs-4 col-sm-12 col-md-4 col-lg-4 col-md-offset-4">
-		<ul class="pagination">
-		<li class = "disabled"><a href="#"><i class = "fa fa-backward"></i></a></li>
-			<li class = "active"><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-		<li><a href="#"><i class = "fa fa-forward"></i></a></li>
-		</ul>
-	</div><!-- /col-4 -->
+	<div class="col-md-12">
+		<center>
+		<?php 
+			$config_pag['url'] = site_url('index.php/cargar_datos/componentes_ti');
+			pagination($config_pag);
+		?>
+		</center>
+	</div><!-- /col-12 -->
 </div><!-- /row: Paginación-->
 
-<br><br>
 
 <!-- Direccionamiento de formularios-->
-<div class="row">
-	<div class="col-lg-4">
+<div class = "row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<ul class="pager">
 		<!-- Boton de Cargar Datos Básicos-->
-		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('index.php/cargar_datos/basico');?>"
-			
-			data-toggle="tooltip"
-			data-original-title="Cargar Datos Básicos"
-			data-placement = "top"
-		>
-			Básico 
-			<i class = "fa fa-chevron-circle-left fa-2x"></i>
-		</a>
+		  <li class="previous">
+		  	<a 	href = "<?php echo site_url('index.php/cargar_datos/basico');?>"
+				data-toggle="tooltip"
+				data-original-title="Cargar Datos Básicos"
+				data-placement = "top"
+		  	><i class ="fa fa-long-arrow-left"></i> <strong>Básico</strong></a>
+		  </li>
 
-		<!-- Boton de Departamentos -->
-		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"
-			
-			data-toggle="tooltip"
-			data-original-title="Cargar Departamentos"
-			data-placement = "top"
-		>
-			<i class = "fa fa-chevron-circle-right fa-2x"></i>
-			Departamentos
-		</a>
-		
-	</div><!-- end of col 12 -->
-</div><!-- end of: row Direccionamiento de formularios -->
+		  <!-- Boton de Departamentos -->
+		  <li class="next">
+		  	<a	href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"		  			 	
+				data-toggle="tooltip"
+				data-original-title="Cargar Departamentos"
+				data-placement = "top"
+		  	><strong>Departamentos</strong> <i class ="fa fa-long-arrow-right"></i></a>
+		  </li>
+		  
+		</ul>
+	</div>
+</div>
 <!-- Fin de Direccionamiento de formularios -->
 
 </div><!-- end of: page wrapper -->

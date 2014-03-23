@@ -207,24 +207,32 @@
 		</div><!-- /cols-->
 	</div>	<!-- /row-->
 
-	
+<!-- Direccionamiento de formularios-->
+<div class = "row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<ul class="pager">
+		<!-- Boton de Descripción-->
+		  <li class="previous">
+		  	<a 	href = "<?php echo site_url('index.php/cargar_datos/');?>"
+				data-toggle="tooltip"
+				data-original-title="Descripción"
+				data-placement = "top"
+		  	><i class ="fa fa-long-arrow-left"></i> <strong>Descripción</strong></a>
+		  </li>
 
-	<!-- Direccionamiento de formularios-->
-		<div class="row">
-			<div class="col-lg-12">
-			<br><br>
-		<!-- Boton de Componentes TI -->
-		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('index.php/cargar_datos/componentes_ti');?>"
-			
-			data-toggle="tooltip"
-			data-original-title="Cargar Componentes de TI"
-			data-placement = "top"
-		>
-			<i class = "fa fa-chevron-circle-right fa-2x"></i>
-			Componentes de TI
-		</a>
-			</div><!-- end of col 12 -->
-		</div><!-- end of: row Direccionamiento de formularios -->
+		  <!-- Boton de Componentes de TI -->
+		  <li class="next">
+		  	<a	href = "<?php echo site_url('index.php/cargar_datos/componentes_ti/1');?>"
+				data-toggle="tooltip"
+				data-original-title="Cargar Componentesde TI"
+				data-placement = "top"
+		  	><strong>Componentes de TI</strong> <i class ="fa fa-long-arrow-right"></i></a>
+		  </li>
+		  
+		</ul>
+	</div>
+</div>
+<!-- Fin de Direccionamiento de formularios -->
+
 
 </div><!-- end-of id: page-wrapper -->

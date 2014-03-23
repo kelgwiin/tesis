@@ -92,6 +92,21 @@ class Utilities_model extends CI_Model {
         return $q->result_array();
     }
 
+    /**
+     * Obtiene toda la data dado el nombre de una tabla ordenado por id
+     * @param String $table_name Nombre de la tabla.
+     * @param  String $nom_col_id   Nombre de la columna que es clave
+     *  
+     * @return Array Un array de filas del tipo (clave,valor), donde clave el nombre de
+     * asociado a cada una de las columnas.
+     */
+    public function all_ordered_by_id($table_name,$nom_col_id){
+        $sql = "SELECT * FROM ". $table_name .
+                ' ORDER BY '.$nom_col_id . ' ;';
+        $q = $this->db->query($sql);
+        return $q->result_array();
+    }
+
      /**
      * Actualiza una una fila de la tabla dado el nombre, las claves y la
      * data a actualizar.
@@ -198,6 +213,10 @@ class Utilities_model extends CI_Model {
 
     public function last_insert_id(){
         return $this->db->insert_id();
+    }
+
+    public function count_all($table_name){
+        return $this->db->count_all($table_name);
     }
 
 

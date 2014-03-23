@@ -519,23 +519,21 @@
 	</div><!-- /col-4 -->
 </div><!-- /row: Paginación -->
 
-<br><br>
-
 <!-- Direccionamiento de formularios-->
-<div class="row">
-	<div class="col-lg-4">
-		<!-- Boton de Departametos-->
-		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"
-			
-			data-toggle="tooltip"
-			data-original-title="Cargar Departamentos"
-			data-placement = "top"
-		>
-			Departamentos
-			<i class = "fa fa-chevron-circle-left fa-2x"></i>
-		</a>
-	</div><!-- end of col 12 -->
-</div><!-- end of: row Direccionamiento de formularios -->
-
+<div class = "row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<ul class="pager">
+		  <!-- Boton Departamentos -->
+		  <li class="previous">
+		  	<a	href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"
+				data-toggle="tooltip"
+				data-original-title="Cargar Departamentos"
+				data-placement = "top"
+		  	><i class ="fa fa-long-arrow-left"></i> <strong>Departamentos</strong></a>
+		  </li>
+		  
+		</ul>
+	</div>
+</div>
+<!-- Fin de Direccionamiento de formularios -->
 </div><!-- end of: page-wrapper-->

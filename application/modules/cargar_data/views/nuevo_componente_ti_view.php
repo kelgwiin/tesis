@@ -224,7 +224,7 @@
 									<label for="precio" class="col-md-4 control-label">Precio </label>
 
 									<div class="col-md-5">
-										<input type="text" pattern = "\d+.\d+"  
+										<input type="text" pattern = "\d+(.{0,1})\d+"  
 										name = "precio" class="form-control" 
 										id="precio-componente-ti" placeholder = "0.00" required>
 									</div><!-- /col-5: input-->
@@ -274,7 +274,7 @@
 
 
 									<div class="col-md-5">
-										<input type="text" name = "capacidad" pattern = "\d+.\d+"
+										<input type="text" name = "capacidad" pattern = "\d+(.{0,1})\d+"
 										class="form-control" id="capacidad-componente-ti" placeholder = "0.00" required = "required">
 										<span class = "help-block">La capacidad es por cada ítem,  no la sumatoria</span>
 									</div><!-- /col-5: input-->
@@ -330,7 +330,7 @@
 
 							<!-- Boton Cancelar-->
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-								<a href = "<?php echo site_url('index.php/cargar_datos/componentes_ti'); ?>" class="btn btn-primary">Cancelar</a>
+								<a href = "<?php echo site_url('index.php/cargar_datos/componentes_ti/1'); ?>" class="btn btn-primary">Cancelar</a>
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"></div><!-- Vacío -->
 						</div>

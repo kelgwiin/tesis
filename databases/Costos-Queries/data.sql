@@ -1,10 +1,10 @@
 #Categorias
 insert into ma_categoria (nombre, icono_fa,valor_base) values
 ('Procesador','fa-cogs',1024),
-('Memoria','fa-desktop',1024),
+('Memoria','fa-eraser',1024),
 ('Redes','fa-globe',1000),
 ('Almacenamiento','fa-hdd-o',1024),
-('Licencia','fa-square',-1),
+('Licencia','fa-file-text-o',-1),
 ('Otros','fa-suitcase',-1);
 
 #Insertando las Unidades de Medidas según la Categoría

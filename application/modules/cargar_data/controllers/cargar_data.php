@@ -5,24 +5,31 @@
  * @author Kelwin Gamez <kelgwiin@gmail.com>
  */
 class Cargar_Data extends MX_Controller
-{
+{		
 	/**
 	 * Constructor principal. 
 	 * @author Kelwin Gamez <kelgwiin@gmail.com>
 	 */
 	public function __construct(){
 		parent::__construct();
-
-		//Models
-		$this->load->model('datos_basicos_model');
+		$this->load->model('datos_basicos_model','basico_model');
 		$this->load->model('utilities/utilities_model');
 
 		//Helpers
 		$this->load->helper('date');
+		$this->load->helper('bs3');
+		$this->load->helper('url');
 
 		//Modules
 		//Cargando el módulo ./modules/utilities/utils.php
 		$this->load->module('utilities/utils');
+
+		//Variables de la clase
+		/**
+		 * Número de items de componentes de ti por página 
+		 * @var integer
+		 */
+		$this->per_page_comp_ti = 6;
 	}
 
 	public function index(){
@@ -38,8 +45,9 @@ class Cargar_Data extends MX_Controller
 	 */
 	public function basico($action="form"){
 		switch ($action) {
+			//Formulario de datos básicos
 			case 'form':
-				//Obteniendo los datos básicos que ya fueron cargados
+				//Obteniendo los datos básicos que ya fueron cargados (si los hay)
 				$row = $this->utilities_model->first_row('organizacion','organizacion_id');
 				$info['org'] = NULL;
 				if($row !== NULL){
@@ -82,19 +90,35 @@ class Cargar_Data extends MX_Controller
 	 * 3.- Si es guardar despliega el mensaje de guardado y guarda el  nuevo componente.
 	 * @param  string $action Dominio {list, nuevo, guardar}. 
 	 */
-	public function componentes_ti($action="list"){
+	public function componentes_ti($action){
+		$cur_page = $this->uri->segment(3);
+		
+		//Verificando el segmento 3 del uri corresponde a la pag o alguna acción
+		if (is_numeric($cur_page)) {
+			$action = 'list';
+		}else{
+			$action = $cur_page;//En este caso no es un número sino 
+								//que es la acción: guardado|nuevo
+		}
+
 		switch ($action) {
+			//Listando los componentes de ti
 			case 'list':
-				$params_main_content['guardado_exitoso'] = false;
+				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+					false,$cur_page);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
 
-			case 'guardado': //Muestra el mensaje de guardado exitoso
-				$params_main_content['guardado_exitoso'] = true;
+			//Muestra el mensaje de guardado exitoso
+			case 'guardado': 
+				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+					true,1);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
+
+			//Formulario de nuevo componente de ti
 			case 'nuevo':
 				//Consultando el maestro de Categoria
 				$info['categorias'] = $this->utilities_model->all('ma_categoria');
@@ -107,6 +131,8 @@ class Cargar_Data extends MX_Controller
 				'Cargar Infraestructura','Nuevo Comp. TI');
 
 				break;
+
+			//Guardando el nuevo componente de ti a través de ajax
 			case 'guardar':
 				$p = $this->input->post();
 				//Procesar la data del post para no tomar los campos vacíos
@@ -115,9 +141,10 @@ class Cargar_Data extends MX_Controller
 					if(strlen($value) > 0 && $key != 'categoria'){
 						$p_procesado[$key] = $value;
 					}
+
 				}
 				
-				//Procesando fechas
+				//Procesando las fechas
 				$fecha_compra	=	str_replace('/', '-', $p['fecha_compra']);
     			$fecha_compra	=	date('Y-m-d H:i:s',strtotime($fecha_compra));
     			$p_procesado['fecha_compra'] = $fecha_compra;
@@ -128,13 +155,14 @@ class Cargar_Data extends MX_Controller
 
     			$p_procesado['fecha_creacion'] = date('Y-m-d H:i:s',now());
 
-    			//guardando el componente de ti
+    			//guardando el componente de ti propiamente
 				if($this->utilities_model->add($p_procesado,'componente_ti')){
 					echo '{"estatus":"ok"}';
 				}else{
 					echo '{"estatus":"fail"}';
 				}
 				break;
+			
 		}
 	}
 
@@ -182,7 +210,7 @@ class Cargar_Data extends MX_Controller
 	 * @return 
 	 */
 	public function medidas_capacidad_ajax($id_categoria){
-		$unidades = $this->datos_basicos_model->unidades_medida_capacidad($id_categoria);
+		$unidades = $this->basico_model->unidades_medida_capacidad($id_categoria);
 		$cad_options = "";
 		foreach ($unidades as $uni) {
 			$cad_options .= '<option value = "'. $uni['ma_unidad_medida_id'] .'" data-nivel = "'. 
@@ -190,6 +218,41 @@ class Cargar_Data extends MX_Controller
 		}
 		echo $cad_options;//Se envía a la función App
 	}
+
+	/**
+	 * Genera las configuraciones para listar los Componentes de TI.
+	 * Es usada en componentes_ti[list,guardado].
+	 * 
+	 * @param Integer $per_page Cantidad de items por página. Debe ser un número par
+	 * @param Boolean $guardado_exitoso Si es usado en 'list' deber ser false y
+	 * si es 'guardado' debe ser true.
+	 * @param Integer $cur_page Número de página actual. Es obtenido a través de la URI. En 
+	 * el caso de guardado se debe pasar el valor de 1
+	 * @return Array Una array asociativo con las configuraciones. 
+	 */
+	private function _config_comp_ti($per_page, $guardado_exitoso,$cur_page){
+		$params_main_content['guardado_exitoso'] = $guardado_exitoso;
+		//Configuraciones de paginación
+		$total_rows =  $this->utilities_model->count_all("componente_ti");//total componentes de ti
+		$first_row_id = $this->utilities_model->first_row('componente_ti','componente_ti_id');
+
+		//per_page: Número de componentes de ti por página (debe ser par)
+		$componente_ti = array('first_id' => $first_row_id['componente_ti_id'], 
+			'total_rows' => $total_rows,
+			'per_page' => $per_page,
+			'cur_page' => $cur_page
+			);
+		$params_main_content['config_pag'] = $componente_ti;
+		//listando los componente de ti
+		$l = $this->basico_model->all_componentes_ti();
+		$params_main_content['list_comp_ti'] = $l['list_comp_ti'];
+		$params_main_content['list_unidad_medida'] = $l['list_unidad_medida'];
+		$params_main_content['list_categ'] = $l['list_categ'];
+		//Organización
+		$params_main_content['org'] = $this->utilities_model->first_row('organizacion','organizacion_id');
+		return $params_main_content;
+	}
+
 	/**
 	 * Genera la lista de ítems para colocarlos en el menú izquierdo
 	 * @param $index_active Índice del ítem activo.
@@ -216,7 +279,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Componentes de TI",
 			"active" => false,
-			"href" => "index.php/cargar_datos/componentes_ti",
+			"href" => "index.php/cargar_datos/componentes_ti/1",
 			"icon" => "fa fa-cogs"
 		
 		);

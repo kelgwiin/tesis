@@ -141,4 +141,40 @@ $this->load->model('modulo/modelo_model');
 	Este es el link de las configuraciones para linux: 	
 http://www.cristiantala.cl/como-instalar-mod_rewrite-de-apache-en-ubuntu-11-10/
 
+
+//Configuraciones de los ciclos para generar la lista de componente de ti
+$num_pages = ceil($config_pag['total_rows']/$config_pag['per_page']);
+							$mid_per_page = (int)($config_pag['per_page']/2);
+							
+							//Columna Izquierda
+							$cur_page = ($config_pag['cur_page']-1)*$config_pag['per_page'];
+							$comp_id = $list_comp_ti[$cur_page]['componente_ti_id'];
+							$j = 1;
+							$is_top = false;//para verificar que no haya llegado al tope
+							while(!$is_top && $j<= $mid_per_page){
+								printf('Comp id:  %d <br>',$comp_id);
+								$cur_page+=1;
+								if(isset($list_comp_ti[$cur_page])){
+									$comp_id = $list_comp_ti[$cur_page]['componente_ti_id'];
+								}else{
+									$is_top = true;
+								}
+								$j++;
+							}
+
+
+
+							//Columna Derecha
+							$j = 1;
+							while(!$is_top && $j<= $mid_per_page){
+								printf('[Comp] id:  %d <br>',$comp_id);
+								$cur_page+=1;
+								if(isset($list_comp_ti[$cur_page])){
+									$comp_id = $list_comp_ti[$cur_page]['componente_ti_id'];
+								}else{
+									$is_top = true;
+								}
+								$j++;
+							}
+
 ?>

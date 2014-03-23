@@ -367,35 +367,34 @@
 	</div><!-- /col-4 -->
 </div><!-- /row: Paginación -->
 
-<br><br>
-
 <!-- Direccionamiento de formularios-->
-<div class="row">
-	<div class="col-lg-4">
-		<!-- Boton de Componentes de TI-->
-		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('index.php/cargar_datos/componentes_ti');?>"
-			
-			data-toggle="tooltip"
-			data-original-title="Cargar Componentes de TI"
-			data-placement = "top"
-		>
-			Componentes de TI
-			<i class = "fa fa-chevron-circle-left fa-2x"></i>
-		</a>
+<div class = "row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<ul class="pager">
+		  <!-- Boton de Componentes de TI -->
+		  <li class="previous">
+		  	<a	href = "<?php echo site_url('index.php/cargar_datos/componentes_ti/1');?>"
+				data-toggle="tooltip"
+				data-original-title="Cargar Componentes de TI"
+				data-placement = "top"
+		  	><i class ="fa fa-long-arrow-left"></i> <strong>Componentes de TI</strong></a>
+		  </li>
 
-		<!-- Boton de Servicios -->
-		<a 	class = "btn btn-default" 
-			href = "<?php echo site_url('index.php/cargar_datos/servicios');?>"
-			
-			data-toggle="tooltip"
-			data-original-title="Cargar Servicios"
-			data-placement = "top"
-		>
-			<i class = "fa fa-chevron-circle-right fa-2x"></i>
-			Servicios
-		</a>
-		
-	</div><!-- end of col 12 -->
-</div><!-- end of: row Direccionamiento de formularios -->
+		<!-- Boton de Servicios-->
+		  <li class="next">
+		  	<a 	href = "<?php echo site_url('index.php/cargar_datos/servicios');?>"
+				data-toggle="tooltip"
+				data-original-title="Cargar Servicios"
+				data-placement = "top"
+		  	><strong>Servicios</strong> <i class ="fa fa-long-arrow-right"></i></a>
+		  </li>
+
+		  
+		</ul>
+	</div>
+</div>
+<!-- Fin de Direccionamiento de formularios -->
+
+
+
 </div><!-- end of: page-wrapper-->
