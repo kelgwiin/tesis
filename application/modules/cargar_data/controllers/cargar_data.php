@@ -84,28 +84,32 @@ class Cargar_Data extends MX_Controller
 
 	/**
 	 * Dependiendo del parámetro que se le pase va a ser las siguientes acciones:
-	 * 1.- Si es "list" (valor por defecto) Muestra la lista de 
-	 * todos los componentes de TI.
+	 * 1.- Puede contener numeración de páginas por lo cual se redirigirá hacia
+	 * "list" y se desplegará la info en función de la página obtenida de la URI.
 	 * 2.- Si es "nuevo" Despliega el formulario para agregar un nuevo componente.
-	 * 3.- Si es guardar despliega el mensaje de guardado y guarda el  nuevo componente.
-	 * @param  string $action Dominio {list, nuevo, guardar}. 
+	 * 3.- Si es "guardar" guarda la data desde ajax y redirige a "guardado" para el 
+	 * despliegue del mensaje y la respectiva actualización.
+	 * 4.- Si es "guardado" se activa el mensaje de guardado.
+	 * 5.- Si es "filtrar " despliega la lista de los componentes de ti aplicando
+	 * el filtro respectivo.
+	 * @param  string $action Dominio {number, nuevo, guardar,guardado,filtrar}. 
 	 */
 	public function componentes_ti($action){
 		$cur_page = $this->uri->segment(3);
 		
-		//Verificando el segmento 3 del uri corresponde a la pag o alguna acción
+		//Verificando el segmento 3 del uri corresponde a la pag o a alguna acción
 		if (is_numeric($cur_page)) {
 			$action = 'list';
 		}else{
 			$action = $cur_page;//En este caso no es un número sino 
-								//que es la acción: guardado|nuevo
+								//que es la acción: guardado|nuevo|filtrar|guardar
 		}
 
 		switch ($action) {
 			//Listando los componentes de ti
 			case 'list':
 				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
-					false,$cur_page);
+					false,$cur_page,array('accion' => 'all' ));
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -113,7 +117,7 @@ class Cargar_Data extends MX_Controller
 			//Muestra el mensaje de guardado exitoso
 			case 'guardado': 
 				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
-					true,1);
+					true,1,array('accion' => 'all' ));
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -143,7 +147,6 @@ class Cargar_Data extends MX_Controller
 					}
 
 				}
-				
 				//Procesando las fechas
 				$fecha_compra	=	str_replace('/', '-', $p['fecha_compra']);
     			$fecha_compra	=	date('Y-m-d H:i:s',strtotime($fecha_compra));
@@ -161,6 +164,36 @@ class Cargar_Data extends MX_Controller
 				}else{
 					echo '{"estatus":"fail"}';
 				}
+				break;
+
+			//Filtrando el contenido de los componentes de ti
+			case 'filtrar':
+				$op = $this->input->post('filtro-componente-ti');
+				switch ($op) {
+					case 'todos':
+						$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+							false,1, array('accion' => 'all' ));
+						break;
+					
+					case 'nombre':
+						$busq = $this->input->post('buscar-componente-ti');
+						$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+							false,1, array('accion' => 'nombre','campo_buscar' => $busq ));
+						break;
+
+					case 'categoria':
+						$busq = $this->input->post('buscar-componente-ti');
+						$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+							false,1, array('accion' => 'categoria','campo_buscar' => $busq ));
+						break;
+					
+				}
+				//Para desplegar el mensade de filtrado
+				$params_main_content['is_filtered'] = true;
+				
+				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+					$params_main_content,'Cargar Infraestructura','Componentes TI');
+				
 				break;
 			
 		}
@@ -227,27 +260,47 @@ class Cargar_Data extends MX_Controller
 	 * @param Boolean $guardado_exitoso Si es usado en 'list' deber ser false y
 	 * si es 'guardado' debe ser true.
 	 * @param Integer $cur_page Número de página actual. Es obtenido a través de la URI. En 
-	 * el caso de guardado se debe pasar el valor de 1
+	 * el caso de guardado se debe pasar el valor de 1.
+	 * @param Array $data_origin Identifica la acción a ejecutar en la consulta de los
+	 * componentes de ti y las opciones de filtrado que tendrá. Posee la siguiente forma:
+	 *
+	 * array ('accion' => 'all|categoria|nombre',
+	 * 		 'campo_buscar' => 'algun dato como filtro'
+	 * )
+	 * 
 	 * @return Array Una array asociativo con las configuraciones. 
 	 */
-	private function _config_comp_ti($per_page, $guardado_exitoso,$cur_page){
+	private function _config_comp_ti($per_page, $guardado_exitoso,$cur_page,$data_origin){
 		$params_main_content['guardado_exitoso'] = $guardado_exitoso;
+		
+		//listando los componente de ti
+		switch ($data_origin['accion']) {
+			case 'all':
+				$l = $this->basico_model->all_componentes_ti('all');
+				break;
+			case 'categoria':
+				$l = $this->basico_model->all_componentes_ti('categoria',$data_origin['campo_buscar']);
+				break;
+			case 'nombre':
+				$l = $this->basico_model->all_componentes_ti('nombre',$data_origin['campo_buscar']);
+				break;
+			
+		}
+		$params_main_content['list_comp_ti'] = $l['list_comp_ti'];
+		
 		//Configuraciones de paginación
-		$total_rows =  $this->utilities_model->count_all("componente_ti");//total componentes de ti
+		$total_rows =  $l['num_rows_comp_ti'];//total componentes de ti
 		$first_row_id = $this->utilities_model->first_row('componente_ti','componente_ti_id');
 
 		//per_page: Número de componentes de ti por página (debe ser par)
-		$componente_ti = array('first_id' => $first_row_id['componente_ti_id'], 
+		$componente_ti = array( 
 			'total_rows' => $total_rows,
 			'per_page' => $per_page,
 			'cur_page' => $cur_page
 			);
+		
 		$params_main_content['config_pag'] = $componente_ti;
-		//listando los componente de ti
-		$l = $this->basico_model->all_componentes_ti();
-		$params_main_content['list_comp_ti'] = $l['list_comp_ti'];
-		$params_main_content['list_unidad_medida'] = $l['list_unidad_medida'];
-		$params_main_content['list_categ'] = $l['list_categ'];
+		
 		//Organización
 		$params_main_content['org'] = $this->utilities_model->first_row('organizacion','organizacion_id');
 		return $params_main_content;

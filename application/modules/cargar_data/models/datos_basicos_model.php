@@ -26,6 +26,12 @@ class Datos_basicos_model extends CI_Model {
      * Obtiene todos los componentes de ti que no hayan sido borrados
      * y que estén en activos (en estado 'ON').
      * 
+     * 
+     * @param String $target Una cadena que indica si se aplicará un filtro
+     * en la consulta. Dominio {all,nombre,categoria}
+     * @param String $data_target Dato de comparación del nombre o categoria.
+     * Si es all este campo se deja vacío.
+     * 
      * @return Array Un array con tres campos:
      * ['list_comp_ti'] 
      * Un array de filas del tipo (clave,valor), donde clave el nombre de
@@ -38,76 +44,44 @@ class Datos_basicos_model extends CI_Model {
      * ['list_categ']
      * Un array que contiene el conjunto de filas de las categorias.
      */
-    public function all_componentes_ti(){
+    public function all_componentes_ti($target, $data_target = null){
         //Lista de Componentes de TI
-        $sql_comp_ti = "SELECT * FROM componente_ti ".
-                "WHERE borrado = false AND activa = 'ON' ".
-                'ORDER BY componente_ti_id ; ';
+        //NOTA: Podría optimizarce obteniendo la información sólo a
+        //través de join como se hace en la consulta de categoría.
+        $sql_comp_ti = "";
+
+        switch ($target) {
+            case 'all':
+                $sql_comp_ti = "SELECT  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
+                                FROM componente_ti as comp join (ma_categoria as categ, ma_unidad_medida as uni) 
+                                ON (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id)
+                                WHERE borrado = false and activa = 'ON'
+                                ORDER BY comp.componente_ti_id;";
+                                
+                break;
+            case 'nombre':
+                $sql_comp_ti = "SELECT  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
+                                FROM componente_ti as comp join (ma_categoria as categ, ma_unidad_medida as uni) 
+                                ON (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id)
+                                WHERE borrado = false and activa = 'ON' AND comp.nombre LIKE '%".$data_target."%'
+                                ORDER BY comp.componente_ti_id;";
+                break;
+            case 'categoria':
+                $sql_comp_ti = "SELECT  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa 
+                                FROM componente_ti as comp join (ma_unidad_medida as uni,ma_categoria as categ)
+                                ON (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id AND uni.ma_categoria_id = categ.ma_categoria_id) 
+                                WHERE categ.nombre like '%".$data_target."%' 
+                                ORDER BY comp.componente_ti_id;";
+                break;
+        }
+        
         $q = $this->db->query($sql_comp_ti);
         $list_comp_ti = $q->result_array();
-
-        //Lista de Unidades de medida
-        $num_IDs_unidad=0;
-        $IDs_unidad = array();
-        foreach ($list_comp_ti as $value) {
-            $item = $value['ma_unidad_medida_id'];
-            $num_IDs_unidad = !isset($IDs_unidad[$item]) ? ($num_IDs_unidad+1) : $num_IDs_unidad ;
-            $IDs_unidad[$item] = $item;
-        }
-        $sql_unidad =  "SELECT ma_unidad_medida_id, ma_categoria_id, abrev_nombre
-                        FROM ma_unidad_medida
-                        WHERE ma_unidad_medida_id IN (";
-        $question_marks ="";
-        
-        for ($i=0; $i < $num_IDs_unidad; $i++) { 
-            $question_marks .= "?,";
-        }
-        
-        $size = strlen($question_marks);
-        $question_marks[$size-1] = ')';//quitando la ultima coma adicional
-        $sql_unidad.= $question_marks.";"; 
-        $q_unidad = $this->db->query($sql_unidad,$IDs_unidad);
-        
-        $prelist_unidad = $q_unidad->result_array();
-        $list_unidad = array();
-        $IDs_categ = array();
-        $num_IDs_categ = 0;
-        foreach ($prelist_unidad as $row) {//Procesando para indexarlo por id
-            $id = $row['ma_unidad_medida_id'];
-            $list_unidad[$id] = array('abrev_nombre' => $row['abrev_nombre'],
-                                    'ma_categoria_id' =>$row['ma_categoria_id']);
-            //Obteniendo los ids de las categorías
-            $id_categ = $row['ma_categoria_id'];
-            $num_IDs_categ = !isset($IDs_categ[$id_categ])? ($num_IDs_categ+1):$num_IDs_categ;
-            $IDs_categ[$id_categ] = $id_categ;
-        }
-        //Lista de Categorias
-        $sql_categ =   "SELECT ma_categoria_id, nombre, icono_fa
-                        FROM ma_categoria
-                        WHERE ma_categoria_id in ( ";
-        $question_marks_categ = "";
-        for ($i=0; $i < $num_IDs_categ; $i++) { 
-            $question_marks_categ .= "?,";
-        }
-        $size_categ = strlen($question_marks_categ);
-        $question_marks_categ[$size_categ-1] = ')';
-        $sql_categ.= $question_marks_categ . ";";
-        $q_categ = $this->db->query($sql_categ,$IDs_categ);
-        
-        $prelist_categ = $q_categ->result_array();
-        $list_categ = array();
-        foreach ($prelist_categ as $row) {
-            $id_categ = $row['ma_categoria_id'];
-            $list_categ[$id_categ] = array (
-                    'nombre' => $row['nombre'],
-                    'icono_fa' =>$row['icono_fa']
-                );
-        }
+        $num_comp_ti = $q->num_rows();//Número de filas
 
         $resp  = array(
             'list_comp_ti' => $list_comp_ti,
-            'list_unidad_medida' => $list_unidad,
-            'list_categ' => $list_categ
+            'num_rows_comp_ti'=>$num_comp_ti
         );
         return $resp;
     }

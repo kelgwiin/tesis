@@ -335,6 +335,45 @@ $(document).ready(function()
         $.post(url,dataToSend, fo_proccess,'json');
 
     });
+
+    //:: btn Buscar Componente de TI ::
+    $('button#btn-buscar-componente-ti').on('click',function(){
+        var field_buscar = $('input#input-buscar-componente-ti').val();
+        var op_selected = $('select#filtro-componente-ti').val();
+
+        if(op_selected != 'todos' && field_buscar.length > 0){
+            $('div[data-id=fg-buscar-componente-ti]').attr('class','form-group');
+            $('span#label-msj-error-componente-ti').attr('class','label label-danger hidden');
+        }else{
+            if(op_selected == 'todos'){
+                $('div[data-id=fg-buscar-componente-ti]').attr('class','form-group');
+                $('span#label-msj-error-componente-ti').attr('class','label label-danger hidden');
+            }else{
+                $('span#label-msj-error-componente-ti').attr('class','label label-danger show');
+                $('div[data-id=fg-buscar-componente-ti]').attr('class','form-group has-error');
+            }
+        }
+       
+    });
+    //:: select filtro cabecera componente de ti ::
+    //Permite cambiar a requerido o no el campo de buscar
+    $('select#filtro-componente-ti').on('click',function(){
+        val = $(this).val();
+        if(val == 'todos'){
+            //Removiendo la opción de requeridp y deshabilitándolo
+            $('input#input-buscar-componente-ti').removeAttr('required')
+            .attr('disabled','disabled');
+            //Quitando avisos de mensajes
+            $('div[data-id=fg-buscar-componente-ti]').attr('class','form-group');
+            $('span#label-msj-error-componente-ti').attr('class','label label-danger hidden');
+        }else{
+            //colocando el campo como requerido y habilitándolo
+            $('input#input-buscar-componente-ti').attr('required','required')
+            .removeAttr('disabled','disabled');
+        }
+    });   
+
+
     //FIN: COMPONENTES DE TI
     
 

@@ -16,6 +16,19 @@
 					editar la información asociada a ellos.
 			</div>
 
+			<div 
+				<?php 
+					if(isset($is_filtered) && $is_filtered){
+						echo 'class="alert alert-success alert-dismissable"';
+					}else{
+						echo 'class="alert alert-success alert-dismissable" hidden';
+					}
+				?>
+			>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					La lista de componentes de TI ha sido <strong>Actualizada</strong>!
+			</div>
+
 			<div
 				<?php
 					if(isset($guardado_exitoso) && $guardado_exitoso){
@@ -42,14 +55,10 @@
 	<!-- Cabecera:  Buscar, filtrar, nuevo-->
 	<div class="row">
 		<!-- Buscar, filtrar, nuevo-->
-		<div class="col-lg-6">
-
-			<div  class="form-inline">
-				<!-- Nota: Esto por lo general debería usarse con la etiqueta "form"
-				pero para efectos de formtateo de la página (línea) funciona, lo uso con la
-				etiqueta "div" porque me interesa tener dos botones que hagan distintas
-				acciones, lo cual no podría hacer si usara la etiqueta "form"-->
-
+		<div class="col-lg-8">
+			<!-- Formulario -->
+			<form method = "post" action = "<?php echo site_url('index.php/cargar_datos/componentes_ti/filtrar');?>" 
+			 class="form-inline" role = "form">
 				<!-- boton nuevo-->
 				<div class = " form-group" >
 					<a class = "btn btn-primary" 
@@ -60,31 +69,34 @@
 					><i class = "fa fa-plus-square fa-lg"></i></a>
 				</div>
 
-				<!--campo buscar -->
-				<div class="form-group ">
-					<label class="sr-only" for="buscarComponentesTI">Buscar</label>
-					<input type="text" class="form-control" id="buscar" name = "buscarComponentesTI" placeholder="Buscar">
-				</div>
-				
 				<!-- lista de filtrado -->
 				<div class = "form-group">
-					<label class="sr-only" for="filtroComponentesTI">Filtro</label>
-					<select name="filtroComponentesTI"
-						 	id="filtroComponentesTI"
+					<label class="sr-only" for="filtro-componente-ti">Filtro</label>
+					<select name="filtro-componente-ti"
+						 	id="filtro-componente-ti"
 						 	class="form-control"
 						 	data-toggle="tooltip"
 							data-original-title="Opción de filtrado"
 							data-placement = "top">
-						<option>Todos</option>
+						<option value="todos">Todos</option>
 						<option value="nombre">Nombre</option>
 						<option value="categoria">Categoría</option>
 					</select>
 				</div>
+				
+				<!--campo buscar -->
+				<div class="form-group " data-id = "fg-buscar-componente-ti">
+					<label class="sr-only" for="buscarComponentesTI">Buscar</label>
+					<input type="text" class="form-control" id="input-buscar-componente-ti" 
+					name = "buscar-componente-ti" placeholder="Buscar" disabled="disabled">
+				</div>
+				
 
 				<!-- boton de buscar-->
-				<div class = "form-group">
+				<div class = "form-group" >
 					<label class="sr-only" for="btnBuscar">btnBuscar</label>
 					<button 
+							type = "submit"
 							class="btn btn-default"
 							data-toggle="tooltip"
 							data-original-title="Buscar Componente(s) de TI"
@@ -93,12 +105,15 @@
 						<i class = "fa fa-search" ></i>
 					</button>
 				</div>
-			</div>
+
+				<div class = "form-group">
+					<span id = "label-msj-error-componente-ti" class="label label-danger hidden">Ingrese datos en campo buscar!</span>
+				</div><!-- /form-group: Mensaje de error de campo buscar-->
+			</form><!-- /form-inline-->
 		</div><!-- /col-6: Buscar, filtrado, nuevo-->
 		
-		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">	
-		</div></div>
+		<div class="col-lg-4"><!-- Vacío-->
+		</div>
 	</div><!-- /row: Cabecera: buscar, filtrar nuevo-->
 
 	<div class="row">
@@ -122,9 +137,9 @@
 					<!-- Columna IZQUIERDA -->
 						<div class="col-xs-6 ">		
 						<?php 
-							
+
 							function showCompTI($is_top,$config_pag,$list_comp_ti,
-								$list_categ,$list_unidad_medida,$org,$comp_id,$cur_page=NULL){
+													$org,$comp_id,$cur_page=NULL){
 								
 								//$is_top Para verificar que no haya llegado al tope
 								
@@ -138,9 +153,7 @@
 
 							while(!$is_top && $j<= $mid_per_page){
 								$item_comp = $list_comp_ti[$cur_page];
-								$item_uni = $list_unidad_medida[$item_comp['ma_unidad_medida_id']];
-								$item_categ = $list_categ[$item_uni['ma_categoria_id']];
-
+								
 								echo '<!-- Componente: comp'.$comp_id.' -->
 									<div class="panel panel-info"><!-- Inner-->
 
@@ -203,9 +216,9 @@
 										<div class="col-xs-2">
 											<i
 												data-toggle="tooltip" 
-												data-original-title="Categ. '.$item_categ['nombre'].'"
+												data-original-title="Categ. '.$item_comp['nomcateg'].'"
 												data-placement = "top"
-												class = "fa '.$item_categ['icono_fa'].' fa-3x"></i>
+												class = "fa '.$item_comp['icono_fa'].' fa-3x"></i>
 										</div>
 									</div><!-- /row-->
 								</div><!-- /panel-heading-->';
@@ -242,7 +255,7 @@
 											<ul>
 												<li><p class = "text-muted">Precio</p> '.$item_comp['precio'].' '.$org['abrev_moneda'].'<br><br></li>
 												<li><p class = "text-muted">Capacidad</p> '.$item_comp['capacidad'].' '.
-												($item_uni['abrev_nombre']=='NA'?"":$item_uni['abrev_nombre']).' (c/u)<br><br></li>
+												($item_comp['abrev_nombre']=='NA'?"":$item_comp['abrev_nombre']).' (c/u)<br><br></li>
 												<li><p class = "text-muted">Cantidad</p> '.$item_comp['cantidad'].'<br><br></li>
 											</ul>
 										</div>
@@ -263,28 +276,35 @@
 								if(isset($list_comp_ti[$cur_page])){
 									$comp_id = $list_comp_ti[$cur_page]['componente_ti_id'];
 								}else{
-									$is_top = true;
+									$is_top = true;//Es el fin del array
 								}
 								$j++;
 								}
 								return array('comp_id' => $comp_id,
 									'cur_page' => $cur_page,
 									'is_top' => $is_top);
-							}//endo-of function: showCompTI
+							}//end-of function: showCompTI
 
 
 							//Se despliegan los componentes de ti y
 							//se obtienen: cur_page, comp_id, is_top
-							$rs = showCompTI(false,$config_pag,$list_comp_ti,
-								$list_categ,$list_unidad_medida,$org,NULL);
+							if($config_pag['total_rows'] > 0){
+								$rs = showCompTI(false,$config_pag,$list_comp_ti,
+											$org,NULL);	
+							}else{
+								echo '<h3 class = "text-muted"> La búsqueda a generado cero (0) resultados</h3>';
+							}
+							
 						?>
 						</div><!-- columna Izquierda-->
 
 						<!-- Columna DERECHA-->
 						<div class="col-xs-6">
 							<?php
-								showCompTI($rs['is_top'],$config_pag,$list_comp_ti,
-								$list_categ,$list_unidad_medida,$org,$rs['comp_id'],$rs['cur_page']);
+								if($config_pag['total_rows'] > 0){
+									showCompTI($rs['is_top'],$config_pag,$list_comp_ti,
+										$org,$rs['comp_id'],$rs['cur_page']);
+								}
 
 							?>
 						</div><!-- columna Derecha-->

@@ -176,5 +176,6 @@ $num_pages = ceil($config_pag['total_rows']/$config_pag['per_page']);
 								}
 								$j++;
 							}
+							
 
 ?>
