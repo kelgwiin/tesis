@@ -92,7 +92,8 @@ class Cargar_Data extends MX_Controller
 	 * 4.- Si es "guardado" se activa el mensaje de guardado.
 	 * 5.- Si es "filtrar " despliega la lista de los componentes de ti aplicando
 	 * el filtro respectivo.
-	 * @param  string $action Dominio {number, nuevo, guardar,guardado,filtrar}. 
+	 * @param  string $action Dominio {number, nuevo, guardar,guardado,
+	 * filtrar,eliminar}. 
 	 */
 	public function componentes_ti($action){
 		$cur_page = $this->uri->segment(3);
@@ -195,6 +196,18 @@ class Cargar_Data extends MX_Controller
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				
 				break;
+
+				//Eliminando desde ajax
+				case 'eliminar'://eliminando lógicamente
+					$id_comp_ti = $this->input->post('componente_ti_id');
+					//Eliminando lógicamente
+					if($this->utilities_model->update('componente_ti',
+						array('componente_ti_id'=>$id_comp_ti),array('activa'=>'OFF')) ){
+						echo '{"estatus":"ok"}';
+					}else{
+						echo '{"estatus":"fail"}';
+					}
+					break;
 			
 		}
 	}

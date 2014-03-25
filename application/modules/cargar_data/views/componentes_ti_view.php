@@ -48,6 +48,12 @@
 				Ha ocurrido un error <strong>inesperado</strong>.
 			</div>
 
+			<!-- Mensaje de Aviso de Componente de TI eliminado -->
+			<div class="alert alert-success alert-dismissable hidden" id = "msj-eliminado-comp-ti">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				Ha sido <strong>eliminado</strong> el componente de ti con éxito!
+			</div>
+
 		</div><!-- /col-12-->
 	</div><!-- /row: breadcrumb - Cabecera-->
 
@@ -135,7 +141,7 @@
 					<div  class = "row">
 
 					<!-- Columna IZQUIERDA -->
-						<div class="col-xs-6 ">		
+						<div class="col-xs-6 " >		
 						<?php 
 
 							function showCompTI($is_top,$config_pag,$list_comp_ti,
@@ -155,7 +161,7 @@
 								$item_comp = $list_comp_ti[$cur_page];
 								
 								echo '<!-- Componente: comp'.$comp_id.' -->
-									<div class="panel panel-info"><!-- Inner-->
+									<div class="panel panel-info" data-id = "panel-item-comp'.$comp_id.'"><!-- Inner-->
 
 									<div class="panel-heading">
 									<div class="row">
@@ -180,15 +186,15 @@
 								 echo '
 														<!-- Botón de despliegue-->
 														<a  class="btn"
-															data-id = "comp'.$comp_id.'"
+															data-id = "'.$comp_id.'"
 															data-fieldIT = "caracteristicas"
 															data-toggle="tooltip" 
 															data-original-title="Características"
 															data-placement = "bottom">
-															<i id = "comp'.$comp_id.'" class = "fa fa-caret-right fa-lg"></i>	
+															<i id = "'.$comp_id.'" class = "fa fa-caret-right fa-lg"></i>	
 														</a>
 														<a  class="btn"
-															data-id = "comp'.$comp_id.'"
+															data-id = "'.$comp_id.'"
 															data-fieldIT = "editar"
 															data-toggle="tooltip" 
 															data-original-title="Editar"
@@ -196,7 +202,7 @@
 															<i class = "fa fa-pencil fa-lg"></i>	
 														</a>
 														<a  class="btn"
-															data-id = "comp'.$comp_id.'"
+															data-id = "'.$comp_id.'"
 															data-fieldIT = "eliminar"
 															data-toggle="tooltip" 
 															data-original-title="Eliminar"
@@ -223,7 +229,7 @@
 									</div><!-- /row-->
 								</div><!-- /panel-heading-->';
 								echo '
-									<div class="panel-body hidden" data-id = "comp'.$comp_id.'">
+									<div class="panel-body hidden" data-id = "'.$comp_id.'">
 									<!-- Etiqueta Característica -->
 									<div class = "row">
 										<div class = "col-xs-12">
@@ -292,7 +298,7 @@
 								$rs = showCompTI(false,$config_pag,$list_comp_ti,
 											$org,NULL);	
 							}else{
-								echo '<h3 class = "text-muted"> La búsqueda a generado cero (0) resultados</h3>';
+								echo '<h3 class = "text-muted"> La búsqueda ha generado cero (0) resultados</h3>';
 							}
 							
 						?>
@@ -370,6 +376,45 @@
 	</div>
 </div>
 <!-- Fin de Direccionamiento de formularios -->
+
+
+	<!-- Modals-->
+
+	<!-- Msj de Confirmación de Eliminación de Comp de TI -->
+	<div class="modal fade" id = "confirmar-eliminar-comp-ti" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content bg-info">
+				<div class="modal-body">
+					<!-- ícono de cerrar-->
+					<div class = "row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true"><i class = "fa fa-times"></i></button>	
+						</div>
+					</div>
+					<!-- Cuerpo del mensaje -->
+					<div class = "row">
+						<div class = "col-md-1 col-md-offset-1">
+							<i class = "fa fa-question-circle fa-5x"></i>	
+						</div>
+						<div class="col-md-10">
+							<h3 class= "text-center">¿Está seguro que desea <strong>eliminar</strong> <br>el componente de TI?</h3>			
+						</div>
+					</div>
+					<br><br>
+					<!-- Botones Cerrar y Eliminar -->
+					<div class = "row">
+						<div class="col-md-4 col-md-offset-4">
+							
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+							&nbsp 
+							<button data-id = "-1" id = "btn-aceptar-componente-ti" type="button" class="btn btn-primary">Aceptar</button>
+							
+						</div>
+					</div>
+				</div><!-- /modal-body-->
+			</div><!-- /modal-content-->
+		</div><!-- /modal-dialog-->
+	</div><!-- /modal-dialog-->
 
 </div><!-- end of: page wrapper -->
 

@@ -177,10 +177,40 @@ $(document).ready(function()
         alert('editar id - '+id_editar);    
     });
 
-    //:: btn Eliminar:: 
+    //:: btn Eliminar - Mostrar Modal:: 
+    //Muestra el mensaje de confirmación de eliminación
     $('a[data-fieldIT=eliminar]').on('click', function(){
+        var id  = $(this).attr('data-id');//getting id
+
+        //Se muestra el diálogo de confirmación
+        $('div#confirmar-eliminar-comp-ti').modal('show');
+        //Se coloca el valor del id en el botón del modal
+        $('button#btn-aceptar-componente-ti').attr('data-id',id);
+    });
+    
+    //:: btn Confirmar Eliminación ::
+    $('button#btn-aceptar-componente-ti').on('click',function(){
+        //Escondiendo el modal
+        $('div#confirmar-eliminar-comp-ti').modal('hide');
+
         var id  = $(this).attr('data-id');
-        alert('eliminar id - '+id);    
+        var params = {componente_ti_id:id};
+        var url = "index.php/cargar_datos/componentes_ti/eliminar";
+        var dataType = "json";
+        var fo = function(data){
+            if(data.estatus == 'ok'){
+                //Mostrando msj de item eliminado lógicamente
+                $('div#msj-eliminado-comp-ti').attr('class','alert alert-success alert-dismissable show');
+                //Escondiendo msj de error inesperado
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
+            }else{
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+            }
+        }
+        //Haciendo llamada al controlador desde ajax
+        $.post(url,params,fo,dataType);
+        //Eliminando gráficamente
+        $('div[data-id=panel-item-comp'+id+']').remove();
     });
 
     //:: Mensajes de Error - btn Guardar ::
@@ -287,7 +317,7 @@ $(document).ready(function()
 
     //:: select Categoría ::
     //Llenado de campo de Medidas según a la categoría que pertenezca
-    $('select#categoria-componente-ti').on('click',function(){
+    $('select#categoria-componente-ti').on('change',function(){
         var id_item = $(this).val();
         var id_last = $('select#categoria-componente-ti :last').val();
         var base_item = ($(this).find('option:eq('+ (parseInt(id_item)-1)+')')).attr('data-base');
@@ -379,7 +409,7 @@ $(document).ready(function()
 
 
     //---------------------
-    //EVENTOS DE SERVICIOS |
+    //EVENTO DE SERVICIOS |
     //---------------------
     
     //:: Btn para mostrar la lista de Comandos/Operaciones :: dentro del 

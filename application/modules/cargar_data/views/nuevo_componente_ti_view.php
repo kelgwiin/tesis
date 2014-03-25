@@ -224,7 +224,7 @@
 									<label for="precio" class="col-md-4 control-label">Precio </label>
 
 									<div class="col-md-5">
-										<input type="text" pattern = "\d+(.{0,1})\d+"  
+										<input type="text" pattern = "\d+((.\d+)|(\d*))"  
 										name = "precio" class="form-control" 
 										id="precio-componente-ti" placeholder = "0.00" required>
 									</div><!-- /col-5: input-->
@@ -274,7 +274,7 @@
 
 
 									<div class="col-md-5">
-										<input type="text" name = "capacidad" pattern = "\d+(.{0,1})\d+"
+										<input type="text" name = "capacidad" pattern = "\d+((.\d+)|(\d*))"
 										class="form-control" id="capacidad-componente-ti" placeholder = "0.00" required = "required">
 										<span class = "help-block">La capacidad es por cada ítem,  no la sumatoria</span>
 									</div><!-- /col-5: input-->
