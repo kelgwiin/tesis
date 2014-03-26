@@ -1,12 +1,53 @@
+<!-- Scripts de DATEPICKER-->
+<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/jquery.ui.widget.js');?>"></script>
+
+<!-- Traducción Español -->
+<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/i18n/jquery.ui.datepicker-es.js');?>"></script>
+
+<!-- Config CSS-->
+<link rel="stylesheet" href="<?php echo site_url('assets/front/datepicker(jquery-ui)/css/themes/ui-lightness/jquery.ui.all.css');?>">
+
+<!-- Inicialización de los datepicker-->
+<script>
+	$(function() {
+		$( "input#fecha-compra-componente-ti" ).datepicker();
+		$( "input#fecha-elaboracion-componente-ti" ).datepicker();
+	});
+</script>
+<!-- /DATEPICKER: Fin de scripts-->
+
+<?php
+	//NOTA
+	//Este mismo archivo permite mostrar el formulario de "actualizar" y nuevo.
+	//Todo esta determinado por las condiciones de $accion
+?>
+
 <div id = "page-wrapper">
+
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
 		<div class="col-lg-12 col-md-12">
-			<h1>Nuevo <small>Componente de TI</small></h1>
+			<!-- Título -->
+			<h1><?php
+				if($accion == 'actualizar'){
+					echo "Actualizar";
+				}else{
+					echo "Nuevo";
+				}
+			?> <small>Componente de TI</small></h1>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
-					Agregando un nuevo de componente de TI a la Infraestructura</li>
+					<?php
+						if($accion == 'actualizar'){
+							echo "Actualizando el componente de TI de la Infraestructura";
+						}else{
+							echo "Agregando un nuevo de componente de TI a la Infraestructura";
+						}
+					?>
+					</li>
 				</ol>
 
 				<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-componentes-ti" >
@@ -17,7 +58,19 @@
 		</div><!-- end of row Cabecera-->
 
 		<!-- Formulario -->
-		<form id = "fr-nuevo-componente-ti" action="<?php echo site_url('index.php/cargar_datos/componentes_ti/guardar');?>" method="POST" role="form">
+		<form 
+			<?php 
+				if($accion == "actualizar"){
+					echo 'id = "fr-actualizar-componente-ti" ';
+					echo 'action="'.site_url('index.php/cargar_datos/componentes_ti/actualizar_guardar/'.$comp_ti['componente_ti_id']).'"';
+				}else{//Nuevo
+					echo 'id = "fr-nuevo-componente-ti" ';
+					echo 'action="'.site_url('index.php/cargar_datos/componentes_ti/guardar').'"';
+				}
+			?>
+			method="POST" role="form"
+		>
+			
 			<!-- Panel -->
 			<div class = "row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -37,6 +90,11 @@
 										<div class="col-md-8 col-lg-8">
 											<input type="text" class="form-control" 
 												name = "nombre" id="nombre-componente-ti" placeholder="Nombre del componente" 
+												<?php
+													if($accion == "actualizar"){
+														printf('value = "%s"',$comp_ti['nombre']);
+													}
+												?>
 												required >
 										</div>
 
@@ -61,7 +119,12 @@
 										<select name="categoria" id="categoria-componente-ti" class="form-control" >
 											<?php
 												foreach ($categorias as $cat) {
-													printf('<option value = "%d" data-base = "%d">%s</option>',$cat['ma_categoria_id'],
+													if($accion == "actualizar" && $cat['nombre'] == $categ['nomcateg']){
+														echo '<option selected = "selected"';
+													}else{
+														echo '<option';
+													}
+													printf(' value = "%d" data-base = "%d">%s</option>',$cat['ma_categoria_id'],
 														$cat['valor_base'], $cat['nombre']);
 												}
 											?>	
@@ -88,7 +151,12 @@
 
 									<div class = "col-md-9">
 										<textarea name = "descripcion" id = "descripcion-componente-ti" 
-										class="form-control text-left" rows="3" required = "required"></textarea>
+										class="form-control text-left" rows="3" required = "required"
+										><?php 
+											if($accion == "actualizar"){
+												echo $comp_ti['descripcion'];
+											}
+										?></textarea>
 									</div>
 
 									<div class = "col-md-1 hidden" data-id = "icon-descripcion-componente-ti">
@@ -126,7 +194,14 @@
 									<label for="fecha_compra" class="col-md-4 control-label">Fecha de Compra </label>
 
 									<div class="col-md-5">
-										<input type="date" name = "fecha_compra"
+										<input type="text"  name = "fecha_compra" 
+
+										<?php
+											if($accion == "actualizar"){
+												$fcom = explode(" ", $comp_ti['fecha_compra']);
+												printf('value = "%s"',$fcom[0]);	
+											}
+										?>
 										 class="form-control" id="fecha-compra-componente-ti" required>
 									</div>
 
@@ -148,7 +223,13 @@
 									<label for="fecha_elaboracion" class="col-md-5 control-label">Fecha de Elaboración </label>
 
 									<div class="col-md-5">
-										<input type="date" name = "fecha_elaboracion" 
+										<input type="text" name = "fecha_elaboracion"  
+											<?php
+												if($accion == "actualizar"){
+													$fcom = explode(" ", $comp_ti['fecha_elaboracion']);
+													printf('value = "%s"',$fcom[0]);	
+												}
+											?>
 										class="form-control" id="fecha-elaboracion-componente-ti" required>
 									</div><!-- /col-5: input-->
 
@@ -177,7 +258,13 @@
 									<div class="col-md-5">
 										<input type="number" min = "1" name = "tiempo_vida" 
 											class="form-control" id="tiempo-vida-componente-ti"
-										 	placeholder = "Tiempo de Vida" required>
+										 	placeholder = "Tiempo de Vida" required
+										 	<?php 
+										 		if($accion == "actualizar"){
+													printf('value="%s"',$comp_ti['tiempo_vida']);
+										 		}
+											?>
+										 	>
 									</div><!-- /col-5: input-->
 
 									<div class = "col-md-1 hidden" data-id = "icon-tiempo-vida-componente-ti">
@@ -198,9 +285,25 @@
 
 									<div class="col-md-5">
 										<select name="unidad_tiempo_vida" id="unidad-tiempo-vida-componente-ti" class="form-control">
-											<option value="DD">Días</option>
-											<option value="MM">Meses</option>
-											<option value="AA">Años</option>
+											<?php
+												if($accion == "actualizar"){
+													$uni = array("DD","MM","AA");
+													foreach ($uni as $value) {
+														if($comp_ti['unidad_tiempo_vida'] == $value){
+															printf('<option value="%s" selected="selected">%s</option>',$value,nomtimeS($value));
+														}else{
+															printf('<option value="%s">%s</option>',$value,nomtimeS($value));
+														}
+													}	
+												}else{
+													echo '
+														<option value="DD">Días</option>
+														<option value="MM">Meses</option>
+														<option value="AA">Años</option>
+													';
+												}
+												
+											?>
 										</select>
 									</div>
 
@@ -226,7 +329,13 @@
 									<div class="col-md-5">
 										<input type="text" pattern = "\d+((.\d+)|(\d*))"  
 										name = "precio" class="form-control" 
-										id="precio-componente-ti" placeholder = "0.00" required>
+										id="precio-componente-ti" placeholder = "0.00" required
+										<?php 
+											if($accion == "actualizar"){
+												printf('value="%s"',$comp_ti['precio']);
+											}
+										?>
+										>
 									</div><!-- /col-5: input-->
 
 									<div class = "col-md-1 hidden" data-id = "icon-precio-componente-ti">
@@ -248,7 +357,13 @@
 									<div class="col-md-5">
 										<input type="number" name="cantidad" id="cantidad-componente-ti" 
 										class="form-control"  min="1"  required="required" 
-										placeholder = "Cantidad">
+										placeholder = "Cantidad"
+										<?php 
+											if($accion == "actualizar"){
+												printf('value = "%s"',$comp_ti['cantidad']);
+											}
+										?>
+										>
 									</div>
 
 									<div class = "col-md-1 hidden" data-id = "icon-cantidad-componente-ti">
@@ -275,7 +390,19 @@
 
 									<div class="col-md-5">
 										<input type="text" name = "capacidad" pattern = "\d+((.\d+)|(\d*))"
-										class="form-control" id="capacidad-componente-ti" placeholder = "0.00" required = "required">
+										class="form-control" id="capacidad-componente-ti" placeholder = "0.00" 
+											<?php 
+												if($accion == "actualizar"){
+													printf('value="%s" ',$comp_ti['capacidad']);
+													//Colocando el campo como requerido
+													if($categ['basecateg'] != -1){
+														echo 'required = "required" ';
+													}
+												}else{
+													echo 'required = "required" ';
+												}
+											?>
+										>
 										<span class = "help-block">La capacidad es por cada ítem,  no la sumatoria</span>
 									</div><!-- /col-5: input-->
 
@@ -301,7 +428,12 @@
 										<select name="ma_unidad_medida_id" id="ma-unidad-medida-componente-ti" class="form-control">
 											<?php
 												foreach ($unidades as $uni) {
-													printf('<option value = "%d" data-nivel = "%d">%s</option>',
+													if($accion == "actualizar" && $uni['abrev_nombre'] == $categ['abrev_unidad']){
+														echo '<option selected="selected"';	
+													}else{
+														echo '<option';
+													}
+													printf(' value = "%d" data-nivel = "%d">%s</option>',
 														$uni['ma_unidad_medida_id'], $uni['valor_nivel'],$uni['abrev_nombre']);
 												}
 											?>
@@ -320,7 +452,7 @@
 						</div><!-- /row 4: Capacidad y su Unidad -->
 
 
-						<!-- Boton Guardar-->
+						<!-- Boton Guardar/Actualizar-->
 						<div class="row">
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
 								<button id = "btn-guardar-componentes-ti" type="submit" class="btn btn-primary">Guardar</button>
@@ -340,33 +472,6 @@
 				</div><!-- /panel-default-->
 				</div><!-- /col-12: Panel -->
 			</div><!-- /row: Panel Principal -->
-
-
-
-
-		<!-- Conjunto de formularios dentro de Modales (TEMPORALMENTE BORRADO BORRAR)-->
-
-		<!-- Agregar Categoría	-->
-		<div class="modal fade" id = "Modal-nueva-categoria-componente-ti">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Nueva <small>Categoría</small></h4>
-					</div><!-- /modal-header -->
-
-					<div class="modal-body">
-						<p>One fine body&hellip;</p>
-					</div><!-- /modal-body-->
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-						<button type="button" class="btn btn-primary" id = "guardar-categoria-componente-ti">Guardar</button>
-					</div><!-- /modal-footer-->
-				</div><!-- /.modal-content -->
-			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-
 
 	</div><!-- /page-wrapper -->
 

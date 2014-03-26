@@ -85,6 +85,41 @@ class Datos_basicos_model extends CI_Model {
         );
         return $resp;
     }
+    /**
+     * Permite obtener la información de la categoría y la
+     * unidad de medida a partir de el ID de unidad de medida
+     * @param  Integer $id_unidad_medida ID de la unidad de medida
+     * @return Array Contiene la info de la categoria y la unidad de medida
+     * con el siguiente formato:
+     * array(
+     *     'nomcateg' => String
+     *     'abrev_unidad' =>String
+     *     'id' => Integer // ID de la categoría    
+     *     'basecateg' => Integer // Valor de base de la categoría.
+     * )
+     */
+    public function info_categoria($id_unidad_medida){
+        $sql = "SELECT abrev_nombre, ma_categoria_id  
+                FROM ma_unidad_medida 
+                WHERE ma_unidad_medida_id = '".$id_unidad_medida."';";
+
+        $q = $this->db->query($sql);
+        $rs = $q->first_row('array');
+
+        $abrev_unidad = $rs['abrev_nombre'];
+        $id_categ = $rs['ma_categoria_id'];
+
+        $sql = "SELECT nombre, valor_base as base  
+                FROM ma_categoria
+                WHERE ma_categoria_id = '".$id_categ."';";
+        $q = $this->db->query($sql);
+        $rs = $q->first_row('array');
+        $nomcateg = $rs['nombre'];
+        $base = $rs['base'];
+
+        return array('nomcateg' => $nomcateg, 'abrev_unidad'=>$abrev_unidad,
+            'id' =>$id_categ, 'basecateg' => $base);
+    }
 
  
 

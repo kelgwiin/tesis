@@ -9,3 +9,6 @@ select * from componente_ti;
 
 insert into rol(rol, fecha_) values ('dsd',now());
 select * from rol; 
+
+update rol set rol = 'null'
+where id_rol = 2;

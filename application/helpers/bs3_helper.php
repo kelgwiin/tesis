@@ -90,3 +90,28 @@ if ( ! function_exists('nomtime'))
 		return $complete_name_time;
 	}
 }
+/**
+ * Retorna el nombre completo a partir de una abreviatura
+ * pero en este caso diseñado para el selected
+ * [25-03-2014]
+ */
+if ( ! function_exists('nomtimeS'))
+{
+	function nomtimeS($abrev_time){
+		$complete_name_time = "";
+		switch ($abrev_time) {
+			case 'DD':
+				$complete_name_time = "Día";
+				break;
+
+			case 'MM':
+				$complete_name_time = "Mes";
+				break;
+			
+			case 'AA':
+				$complete_name_time = "Año";
+				break;
+		}
+		return $complete_name_time;
+	}
+}

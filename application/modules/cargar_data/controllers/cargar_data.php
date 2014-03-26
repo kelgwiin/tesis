@@ -128,9 +128,13 @@ class Cargar_Data extends MX_Controller
 				//Consultando el maestro de Categoria
 				$info['categorias'] = $this->utilities_model->all('ma_categoria');
 
+				//Indicando que es nuevo
+				$info['accion'] = "nuevo";
+
 				$first_id_cat = $info['categorias'][0]['ma_categoria_id'];
 				$info['unidades'] = $this->utilities_model->rows_by_id('ma_unidad_medida',
 					'ma_categoria_id', $first_id_cat);
+				$info['accion'] = "nuevo";
 				//Cargando la plantilla
 				$this->utils->template($this->_list(2),'cargar_data/nuevo_componente_ti_view',$info,
 				'Cargar Infraestructura','Nuevo Comp. TI');
@@ -146,17 +150,8 @@ class Cargar_Data extends MX_Controller
 					if(strlen($value) > 0 && $key != 'categoria'){
 						$p_procesado[$key] = $value;
 					}
-
 				}
-				//Procesando las fechas
-				$fecha_compra	=	str_replace('/', '-', $p['fecha_compra']);
-    			$fecha_compra	=	date('Y-m-d H:i:s',strtotime($fecha_compra));
-    			$p_procesado['fecha_compra'] = $fecha_compra;
-
-    			$fecha_elaboracion	=	str_replace('/', '-', $p['fecha_elaboracion']);
-    			$fecha_elaboracion	=	date('Y-m-d H:i:s',strtotime($fecha_elaboracion));
-    			$p_procesado['fecha_elaboracion'] = $fecha_elaboracion;
-
+				//Procesando la fecha actual
     			$p_procesado['fecha_creacion'] = date('Y-m-d H:i:s',now());
 
     			//guardando el componente de ti propiamente
@@ -187,7 +182,6 @@ class Cargar_Data extends MX_Controller
 						$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
 							false,1, array('accion' => 'categoria','campo_buscar' => $busq ));
 						break;
-					
 				}
 				//Para desplegar el mensade de filtrado
 				$params_main_content['is_filtered'] = true;
@@ -197,8 +191,8 @@ class Cargar_Data extends MX_Controller
 				
 				break;
 
-				//Eliminando desde ajax
-				case 'eliminar'://eliminando lógicamente
+			//Eliminando lógicamente desde ajax
+			case 'eliminar'://eliminando lógicamente
 					$id_comp_ti = $this->input->post('componente_ti_id');
 					//Eliminando lógicamente
 					if($this->utilities_model->update('componente_ti',
@@ -208,9 +202,63 @@ class Cargar_Data extends MX_Controller
 						echo '{"estatus":"fail"}';
 					}
 					break;
+			//Actualizando el componente de TI muestra el formulario con la data actual
+			case 'actualizar':
+				$id_comp_ti = $this->uri->segment(4);
+
+				//consultando componente de ti actual
+				$info['comp_ti'] = $this->utilities_model->row_by_id('componente_ti',
+				'componente_ti_id',$id_comp_ti);
+
+				//categoria asociada
+				$info['categ'] = $this->basico_model->
+				info_categoria($info['comp_ti']['ma_unidad_medida_id']);
+
+				//Consultando el maestro de Categoria
+				$info['categorias'] = $this->utilities_model->all('ma_categoria');
+
+				//Obteniendo unidades de la categoría asociada
+				$id_cat = $info['categ']['id'];
+				$info['unidades'] = $this->utilities_model->rows_by_id('ma_unidad_medida',
+				'ma_categoria_id', $id_cat);
+
+				//Indicando que se va a actualizar
+				$info['accion'] = "actualizar";
+					//Cargando la plantilla
+				$this->utils->template($this->_list(2),'cargar_data/nuevo_componente_ti_view',$info,
+				'Cargar Infraestructura','Actualizar Comp. TI');
+				break;
+			//Actualiza la información desde ajax
+			case "actualizar_guardar":
+				$id_comp_ti = $this->uri->segment(4);
+
+				$p = $this->input->post();
+				//Procesar la data del post para no tomar los campos vacíos
+				$p_procesado = array();
+				foreach ($p as $key => $value) {//Quitando los campos que estén vacíos
+					if(strlen($value) > 0 && $key != 'categoria'){
+						$p_procesado[$key] = $value;
+					}elseif ($value == "") {
+						$p_procesado[$key] = NULL;
+					}
+				}
+
+				if($this->utilities_model->update('componente_ti',
+						array('componente_ti_id'=>$id_comp_ti),$p_procesado ) ){
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
+				break;
+			case 'actualizado':
+				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+					false,1,array('accion' => 'all' ),true);
+				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+					$params_main_content,'Cargar Infraestructura','Componentes TI');
+				break;
 			
-		}
-	}
+		}//end-of: switch outter
+	}//end-of: function componentes_ti
 
 	public function departamentos($action = "list"){
 		switch ($action) {
@@ -280,11 +328,14 @@ class Cargar_Data extends MX_Controller
 	 * array ('accion' => 'all|categoria|nombre',
 	 * 		 'campo_buscar' => 'algun dato como filtro'
 	 * )
-	 * 
+	 * @param  Boolean $actualizado_exitoso Indica si viene de actualizar o no.
 	 * @return Array Una array asociativo con las configuraciones. 
 	 */
-	private function _config_comp_ti($per_page, $guardado_exitoso,$cur_page,$data_origin){
+	private function _config_comp_ti($per_page, $guardado_exitoso,
+		$cur_page,$data_origin,$actualizado_exitoso=false){
+
 		$params_main_content['guardado_exitoso'] = $guardado_exitoso;
+		$params_main_content['actualizado_exitoso'] = $actualizado_exitoso;
 		
 		//listando los componente de ti
 		switch ($data_origin['accion']) {

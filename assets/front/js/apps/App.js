@@ -173,8 +173,8 @@ $(document).ready(function()
 
     //:: btn Editar ::
     $('a[data-fieldIT=editar]').on('click', function(){
-        var id_editar  = $(this).attr('data-id');
-        alert('editar id - '+id_editar);    
+       /* var id_editar  = $(this).attr('data-id');
+        alert('editar id - '+id_editar);*/
     });
 
     //:: btn Eliminar - Mostrar Modal:: 
@@ -354,8 +354,6 @@ $(document).ready(function()
         var fo_proccess = function (data){
             if(data.estatus == 'ok'){
                 $(location).attr('href','index.php/cargar_datos/componentes_ti/guardado');
-                //Mostrando msj de guardado en la lista de componentes de ti
-                $('div#msj-componente-ti-guardado').attr('class','alert alert-success alert-dismissable show');
             }else{
                 $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
             }
@@ -364,6 +362,31 @@ $(document).ready(function()
         //llamada del post
         $.post(url,dataToSend, fo_proccess,'json');
 
+    });
+
+    //:: Form - Actualizar componente de ti ::
+    $('form#fr-actualizar-componente-ti').on('submit',function(event){
+        event.preventDefault();
+        // store reference to the form
+        var bk_this = $(this);
+
+        // grab the url from the form element
+        var url = bk_this.attr('action');
+            
+        //Obteniendo la data del form
+        var dataToSend = bk_this.serialize();
+        
+        //Función procesar llamada desde el post
+        var fo_proccess = function (data){
+            if(data.estatus == 'ok'){
+                $(location).attr('href','index.php/cargar_datos/componentes_ti/actualizado');
+            }else{
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+            }
+        }
+        
+        //llamada del post
+       $.post(url,dataToSend, fo_proccess,'json');
     });
 
     //:: btn Buscar Componente de TI ::

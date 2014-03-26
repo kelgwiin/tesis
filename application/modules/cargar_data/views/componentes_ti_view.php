@@ -29,6 +29,7 @@
 					La lista de componentes de TI ha sido <strong>Actualizada</strong>!
 			</div>
 
+			<!-- Mensaje de guardado exitoso-->
 			<div
 				<?php
 					if(isset($guardado_exitoso) && $guardado_exitoso){
@@ -41,6 +42,22 @@
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				El Componente de TI ha sido <strong>creado</strong> con Éxito!
 			</div>
+
+			<!-- Mensaje de actualizado exitoso -->
+			<div
+				<?php
+					if(isset($actualizado_exitoso) && $actualizado_exitoso){
+						echo 'class="alert alert-success alert-dismissable show"';
+					}else{
+						echo 'class="alert alert-success alert-dismissable hidden"';
+					}
+				?> 
+				id = "msj-componente-ti-actualizado">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				El Componente de TI ha sido <strong>actualizado</strong> con Éxito!
+			</div>
+
+
 
 			<!-- Mensaje de Error Inesperado -->
 			<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-inesperado-basico">
@@ -183,6 +200,7 @@
 											<div class="row">
 												<div class = "col-xs-6">
 													<div class="btn-group">';
+								 $url_ed = site_url('index.php/cargar_datos/componentes_ti/actualizar/'.$comp_id);
 								 echo '
 														<!-- Botón de despliegue-->
 														<a  class="btn"
@@ -198,7 +216,8 @@
 															data-fieldIT = "editar"
 															data-toggle="tooltip" 
 															data-original-title="Editar"
-															data-placement = "bottom">
+															data-placement = "bottom"
+															href = "'.$url_ed.'">
 															<i class = "fa fa-pencil fa-lg"></i>	
 														</a>
 														<a  class="btn"
