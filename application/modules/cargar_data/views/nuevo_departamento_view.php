@@ -9,7 +9,7 @@
 					Agregando un nuevo de departamento a la Infraestructura</li>
 				</ol>
 
-				<div class="alert alert-danger alert-dismissable " id = "error-componentes-ti" >
+				<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-componentes-ti" >
 					<button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Error, no ha ingresado valores en alguno de los campos obligatorios.
 				</div>
@@ -17,7 +17,7 @@
 		</div><!-- end of row Cabecera-->
 
 	<!-- Formulario -->
-<form class = "form-horizontal" action="<?php site_url('index.php/cargar_datos/departamentos/guardar');?>" method="POST" role="form">
+<form id = "fr-nuevo-dpto" class = "form-horizontal" action="<?php echo site_url('index.php/cargar_datos/departamentos/guardar');?>" method="POST" role="form">
 		<!-- Panel -->
 		<div class = "row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -27,30 +27,33 @@
 					<div class = "panel-body">
 						<h3 class = "text-primary"> Datos Básicos</h3> <hr>
 						<!-- Nombre -->
-						<div class="form-group" id = "nombre-departamento">
+						<div class="form-group" id = "fg-nombre-dpto">
 							<label for="nombre" class="col-sm-2 control-label">Nombre</label>
 							
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="nombre" name = "nombre" placeholder="Nombre de Departamento">
+								<input type="text" class="form-control" id="nombre-dpto" 
+									name = "nombre" placeholder="Nombre de Departamento" required = "required">
 							</div><!-- col-9-->
 
-							<div class = "col-sm-1 col-md-1 col-lg-1 " id = "descripcion-componente-ti">
-								<i class = "fa fa-check text-success"></i>
+							<div class = "col-md-1 hidden" id = "icon-nombre-dpto">
+								<i class = "fa fa-times text-danger "></i>
 							</div><!-- /col-1: Icono-->
 
 						</div><!-- /form-group: Nombre-->
 
 						<!-- Descripción-->
-						<div class="form-group">
+						<div class="form-group" id = "fg-descripcion-dpto">
 							<label for="nombre" class="col-sm-2 control-label">
 								Descripción
 							</label>
 							<div class="col-sm-9">
-								<textarea name = "descripcion" id = "descripcion" class="form-control" rows="3"></textarea>
+								<textarea name = "descripcion" id = "descripcion-dpto" class="form-control" rows="3"
+								required = "required"
+								></textarea>
 							</div><!-- /col-9-->
 							
-							<div class = "col-sm-1 col-md-1 col-lg-1 " id = "descripcion-componente-ti">
-								<i class = "fa fa-check text-success"></i>
+							<div class = "col-md-1 hidden" id = "icon-descripcion-dpto">
+								<i class = "fa fa-times text-danger"></i>
 							</div><!-- /col-1: Icono-->	
 
 						</div><!-- /form-group: Descripción-->
@@ -68,20 +71,19 @@
 
 							<div class="col-sm-10">
 								<div class="btn-group">
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-archive fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-building-o fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-desktop fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-cog fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-cogs fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-gavel fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-keyboard-o fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-phone fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-suitcase fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-sitemap fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-tasks fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-shield fa-2x"></i></button>
-									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info"><i class = "fa fa-laptop fa-2x"></i></button>
-									
+									<button data-icono = "icono" type="button" data-select = "si" class="btn btn-info" data-icofa = "fa-archive" ><i class = "fa fa-archive fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-building-o"><i class = "fa fa-building-o fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-desktop"><i class = "fa fa-desktop fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-cog"><i class = "fa fa-cog fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-cogs"><i class = "fa fa-cogs fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-gavel"><i class = "fa fa-gavel fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-keyboard-o"><i class = "fa fa-keyboard-o fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-phone"><i class = "fa fa-phone fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-suitcase"><i class = "fa fa-suitcase fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-sitemap"><i class = "fa fa-sitemap fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-tasks"><i class = "fa fa-tasks fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-shield"><i class = "fa fa-shield fa-2x"></i></button>
+									<button data-icono = "icono" type="button" data-select = "no" class="btn btn-info" data-icofa = "fa-laptop"><i class = "fa fa-laptop fa-2x"></i></button>
 								</div>
 
 							</div><!-- /col-10-->
@@ -99,23 +101,16 @@
 									<div class="panel-body">
 										<div class = "row">
 											<div class = "col-md-4 col-md-offset-1">
-												<select size = "15" multiple class="form-control"  >
-													<option value = "1">Componente 1</option>
-													<option value = "2">Componente 2</option>
-													<option value = "3">Componente 3</option>
-													<option value = "4">Componente 4</option>
-													<option value = "5">Componente 5</option>
-													<option value = "6">Componente 6</option>
-													<option value = "1">Componente 1</option>
-													<option value = "2">Componente 2</option>
-													<option value = "3">Componente 3</option>
-													<option value = "4">Componente 4</option>
-													<option value = "5">Componente 5</option>
-													<option value = "6">Componente 6</option>
-													<option value = "4">Componente 4</option>
-													<option value = "5">Componente 5</option>
-												</select>
-												<span class = "help-block">Todos los Componentes de TI </span>
+												<div class = "form-group">
+													<select id = "all-componentes-ti-dpto" size = "15" multiple class="form-control"  >
+														<?php
+															foreach ($list_comp_ti as $row) {
+																printf('<option value = "%d">%s</option>',$row['id'],$row['nombre']);
+															}
+														?>
+													</select>
+													<span class = "help-block">Todos los Componentes de TI </span>
+												</div><!-- /form-group: all-componentes-ti-dpto -->
 											</div><!-- /col-4: Todos los Componentes de TI -->
 
 											<div class = "col-md-2">
@@ -123,6 +118,7 @@
 												<div style = "margin-top:70px">
 													<button 
 														type="button"
+														id = "add-comp-ti-dpto"
 														class="btn btn-primary"
 														data-toggle = "tooltip"
 														data-original-title = "Agregar Componente al Dpto."
@@ -136,6 +132,7 @@
 
 													<button 
 														type="button"
+														id = "rm-comp-ti-dpto"
 														class="btn btn-primary"
 														data-toggle = "tooltip"
 														data-original-title = "Remover Componente del Dpto."
@@ -149,15 +146,22 @@
 												</center>
 											</div><!-- col-1: Botones de adicionar los componentes -->
 
+											<!-- Lista de Componentes Copiados -->
 											<div class = "col-md-4">
-												<select size = "15" multiple class="form-control"  >
-													<option value = "1">Componente 1</option>
-													<option value = "2">Componente 2</option>
-												</select>
-												<span class = "help-block">Componentes asignados al Departamento </span>
+												<div class = "form-group" id = "fg-copied-componentes-ti-dpto">
+													<select id = "copied-componentes-ti-dpto" size = "15" multiple class="form-control"  >
+														<!-- Se llena desde jquery -->
+														<!-- <option value = "1">Componente 1</option>
+														<option value = "2">Componente 2</option> -->
+													</select>
+													<span class = "help-block">Componentes asignados al Departamento </span>
+												</div><!-- /form-group-->
 											</div>
 
-											<div class = "col-md-1"> </div><!-- Vacío -->
+											<div class = "col-md-1 hidden" id = "icon-copied-componentes-ti-dpto">
+												<i class = "fa fa-times text-danger"></i>
+											</div><!-- /col-1: Icono-->	
+
 										</div><!--/row: inner lista de componentes -->
 									</div>
 								</div>		
@@ -168,7 +172,7 @@
 						<!-- Boton Guardar-->
 						<div class="row">
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-								<button type="submit" class="btn btn-primary">Guardar</button>
+								<button id = "btn-guardar-dpto" type="submit" class="btn btn-primary">Guardar</button>
 							</div>
 
 						</form><!-- /formulario -->

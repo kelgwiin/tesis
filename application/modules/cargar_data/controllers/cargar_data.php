@@ -235,7 +235,7 @@ class Cargar_Data extends MX_Controller
 				$p = $this->input->post();
 				//Procesar la data del post para no tomar los campos vacíos
 				$p_procesado = array();
-				foreach ($p as $key => $value) {//Quitando los campos que estén vacíos
+				foreach ($p as $key => $value) {//Colocando en null los campos que estén vacíos
 					if(strlen($value) > 0 && $key != 'categoria'){
 						$p_procesado[$key] = $value;
 					}elseif ($value == "") {
@@ -268,14 +268,16 @@ class Cargar_Data extends MX_Controller
 				break;
 			
 			case 'nuevo':
-				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view','',
-				'Cargar Infraestructura','Nuevo dpto');
+				//Info de los Componentes en el sistema
+				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
+
+				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
+					$params_main_content,'Cargar Infraestructura','Nuevo dpto');
 				break;
 			
 			case 'guardar':
-				echo "Guardando y redireccionando a la lista de Dpto<br>";
-				print_r($this->input->post('nombre'));
-				print_r($_POST);
+				print_r($this->input->post());
+				
 				break;
 		}
 	}

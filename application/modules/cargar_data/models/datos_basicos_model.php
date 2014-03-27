@@ -7,7 +7,16 @@ class Datos_basicos_model extends CI_Model {
         $this->load->database();
         $this->load->model('utilities/utilities_model');
     }
-
+    /**
+     * Del maestro de unidad de medida obtiene la info que coincida con 
+     * la categoría dada.
+     * @param  Integer $id_categoria ID de la categoría asociado
+     * @return Array  De forma: 
+     * array('ma_unidad_medida_id' => Integer,
+     *       'abrev_nombre' => String,
+     *       'valor_nivel' => Integer 
+     * )
+     */
     public function unidades_medida_capacidad($id_categoria){
     	$sql = 'SELECT ma_unidad_medida_id,abrev_nombre, valor_nivel '.
     	 		' FROM ma_unidad_medida ' .
@@ -45,9 +54,6 @@ class Datos_basicos_model extends CI_Model {
      * Un array que contiene el conjunto de filas de las categorias.
      */
     public function all_componentes_ti($target, $data_target = null){
-        //Lista de Componentes de TI
-        //NOTA: Podría optimizarce obteniendo la información sólo a
-        //través de join como se hace en la consulta de categoría.
         $sql_comp_ti = "";
 
         switch ($target) {
@@ -120,7 +126,22 @@ class Datos_basicos_model extends CI_Model {
         return array('nomcateg' => $nomcateg, 'abrev_unidad'=>$abrev_unidad,
             'id' =>$id_categ, 'basecateg' => $base);
     }
-
+    /**
+     * Obtiene todos los ids y nombres de los componentes de ti 
+     * que se encuentran activos
+     * @return Array Una array asociativo del tipo:
+     * array(
+     *     'id' => Integer,
+     *     'nombre'=>String
+     * )
+     */
+    public function ids_nombres_comp_ti(){
+        $sql = "SELECT componente_ti_id as id,nombre
+                FROM componente_ti
+                WHERE borrado = false and activa = 'ON';";
+        $q = $this->db->query($sql);
+        return $q->result_array(); 
+    }
  
 
 

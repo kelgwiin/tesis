@@ -434,7 +434,7 @@ $(document).ready(function()
     //---------------------
     //EVENTO DE SERVICIOS |
     //---------------------
-    
+    //
     //:: Btn para mostrar la lista de Comandos/Operaciones :: dentro del 
     //apartado "Cronograma de Ejecución"
     $('a[data-fieldIT=comandos-operaciones]').on('click', function(){
@@ -541,8 +541,133 @@ $(document).ready(function()
             $('label#num-filas-umbrales').attr('data-num-filas',num-1);//Actualizando el contador    
         }
     });
-
+    //
     //FIN: EVENTOS DE SERVICIOS
+
+
+    //---------------------------
+    // EVENTOS DE DEPARTAMENTOS |
+    //--------------------------
+    //
+    //:: Ícono ::
+    //cambiando ícono del dpto
+    $('button[data-icono=icono]').on('click',function(){
+        $('button[data-icono=icono]').attr('data-select','no');//deseleccionando
+        $(this).attr('data-select','si');
+    });
+
+    //:: Mensajes de Error en boton guardar ::
+    //se muestran cuando no se encuentran lleno alguno de los campos requeridos
+    $('button#btn-guardar-dpto').on('click',function(){
+        //Nombre
+        var in1 = $('input#nombre-dpto').val();
+        if(in1.length <= 0 ){
+            $('div#fg-nombre-dpto').attr('class','form-group has-error');
+            $('div#icon-nombre-dpto').attr('class','col-md-1 show');
+        }else{
+            $("div#fg-nombre-dpto").attr('class','form-group');
+            $('div#icon-nombre-dpto').attr('class','col-md-1 hidden');
+        }
+
+        //Descripción
+        var in2 = $('textarea#descripcion-dpto').val();
+        if(in2.length <= 0 ){
+            $('div#fg-descripcion-dpto').attr('class','form-group has-error');
+            $('div#icon-descripcion-dpto').attr('class','col-md-1 show');
+        }else{
+            $("div#fg-descripcion-dpto").attr('class','form-group');
+            $('div#icon-descripcion-dpto').attr('class','col-md-1 hidden');
+        }
+
+        //Componentes de ti copiados
+        longi = $('select#copied-componentes-ti-dpto > option').length;
+
+        if(longi <= 0){
+            $('div#fg-copied-componentes-ti-dpto').attr('class','form-group has-error');
+            $('div#icon-copied-componentes-ti-dpto').attr('class','col-md-1 show');
+        }else{
+            $('div#fg-copied-componentes-ti-dpto').attr('class','form-group');
+            $('div#icon-copied-componentes-ti-dpto').attr('class','col-md-1 hidden');
+        }
+
+        
+        //Condición para mostrar etiqueta de error
+        if(in1.length <= 0 || in2.length <= 0 || longi <= 0){
+            $('div#msj-error-componentes-ti').attr('class','alert alert-danger alert-dismissable show');//mostrar msj
+        }else{
+            $('div#msj-error-componentes-ti').attr('class','alert alert-danger alert-dismissable hidden');//escoder msj
+        }
+
+    });
+    
+    //:: btn add Componente al dpto ::
+    $('button#add-comp-ti-dpto').on('click',function(){
+        options = $('select#all-componentes-ti-dpto :selected');
+        options.each(     
+                function(){
+                    op = $(this);
+                    $('select#copied-componentes-ti-dpto').append(op);
+                }
+            );
+    });
+
+    //:: btn rm Componente al dpto ::
+    //remueve los componentes seleccionados
+    $('button#rm-comp-ti-dpto').on('click',function(){
+        options = $('select#copied-componentes-ti-dpto :selected');
+        lon = options.length;
+        vals = "";
+        options.each(     
+                function(){
+                    op = $(this);
+                    $('select#all-componentes-ti-dpto').append(op);
+                }
+            );
+    });
+
+    //:: Form - Guardar Dpto ::
+    $('form#fr-nuevo-dpto').on('submit',function(event){
+        event.preventDefault();
+        // store reference to the form
+        var bk_this = $(this);
+
+        // grab the url from the form element
+        var url = bk_this.attr('action');
+            
+        
+        //Función procesar llamada desde el post
+        var fo_proccess = function (data){
+            alert(data);
+            /*if(data.estatus == 'ok'){
+                $(location).attr('href','index.php/cargar_datos/componentes_ti/actualizado');
+            }else{
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+            }*/
+        }
+        
+        //Preparando datos para enviar al post
+            
+            //Obteniendo lista de IDs de Componentes de ti
+        options = $('select#copied-componentes-ti-dpto > option');
+        list_comp_ti_ = new Array();
+
+        options.each(function(){
+            act = $(this);
+            list_comp_ti_.push(act.val());
+        });
+
+        params = {
+            nombre:$('input#nombre-dpto').val(),
+            descripcion:$('textarea#descripcion-dpto').val(),
+            icono_fa:$('button[data-select=si]').attr('data-icofa'),
+            list_comp_ti:list_comp_ti_
+        }
+
+        //llamada del post
+       $.post(url,params,fo_proccess,'text');
+    });
+
+    // FIN: EVENTOS DE DEPARTAMENTO
 
 
 }); 

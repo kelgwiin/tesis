@@ -33,3 +33,15 @@ where categ.nombre like '%redes%'and comp.borrado = false and comp.activa = 'ON'
 select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
 from componente_ti as comp join (ma_unidad_medida as uni,ma_categoria as categ) on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id) 
 where categ.nombre like '%redes%' and comp.borrado = false and comp.activa = 'ON';
+
+
+
+-- DPTO
+-- -------------------------------
+
+-- IDs y nombres de Componenetes de TI activos
+select componente_ti_id as id,nombre
+from componente_ti
+where borrado = false and activa = 'ON';
+
+
