@@ -358,7 +358,6 @@ $(document).ready(function()
                 $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
             }
         }
-
         //llamada del post
         $.post(url,dataToSend, fo_proccess,'json');
 
@@ -426,7 +425,17 @@ $(document).ready(function()
         }
     });   
 
-
+    //:: Select de Tipo de Asignación ::
+    //si es múltiple entonces el campo cantidad se coloca en y se inhabilita
+    $('select#tipo-asignacion-componente-ti').on('change',function(){
+        if($(this).val() == 'MULT'){
+            $('input#cantidad-componente-ti').attr('value','1');
+            $('input#cantidad-componente-ti').attr('disabled','disabled');
+        }else{
+            $('input#cantidad-componente-ti').removeAttr('value');
+            $('input#cantidad-componente-ti').removeAttr('disabled');
+        }
+    });
     //FIN: COMPONENTES DE TI
     
 
@@ -637,12 +646,11 @@ $(document).ready(function()
         
         //Función procesar llamada desde el post
         var fo_proccess = function (data){
-            alert(data);
-            /*if(data.estatus == 'ok'){
-                $(location).attr('href','index.php/cargar_datos/componentes_ti/actualizado');
+            if(data.estatus == 'ok'){
+                $(location).attr('href','index.php/cargar_datos/departamentos/guardado');
             }else{
                 $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
-            }*/
+            }
         }
         
         //Preparando datos para enviar al post
@@ -653,7 +661,7 @@ $(document).ready(function()
 
         options.each(function(){
             act = $(this);
-            list_comp_ti_.push(act.val());
+            list_comp_ti_.push({id:act.val(),cant_disp:act.attr('data-cant-disp')});
         });
 
         params = {
@@ -664,7 +672,9 @@ $(document).ready(function()
         }
 
         //llamada del post
-       $.post(url,params,fo_proccess,'text');
+        if(options.length > 0){//para que no envíe la data cuando esté vacía
+            $.post(url,params,fo_proccess,'json');
+        }
     });
 
     // FIN: EVENTOS DE DEPARTAMENTO

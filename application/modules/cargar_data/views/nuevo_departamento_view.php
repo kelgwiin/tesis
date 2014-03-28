@@ -105,7 +105,7 @@
 													<select id = "all-componentes-ti-dpto" size = "15" multiple class="form-control"  >
 														<?php
 															foreach ($list_comp_ti as $row) {
-																printf('<option value = "%d">%s</option>',$row['id'],$row['nombre']);
+																printf('<option data-cant-disp = "%d" value = "%d">%s</option>',$row['cant_disp'],$row['id'],$row['nombre']);
 															}
 														?>
 													</select>
@@ -151,8 +151,6 @@
 												<div class = "form-group" id = "fg-copied-componentes-ti-dpto">
 													<select id = "copied-componentes-ti-dpto" size = "15" multiple class="form-control"  >
 														<!-- Se llena desde jquery -->
-														<!-- <option value = "1">Componente 1</option>
-														<option value = "2">Componente 2</option> -->
 													</select>
 													<span class = "help-block">Componentes asignados al Departamento </span>
 												</div><!-- /form-group-->

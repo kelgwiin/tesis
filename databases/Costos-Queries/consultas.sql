@@ -42,6 +42,7 @@ where categ.nombre like '%redes%' and comp.borrado = false and comp.activa = 'ON
 -- IDs y nombres de Componenetes de TI activos
 select componente_ti_id as id,nombre
 from componente_ti
-where borrado = false and activa = 'ON';
+where borrado = false and activa = 'ON' and (cantidad_disponible > 0
+or tipo_asignacion = 'MULT');
 
 

@@ -132,15 +132,57 @@ class Datos_basicos_model extends CI_Model {
      * @return Array Una array asociativo del tipo:
      * array(
      *     'id' => Integer,
-     *     'nombre'=>String
+     *     'nombre'=>String,
+     *     'cant_disp'=>Integer
      * )
      */
     public function ids_nombres_comp_ti(){
-        $sql = "SELECT componente_ti_id as id,nombre
+        $sql = "SELECT componente_ti_id as id,nombre, cantidad_disponible as cant_disp
                 FROM componente_ti
-                WHERE borrado = false and activa = 'ON';";
+                WHERE borrado = false AND activa = 'ON' AND (cantidad_disponible > 0  OR tipo_asignacion = 'MULT');";
         $q = $this->db->query($sql);
         return $q->result_array(); 
+    }
+
+    /**
+     * Agrega el dpto en conjunto con los componentes asociados
+     * @param Array $data Tiene la siguiente forma:
+     * array(  'nombre' => String,
+     *         'descripcion' => String,
+     *         'icono_fa' => String,
+     *         'list_comp_ti' => array (ids de comp ti)
+     * )
+     */
+    public function add_dpto_comp_ti($data){
+        $st_dpto = false;
+        $st_inv = false;
+        $st_inv_comp = false;
+
+        //Agregando el dpto
+        $data_dpto = array('nombre' => $data['nombre'], 
+                'descripcion' => $data['descripcion'],
+                'icono_fa'=>$data['icono_fa']);
+        $st_dpto= $this->utilities_model->add($data_dpto,'departamento');
+        
+        //Agregando el inventario
+        $date = date('Y-m-d H:i:s',now());
+        $id_dpto = $this->db->insert_id();//id del dpto insertado
+        $data_inv = array('departamento_id' => $id_dpto, 'fecha_creacion' => $date);
+        $st_inv = $this->utilities_model->add($data_inv,'inventario_ti');
+
+        //Agregando los Componentes de TI & Actualizando cant. disponible (interrelación)
+        $id_inv = $this->db->insert_id();//id del inv. insertado
+        foreach ($data['list_comp_ti'] as $r) {
+            $data_comp = array('inventario_ti_id'=>$id_inv, 'componente_ti_id'=>$r['id']);
+            $this->utilities_model->add($data_comp,'inventario_componente_ti');
+
+            //actualizando la cantidad disponible
+            $sql_cant_disp =   "UPDATE componente_ti 
+                                SET cantidad_disponible = ".($r['cant_disp']-1)."
+                                WHERE tipo_asignacion='UNI' AND componente_ti_id = '".$r['id']."';";
+            $st_inv_comp = $this->db->query($sql_cant_disp);
+        }
+        return $st_dpto && $st_inv && $st_inv_comp;
     }
  
 

@@ -273,6 +273,8 @@
 												<li><p class = "text-muted">Fecha de Elaboración</p> '.$item_comp['fecha_elaboracion'].'<br><br></li>
 												<li><p class = "text-muted">Tiempo de Vida</p> '.$item_comp['tiempo_vida'].' '.
 												nomtime($item_comp['unidad_tiempo_vida']).' <br><br></li>
+												<li> <p class = "text-muted">Tipo de asignación </p>'
+												.($item_comp['tipo_asignacion']=='UNI'?'Única':'Múltiple').' </li>
 											</ul>
 										</div>
 										
@@ -282,6 +284,7 @@
 												<li><p class = "text-muted">Capacidad</p> '.$item_comp['capacidad'].' '.
 												($item_comp['abrev_nombre']=='NA'?"":$item_comp['abrev_nombre']).' (c/u)<br><br></li>
 												<li><p class = "text-muted">Cantidad</p> '.$item_comp['cantidad'].'<br><br></li>
+												<li><p class = "text-muted">Cantidad disponible</p> '.$item_comp['cantidad_disponible'].'<br><br></li>
 											</ul>
 										</div>
 										
@@ -384,7 +387,7 @@
 
 		  <!-- Boton de Departamentos -->
 		  <li class="next">
-		  	<a	href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"		  			 	
+		  	<a	href = "<?php echo site_url('index.php/cargar_datos/departamentos/1');?>"		  			 	
 				data-toggle="tooltip"
 				data-original-title="Cargar Departamentos"
 				data-placement = "top"

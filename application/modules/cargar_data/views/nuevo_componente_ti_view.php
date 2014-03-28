@@ -167,6 +167,46 @@
 							</div><!-- /col-12 -->
 						</div><!-- /row -->
 
+						<!-- Tipo de asignación -->
+						<br>
+						<div class="row">
+							<div class = "col-md-6">
+								<div class="form-group" data-id = "fg-tipo-asignacion-componente-ti">
+									<label for="tipo_asignacion" class="col-md-4 control-label">Tipo de asignación</label>
+
+									<div class = "col-md-8">
+										<select name="tipo_asignacion" id="tipo-asignacion-componente-ti" class="form-control" >
+											<?php
+												if($accion == "actualizar"){
+													$op = array('UNI'=>'Única','MULT' =>'Múltiple');
+													foreach ($op as $k => $v) {
+														if($k == $comp_ti['tipo_asignacion']){
+															printf('<option value = "%s" selected = "selected">%s</option>',
+															$k,$v);				
+														}else{
+															printf('<option value = "%s">%s</option>',$k,$v);	
+														}
+													}
+												}else{
+													echo '<option value = "UNI">Única</option>
+														  <option value = "MULT">Múltiple</option>';
+												}
+											?>
+
+										</select>
+										<span class = "help-block">Si escoje <em>múltiple</em> un único ítem puede ser asignado a varios dpto,
+										el campo de <em>cantidad</em> debe ser uno (1). Para el caso de <em>único</em> las asignaciones dependerán de la cantidad </span>
+
+									</div>
+
+									<div class = "col-md-1 hidden" data-id = "icon-tipo-asignacion-componente-ti">
+										<i class = "fa fa-times text-danger">
+										</i>
+									</div><!-- /col-2: Icono-->
+								</div>
+							</div><!-- /col-12 -->
+						</div><!-- /row -->
+
 						
 						<!-- CARACTERÍSTICAS del Componente de TI-->
 

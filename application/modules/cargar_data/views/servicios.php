@@ -525,7 +525,7 @@
 		<ul class="pager">
 		  <!-- Boton Departamentos -->
 		  <li class="previous">
-		  	<a	href = "<?php echo site_url('index.php/cargar_datos/departamentos');?>"
+		  	<a	href = "<?php echo site_url('index.php/cargar_datos/departamentos/1');?>"
 				data-toggle="tooltip"
 				data-original-title="Cargar Departamentos"
 				data-placement = "top"

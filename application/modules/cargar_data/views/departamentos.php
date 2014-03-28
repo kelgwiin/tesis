@@ -15,9 +15,21 @@
 					editar la información asociada a ellos.
 				</div>
 
-				<div class="alert alert-success alert-dismissable" id = "main-componentes-ti-guardado">
+				<!-- Mensaje de Creado con Éxito-->
+				<?php 
+					if($guardado){
+					echo '<div class="alert alert-success alert-dismissable" id = "msj-guardado-dpto">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							El Departamento ha sido <strong>creado</strong> con Éxito!
+						</div>
+					';
+					}
+				?>
+				
+				<!-- Mensaje de Error Inesperado -->
+				<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-inesperado-basico">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					El Departamento ha sido <strong>creado</strong> con Éxito!
+					Ha ocurrido un error <strong>inesperado</strong>.
 				</div>
 		</div><!-- /col-12-->
 	</div><!-- /row: breadcrumb - Cabecera-->

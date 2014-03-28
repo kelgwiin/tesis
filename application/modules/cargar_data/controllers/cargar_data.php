@@ -154,6 +154,9 @@ class Cargar_Data extends MX_Controller
 				//Procesando la fecha actual
     			$p_procesado['fecha_creacion'] = date('Y-m-d H:i:s',now());
 
+    			//Cantidad Disponible
+    			$p_procesado['cantidad_disponible'] = $p_procesado['cantidad'];
+
     			//guardando el componente de ti propiamente
 				if($this->utilities_model->add($p_procesado,'componente_ti')){
 					echo '{"estatus":"ok"}';
@@ -260,13 +263,26 @@ class Cargar_Data extends MX_Controller
 		}//end-of: switch outter
 	}//end-of: function componentes_ti
 
-	public function departamentos($action = "list"){
+	public function departamentos($action){
+		$cur_page = $this->uri->segment(3);
+
+		//Verificando el segmento 3 del uri corresponde a la pag o a alguna acción
+		if (is_numeric($cur_page)) {
+			$action = 'list';
+		}else{
+			$action = $cur_page;//En este caso no es un número sino 
+								//que es la acción: guardado|nuevo|filtrar|guardar...
+		}
+
 		switch ($action) {
+			//Listando todos los departamentos
 			case 'list':
-				$this->utils->template($this->_list(3),'cargar_data/departamentos','',
-				'Cargar Infraestructura','Departamentos');
+				$params_main_content = $this->_config_dpto(false,false,$cur_page);
+				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
 			
+			//Formulario de nuevo componente de ti
 			case 'nuevo':
 				//Info de los Componentes en el sistema
 				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
@@ -274,14 +290,51 @@ class Cargar_Data extends MX_Controller
 				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
 					$params_main_content,'Cargar Infraestructura','Nuevo dpto');
 				break;
-			
+			//Guardando departamento desde ajax
 			case 'guardar':
-				print_r($this->input->post());
-				
+				$p = $this->input->post();
+				if($this->basico_model->add_dpto_comp_ti($p)){
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
+
+				break;
+			//Desplegando msj de guardado
+			case 'guardado':
+				$params_main_content = $this->_config_dpto(false,true,1);
+				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+					$params_main_content,'Cargar Infraestructura','Departamentos');
+				break;
+			//Desplegando formulario lleno para su edición
+			case 'actualizar':
+				# code...
+				break;
+			//Guardar desde actualizad
+			case 'actualizar_guardar':
+				# code...
+				break;
+			//Desplegando msj de actualizado
+			case 'actualizado':
+				# code...
 				break;
 		}
 	}
 
+	/**
+	 * Configuraciones para el maint_content  de dpto
+	 * @param  Boolean $actualizado Índica si despliega o no el msj de actualizado
+	 * @param  Boolean $guardado    Índica si despliega o no el msj de guardado
+	 * @param  Integer $cur_page    Página actual
+	 * @return Array              	Config. del main_content
+	 */
+	private function  _config_dpto($actualizado, $guardado, $cur_page){
+		$mc['actualizado'] = $actualizado;
+		$mc['guardado'] = $guardado;
+		$mc['cur_page'] = $cur_page;
+
+		return $mc;
+	}
 	public function servicios($action = "list"){
 		switch ($action) {
 			case 'list':
@@ -406,7 +459,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Departamentos",
 			"active" => false,
-			"href" => "index.php/cargar_datos/departamentos",
+			"href" => "index.php/cargar_datos/departamentos/1",
 			"icon" => "fa fa-sitemap"
 		
 		);
