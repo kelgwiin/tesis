@@ -29,7 +29,7 @@ class Cargar_Data extends MX_Controller
 		 * Número de items de componentes de ti por página 
 		 * @var integer
 		 */
-		$this->per_page_comp_ti = 6;
+		$this->per_page = 6;
 	}
 
 	public function index(){
@@ -109,7 +109,7 @@ class Cargar_Data extends MX_Controller
 		switch ($action) {
 			//Listando los componentes de ti
 			case 'list':
-				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+				$params_main_content = $this->_config_comp_ti($this->per_page,
 					false,$cur_page,array('accion' => 'all' ));
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
@@ -117,7 +117,7 @@ class Cargar_Data extends MX_Controller
 
 			//Muestra el mensaje de guardado exitoso
 			case 'guardado': 
-				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+				$params_main_content = $this->_config_comp_ti($this->per_page,
 					true,1,array('accion' => 'all' ));
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
@@ -170,19 +170,19 @@ class Cargar_Data extends MX_Controller
 				$op = $this->input->post('filtro-componente-ti');
 				switch ($op) {
 					case 'todos':
-						$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+						$params_main_content = $this->_config_comp_ti($this->per_page,
 							false,1, array('accion' => 'all' ));
 						break;
 					
 					case 'nombre':
 						$busq = $this->input->post('buscar-componente-ti');
-						$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+						$params_main_content = $this->_config_comp_ti($this->per_page,
 							false,1, array('accion' => 'nombre','campo_buscar' => $busq ));
 						break;
 
 					case 'categoria':
 						$busq = $this->input->post('buscar-componente-ti');
-						$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+						$params_main_content = $this->_config_comp_ti($this->per_page,
 							false,1, array('accion' => 'categoria','campo_buscar' => $busq ));
 						break;
 				}
@@ -254,7 +254,7 @@ class Cargar_Data extends MX_Controller
 				}
 				break;
 			case 'actualizado':
-				$params_main_content = $this->_config_comp_ti($this->per_page_comp_ti,
+				$params_main_content = $this->_config_comp_ti($this->per_page,
 					false,1,array('accion' => 'all' ),true);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
@@ -277,12 +277,31 @@ class Cargar_Data extends MX_Controller
 		switch ($action) {
 			//Listando todos los departamentos
 			case 'list':
-				$params_main_content = $this->_config_dpto(false,false,$cur_page);
+				$params_main_content = $this->_config_dpto(false,false,false,$cur_page,
+					$this->per_page, array('accion' => 'todos'));
 				$this->utils->template($this->_list(3),'cargar_data/departamentos',
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
 			
 			//Formulario de nuevo componente de ti
+			case 'filtrar':
+				$op = $this->input->post('filtro-dpto');
+				switch ($op) {
+					case 'todos':
+						$params_main_content = $this->_config_dpto(false,false,true,1,
+							$this->per_page, array('accion' => 'todos'));
+						break;
+					case 'nombre':
+						$campo_buscar = $this->input->post('buscar');
+						$params_main_content = $this->_config_dpto(false,false,true,1,
+							$this->per_page, array('accion' => 'nombre','info' =>$campo_buscar));
+						break;
+				}
+				
+				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+					$params_main_content,'Cargar Infraestructura','Departamentos');
+
+				break;
 			case 'nuevo':
 				//Info de los Componentes en el sistema
 				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
@@ -302,7 +321,8 @@ class Cargar_Data extends MX_Controller
 				break;
 			//Desplegando msj de guardado
 			case 'guardado':
-				$params_main_content = $this->_config_dpto(false,true,1);
+				$params_main_content = $this->_config_dpto(false,true,false,1,
+					$this->per_page,array('accion'=>'todos'));
 				$this->utils->template($this->_list(3),'cargar_data/departamentos',
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
@@ -325,13 +345,43 @@ class Cargar_Data extends MX_Controller
 	 * Configuraciones para el maint_content  de dpto
 	 * @param  Boolean $actualizado Índica si despliega o no el msj de actualizado
 	 * @param  Boolean $guardado    Índica si despliega o no el msj de guardado
+	 * @param  Boolean $filtradp    Índica si despliega o no el msj de filtrado
 	 * @param  Integer $cur_page    Página actual
+	 * @param  Integer $per_page 	Número de item por página
+	 * @param  Array   $data_filtro Informacion de filtro y el tipo de accion
+	 *         array('accion' => String,
+	 *         		'info' => String //valor del filtro
+	 *         )
 	 * @return Array              	Config. del main_content
 	 */
-	private function  _config_dpto($actualizado, $guardado, $cur_page){
+	private function  _config_dpto($actualizado, $guardado,$filtrado, $cur_page,$per_page,
+		$data_filtro){
+		/**
+		 * Contiene las configuraciones de main_content
+		 * @var $mc
+		 */
 		$mc['actualizado'] = $actualizado;
 		$mc['guardado'] = $guardado;
 		$mc['cur_page'] = $cur_page;
+		$mc['filtrado'] = $filtrado;
+
+		switch ($data_filtro['accion']) {
+			case 'todos':
+				$l = $this->basico_model->all_dpto();
+				break;
+
+			case 'nombre':
+				$name = $data_filtro['info'];
+				$l = $this->basico_model->all_dpto($name);
+				break;
+		}
+		$config_pag = array(
+			'total_rows' => $l['total_rows'],
+			'per_page' => $per_page,
+			'cur_page' => $cur_page
+			);
+		$mc['config_pag'] = $config_pag;
+		$mc['list_dpto'] = $l['data'];
 
 		return $mc;
 	}

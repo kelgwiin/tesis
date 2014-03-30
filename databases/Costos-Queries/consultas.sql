@@ -35,8 +35,8 @@ from componente_ti as comp join (ma_unidad_medida as uni,ma_categoria as categ) 
 where categ.nombre like '%redes%' and comp.borrado = false and comp.activa = 'ON';
 
 
-
--- DPTO
+-- -----------------------------
+-- DEPARTAMENTOS
 -- -------------------------------
 
 -- IDs y nombres de Componenetes de TI activos
@@ -44,5 +44,23 @@ select componente_ti_id as id,nombre
 from componente_ti
 where borrado = false and activa = 'ON' and (cantidad_disponible > 0
 or tipo_asignacion = 'MULT');
+
+
+-- Componente de TI que se encuentran asociados a un DPTO (INV)
+select comp.nombre, comp.componente_ti_id
+from inventario_componente_ti as icti join componente_ti as comp on (icti.componente_ti_id = comp.componente_ti_id
+and icti.inventario_ti_id = 15);
+
+-- Listando los dptos
+select * from departamento
+where borrado = false and nombre like '%dpto%';
+
+-- listando los inventarios asociados al dpto
+select inventario_ti_id as id
+from inventario_ti
+where departamento_id = 26
+order by fecha_creacion desc;
+
+
 
 

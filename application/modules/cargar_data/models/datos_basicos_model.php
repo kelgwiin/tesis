@@ -184,8 +184,79 @@ class Datos_basicos_model extends CI_Model {
         }
         return $st_dpto && $st_inv && $st_inv_comp;
     }
- 
+    /**
+     * Retorna el conjunto de departamento con los componentes de ti asociados
+     * @param String $filter_by_name Filtra por nombre los dptos pero por defecto 
+     * está en vacío.
+     * @return Array array ('data' => array de array *,
+     *         'total_rows' => Integer)
+     * 
+     * Es una array de dos campos [data, total rows]. El campo de "data"
+     * contien una clave de tipo entero y en cada uno posee dos array como se 
+     * describen abajo.
+     * 
+     *        [*] array('dpto' => array de dpto **
+     *               'list_comp_ti' => array de comp de ti ***)
+     * [**]Array(
+     *   'departamento_id' => Integer
+     *   'nombre' => String
+     *   'icono_fa' => String
+     *   'descripcion'=> String
+     *   'borrado' =>boolean)
+     * 
+     *  [***] Array(
+     *  'nombre' => String
+     *  'id' => Integer
+     * )
+     */
+    public function all_dpto($filter_by_name=NULL){
+        //Departamentos
+        if(!isset($filter_by_name)){
+            $sql_dpto = "SELECT departamento_id, nombre, icono_fa, descripcion 
+                        FROM departamento 
+                        WHERE borrado = false ; ";
+        }else{
+            $sql_dpto = "SELECT departamento_id, nombre, icono_fa, descripcion 
+                        FROM departamento 
+                        WHERE borrado = false AND nombre LIKE '%".$filter_by_name."%' ; ";
+        }
+        
+        $q = $this->db->query($sql_dpto);
+        $list_dpto = $q->result_array();
 
+        //Inventario - Inventario_Comp_TI
+        //se obtienen los componente a partir del id de la interrelación
+        $resp = array();
+        $total_rows = $q->num_rows();
+        $i = 0;
+        foreach ($list_dpto as $row) {
+            $id_dpto = $row['departamento_id'];
+
+            //NOTA: para que sólo tome el inventario más reciente
+            //ya que un dpto puede tener más de un inventario
+            $sql_inv = "SELECT inventario_ti_id AS id, fecha_creacion as f
+                        FROM inventario_ti
+                        WHERE departamento_id = '".$id_dpto."'
+                        ORDER BY fecha_creacion DESC;";
+            $q = $this->db->query($sql_inv);
+            $inv = $q->first_row('array');
+
+            //Consultando los componentes
+            $sql_icti = "SELECT comp.nombre, comp.componente_ti_id as id
+                        FROM inventario_componente_ti AS icti join 
+                        componente_ti AS comp 
+                        ON (icti.componente_ti_id = comp.componente_ti_id AND 
+                            icti.inventario_ti_id = '".$inv['id']."');";
+            $q_cti = $this->db->query($sql_icti);
+
+            $row['fecha_creacion'] = $inv['f'];//Fecha de creación del último inventario
+            $resp[$i]['dpto'] = $row;            
+            $resp[$i]['list_comp_ti'] = $q_cti->result_array();
+            $i+=1;       
+        }
+
+        return array('data' => $resp, 'total_rows'=>$total_rows);
+    }//end-of: function all_dpto
 
 } // /class Datos_basicos_model.php
 //Location: ./modules/cargar_data/datos_basicos_model.php

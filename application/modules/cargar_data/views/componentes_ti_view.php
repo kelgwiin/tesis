@@ -130,7 +130,7 @@
 				</div>
 
 				<div class = "form-group">
-					<span id = "label-msj-error-componente-ti" class="label label-danger hidden">Ingrese datos en campo buscar!</span>
+					<span id = "label-msj-error-componente-ti" class="label label-danger hidden">Ingrese datos en el campo buscar!</span>
 				</div><!-- /form-group: Mensaje de error de campo buscar-->
 			</form><!-- /form-inline-->
 		</div><!-- /col-6: Buscar, filtrado, nuevo-->

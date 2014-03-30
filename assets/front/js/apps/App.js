@@ -634,7 +634,7 @@ $(document).ready(function()
             );
     });
 
-    //:: Form - Guardar Dpto ::
+    //:: Form - Guardar Dpto (NUEVO) ::
     $('form#fr-nuevo-dpto').on('submit',function(event){
         event.preventDefault();
         // store reference to the form
@@ -677,6 +677,35 @@ $(document).ready(function()
         }
     });
 
+    //:: select filtro 
+    //:: inhabilita campo de buscar cuando es la "todos"
+    $('select#filtro-dpto').on('change',function(){
+        var value = $(this).val();
+        if(value == 'todos'){
+            $('input#buscar-dpto').removeAttr('required');
+            $('input#buscar-dpto').attr('disabled','disabled');
+            $('div#fg-buscar-dpto').attr('class','form-group');
+            $('span#label-msj-error-dpto').attr('class','label label-danger hidden');
+        }else{
+            $('input#buscar-dpto').attr('required','required');
+            $('input#buscar-dpto').removeAttr('disabled');
+        }
+    });
+
+    //:: btn buscar Mensaje de Error ::
+    $('button#btn-buscar-dpto').on('click',function(){
+        if($('select#filtro-dpto').val() != 'todos'){
+            var input = $('input#buscar-dpto').val();
+
+            if(input.length <= 0){
+                $('div#fg-buscar-dpto').attr('class','form-group has-error');
+                $('span#label-msj-error-dpto').attr('class','label label-danger show');
+            }else{
+                $('div#fg-buscar-dpto').attr('class','form-group');
+                $('span#label-msj-error-dpto').attr('class','label label-danger hidden');
+            }
+        }
+    });
     // FIN: EVENTOS DE DEPARTAMENTO
 
 
