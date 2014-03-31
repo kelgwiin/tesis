@@ -10,9 +10,10 @@
 
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					Muestra una lista de todos los <strong>departamentos</strong> que se encuentran hasta el momento cargados. Además
-					permite agregar nuevos  <strong>departamentos</strong> según las necesidades de la organización. De igual forma podrá
-					editar la información asociada a ellos.
+					Muestra una lista de todos los <strong>departamentos</strong> que se encuentran hasta el momento cargados y 
+					los <strong>componentes de ti</strong> del último inventario que tiene asociado. Además
+					permite agregar nuevos  <strong>departamentos</strong> según las necesidades de la organización. 
+					De igual forma podrá editar la información asociada a ellos.
 				</div>
 
 				<!-- Mensaje de Creado con Éxito-->
@@ -26,13 +27,23 @@
 					}
 				?>
 				
+				<!-- Mensaje de Actualizado con Éxito-->
+				<?php 
+					if($actualizado){
+					echo '<div class="alert alert-success alert-dismissable" id = "msj-actualizado-dpto">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							El Departamento ha sido <strong>actualizado</strong> con éxito y se ha <strong>creado</strong> un campo nuevo en el inventario asociado al dpto.!
+						</div>
+					';
+					}
+				?>
+				
+
 				<!-- Mensaje de Error Inesperado -->
 				<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-inesperado-basico">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Ha ocurrido un error <strong>inesperado</strong>.
 				</div>
-
-				
 
 				<!-- Mensaje Lista Actualizada -->
 				<?php 
@@ -44,6 +55,12 @@
 					';
 					}
 				?>
+
+				<!-- Mensaje de Aviso de Departamento eliminado -->
+				<div class="alert alert-success alert-dismissable hidden" id = "msj-eliminado-dpto">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Ha sido <strong>eliminado</strong> el departamento con éxito!
+				</div>
 		</div><!-- /col-12-->
 	</div><!-- /row: breadcrumb - Cabecera-->
 
@@ -199,7 +216,7 @@
 														<i class = "fa fa-pencil fa-lg"></i>	
 													</a>
 													<a  class="btn"
-														data-id = "dpto1"
+														data-id = "'.$dpto_id.'"
 														data-fieldIT = "eliminar-dpto"
 														data-toggle="tooltip" 
 														data-original-title="Eliminar"
@@ -379,6 +396,42 @@
 </div>
 <!-- Fin de Direccionamiento de formularios -->
 
+
+	<!-- Msj de Confirmación de Eliminación de Dpto  -->
+	<div class="modal fade" id = "confirmar-eliminar-dpto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content bg-info">
+				<div class="modal-body">
+					<!-- ícono de cerrar-->
+					<div class = "row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true"><i class = "fa fa-times"></i></button>	
+						</div>
+					</div>
+					<!-- Cuerpo del mensaje -->
+					<div class = "row">
+						<div class = "col-md-1 col-md-offset-1">
+							<i class = "fa fa-question-circle fa-5x"></i>	
+						</div>
+						<div class="col-md-10">
+							<h3 class= "text-center">¿Está seguro que desea <strong>eliminar</strong> <br>el departamento?</h3>			
+						</div>
+					</div>
+					<br><br>
+					<!-- Botones Cerrar y Eliminar -->
+					<div class = "row">
+						<div class="col-md-4 col-md-offset-4">
+							
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+							&nbsp 
+							<button data-id = "-1" id = "btn-aceptar-dpto" type="button" class="btn btn-primary">Aceptar</button>
+							
+						</div>
+					</div>
+				</div><!-- /modal-body-->
+			</div><!-- /modal-content-->
+		</div><!-- /modal-dialog-->
+	</div><!-- /modal-dialog-->
 
 
 </div><!-- end of: page-wrapper-->

@@ -195,11 +195,11 @@ class Cargar_Data extends MX_Controller
 				break;
 
 			//Eliminando lógicamente desde ajax
-			case 'eliminar'://eliminando lógicamente
+			case 'eliminar':
 					$id_comp_ti = $this->input->post('componente_ti_id');
 					//Eliminando lógicamente
 					if($this->utilities_model->update('componente_ti',
-						array('componente_ti_id'=>$id_comp_ti),array('activa'=>'OFF')) ){
+						array('componente_ti_id'=>$id_comp_ti),array('borrado'=>true)) ){
 						echo '{"estatus":"ok"}';
 					}else{
 						echo '{"estatus":"fail"}';
@@ -305,7 +305,7 @@ class Cargar_Data extends MX_Controller
 			case 'nuevo':
 				//Info de los Componentes en el sistema
 				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
-
+				$params_main_content['actualizar'] = false;
 				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
 					$params_main_content,'Cargar Infraestructura','Nuevo dpto');
 				break;
@@ -328,15 +328,52 @@ class Cargar_Data extends MX_Controller
 				break;
 			//Desplegando formulario lleno para su edición
 			case 'actualizar':
-				# code...
+				$dpto_id = $this->uri->segment(4);
+				
+				//Obteniendo la información del dpto
+				$params_main_content['dpto'] = $this->utilities_model->row_by_id('departamento',
+					'departamento_id',$dpto_id);
+				
+				//Componentes en el sistema que no estén ya previamente seleccionados
+				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti($dpto_id);
+
+				//Componentes que están asociados al dpto
+				$params_main_content['list_comp_ti_asig']  = $this->basico_model->comp_ti_asig_dpto($dpto_id);
+
+				$params_main_content['actualizar'] = true;
+				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
+					$params_main_content,'Cargar Infraestructura','Actualizar dpto');
+
 				break;
-			//Guardar desde actualizad
+			//Guardar desde actualizado, desde ajax
 			case 'actualizar_guardar':
-				# code...
+				$dpto_id = $this->uri->segment(4);
+				$p = $this->input->post();
+				$p['dpto_id'] = $dpto_id;
+				
+				if($this->basico_model->update_dpto($p)){
+					echo '{"estatus":"ok"}';	
+				}else{
+					echo '{"estatus":"fail"}';
+				}
 				break;
 			//Desplegando msj de actualizado
 			case 'actualizado':
-				# code...
+				$params_main_content = $this->_config_dpto(true,false,false,1,
+					$this->per_page,array('accion'=>'todos'));
+				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+					$params_main_content,'Cargar Infraestructura','Departamentos');
+				break;
+			case 'eliminar':
+				$dpto_id = $this->input->post('dpto_id');
+				//Eliminando lógicamente
+				if($this->utilities_model->update('departamento',
+					array('departamento_id'=>$dpto_id),array('borrado'=>true)) ){
+					
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
 				break;
 		}
 	}

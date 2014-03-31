@@ -561,8 +561,10 @@ $(document).ready(function()
     //:: Ícono ::
     //cambiando ícono del dpto
     $('button[data-icono=icono]').on('click',function(){
-        $('button[data-icono=icono]').attr('data-select','no');//deseleccionando
-        $(this).attr('data-select','si');
+        $('button[data-icono=icono]').attr('data-select','no').
+        attr('class','btn btn-info');//deseleccionando
+
+        $(this).attr('data-select','si').attr('class','btn btn-info active');
     });
 
     //:: Mensajes de Error en boton guardar ::
@@ -634,20 +636,22 @@ $(document).ready(function()
             );
     });
 
-    //:: Form - Guardar Dpto (NUEVO) ::
+    //:: Form - Guardar Dpto (NUEVO) & Actualizar ::
+    //todo depende del campo "data-oper" del formulario
     $('form#fr-nuevo-dpto').on('submit',function(event){
         event.preventDefault();
         // store reference to the form
         var bk_this = $(this);
-
+        
         // grab the url from the form element
         var url = bk_this.attr('action');
             
-        
+        var oper = bk_this.attr('data-oper');
+
         //Función procesar llamada desde el post
         var fo_proccess = function (data){
             if(data.estatus == 'ok'){
-                $(location).attr('href','index.php/cargar_datos/departamentos/guardado');
+                $(location).attr('href','index.php/cargar_datos/departamentos/'+oper);
             }else{
                 $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
             }
@@ -676,7 +680,7 @@ $(document).ready(function()
             $.post(url,params,fo_proccess,'json');
         }
     });
-
+    
     //:: select filtro 
     //:: inhabilita campo de buscar cuando es la "todos"
     $('select#filtro-dpto').on('change',function(){
@@ -705,6 +709,42 @@ $(document).ready(function()
                 $('span#label-msj-error-dpto').attr('class','label label-danger hidden');
             }
         }
+    });
+
+        //:: btn Eliminar - Mostrar Modal dpto:: 
+    //Muestra el mensaje de confirmación de eliminación
+    $('a[data-fieldIT=eliminar-dpto]').on('click', function(){
+        var id  = $(this).attr('data-id');//getting id
+
+        //Se muestra el diálogo de confirmación
+        $('div#confirmar-eliminar-dpto').modal('show');
+        //Se coloca el valor del id en el botón del modal
+        $('button#btn-aceptar-dpto').attr('data-id',id);
+    });
+    
+    //:: btn Confirmar Eliminación dpto ::
+    $('button#btn-aceptar-dpto').on('click',function(){
+        //Escondiendo el modal
+        $('div#confirmar-eliminar-dpto').modal('hide');
+
+        var id  = $(this).attr('data-id');
+        var params = {dpto_id:id};
+        var url = "index.php/cargar_datos/departamentos/eliminar";
+        var dataType = "json";
+        var fo = function(data){
+            if(data.estatus == 'ok'){
+                //Mostrando msj de item eliminado lógicamente
+                $('div#msj-eliminado-dpto').attr('class','alert alert-success alert-dismissable show');
+                //Escondiendo msj de error inesperado
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
+            }else{
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+            }
+        }
+        //Haciendo llamada al controlador desde ajax
+        $.post(url,params,fo,dataType);
+        //Eliminando gráficamente
+        $('div[data-id=panel-item-dpto'+id+']').remove();
     });
     // FIN: EVENTOS DE DEPARTAMENTO
 

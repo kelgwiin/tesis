@@ -128,7 +128,12 @@ class Datos_basicos_model extends CI_Model {
     }
     /**
      * Obtiene todos los ids y nombres de los componentes de ti 
-     * que se encuentran activos
+     * que se encuentran activos y disponibles según el campo de disponibilidad.
+     * 
+     * Si se pasa el parámetro de $dpto_id entonces se filtran los que no 
+     * pertenezcan ya al dpto.
+     * 
+     * @param Integer $dpto_id ID asociado al departamento.
      * @return Array Una array asociativo del tipo:
      * array(
      *     'id' => Integer,
@@ -136,10 +141,25 @@ class Datos_basicos_model extends CI_Model {
      *     'cant_disp'=>Integer
      * )
      */
-    public function ids_nombres_comp_ti(){
-        $sql = "SELECT componente_ti_id as id,nombre, cantidad_disponible as cant_disp
-                FROM componente_ti
-                WHERE borrado = false AND activa = 'ON' AND (cantidad_disponible > 0  OR tipo_asignacion = 'MULT');";
+    public function ids_nombres_comp_ti($dpto_id=NULL){
+        if(!isset($dpto_id)){
+            $sql = "SELECT componente_ti_id as id,nombre, cantidad_disponible as cant_disp
+                    FROM componente_ti
+                    WHERE borrado = false AND activa = 'ON' AND (cantidad_disponible > 0  OR tipo_asignacion = 'MULT');";
+        }else{
+            $sql = "SELECT comp.componente_ti_id as id,comp.nombre, comp.cantidad_disponible as cant_disp
+                    FROM componente_ti as comp
+                    WHERE borrado = false AND activa = 'ON' AND (cantidad_disponible > 0
+                        OR tipo_asignacion = 'MULT')  AND comp.componente_ti_id not in (
+                        
+                        SELECT comp.componente_ti_id as id 
+                        FROM componente_ti as comp JOIN (inventario_ti as iv, inventario_componente_ti as icti)
+                            ON (iv.departamento_id = '".$dpto_id."' AND icti.inventario_ti_id = iv.inventario_ti_id AND 
+                            comp.componente_ti_id = icti.componente_ti_id)
+                    );";
+        }
+
+        
         $q = $this->db->query($sql);
         return $q->result_array(); 
     }
@@ -214,11 +234,14 @@ class Datos_basicos_model extends CI_Model {
         if(!isset($filter_by_name)){
             $sql_dpto = "SELECT departamento_id, nombre, icono_fa, descripcion 
                         FROM departamento 
-                        WHERE borrado = false ; ";
+                        WHERE borrado = false 
+                        ORDER BY departamento_id;
+                        ";
         }else{
             $sql_dpto = "SELECT departamento_id, nombre, icono_fa, descripcion 
                         FROM departamento 
-                        WHERE borrado = false AND nombre LIKE '%".$filter_by_name."%' ; ";
+                        WHERE borrado = false AND nombre LIKE '%".$filter_by_name."%' 
+                        ORDER BY departamento_id; ";
         }
         
         $q = $this->db->query($sql_dpto);
@@ -257,6 +280,81 @@ class Datos_basicos_model extends CI_Model {
 
         return array('data' => $resp, 'total_rows'=>$total_rows);
     }//end-of: function all_dpto
+
+    /**
+     * Se obtienen los componentes de TI asignados a un dpto
+     * @param  Integer $id_dpto ID del departamento.
+     * @return Array Una array asociativo del tipo:
+     * array(
+     *     'id' => Integer,
+     *     'nombre'=>String,
+     *     'cant_disp'=>Integer
+     * )
+     */
+    public function comp_ti_asig_dpto($id_dpto){
+        //NOTA: para que sólo tome el inventario más reciente
+        //ya que un dpto puede tener más de un inventario
+        $sql_inv = "SELECT inventario_ti_id AS id
+                    FROM inventario_ti
+                    WHERE departamento_id = '".$id_dpto."'
+                    ORDER BY fecha_creacion DESC;";
+        $q = $this->db->query($sql_inv);
+        $inv = $q->first_row('array');
+
+        //Consultando los componentes
+        $sql_icti = "SELECT comp.nombre, comp.componente_ti_id as id, comp.cantidad_disponible as cant_disp
+                    FROM inventario_componente_ti AS icti join 
+                    componente_ti AS comp 
+                    ON (icti.componente_ti_id = comp.componente_ti_id AND 
+                        icti.inventario_ti_id = '".$inv['id']."');";
+        $q_cti = $this->db->query($sql_icti);   
+
+        return $q_cti->result_array();
+    }
+    /**
+     * Actualiza la información del dpto. En el caso del inventario lo que hace
+     * es crear uno nuevo cada vez que se realiza alguna modificación.
+     * @param  Array $data Tiene la siguiente forma:
+     *     array('nombre' => String,
+     *           'descripcion'=>String,
+     *           'icono_fa'=>String,
+     *           'dpto_id'=>Integer,
+     *           'list_comp_ti'=>array de comp de ti *)
+     * 
+     * [*] Cada entrada contiene la siguiente forma:
+     *     array('id'=>Integer,
+     *           'cant_disp'=>Integer )
+     * @return Boolean TRUE|FALSE Dependiendo si actualiza o no con éxito.
+     */
+    public function update_dpto($data){
+        //Actualizando la información del dpto.
+        $info_dpto = array('nombre'=>$data['nombre'],
+            'descripcion'=>$data['descripcion'],
+            'icono_fa'=>$data['icono_fa']);
+        $st_dpto = $this->utilities_model->update('departamento',
+            array('departamento_id'=>$data['dpto_id']),$info_dpto);
+
+        //:: Creando el nuevo inventario ::
+        //Agregando el inventario
+        $dpto_id = $data['dpto_id'];
+        $date = date('Y-m-d H:i:s',now());
+        $data_inv = array('departamento_id' => $dpto_id, 'fecha_creacion' => $date);
+        $st_inv = $this->utilities_model->add($data_inv,'inventario_ti');
+
+        //Agregando los Componentes de TI & Actualizando cant. disponible (interrelación)
+        $id_inv = $this->db->insert_id();//id del inv. insertado
+        foreach ($data['list_comp_ti'] as $r) {
+            $data_comp = array('inventario_ti_id'=>$id_inv, 'componente_ti_id'=>$r['id']);
+            $this->utilities_model->add($data_comp,'inventario_componente_ti');
+
+            //actualizando la cantidad disponible
+            $sql_cant_disp =   "UPDATE componente_ti 
+                                SET cantidad_disponible = ".($r['cant_disp']-1)."
+                                WHERE tipo_asignacion='UNI' AND componente_ti_id = '".$r['id']."';";
+            $st_inv_comp = $this->db->query($sql_cant_disp);
+        }
+        return $st_dpto && $st_inv && $st_inv_comp;
+    }
 
 } // /class Datos_basicos_model.php
 //Location: ./modules/cargar_data/datos_basicos_model.php

@@ -39,26 +39,36 @@ where categ.nombre like '%redes%' and comp.borrado = false and comp.activa = 'ON
 -- DEPARTAMENTOS
 -- -------------------------------
 
--- IDs y nombres de Componenetes de TI activos
+-- IDs y nombres de Componentes de TI activos
 select componente_ti_id as id,nombre
 from componente_ti
 where borrado = false and activa = 'ON' and (cantidad_disponible > 0
 or tipo_asignacion = 'MULT');
 
+	-- Lista los IDs & Nombres de los Componentes de TI  que no se encuentran en el dpto.
+select comp.componente_ti_id as id,comp.nombre, comp.cantidad_disponible as cant_disp
+from componente_ti as comp
+where borrado = false and activa = 'ON' and (cantidad_disponible > 0
+or tipo_asignacion = 'MULT')  and comp.componente_ti_id not in (
+	select comp.componente_ti_id as id 
+	from componente_ti as comp join (inventario_ti as iv, inventario_componente_ti as icti)
+		on (iv.departamento_id = 26 and icti.inventario_ti_id = iv.inventario_ti_id and 
+		comp.componente_ti_id = icti.componente_ti_id)
+);
 
 -- Componente de TI que se encuentran asociados a un DPTO (INV)
 select comp.nombre, comp.componente_ti_id
 from inventario_componente_ti as icti join componente_ti as comp on (icti.componente_ti_id = comp.componente_ti_id
-and icti.inventario_ti_id = 15);
+and icti.inventario_ti_id = 26);
 
 -- Listando los dptos
 select * from departamento
 where borrado = false and nombre like '%dpto%';
 
 -- listando los inventarios asociados al dpto
-select inventario_ti_id as id
+select inventario_ti_id as id, fecha_creacion as fecha 
 from inventario_ti
-where departamento_id = 26
+where departamento_id = 36
 order by fecha_creacion desc;
 
 
