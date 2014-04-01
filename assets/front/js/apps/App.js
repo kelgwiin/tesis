@@ -486,16 +486,20 @@ $(document).ready(function()
     //Checkbox que habilita el campo de montos
     $('input[data-cb=genera-ingresos-nuevo-servicio]').on('click', function(){
         if($(this).is(':checked')){
-            $('input[data-id=monto-ingreso-nuevo-servicio]').removeAttr('disabled');   
+            $('input#monto-ingreso-nuevo-servicio').removeAttr('disabled').
+            attr('required','required');   
         }else{
-            $('input[data-id=monto-ingreso-nuevo-servicio]').attr('disabled','on');            
+            $('input#monto-ingreso-nuevo-servicio').attr('disabled','disabled')
+            .removeAttr('required');            
         }
     });
 
     //Agregar formulario Principal de Cronograma de Ejecución
     $('a[data-id=btn-add-forms-cronograma]').on('click', function (){
         var num = parseInt($('label#num-filas-cronogramas').attr('data-num-filas'))+1;//Número de fila actual
-        var form_cronogramas = '<div class="panel panel-info" data-id = "form-cronograma-'+num+'"> <div class="panel-body"> <!-- Numeración --> <div class="row"> <div class ="col-md-12"> <p class = "text-muted "><strong><small>CRONOGRAMA #'+num+'</small></strong></p> </div> </div><!-- Numeración --> <br> <!-- Campos de Cronograma de Ejecución --> <div class = "row" ><!-- inner --> <!-- Desccripción del  Cronograma --> <div class = "col-md-1"><!-- label --> <label for = "descripcion-cronograma-'+num+'" class ="control-label">Descripción</label> </div> <div class="col-md-3"> <input type="text" name="descripcion-cronograma-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Descripción"data-toggle = "tooltip" data-original-title = "Descripción del Cronograma"> </div><!-- /col-3: Descripción del Cronograma--> <!-- Horario desde--> <div class = "col-md-1"><!-- label --> <label for = "horario-desde-cronograma-'+num+'" class = "control-label">Desde</label> </div> <div class="col-md-3"> <input type="time" name="horario-desde-cronograma-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Desde"data-toggle = "tooltip" data-original-title = "Horario inicial"> </div><!-- /col-3: Horario desde--> <!-- Horario hasta --> <div class = "col-md-1"><!-- label --> <label for = "horario-hasta-cronograma-'+num+'" class = "control-label">Hasta</label> </div> <div class="col-md-3"> <input type="time" name="horario-hasta-cronograma-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Hasta"data-toggle = "tooltip" data-original-title = "Horario final"> </div><!-- /col-3: Horario hasta--> </div><!-- /row: Campos de Cronograma de Ejecución--> <!-- Registro de Comandos y Operaciones --> <br> <h4 class = "text-primary">Registro de Comandos y Operaciones </h4> <!-- Boton de Añadir y Eliminar formulario de Comandos y Operaciones--> <div class = "row"> <div class="col-md-1"> <a  class = "btn "data-id = "btn-add-forms-comandos-oper"data-secuencia = "'+num+'"data-toggle = "tooltip"data-original-title = "Agregar formulario al final"data-placement = "top"> <i class = "fa fa-plus fa-lg"></i> Añadir </a> </div><!-- /col-1--> <div class="col-md-1"> <a  class = "btn "data-id = "btn-remove-forms-comandos-oper"data-secuencia = "'+num+'"data-toggle = "tooltip"data-original-title = "Eliminar último formulario"data-placement = "top"> <i class = "fa fa-minus fa-lg"></i> Eliminar </a> </div><!-- /col-1--> <div class = "col-md-10"></div><!-- Vacío--> </div><!-- /row: Boton Añadir y Eliminar formulario de Comandos y Operaciones --> <!-- Lista de Comandos y Operaciones --> <div class = "row"  > <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-fcomandos-oper = "form-comando-oper-'+num+'"> <!--Contador de numeros  de filas de comandos y operaciones --> <label class = "sr-only" id = "num-filas-comandos-oper-'+num+'" data-num-filas = "1"></label> <!--Campos Iniciales --> <div class="row" data-id = "sec-'+num+'-comando-oper-1"><!-- inner de Comandos y Operaciones --> <!-- Comando --> <div class = "col-md-3"> <input type="text" name="comando-1" data-secuencia = "1"class="form-control"  required="required"  placeholder = "Comando"data-toggle = "tooltip" data-original-title = "Comando"> </div><!-- /col-3: Comando --> <!-- Operación --> <div class = "col-md-3"> <input type="text" name="operacion-1" data-secuencia = "1"class="form-control"  required="required"  placeholder = "Operación"data-toggle = "tooltip" data-original-title = "Operación a ejecutar"> </div><!-- /col-3: Operación --> <div class = "col-md-6"></div><!-- Vacío--> <!-- /row: Comandos y Operaciones --> </div> <!-- A partir de aquí se agregar desde jquery --> </div><!-- /col-12--> <!-- /row: Lista de Comandos y Operaciones --> </div> </div><!-- /panel-body--> <!-- /panel--> </div>'; $('div[data-fcronograma=forms-cronograma]').append(form_cronogramas);//Creando el nuevo formulario
+        var form_cronogramas = '<div class="panel panel-info sche-bgcolor" data-id = "form-cronograma-'+num+'"> <div class="panel-body"> <!-- Numeración --> <div class="row"> <div class ="col-md-12"> <p class = "text-muted "><strong><small>CRONOGRAMA #'+num+'</small></strong></p> </div> </div><!-- Numeración --> <br> <!-- Campos de Cronograma de Ejecución --> <div class = "row" ><!-- inner --> <!-- Desccripción del  Cronograma --> <div class = "col-md-2"><!-- label --> <label for = "descripcion-cronograma-'+num+'" class ="control-label">Descripción</label> </div> <div class="col-md-3"> <input type="text" name="descripcion-cronograma-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Descripción"data-toggle = "tooltip" data-original-title = "Descripción del Cronograma"> </div><!-- /col-3: Descripción del Cronograma--> <!-- Horario desde--> <div class = "col-md-1"><!-- label --> <label for = "horario-desde-cronograma-'+num+'" class = "control-label">Desde</label> </div> <div class="col-md-2"> <input type="time" name="horario-desde-cronograma-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Desde"data-toggle = "tooltip" data-original-title = "Horario inicial"> </div><!-- /col-3: Horario desde--> <!-- Horario hasta --> <div class = "col-md-1"><!-- label --> <label for = "horario-hasta-cronograma-'+num+'" class = "control-label">Hasta</label> </div> <div class="col-md-2"> <input type="time" name="horario-hasta-cronograma-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Hasta"data-toggle = "tooltip" data-original-title = "Horario final"> </div><!-- /col-3: Horario hasta--> <div class = "col-md-1"></div><!-- vacío--> </div><!-- /row: Campos de Cronograma de Ejecución--> <!-- Registro de Comandos y Operaciones --> <br> <h4 class = "text-primary">Registro de Comandos y Operaciones </h4> <!-- Boton de Añadir y Eliminar formulario de Comandos y Operaciones--> <div class = "row"> <div class="col-md-1"> <a  class = "btn "data-id = "btn-add-forms-comandos-oper"data-secuencia = "'+num+'"data-toggle = "tooltip"data-original-title = "Agregar formulario al final"data-placement = "top"> <i class = "fa fa-plus fa-lg"></i> Añadir </a> </div><!-- /col-1--> <div class="col-md-1"> <a  class = "btn "data-id = "btn-remove-forms-comandos-oper"data-secuencia = "'+num+'"data-toggle = "tooltip"data-original-title = "Eliminar último formulario"data-placement = "top"> <i class = "fa fa-minus fa-lg"></i> Eliminar </a> </div><!-- /col-1--> <div class = "col-md-10"></div><!-- Vacío--> </div><!-- /row: Boton Añadir y Eliminar formulario de Comandos y Operaciones --> <!-- Lista de Comandos y Operaciones --> <div class = "row"  > <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-fcomandos-oper = "form-comando-oper-'+num+'"> <!--Contador de numeros  de filas de comandos y operaciones --> <label class = "sr-only" id = "num-filas-comandos-oper-'+num+'" data-num-filas = "1"></label> <!--Campos Iniciales --> <div class="row" data-id = "sec-'+num+'-comando-oper-1"><!-- inner de Comandos y Operaciones --> <!-- Comando --> <div class = "col-md-3"> <input type="text" name="comando-'+num+'-1" data-secuencia = "1"class="form-control"  required="required"  placeholder = "Comando"data-toggle = "tooltip" data-original-title = "Comando"> </div><!-- /col-3: Comando --> <!-- Operación --> <div class = "col-md-3"> <input type="text" name="operacion-'+num+'-1" data-secuencia = "1"class="form-control"  required="required"  placeholder = "Operación"data-toggle = "tooltip" data-original-title = "Operación a ejecutar"> </div><!-- /col-3: Operación --> <div class = "col-md-6"></div><!-- Vacío--> <!-- /row: Comandos y Operaciones --> </div> <!-- A partir de aquí se agregar desde jquery --> </div><!-- /col-12--> <!-- /row: Lista de Comandos y Operaciones --> </div> </div><!-- /panel-body--> <!-- /panel--> </div>';
+
+        $('div[data-fcronograma=forms-cronograma]').append(form_cronogramas);//Creando el nuevo formulario
         $('label#num-filas-cronogramas').attr('data-num-filas',num);//Actualizando el contador 
         $('[data-toggle=tooltip]').tooltip();//Enlazando tooltips nuevos
 
@@ -530,8 +534,7 @@ $(document).ready(function()
     $('a#btn-add-forms-umbrales').on('click',function(){
 
         var num = parseInt($('label#num-filas-umbrales').attr('data-num-filas'))+1;//Número de fila actual
-        var form_umbrales =     '<div class = "row" data-id ="form-umbral-'+num+'"> <!-- inner--> <div class = "col-md-3"> <input type="text" name="descripcion-umbrales-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Descripción"data-toggle = "tooltip" data-original-title = "Descripción del Umbral"> </div> <div class = "col-md-3"> <input type="number" name="tiempo-acordado-umbrales-'+num+'" min = "1" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Tiempo"data-toggle = "tooltip" data-original-title = "Tiempo acordado"> </div> <div class = "col-md-3"> <select name="medida-umbrales-'+num+'"  class="form-control" data-secuencia = "'+num+'"data-toggle = "tooltip" data-original-title = "Medida del Tiempo"> <option value="header"> Medida </option> <option value="hh"> Horas</option> <option value="mm"> Minutos </option> <option value="ss"> Segundos </option> </select> </div> <div class = "col-md-3"> <input type="number" name="valor-umbrales-'+num+'" min = "1" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Valor"data-toggle = "tooltip" data-original-title = "Valor"> </div> </div> <br data-id ="form-umbral-'+num+'">';
-     
+        var form_umbrales = '<div class = "row" data-id = "form-umbral-'+num+'"> <!-- inner--> <div class = "col-md-3"> <input type="text" name="descripcion-umbrales-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Descripción"data-toggle = "tooltip" data-original-title = "Descripción del Umbral"> </div> <div class = "col-md-3"> <input type="number" name="tiempo-acordado-umbrales-'+num+'" min = "1" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Tiempo"data-toggle = "tooltip" data-original-title = "Tiempo acordado"> </div> <div class = "col-md-3"> <select name="medida-umbrales-'+num+'"  class="form-control" data-secuencia = "'+num+'"data-toggle = "tooltip" data-original-title = "Medida del Tiempo"> <option value="hh"> Horas</option> <option value="mm"> Minutos </option> <option value="ss"> Segundos </option> </select> </div> <div class = "col-md-3"> <input type="number" name="valor-umbrales-'+num+'" min = "1" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Valor"data-toggle = "tooltip" data-original-title = "Valor"> </div> </div><!-- /row: form '+num+'--> <br data-id = "form-umbral-'+num+'">';
         $('div[data-fumbrales=forms-umbrales]').append(form_umbrales);//Creando el nuevo formulario
         $('label#num-filas-umbrales').attr('data-num-filas',num);//Actualizando el contador
 
@@ -547,8 +550,199 @@ $(document).ready(function()
         if(num != 0){
             $('div[data-id=form-umbral-'+num+']').remove();
             $('br[data-id=form-umbral-'+num+']').remove();
-            $('label#num-filas-umbrales').attr('data-num-filas',num-1);//Actualizando el contador    
+            $('label#num-filas-umbrales').attr('data-num-filas',(num-1));//Actualizando el contador    
         }
+    });
+
+    
+    //Agregar formulario del Procesos
+    $('a#btn-add-forms-procesos').on('click',function(){
+
+        var num = parseInt($('label#num-filas-procesos').attr('data-num-filas'))+1;//Número de fila actual
+        var form_procesos= '<div class = "row" data-id = "form-proceso-'+num+'"> <!-- inner--> <!-- Nombre--> <div class = "col-md-4"> <input type="text" name="nombre-procesos-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Nombre"data-toggle = "tooltip" data-original-title = "Nombre del Proceso"> </div> <!-- Descripción (opcional) --> <div class = "col-md-4"> <input type="text" name="descripcion-procesos-'+num+'"  data-secuencia = "'+num+'"class="form-control"  placeholder = "Descripción"data-toggle = "tooltip" data-original-title = "Descripción del Proceso (opcional)"> </div> <!-- Tipo (opcional) --> <div class = "col-md-4"> <input type="text" name="tipo-procesos-'+num+'" data-secuencia = "'+num+'"class="form-control"  placeholder = "Tipo"data-toggle = "tooltip" data-original-title = "Tipo de Proceso (opcional)"> </div> </div><!-- /row: inner procesos --> <br data-id = "form-proceso-'+num+'">';
+
+        $('div[data-fprocesos=forms-procesos]').append(form_procesos);//Creando el nuevo formulario
+        $('label#num-filas-procesos').attr('data-num-filas',num);//Actualizando el contador
+
+        //Se hace la llamada del tooltip de nuevo para que la instancia que se creo 
+        //se le puedan enlazar los eventos.
+        $('[data-toggle=tooltip]').tooltip();
+
+    });
+
+    //Eliminar formulario del Procesos
+    $('a#btn-remove-forms-procesos').on('click',function(){
+        var num = parseInt($('label#num-filas-procesos').attr('data-num-filas'));
+        if(num != 0){
+            $('div[data-id=form-proceso-'+num+']').remove();
+            $('br[data-id=form-proceso-'+num+']').remove();
+            $('label#num-filas-procesos').attr('data-num-filas',(num-1));//Actualizando el contador    
+        }
+    });
+
+
+    // :: btn Guardar Servicio  - Mensaje de Error ::
+    $('button#btn-guardar-servicio').on('click',function(){
+        var is_empty = false;
+
+        if(($('input#nombre-servicio').val()).length <= 0 || 
+            
+            ($('input[data-cb=genera-ingresos-nuevo-servicio]').is(':checked') && 
+             $('input#monto-ingreso-nuevo-servicio').val().length <= 0) ||
+
+            $('textarea#descripcion-datos-basicos-servicio').val().length <= 0
+        ){
+            is_empty = true;
+        }
+
+        if(!is_empty){
+            //Se verifican los formularios de cronogramas de ejecución
+            tama = parseInt($('label#num-filas-cronogramas').attr('data-num-filas'));
+            
+            //cabecera del cronograma
+            for (var i = 1; i <= tama && !is_empty; i++) {
+                if($('input[name=descripcion-cronograma-'+i+']').val().length <= 0 || 
+                    $('input[name=horario-desde-cronograma-'+i+']').val().length<=0 ||
+                    $('input[name=horario-hasta-cronograma-'+i+']').val().length<=0
+                ){//
+                    is_empty = true;
+                }
+
+              //Verificando los comandos y operaciones
+              tama_com_oper = parseInt($('label#num-filas-comandos-oper-'+i).attr('data-num-filas'));
+              for(var j = 1; j <= tama_com_oper && !is_empty; j++){
+                if($('input[name=comando-'+i+'-'+j+']').val().length <= 0 ||
+                    $('input[name=operacion-'+i+'-'+j+']').val().length <= 0){
+                    is_empty = true;
+                }
+              }
+
+            }//end of: for cronogramas
+
+            //Verificando los Umbrales
+            tama_umbrales = parseInt($('label#num-filas-umbrales').attr('data-num-filas'));
+            for (var k = 1; k <= tama_umbrales && !is_empty; k++) {
+                if($('input[name=descripcion-umbrales-'+k+']').val().length <= 0 ||
+                    $('input[name=tiempo-acordado-umbrales-'+k+']').val().length <= 0 ||
+                    $('input[name=valor-umbrales-'+k+']').val().length <= 0 
+
+                    ){
+
+                    is_empty = true;
+                }
+            }//end of: for umbrales
+
+            //Verificando los procesos
+            tama_procesos = parseInt($('label#num-filas-procesos').attr('data-num-filas'));
+            for ( k = 1;  k <= tama_procesos && !is_empty; k++) {
+                   if($('input[name=nombre-procesos-'+k+']').val().length <= 0){
+                        is_empty = true;
+                   }
+            }//end of: for procesos
+        }
+
+       if(is_empty){
+            //Mostrando msj de error
+            $('div#msj-error-servicios').attr('class','alert alert-danger alert-dismissable show');
+       }
+    });
+
+    //:: Form - Guardar Dpto (NUEVO) & Actualizar  - Servicio ::
+    $('form#fr-nuevo-servicio').on('submit',function(event){
+        event.preventDefault();
+        // store reference to the form
+        var bk_this = $(this);
+        
+        // grab the url from the form element
+        var url = bk_this.attr('action');
+            
+        //var oper = bk_this.attr('data-oper');
+
+        //Función procesar llamada desde el post
+        var fo_proccess = function (data){
+            alert(data);//temporal
+            
+            /*if(data.estatus == 'ok'){
+                $(location).attr('href','index.php/cargar_datos/departamentos/'+oper);
+            }else{
+                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+            }*/
+        }
+        
+        //Preparando datos para enviar al post
+        
+
+        //Datos básicos
+        genera_ingresos_ = $('input[data-cb=genera-ingresos-nuevo-servicio]').is(':checked');
+        if(genera_ingresos_){
+            monto_ = $('input#monto-ingreso-nuevo-servicio').val();
+        }else{
+            monto_ = 0;
+        }
+
+        //Cronogramas de Ejecución
+        tama = parseInt($('label#num-filas-cronogramas').attr('data-num-filas'));
+        list_cronogramas_ejecucion_ = new Array();
+
+        for (var i = 1; i <= tama; i++) {
+          //Obteniendo los comandos y operaciones
+            l_c_o = new Array();
+            tama_com_oper = parseInt($('label#num-filas-comandos-oper-'+i).attr('data-num-filas'));
+            for(var j = 1; j <= tama_com_oper; j++){
+                l_c_o.push({
+                    comando:$('input[name=comando-'+i+'-'+j+']').val(),
+                    operacion:$('input[name=operacion-'+i+'-'+j+']').val()
+                });
+            }
+
+            //Datos básicos & agregando la lista de comandos y operaciones
+            row = {
+                    nombre:$('input[name=descripcion-cronograma-'+i+']').val(),
+                    horario_desde:$('input[name=horario-desde-cronograma-'+i+']').val(),
+                    horario_hasta:$('input[name=horario-hasta-cronograma-'+i+']').val(),
+                    list_comando_operaciones:l_c_o
+            };
+
+            list_cronogramas_ejecucion_.push(row);
+
+        }//end of: for cronogramas
+
+        //Umbrales
+        tama_umbrales = parseInt($('label#num-filas-umbrales').attr('data-num-filas'));
+        list_umbrales_ = new Array();
+        for (var k = 1; k <= tama_umbrales; k++) {
+            list_umbrales_.push({
+                descripcion:$('input[name=descripcion-umbrales-'+k+']').val(),
+                tiempo_acordado:$('input[name=tiempo-acordado-umbrales-'+k+']').val(),
+                medida_tiempo:$('select[name=medida-umbrales-'+k+']').val(),
+                valor:$('input[name=valor-umbrales-'+k+']').val()
+            });
+        }//end of: for umbrales
+
+        //Procesos
+        tama_procesos = parseInt($('label#num-filas-procesos').attr('data-num-filas'));
+        list_procesos_ = new Array();
+        for ( k = 1;  k <= tama_procesos; k++) {
+            list_procesos_.push({
+              nombre:$('input[name=nombre-procesos-'+k+']').val(),
+              descripcion:$('input[name=descripcion-procesos-'+k+']').val(),
+              tipo:$('input[name=tipo-procesos-'+k+']').val()
+            });
+               
+        }//end of: for procesos
+
+        params = {
+            nombre:$('input#nombre-servicio').val(),
+            tipo_servicio:$('select#tipo-servicio').val(),
+            genera_ingresos:genera_ingresos_,
+            monto:monto_,
+            descripcion:$('textarea#descripcion-datos-basicos-servicio').val(),
+            list_cronogramas_ejecucion:list_cronogramas_ejecucion_,
+            list_umbrales:list_umbrales_,
+            list_procesos:list_procesos_
+        };
+        //llamada del post
+        $.post(url,params,fo_proccess,'text');//temporal
     });
     //
     //FIN: EVENTOS DE SERVICIOS
@@ -762,7 +956,7 @@ $(document).ready(function()
 function add_form_comandos_operaciones(){
     var num_secuencia = $(this).attr('data-secuencia');
     var num = parseInt($('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas'))+1;//Número de fila actual
-    var form_comandos_oper = '<div class="row" data-id = "sec-'+num_secuencia+'-comando-oper-'+num+'"><!-- inner de Comandos y Operaciones --> <!-- Comando --> <div class = "col-md-3"> <input type="text" name="comando-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Comando"data-toggle = "tooltip" data-original-title = "Comando"> </div><!-- /col-3: Comando --> <!-- Operación --> <div class = "col-md-3"> <input type="text" name="operacion-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Operación"data-toggle = "tooltip" data-original-title = "Operación a ejecutar"> </div><!-- /col-3: Operación --> <div class = "col-md-6"></div><!-- Vacío--> <!-- /row: Comandos y Operaciones --> </div>';
+    var form_comandos_oper = '<div class="row" data-id = "sec-'+num_secuencia+'-comando-oper-'+num+'"><!-- inner de Comandos y Operaciones --> <!-- Comando --> <div class = "col-md-3"> <input type="text" name="comando-'+num_secuencia+'-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Comando"data-toggle = "tooltip" data-original-title = "Comando"> </div><!-- /col-3: Comando --> <!-- Operación --> <div class = "col-md-3"> <input type="text" name="operacion-'+num_secuencia+'-'+num+'" data-secuencia = "'+num+'"class="form-control"  required="required"  placeholder = "Operación"data-toggle = "tooltip" data-original-title = "Operación a ejecutar"> </div><!-- /col-3: Operación --> <div class = "col-md-6"></div><!-- Vacío--> <!-- /row: Comandos y Operaciones --> </div>';
 
     $('div[data-fcomandos-oper=form-comando-oper-'+num_secuencia+']').append(form_comandos_oper);//Creando el nuevo formulario
     $('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas',num);//Actualizando el contador 

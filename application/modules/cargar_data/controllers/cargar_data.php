@@ -432,10 +432,12 @@ class Cargar_Data extends MX_Controller
 			case 'nuevo':
 				$this->utils->template($this->_list(4),'cargar_data/nuevo_servicio_view','',
 				'Cargar Infraestructura','Nuevo serv.');
+
 				break;
 			
 			case 'guardar':
-				echo "Guardando y redireccionando a la lista de Servicios";
+				$p = $this->input->post();
+				print_r($p);
 				break;
 		}
 	}
