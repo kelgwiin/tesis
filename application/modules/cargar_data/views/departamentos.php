@@ -383,7 +383,7 @@
 
 		<!-- Boton de Servicios-->
 		  <li class="next">
-		  	<a 	href = "<?php echo site_url('index.php/cargar_datos/servicios');?>"
+		  	<a 	href = "<?php echo site_url('index.php/cargar_datos/servicios/1');?>"
 				data-toggle="tooltip"
 				data-original-title="Cargar Servicios"
 				data-placement = "top"

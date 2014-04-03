@@ -355,6 +355,141 @@ class Datos_basicos_model extends CI_Model {
         }
         return $st_dpto && $st_inv && $st_inv_comp;
     }
+    /**
+     * Guarda el servicio en conjunto con: los Cronogramas de Ejecución, 
+     * los Umbrales y los Procesos asociados.
+     * 
+     * @param Array $data Contiene la siguiente forma.
+     *    Array(
+     *    'nombre'=> String,
+     *    'tipo_servicio'=>String,
+     *    'genera_ingresos'=>Boolean,
+     *    'monto'=>Integer,
+     *    'descripcion'=>String,
+     *    'list_cronogramas'=> Array *,
+     *    'list_umbrales'=> Array **,
+     *    'list_procesos'=> Array ***
+     * )   
+     * 
+     * [*] Cada item es de la siguiente forma:
+     *     Array(
+     *         'nombre'=>String,
+     *         'horario_desde'=>String,
+     *         'horaio_hasta'=>String,
+     *         'list_comandos_operaciones'=>Array('comando' => String,'operacion'=>String)
+     * )
+     * 
+     * [**] Cada item es de la siguiente forma:
+     *     Array(
+     *         'descripcion'=>String,
+     *         'tiempo_acordado'=>String,
+     *         'medida_tiempo'=>String,
+     *         'valor'=>Integer
+     *     )
+     * 
+     * [***] Cada item es de la siguiente forma:
+     *     Array(
+     *         'nombre'=>String,
+     *         'descripcion'=>String,
+     *         'tipo'=>String
+     *     )
+     */
+    public function add_servicio($data){
+        //Agregando el servicio
+        $date = date('Y-m-d H:i:s',now());
+        $data_serv = array(
+            'nombre'=>$data['nombre'],
+            'descripcion'=>$data['descripcion'],
+            'fecha_creacion'=>$date,
+            'tipo'=>$data['tipo_servicio'],
+            'genera_ingresos'=>($data['genera_ingresos']=='true'?true:false),
+            'cantidad_ingresos'=>$data['monto']
+        );
+        $st_servicio = $this->utilities_model->add($data_serv,'servicio');
+        $serv_id = $this->db->insert_id();//id del último campo insertado
+
+        //Cronogramas de Ejecución
+        foreach ($data['list_cronogramas_ejecucion'] as $item) {
+            //Tarea (Cronograma)
+            $data_tarea = array(
+                'servicio_id'=>$serv_id,
+                'descripcion'=>$item['descripcion'],
+                'horario_desde'=>$item['horario_desde'],
+                'horario_hasta'=>$item['horario_hasta']
+            );
+            $st_tarea = $this->utilities_model->add($data_tarea,'tarea');
+            $tarea_id = $this->db->insert_id();//id de la tarea insertada
+
+            //Tarea Detalle (Comandos & Operaciones )
+            foreach ($item['list_comandos_operaciones'] as $item_co) {
+                $data_tdet = array(
+                    'tarea_id'=>$tarea_id,
+                    'operacion'=>$item_co['operacion'],
+                    'comando'=>$item_co['comando']
+                );
+                $this->utilities_model->add($data_tdet,'tarea_detalle');
+            }
+        }//end of: foreach Cronogramas de Ejecución
+
+        //Umbrales
+        foreach ($data['list_umbrales'] as $item) {
+            $data_umb = array(
+                'servicio_id'=>$serv_id,
+                'descripcion'=>$item['descripcion'],
+                'tiempo_acordado'=>$item['tiempo_acordado'],
+                'medida'=>$item['medida_tiempo'],
+                'valor'=>$item['valor']
+            );
+            $st_umb = $this->utilities_model->add($data_umb,'umbral');
+        }
+
+        //Procesos (servicio_proceso)
+        foreach ($data['list_procesos'] as $item) {
+            $data_pro = array (
+                'servicio_id'=>$serv_id,
+                'nombre'=>$item['nombre'],
+                'descripcion'=>$item['descripcion'],
+                'tipo'=>$item['tipo']
+            );
+            $st_pro = $this->utilities_model->add($data_pro,'servicio_proceso');
+        }
+
+        return $st_servicio && $st_tarea && $st_umb && $st_pro;
+    }
+    /**
+     * Devuelve una lista con los nombre de procesos repetidos en la tabla 'servicio_proceso'
+     * @param  Array $l_nom Lista de los nombre de los procesos a verificar.
+     * @return Array        Lista de los nombres repetidos.
+     */
+    public function nombre_procesos_repetidos($l_nom){
+        $sql = 'SELECT nombre
+                FROM servicio_proceso
+                WHERE nombre in ';
+
+        $data_where = '(';
+        $num_vals = count($l_nom);
+        for ($i=0; $i < $num_vals; $i++) { 
+            $data_where .= "?,";
+        }
+        $lon = strlen($data_where);
+        $data_where[$lon-1] = ')';
+        
+        $sql .= $data_where . ' ;';
+        
+        $q = $this->db->query($sql,$l_nom);
+        
+        if($q->num_rows() > 0 ){
+            $r = $q->result_array();
+            $r_procesado = array();
+            foreach ($r as $v) {
+                $r_procesado[] = $v['nombre'];
+            }
+            return $r_procesado;
+        }else{
+            return NULL;    
+        }
+
+    }
 
 } // /class Datos_basicos_model.php
 //Location: ./modules/cargar_data/datos_basicos_model.php

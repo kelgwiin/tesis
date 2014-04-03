@@ -115,7 +115,8 @@
 							<div class = "form-group " id = "fg-monto-ingreso-nuevo-servicio">
 								<label 
 									data-toggle = "tooltip"
-									data-original-title = "Cantidad de ingresos generados por transacción"
+
+									data-original-title = "Se habilita al tildar que genera ingresos"
 									data-placement = "left"
 									for="monto_ingreso" class="col-md-4 control-label">Cant. Ingresos </label>
 
@@ -124,7 +125,11 @@
 										name = "monto_ingreso" id="monto-ingreso-nuevo-servicio" 
 										placeholder="Cantidad de Ingresos" required 
 									>
-									<span class = "help-block">Se habilita al tildar que genera ingresos</span>
+									<span class = "help-block">
+										<?php
+											printf('Cantidad de ingresos en <strong>%s</strong> generados por transacción.',$org['moneda']);
+										?>
+									</span>
 								</div>
 
 								<div class = "col-md-1 hidden" id = "icon-monto-ingreso-nuevo-servicio">
@@ -400,8 +405,25 @@
 
 
 					<!-- PROCESOS -->
-					<h3 class = "text-primary">Procesos </h3><hr>
-							
+					<h3 class = "text-primary">Procesos </h3>
+						<!-- Msjs de Error de nombre duplicado -->
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<!-- Mensaje de Error Inesperado -->
+							<div class="alert alert-danger alert-dismissable hidden" id = "msj-nombres-duplicados-db">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								Los siguientes <strong>nombres</strong> de procesos no se encuentran disponibles:
+							</div>	
+
+							<div class="alert alert-danger alert-dismissable hidden" id = "msj-nombres-duplicados-local">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								Los <strong>nombres</strong> de procesos no pueden estar repetidos!
+							</div>	
+						</div>
+					</div><!-- /row: Msjs Error de nombre duplicado -->
+
+					<hr>
+
 					<!-- Boton de Añadir y Eliminar formulario de Proceso-->
 					<div class = "row">
 						<div class="col-md-1">
@@ -477,7 +499,7 @@
 
 						<!-- Boton Cancelar-->
 						<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-							<a href = "<?php echo site_url('index.php/cargar_datos/servicios'); ?>" class="btn btn-primary">Cancelar</a>
+							<a href = "<?php echo site_url('index.php/cargar_datos/servicios/1'); ?>" class="btn btn-primary">Cancelar</a>
 						</div>
 
 						<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"><!-- Vacío -->

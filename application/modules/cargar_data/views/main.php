@@ -118,7 +118,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('index.php/cargar_datos/servicios');?>/">
+							<a href="<?php echo site_url('index.php/cargar_datos/servicios/1');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">

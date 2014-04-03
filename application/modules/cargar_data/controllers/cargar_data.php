@@ -422,25 +422,121 @@ class Cargar_Data extends MX_Controller
 
 		return $mc;
 	}
-	public function servicios($action = "list"){
+	public function servicios($action){
+		$cur_page = $this->uri->segment(3);
+
+		//Verificando el segmento 3 del uri corresponde a la pag o a alguna acción
+		if (is_numeric($cur_page)) {
+			$action = 'list';
+		}else{
+			$action = $cur_page;//En este caso no es un número sino 
+								//que es la acción: guardado|nuevo|filtrar|guardar...
+		}
+
 		switch ($action) {
 			case 'list':
-				$this->utils->template($this->_list(4),'cargar_data/servicios','',
-				'Cargar Infraestructura','Servicios');
+				$params_main_content = $this->_config_service(false,false,false,
+					$cur_page,$this->per_page, null);
+
+				$this->utils->template($this->_list(4),'cargar_data/servicios',
+					$params_main_content,'Cargar Infraestructura','Servicios');
 				break;
 			
 			case 'nuevo':
-				$this->utils->template($this->_list(4),'cargar_data/nuevo_servicio_view','',
-				'Cargar Infraestructura','Nuevo serv.');
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
+				$params_main_content['actualizar'] = false;
+				
+				$this->utils->template($this->_list(4),'cargar_data/nuevo_servicio_view',
+					$params_main_content,'Cargar Infraestructura','Nuevo serv.');
 
+				break;
+			//Valida a través de ajax que los nombres de los procesos sean únicos
+			case 'validar_nombres':
+				$p = $this->input->post('nombres_procesos');
+				$nom = $this->basico_model->nombre_procesos_repetidos($p);
+				
+				if(isset($nom)){
+					echo json_encode(array('nombres'=>$nom, 'repetidos'=>'yes'));
+				}else{
+					echo '{"repetidos":"no"}';
+				}
 				break;
 			
 			case 'guardar':
 				$p = $this->input->post();
-				print_r($p);
+				if($this->basico_model->add_servicio($p)){
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
+				break;
+			case 'guardado':
+				$params_main_content = $this->_config_service(false,true,false,
+					1,$this->per_page, null);
+
+				$this->utils->template($this->_list(4),'cargar_data/servicios',
+					$params_main_content,'Cargar Infraestructura','Servicios');
+				break;
+
+			case 'actualizar':
+				# code...
+				break;
+			case 'actualizar_guardar':
+				# code...
+				break;
+			case 'actualizado':
+				# code...
+				break;
+			case 'filtrar':
+				echo 'Filtrando';
 				break;
 		}
 	}
+
+
+	/**
+	 * Configuraciones para el maint_content  del servicio
+	 * @param  Boolean $actualizado Índica si despliega o no el msj de actualizado
+	 * @param  Boolean $guardado    Índica si despliega o no el msj de guardado
+	 * @param  Boolean $filtrado    Índica si despliega o no el msj de filtrado
+	 * @param  Integer $cur_page    Página actual
+	 * @param  Integer $per_page 	Número de item por página
+	 * @param  Array   $data_filtro CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+	 * @return Array              	Config. del main_content
+	 */
+	private function  _config_service($actualizado, $guardado,$filtrado, $cur_page,
+		$per_page,$data_filtro){
+		/**
+		 * Contiene las configuraciones de main_content
+		 * @var $mc
+		 */
+		$mc['actualizado'] = $actualizado;
+		$mc['guardado'] = $guardado;
+		$mc['cur_page'] = $cur_page;
+		$mc['filtrado'] = $filtrado;
+
+		/*switch ($data_filtro['accion']) {
+			case 'todos':
+				$l = $this->basico_model->all_dpto();
+				break;
+
+			case 'nombre':
+				$name = $data_filtro['info'];
+				$l = $this->basico_model->all_dpto($name);
+				break;
+		}
+		$config_pag = array(
+			'total_rows' => $l['total_rows'],
+			'per_page' => $per_page,
+			'cur_page' => $cur_page
+			);
+		$mc['config_pag'] = $config_pag;
+		$mc['list_dpto'] = $l['data'];*/
+
+		return $mc;
+	}
+	
 
 	/**
 	 * Dada la categoría se obtiene una lista de las unidades de medida correspondientes
@@ -556,7 +652,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Servicios",
 			"active" => false,
-			"href" => "index.php/cargar_datos/servicios",
+			"href" => "index.php/cargar_datos/servicios/1",
 			"icon" => "fa fa-list"
 		
 		);

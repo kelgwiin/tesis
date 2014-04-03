@@ -15,10 +15,44 @@
 					editar la información asociada a ellos.
 				</div>
 
-				<div class="alert alert-success alert-dismissable" id = "main-componentes-ti-guardado">
+				<div class="alert alert-success alert-dismissable hidden" id = "main-componentes-ti-guardado">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					El Servicio ha sido <strong>creado</strong> con Éxito!
 				</div>
+
+				<!-- Mensaje de Creado con Éxito-->
+				<?php 
+					if($guardado){
+					echo '<div class="alert alert-success alert-dismissable" id = "msj-guardado-dpto">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							El Departamento ha sido <strong>creado</strong> con Éxito!
+						</div>
+					';
+					}
+				?>
+
+
+				<!-- Mensaje de Actualizado con Éxito-->
+				<?php 
+					if($actualizado){
+					echo '<div class="alert alert-success alert-dismissable" id = "msj-actualizado-dpto">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							El Departamento ha sido <strong>actualizado</strong> con éxito y se ha <strong>creado</strong> un campo nuevo en el inventario asociado al dpto.!
+						</div>
+					';
+					}
+				?>
+
+				<!-- Mensaje Lista Actualizada -->
+				<?php 
+					if($filtrado){
+					echo '<div class="alert alert-success alert-dismissable" id = "msj-filtrado-dpto">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							La lista de Departamentos de TI ha sido <strong>Actualizada</strong>!
+						</div>
+					';
+					}
+				?>
 			</div><!-- /col-12-->
 		</div><!-- /row: breadcrumb -->
 
@@ -26,12 +60,9 @@
 	<div class="row">
 		<!-- Buscar, filtrar, nuevo-->
 		<div class="col-lg-6">
-
-			<div  class="form-inline">
-				<!-- Nota: Esto por lo general debería usarse con la etiqueta "form"
-				pero para efectos de formtateo de la página (línea) funciona, lo uso con la
-				etiqueta "div" porque me interesa tener dos botones que hagan distintas
-				acciones, lo cual no podría hacer si usara la etiqueta "form"-->
+			<!-- Formulario de Filtrar -->
+			<form action = "<?php echo site_url('index.php/cargar_datos/servicios/filtrar');?>" 
+				class="form-inline"  method = "POST">
 
 				<!-- boton nuevo-->
 				<div class = " form-group" >
@@ -43,42 +74,7 @@
 					><i class = "fa fa-plus-square fa-lg"></i></a>
 				</div>
 
-				<!--campo buscar -->
-				<div class="form-group ">
-					<label class="sr-only" for="buscarServicios">Buscar</label>
-					<input type="text" class="form-control" id="buscar" name = "buscarServicios" placeholder="Buscar">
-				</div>
-				
-				<!-- lista de filtrado -->
-				<div class = "form-group">
-					<label class="sr-only" for="filtroServicios">Filtro</label>
-					<select name="filtroServicios"
-						 	id="filtroServicios"
-						 	class="form-control"
-						 	data-toggle="tooltip"
-							data-original-title="Opción de filtrado"
-							data-placement = "top">
-						<option value="nombre">Nombre</option>
-						<option value="todos">Todos</option>
-					</select>
-				</div>
-				
-				
-
-				<!-- boton de buscar-->
-				<div class = "form-group">
-					<label class="sr-only" for="btnBuscar">btnBuscar</label>
-					<button 
-							class="btn btn-default"
-							data-toggle="tooltip"
-							data-original-title="Buscar Servicio(s)"
-							data-placement = "top"
-							id = "btn-buscar-servicio">
-						<i class = "fa fa-search" ></i>
-					</button>
-				</div><!-- /form-group: btn Buscar-->
-
-			<!-- checkbox de Genera Ingresos-->
+				<!-- checkbox de Genera Ingresos-->
 				<div class = "form-group">
 					
 					<div class="checkbox">
@@ -92,7 +88,50 @@
 
 				</div><!-- /form-group: Checkbox Genera Ingresos -->
 
-			</div><!-- /form-inline-->
+				<!-- lista de filtrado -->
+				<div class = "form-group">
+					<label class="sr-only" for="filtro_servicio">Filtro</label>
+					<select name="filtro_servicio"
+						 	id="filtro-servicio"
+						 	class="form-control"
+						 	data-toggle="tooltip"
+							data-original-title="Opción de filtrado"
+							data-placement = "top">
+						<option value="todos">Todos</option>
+						<option value="nombre">Nombre</option>
+					</select>
+				</div>
+
+				<!--campo buscar -->
+				<div class="form-group " id = "fg-buscar-servicio">
+					<label class="sr-only" for="buscarServicios">Buscar</label>
+					<input type="text" class="form-control" id="input-buscar-servicio" 
+						name = "buscarServicios" placeholder="Buscar"
+						disabled="disabled" 
+					>
+				</div>
+				
+
+				<!-- boton de buscar-->
+				<div class = "form-group">
+					<label class="sr-only" for="btnBuscar">btnBuscar</label>
+					<button 
+							class="btn btn-default"
+							data-toggle="tooltip"
+							data-original-title="Buscar Servicio(s)"
+							data-placement = "top"
+							id = "btn-buscar-servicio"
+							type = "submit">
+						<i class = "fa fa-search" ></i>
+					</button>
+				</div><!-- /form-group: btn Buscar-->
+
+				<!-- Mensaje de error campo buscar -->
+				<div class = "form-group">
+					<span id = "label-msj-error-servicio" class="label label-danger hidden">Ingrese datos en el campo buscar!</span>
+				</div><!-- /form-group: Mensaje de error de campo buscar-->
+			
+			</form><!-- /form-inline-->
 		</div><!-- /col-6: Buscar, filtrado, nuevo-->
 		
 		<div class="row">
