@@ -1,53 +1,100 @@
-select * from organizacion;
--- delete from organizacion where organizacion_id > 0;
+-- Dados un conjunto de ID's de la unidad de medida obtener su categoría
+select ma_unidad_medida_id, ma_categoria_id, abrev_nombre
+from ma_unidad_medida
+where ma_unidad_medida_id in (13,10,5);
 
-update componente_ti set cantidad_disponible = cantidad;
+-- Dados un conjuntos de ids de categoria obtener la info
+select ma_categoria_id, nombre, icono_fa
+from ma_categoria
+where ma_categoria_id in (2,4);
 
-select * from ma_categoria;
-select * from ma_unidad_medida;
+-- Consultar TODOS los componentes de ti que se encuentran
+-- activos
 
-select * from componente_ti;
+select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
+from componente_ti as comp join (ma_categoria as categ, ma_unidad_medida as uni) 
+on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id)
+where borrado = false and activa = 'ON'
+order by comp.componente_ti_id;
+
+-- Obtener los componentes de TI filtrados por nombre
+select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
+from componente_ti as comp join (ma_categoria as categ, ma_unidad_medida as uni) 
+on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id)
+where borrado = false and activa = 'ON' and comp.nombre like '%prueba%'
+order by comp.componente_ti_id;
+
+-- Obtener los componentse de TI filtrados por categoria
+select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
+from componente_ti as comp join ma_unidad_medida as uni on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id) inner join ma_categoria as categ on (uni.ma_categoria_id = categ.ma_categoria_id)
+where categ.nombre like '%redes%'and comp.borrado = false and comp.activa = 'ON';
+
+	-- Otra forma (esta parece que va mas rápido)
+select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
+from componente_ti as comp join (ma_unidad_medida as uni,ma_categoria as categ) on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id) 
+where categ.nombre like '%redes%' and comp.borrado = false and comp.activa = 'ON';
 
 
--- delete from componente_ti where componente_ti_id > 0;
+-- -----------------------------
+-- DEPARTAMENTOS
+-- -------------------------------
 
-insert into rol(rol, fecha_) values ('dsd',now());
-select * from rol; 
+-- IDs y nombres de Componentes de TI activos
+select componente_ti_id as id,nombre
+from componente_ti
+where borrado = false and activa = 'ON' and (cantidad_disponible > 0
+or tipo_asignacion = 'MULT');
 
-update rol set rol = 'null'
-where id_rol = 2;
+	-- Lista los IDs & Nombres de los Componentes de TI  que no se encuentran en el dpto.
+select comp.componente_ti_id as id,comp.nombre, comp.cantidad_disponible as cant_disp
+from componente_ti as comp
+where borrado = false and activa = 'ON' and (cantidad_disponible > 0
+or tipo_asignacion = 'MULT')  and comp.componente_ti_id not in (
+	select comp.componente_ti_id as id 
+	from componente_ti as comp join (inventario_ti as iv, inventario_componente_ti as icti)
+		on (iv.departamento_id = 26 and icti.inventario_ti_id = iv.inventario_ti_id and 
+		comp.componente_ti_id = icti.componente_ti_id)
+);
 
--- DPTO 
-select * from inventario_ti;
--- delete from inventario_ti where inventario_ti_id >0;
+-- Componente de TI que se encuentran asociados a un DPTO (INV)
+select comp.nombre, comp.componente_ti_id
+from inventario_componente_ti as icti join componente_ti as comp on (icti.componente_ti_id = comp.componente_ti_id
+and icti.inventario_ti_id = 26);
 
-select * from inventario_componente_ti;
+-- Listando los dptos
+select * from departamento
+where borrado = false and nombre like '%dpto%';
 
-select * from departamento;
--- delete from departamento where departamento_id >=17;
-
--- update componente_ti set cantidad_disponible = cantidad;
-
-
+-- listando los inventarios asociados al dpto
+select inventario_ti_id as id, fecha_creacion as fecha 
+from inventario_ti
+where departamento_id = 36
+order by fecha_creacion desc;
 
 
 -- SERVICIO
-select * from servicio;
--- delete from servicio where servicio_id > 0; 
+select *
+from servicio
+where borrado = false;
+-- tarea
+select *
+from tarea
+where servicio_id = 10;
 
-select * from tarea;
-select * from tarea_detalle;
+-- tarea detalle
+select tarea_detalle_id as id,comando, operacion
+from tarea_detalle
+where borrado = false and tarea_id = 12;
 
-select * from umbral;
+-- Umbrales
+select umbral_id, descripcion, tiempo_acordado, medida, valor
+from umbral 
+where borrado = false and servicio_id = 10;
 
-select * from servicio_proceso;
-
-
-
-
-
-
-
+-- Procesos
+select servicio_proceso_id, nombre, tipo, descripcion
+from servicio_proceso
+where borrado = false and servicio_id = 10;
 
 
 

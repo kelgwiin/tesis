@@ -454,12 +454,12 @@ $(document).ready(function()
 
             $('ul[data-id='+id+']').attr('class', 'show');
             //cambiando el caret
-            $('i#'+id).attr('class','fa fa-caret-down fa-lg');
+           /* $('i#'+id).attr('class','fa fa-caret-down fa-lg');*/
         }else{
 
             $('ul[data-id='+id+']').attr('class', 'hidden');
             //cambiando el caret
-            $('i#'+id).attr('class','fa fa-caret-right fa-lg');
+            /*$('i#'+id).attr('class','fa fa-caret-right fa-lg');*/
         }
     });
 
@@ -498,8 +498,8 @@ $(document).ready(function()
     //habilita o inhabilita el campo buscar
     $('select#filtro-servicio').on('change',function(){
         val = $(this).val();
-        if(val == 'todos'){
-            //Removiendo la opción de requeridp y deshabilitándolo
+        if(val != 'nombre'){
+            //Removiendo la opción de requerido y deshabilitándolo
             $('input#input-buscar-servicio').removeAttr('required')
             .attr('disabled','disabled');
             //Quitando avisos de mensajes
@@ -514,7 +514,7 @@ $(document).ready(function()
 
     //:: btn buscar Mensaje de Error - servicio ::
     $('button#btn-buscar-servicio').on('click',function(){
-        if($('select#filtro-servicio').val() != 'todos'){
+        if($('select#filtro-servicio').val() == 'nombre'){
             var input = $('input#input-buscar-servicio').val();
 
             if(input.length <= 0){
@@ -544,14 +544,13 @@ $(document).ready(function()
         $('a[data-id=btn-remove-forms-comandos-oper]').unbind('click',remove_form_comandos_operaciones);
         $('a[data-id=btn-add-forms-comandos-oper]').bind('click',add_form_comandos_operaciones);
         $('a[data-id=btn-remove-forms-comandos-oper]').bind('click',remove_form_comandos_operaciones);
-        
     });
 
     //Eliminar formulario Principal de Cronograma de Ejecución
     $('a[data-id=btn-remove-forms-cronograma]').on('click',function(){
         var num = parseInt($('label#num-filas-cronogramas').attr('data-num-filas'));
         
-        if(num != 0){
+        if(num > 1){
             $('div[data-id=form-cronograma-'+num+']').remove();
             $('label#num-filas-cronogramas').attr('data-num-filas',num-1);//Actualizando el contador    
         }
@@ -574,13 +573,12 @@ $(document).ready(function()
         //Se hace la llamada del tooltip de nuevo para que la instancia que se creo 
         //se le puedan enlazar los eventos.
         $('[data-toggle=tooltip]').tooltip();
-
     });
 
     //Eliminar formulario del Umbral
     $('a#btn-remove-forms-umbrales').on('click',function(){
         var num = parseInt($('label#num-filas-umbrales').attr('data-num-filas'));
-        if(num != 0){
+        if(num > 1){
             $('div[data-id=form-umbral-'+num+']').remove();
             $('br[data-id=form-umbral-'+num+']').remove();
             $('label#num-filas-umbrales').attr('data-num-filas',(num-1));//Actualizando el contador    
@@ -600,13 +598,12 @@ $(document).ready(function()
         //Se hace la llamada del tooltip de nuevo para que la instancia que se creo 
         //se le puedan enlazar los eventos.
         $('[data-toggle=tooltip]').tooltip();
-
     });
 
     //Eliminar formulario del Procesos
     $('a#btn-remove-forms-procesos').on('click',function(){
         var num = parseInt($('label#num-filas-procesos').attr('data-num-filas'));
-        if(num != 0){
+        if(num > 1){
             $('div[data-id=form-proceso-'+num+']').remove();
             $('br[data-id=form-proceso-'+num+']').remove();
             $('label#num-filas-procesos').attr('data-num-filas',(num-1));//Actualizando el contador    
@@ -1059,7 +1056,7 @@ function remove_form_comandos_operaciones(){
     var num_secuencia = $(this).attr('data-secuencia');
     var num = parseInt($('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas'));//Número de fila actual
         
-    if(num != 0 ){
+    if(num > 1 ){
         $('div[data-id=sec-'+num_secuencia+'-comando-oper-'+num+']').remove();
         $('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas',num-1);//Actualizando el contador 
     }
