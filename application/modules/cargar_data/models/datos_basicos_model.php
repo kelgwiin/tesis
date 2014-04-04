@@ -41,17 +41,36 @@ class Datos_basicos_model extends CI_Model {
      * @param String $data_target Dato de comparación del nombre o categoria.
      * Si es all este campo se deja vacío.
      * 
-     * @return Array Un array con tres campos:
-     * ['list_comp_ti'] 
-     * Un array de filas del tipo (clave,valor), donde clave el nombre de
-     * asociado a cada una de las columnas.
+     * @return Array Contiene la siguiente forma:
      * 
-     * ['list_unidad_medida']
-     * Un array que contiene el conjunto de filas de las unidades de
-     * medidas.
+     *     Array(
+     *         'list_comp_ti' => Array *,
+     *         'num_rows_comp_ti' => Integer
+     *     )
      * 
-     * ['list_categ']
-     * Un array que contiene el conjunto de filas de las categorias.
+     * [*] Cada ítem contiene la siguiente forma:
+     *     Array(
+     *      'componente_ti_id'=> Integer,
+     *      'ma_unidad_medida_id' => Integer,
+     *      'fecha_compra' => String,
+     *      'fecha_elaboracion'=> String,
+     *      'fecha_creacion' => String,
+     *      'tiempo_vida' => Integer,
+     *      'unidad_tiempo_vida' => AA|MM|DD|NA,
+     *      'precio' => Double,
+     *      'capacidad' => Double,
+     *      'nombre' => String,
+     *      'descripcion' => String,
+     *      'cantidad' => Integer,
+     *      'cantidad_disponible' => Integer,
+     *      'tipo_asignacion' => MULT|UNI,
+     *      'activa' => ON|OFF,
+     *      'borrado' => Boolean,
+     *      
+     *      'abrev_nombre' => String
+     *      'nom_categ' => String,
+     *      'icono_fa' => String
+     *     )
      */
     public function all_componentes_ti($target, $data_target = null){
         $sql_comp_ti = "";
@@ -97,10 +116,10 @@ class Datos_basicos_model extends CI_Model {
      * @param  Integer $id_unidad_medida ID de la unidad de medida
      * @return Array Contiene la info de la categoria y la unidad de medida
      * con el siguiente formato:
-     * array(
-     *     'nomcateg' => String
-     *     'abrev_unidad' =>String
-     *     'id' => Integer // ID de la categoría    
+     * Array(
+     *     'nomcateg' => String,
+     *     'abrev_unidad' =>String,
+     *     'id' => Integer, // ID de la categoría    
      *     'basecateg' => Integer // Valor de base de la categoría.
      * )
      */
@@ -135,7 +154,7 @@ class Datos_basicos_model extends CI_Model {
      * 
      * @param Integer $dpto_id ID asociado al departamento.
      * @return Array Una array asociativo del tipo:
-     * array(
+     * Array(
      *     'id' => Integer,
      *     'nombre'=>String,
      *     'cant_disp'=>Integer
@@ -167,7 +186,7 @@ class Datos_basicos_model extends CI_Model {
     /**
      * Agrega el dpto en conjunto con los componentes asociados
      * @param Array $data Tiene la siguiente forma:
-     * array(  'nombre' => String,
+     * Array(  'nombre' => String,
      *         'descripcion' => String,
      *         'icono_fa' => String,
      *         'list_comp_ti' => array (ids de comp ti)
@@ -215,17 +234,22 @@ class Datos_basicos_model extends CI_Model {
      * contien una clave de tipo entero y en cada uno posee dos array como se 
      * describen abajo.
      * 
-     *        [*] array('dpto' => array de dpto **
+     *        [*] Array('dpto' => array de dpto **
      *               'list_comp_ti' => array de comp de ti ***)
-     * [**]Array(
-     *   'departamento_id' => Integer
-     *   'nombre' => String
-     *   'icono_fa' => String
-     *   'descripcion'=> String
+     * 
+     * [**] Cada ítem contiene la siguiente forma
+     * 
+     * Array(
+     *   'departamento_id' => Integer,
+     *   'nombre' => String,
+     *   'icono_fa' => String,
+     *   'descripcion'=> String,
      *   'borrado' =>boolean)
      * 
-     *  [***] Array(
-     *  'nombre' => String
+     *  [***] Cada ítem contiene la siguiente forma
+     * 
+     * Array(
+     *  'nombre' => String,
      *  'id' => Integer
      * )
      */
@@ -489,6 +513,107 @@ class Datos_basicos_model extends CI_Model {
             return NULL;    
         }
 
+    }
+    /**
+     * Obtiene todos los Servicios en conjunto con: los Cronogramas de Ejecución (tareas),
+     * Umbrales y Procesos.
+     * @return Array Un campo 'total_rows' y un Array donde cada entrada 
+     * contiene la siguiente forma:
+     *      Array(
+     *          'servicio_id' => Integer,
+     *          'nombre'=>String,
+     *          'descripcion'=>String,
+     *          'fecha_creacion'=>String,
+     *          'tipo'=>SYS|USR,
+     *          'genera_ingresos'=>Boolean,
+     *          'list_umbral'=>Array *,
+     *          'list_tarea'=>Array **,
+     *          'list_proceso'=>Array ***,
+     *      )
+     * [*] Cada ítem contiene la siguiente forma
+     *     Array(
+     *         'umbral_id' => Integer,
+     *         'descripcion' => String,
+     *         'tiempo_acordado'=>Integer,
+     *         'medida'=>hh|mm|ss,
+     *         'valor'=>Integer
+     *     )
+     * 
+     * [**] Cada ítem contiene la siguiente forma
+     *     Array(
+     *         'tarea_id' => Integer,
+     *         'descripcion' => String,
+     *         'horario_desde' => String,
+     *         'horario_hasta' => String,
+     *         'list_tarea_detalle' => Array (Array('tarea_detalle_id' => int,'operacion'=> String, 'comando'=> String), ... , )
+     *     )
+     *
+     * [***] Cada ítem contiene la siguiente forma
+     *     Array (
+     *         'servicio_proceso_id' => Integer,
+     *         'nombre' => String
+     *         'tipo' => String,
+     *         'descripcion' => String 
+     *     )
+     */
+    public function all_servicio(){
+        $sql = 'SELECT servicio_id, nombre, descripcion, fecha_creacion, 
+                    tipo, genera_ingresos, cantidad_ingresos
+                FROM servicio
+                WHERE borrado = false ;';
+
+        $q = $this->db->query($sql);
+        $servicios = $q->result_array();
+        $idx = 0;
+        $resp = array();
+        
+        if($q->num_rows() == 0){
+            return array('total_rows'=> 0);
+        }
+
+        foreach ($servicios as $row) {
+            //Cronogramas (tarea)
+            $list_tarea = array();
+            
+            $sql_tarea = 'SELECT *
+                        FROM tarea
+                        WHERE servicio_id = '.$row['servicio_id'].' AND borrado = false ;';
+
+            $q_tarea = $this->db->query($sql_tarea);
+            $tareas = $q_tarea->result_array();
+
+            // Comando & Operaciones (tarea_detalle)
+            $it = 0;
+            foreach ($tareas as $t) {
+                $sql_tdet = 'SELECT tarea_detalle_id, comando, operacion
+                            FROM tarea_detalle
+                            WHERE borrado = false AND tarea_id = '.$t['tarea_id'].' ;';
+                $q_tdet  = $this->db->query($sql_tdet);
+                $list_tarea[$it] = $t;
+                $list_tarea[$it]['list_tarea_detalle'] = $q_tdet->result_array();
+                $it+=1;
+            }
+
+            //Umbrales (umbral)
+            $sql_umb = 'SELECT umbral_id, descripcion, tiempo_acordado, medida, valor
+                        FROM umbral 
+                        WHERE borrado = false and servicio_id = '.$row['servicio_id'].';';
+            $q_umb = $this->db->query($sql_umb);
+
+            //Procesos (servicio_proceso)
+            $sql_pro = 'SELECT servicio_proceso_id, nombre, tipo, descripcion
+                        FROM servicio_proceso
+                        WHERE borrado = false AND servicio_id = '.$row['servicio_id'].' ;';
+            $q_pro = $this->db->query($sql_pro);
+
+            $resp[$idx] = $row;
+            $resp[$idx]['list_tarea'] = $list_tarea;
+            $resp[$idx]['list_umbral'] = $q_umb->result_array();
+            $resp[$idx]['list_proceso'] = $q_pro->result_array();
+
+            $idx+=1;
+        }
+        return array('data'=> $resp,'total_rows'=>$q->num_rows());
     }
 
 } // /class Datos_basicos_model.php

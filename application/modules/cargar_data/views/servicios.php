@@ -81,7 +81,7 @@
 						<label
 						data-toggle = "tooltip"
 						data-original-title = "¿El Servicio genera ingresos?">
-							<input type="checkbox">
+							<input type="checkbox" name = 'genera_ingresos'>
 							Genera Ingresos 
 						</label>
 					</div><!-- /checkbox-->
@@ -98,6 +98,8 @@
 							data-original-title="Opción de filtrado"
 							data-placement = "top">
 						<option value="todos">Todos</option>
+						<option value="USR">Serv. Usuario</option>
+						<option value="SYS">Serv. Sistema</option>
 						<option value="nombre">Nombre</option>
 					</select>
 				</div>
@@ -106,7 +108,7 @@
 				<div class="form-group " id = "fg-buscar-servicio">
 					<label class="sr-only" for="buscarServicios">Buscar</label>
 					<input type="text" class="form-control" id="input-buscar-servicio" 
-						name = "buscarServicios" placeholder="Buscar"
+						name = "buscar_servicio" placeholder="Buscar"
 						disabled="disabled" 
 					>
 				</div>
@@ -145,25 +147,31 @@
 		</div>
 	</div>
 
-
 <!-- Lista de Servicios-->
 <div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			
-			<div class="panel panel-primary">
-				<div class = "panel-heading"><!-- Outter -->
-					<h3 class = "panel-title">Lista de Servicios</h3>
-				</div><!-- /panel-heading outter-->
+			<?php 
+				function show_servicio($is_top,$org,$config_pag,$list_servicio,
+									$servicio_id,$cur_page=NULL){
+					//$is_top Para verificar que no haya llegado al tope
+					
+					//Para que solo entre la primera vez
+					if(!isset($servicio_id)){
+						$cur_page = ($config_pag['cur_page']-1)*$config_pag['per_page'];
+						$servicio_id = $list_servicio[$cur_page]['servicio_id'];
+					}
+					
+					$j = 1;
+					$mid_per_page = (int)($config_pag['per_page']/2);
 
-				<div class = "panel-body">
-
-					<div  class = "row">
-
-						<!-- Columna IZQUIERDA -->
-						<div class="col-xs-6 ">
-							<!-- Departamento: servicio1 -->
+					while(!$is_top && $j<= $mid_per_page){
+						$s = $list_servicio[$cur_page];//Servicio
+						
+						//Nombre y botones
+						$url_ed = site_url('index.php/cargar_datos/servicios/actualizar/'.$servicio_id);
+						echo '
+							<!-- Servicio: '.$servicio_id.' -->
 							<div class="panel panel-info"><!-- Inner-->
-
 								<div class="panel-heading">
 									<div class="row">
 										
@@ -172,7 +180,7 @@
 											<!-- Nombre de Componente-->
 											<div class = "row">
 												<div class = "col-xs-12">
-													<p>Nombre servicio</p>
+													<p>'.$s['nombre'].'</p>
 												</div><!-- col-12 -->	
 											</div><!-- /row -->
 											
@@ -182,7 +190,7 @@
 													<div class="btn-group">
 														<!-- Botón de despliegue-->
 														<a  class="btn"
-															data-id = "servicio1"
+															data-id = "'.$servicio_id.'"
 															data-fieldIT = "caracteristicas"
 															data-toggle="tooltip" 
 															data-original-title="Características"
@@ -190,22 +198,22 @@
 															<i id = "servicio1" class = "fa fa-caret-right fa-lg"></i>	
 														</a>
 														<a  class="btn"
-															data-id = "servicio1"
+															data-id = "'.$servicio_id.'"
 															data-fieldIT = "editar"
 															data-toggle="tooltip" 
 															data-original-title="Editar"
-															data-placement = "bottom">
+															data-placement = "bottom"
+															href = "'.$url_ed.'">
 															<i class = "fa fa-pencil fa-lg"></i>	
 														</a>
 														<a  class="btn"
-															data-id = "servicio1"
+															data-id = "'.$servicio_id.'"
 															data-fieldIT = "eliminar"
 															data-toggle="tooltip" 
 															data-original-title="Eliminar"
 															data-placement = "bottom">
 															<i class = "fa fa-times fa-lg"></i>	
 														</a>
-
 													</div><!-- /btn-group -->
 												</div><!-- /col-xs-6-->
 
@@ -213,31 +221,38 @@
 												<div class = "col-xs-6"></div>
 											</div><!-- row -->
 
-										</div><!-- /col-xs-10 -->
+										</div><!-- /col-xs-10 -->';
 
+						//Logotipo
+						$fa_logo = $s['tipo']== 'USR'?'fa-user':'fa-cog';
+						$name_serv = $s['tipo']== 'USR'?'Usuario':'Sistema';
 
-										<!-- Logotipo de Categoría (Derecha)-->
+						echo '<!-- Logotipo del Servicio (Derecha)-->
 										<div class="col-xs-2">
 											<i
 												data-toggle="tooltip" 
-												data-original-title="Categ. NomCat"
+												data-original-title="Servicio de '.$name_serv.'"
 												data-placement = "top"
-												class = "fa fa-laptop fa-3x"></i>
+												class = "fa '.$fa_logo.' fa-3x"></i>
 										</div>
 									</div><!-- /row-->
 								</div><!-- /panel-heading-->
 
-								<div class="panel-body hidden" data-id = "servicio1">
+
+								<div class="panel-body hidden" data-id = "'.$servicio_id.'">
 									<!-- Etiqueta Característica -->
 									<div class = "row">
 										<div class = "col-xs-12">
 											<h3>Características</h3>
 										</div><!--/col-xs-12 -->
 									</div><!-- /row-->
+								';
 
-									<!-- Lista de CARACTERÍSTICAS-->
+						//Datos Básicos
+						$cant_ingr = $s['cantidad_ingresos'] == 0?'NA':($s['cantidad_ingresos'].' '.$org['abrev_moneda'].' por transacción') ;
+						echo '<!-- ::: Lista de CARACTERÍSTICAS ::: -->
 
-									<!-- Datos Básicos -->
+									<!-- DATOS BÁSICOS -->
 									<div class="row">
 										<div class = "col-xs-12">
 											<h4> 
@@ -245,29 +260,39 @@
 													data-toggle ="tooltip"
 													data-original-title = "Mostrar"
 													data-fieldIT = "caracteristicas-servicios"
-													data-id = "datos-basicos">
+													data-id = "datos-basicos'.$servicio_id.'">
 
-													<i id = "datos-basicos" class = "fa fa-caret-right fa-lg"></i>
+													<i id = "datos-basicos'.$servicio_id.'" class = "fa fa-caret-right fa-lg"></i>
 												</a>
 												Datos Básicos
 											</h4>
 
-											<div class = "hidden" data-id = "datos-basicos">
-												<ul>
-													<li><p class = "text-muted">Fecha de creación</p>04-03-2014</li>
-													<li><p class = "text-muted">Descripción</p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-													<li><p class = "text-muted">Tipo de Servicio</p>Usuario/Sistema</li>
-													<li><p class = "text-muted">Genera Ingresos</p> xxx cantidad de ingresos</li>
-												</ul>
+											<div class = "hidden" data-id = "datos-basicos'.$servicio_id.'">
+												<div class = "row">
+													<div class = "col-xs-6"><!-- col izq -->
+														<ul>
+															<li><p class = "text-muted">Descripción </p> '.$s['descripcion'].'</li><br>
+															<li><p class = "text-muted">Fecha de creación</p>'.$s['fecha_creacion'].'</li>
+														</ul>
+													</div>	
+
+													<div class = "col-xs-6"><!-- col der -->
+														<ul>
+															<li><p class = "text-muted">Tipo de Servicio</p>'.$name_serv.'</li><br>
+															<li><p class = "text-muted">Genera Ingresos</p> '.$cant_ingr.'</li>
+														</ul>
+													</div>	
+												</div><!-- /row: datos básicos -->
 
 												<hr>
 											</div><!-- /datos-basicos-->
 
 										</div><!-- /col-12 -->	
-									</div><!-- /row: Datos Básicos -->
+									</div><!-- /row: Datos Básicos -->';
 
-
-									<!-- Cronograma Estimado de Ejecución  -->
+						//Cronograma de Ejecución
+						echo '
+									<!-- CRONOGRAMA ESTIMADO DE EJECUCIÓN  -->
 									<div class="row">
 										<div class = "col-xs-12">
 											<h4> 
@@ -275,14 +300,14 @@
 													data-toggle ="tooltip"
 													data-original-title = "Mostrar"
 													data-fieldIT = "caracteristicas-servicios"
-													data-id = "cronograma-estimado-ejecucion">
+													data-id = "cronograma-estimado-ejecucion'.$servicio_id.'">
 
-													<i id = "cronograma-estimado-ejecucion" class = "fa fa-caret-right fa-lg"></i>
+													<i id = "cronograma-estimado-ejecucion'.$servicio_id.'" class = "fa fa-caret-right fa-lg"></i>
 												</a>
 												Cronograma estimado de ejecución
 											</h4>
 											<!-- Tabla con el cronograma -->
-											<div class = "hidden" data-id = "cronograma-estimado-ejecucion" >
+											<div class = "hidden" data-id = "cronograma-estimado-ejecucion'.$servicio_id.'" >
 
 												<table class="table table-condensed table-hover">
 													<thead>
@@ -294,51 +319,34 @@
 														</tr>
 													</thead>
 
-													<tbody>
-														<tr>
-															<td>sdfdsf</td>
-															<td>fsdfsdf</td>
-															<td>sdfsdf</td>
-															<!-- Lista de Operaciones/Comandos-->
+													<tbody>';
+						foreach ($s['list_tarea'] as $t) {
+							echo 					'<tr>
+															<td>'.$t['descripcion'].'</td>
+															<td>'.$t['horario_desde'].'</td>
+															<td>'.$t['horario_hasta'].'</td>';
+
+							echo '						<!-- Lista de Operaciones/Comandos-->
 															<td>
 																<a  class="btn"
-																data-id = "comandos-operaciones1"
+																data-id = "comandos-operaciones'.$t['tarea_id'].'"
 																data-fieldIT = "comandos-operaciones"
 																data-toggle="tooltip" 
 																data-original-title="Comandos y Operaciones"
 																data-placement = "bottom">
-																<i id = "comandos-operaciones1" class = "fa fa-caret-right fa-lg"></i>	
-															</a>
-															<ul data-id = "comandos-operaciones1" class = "hidden">
-																<li>Comando y Operación</li>
-																<li>Comando y Operación</li>
-																<li>Comando y Operación</li>
-															</ul>
-															</td><!-- /Celda: Operaciones/Comandos-->
-														</tr>
+																<i id = "comandos-operaciones'.$t['tarea_id'].'" class = "fa fa-ellipsis-h fa-lg"></i>	
+																</a>
+															<ul data-id = "comandos-operaciones'.$t['tarea_id'].'" class = "hidden">';
+							//tarea detalle
+							foreach ($t['list_tarea_detalle'] as $td) {
+								echo 							'<li>'.$td['comando'].' | '.$td['operacion'].'</li>';
+							}
 
-														<tr>
-														<td>sdfdsf</td>
-														<td>fsdfsdf</td>
-														<td>sdfsdf</td>
-														<!-- Lista de Operaciones/Comandos-->
-														<td>
-															<a  class="btn"
-															data-id = "comandos-operaciones2"
-															data-fieldIT = "comandos-operaciones"
-															data-toggle="tooltip" 
-															data-original-title="Comandos y Operaciones"
-															data-placement = "bottom">
-															<i id = "comandos-operaciones2" class = "fa fa-caret-right fa-lg"></i>	
-														</a>
-														<ul data-id = "comandos-operaciones2" class = "hidden">
-															<li>Comando y Operación</li>
-															<li>Comando y Operación</li>
-															<li>Comando y Operación</li>
-														</ul>
-														</td><!-- /Celda: Operaciones/Comandos-->
-														</tr>
-													</tbody>
+							echo '							</ul>
+															</td><!-- /Celda: Operaciones/Comandos-->
+														</tr>';
+						}
+						echo '						</tbody>
 												</table>
 
 												<hr>
@@ -346,10 +354,13 @@
 
 										</div><!-- /col-12 -->	
 
-									</div><!-- /row: Cronograma Estimado de Ejecución --><!-- Cronograma Estimado de Ejecución  -->
+									</div><!-- /row: Cronograma Estimado de Ejecución --><!-- Cronograma Estimado de Ejecución  -->';
 
+														
+						//Umbrales
+						echo '
 
-									<!-- Umbrales-->
+									<!-- UMBRALES-->
 									<div class="row">
 										<div class = "col-xs-12">
 											<h4> 
@@ -357,15 +368,15 @@
 													data-toggle ="tooltip"
 													data-original-title = "Mostrar"
 													data-fieldIT = "caracteristicas-servicios"
-													data-id = "umbrales">
+													data-id = "umbrales'.$servicio_id.'">
 
-													<i id = "umbrales" class = "fa fa-caret-right fa-lg"></i>
+													<i id = "umbrales'.$servicio_id.'" class = "fa fa-caret-right fa-lg"></i>
 												</a>
 												Umbrales
 											</h4>
 
 											<!-- Tabla de Umbrales -->
-											<div class = "hidden" data-id = "umbrales">
+											<div class = "hidden" data-id = "umbrales'.$servicio_id.'">
 												<table class="table table-condensed table-hover">
 													<thead>
 														<tr>
@@ -377,145 +388,133 @@
 													</thead>
 
 													<tbody>
-														<tr>
-															<td>sdfdsf</td>
-															<td>fsdfsdf</td>
-															<td>sdfsdf</td>
-															<td>sdfsdf</td>
 
-														</tr>
+						';
 
-														<tr>
-															<td>sdfdsf</td>
-															<td>fsdfsdf</td>
-															<td>sdfsdf</td>
-															<td>kfds fdf d</td>
+						foreach ($s['list_umbral'] as $u) {
+							echo '
+								<tr>
+									<td>'.$u['descripcion'].'</td>
+									<td>'.$u['tiempo_acordado'].'</td>
+									<td>'.$u['valor'].'</td>
+									<td>'.$u['medida'].'</td>
+
+								</tr>
+							';
+						}
+						echo '
+											</tbody>
+										</table>
+									</div><!-- /umbrales-->
+								</div><!-- /col-12 -->	
+							</div><!-- /row: Umbrales -->
+						';
+
+						//Procesos
+						echo '
+								<!-- PROCESOS-->
+								<div class="row">
+									<div class = "col-xs-12">
+										<h4> 
+											<a 	class = "btn"
+												data-toggle ="tooltip"
+												data-original-title = "Mostrar"
+												data-fieldIT = "caracteristicas-servicios"
+												data-id = "procesos'.$servicio_id.'">
+
+												<i id = "procesos'.$servicio_id.'" class = "fa fa-caret-right fa-lg"></i>
+											</a>
+											Procesos
+										</h4>
+
+										<!-- Tabla de Procesos -->
+										<div class = "hidden" data-id = "procesos'.$servicio_id.'">
+											<table class="table table-condensed table-hover">
+												<thead>
+													<tr>
+														<th>Nombre</th>
+														<th>Tipo</th>
+														<th>Descripción</th>
 													</tr>
-													</tbody>
-												</table>
-											</div><!-- /umbrales-->
-										</div><!-- /col-12 -->	
-									</div><!-- /row: Umbrales -->
+												</thead>
 
+												<tbody>
+						';
+						foreach ($s['list_proceso'] as $p) {
+							echo '
+								<tr>
+									<td>'.$p['nombre'].'</td>
+									<td>'.$p['tipo'].'</td>
+									<td>'.$p['descripcion'].'</td>
 
+								</tr>
+							';
+						}
+						echo '
+											</tbody>
+										</table>
+									</div><!-- /umbrales-->
+								</div><!-- /col-12 -->	
+							</div><!-- /row: Procesos -->
+						';
+
+						echo '
 								</div><!-- /panel-body -->
 							</div> <!-- panel-info -->
 
 							<br>
-							
+						';
 
+						$cur_page+=1;
+						if(isset($list_servicio[$cur_page])){
+							$servicio_id = $list_servicio[$cur_page]['servicio_id'];
+						}else{
+							$is_top = true;//Es el fin del array
+						}
+						$j++;
+
+					}
+					return array(
+						'servicio_id' => $servicio_id,
+						'cur_page' => $cur_page,
+						'is_top' => $is_top);
+
+				}
+
+
+			?>
+
+
+			<div class="panel panel-primary">
+				<div class = "panel-heading"><!-- Outter -->
+					<h3 class = "panel-title">Lista de Servicios</h3>
+				</div><!-- /panel-heading outter-->
+
+				<div class = "panel-body">
+
+					<div  class = "row">
+						<!-- Columna IZQUIERDA -->
+						<div class="col-xs-6 ">
+							<?php
+								if($config_pag['total_rows'] > 0){
+									$rs = show_servicio(FALSE, $org, $config_pag, $list_servicio, NULL);
+								}else{
+									echo '<h3 class = "text-muted"> La búsqueda ha generado cero (0) resultados</h3>';
+								}
+							?>
 						</div><!-- Columna IZQUIERDA-->
 
 
 						<!-- Columna DERECHA-->
 						<div class="col-xs-6">
-							
-							<!-- Departamento: servicio2 -->
-							<div class="panel panel-info"><!-- Inner-->
-
-								<div class="panel-heading">
-									<div class="row">
-										
-										<!-- Nombre de Componente & Botones (Izquierda)-->
-										<div class = "col-xs-10">
-											<!-- Nombre de Componente-->
-											<div class = "row">
-												<div class = "col-xs-12">
-													<p>Nombre servicio</p>
-												</div><!-- col-12 -->	
-											</div><!-- /row -->
-											
-											<!-- Botones: Desplegar, editar, eliminar-->
-											<div class="row">
-												<div class = "col-xs-6">
-													<div class="btn-group">
-														<!-- Botón de despliegue-->
-														<a  class="btn"
-															data-id = "servicio2"
-															data-fieldIT = "caracteristicas"
-															data-toggle="tooltip" 
-															data-original-title="Características"
-															data-placement = "bottom">
-															<i id = "servicio2" class = "fa fa-caret-right fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "servicio2"
-															data-fieldIT = "editar"
-															data-toggle="tooltip" 
-															data-original-title="Editar"
-															data-placement = "bottom">
-															<i class = "fa fa-pencil fa-lg"></i>	
-														</a>
-														<a  class="btn"
-															data-id = "servicio2"
-															data-fieldIT = "eliminar"
-															data-toggle="tooltip" 
-															data-original-title="Eliminar"
-															data-placement = "bottom">
-															<i class = "fa fa-times fa-lg"></i>	
-														</a>
-
-													</div><!-- /btn-group -->
-												</div><!-- /col-xs-6-->
-
-												<!-- Vacío, completar espacio-->
-												<div class = "col-xs-6"></div>
-											</div><!-- row -->
-
-										</div><!-- /col-xs-10 -->
-
-
-										<!-- Logotipo de Categoría (Derecha)-->
-										<div class="col-xs-2">
-											<i
-												data-toggle="tooltip" 
-												data-original-title="Categ. NomCat"
-												data-placement = "top"
-												class = "fa fa-laptop fa-3x"></i>
-										</div>
-									</div><!-- /row-->
-								</div><!-- /panel-heading-->
-
-								<div class="panel-body hidden" data-id = "servicio2">
-									<!-- Etiqueta Característica -->
-									<div class = "row">
-										<div class = "col-xs-12">
-											<h3>Características</h3>
-										</div><!--/col-xs-12 -->
-									</div><!-- /row-->
-
-									<!-- Lista de características-->
-									<div class="row">
-										<div class = "col-xs-12">
-											<ul>
-												<li><p class = "text-muted">Descripción</p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-											</ul>
-										</div>	
-									</div>
-
-									<div class = "row">
-										<div class = "col-xs-12">
-											<ul>
-												<li><p class = "text-muted">Fecha de Creación</p> 02/02/2032</li>
-												<li>
-													<p class = "text-muted"><strong>Componentes de TI</strong></p> 
-														<ul>
-														    <li>Comp1</li>
-														    <li>Comp2</li>
-														    <li>Comp3</li>
-														    <li>Comp4</li>
-														    <li>Comp5</li>
-														</ul>
-												</li>
-											</ul>
-										</div>
-
-									</div><!-- /row-->	
-
-
-								</div><!-- /panel-body -->
-							</div> <!-- panel-info -->
-
+							<?php
+								if($config_pag['total_rows'] > 0){
+									show_servicio($rs['is_top'],$org, $config_pag, $list_servicio, $rs['servicio_id'],
+									 $rs['cur_page']);
+								}else{
+									echo '<h3 class = "text-muted"> La búsqueda ha generado cero (0) resultados</h3>';
+								}
+							?>
 						</div><!-- columna Derecha-->
 
 
@@ -542,21 +541,18 @@
 	<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11"></div><!-- Vacío-->
 </div><!-- /row: btn Nuevo-->
 
-
 <!-- Paginación-->
 <div class="row">
-	<div class="col-xs-4 col-sm-12 col-md-4 col-lg-4 col-md-offset-4">
-		<ul class="pagination">
-		<li class = "disabled"><a href="#"><i class = "fa fa-backward"></i></a></li>
-			<li class = "active"><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-		<li><a href="#"><i class = "fa fa-forward"></i></a></li>
-		</ul>
-	</div><!-- /col-4 -->
-</div><!-- /row: Paginación -->
+	<div class="col-md-12">
+		<center>
+		<?php 
+			$config_pag['url'] = site_url('index.php/cargar_datos/servicios');
+			pagination($config_pag);
+		?>
+		</center>
+	</div><!-- /col-12 -->
+</div><!-- /row: Paginación-->
+
 
 <!-- Direccionamiento de formularios-->
 <div class = "row">

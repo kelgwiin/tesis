@@ -436,8 +436,11 @@ class Cargar_Data extends MX_Controller
 		switch ($action) {
 			case 'list':
 				$params_main_content = $this->_config_service(false,false,false,
-					$cur_page,$this->per_page, null);
+					$cur_page,$this->per_page, array('accion'=>'todos'));
 
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
+						
 				$this->utils->template($this->_list(4),'cargar_data/servicios',
 					$params_main_content,'Cargar Infraestructura','Servicios');
 				break;
@@ -473,7 +476,7 @@ class Cargar_Data extends MX_Controller
 				break;
 			case 'guardado':
 				$params_main_content = $this->_config_service(false,true,false,
-					1,$this->per_page, null);
+					1,$this->per_page, array('accion'=>'todos'));
 
 				$this->utils->template($this->_list(4),'cargar_data/servicios',
 					$params_main_content,'Cargar Infraestructura','Servicios');
@@ -489,7 +492,25 @@ class Cargar_Data extends MX_Controller
 				# code...
 				break;
 			case 'filtrar':
-				echo 'Filtrando';
+				$op = $this->input->post('filtro_servicio');
+				$campo_buscar = $this->input->post('buscar_servicio');
+				
+				$in = $this->input->post('genera_ingresos');
+				$genera_in = ($in == 'on')?true:false;
+
+				if($op == 'nombre'){
+					$params = array('accion'=>'nombre',
+									 'info'=>$campo_buscar,
+									 'genera_ingresos'=>$genera_in);
+
+				}else{
+					//todos|USR|SYS
+					$params = array('accion'=>$op,
+									 'genera_ingresos'=>$genera_in);
+				}
+
+				//Realizar la llamada.
+
 				break;
 		}
 	}
@@ -502,7 +523,11 @@ class Cargar_Data extends MX_Controller
 	 * @param  Boolean $filtrado    Índica si despliega o no el msj de filtrado
 	 * @param  Integer $cur_page    Página actual
 	 * @param  Integer $per_page 	Número de item por página
-	 * @param  Array   $data_filtro CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+	 * @param  Array   $data_filtro Posee la siguiente forma
+	 *      Array(
+	 *         	'accion' => todos|nombre|USR|SYS,
+	 *         	'info' => String		
+	 *      )
 	 * @return Array              	Config. del main_content
 	 */
 	private function  _config_service($actualizado, $guardado,$filtrado, $cur_page,
@@ -516,14 +541,23 @@ class Cargar_Data extends MX_Controller
 		$mc['cur_page'] = $cur_page;
 		$mc['filtrado'] = $filtrado;
 
-		/*switch ($data_filtro['accion']) {
+		switch ($data_filtro['accion']) {
 			case 'todos':
-				$l = $this->basico_model->all_dpto();
+				$l = $this->basico_model->all_servicio();
 				break;
 
 			case 'nombre':
 				$name = $data_filtro['info'];
-				$l = $this->basico_model->all_dpto($name);
+				$l = $this->basico_model->all_servicio($name);
+				break;
+			//Servicios de Usuario
+			case 'USR':
+				# code...
+				break;
+
+			//Servicios de Sistema
+			case 'SYS':
+				# code...
 				break;
 		}
 		$config_pag = array(
@@ -532,7 +566,7 @@ class Cargar_Data extends MX_Controller
 			'cur_page' => $cur_page
 			);
 		$mc['config_pag'] = $config_pag;
-		$mc['list_dpto'] = $l['data'];*/
+		$mc['list_servicio'] = $l['data'];
 
 		return $mc;
 	}
