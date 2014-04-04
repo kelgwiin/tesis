@@ -20,5 +20,10 @@ class Data_model extends MY_Model
         fclose($file_handle);
         return $line_of_text;
     }
+    function insertar_csv($data)
+    {
+        
+        $this->my_insert($data);
+    }
 }
 ?>
