@@ -15,6 +15,7 @@ class Cargar_Data extends MX_Controller
 		$this->load->model('datos_basicos_model','basico_model');
 		$this->load->model('utilities/utilities_model');
 
+		$this->load->database();
 		//Helpers
 		$this->load->helper('date');
 		$this->load->helper('bs3');
@@ -29,7 +30,7 @@ class Cargar_Data extends MX_Controller
 		 * Número de items de componentes de ti por página 
 		 * @var integer
 		 */
-		$this->per_page = 6;
+		$this->per_page = 2;
 	}
 
 	public function index(){
@@ -110,7 +111,7 @@ class Cargar_Data extends MX_Controller
 			//Listando los componentes de ti
 			case 'list':
 				$params_main_content = $this->_config_comp_ti($this->per_page,
-					false,$cur_page,array('accion' => 'all' ));
+					false,$cur_page,array('accion' => 'all' ),NULL);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -118,7 +119,7 @@ class Cargar_Data extends MX_Controller
 			//Muestra el mensaje de guardado exitoso
 			case 'guardado': 
 				$params_main_content = $this->_config_comp_ti($this->per_page,
-					true,1,array('accion' => 'all' ));
+					true,1,array('accion' => 'all' ),NULL);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -167,27 +168,36 @@ class Cargar_Data extends MX_Controller
 
 			//Filtrando el contenido de los componentes de ti
 			case 'filtrar':
-				$op = $this->input->post('filtro-componente-ti');
+				$op = $this->input->get('filtro-componente-ti');
+				
+				$p_get = get_encode($this->input->get());
+				$cur_page = $this->uri->segment(5);
+				//Para desplegar el mensade de filtrado
+				$params_main_content['is_filtered'] = true;
+
 				switch ($op) {
 					case 'todos':
 						$params_main_content = $this->_config_comp_ti($this->per_page,
-							false,1, array('accion' => 'all' ));
+							false,$cur_page, array('accion' => 'all' ),NULL);
+						
+						//Como son todos se configura como si fuese un listar normal 
+						//de todos los componentes
+						$params_main_content['is_filtered'] = false;
 						break;
 					
 					case 'nombre':
-						$busq = $this->input->post('buscar-componente-ti');
+						$busq = $this->input->get('buscar-componente-ti');
 						$params_main_content = $this->_config_comp_ti($this->per_page,
-							false,1, array('accion' => 'nombre','campo_buscar' => $busq ));
+							false,$cur_page, array('accion' => 'nombre','campo_buscar' => $busq ),$p_get);
 						break;
 
 					case 'categoria':
-						$busq = $this->input->post('buscar-componente-ti');
+						$busq = $this->input->get('buscar-componente-ti');
 						$params_main_content = $this->_config_comp_ti($this->per_page,
-							false,1, array('accion' => 'categoria','campo_buscar' => $busq ));
+							false,$cur_page, array('accion' => 'categoria','campo_buscar' => $busq ),$p_get);
 						break;
 				}
-				//Para desplegar el mensade de filtrado
-				$params_main_content['is_filtered'] = true;
+				
 				
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
@@ -255,7 +265,7 @@ class Cargar_Data extends MX_Controller
 				break;
 			case 'actualizado':
 				$params_main_content = $this->_config_comp_ti($this->per_page,
-					false,1,array('accion' => 'all' ),true);
+					false,1,array('accion' => 'all' ),NULL,true);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -283,18 +293,21 @@ class Cargar_Data extends MX_Controller
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
 			
-			//Formulario de nuevo componente de ti
+			//Formulario de nuevo Departamento de ti
 			case 'filtrar':
-				$op = $this->input->post('filtro-dpto');
+				$op = $this->input->get('filtro-dpto');
+				$p_get = get_encode($this->input->get());
+				$cur_page = $this->uri->segment(5);
+
 				switch ($op) {
 					case 'todos':
-						$params_main_content = $this->_config_dpto(false,false,true,1,
+						$params_main_content = $this->_config_dpto(false,false,false,$cur_page,
 							$this->per_page, array('accion' => 'todos'));
 						break;
 					case 'nombre':
-						$campo_buscar = $this->input->post('buscar');
-						$params_main_content = $this->_config_dpto(false,false,true,1,
-							$this->per_page, array('accion' => 'nombre','info' =>$campo_buscar));
+						$campo_buscar = $this->input->get('buscar');
+						$params_main_content = $this->_config_dpto(false,false,true,$cur_page,
+							$this->per_page, array('accion' => 'nombre','info' =>$campo_buscar),$p_get);
 						break;
 				}
 				
@@ -303,7 +316,7 @@ class Cargar_Data extends MX_Controller
 
 				break;
 			case 'nuevo':
-				//Info de los Componentes en el sistema
+				//Info de los Departamentos en el sistema
 				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
 				$params_main_content['actualizar'] = false;
 				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
@@ -389,10 +402,11 @@ class Cargar_Data extends MX_Controller
 	 *         array('accion' => String,
 	 *         		'info' => String //valor del filtro
 	 *         )
+	 * @param $p_get Parámetros en formato GET, sólo usado para el caso de filtrado.
 	 * @return Array              	Config. del main_content
 	 */
 	private function  _config_dpto($actualizado, $guardado,$filtrado, $cur_page,$per_page,
-		$data_filtro){
+		$data_filtro,$p_get=NULL){
 		/**
 		 * Contiene las configuraciones de main_content
 		 * @var $mc
@@ -415,7 +429,8 @@ class Cargar_Data extends MX_Controller
 		$config_pag = array(
 			'total_rows' => $l['total_rows'],
 			'per_page' => $per_page,
-			'cur_page' => $cur_page
+			'cur_page' => $cur_page,
+			'p_get' => $p_get
 			);
 		$mc['config_pag'] = $config_pag;
 		$mc['list_dpto'] = $l['data'];
@@ -438,6 +453,7 @@ class Cargar_Data extends MX_Controller
 				$params_main_content = $this->_config_service(false,false,false,
 					$cur_page,$this->per_page, array('accion'=>'todos'));
 
+				//Organización
 				$params_main_content['org'] = $this->utilities_model->
 						first_row('organizacion','organizacion_id');
 						
@@ -474,9 +490,14 @@ class Cargar_Data extends MX_Controller
 					echo '{"estatus":"fail"}';
 				}
 				break;
+			
 			case 'guardado':
 				$params_main_content = $this->_config_service(false,true,false,
 					1,$this->per_page, array('accion'=>'todos'));
+				
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
 
 				$this->utils->template($this->_list(4),'cargar_data/servicios',
 					$params_main_content,'Cargar Infraestructura','Servicios');
@@ -492,24 +513,52 @@ class Cargar_Data extends MX_Controller
 				# code...
 				break;
 			case 'filtrar':
-				$op = $this->input->post('filtro_servicio');
-				$campo_buscar = $this->input->post('buscar_servicio');
+				$p_get = get_encode($this->input->get());
+				$cur_page = $this->uri->segment(5);
+
+				$op = $this->input->get('filtro_servicio');
+
+				$campo_buscar = $this->input->get('buscar_servicio');
 				
-				$in = $this->input->post('genera_ingresos');
-				$genera_in = ($in == 'on')?true:false;
+				$in = $this->input->get('genera_ingresos');
+				$genera_in = ($in == 'on')?1:0;
 
-				if($op == 'nombre'){
-					$params = array('accion'=>'nombre',
-									 'info'=>$campo_buscar,
-									 'genera_ingresos'=>$genera_in);
+				$is_filtered = true;
+				switch ($op) {
+					case 'todos':
+						$params = array('accion'=>'todos');
+						$p_get = NULL;
+						$is_filtered = false;//Para que actúe como 
+						//un listar de todos los servicios común
+						break;
+					case 'nombre':
+						$params = array('accion'=>'filtrar',
+										'operacion'=>'nombre',
+										'info'=>$campo_buscar);
+						break;
+					case 'ingresos':
+						$params = array('accion'=>'filtrar',
+										'operacion'=>'by_ingresos',
+										 'genera_ingresos'=>$genera_in
+										 );
+						break;
 
-				}else{
-					//todos|USR|SYS
-					$params = array('accion'=>$op,
-									 'genera_ingresos'=>$genera_in);
+					default:
+						$params = array('accion'=>'filtrar',
+										'operacion'=>$op
+										);	
+						break;
 				}
+				
+				$params_main_content = $this->_config_service(false,false,$is_filtered,
+					$cur_page,$this->per_page, $params,$p_get);
+				
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
 
-				//Realizar la llamada.
+				$this->utils->template($this->_list(4),'cargar_data/servicios',
+					$params_main_content,'Cargar Infraestructura','Servicios');
 
 				break;
 		}
@@ -525,13 +574,16 @@ class Cargar_Data extends MX_Controller
 	 * @param  Integer $per_page 	Número de item por página
 	 * @param  Array   $data_filtro Posee la siguiente forma
 	 *      Array(
-	 *         	'accion' => todos|nombre|USR|SYS,
+	 *         	'accion' => todos|filtrar,
+	 *          'operacion'=>todos|nombre|USR|SYS,
+	 *          'genera_ingresos'=> 0|1,
 	 *         	'info' => String		
 	 *      )
-	 * @return Array              	Config. del main_content
+	 * @param $p_get Parámetros en formato GET, sólo usado para el caso de filtrado.
+	 * @return Array   Config. del main_content
 	 */
 	private function  _config_service($actualizado, $guardado,$filtrado, $cur_page,
-		$per_page,$data_filtro){
+		$per_page,$data_filtro,$p_get=NULL){
 		/**
 		 * Contiene las configuraciones de main_content
 		 * @var $mc
@@ -545,26 +597,19 @@ class Cargar_Data extends MX_Controller
 			case 'todos':
 				$l = $this->basico_model->all_servicio();
 				break;
-
-			case 'nombre':
-				$name = $data_filtro['info'];
-				$l = $this->basico_model->all_servicio($name);
-				break;
-			//Servicios de Usuario
-			case 'USR':
-				# code...
+			//Filtrar 
+			case 'filtrar':
+				$l = $this->basico_model->all_servicio($data_filtro);
 				break;
 
-			//Servicios de Sistema
-			case 'SYS':
-				# code...
-				break;
 		}
 		$config_pag = array(
 			'total_rows' => $l['total_rows'],
 			'per_page' => $per_page,
-			'cur_page' => $cur_page
+			'cur_page' => $cur_page,
+			'p_get'=>$p_get
 			);
+
 		$mc['config_pag'] = $config_pag;
 		$mc['list_servicio'] = $l['data'];
 
@@ -602,11 +647,12 @@ class Cargar_Data extends MX_Controller
 	 * array ('accion' => 'all|categoria|nombre',
 	 * 		 'campo_buscar' => 'algun dato como filtro'
 	 * )
+	 * @param $p_get Parámetros en formato GET, sólo usado para el caso de filtrado.
 	 * @param  Boolean $actualizado_exitoso Indica si viene de actualizar o no.
 	 * @return Array Una array asociativo con las configuraciones. 
 	 */
 	private function _config_comp_ti($per_page, $guardado_exitoso,
-		$cur_page,$data_origin,$actualizado_exitoso=false){
+		$cur_page,$data_origin,$p_get,$actualizado_exitoso=false){
 
 		$params_main_content['guardado_exitoso'] = $guardado_exitoso;
 		$params_main_content['actualizado_exitoso'] = $actualizado_exitoso;
@@ -634,7 +680,8 @@ class Cargar_Data extends MX_Controller
 		$componente_ti = array( 
 			'total_rows' => $total_rows,
 			'per_page' => $per_page,
-			'cur_page' => $cur_page
+			'cur_page' => $cur_page,
+			'p_get' => $p_get
 			);
 		
 		$params_main_content['config_pag'] = $componente_ti;

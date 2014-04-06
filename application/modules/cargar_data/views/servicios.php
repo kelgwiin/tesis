@@ -37,7 +37,7 @@
 					if($actualizado){
 					echo '<div class="alert alert-success alert-dismissable" id = "msj-actualizado-dpto">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-							El Departamento ha sido <strong>actualizado</strong> con éxito y se ha <strong>creado</strong> un campo nuevo en el inventario asociado al dpto.!
+							El Servicio ha sido <strong>actualizado</strong> con éxito!
 						</div>
 					';
 					}
@@ -48,7 +48,7 @@
 					if($filtrado){
 					echo '<div class="alert alert-success alert-dismissable" id = "msj-filtrado-dpto">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-							La lista de Departamentos de TI ha sido <strong>Actualizada</strong>!
+							La lista de Servicios de TI ha sido <strong>Actualizada</strong>!
 						</div>
 					';
 					}
@@ -61,8 +61,8 @@
 		<!-- Buscar, filtrar, nuevo-->
 		<div class="col-lg-6">
 			<!-- Formulario de Filtrar -->
-			<form action = "<?php echo site_url('index.php/cargar_datos/servicios/filtrar');?>" 
-				class="form-inline"  method = "POST">
+			<form action = "<?php echo site_url('index.php/cargar_datos/servicios/filtrar/pag/1');?>" 
+				class="form-inline"  method = "GET">
 
 				<!-- boton nuevo-->
 				<div class = " form-group" >
@@ -101,6 +101,7 @@
 						<option value="USR">Serv. Usuario</option>
 						<option value="SYS">Serv. Sistema</option>
 						<option value="nombre">Nombre</option>
+						<option value="ingresos">Por Ingreso</option>
 					</select>
 				</div>
 
@@ -195,7 +196,7 @@
 															data-toggle="tooltip" 
 															data-original-title="Características"
 															data-placement = "bottom">
-															<i id = "servicio1" class = "fa fa-caret-right fa-lg"></i>	
+															<i id = "'.$servicio_id.'" class = "fa fa-caret-right fa-lg"></i>	
 														</a>
 														<a  class="btn"
 															data-id = "'.$servicio_id.'"
@@ -511,8 +512,6 @@
 								if($config_pag['total_rows'] > 0){
 									show_servicio($rs['is_top'],$org, $config_pag, $list_servicio, $rs['servicio_id'],
 									 $rs['cur_page']);
-								}else{
-									echo '<h3 class = "text-muted"> La búsqueda ha generado cero (0) resultados</h3>';
 								}
 							?>
 						</div><!-- columna Derecha-->
@@ -546,8 +545,13 @@
 	<div class="col-md-12">
 		<center>
 		<?php 
-			$config_pag['url'] = site_url('index.php/cargar_datos/servicios');
-			pagination($config_pag);
+			if(!$filtrado){
+				$config_pag['url'] = site_url('index.php/cargar_datos/servicios');
+			}else{
+				$config_pag['url'] = site_url('index.php/cargar_datos/servicios/filtrar/pag');
+			}
+				pagination($config_pag);
+
 		?>
 		</center>
 	</div><!-- /col-12 -->

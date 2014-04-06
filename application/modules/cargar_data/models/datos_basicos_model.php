@@ -95,7 +95,7 @@ class Datos_basicos_model extends CI_Model {
                 $sql_comp_ti = "SELECT  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa 
                                 FROM componente_ti as comp join (ma_unidad_medida as uni,ma_categoria as categ)
                                 ON (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id AND uni.ma_categoria_id = categ.ma_categoria_id) 
-                                WHERE categ.nombre like '%".$data_target."%' 
+                                WHERE borrado = false and activa = 'ON' AND categ.nombre like '%".$data_target."%' 
                                 ORDER BY comp.componente_ti_id;";
                 break;
         }
@@ -517,6 +517,14 @@ class Datos_basicos_model extends CI_Model {
     /**
      * Obtiene todos los Servicios en conjunto con: los Cronogramas de Ejecución (tareas),
      * Umbrales y Procesos.
+     * 
+     * @param  Array   $data_filtro Posee la siguiente forma
+     *      Array(
+     *          'accion' => todos|filtrar,
+     *          'operacion'=>todos|nombre|USR|SYS,
+     *          'genera_ingresos'=> 0|1,
+     *          'info' => String        
+     *      )
      * @return Array Un campo 'total_rows' y un Array donde cada entrada 
      * contiene la siguiente forma:
      *      Array(
@@ -556,11 +564,48 @@ class Datos_basicos_model extends CI_Model {
      *         'descripcion' => String 
      *     )
      */
-    public function all_servicio(){
-        $sql = 'SELECT servicio_id, nombre, descripcion, fecha_creacion, 
-                    tipo, genera_ingresos, cantidad_ingresos
-                FROM servicio
-                WHERE borrado = false ;';
+    public function all_servicio($data_filtro=NULL){
+        if(!isset($data_filtro)){// Si son las opciones de filtrado
+            $sql = 'SELECT servicio_id, nombre, descripcion, fecha_creacion, 
+                        tipo, genera_ingresos, cantidad_ingresos
+                    FROM servicio
+                    WHERE borrado = false 
+                    ORDER BY servicio_id ;';
+        }else{
+            
+
+            switch ($data_filtro['operacion']) {
+                case 'by_ingresos':
+                    $genera_in = $data_filtro['genera_ingresos'];
+                    $sql = 'SELECT servicio_id, nombre, descripcion, fecha_creacion, 
+                                tipo, genera_ingresos, cantidad_ingresos
+                            FROM servicio
+                            WHERE borrado = false AND genera_ingresos = '.$genera_in.'
+                            ORDER BY servicio_id ;';
+
+                    break;
+                
+                //Filtrando los servicios por nombre
+                case 'nombre':
+                    $filter_by_name = $data_filtro['info'];
+                    $sql = "SELECT servicio_id, nombre, descripcion, fecha_creacion, 
+                                tipo, genera_ingresos, cantidad_ingresos
+                            FROM servicio
+                            WHERE borrado = false AND nombre LIKE '%".$filter_by_name."%' 
+                            ORDER BY servicio_id ;";                    
+                    break;
+
+                default: // USR | SYS
+                    $tipo = $data_filtro['operacion'];
+                    $sql = "SELECT servicio_id, nombre, descripcion, fecha_creacion, 
+                                tipo, genera_ingresos, cantidad_ingresos
+                            FROM servicio
+                            WHERE borrado = false AND tipo = '".$tipo."'
+                            ORDER BY servicio_id ;";
+                    break;
+            }
+
+        }
 
         $q = $this->db->query($sql);
         $servicios = $q->result_array();
@@ -568,7 +613,7 @@ class Datos_basicos_model extends CI_Model {
         $resp = array();
         
         if($q->num_rows() == 0){
-            return array('total_rows'=> 0);
+            return array('total_rows'=> 0, 'data' => NULL);
         }
 
         foreach ($servicios as $row) {

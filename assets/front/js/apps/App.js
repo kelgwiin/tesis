@@ -152,7 +152,7 @@ $(document).ready(function()
     //EVENTOS DE COMPONENTES DE TI |
     //-----------------------------
     
-    //:: btn Características::
+    //:: btn Características (De uso Múltiple en: Componentes TI, Departamentos y Servicios )::
     //Al pulsar el caret que despliega el panel [PANEL]
     $('a[data-fieldIT=caracteristicas]').on('click', function(){
         var id  = $(this).attr('data-id');

@@ -70,8 +70,8 @@
 		<!-- Buscar, filtrar, nuevo-->
 		<div class="col-lg-8">
 			<!-- Formulario -->
-			<form  class="form-inline" method = "post" 
-				action = "<?php echo site_url('index.php/cargar_datos/departamentos/filtrar');?>" 
+			<form  class="form-inline" method = "GET" 
+				action = "<?php echo site_url('index.php/cargar_datos/departamentos/filtrar/pag/1');?>" 
 			>
 
 				<!-- boton nuevo-->
@@ -329,8 +329,6 @@
 								if($config_pag['total_rows'] > 0){
 									show_dpto($rs['is_top'], $config_pag, $list_dpto, $rs['dpto_id'],
 									 $rs['cur_page']);
-								}else{
-									echo '<h3 class = "text-muted"> La búsqueda ha generado cero (0) resultados</h3>';
 								}
 							?>
 						</div><!-- inner row-->
@@ -361,8 +359,13 @@
 	<div class="col-md-12">
 		<center>
 		<?php 
-			$config_pag['url'] = site_url('index.php/cargar_datos/departamentos');
-			pagination($config_pag);
+			if(!$filtrado){
+				$config_pag['url'] = site_url('index.php/cargar_datos/departamentos');
+			}else{
+				$config_pag['url'] = site_url('index.php/cargar_datos/departamentos/filtrar/pag');
+			}
+				pagination($config_pag);
+
 		?>
 		</center>
 	</div><!-- /col-12 -->

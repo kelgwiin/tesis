@@ -32,7 +32,8 @@ select * from departamento;
 
 
 -- SERVICIO
-select * from servicio;
+select * from servicio
+order by tipo;
 -- delete from servicio where servicio_id > 0; 
 
 select * from tarea;

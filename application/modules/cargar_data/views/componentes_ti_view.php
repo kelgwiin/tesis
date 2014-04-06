@@ -80,7 +80,7 @@
 		<!-- Buscar, filtrar, nuevo-->
 		<div class="col-lg-8">
 			<!-- Formulario -->
-			<form method = "post" action = "<?php echo site_url('index.php/cargar_datos/componentes_ti/filtrar');?>" 
+			<form method = "GET" action = "<?php echo site_url('index.php/cargar_datos/componentes_ti/filtrar/pag/1');?>" 
 			 class="form-inline" role = "form">
 				<!-- boton nuevo-->
 				<div class = " form-group" >
@@ -364,7 +364,11 @@
 	<div class="col-md-12">
 		<center>
 		<?php 
-			$config_pag['url'] = site_url('index.php/cargar_datos/componentes_ti');
+			if(isset($is_filtered) && $is_filtered){
+				$config_pag['url'] = site_url('index.php/cargar_datos/componentes_ti/filtrar/pag');
+			}else{
+				$config_pag['url'] = site_url('index.php/cargar_datos/componentes_ti');
+			}
 			pagination($config_pag);
 		?>
 		</center>

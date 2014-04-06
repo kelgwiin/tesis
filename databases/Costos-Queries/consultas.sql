@@ -27,12 +27,13 @@ order by comp.componente_ti_id;
 -- Obtener los componentse de TI filtrados por categoria
 select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
 from componente_ti as comp join ma_unidad_medida as uni on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id) inner join ma_categoria as categ on (uni.ma_categoria_id = categ.ma_categoria_id)
-where categ.nombre like '%redes%'and comp.borrado = false and comp.activa = 'ON';
+where categ.nombre like '%red%'and comp.borrado = false and comp.activa = 'ON';
 
-	-- Otra forma (esta parece que va mas rápido)
+	-- Otra forma (esta parece que va mas rápido USADA)
 select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
 from componente_ti as comp join (ma_unidad_medida as uni,ma_categoria as categ) on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id) 
-where categ.nombre like '%redes%' and comp.borrado = false and comp.activa = 'ON';
+where categ.nombre like '%red%' and comp.borrado = false and comp.activa = 'ON'
+order by comp.componente_ti_id;
 
 
 -- -----------------------------
