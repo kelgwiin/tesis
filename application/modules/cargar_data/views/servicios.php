@@ -1,3 +1,64 @@
+<!-- Scripts para el msj Modal (jquery-ui pluggin )-->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.widget.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.mouse.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.button.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.draggable.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.position.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.dialog.js');?>"></script>
+
+<!-- Config CSS-->
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/ui-lightness/jquery.ui.all.css');?>">
+<!-- /Fin de Scripts de librerías para Modal -->
+
+<!-- Inicialización del Dialog-Modal -->
+<script>
+$(function() {
+	$( "div#confirm-delete" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height:200,
+		width: 470,
+		modal: true,
+		buttons: {
+			"Eliminar": function() {
+				//Eliminando el departamento desde AJAX
+				
+				$( this ).dialog( "close" );
+				//Desarrollar		
+
+				var id  = $(this).attr('data-id');
+				alert(id);
+			},
+			Cancelar: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+	
+
+});
+</script>
+<!-- Modal: Confirmar Eliminación-->
+<div id="confirm-delete" data-id = "-1">
+	<div class = "row">
+		<!-- Ícono -->
+		<div class = "col-md-1 col-md-offset-1">
+			<i class = "fa fa-question-circle fa-4x"></i>
+		</div><!-- /col-md-1 -->
+		
+		<!-- Cuerpo del msj -->
+		<div class = "col-md-10">
+			<h4 class= "text-center"> 
+			¿Está seguro que desea <strong>eliminar</strong> <br>el departamento?</h4>			
+		</div><!-- /col-md-10 -->
+
+	</div><!-- /row-->
+</div><!-- /Modal: confirm-delete -->
+
+
+<!-- Inicio del Cuerpo de la Página -->
 <div id = "page-wrapper">
 	<!-- Cabecera de la descripción-->
 	<div class = "row">

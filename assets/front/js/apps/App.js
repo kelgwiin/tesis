@@ -171,47 +171,21 @@ $(document).ready(function()
         }
     });
 
-    //:: btn Editar ::
-    $('a[data-fieldIT=editar]').on('click', function(){
-       /* var id_editar  = $(this).attr('data-id');
-        alert('editar id - '+id_editar);*/
-    });
-
     //:: btn Eliminar - Mostrar Modal:: 
-    //Muestra el mensaje de confirmación de eliminación
+    //Muestra el mensaje de confirmación de eliminación (en componente de ti y en Servicios)
     $('a[data-fieldIT=eliminar]').on('click', function(){
         var id  = $(this).attr('data-id');//getting id
 
         //Se muestra el diálogo de confirmación
-        $('div#confirmar-eliminar-comp-ti').modal('show');
-        //Se coloca el valor del id en el botón del modal
-        $('button#btn-aceptar-componente-ti').attr('data-id',id);
+        $('div#confirm-delete').dialog('open');
+
+        //Se coloca el valor del id 
+        $('div#confirm-delete').attr('data-id',id);
     });
     
     //:: btn Confirmar Eliminación ::
-    $('button#btn-aceptar-componente-ti').on('click',function(){
-        //Escondiendo el modal
-        $('div#confirmar-eliminar-comp-ti').modal('hide');
-
-        var id  = $(this).attr('data-id');
-        var params = {componente_ti_id:id};
-        var url = "index.php/cargar_datos/componentes_ti/eliminar";
-        var dataType = "json";
-        var fo = function(data){
-            if(data.estatus == 'ok'){
-                //Mostrando msj de item eliminado lógicamente
-                $('div#msj-eliminado-comp-ti').attr('class','alert alert-success alert-dismissable show');
-                //Escondiendo msj de error inesperado
-                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
-            }else{
-                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
-            }
-        }
-        //Haciendo llamada al controlador desde ajax
-        $.post(url,params,fo,dataType);
-        //Eliminando gráficamente
-        $('div[data-id=panel-item-comp'+id+']').remove();
-    });
+    //movido a componentes_ti_view.php en el boton de confirmación del modal
+    
 
     //:: Mensajes de Error - btn Guardar ::
     //Es usado para mostrar los  mensajes de error correspondientes a los campos obligatiorios
@@ -829,6 +803,10 @@ $(document).ready(function()
         
         //Sino están repetidos en BD entonces guardar
     });
+    //btn eliminar (muestra el modal) se activa con el mismo evento de componente de ti.
+    
+    //confirmar eliminación está en el documento de servicios.php
+
     //
     //FIN: EVENTOS DE SERVICIOS
 
@@ -996,35 +974,15 @@ $(document).ready(function()
         var id  = $(this).attr('data-id');//getting id
 
         //Se muestra el diálogo de confirmación
-        $('div#confirmar-eliminar-dpto').modal('show');
-        //Se coloca el valor del id en el botón del modal
-        $('button#btn-aceptar-dpto').attr('data-id',id);
+        $('div#confirm-delete').dialog('open');
+
+        //Se coloca el valor del id 
+        $('div#confirm-delete').attr('data-id',id);
     });
     
     //:: btn Confirmar Eliminación dpto ::
-    $('button#btn-aceptar-dpto').on('click',function(){
-        //Escondiendo el modal
-        $('div#confirmar-eliminar-dpto').modal('hide');
-
-        var id  = $(this).attr('data-id');
-        var params = {dpto_id:id};
-        var url = "index.php/cargar_datos/departamentos/eliminar";
-        var dataType = "json";
-        var fo = function(data){
-            if(data.estatus == 'ok'){
-                //Mostrando msj de item eliminado lógicamente
-                $('div#msj-eliminado-dpto').attr('class','alert alert-success alert-dismissable show');
-                //Escondiendo msj de error inesperado
-                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
-            }else{
-                $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
-            }
-        }
-        //Haciendo llamada al controlador desde ajax
-        $.post(url,params,fo,dataType);
-        //Eliminando gráficamente
-        $('div[data-id=panel-item-dpto'+id+']').remove();
-    });
+    //movido a departamentos.php en el confirmar del modal
+    
     // FIN: EVENTOS DE DEPARTAMENTO
 
 

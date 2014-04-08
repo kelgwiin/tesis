@@ -179,3 +179,40 @@ $num_pages = ceil($config_pag['total_rows']/$config_pag['per_page']);
 							
 
 ?>
+
+
+
+<div class="modal fade" id = "confirmar-eliminar-dpto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content bg-info">
+			<div class="modal-body">
+				<!-- ícono de cerrar-->
+				<div class = "row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true"><i class = "fa fa-times"></i></button>	
+					</div>
+				</div>
+				<!-- Cuerpo del mensaje -->
+				<div class = "row">
+					<div class = "col-md-1 col-md-offset-1">
+						<i class = "fa fa-question-circle fa-5x"></i>	
+					</div>
+					<div class="col-md-10">
+						<h3 class= "text-center">¿Está seguro que desea <strong>eliminar</strong> <br>el departamento?</h3>			
+					</div>
+				</div>
+				<br><br>
+				<!-- Botones Cerrar y Eliminar -->
+				<div class = "row">
+					<div class="col-md-4 col-md-offset-4">
+						
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+						&nbsp 
+						<button data-id = "-1" id = "btn-aceptar-dpto" type="button" class="btn btn-primary">Aceptar</button>
+						
+					</div>
+				</div>
+			</div><!-- /modal-body-->
+		</div><!-- /modal-content-->
+	</div><!-- /modal-dialog-->
+</div><!-- /modal-dialog-->

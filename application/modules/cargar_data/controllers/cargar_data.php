@@ -155,6 +155,12 @@ class Cargar_Data extends MX_Controller
 				//Procesando la fecha actual
     			$p_procesado['fecha_creacion'] = date('Y-m-d H:i:s',now());
 
+    			//Verificando la cantidad
+    			if(!isset($p_procesado['cantidad'])){
+    				//Se hace esta validación ya que cuando se encuentra
+    				//no editable "disable" él parámetro no se envía al servidor.
+    				$p_procesado['cantidad'] = 1;
+    			}
     			//Cantidad Disponible
     			$p_procesado['cantidad_disponible'] = $p_procesado['cantidad'];
 
