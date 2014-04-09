@@ -33,11 +33,15 @@ select * from departamento;
 
 -- SERVICIO
 select * from servicio
-order by tipo;
+where servicio_id = 9;
+
 -- delete from servicio where servicio_id > 0; 
 
-select * from tarea;
-select * from tarea_detalle;
+select * from tarea
+where servicio_id =  9 ;
+
+select * from tarea_detalle
+where tarea_id = 11 ;
 
 select * from umbral;
 

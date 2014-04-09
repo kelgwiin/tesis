@@ -510,10 +510,28 @@ class Cargar_Data extends MX_Controller
 				break;
 
 			case 'actualizar':
-				# code...
+				$servicio_id = $this->uri->segment(4);
+				$data = $this->basico_model->servicio_info_by_id($servicio_id);
+
+				//Información Principal asociada al proceso
+				$params_main_content['servicio'] = $data['servicio'];
+				$params_main_content['list_tarea'] = $data['list_tarea'];
+				$params_main_content['list_umbral'] = $data['list_umbral'];
+				$params_main_content['list_proceso'] = $data['list_proceso'];
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
+				//Indicador de actualizar
+				$params_main_content['actualizar'] = true;
+				
+				$this->utils->template($this->_list(4),'cargar_data/nuevo_servicio_view',
+					$params_main_content,'Cargar Infraestructura','Actualizando serv.');
+
 				break;
 			case 'actualizar_guardar':
-				# code...
+
+
+				
 				break;
 			case 'actualizado':
 				# code...

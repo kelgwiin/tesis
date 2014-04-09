@@ -661,5 +661,67 @@ class Datos_basicos_model extends CI_Model {
         return array('data'=> $resp,'total_rows'=>$q->num_rows());
     }
 
+    /**
+     * Obtiene la información del servicio en conjunto con la info asociada a 
+     * siguientes tablas 'tarea', 'tarea_detalle', 'umbral' y 'servicio_proceso'.
+     * 
+     * Este método es usado para obtener la información del servicio que se desea actualizar
+     * @param  Integer $servicio_id ID del servicio
+     * @return Array   El array posee el siguiente el formato:
+     *        Array(
+     *            'servicio' => Array *,
+     *            'list_tarea'=> Array **,
+     *            'list_umbral'=> Array ***,
+     *            'list_proceso'=>Array ****
+     *        )
+     * NOTA: Para ver los detalles de los arrays internos puede ver la especificación
+     * del método 'all_servicio'.
+     *     
+     */
+    public function servicio_info_by_id($servicio_id){
+        //Servicio
+        $s = $this->utilities_model->row_by_id('servicio','servicio_id',$servicio_id);
+
+        //Tareas
+        $sql_t = 'SELECT * 
+                  FROM tarea
+                  WHERE borrado = false AND servicio_id =  '.$s['servicio_id'].' ;';
+        $q_t = $this->db->query($sql_t);
+        $tareas = $q_t->result_array();
+
+        $list_tarea = array();
+        $it = 0;
+        foreach ($tareas as $t) {
+            $sql_tdet = 'SELECT tarea_detalle_id, operacion, comando
+                        FROM tarea_detalle
+                        WHERE borrado = false AND tarea_id = '.$t['tarea_id'].';';
+            $q_tdet = $this->db->query($sql_tdet);
+
+            $list_tarea[$it] = $t;
+            $list_tarea[$it]['list_tarea_detalle'] = $q_tdet->result_array();
+            $it += 1;
+        }
+
+        //Umbrales (umbral)
+        $sql_umb = 'SELECT umbral_id, descripcion, tiempo_acordado, medida, valor
+                    FROM umbral 
+                    WHERE borrado = false AND servicio_id = '.$s['servicio_id'].';';
+        $q_umb = $this->db->query($sql_umb);
+
+        //Procesos (servicio_proceso)
+        $sql_pro = 'SELECT servicio_proceso_id, nombre, tipo, descripcion
+                    FROM servicio_proceso
+                    WHERE borrado = false AND servicio_id = '.$s['servicio_id'].' ;';
+        $q_pro = $this->db->query($sql_pro);
+
+        $resp = array();
+        $resp['servicio'] = $s;
+        $resp['list_tarea'] = $list_tarea;
+        $resp['list_umbral'] = $q_umb->result_array();
+        $resp['list_proceso'] = $q_pro->result_array();
+
+        return $resp;
+    }
+
 } // /class Datos_basicos_model.php
 //Location: ./modules/cargar_data/datos_basicos_model.php

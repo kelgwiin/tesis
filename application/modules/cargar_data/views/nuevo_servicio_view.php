@@ -2,11 +2,26 @@
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
 		<div class="col-lg-12 col-md-12">
-			<h1>Nuevo <small>Servicio</small></h1>
+			<h1>
+			<?php 
+				if($actualizar){
+					echo 'Actualizar';
+				}else{
+					echo 'Nuevo';
+				}
+			?>
+			<small>Servicio</small></h1>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
-					Agregando un nuevo servicio a la Infraestructura</li>
+					<?php
+						if($actualizar){
+							echo 'Actualizando el servicio de la ';
+						}else{
+							echo 'Agregando un nuevo servicio a la ';
+						}
+					?>
+					 Infraestructura</li>
 			</ol>
 
 			<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-servicios" >
@@ -24,7 +39,17 @@
 	</div><!-- end of row Cabecera-->
 
 <!-- Formulario -->
-<form id = "fr-nuevo-servicio" action="<?php echo site_url('index.php/cargar_datos/servicios/guardar');?>" method="POST" role="form">
+<form id = "fr-nuevo-servicio" 
+	action =
+	"<?php 
+		if($actualizar){
+			echo site_url('index.php/cargar_datos/servicios/actualizar_guardar');
+		}else{
+			echo site_url('index.php/cargar_datos/servicios/guardar');
+		}
+	?>" 
+ 	method="POST" role="form"
+ >
 	<!-- Panel -->
 	<div class = "row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
