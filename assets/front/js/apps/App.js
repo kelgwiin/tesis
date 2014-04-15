@@ -525,8 +525,16 @@ $(document).ready(function()
         var num = parseInt($('label#num-filas-cronogramas').attr('data-num-filas'));
         
         if(num > 1){
+            //Verificando si Actualizar
+            obj = $('div[data-id=form-cronograma-'+num+']').attr('data-db-id');
+            if(typeof(obj) === "undefined"){
+                alert('No definido');
+            }else{
+                alert('Si...');
+            }
             $('div[data-id=form-cronograma-'+num+']').remove();
-            $('label#num-filas-cronogramas').attr('data-num-filas',num-1);//Actualizando el contador    
+            $('label#num-filas-cronogramas').attr('data-num-filas',num-1);//Actualizando el contador
+
         }
     });
     
@@ -801,7 +809,6 @@ $(document).ready(function()
             $('div#msj-nombres-duplicados-local').attr('class','alert alert-danger alert-dismissable show');
         }
         
-        //Sino están repetidos en BD entonces guardar
     });
     //btn eliminar (muestra el modal) se activa con el mismo evento de componente de ti.
     

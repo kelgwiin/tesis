@@ -27,10 +27,10 @@ class Cargar_Data extends MX_Controller
 
 		//Variables de la clase
 		/**
-		 * Número de items de componentes de ti por página 
+		 * Número de items (componentes, dpto. o servicio) por página 
 		 * @var integer
 		 */
-		$this->per_page = 2;
+		$this->per_page = 6;
 	}
 
 	public function index(){

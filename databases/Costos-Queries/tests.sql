@@ -32,8 +32,8 @@ select * from departamento;
 
 
 -- SERVICIO
-select * from servicio
-where servicio_id = 9;
+select * from servicio;
+-- where servicio_id = 9;
 
 -- delete from servicio where servicio_id > 0; 
 
