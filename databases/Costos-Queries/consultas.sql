@@ -72,8 +72,11 @@ from inventario_ti
 where departamento_id = 36
 order by fecha_creacion desc;
 
+-- ----------------------------------------------
+-- SERVICIOS
+-- ----------------------------------------------
 
--- SERVICIO
+-- Servicio
 select *
 from servicio
 where borrado = false;
@@ -97,6 +100,10 @@ select servicio_proceso_id, nombre, tipo, descripcion
 from servicio_proceso
 where borrado = false and servicio_id = 10;
 
+-- Consulta los nombre de procesos repetidos que no coincidan con los ID's dados.
+select nombre
+from servicio_proceso
+where servicio_proceso_id not in (14,3,16) and nombre in ('p1','cantinflas','Proceso-1');
 
 
 

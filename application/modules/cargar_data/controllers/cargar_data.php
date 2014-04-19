@@ -488,6 +488,38 @@ class Cargar_Data extends MX_Controller
 				}
 				break;
 			
+			case 'validar_nombres_actualizar':
+				//Validación de Nombre de Procesos Nuevo
+				$nombres_nuevos = $this->input->post('nombres_procesos_nuevos');
+				$n_nuevo = NULL;
+
+				if($nombres_nuevos != NULL){
+					$n_nuevo = $this->basico_model->nombre_procesos_repetidos($nombres_nuevos);
+				}
+				
+				//Validación de Nombre de Procesos Actualizados
+				$nombres_act = $this->input->post('nombres_procesos_act');
+				
+				$n_act = $this->basico_model->nombre_procesos_repetidos_act($nombres_act);
+
+				$n_act_nuevo = NULL;
+
+				if($n_nuevo != NULL && $n_act != NULL){
+					//Haciendo el merge de los dos arrays nombres repetidos
+					$n_act_nuevo = array_merge($n_act, $n_nuevo);
+				}elseif ($n_nuevo != NULL && $n_act == NULL) {
+					$n_act_nuevo = $n_nuevo;
+				}elseif ($n_act != NULL && $n_nuevo == NULL) {
+					$n_act_nuevo = $n_act;
+				}
+				
+				if(isset($n_act_nuevo)){
+					echo json_encode(array('nombres'=>$n_act_nuevo, 'repetidos'=>'yes'));
+				}else{
+					echo '{"repetidos":"no"}';
+				}
+				break;
+
 			case 'guardar':
 				$p = $this->input->post();
 				if($this->basico_model->add_servicio($p)){
@@ -529,12 +561,29 @@ class Cargar_Data extends MX_Controller
 
 				break;
 			case 'actualizar_guardar':
+				$servicio_id = $this->uri->segment(4);
+				$p = $this->input->post();
+				$p['servicio_id'] = $servicio_id;
+				//print_r($p['nombre']);
 
+				$this->basico_model->update_servicio($p);
 
-				
+				if($this->basico_model->update_servicio($p)){
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
 				break;
 			case 'actualizado':
-				# code...
+				$params_main_content = $this->_config_service(true,false,false,
+					1,$this->per_page, array('accion'=>'todos'));
+				
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
+
+				$this->utils->template($this->_list(4),'cargar_data/servicios',
+					$params_main_content,'Cargar Infraestructura','Servicios');
 				break;
 			case 'filtrar':
 				$p_get = get_encode($this->input->get());

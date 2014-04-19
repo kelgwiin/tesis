@@ -1,3 +1,25 @@
+<?php 
+	if($actualizar){
+		echo '
+			<!-- Labels para controla de eliminación de campos al actualizar-->
+			<div id = "list-id-cronograma">
+			</div>
+
+			<div id = "list-id-comando-oper">
+			</div>
+
+			<div id = "list-id-umbral">
+			</div>
+
+			<div id = "list-id-proceso">
+			</div>
+
+		';	
+	}
+	
+
+?>
+
 <div id = "page-wrapper">
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
@@ -43,7 +65,7 @@
 	action =
 	"<?php 
 		if($actualizar){
-			echo site_url('index.php/cargar_datos/servicios/actualizar_guardar');
+			echo site_url('index.php/cargar_datos/servicios/actualizar_guardar/'. $servicio['servicio_id']);
 		}else{
 			echo site_url('index.php/cargar_datos/servicios/guardar');
 		}
@@ -399,7 +421,7 @@
 
 										<!-- Lista de Comandos y Operaciones -->
 										<div class = "row"  >
-											<div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12" data-fcomandos-oper = "form-comando-oper-1">
+											<div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12" data-fcomandos-oper = "form-comando-oper-'.$idx.'">
 												
 												<!--Contador de numeros  de filas de comandos y operaciones -->
 												<label class = "sr-only" id = "num-filas-comandos-oper-'.$idx.'" data-num-filas = "'.$n_co.'"></label>';
@@ -670,8 +692,10 @@
 
 												<div class = "col-md-3">
 													<input type="number" name="valor-umbrales-'.$idx.'" min = "1" data-secuencia = "'.$idx.'"
-													 class="form-control"  required="required"  placeholder = "Valor"
-													 data-toggle = "tooltip" data-original-title = "Valor">
+													 	class="form-control"  required="required"  placeholder = "Valor"
+													 	data-toggle = "tooltip" data-original-title = "Valor"
+													 	value = '.$u['valor'].'
+													 	>
 												</div>
 
 											</div>

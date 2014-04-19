@@ -514,6 +514,62 @@ class Datos_basicos_model extends CI_Model {
         }
 
     }
+
+    /**
+     * Obtiene los nombres de procesos repetidos que no coincidad los ids dados.
+     * @param  Array $l Un Array que posee la siguiente estructura:
+     *         Array(
+     *            nombre: String,
+     *            servicio_proceso_id: Integer   
+     *         )
+     * @return Array Conjunto de nombres de procesos repetidos
+     */
+    public function nombre_procesos_repetidos_act($l){
+        $sql = 'SELECT nombre
+                FROM servicio_proceso
+                WHERE servicio_proceso_id NOT IN ';
+        
+        $in_proceso_id = ' (';
+        $in_nombre = ' AND nombre IN (';
+
+        $num_vals = count($l);
+        $l_id = array();
+        $l_nombre = array();
+        for ($i=0; $i < $num_vals; $i++) { 
+            $in_nombre .= "?,";
+            $in_proceso_id .= "?,";
+            $l_id[] = $l[$i]['servicio_proceso_id'];
+            $l_nombre[] = $l[$i]['nombre'];
+        }
+        $l_values = array_merge($l_id,$l_nombre);
+
+        //Elimando la última coma de los nombres
+        $lon = strlen($in_nombre);
+        $in_nombre[$lon-1] = ')';
+        
+        //Elimnando la última coma de los ids de los procesos
+        $lon = strlen($in_proceso_id);
+        $in_proceso_id[$lon-1] = ')';
+        $in_proceso_id .= " ";
+        
+
+        $sql .= $in_proceso_id . $in_nombre .  ' ;';
+        
+        $q = $this->db->query($sql,$l_values);
+        
+        if($q->num_rows() > 0 ){
+            $r = $q->result_array();
+            $r_procesado = array();
+            foreach ($r as $v) {
+                $r_procesado[] = $v['nombre'];
+            }
+            return $r_procesado;
+        }else{
+            return NULL;    
+        }
+
+    }
+
     /**
      * Obtiene todos los Servicios en conjunto con: los Cronogramas de Ejecución (tareas),
      * Umbrales y Procesos.
@@ -721,6 +777,42 @@ class Datos_basicos_model extends CI_Model {
         $resp['list_proceso'] = $q_pro->result_array();
 
         return $resp;
+    }
+    /**
+     * Actualiza el servicio  y elimina lógicamente los elementos necesarios.
+     * @param  Array $p Contiene la siguiente estructura
+     *         Array(
+     *             servicio_id: Integer
+     *             nombre: String
+     *             tipo_servicio: USR|SYS
+     *             genera_ingresos: 0|1
+     *             monto: Integer
+     *             descripcion: String
+     *             list_cronogramas_ejecucion_nuevo: Array
+     *             list_cronogramas_ejecucion_act: Array
+     *             list_umbrales_nuevo: Array
+     *             list_umbrales_act: Array
+     *             list_procesos_nuevo: Array
+     *             list_procesos_act: Array
+     *             eliminados_ids: Array
+     *         
+     * )
+     * @return Boolean TRUE|FALSE Dependiendo de se actualiza o no con éxito los campos.
+     */
+    public function update_servicio($info){
+        //Servicio
+        $p_servicio = array(
+            'nombre'=>$info['nombre'],
+            'tipo'=>$info['tipo_servicio'],
+            'genera_ingresos'=>($info['genera_ingresos']=='true'?true:false),
+            'cantidad_ingresos'=>$info['cantidad_ingresos'],
+            'descripcion'=>$info['descripcion']
+            );
+        $st_servicio = $this->utilities_model->update(
+            'servicio',
+            array('servicio_id'=>$info['servicio_id']),
+            $p_servicio);
+        return $st_servicio;
     }
 
 } // /class Datos_basicos_model.php

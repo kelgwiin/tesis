@@ -40,23 +40,6 @@ $(function() {
 
 });
 </script>
-<!-- Modal: Confirmar Eliminación-->
-<div id="confirm-delete" data-id = "-1">
-	<div class = "row">
-		<!-- Ícono -->
-		<div class = "col-md-1 col-md-offset-1">
-			<i class = "fa fa-question-circle fa-4x"></i>
-		</div><!-- /col-md-1 -->
-		
-		<!-- Cuerpo del msj -->
-		<div class = "col-md-10">
-			<h4 class= "text-center"> 
-			¿Está seguro que desea <strong>eliminar</strong> <br>el departamento?</h4>			
-		</div><!-- /col-md-10 -->
-
-	</div><!-- /row-->
-</div><!-- /Modal: confirm-delete -->
-
 
 <!-- Inicio del Cuerpo de la Página -->
 <div id = "page-wrapper">
@@ -636,4 +619,23 @@ $(function() {
 	</div>
 </div>
 <!-- Fin de Direccionamiento de formularios -->
+
+<!-- Modal: Confirmar Eliminación-->
+<div id="confirm-delete" data-id = "-1">
+	<div class = "row">
+		<!-- Ícono -->
+		<div class = "col-md-1 col-md-offset-1">
+			<i class = "fa fa-question-circle fa-4x"></i>
+		</div><!-- /col-md-1 -->
+		
+		<!-- Cuerpo del msj -->
+		<div class = "col-md-10">
+			<h4 class= "text-center"> 
+			¿Está seguro que desea <strong>eliminar</strong> <br>el servicio?</h4>			
+		</div><!-- /col-md-10 -->
+
+	</div><!-- /row-->
+</div><!-- /Modal: confirm-delete -->
+
+
 </div><!-- end of: page-wrapper-->

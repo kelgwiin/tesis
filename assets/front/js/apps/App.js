@@ -525,13 +525,18 @@ $(document).ready(function()
         var num = parseInt($('label#num-filas-cronogramas').attr('data-num-filas'));
         
         if(num > 1){
-            //Verificando si Actualizar
-            obj = $('div[data-id=form-cronograma-'+num+']').attr('data-db-id');
-            if(typeof(obj) === "undefined"){
-                alert('No definido');
-            }else{
-                alert('Si...');
+            //Verificando si es Actualizar
+            // para así añadirlo temporalmente para su posterior actualización
+            oper = $('form#fr-nuevo-servicio').attr('data-oper');
+            if(oper == 'actualizar'){
+                db_id = $('div[data-id=form-cronograma-'+num+']').attr('data-db-id');
+                
+                if(!(typeof(db_id) === "undefined")){//verifcando que no sea un cronograma nuevo
+                    $('div#list-id-cronograma').append('<span id = "'+db_id+'"></span>');
+                }    
             }
+
+            //Elimando visualmente
             $('div[data-id=form-cronograma-'+num+']').remove();
             $('label#num-filas-cronogramas').attr('data-num-filas',num-1);//Actualizando el contador
 
@@ -561,6 +566,18 @@ $(document).ready(function()
     $('a#btn-remove-forms-umbrales').on('click',function(){
         var num = parseInt($('label#num-filas-umbrales').attr('data-num-filas'));
         if(num > 1){
+            //Verificando si es Actualizar
+            // para así añadirlo temporalmente para su posterior actualización
+            oper = $('form#fr-nuevo-servicio').attr('data-oper');
+            if(oper == 'actualizar'){
+                db_id = $('div[data-id=form-umbral-'+num+']').attr('data-db-id');
+                
+                if(!(typeof(db_id) === "undefined")){//verifcando que no sea un umbral nuevo
+                    $('div#list-id-umbral').append('<span id = "'+db_id+'"></span>');
+                }    
+            }
+
+            //Eliminando visualmente
             $('div[data-id=form-umbral-'+num+']').remove();
             $('br[data-id=form-umbral-'+num+']').remove();
             $('label#num-filas-umbrales').attr('data-num-filas',(num-1));//Actualizando el contador    
@@ -586,6 +603,17 @@ $(document).ready(function()
     $('a#btn-remove-forms-procesos').on('click',function(){
         var num = parseInt($('label#num-filas-procesos').attr('data-num-filas'));
         if(num > 1){
+            //Verificando si es Actualizar
+            // para así añadirlo temporalmente para su posterior actualización
+            oper = $('form#fr-nuevo-servicio').attr('data-oper');
+            if(oper == 'actualizar'){
+                db_id = $('div[data-id=form-proceso-'+num+']').attr('data-db-id');
+                
+                if(!(typeof(db_id) === "undefined")){//verifcando que no sea un proceso nuevo
+                    $('div#list-id-proceso').append('<span id = "'+db_id+'"></span>');
+                }    
+            }
+            //Eliminando Visualmente
             $('div[data-id=form-proceso-'+num+']').remove();
             $('br[data-id=form-proceso-'+num+']').remove();
             $('label#num-filas-procesos').attr('data-num-filas',(num-1));//Actualizando el contador    
@@ -659,8 +687,8 @@ $(document).ready(function()
        }
     });
 
-    //:: Form - Guardar Dpto (NUEVO) & Actualizar  - Servicio ::
-    $('form#fr-nuevo-servicio').on('submit',function(event){
+    //:: Form - Guardar Servicio (NUEVO) ::
+    $('form[data-oper=nuevo]').on('submit',function(event){
         event.preventDefault();
         // store reference to the form
         var bk_this = $(this);
@@ -668,7 +696,6 @@ $(document).ready(function()
         // grab the url from the form element
         var url = bk_this.attr('action');
             
-        //var oper = bk_this.attr('data-oper');
         oper = "guardado";
 
         //Validando que los nombres de los Procesos sean únicos
@@ -799,7 +826,7 @@ $(document).ready(function()
                         $('div#msj-nombres-duplicados-db').append(nom_repe)
                         .attr('class','alert alert-danger alert-dismissable show');
                     }else{
-                        //Guardan el nuevo servicio
+                        //Guarda el nuevo servicio
                         save_serv_db(url,list_procesos_,oper);
                     }
                 }
@@ -809,6 +836,258 @@ $(document).ready(function()
             $('div#msj-nombres-duplicados-local').attr('class','alert alert-danger alert-dismissable show');
         }
         
+    });
+    
+    //:: Form - Guardar Servicio (ACTUALIZAR) ::
+    $('form[data-oper=actualizar]').on('submit',function(event){
+        event.preventDefault();
+        // store reference to the form
+        var bk_this = $(this);
+
+        // grab the url from the form element
+        var url = bk_this.attr('action');
+            
+        oper = "actualizado";
+
+        //Validando que los nombres de los Procesos sean únicos
+
+        //Procesos
+        tama_procesos = parseInt($('label#num-filas-procesos').attr('data-num-filas'));
+        list_procesos_nuevos_ = new Array();
+        list_procesos_act_ = new Array();
+        nombres_procesos_nuevos_ = new Array();
+        nombres_procesos_act_ = new Array();
+        nombres_procesos_ = new Array();//para la verificación de los nombres localmente
+
+        for ( k = 1;  k <= tama_procesos; k++) {
+            //Verificando si son nuevos o actualizados los procesos
+            db_id_pro = $('div[data-id=form-proceso-'+k+']').attr('data-db-id');
+            if(!(typeof(db_id_pro) === "undefined")){//Es actualizar
+                list_procesos_act_.push({
+                  id:db_id_pro,  
+                  nombre:$('input[name=nombre-procesos-'+k+']').val(),
+                  descripcion:$('input[name=descripcion-procesos-'+k+']').val(),
+                  tipo:$('input[name=tipo-procesos-'+k+']').val()
+                });
+
+                //Nombre de los procesos
+                nombres_procesos_act_.push({nombre:$('input[name=nombre-procesos-'+k+']').val(),
+                                        servicio_proceso_id:db_id_pro});
+            }else{//Es nuevo
+                list_procesos_nuevos_.push({
+                  nombre:$('input[name=nombre-procesos-'+k+']').val(),
+                  descripcion:$('input[name=descripcion-procesos-'+k+']').val(),
+                  tipo:$('input[name=tipo-procesos-'+k+']').val()
+                });
+
+                //Nombre de los procesos
+                nombres_procesos_nuevos_.push($('input[name=nombre-procesos-'+k+']').val());
+            }
+            //Para verificación local
+            nombres_procesos_.push($('input[name=nombre-procesos-'+k+']').val());
+               
+        }//end of: for procesos
+
+        function save_serv_db(url,list_procesos_nuevos_, list_procesos_act_,oper){
+
+            //Función procesar llamada desde el post
+            var fo_proccess = function (data){
+                alert(data);
+                /*if(data.estatus == 'ok'){
+                    $(location).attr('href','index.php/cargar_datos/servicios/'+oper);
+                }else{
+                    $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+                }*/
+            }
+            
+            //Preparando datos para enviar al post
+
+            //Datos básicos
+            genera_ingresos_ = $('input[data-cb=genera-ingresos-nuevo-servicio]').is(':checked');
+            if(genera_ingresos_){
+                monto_ = $('input#monto-ingreso-nuevo-servicio').val();
+            }else{
+                monto_ = 0;
+            }
+
+            //Cronogramas de Ejecución
+            tama = parseInt($('label#num-filas-cronogramas').attr('data-num-filas'));
+            list_cronogramas_ejecucion_nuevo_ = new Array();
+            list_cronogramas_ejecucion_act_ = new Array();
+
+            for (var i = 1; i <= tama; i++) {
+                //Verificando si es actualizar o nuevo
+                db_id_c = $('div[data-id=form-cronograma-'+i+']').attr('data-db-id');
+                if(!(typeof(db_id_c) === "undefined")){//Es :: ACTUALIZAR ::
+                    //Obteniendo los comandos y operaciones
+                    l_c_o_nuevo = new Array();
+                    l_c_o_act = new Array();
+
+                    tama_com_oper = parseInt($('label#num-filas-comandos-oper-'+i).attr('data-num-filas'));
+                    for(var j = 1; j <= tama_com_oper; j++){
+                        db_id_co = $('div[data-id=sec-'+i+'-comando-oper-'+j+']').attr('data-db-id');
+
+                        if(!(typeof(db_id_co) === "undefined")){//Es -- Actualizar --
+                            l_c_o_act.push({
+                                id:db_id_co,
+                                comando:$('input[name=comando-'+i+'-'+j+']').val(),
+                                operacion:$('input[name=operacion-'+i+'-'+j+']').val()
+                            });
+                        }else{//Es -- Nuevo --
+                            l_c_o_nuevo.push({
+                                comando:$('input[name=comando-'+i+'-'+j+']').val(),
+                                operacion:$('input[name=operacion-'+i+'-'+j+']').val()
+                            });
+                        }
+                    }//end of: for Comandos & Operaciones
+
+                    //Datos básicos & agregando la lista de comandos y operaciones
+                    row = {
+                            id: db_id_c,
+                            descripcion:$('input[name=descripcion-cronograma-'+i+']').val(),
+                            horario_desde:$('input[name=horario-desde-cronograma-'+i+']').val(),
+                            horario_hasta:$('input[name=horario-hasta-cronograma-'+i+']').val(),
+                            list_comandos_operaciones_nuevo:l_c_o_nuevo,
+                            list_comandos_operaciones_act:l_c_o_act
+                    };
+                    list_cronogramas_ejecucion_act_.push(row);
+                }else{//Es ::: NUEVO ::
+                    //Obteniendo los comandos y operaciones
+                      l_c_o = new Array();
+                      tama_com_oper = parseInt($('label#num-filas-comandos-oper-'+i).attr('data-num-filas'));
+                      for(var j = 1; j <= tama_com_oper; j++){
+                          l_c_o.push({
+                              comando:$('input[name=comando-'+i+'-'+j+']').val(),
+                              operacion:$('input[name=operacion-'+i+'-'+j+']').val()
+                          });
+                      }
+                      //Datos básicos & agregando la lista de comandos y operaciones
+                      row = {
+                              descripcion:$('input[name=descripcion-cronograma-'+i+']').val(),
+                              horario_desde:$('input[name=horario-desde-cronograma-'+i+']').val(),
+                              horario_hasta:$('input[name=horario-hasta-cronograma-'+i+']').val(),
+                              list_comandos_operaciones:l_c_o
+                      };
+
+                      list_cronogramas_ejecucion_nuevo_.push(row);
+                }
+            }//end of: for cronogramas
+
+            //Umbrales
+            tama_umbrales = parseInt($('label#num-filas-umbrales').attr('data-num-filas'));
+            list_umbrales_act_ = new Array();
+            list_umbrales_nuevo_ = new Array();
+            for (var k = 1; k <= tama_umbrales; k++) {
+                db_id_u = $('div[data-id=form-umbral-'+k+']').attr('data-db-id');
+
+                if(!(typeof(db_id_u) === "undefined")){//Es Actualizar
+                    list_umbrales_act_.push({
+                        id:db_id_u,
+                        descripcion:$('input[name=descripcion-umbrales-'+k+']').val(),
+                        tiempo_acordado:$('input[name=tiempo-acordado-umbrales-'+k+']').val(),
+                        medida_tiempo:$('select[name=medida-umbrales-'+k+']').val(),
+                        valor:$('input[name=valor-umbrales-'+k+']').val()
+                    });                
+                }else{
+                    list_umbrales_nuevo_.push({
+                        descripcion:$('input[name=descripcion-umbrales-'+k+']').val(),
+                        tiempo_acordado:$('input[name=tiempo-acordado-umbrales-'+k+']').val(),
+                        medida_tiempo:$('select[name=medida-umbrales-'+k+']').val(),
+                        valor:$('input[name=valor-umbrales-'+k+']').val()
+                    });
+                }
+            }//end of: for umbrales
+
+            //Consultando los elementos eliminados
+            var del_ids = function(target){
+                del = $('div#'+target+' > span');
+                list_del = new Array();
+                del.each(function(){
+                    list_del.push($(this).attr('id'));
+                });
+                return list_del;    
+            }
+
+            eliminados_ids_ = {
+                tareas:del_ids('list-id-cronograma'),
+                tarea_detalle:del_ids('list-id-comando-oper'),
+                umbral:del_ids('list-id-umbral'),
+                proceso:del_ids('list-id-proceso')                   
+            };
+
+            params = {
+                nombre:$('input#nombre-servicio').val(),
+                tipo_servicio:$('select#tipo-servicio').val(),
+                genera_ingresos:genera_ingresos_,
+                cantidad_ingresos:monto_,
+                descripcion:$('textarea#descripcion-datos-basicos-servicio').val(),
+                list_cronogramas_ejecucion_nuevo:list_cronogramas_ejecucion_nuevo_,
+                list_cronogramas_ejecucion_act:list_cronogramas_ejecucion_act_,
+                list_umbrales_nuevo:list_umbrales_nuevo_,
+                list_umbrales_act:list_umbrales_act_,
+                list_procesos_nuevo:list_procesos_nuevos_,
+                list_procesos_act:list_procesos_act_,
+                eliminados_ids:eliminados_ids_
+            };
+            //llamada del post
+            $.post(url,params,fo_proccess,'text');
+        }//end of function: save_serv_db
+
+
+
+        //Validando que los nombres locales son diferentes
+        nombres_repetidos = false;
+        for (var i = 0; i < tama_procesos && !nombres_repetidos; i++) {
+            for (var j = 0; j < tama_procesos && !nombres_repetidos; j++) {
+                if(i != j){
+                    if(nombres_procesos_[i] == nombres_procesos_[j]){
+                        nombres_repetidos = true;
+                    }
+                }
+            } 
+        }//end of: for validaciones locales de los nombres
+
+        if(!nombres_repetidos){
+            //Escondiendo el msj de duplicado local
+            $('div#msj-nombres-duplicados-local').attr('class','alert alert-danger alert-dismissable hidden');
+            
+            url_val = 'index.php/cargar_datos/servicios/validar_nombres_actualizar';
+            
+            //Verificando si hay procesos nuevos a actualizar
+            if(nombres_procesos_nuevos_.length > 0){
+                params_val = {nombres_procesos_nuevos:nombres_procesos_nuevos_,
+                                nombres_procesos_act:nombres_procesos_act_};    
+            }else{
+                params_val = {nombres_procesos_act:nombres_procesos_act_};
+            }
+            
+
+            $.post(url_val,params_val,
+                function(data){
+                    
+                    if(data.repetidos == 'yes'){
+                        var nom_repe='<code id = "data-nom-repe">';
+                        for (var i = 0; i < data.nombres.length; i++) {
+                            nom_repe += data.nombres[i];
+                            if(i != data.nombres.length-1 ){
+                                nom_repe+=', ';
+                            }
+                        }
+                        nom_repe+= '</span>';
+                        $('code#data-nom-repe').remove();//eliminando por si existía
+                        $('div#msj-nombres-duplicados-db').append(nom_repe)
+                        .attr('class','alert alert-danger alert-dismissable show');
+                    }else{
+                        
+                        //Actualizando el Servicio
+                       save_serv_db(url,list_procesos_nuevos_, list_procesos_act_,oper);
+                    }
+                }
+            ,'json');    
+        }else{
+            $('div#msj-nombres-duplicados-db').attr('class','alert alert-danger alert-dismissable hidden');
+            $('div#msj-nombres-duplicados-local').attr('class','alert alert-danger alert-dismissable show');
+        }
     });
     //btn eliminar (muestra el modal) se activa con el mismo evento de componente de ti.
     
@@ -1022,6 +1301,18 @@ function remove_form_comandos_operaciones(){
     var num = parseInt($('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas'));//Número de fila actual
         
     if(num > 1 ){
+        //Verificando si es Actualizar
+        // para así añadirlo temporalmente para su posterior actualización
+        oper = $('form#fr-nuevo-servicio').attr('data-oper');
+        if(oper == 'actualizar'){
+            db_id = $('div[data-id=sec-'+num_secuencia+'-comando-oper-'+num+']').attr('data-db-id');
+            
+            if(!(typeof(db_id) === "undefined")){//verifcando que no sea un comando/operación nuevo
+                $('div#list-id-comando-oper').append('<span id = "'+db_id+'"></span>');
+            }    
+        }
+
+        //Eliminando Visualmente
         $('div[data-id=sec-'+num_secuencia+'-comando-oper-'+num+']').remove();
         $('label#num-filas-comandos-oper-'+num_secuencia).attr('data-num-filas',num-1);//Actualizando el contador 
     }
