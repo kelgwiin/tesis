@@ -17,6 +17,14 @@ $route['cargar_datos/servicios'] = "cargar_data/cargar_data/servicios";
 $route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1";
 /*end of: Rutas para el Modulo de Carga de Infraestructura de IT (cargar data)*/
 
+
+/* Rutas para el Módulo de Costos de Servicios de TI*/
+//Creado el 20-04-2014 por Kelwin Gamez
+$route['Costos/'] = "Costos/Costos";
+/* end of: Rutas para el Módulo de Costos de Servicios de TI*/
+
+
+
 /* Rutas del Modulo de Operaciones*/
 $route['operaciones'] = "operaciones/toolset";
 $route['operaciones/'] = "operaciones/toolset";

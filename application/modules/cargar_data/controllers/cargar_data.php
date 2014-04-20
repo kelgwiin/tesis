@@ -15,7 +15,6 @@ class Cargar_Data extends MX_Controller
 		$this->load->model('datos_basicos_model','basico_model');
 		$this->load->model('utilities/utilities_model');
 
-		$this->load->database();
 		//Helpers
 		$this->load->helper('date');
 		$this->load->helper('bs3');
@@ -830,4 +829,4 @@ class Cargar_Data extends MX_Controller
 }//end of class: Cargar_Data
 
 /* End of file cargar_data.php */
-/* Location: ./application/modules/controllers/cargar_data.php */
+/* Location: ./application/modules/cargar_data/controllers/cargar_data.php */

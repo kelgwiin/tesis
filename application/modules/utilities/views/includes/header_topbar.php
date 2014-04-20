@@ -50,10 +50,12 @@
 
               <div class="row">
                <div class="col-lg-4 col-md-4">
+                
                 <!-- GESTIÓN DE COSTOS-->
+
                 <a type="button" class="btn"
                   title="Gestión de Costos" 
-                  href = "#"  
+                  href = "<?php echo site_url('index.php/Costos');?>"  
                  >
                  <i class="fa fa-clipboard fa-3x"></i> <br> <small> Gestión de<br>Costos</small>
                  </a>

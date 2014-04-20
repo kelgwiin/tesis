@@ -75,7 +75,7 @@
             </li>  
             <!-- Gestion de la Capacidad -->
             <li><a href="typography.html"><i class="fa fa-font"></i> Gestión de Riesgos</a></li>
-            <li><a href="bootstrap-elements.html"><i class="fa fa-desktop"></i> Gestión de Costos</a></li>
+            <li><a href="<?php echo site_url('index.php/Costos');?>"><i class="fa fa-clipboard"></i> Gestión de Costos</a></li>
             <li><a href="<?php echo base_url(); ?>index.php/Disponibilidad/"><i class="fa fa-clock-o"></i> Gestión de Disponibilidad</a></li>
             <li><a href="bootstrap-grid.html"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
             <li><a href="blank-page.html"><i class="fa fa-file"></i> Blank Page</a></li>
@@ -143,7 +143,7 @@
                 <!-- GESTIÓN DE COSTOS-->
                 <a type="button" class="btn"
                   title="Gestión de Costos" 
-                  href = "#"  
+                  href = "<?php echo site_url('index.php/Costos');?>"  
                  >
                  <i class="fa fa-clipboard fa-3x"></i> <br> <small> Gestión de<br>Costos</small>
                  </a>
