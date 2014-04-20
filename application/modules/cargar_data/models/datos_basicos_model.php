@@ -799,20 +799,183 @@ class Datos_basicos_model extends CI_Model {
      * )
      * @return Boolean TRUE|FALSE Dependiendo de se actualiza o no con éxito los campos.
      */
-    public function update_servicio($info){
+    public function update_servicio($data){
+        $st_tarea = TRUE;
+        $st_umb = TRUE;
+        $st_pro = TRUE;
+        
         //Servicio
         $p_servicio = array(
-            'nombre'=>$info['nombre'],
-            'tipo'=>$info['tipo_servicio'],
-            'genera_ingresos'=>($info['genera_ingresos']=='true'?true:false),
-            'cantidad_ingresos'=>$info['cantidad_ingresos'],
-            'descripcion'=>$info['descripcion']
+            'nombre'=>$data['nombre'],
+            'tipo'=>$data['tipo_servicio'],
+            'genera_ingresos'=>($data['genera_ingresos']=='true'?true:false),
+            'cantidad_ingresos'=>$data['cantidad_ingresos'],
+            'descripcion'=>$data['descripcion']
             );
-        $st_servicio = $this->utilities_model->update(
-            'servicio',
-            array('servicio_id'=>$info['servicio_id']),
+        $st_servicio = $this->utilities_model->update('servicio',
+            array('servicio_id'=>$data['servicio_id']),
             $p_servicio);
-        return $st_servicio;
+
+        //Tareas (Cronogramas de Ejecución) :: NUEVO
+        if(isset($data['list_cronogramas_ejecucion_nuevo']) && $data['list_cronogramas_ejecucion_nuevo'] != NULL ){//Si hay algún Cronograma Nuevo
+            foreach ($data['list_cronogramas_ejecucion_nuevo'] as $item) {
+                //Tarea (Cronograma)
+                $data_tarea = array(
+                    'servicio_id'=>$data['servicio_id'],
+                    'descripcion'=>$item['descripcion'],
+                    'horario_desde'=>$item['horario_desde'],
+                    'horario_hasta'=>$item['horario_hasta']
+                );
+                $st_tarea = $this->utilities_model->add($data_tarea,'tarea');
+                $tarea_id = $this->db->insert_id();//id de la tarea insertada
+
+                //Tarea Detalle (Comandos & Operaciones )
+                foreach ($item['list_comandos_operaciones'] as $item_co) {
+                    $data_tdet = array(
+                        'tarea_id'=>$tarea_id,
+                        'operacion'=>$item_co['operacion'],
+                        'comando'=>$item_co['comando']
+                    );
+                    $this->utilities_model->add($data_tdet,'tarea_detalle');
+                }
+            }//end of: foreach Cronogramas de Ejecución
+        }//end of: if Cronogramas de Ejecución - NUEVO
+        
+        //Tareas (Cronogramas de Ejecución) :: ACTUALIZAR
+        foreach ($data['list_cronogramas_ejecucion_act'] as $item) {
+            //Tarea (Cronograma)
+            $data_tarea = array(
+                'descripcion'=>$item['descripcion'],
+                'horario_desde'=>$item['horario_desde'],
+                'horario_hasta'=>$item['horario_hasta']
+            );
+            $tarea_id = $item['id'];
+
+            $st_tarea_act = $this->utilities_model->
+                update('tarea',array('tarea_id'=>$tarea_id),$data_tarea);
+
+            //Tarea Detalle (Comandos & Operaciones ) :: NUEVO
+            if(isset($item['list_comandos_operaciones_nuevo']) && $item['list_comandos_operaciones_nuevo'] != NULL ){
+                foreach ($item['list_comandos_operaciones_nuevo'] as $item_co) {
+                    $data_tdet = array(
+                        'tarea_id'=>$tarea_id,
+                        'operacion'=>$item_co['operacion'],
+                        'comando'=>$item_co['comando']
+                    );
+                    $this->utilities_model->add($data_tdet,'tarea_detalle');
+                }     
+            }//end of: if Tarea Detalle NUEVO
+
+            //Tarea Detalle (Comandos & Operaciones ) :: ACTUALIZAR
+            foreach ($item['list_comandos_operaciones_act'] as $item_co) {
+                $data_tdet = array(
+                    //No es necesario actualizar el campo 'tarea_id'
+                    'operacion'=>$item_co['operacion'],
+                    'comando'=>$item_co['comando']
+                );
+                $tarea_detalle_id = $item_co['id'];
+                $this->utilities_model->update('tarea_detalle',
+                    array('tarea_detalle_id'=>$tarea_detalle_id), $data_tdet);
+            }//end of: foreach Tarea Detalle ACTUALIZAR
+        }//end of: foreach Cronogramas de Ejecución - ACTUALIZAR
+
+        //Umbrales - NUEVO
+        if(isset($data['list_umbrales_nuevo']) && $data['list_umbrales_nuevo'] != NULL){//Si hay algún umbral nuevo
+            foreach ($data['list_umbrales_nuevo'] as $item) {
+                $data_umb = array(
+                    'servicio_id'=>$data['servicio_id'],
+                    'descripcion'=>$item['descripcion'],
+                    'tiempo_acordado'=>$item['tiempo_acordado'],
+                    'medida'=>$item['medida_tiempo'],
+                    'valor'=>$item['valor']
+                );
+                $st_umb = $this->utilities_model->add($data_umb,'umbral');    
+            }
+        }//end of: if Umbrales - NUEVO
+
+        //Umbrales - ACTUALIZAR
+        foreach ($data['list_umbrales_act'] as $item) {
+            $data_umb = array(
+                //No es necesario actualizar el campo 'servicio_id'
+                'descripcion'=>$item['descripcion'],
+                'tiempo_acordado'=>$item['tiempo_acordado'],
+                'medida'=>$item['medida_tiempo'],
+                'valor'=>$item['valor']
+            );
+            $umbral_id = $item['id'];
+
+            $st_umb_act = $this->utilities_model->update('umbral',
+                array('umbral_id'=>$umbral_id), $data_umb);
+        }//end of: foreach Umbrales - ACTUALIZAR
+        
+
+        //Procesos (servicio_proceso) - NUEVO
+        if(isset($data['list_procesos_nuevo']) && $data['list_procesos_nuevo'] != NULL){
+            foreach ($data['list_procesos_nuevo'] as $item) {
+                $data_pro = array (
+                    'servicio_id'=>$data['servicio_id'],
+                    'nombre'=>$item['nombre'],
+                    'descripcion'=>$item['descripcion'],
+                    'tipo'=>$item['tipo']
+                );
+                $st_pro = $this->utilities_model->add($data_pro,'servicio_proceso');
+            }
+        }//end of: if Proceso - NUEVO
+
+        //Procesos (servicio_proceso) - ACTUALIZAR
+        foreach ($data['list_procesos_act'] as $item) {
+            $data_pro = array (
+                //No es necesario actualizar el campo 'servicio_id'
+                'nombre'=>$item['nombre'],
+                'descripcion'=>$item['descripcion'],
+                'tipo'=>$item['tipo']
+            );
+            $sp_id = $item['id'];//servicio_proceso_id
+
+            $st_pro_act = $this->utilities_model->update('servicio_proceso',
+                array('servicio_proceso_id'=>$sp_id), $data_pro);
+        }
+
+        //Eliminando los campos dados sus IDs
+        //:: Tarea (Cronogramas)
+        if(isset($data['eliminados_ids']['tareas']) && $data['eliminados_ids']['tareas'] != NULL){
+            foreach ($data['eliminados_ids']['tareas'] as $id) {
+                //Tarea
+                $data = array('borrado'=>TRUE);
+                $this->utilities_model->update('tarea',array('tarea_id'=>$id),$data);
+                
+                //Tarea Detalle
+                $this->utilities_model->update('tarea_detalle',array('tarea_id'=>$id),$data);
+            }
+        }
+        //:: Tarea Detalle (Comandos & Operaciones)
+        if(isset($data['eliminados_ids']['tarea_detalle']) && $data['eliminados_ids']['tarea_detalle'] != NULL){
+            foreach ($data['eliminados_ids']['tarea_detalle'] as $id) {
+                $data = array('borrado'=>TRUE);
+                $this->utilities_model->update('tarea_detalle',array('tarea_detalle_id'=>$id),$data);
+            }
+        }
+
+        //:: Umbral
+        if(isset($data['eliminados_ids']['umbral']) && $data['eliminados_ids']['umbral'] != NULL){
+            foreach ($data['eliminados_ids']['umbral'] as $id) {
+                $data = array('borrado'=>TRUE);
+                $this->utilities_model->update('umbral',array('umbral_id'=>$id),$data);
+            }
+        }
+
+         //:: Proceso
+        if(isset($data['eliminados_ids']['proceso']) && $data['eliminados_ids']['proceso'] != NULL){
+            foreach ($data['eliminados_ids']['proceso'] as $id) {
+                $data = array('borrado'=>TRUE);
+                $this->utilities_model->update('servicio_proceso',array('servicio_proceso_id'=>$id),$data);   
+            }
+        }
+        
+        //Fin de Eliminanción
+
+        return $st_servicio && $st_tarea && $st_tarea_act && $st_umb && $st_umb_act && 
+        $st_pro && $st_pro_act;
     }
 
 } // /class Datos_basicos_model.php

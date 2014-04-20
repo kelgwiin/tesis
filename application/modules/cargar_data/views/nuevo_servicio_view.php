@@ -841,7 +841,7 @@
 													 	>
 												</div>
 											</div><!-- /row: inner procesos -->
-											<br data-id = "form-procesos-'.$idx.'">
+											<br data-id = "form-proceso-'.$idx.'">
 										';
 
 									}
@@ -869,7 +869,7 @@
 											 data-toggle = "tooltip" data-original-title = "Tipo de Proceso (opcional)">
 										</div>
 									</div><!-- /row: inner procesos -->
-									<br data-id = "form-procesos-1">
+									<br data-id = "form-proceso-1">
 
 									<!-- De aquí en adelante se comienzan agregar formularios desde jquery -->
 

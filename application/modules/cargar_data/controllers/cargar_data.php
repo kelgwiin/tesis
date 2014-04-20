@@ -564,9 +564,6 @@ class Cargar_Data extends MX_Controller
 				$servicio_id = $this->uri->segment(4);
 				$p = $this->input->post();
 				$p['servicio_id'] = $servicio_id;
-				//print_r($p['nombre']);
-
-				$this->basico_model->update_servicio($p);
 
 				if($this->basico_model->update_servicio($p)){
 					echo '{"estatus":"ok"}';

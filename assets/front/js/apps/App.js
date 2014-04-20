@@ -891,13 +891,13 @@ $(document).ready(function()
         function save_serv_db(url,list_procesos_nuevos_, list_procesos_act_,oper){
 
             //Función procesar llamada desde el post
-            var fo_proccess = function (data){
-                alert(data);
-                /*if(data.estatus == 'ok'){
+            var fo_proccess_act = function (data_act){
+                //alert(data_act);
+                if(data_act.estatus == 'ok'){
                     $(location).attr('href','index.php/cargar_datos/servicios/'+oper);
                 }else{
                     $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
-                }*/
+                }
             }
             
             //Preparando datos para enviar al post
@@ -1030,7 +1030,7 @@ $(document).ready(function()
                 eliminados_ids:eliminados_ids_
             };
             //llamada del post
-            $.post(url,params,fo_proccess,'text');
+            $.post(url,params,fo_proccess_act,'json');
         }//end of function: save_serv_db
 
 
@@ -1078,7 +1078,6 @@ $(document).ready(function()
                         $('div#msj-nombres-duplicados-db').append(nom_repe)
                         .attr('class','alert alert-danger alert-dismissable show');
                     }else{
-                        
                         //Actualizando el Servicio
                        save_serv_db(url,list_procesos_nuevos_, list_procesos_act_,oper);
                     }
