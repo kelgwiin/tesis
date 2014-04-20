@@ -26,10 +26,25 @@ $(function() {
 				//Eliminando el departamento desde AJAX
 				
 				$( this ).dialog( "close" );
-				//Desarrollar		
 
 				var id  = $(this).attr('data-id');
-				alert(id);
+				var params = {servicio_id:id};
+				var url = "index.php/cargar_datos/servicios/eliminar";
+				var dataType = "json";
+				var fo = function(data){
+				    if(data.estatus == 'ok'){
+				        //Mostrando msj de item eliminado lógicamente
+				        $('div#msj-eliminado-servicio').attr('class','alert alert-success alert-dismissable show');
+				        //Escondiendo msj de error inesperado
+				        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
+				    }else{
+				        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+				    }
+				}
+				//Haciendo llamada al controlador desde ajax
+				$.post(url,params,fo,dataType);
+				//Eliminando gráficamente
+				$('div[data-id=panel-item-servicio-'+id+']').remove();
 			},
 			Cancelar: function() {
 				$( this ).dialog( "close" );
@@ -90,13 +105,20 @@ $(function() {
 				<!-- Mensaje Lista Actualizada -->
 				<?php 
 					if($filtrado){
-					echo '<div class="alert alert-success alert-dismissable" id = "msj-filtrado-dpto">
+					echo '<div class="alert alert-success alert-dismissable" id = "msj-filtrado-servicio">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 							La lista de Servicios de TI ha sido <strong>Actualizada</strong>!
 						</div>
 					';
 					}
 				?>
+
+				<!-- Mensaje de Aviso de Servicio eliminado -->
+				<div class="alert alert-success alert-dismissable hidden" id = "msj-eliminado-servicio">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Ha sido <strong>eliminado</strong> el servicio con éxito!
+				</div>
+
 			</div><!-- /col-12-->
 		</div><!-- /row: breadcrumb -->
 
@@ -216,7 +238,7 @@ $(function() {
 						$url_ed = site_url('index.php/cargar_datos/servicios/actualizar/'.$servicio_id);
 						echo '
 							<!-- Servicio: '.$servicio_id.' -->
-							<div class="panel panel-info"><!-- Inner-->
+							<div class="panel panel-info" data-id = "panel-item-servicio-'.$servicio_id.'"><!-- Inner-->
 								<div class="panel-heading">
 									<div class="row">
 										
@@ -506,8 +528,8 @@ $(function() {
 						echo '
 								</div><!-- /panel-body -->
 							</div> <!-- panel-info -->
-
 							<br>
+
 						';
 
 						$cur_page+=1;

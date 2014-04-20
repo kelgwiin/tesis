@@ -411,7 +411,6 @@ $(document).ready(function()
         }
     });
     //FIN: COMPONENTES DE TI
-    
 
 
     //---------------------

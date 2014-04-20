@@ -631,6 +631,21 @@ class Cargar_Data extends MX_Controller
 					$params_main_content,'Cargar Infraestructura','Servicios');
 
 				break;
+			//Se elimina lógicamente desde ajax
+			case 'eliminar':
+				$servicio_id = $this->input->post('servicio_id');
+				//Eliminando lógicamente: No se eliminan los componentes 
+				//asociados al servicio, ello podría hacerse desde un TRIGGER en base
+				//de datos que al cambiar el estatus de 'borrado' a 'true' todos
+				//los elementos asociados cambien su estatus respectivamente. 
+				if($this->utilities_model->update('servicio',
+					array('servicio_id'=>$servicio_id),array('borrado'=>true)) ){
+					
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
+				break;
 		}
 	}
 
