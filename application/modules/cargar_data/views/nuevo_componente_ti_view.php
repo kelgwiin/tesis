@@ -400,7 +400,11 @@
 										placeholder = "Cantidad"
 										<?php 
 											if($accion == "actualizar"){
-												printf('value = "%s"',$comp_ti['cantidad']);
+												printf(' value = "%s" ',$comp_ti['cantidad']);
+
+												if($comp_ti['tipo_asignacion'] == 'MULT'){
+													echo ' disabled = "disabled" ';
+												}
 											}
 										?>
 										>

@@ -1,3 +1,5 @@
+<!-- Creado el 20-04-2014 por Kelwin Gamez <kelgwiin@gmail.com> -->
+
 <div id="page-wrapper">
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
@@ -198,8 +200,6 @@
 				</div><!-- end of row 2: inner-->
 
 
-
-				
 
 			</div><!-- end of: col-12-->
 		</div><!-- end of: row outter-->

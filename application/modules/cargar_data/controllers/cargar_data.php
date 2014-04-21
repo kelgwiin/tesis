@@ -261,6 +261,16 @@ class Cargar_Data extends MX_Controller
 					}
 				}
 
+				//Verificando la cantidad
+				if(!isset($p_procesado['cantidad'])){
+					//Se hace esta validación ya que cuando se encuentra
+					//no editable "disable" él parámetro no se envía al servidor.
+					$p_procesado['cantidad'] = 1;
+				}
+				//Cantidad Disponible
+				$p_procesado['cantidad_disponible'] = $p_procesado['cantidad'];
+
+
 				if($this->utilities_model->update('componente_ti',
 						array('componente_ti_id'=>$id_comp_ti),$p_procesado ) ){
 					echo '{"estatus":"ok"}';

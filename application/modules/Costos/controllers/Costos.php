@@ -32,6 +32,13 @@ class Costos extends MX_Controller
 		$l =  array();
 
 		$l[] = array(
+			"chain" => "Descripción",
+			"active" => false,
+			"href" => "index.php/Costos",
+			"icon" => "fa fa-bar-chart-o"
+		);
+
+		$l[] = array(
 			"chain" => "Item1",
 			"active" => false,
 			"href" => "#",
@@ -58,9 +65,10 @@ class Costos extends MX_Controller
 		$l[$index_active]["active"] = true; //Colocar el ítem activo
 		return $l;
 	}//end of function: _list
+
 	public function index(){
 		$this->utils->template($this->_list(0),'Costos/main','','Módulo de Gestión de Costos','');
 	}
 }
 /* End of file Costos.php */
-/* Location: ./application/modules/controllers/cargar_data.php */
+/* Location: ./application/modules/Costos/controllers/Costos.php */
