@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Creado: 20-04-2014
+ * Creado: 27-04-2014
  * @author Kelwin Gamez <kelgwiin@gmail.com>
  */
-class Costos extends MX_Controller
+class Cargar extends MX_Controller
 {		
 	/**
 	 * Constructor principal. 
@@ -34,14 +34,14 @@ class Costos extends MX_Controller
 		$l[] = array(
 			"chain" => "Descripción",
 			"active" => false,
-			"href" => site_url('index.php/Costos'),
+			"href" => "index.php/Costos",
 			"icon" => "fa fa-bar-chart-o"
 		);
 
 		$l[] = array(
 			"chain" => "Costos Indirectos",
 			"active" => false,
-			"href" => site_url('index.php/Costos/CargarCostosIndirectos'),
+			"href" => "#",
 			"icon" => "fa fa-caret-square-o-down"
 		
 		);
@@ -66,9 +66,9 @@ class Costos extends MX_Controller
 		return $l;
 	}//end of function: _list
 
-	public function index(){
-		$this->utils->template($this->_list(0),'Costos/main','','Módulo de Gestión de Costos','');
+	public function CostosIndirectos(){
+		$this->utils->template($this->_list(1),'Costos/fr_costos_indirectos','','Módulo de Gestión de Costos','Costos Indirectos');
 	}
 }
-/* End of file Costos.php */
-/* Location: ./application/modules/Costos/controllers/Costos.php */
+/* End of file Cargar.php */
+/* Location: ./application/modules/Costos/controllers/Cargar.php */

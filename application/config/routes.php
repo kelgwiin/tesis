@@ -21,6 +21,7 @@ $route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1"
 /* Rutas para el Módulo de Costos de Servicios de TI*/
 //Creado el 20-04-2014 por Kelwin Gamez
 $route['Costos/'] = "Costos/Costos";
+$route['Costos/CargarCostosIndirectos'] = "Costos/Cargar/CostosIndirectos";
 /* end of: Rutas para el Módulo de Costos de Servicios de TI*/
 
 

@@ -8,21 +8,22 @@
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
-					Permite Gestionar los Costos...</li>
+					Permite Gestionar los Costos de los Servicios de TI que posee la Organización</li>
 				</ol>
 
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					Presupuestos, carga de costos indirectos"
+					Este módulo permite la gestión de los Costos Indirectos, la generación del Modelo de Costos por
+					servicio, la visualización del Impacto de un cambio en los costos,... "
 				</div>
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
 
-		<!-- Menu de carga de datos-->
+		<!-- Menú del Módulo de Costos-->
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="row">
-					<!-- Carga de datos básicos-->
+					<!-- Cargar Costos Indirectos -->
 					<div class="col-lg-3">
 						<div class="panel panel-info">
 							<div class="panel-heading">
@@ -31,11 +32,11 @@
 										<i class="fa fa-cog fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Sección 1</p>
+										<p class="announcement-text">Cargar Costos Indirectos</p>
 									</div>
 								</div>
 							</div>
-							<a href="#">
+							<a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos');?>">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
