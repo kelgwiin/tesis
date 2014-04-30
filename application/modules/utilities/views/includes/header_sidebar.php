@@ -1,4 +1,4 @@
-<!-- anterior: header.php (en header_sidebar.php)-->
+ <!-- anterior: header.php (en header_sidebar.php)-->
 <!-- Sidebar -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->

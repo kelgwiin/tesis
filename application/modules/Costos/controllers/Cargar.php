@@ -2,6 +2,7 @@
 
 /**
  * Creado: 27-04-2014
+ * Permite cargar los Costos Indirectos del Sistema de Costos.
  * @author Kelwin Gamez <kelgwiin@gmail.com>
  */
 class Cargar extends MX_Controller
@@ -68,6 +69,27 @@ class Cargar extends MX_Controller
 
 	public function CostosIndirectos(){
 		$this->utils->template($this->_list(1),'Costos/fr_costos_indirectos','','Módulo de Gestión de Costos','Costos Indirectos');
+	}
+
+	//Conjunto de Formularios de Costos Indirectos
+	public function Arrendamiento(){
+		$this->utils->template($this->_list(1),'Costos/forms/Arrendamiento','','Módulo de Gestión de Costos','Costos Indirectos');
+	}
+
+	public function Mantenimiento(){
+		$this->utils->template($this->_list(1),'Costos/forms/Mantenimiento','','Módulo de Gestión de Costos','Costos Indirectos');
+	}
+
+	public function Formacion(){
+		$this->utils->template($this->_list(1),'Costos/forms/Formacion','','Módulo de Gestión de Costos','Costos Indirectos');
+	}
+
+	public function HonorariosProf(){
+		$this->utils->template($this->_list(1),'Costos/forms/HonorariosProf','','Módulo de Gestión de Costos','Costos Indirectos');
+	}
+	
+	public function Utileria(){
+		$this->utils->template($this->_list(1),'Costos/forms/Utileria','','Módulo de Gestión de Costos','Costos Indirectos');
 	}
 }
 /* End of file Cargar.php */
