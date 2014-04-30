@@ -18,5 +18,27 @@
 		<div class = "col-md-12">
 			Inicio de Formularios
 		</div>
+	</div><!-- Cuerpo de los formularios -->
+
+	<!-- Direccionamiento de formularios-->
+	<div class = "row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<ul class="pager">
+			  <!-- Boton de Menú de Costos Indirectos  -->
+			  <li class="previous">
+			  	<a	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos');?>"
+			  	><i class ="fa fa-long-arrow-left"></i> <strong>Gestión de Costos Indirectos</strong></a>
+			  </li>
+
+			<!-- Boton de Mantenimiento -->
+			  <li class="next">
+			  	<a 	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento');?>"
+			  	><strong>Mantenimiento</strong> <i class ="fa fa-long-arrow-right"></i></a>
+			  </li>
+
+			  
+			</ul>
+		</div>
 	</div>
-</div>
+	<!-- Fin de Direccionamiento de formularios -->
+</div><!-- /page-wrapper -->

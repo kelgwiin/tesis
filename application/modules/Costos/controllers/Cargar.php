@@ -35,14 +35,14 @@ class Cargar extends MX_Controller
 		$l[] = array(
 			"chain" => "Descripción",
 			"active" => false,
-			"href" => "index.php/Costos",
+			"href" => site_url('index.php/Costos'),
 			"icon" => "fa fa-bar-chart-o"
 		);
 
 		$l[] = array(
 			"chain" => "Costos Indirectos",
 			"active" => false,
-			"href" => "#",
+			"href" => site_url('index.php/Costos/CargarCostosIndirectos'),
 			"icon" => "fa fa-caret-square-o-down"
 		
 		);

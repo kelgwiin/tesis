@@ -3,7 +3,7 @@
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
 		<div class="col-lg-12">
-			<h1>Gestión de Costos Indirectos <small>Utelería</small></h1>
+			<h1>Gestión de Costos Indirectos <small>Utilería</small></h1>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
@@ -19,4 +19,20 @@
 			Inicio de Formularios Utilería
 		</div>
 	</div>
-</div>
+
+	<!-- Direccionamiento de formularios-->
+	<div class = "row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<ul class="pager">
+			  <!-- Boton de Honorarios Profesionales -->
+			  <li class="previous">
+			  	<a	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>"
+			  	><i class ="fa fa-long-arrow-left"></i> <strong>Honorarios Profesionales</strong></a>
+			  </li>
+		
+			</ul>
+		</div>
+	</div>
+	<!-- Fin de Direccionamiento de formularios -->
+
+</div><!-- /page-wrapper -->

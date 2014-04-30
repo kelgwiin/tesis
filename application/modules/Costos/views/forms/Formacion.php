@@ -19,4 +19,26 @@
 			Inicio de Formularios Formación
 		</div>
 	</div>
-</div>
+
+	<!-- Direccionamiento de formularios-->
+	<div class = "row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<ul class="pager">
+			  <!-- Boton de Mantenimiento -->
+			  <li class="previous">
+			  	<a	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento');?>"
+			  	><i class ="fa fa-long-arrow-left"></i> <strong>Mantenimiento</strong></a>
+			  </li>
+
+			<!-- Boton de Honorarios Profesionales -->
+			  <li class="next">
+			  	<a 	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>"
+			  	><strong>Mantenimiento</strong> <i class ="fa fa-long-arrow-right"></i></a>
+			  </li>
+
+			  
+			</ul>
+		</div>
+	</div>
+	<!-- Fin de Direccionamiento de formularios -->
+</div><!-- /page-wrapper-->
