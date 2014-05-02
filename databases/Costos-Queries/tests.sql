@@ -47,11 +47,7 @@ select * from umbral;
 
 select * from servicio_proceso;
 
-
-
-
-
-
+select * from usuarios;
 
 
 
