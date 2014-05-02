@@ -16,11 +16,11 @@
 	                  </tr>
 	                </thead>
 	              <tbody> 
-	             		<?php $long=$this->Disponibilidad_model->obtenerlongitudServicios(); ?>	                	
-	                	<?php $servicios=$this->Disponibilidad_model->obtenernombreServicios(); ?>
-	                	<?php $ids=$this->Disponibilidad_model->obteneridServicios(); ?>
-	                	<?php $fechacreacion=$this->Disponibilidad_model->obtenerfechacreacionServicios(); ?>
-	                	<?php $cantidadingresos=$this->Disponibilidad_model->obtenercantidadingresosServicios(); ?>
+	             		<?php $long=$this->disponibilidad_model->obtenerlongitudServicios(); ?>	                	
+	                	<?php $servicios=$this->disponibilidad_model->obtenernombreServicios(); ?>
+	                	<?php $ids=$this->disponibilidad_model->obteneridServicios(); ?>
+	                	<?php $fechacreacion=$this->disponibilidad_model->obtenerfechacreacionServicios(); ?>
+	                	<?php $cantidadingresos=$this->disponibilidad_model->obtenercantidadingresosServicios(); ?>
 	                	<?php
 	                	$i=1;
 	                	while($i<=$long){ ?>	                		

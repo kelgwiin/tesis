@@ -7,7 +7,7 @@ class Disponibilidad extends MX_Controller
         parent::__construct();
 		$this->load->helper('form');
 		$this->load->helper('date');
-		$this->load->model('Disponibilidad_model');
+		$this->load->model('disponibilidad_model');
     }
 	
 	public function index()
@@ -18,7 +18,7 @@ class Disponibilidad extends MX_Controller
 	
 	public function Calendario()
 	{
-		$this->load->model('Disponibilidad_model','calendar');
+		$this->load->model('disponibilidad_model','calendar');
 		$files_head		=	array(
 			base_url('assets/fullcalendar/fullcalendar.css')
 			);
@@ -43,14 +43,14 @@ class Disponibilidad extends MX_Controller
 	//Funcion llamada desde el mycalendar.js que esta en asset/js
 	public function json()
     {
-    	$this->load->model('Disponibilidad_model','calendar');
+    	$this->load->model('disponibilidad_model','calendar');
     	header("Content-Type: application/json");  
         echo $this->calendar->jsonEvents(); 
     }
 	//Funcion llamada desde el mycalendar.js que esta en asset/js
 	public function resize()
     {
-    	$this->load->model('Disponibilidad_model','calendar');
+    	$this->load->model('disponibilidad_model','calendar');
     	header("Content-Type: application/json");  
     	$data = array(
     		'event'			=>	$this->input->post('event'),
@@ -63,7 +63,7 @@ class Disponibilidad extends MX_Controller
 	//Funcion llamada desde el mycalendar.js que esta en asset/js
 	public function drop_event()
     {
-    	$this->load->model('Disponibilidad_model','calendar');
+    	$this->load->model('disponibilidad_model','calendar');
     	header("Content-Type: application/json");  
     	$data = array(
     		'event'			=>	$this->input->post('event'),
@@ -76,14 +76,14 @@ class Disponibilidad extends MX_Controller
 	//Funcion llamada desde el mycalendar.js que esta en asset/js
 	public function delete_event()
     {
-    	$this->load->model('Disponibilidad_model','calendar');
+    	$this->load->model('disponibilidad_model','calendar');
     	header("Content-Type: application/json");		
     	echo $this->calendar->delete($this->input->post('event')) ? 'el evento ha sido borrado' : 'El evento no pudo borrarse';
     } 
 	
 	public function NuevoEvento()
 	{
-		$this->load->model('Disponibilidad_model','calendar');
+		$this->load->model('disponibilidad_model','calendar');
 		$files_footer	=	array(
 			base_url('assets/js/jquery-1.8.3.min.js'),
 			base_url('assets/js/jquery-ui-1.9.2.custom.min.js'),
@@ -102,7 +102,7 @@ class Disponibilidad extends MX_Controller
 	
 	public function tocalendar()
     {
-    	$this->load->model('Disponibilidad_model','calendar');
+    	$this->load->model('disponibilidad_model','calendar');
     	$allday 	=	($this->input->post('allday')==1) ? 'true' : 'false';
     	
     	$startdate	=	str_replace('/', '-', $this->input->post('startdate'));
@@ -145,32 +145,32 @@ class Disponibilidad extends MX_Controller
 	public function Servicio()
 	{
 		$datos['ids'] = $this->uri->segment(3);
-		$data['longitud'] =$this->Disponibilidad_model->obtenerlongitudFechasServiciosHistorial($datos);	
-		$data['activo'] =$this->Disponibilidad_model->obtenerMonitoreoActivo($datos);		
-		$data['inactivo'] =$this->Disponibilidad_model->obtenerMonitoreoInactivo($datos);
-		$data['fechas'] =$this->Disponibilidad_model->obtenerFechas($datos);
-		$data['nombre_servicio'] =$this->Disponibilidad_model->obtenerNombre($datos);
+		$data['longitud'] =$this->disponibilidad_model->obtenerlongitudFechasServiciosHistorial($datos);	
+		$data['activo'] =$this->disponibilidad_model->obtenerMonitoreoActivo($datos);		
+		$data['inactivo'] =$this->disponibilidad_model->obtenerMonitoreoInactivo($datos);
+		$data['fechas'] =$this->disponibilidad_model->obtenerFechas($datos);
+		$data['nombre_servicio'] =$this->disponibilidad_model->obtenerNombre($datos);
 		$data['main_content'] = $this->load->view('Servicio',$data,TRUE);
 		$this->load->view('front/template',$data);
 	}
 	
 	public function Plan()
 	{
-		$data['longitud'] =$this->Disponibilidad_model->obtenerlongitudServicios();
-		$data['servicios'] =$this->Disponibilidad_model->obtenernombreServicios();
-		$data['disponibilidad_acordado'] =$this->Disponibilidad_model->obtenerPorcentajeDisponibilidadAcordado();
-		$data['disponibilidad_real'] =$this->Disponibilidad_model->obtenerPorcentajeDisponibilidadReal();	
-		$data['fiabilidad_acordado'] =$this->Disponibilidad_model->obtenerHoraFiabilidadAcordado();
-		$data['fiabilidad_real'] =$this->Disponibilidad_model->obtenerHoraFiabilidadReal();
-		$data['confiabilidad_acordado'] =$this->Disponibilidad_model->obtenerHoraConfiabilidadAcordado();
-		$data['confiabilidad_real'] =$this->Disponibilidad_model->obtenerHoraConfiabilidadReal();
+		$data['longitud'] =$this->disponibilidad_model->obtenerlongitudServicios();
+		$data['servicios'] =$this->disponibilidad_model->obtenernombreServicios();
+		$data['disponibilidad_acordado'] =$this->disponibilidad_model->obtenerPorcentajeDisponibilidadAcordado();
+		$data['disponibilidad_real'] =$this->disponibilidad_model->obtenerPorcentajeDisponibilidadReal();	
+		$data['fiabilidad_acordado'] =$this->disponibilidad_model->obtenerHoraFiabilidadAcordado();
+		$data['fiabilidad_real'] =$this->disponibilidad_model->obtenerHoraFiabilidadReal();
+		$data['confiabilidad_acordado'] =$this->disponibilidad_model->obtenerHoraConfiabilidadAcordado();
+		$data['confiabilidad_real'] =$this->disponibilidad_model->obtenerHoraConfiabilidadReal();
 		$data['main_content'] = $this->load->view('Plan',$data,TRUE);
 		$this->load->view('front/template',$data);
 	}
 
 	public function Registrarincidencia()
 	{
-		$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();
+		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
 		$data['main_content'] = $this->load->view('Registrarincidencia',$data,TRUE);
 		$this->load->view('front/template',$data);
 	}
@@ -199,13 +199,13 @@ class Disponibilidad extends MX_Controller
 			'personal_recuperacion' => $this->input->post('personal_recuperacion')
 		);
 		$data['servicio_id'] = $_POST['servic'];//Se trae el id del Servicio
-		$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();
-		$this->Disponibilidad_model->crearIncidencia($data);
+		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
+		$this->disponibilidad_model->crearIncidencia($data);
 		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
 		$this->load->view('front/template',$data);
 	}
 		else {//Si no se cumplen			
-			$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();						
+			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();						
 			$data['main_content'] = $this->load->view('Registrarincidencia',$data,TRUE);
 			$this->load->view('front/template',$data);
 		}
@@ -213,7 +213,7 @@ class Disponibilidad extends MX_Controller
 	
 	public function Opcionesmejoras()
 	{			
-		$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();
+		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
 		$data['main_content'] = $this->load->view('Opcionesmejoras',$data,TRUE);
 		$this->load->view('front/template',$data);
 	}
@@ -234,13 +234,13 @@ class Disponibilidad extends MX_Controller
 			'costo_mejoras' => $this->input->post('costo_mejoras')
 		);		
 		$data['servicio_id'] = $_POST['servic'];//Se trae el id del Servicio
-		$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();
-		$this->Disponibilidad_model->crearOpciones($data);
+		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
+		$this->disponibilidad_model->crearOpciones($data);
 		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
 		$this->load->view('front/template',$data);
 	}
 		else {//Si no se cumplen			
-			$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();						
+			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();						
 			$data['main_content'] = $this->load->view('Opcionesmejoras',$data,TRUE);
 			$this->load->view('front/template',$data);
 		}
@@ -248,7 +248,7 @@ class Disponibilidad extends MX_Controller
 		
 	public function Logrosrendimiento()
 	{
-		$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();
+		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
 		$data['main_content'] = $this->load->view('Logrosrendimiento',$data,TRUE);
 		$this->load->view('front/template',$data);
 	}
@@ -270,13 +270,13 @@ class Disponibilidad extends MX_Controller
 		);
 		
 		$data['servicio_id'] = $_POST['servic'];//Se trae el id del Servicio
-		$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();
-		$this->Disponibilidad_model->crearLogros($data);
+		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
+		$this->disponibilidad_model->crearLogros($data);
 		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
 		$this->load->view('front/template',$data);
 		}
 		else {//Si no se cumplen			
-			$data['servicios'] = $this->Disponibilidad_model->obtenerNameService();						
+			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();						
 			$data['main_content'] = $this->load->view('Logrosrendimiento',$data,TRUE);
 			$this->load->view('front/template',$data);
 		}
@@ -304,7 +304,7 @@ class Disponibilidad extends MX_Controller
 			'recursos_requeridos' => $this->input->post('recursos_requeridos')
 		);
 		
-		$this->Disponibilidad_model->crearOportunidad($data);
+		$this->disponibilidad_model->crearOportunidad($data);
 		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
 		$this->load->view('front/template',$data);
 	}
@@ -317,7 +317,7 @@ class Disponibilidad extends MX_Controller
 	public function ImprimirIncidencia()
 	{
 		$id = $this->uri->segment(3);//capturo la id del servicio seleccionado
-		$name = $this->Disponibilidad_model->obtenerNombreServicioporID($id);
+		$name = $this->disponibilidad_model->obtenerNombreServicioporID($id);
 		//Comienza el PDF
 		ob_end_clean();
         $this->load->library('Pdf_Disponibilidad'); 
@@ -372,7 +372,7 @@ class Disponibilidad extends MX_Controller
 		//Comparando Niveles de Servicios Real con lo establecido en los SLAs
 		$this->pdf->AddPage();
 		$this->pdf->SetFont('Arial', 'B', 12);
-		$incidencias =$this->Disponibilidad_model->obtenerIncidencia($id);
+		$incidencias =$this->disponibilidad_model->obtenerIncidencia($id);
 	
 		$this->pdf->SetTextColor(70,20,250);
 		$this->pdf->Write(15,utf8_decode("1. Incidencias del $name "));
@@ -454,10 +454,10 @@ class Disponibilidad extends MX_Controller
 		//Comparando Niveles de Servicios Real con lo establecido en los SLAs
 		$this->pdf->AddPage();
 		$this->pdf->SetFont('Arial', 'B', 12);
-		$data['longitud'] =$this->Disponibilidad_model->obtenerlongitudServicios();
-		$data['servicios'] =$this->Disponibilidad_model->obtenernombreServicios();
-		$acordado =$this->Disponibilidad_model->obtenerNivelesServicios();
-		$real =$this->Disponibilidad_model->obtenerDisponibilidad();
+		$data['longitud'] =$this->disponibilidad_model->obtenerlongitudServicios();
+		$data['servicios'] =$this->disponibilidad_model->obtenernombreServicios();
+		$acordado =$this->disponibilidad_model->obtenerNivelesServicios();
+		$real =$this->disponibilidad_model->obtenerDisponibilidad();
 	
 		$this->pdf->SetTextColor(70,20,250);
 		$this->pdf->Write(15,utf8_decode('1. LOS NIVELES DE DISPONIBILIDAD ACORDADOS EN EL SLAs'));
@@ -477,7 +477,7 @@ class Disponibilidad extends MX_Controller
 		$x = 1;
 		if(empty($acordado)== false){
         foreach ($acordado as $row) {
-        	$nom=$this->Disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
+        	$nom=$this->disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
         	$this->pdf->Row(array($x++,utf8_decode($nom),utf8_decode($row->porcentaje_disponibilidad),utf8_decode($row->horas_fiabilidad),utf8_decode($row->horas_confiabilidad)));			          
         }
 		}
@@ -505,7 +505,7 @@ class Disponibilidad extends MX_Controller
 		$x = 1;
 		if(empty($real)== false){
         foreach ($real as $row) {
-        	$nom=$this->Disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
+        	$nom=$this->disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
         	$this->pdf->Row(array($x++,utf8_decode($nom),utf8_decode($row->calculo_disponibilidad),utf8_decode($row->calculo_fiabilidad),utf8_decode($row->calculo_confiabilidad)));			          
         }
 		}
@@ -517,7 +517,7 @@ class Disponibilidad extends MX_Controller
 		//Tercera Pagina Cuadro de Opciones de Mejoras
 		$this->pdf->AddPage(); 
 		$this->pdf->SetFont('Arial', 'B', 12);
-		$opcionesmejoras = $this->Disponibilidad_model->obtenerOpcionesMejoras();
+		$opcionesmejoras = $this->disponibilidad_model->obtenerOpcionesMejoras();
 		$this->pdf->SetTextColor(70,20,250);
 		$this->pdf->Write(15,utf8_decode('3. OPCIONES DE MEJORAS'));
 		$this->pdf->SetTextColor(0);
@@ -538,7 +538,7 @@ class Disponibilidad extends MX_Controller
 		 $x = 1;
 		if(empty($opcionesmejoras)== false){
         foreach ($opcionesmejoras as $row) {
-        	$nom=$this->Disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
+        	$nom=$this->disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
         	$this->pdf->Row(array($x++,utf8_decode($nom),utf8_decode($row->impacto_mejoras),utf8_decode($row->descripcion_mejoras),utf8_decode($row->beneficio_mejoras),utf8_decode($row->costo_mejoras)));			          
         }
         }
@@ -550,7 +550,7 @@ class Disponibilidad extends MX_Controller
 		//Cuadro de Logros de Rendimiento
 		$this->pdf->AddPage(); 
 		$this->pdf->SetFont('Arial', 'B', 12);
-		$logrosrendimiento = $this->Disponibilidad_model->obtenerLogrosRendimiento();
+		$logrosrendimiento = $this->disponibilidad_model->obtenerLogrosRendimiento();
 		$this->pdf->SetTextColor(70,20,250);
 		$this->pdf->Write(15,utf8_decode('4. LOGROS EN EL RENDIMIENTO'));
 		$this->pdf->SetTextColor(0);
@@ -572,7 +572,7 @@ class Disponibilidad extends MX_Controller
 		 $x = 1;
 		if(empty($opcionesmejoras)== false){
         foreach ($logrosrendimiento as $row) {
-        	$nom=$this->Disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
+        	$nom=$this->disponibilidad_model->obtenerNombreServicioporID($row->servicio_id);
         	$this->pdf->Row(array($x++,utf8_decode($nom),utf8_decode($row->impacto_logros),utf8_decode($row->descripcion_logros),utf8_decode($row->beneficio_logros),utf8_decode($row->costo_logros)));			          
         }
         }
@@ -584,7 +584,7 @@ class Disponibilidad extends MX_Controller
 		//Cuadro de Oportunidades Tecnologicas
 			$this->pdf->AddPage(); 
 		$this->pdf->SetFont('Arial', 'B', 12);
-		$oportunidadestecnologicas = $this->Disponibilidad_model->obtenerOportunidadesTecnologicas();
+		$oportunidadestecnologicas = $this->disponibilidad_model->obtenerOportunidadesTecnologicas();
 		$this->pdf->SetTextColor(70,20,250); 
 		$this->pdf->Write(15,utf8_decode('5. OPORTUNIDADES TECNOLÓGICAS'));
 		$this->pdf->SetTextColor(0);
