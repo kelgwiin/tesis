@@ -8,31 +8,94 @@
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
 					Permite la Carga de los Costos Indirectos de la infraestructura de TI</li>
-			</ol>
+				</ol>
 
-			
-		</div><!-- end of col-12-->
-	</div><!-- end of row Cabecera-->
 
-	<div class="row">
-		<div class = "col-md-12">
-			Inicio de Formularios Utilería
-		</div>
-	</div>
+			</div><!-- end of col-12-->
+		</div><!-- end of row Cabecera-->
 
-	<!-- Direccionamiento de formularios-->
-	<div class = "row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<ul class="pager">
-			  <!-- Boton de Honorarios Profesionales -->
-			  <li class="previous">
-			  	<a	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>"
-			  	><i class ="fa fa-long-arrow-left"></i> <strong>Honorarios Profesionales</strong></a>
-			  </li>
-		
-			</ul>
-		</div>
-	</div>
-	<!-- Fin de Direccionamiento de formularios -->
+		<div class="row">
+			<div class = "col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class = "col-md-8">
+								<form class="form-horizontal">
+									<fieldset>
+
+										<!-- Form Name -->
+										<legend>Utilería</legend>
+
+										<!-- Text input-->
+										<div class="form-group">
+											<label class="col-md-4 control-label" for="nombre">Nombre</label>  
+											<div class="col-md-6">
+												<input id="nombre" name="nombre" type="text" placeholder="nombre" class="form-control input-md" required="">
+
+											</div>
+										</div>
+
+										<!-- Appended Input-->
+										<div class="form-group">
+											<label class="col-md-4 control-label" for="appendedtext">costo</label>
+											<div class="col-md-6">
+												<div class="input-group">
+													<input id="appendedtext" name="appendedtext" class="form-control" placeholder="costo" type="text" required="">
+													<span class="input-group-addon">Bs.</span>
+												</div>
+
+											</div>
+										</div>
+										<!-- Text input-->
+										<div class="form-group">
+											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
+											<div class="col-md-6">
+												<input id="fecha" name="fecha" type="text" placeholder="fecha" class="form-control input-md" required="">
+												<span class="help-block">Fecha cuando se realizó la inversión.</span>  
+											</div>
+										</div>
+
+										<!-- Textarea -->
+										<div class="form-group">
+											<label class="col-md-4 control-label" for="descripcion">Descripción</label>
+											<div class="col-md-4">                     
+												<textarea class="form-control" id="descripcion" name="descripcion">Descripcón
+												</textarea>
+											</div>
+										</div>
+
+									</fieldset>
+
+									<!-- Button  - Guardar -->
+									<div class="form-group">
+										<label class="col-md-4 control-label" for="guardar"></label>
+										<div class="col-md-4">
+											<button id="guardar" name="guardar" class="btn btn-primary">Guardar</button>
+										</div>
+									</div>
+								</form>
+
+							</div><!-- /col-md-8 -->
+						</div><!-- /row inner-->
+					</div><!-- /panel-body-->
+
+				</div><!-- /panel-default-->
+			</div><!-- /col-md-12 -->
+		</div><!-- /row -->
+
+		<!-- Direccionamiento de formularios-->
+		<div class = "row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<ul class="pager">
+					<!-- Boton de Honorarios Profesionales -->
+					<li class="previous">
+						<a	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>"
+							><i class ="fa fa-long-arrow-left"></i> <strong>Honorarios Profesionales</strong></a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+			<!-- Fin de Direccionamiento de formularios -->
 
 </div><!-- /page-wrapper -->

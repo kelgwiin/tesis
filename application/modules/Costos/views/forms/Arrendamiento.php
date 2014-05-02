@@ -28,7 +28,7 @@
 
 										<!-- Text input - Nombre de Servicio a Arrendar-->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="nombre-arrendamiento">Nombre de Servicio</label>  
+											<label class="col-md-4 control-label" for="nombre-arrendamiento">Nombre de Servicio o Activo</label>  
 											<div class="col-md-4">
 												<input id="nombre-arrendamiento" name="nombre-arrendamiento" type="text" placeholder="Nombre" class="form-control input-md" required="required">
 											</div>
@@ -36,14 +36,14 @@
 
 										<!-- Appended Input - Costo -->
 										<div class="form-group">
-										  <label class="col-md-4 control-label" for="costo">Costo</label>
-										  <div class="col-md-4">
-										    <div class="input-group">
-										      <input id="costo" name="costo" class="form-control" placeholder="Costo" type="text" required="">
-										      <span class="input-group-addon">Bs.</span>
-										    </div>
-										    
-										  </div>
+											<label class="col-md-4 control-label" for="costo">Costo</label>
+											<div class="col-md-4">
+												<div class="input-group">
+													<input id="costo" name="costo" class="form-control" placeholder="Costo" type="text" required="">
+													<span class="input-group-addon">Bs.</span>
+												</div>
+												
+											</div>
 										</div>
 
 										<!-- Text input - Fecha inicio -->
@@ -84,15 +84,15 @@
 										</div>
 
 
-										<!-- Button  - Guardar-->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for=""></label>
-											<div class="col-md-4">
-												<button id="" name="" class="btn btn-primary">Guardar</button>
-											</div>
-										</div>
 
 									</fieldset>
+									<!-- Button  - Guardar-->
+									<div class="form-group">
+										<label class="col-md-4 control-label" for=""></label>
+										<div class="col-md-4">
+											<button id="" name="" class="btn btn-primary">Guardar</button>
+										</div>
+									</div>
 								</form>
 							</div><!-- /col-md-10-->
 						</div><!-- /row inner-->

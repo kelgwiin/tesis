@@ -53,7 +53,7 @@
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
 											<div class="col-md-4">
-												<input id="fecha" name="fecha" type="text" placeholder="Fecha de mantenimiento" class="form-control input-md" required="">
+												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -84,10 +84,10 @@
 
 										<!-- Textarea -->
 										<div class="form-group">
-										  <label class="col-md-4 control-label" for="descripcion">Descripción</label>
-										  <div class="col-md-4">                     
-										    <textarea class="form-control" id="descripcion" name="descripcion" required = "required">Descripción</textarea>	
-										  </div>
+											<label class="col-md-4 control-label" for="descripcion">Descripción</label>
+											<div class="col-md-4">                     
+												<textarea class="form-control" id="descripcion" name="descripcion" required = "required">Descripción</textarea>	
+											</div>
 										</div>
 
 									</fieldset>
@@ -95,7 +95,7 @@
 									<!-- DATOS DE ENCARGADO DE MANTENIMIENTO-->
 									<fieldset>
 										<!-- Form Name -->
-										<legend>Encargado de Matenimiento o Instalción </legend>
+										<legend>Encargado de Matenimiento o Instalación de Infraestructura</legend>
 
 										<!-- Text input-->
 										<div class="form-group">
@@ -134,17 +134,16 @@
 											</div>
 										</div>
 
-										<!-- Button  - Guardar -->
-										<div class="form-group">
-										  <label class="col-md-4 control-label" for="guardar"></label>
-										  <div class="col-md-4">
-										    <button id="guardar" name="guardar" class="btn btn-primary">Guardar</button>
-										  </div>
-										</div>
 
 									</fieldset><!-- Encargado de Mantenimiento y/o Instalación -->
 
-
+									<!-- Button  - Guardar -->
+									<div class="form-group">
+										<label class="col-md-4 control-label" for="guardar"></label>
+										<div class="col-md-4">
+											<button id="guardar" name="guardar" class="btn btn-primary">Guardar</button>
+										</div>
+									</div>
 
 								</div>
 
@@ -178,4 +177,4 @@
 				</div>
 				<!-- Fin de Direccionamiento de formularios -->
 
-</div><!-- /page-wrapper-->
+			</div><!-- /page-wrapper-->	
