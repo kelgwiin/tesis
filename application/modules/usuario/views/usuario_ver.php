@@ -42,7 +42,7 @@
 							<td style="color: #<?php echo $color ?>"><?php echo lang('estado_'.$user->id_estado) ?></td>
 							<td><?php echo date('d-m-Y h:i:s A',strtotime($user->creacion)) ?></td>
 							<td style="text-align: center">
-								<a href="usuarios/eliminar/<?php echo $user->id_usuario ?>"><span class="badge" style="background-color: #B40404">x</span></a>
+								<a href="index.php/usuarios/eliminar/<?php echo $user->id_usuario ?>"><span class="badge" style="background-color: #B40404">x</span></a>
 							</td>
 						</tr>
 					<?php endforeach ?>

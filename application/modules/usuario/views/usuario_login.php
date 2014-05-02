@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="author" content="f6rnando">
-    <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
+    <base href="<?php echo base_url(); ?>" />
     <title><?php echo_conditional($title,$title,'Sistema de Gestión de Infraestructuras de Tecnologías de Información') ?></title>
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-72x72-precomposed.png">
@@ -71,7 +71,7 @@
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <div class="animbrand">
-              <a class="navbar-brand" href="<?php echo base_url().'usuarios/iniciar-sesion'; ?>"><?php echo $base_url_tit ?></a>
+              <a class="navbar-brand" href="<?php echo base_url().'index.php/usuarios/iniciar-sesion'; ?>"><?php echo $base_url_tit ?></a>
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@
               <!-- LLENA ERRORES DE VALIDACION POR JQUERY O POR PHP SI ESTA LA VARIABLA $error SETTEADA -->
               <?php echo_conditional($this->session->flashdata('error'),$this->session->flashdata('error'),'') ?>
             </div>
-            <form method="POST" action="usuario/login" class="form-signin">
+            <form method="POST" action="index.php/usuario/login" class="form-signin">
               <fieldset>
                 <h2 class="sign-up-title">Iniciar Sesión</h2>
                 <hr>

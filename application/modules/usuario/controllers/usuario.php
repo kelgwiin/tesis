@@ -6,7 +6,7 @@ class Usuario extends MX_Controller
 	{
         parent::__construct();
 		$this->load->library('form_validation');
-		$this->lang->load('admin');
+		$this->lang->load('admin','es');
 		$this->load->model('general/general_model','general');
 		$this->load->model('usuario_model','usuarios');
     }
@@ -99,7 +99,7 @@ class Usuario extends MX_Controller
 			{
 				$error = 'Ocurrió un error intentando iniciar sesión con ese usuario. Por favor contacte a su administrador.';
 				$this->session->set_flashdata('error',$error);
-				redirect('usuario/iniciar-sesion');
+				redirect('index.php/usuario/iniciar-sesion');
 			}
 		}
 	}
@@ -181,6 +181,6 @@ class Usuario extends MX_Controller
 	public function logout()
 	{
 		$this->session->sess_destroy();
-		redirect('usuarios/iniciar-sesion');
+		redirect('index.php/usuarios/iniciar-sesion');
 	}
 }
