@@ -25,7 +25,7 @@
 	<script src="<?php echo base_url(); ?>assets/front/highcharts/exporting.js"></script>
   
   <!-- Configurations JS -->
-    <script src="assets/front/js/apps/App.js"></script>
+    <script src="<?php echo base_url(); ?>assets/front/js/apps/App.js"></script>
   </head>
 
   <body>
@@ -77,15 +77,14 @@
             <li><a href="typography.html"><i class="fa fa-font"></i> Gestión de Riesgos</a></li>
             <li><a href="<?php echo site_url('index.php/Costos');?>"><i class="fa fa-clipboard"></i> Gestión de Costos</a></li>
             <li><a href="<?php echo base_url(); ?>index.php/Disponibilidad/"><i class="fa fa-clock-o"></i> Gestión de Disponibilidad</a></li>
-            <li><a href="bootstrap-grid.html"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
-            <li><a href="blank-page.html"><i class="fa fa-file"></i> Blank Page</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i> <?php echo 'Gestión de Usuarios' ?> <b class="caret"></b>
+              </a>
               <ul class="dropdown-menu">
-                <li><a href="#">Dropdown Item</a></li>
-                <li><a href="#">Another Item</a></li>
-                <li><a href="#">Third Item</a></li>
-                <li><a href="#">Last Item</a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios"><?php echo 'Ver usuarios' ?></a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/crear"><?php echo 'Crear usuarios' ?></a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/buscar"><?php echo 'Buscar usuarios' ?></a></li>
               </ul>
             </li>
           </ul>
@@ -251,13 +250,16 @@
               </ul>
             </li>
             <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $nombre_usuario; ?> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i>
+                <?php $nombre_usuario = !empty($this->session->userdata('user')->nombre) ? $this->session->userdata('user')->nombre : 'Usuario' ?>
+                <?php echo $nombre_usuario; ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
                 <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
                 <li><a href="#"><i class="fa fa-gear"></i> Preferencias</a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/cerrar-sesion"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
               </ul>
             </li>
           </ul>

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+ <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $lang['project.title_long']						= "Sistema de Gestión de Infraestructuras de Tecnologías de Información";
 $lang['project.title_short']					= "SIGITECNI";
