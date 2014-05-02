@@ -25,7 +25,7 @@
 	<script src="<?php echo base_url(); ?>assets/front/highcharts/exporting.js"></script>
   
   <!-- Configurations JS -->
-    <script src="assets/front/js/apps/App.js"></script>
+    <script src="<?php echo base_url(); ?>assets/front/js/apps/App.js"></script>
   </head>
 
   <body>

@@ -9,11 +9,13 @@ class General extends MX_Controller
 		$this->load->model('general_model','general');
     }
 	
-	public function is_logged($redirect)
-	{
-		if($this->session->userdata())
-			redirect($redirect);
-	}
+	public function is_logged($goto='')
+    {
+        if($this->session->userdata('logged_in'))
+            return TRUE;
+        else
+            redirect($goto);
+    }
 	
 	public function have_permission($nivel)
 	{

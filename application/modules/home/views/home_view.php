@@ -74,7 +74,7 @@
                     <i class="fa fa-fire-extinguisher fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Gestion de Riesgos</p>
+                    <p class="announcement-text">Gestion de Continuidad del Negocio</p>
                   </div>
                 </div>
               </div>

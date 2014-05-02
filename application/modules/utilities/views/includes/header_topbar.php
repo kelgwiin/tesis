@@ -41,7 +41,7 @@
                   title="Gestión de Riesgos" 
                   href = "#"  
                  >
-                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Riesgos</small>
+                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Continuidad<br>del Negocio</small>
                  </a> 
                </div>
 

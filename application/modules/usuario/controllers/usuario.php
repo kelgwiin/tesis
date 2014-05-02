@@ -93,6 +93,7 @@ class Usuario extends MX_Controller
 			if(!empty($user))
 			{
 				$this->session->set_userdata('user',$user);
+				$this->session->set_userdata('logged_in',TRUE);
 				redirect('/');
 			}
 			else
@@ -106,6 +107,7 @@ class Usuario extends MX_Controller
 
 	public function ver_usuarios()
 	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 1);
 		$vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
 		$view['nivel'] = 1;
@@ -117,6 +119,7 @@ class Usuario extends MX_Controller
 	
 	public function crear_usuarios()
 	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 2);
 		$vista = ($permiso) ? 'usuario_crear' : 'usuario_sinpermiso';
 		$view['nivel'] = 2;
@@ -162,6 +165,7 @@ class Usuario extends MX_Controller
 
 	public function eliminar_usuario($id_usuario)
 	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 4);
 		if($permiso)
 		{

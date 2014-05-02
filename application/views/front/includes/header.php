@@ -26,6 +26,18 @@
   
   <!-- Configurations JS -->
     <script src="<?php echo base_url(); ?>assets/front/js/apps/App.js"></script>
+    <style type="text/css">
+      ul.sub-menu li
+      {
+        font-size: 11px;
+        height: 30px;
+      }
+      ul.sub-menu li a:hover
+      {
+        vertical-align: middle;
+        height: 20px;
+      }
+    </style>
   </head>
 
   <body>
@@ -65,7 +77,7 @@
             <!-- Gestion de la Capacidad -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> Gestión de Capacidad <b class="caret"></b></a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu sub-menu">
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/">Descripción</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/ComponentesIT/">Componetes IT</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/">Servicios</a></li>
@@ -74,14 +86,14 @@
               </ul>
             </li>  
             <!-- Gestion de la Capacidad -->
-            <li><a href="typography.html"><i class="fa fa-font"></i> Gestión de Riesgos</a></li>
+            <li><a href="<?php echo site_url('index.php/continuidad-negocio') ?>"><i class="fa fa-retweet"></i> Continuidad del Negocio</a></li>
             <li><a href="<?php echo site_url('index.php/Costos');?>"><i class="fa fa-clipboard"></i> Gestión de Costos</a></li>
             <li><a href="<?php echo base_url(); ?>index.php/Disponibilidad/"><i class="fa fa-clock-o"></i> Gestión de Disponibilidad</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-user"></i> <?php echo 'Gestión de Usuarios' ?> <b class="caret"></b>
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu sub-menu">
                 <li><a href="<?php echo base_url() ?>index.php/usuarios"><?php echo 'Ver usuarios' ?></a></li>
                 <li><a href="<?php echo base_url() ?>index.php/usuarios/crear"><?php echo 'Crear usuarios' ?></a></li>
                 <li><a href="<?php echo base_url() ?>index.php/usuarios/buscar"><?php echo 'Buscar usuarios' ?></a></li>
@@ -130,7 +142,7 @@
                   title="Gestión de Riesgos" 
                   href = "#"  
                  >
-                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Riesgos</small>
+                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Continuidad<br>del Negocio</small>
                  </a> 
                </div>
 
