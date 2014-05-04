@@ -28,46 +28,68 @@ class Costos extends MX_Controller
 	 * @param $index_active Índice del ítem activo.
 	 * @return array
 	 */
-	private function _list($index_active){
+	private function _list(){
 		$l =  array();
 
 		$l[] = array(
 			"chain" => "Descripción",
-			"active" => false,
 			"href" => site_url('index.php/Costos'),
 			"icon" => "fa fa-bar-chart-o"
 		);
 
+		//Costos Indirectos
+		$sublista = array(
+			array(
+				'chain' => 'Arrendamiento',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento')
+			),
+
+			array(
+				'chain' => 'Mantenimiento',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento')
+			),
+
+			array(
+				'chain' => 'Formacion',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Formacion')
+			),
+			
+			array(
+				'chain' => 'Honorarios Prof.',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf')
+			),	
+			
+			array(
+				'chain' => 'Utilería',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Utileria')
+			)
+
+		);
 		$l[] = array(
 			"chain" => "Costos Indirectos",
-			"active" => false,
 			"href" => site_url('index.php/Costos/CargarCostosIndirectos'),
+			"list" => $sublista
+		);
+
+		$l[] = array(
+			"chain" => "Item2",
+			"href" => "#",
 			"icon" => "fa fa-caret-square-o-down"
 		
 		);
 
 		$l[] = array(
 			"chain" => "Item2",
-			"active" => false,
 			"href" => "#",
-			"icon" => "fa fa-bar-chart-o"
+			"icon" => "fa fa-caret-square-o-down"
 		
 		);
-
-		$l[] = array(
-			"chain" => "Item2",
-			"active" => false,
-			"href" => "#",
-			"icon" => "fa fa-bar-chart-o"
-		
-		);
-	
-		$l[$index_active]["active"] = true; //Colocar el ítem activo
 		return $l;
 	}//end of function: _list
 
 	public function index(){
-		$this->utils->template($this->_list(0),'Costos/main','','Módulo de Gestión de Costos','');
+		$this->utils->template($this->_list(),'Costos/main','','Módulo de Gestión de Costos','',
+			'two_level');
 	}
 }
 /* End of file Costos.php */

@@ -15,16 +15,50 @@
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
    <ul class="nav navbar-nav side-nav">
+
       <li ><a href="<?php echo base_url();?>"><i class="fa fa-flag"></i> Volver a Módulos Principales</a></li>
       <!-- Generando el sidebar dinamicamente -->
         <?php 
-        foreach ($list as $l) {
-          $begin_li = !($l["active"]) ? "<li>": '<li class = "active">';
-          echo $begin_li;
-          printf('<a href = "%s">',$l["href"]);
-          printf('<i class="%s"></i>',$l["icon"]);
-          printf('</i> %s</a></li>',$l["chain"]);
-        }
+          switch ($list_level) {
+            case 'one_level':
+              foreach ($list as $l) {
+                $begin_li = !($l["active"]) ? "<li>": '<li class = "active">';
+                echo $begin_li;
+                printf('<a href = "%s">',$l["href"]);
+                printf('<i class="%s"></i>',$l["icon"]);
+                printf('</i> %s</a></li>',$l["chain"]);
+              }
+              break;
+
+            case 'two_level':
+              foreach ($list as $l) {
+                if(isset($l['list'])){//Es de DOS niveles
+                  //inicio de listas
+                  echo '<li class="dropdown">
+                          <a href="'.$l['href'].'" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> '.$l['chain'].'<b class="caret"></b></a>
+                          <ul class="dropdown-menu sub-menu">';
+
+                  //data de level dos
+                  foreach ($l['list'] as $sublist) {
+                    echo '<li>';
+                    printf('<a href = "%s">',$sublist["href"]);
+                    printf('</i> %s</a></li>',$sublist["chain"]);
+                  }
+                  //fin de sub-listas
+                  echo '  </ul>
+                        </li>';
+
+                }else{//UN sólo nivel
+                  echo '<li>';
+                  printf('<a href = "%s"> ',$l["href"]);
+                  printf('<i class="%s"></i>',$l["icon"]);
+                  printf('</i> %s</a></li>',$l["chain"]);
+                }
+              }
+              break;
+          }
+
+        
       ?>
    </ul>
 

@@ -24,6 +24,13 @@ class Utils extends MX_Controller
 	 *     	"active" => TRUE|FALSE, // indicará si está activo o no
 	 *      "href" => "name_path_controller e.g index.php/home",
 	 *      "icon" => "cadena de ícono según fontawesome e.g. fa fa-clock"
+	 *    ) ... 
+	 *    
+	 *    Si es de dos niveles  
+	 *     array(
+	 *    	"chain" => "frase que aparecerá en el menú e.g. Inicio",
+	 *      "href" => "name_path_controller e.g index.php/home",
+	 *      "list" => Array,// posee la misma estructura que el descrito anteriormente
 	 *    ) ...
 	 * 
 	 * @param  string $path_main_content  Nombre de la ruta donde se encuentra el contenido
@@ -34,16 +41,20 @@ class Utils extends MX_Controller
 	 * de un módulo se debe dejar vacía.
 	 * @param  array $params_mc	Parámetros del main_content si lo posee, sino se debe pasar una 
 	 * cadena vacía.
+	 * @param string $list_level_side_bar Por defecto es 'one_level' lo cual indica que solo
+	 * tendrá un nivel, si es 'two_level' tendrá dos niveles las listas de los menues lo cual influirá en la 
+	 * estructura de 'list_sidebar'.
 	 * @return void -
 	 */
 	public function template($list_sidebar, $path_main_content, $params_mc,
-		$module_name, $title_name){
+		$module_name, $title_name,$list_level_side_bar = "one_level"){
 		$data['main_content'] = $this->load->view($path_main_content,$params_mc,TRUE);
 
 		//Sidebar content
 		//--Creando los items del sidebar.
 		$params['list'] = $list_sidebar;//lista del sidebar con el primer ítem activo
 		$params['module_name'] = $module_name;//Nombre del módulo
+		$params['list_level'] = $list_level_side_bar;
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 		
 		$data['title_name'] = (strlen($title_name) > 0?$title_name . ' - ' .$module_name:$module_name);//Título de la ventana

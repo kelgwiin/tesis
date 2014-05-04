@@ -32,11 +32,14 @@
 			    	Mantenimiento de Hardware e Instalación de Sistemas.
 			    </a></li>
 
-			    <li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion');?>">Formación de Personal.</a></li>
+			    <li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion');?>">
+			    	Formación de Personal.</a></li>
 			    
-			    <li> <a href= "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>">Honorarios de Profesionales en el área de TI.</a></li>
+			    <li> <a href= "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>">
+			    Honorarios de Profesionales en el área de TI.</a></li>
 			    
-			    <li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria');?>">Utilería.</a></li>
+			    <li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria');?>">
+			    Utilería.</a></li>
 			</ul>
 			</big>
 		</div>
