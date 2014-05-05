@@ -35,7 +35,7 @@
                 if(isset($l['list'])){//Es de DOS niveles
                   //inicio de listas
                   echo '<li class="dropdown">
-                          <a href="'.$l['href'].'" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> '.$l['chain'].'<b class="caret"></b></a>
+                          <a href="'.$l['href'].'" class="dropdown-toggle" data-toggle="dropdown"><i class="'.$l['icon'].'"></i> '.$l['chain'].'<b class="caret"></b></a>
                           <ul class="dropdown-menu sub-menu">';
 
                   //data de level dos

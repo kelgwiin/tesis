@@ -41,6 +41,11 @@ class Cargar extends MX_Controller
 		//Costos Indirectos
 		$sublista = array(
 			array(
+				'chain' => 'Listar',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos')
+			),
+
+			array(
 				'chain' => 'Arrendamiento',
 				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento')
 			),
@@ -51,7 +56,7 @@ class Cargar extends MX_Controller
 			),
 
 			array(
-				'chain' => 'Formacion',
+				'chain' => 'Formación',
 				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Formacion')
 			),
 			
@@ -69,6 +74,7 @@ class Cargar extends MX_Controller
 		$l[] = array(
 			"chain" => "Costos Indirectos",
 			"href" => site_url('index.php/Costos/CargarCostosIndirectos'),
+			"icon" => "fa fa-caret-square-o-down",
 			"list" => $sublista
 		);
 

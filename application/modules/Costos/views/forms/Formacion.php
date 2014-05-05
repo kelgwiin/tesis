@@ -103,7 +103,7 @@
 						<!-- Boton de Honorarios Profesionales -->
 						<li class="next">
 							<a 	href = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>"
-								><strong>Mantenimiento</strong> <i class ="fa fa-long-arrow-right"></i></a>
+								><strong>Honorarios Prof.</strong> <i class ="fa fa-long-arrow-right"></i></a>
 							</li>
 
 							
