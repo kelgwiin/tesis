@@ -3,7 +3,7 @@
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
 		<div class="col-lg-12">
-			<h1>Gestión de Costos Indirectos <small>Mantenimiento</small></h1>
+			<h1>Gestión de Costos Indirectos <small>Mantenimiento e Instalación</small></h1>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
@@ -95,7 +95,7 @@
 									<!-- DATOS DE ENCARGADO DE MANTENIMIENTO-->
 									<fieldset>
 										<!-- Form Name -->
-										<legend>Encargado de Matenimiento o Instalación de Infraestructura</legend>
+										<legend>Encargado de Matenimiento/Instalación</legend>
 
 										<!-- Text input-->
 										<div class="form-group">

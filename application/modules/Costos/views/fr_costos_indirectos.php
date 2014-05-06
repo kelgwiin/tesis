@@ -23,24 +23,25 @@
 		<div class="row">
 			<div class = "col-md-12">
 
-				<ul>
-					<li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento');?>">
+				<ul class = "list-unstyled">
+					<li><i class = "fa fa-angle-double-right"> </i> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento');?>">
 						Arrendamiento de Servicios o Activos.</a>
+					
 					</li>
 
-					<li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento');?>">
+					<li><i class = "fa fa-angle-double-right"> </i> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento');?>">
 						Mantenimiento de Hardware e Instalación de Sistemas.
 					</a></li>
 
-					<li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion');?>">
+					<li><i class = "fa fa-angle-double-right"></i>  <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion');?>">
 						Formación de Personal.</a></li>
 
-						<li> <a href= "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>">
+					<li><i class = "fa fa-angle-double-right"></i>  <a href= "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>">
 							Honorarios de Profesionales en el área de TI.</a></li>
 
-							<li> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria');?>">
+					<li><i class = "fa fa-angle-double-right"></i>  <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria');?>">
 								Utilería.</a></li>
-							</ul>
+				</ul>
 
 							<!-- Panel para Table - Listar Costos Indirectos -->
 							<div class="panel panel-primary">
@@ -73,7 +74,7 @@
 														data-toggle = "tooltip"
 														data-original-title = "Editar"
 														>
-														<i class = "fa fa-pencil"></i>
+														<i class = "fa fa-pencil negro"></i>
 														</a>
 													</div>
 
@@ -82,7 +83,7 @@
 														data-toggle = "tooltip"
 														data-original-title = "Eliminar"
 														>
-														<i class = "fa fa-times"></i>
+														<i class = "fa fa-times rojo"></i>
 														</a>
 													</div>
 
