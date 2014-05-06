@@ -1,4 +1,24 @@
 <!-- Creado el 30-04-2014 por Kelwin Gamez <kelgwiin@gmail.com> -->
+
+<!-- Scripts de DATEPICKER-->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.widget.js');?>"></script>
+
+<!-- Traducción Español -->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/i18n/jquery.ui.datepicker-es.js');?>"></script>
+
+<!-- Config CSS-->
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/ui-lightness/jquery.ui.all.css');?>">
+
+<!-- Inicialización de los datepicker-->
+<script>
+	$(function() {
+		$( "input#fecha" ).datepicker();
+	});
+</script>
+<!-- /DATEPICKER: Fin de scripts-->
+
 <div id="page-wrapper">
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
@@ -30,7 +50,7 @@
 										<!-- Select Basic -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="tipo_operacion">Tipo de Operación</label>
-											<div class="col-md-4">
+											<div class="col-md-6">
 												<select id="tipo_operacion" name="tipo_operacion" class="form-control">
 													<option value="mantenimiento">Mantenimiento</option>
 													<option value="instalacion">Instalación</option>
@@ -41,9 +61,9 @@
 										<!-- Appended Input-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
-											<div class="col-md-4">
+											<div class="col-md-6">
 												<div class="input-group">
-													<input id="costo" name="costo" class="form-control" placeholder="Costo" type="text" required="">
+													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" required="required">
 													<span class="input-group-addon">Bs.</span>
 												</div>
 
@@ -52,8 +72,8 @@
 										<!-- Text input-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
-											<div class="col-md-4">
-												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento" class="form-control input-md" required="">
+											<div class="col-md-6">
+												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento" class="form-control input-md" required="required">
 
 											</div>
 										</div>
@@ -61,7 +81,7 @@
 										<!-- Select Basic -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="departamento">Departamento</label>
-											<div class="col-md-4">
+											<div class="col-md-6">
 												<select id="departamento" name="departamento" class="form-control">
 													<option value="1">dpto1</option>
 													<option value="2">dpto2</option>
@@ -73,7 +93,7 @@
 										<!-- Select Basic -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="categoria">Categoría</label>
-											<div class="col-md-4">
+											<div class="col-md-6">
 												<select id="categoria" name="categoria" class="form-control">
 													<option value="1">categ</option>
 													<option value="2">categ1</option>
@@ -85,7 +105,7 @@
 										<!-- Textarea -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="descripcion">Descripción</label>
-											<div class="col-md-4">                     
+											<div class="col-md-6">                     
 												<textarea class="form-control" id="descripcion" name="descripcion" required = "required">Descripción</textarea>	
 											</div>
 										</div>
@@ -100,8 +120,8 @@
 										<!-- Text input-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="nombre">Nombre</label>  
-											<div class="col-md-4">
-												<input id="nombre" name="nombre" type="text" placeholder="nombre" class="form-control input-md" required="">
+											<div class="col-md-6">
+												<input id="nombre" name="nombre" type="text" placeholder="nombre" class="form-control input-md" required="required">
 
 											</div>
 										</div>
@@ -110,17 +130,18 @@
 										<!-- Text input-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="apellido"></label>  
-											<div class="col-md-4">
-												<input id="apellido" name="apellido" type="text" placeholder="apellido" class="form-control input-md" required="">
+											<div class="col-md-6">
+												<input id="apellido" name="apellido" type="text" placeholder="apellido" class="form-control input-md" required="required">
 
 											</div>
 										</div>
 
+
 										<!-- Text input-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="coreo">Correo</label>  
-											<div class="col-md-4">
-												<input id="coreo" name="coreo" type="text" placeholder="correo electrónico" class="form-control input-md" required="">
+											<div class="col-md-6">
+												<input id="coreo" name="coreo" type="email" placeholder="correo electrónico" class="form-control input-md" required="required">
 
 											</div>
 										</div>
@@ -128,8 +149,8 @@
 										<!-- Text input-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="telefono">Teléfono</label>  
-											<div class="col-md-4">
-												<input id="telefono" name="telefono" type="tel" placeholder="teléfono" class="form-control input-md" required="">
+											<div class="col-md-6">
+												<input id="telefono" name="telefono" type="tel" placeholder="teléfono" class="form-control input-md" required="required">
 
 											</div>
 										</div>

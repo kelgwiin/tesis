@@ -1,4 +1,27 @@
 <!-- Creado el 30-04-2014 por Kelwin Gamez <kelgwiin@gmail.com> -->
+
+<!-- Scripts de DATEPICKER-->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.widget.js');?>"></script>
+
+<!-- Traducción Español -->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/i18n/jquery.ui.datepicker-es.js');?>"></script>
+
+<!-- Config CSS-->
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/ui-lightness/jquery.ui.all.css');?>">
+
+<!-- Inicialización de los datepicker-->
+<script>
+	$(function() {
+		$( "input#fecha" ).datepicker();
+		$( "input#fecha_desde" ).datepicker();
+		$( "input#fecha_hasta" ).datepicker();
+	});
+</script>
+<!-- /DATEPICKER: Fin de scripts-->
+
+
 <div id="page-wrapper">
 	<!-- Cabecera de la descripción-->
 	<div class = "row">

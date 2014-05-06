@@ -92,7 +92,7 @@
 														data-toggle = "tooltip"
 														data-original-title = "Ver detalle"
 														>	
-														<i class = "fa fa-eye"></i>
+														<i class = "fa fa-eye verde"></i>
 														</a>
 													</div>
 
@@ -108,7 +108,7 @@
 														data-toggle = "tooltip"
 														data-original-title = "Editar"
 														>
-														<i class = "fa fa-pencil"></i>
+														<i class = "fa fa-pencil negro"></i>
 														</a>
 													</div>
 
@@ -117,7 +117,7 @@
 														data-toggle = "tooltip"
 														data-original-title = "Eliminar"
 														>
-														<i class = "fa fa-times"></i>
+														<i class = "fa fa-times rojo"></i>
 														</a>
 													</div>
 
@@ -126,7 +126,7 @@
 														data-toggle = "tooltip"
 														data-original-title = "Ver detalle"
 														>	
-														<i class = "fa fa-eye"></i>
+														<i class = "fa fa-eye verde"></i>
 														</a>
 													</div>
 									</td>
