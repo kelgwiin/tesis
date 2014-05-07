@@ -8,12 +8,20 @@ class Disponibilidad extends MX_Controller
 		$this->load->helper('form');
 		$this->load->helper('date');
 		$this->load->model('disponibilidad_model');
+
+
+		//Modules
+		//Cargando el módulo ./modules/utilities/utils.php
+		$this->load->module('utilities/utils');
     }
 	
 	public function index()
 	{
-		$data['main_content'] = $this->load->view('Main','',TRUE);
-		$this->load->view('front/template',$data);       
+		//Cargando la lista de menus del sidebar genérica (se puede puede personalizar, ver ejemplo
+		//en el controlador de modules/utilities/utils.php) 
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Main','','Gestión de Disponibilidad',' Title Tab',
+			'two_level');
 	}
 	
 	public function Calendario()
