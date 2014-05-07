@@ -7,13 +7,13 @@ div.sche-bgcolor{
 }
 
 ul.sub-menu li{
-  font-size: 12px;
+  font-size: 11px;
   height: 30px;
 }
 
 ul.sub-menu li a:hover{
-  vertical-align: middle;
-  font-size: 14px;
+	vertical-align: middle;
+ 	height: 20px;
 }
 
 .negro{

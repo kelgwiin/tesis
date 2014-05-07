@@ -32,6 +32,12 @@ class Costos extends MX_Controller
 		$l =  array();
 
 		$l[] = array(
+			"chain" => "Volver a Módulos Principales",
+			"href" => site_url(''),
+			"icon" => "fa fa-flag"
+		);
+
+		$l[] = array(
 			"chain" => "Descripción",
 			"href" => site_url('index.php/Costos'),
 			"icon" => "fa fa-bar-chart-o"
