@@ -97,7 +97,7 @@
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="esquema-tiempo">Esquema de Tiempo</label>
 											<div class="col-md-6">
-												<select id="esquema-tiempo" name="esquema-tiempo" class="form-control">
+												<select id="esquema_tiempo" name="esquema_tiempo" class="form-control">
 													<option value="mensual">Mensual</option>
 													<option value="trimestral">Trimestral</option>
 													<option value="semestral">Semestral</option>
