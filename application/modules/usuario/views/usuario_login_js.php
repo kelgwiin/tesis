@@ -13,7 +13,7 @@
 			// CONSULTA AL CONTROLADOR PHP SI EL EMAIL EXISTE O NO
 			$.post
 			(
-				'<?php echo site_url('usuario/usuario/existemail') ?>',
+				'<?php echo site_url('index.php/usuario/usuario/existemail') ?>',
 				{email:email, ajax:true},
 				function(response)
 				{

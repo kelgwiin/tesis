@@ -50,7 +50,7 @@ class Usuario extends MX_Controller
 		
 		if(!$this->general->exist('usuarios',$where))
 		{
-			$this->form_validation->set_message('validemail','Combinación de Email y Contraseña incorrecta');
+			$this->form_validation->set_message('validemail','Combinaciï¿½n de Email y Contraseï¿½a incorrecta');
 			return FALSE;
 		}else
 		{
@@ -62,7 +62,7 @@ class Usuario extends MX_Controller
 	
 	public function index()
 	{
-		$view['title'] = 'Iniciar Sesión | '.lang('project.title_long');
+		$view['title'] = 'Iniciar Sesiï¿½n | '.lang('project.title_long');
 		$view['base_url_tit'] = lang('project.title_short');
 		$view['project_tit'] = lang('project.title_long');
 		$view['usuario_login_js'] = $this->load->view('usuario_login_js','',TRUE);
@@ -81,7 +81,7 @@ class Usuario extends MX_Controller
 		
 		// REGLAS DEL FORM VALIDATION
 		$this->form_validation->set_rules('email','<strong>Email</strong>','required|min_length[12]|valid_email|xss_clean|callback_existemail');
-		$this->form_validation->set_rules('password','<strong>Contraseña</strong>','required|min_length[3]|xss_clean|callback_validemail');
+		$this->form_validation->set_rules('password','<strong>Contraseï¿½a</strong>','required|min_length[3]|xss_clean|callback_validemail');
 		
 		if(!$this->form_validation->run($this))
 		{
@@ -98,7 +98,7 @@ class Usuario extends MX_Controller
 			}
 			else
 			{
-				$error = 'Ocurrió un error intentando iniciar sesión con ese usuario. Por favor contacte a su administrador.';
+				$error = 'Ocurriï¿½ un error intentando iniciar sesiï¿½n con ese usuario. Por favor contacte a su administrador.';
 				$this->session->set_flashdata('error',$error);
 				redirect('index.php/usuario/iniciar-sesion');
 			}
@@ -120,7 +120,7 @@ class Usuario extends MX_Controller
 	public function crear_usuarios()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 2);
+		$permiso = modules::run('general/have_permission', 2); 
 		$vista = ($permiso) ? 'usuario_crear' : 'usuario_sinpermiso';
 		$view['nivel'] = 2;
 		
@@ -139,7 +139,7 @@ class Usuario extends MX_Controller
 			
 			// REGLAS DEL FORM_VALIDATION
 			$this->form_validation->set_rules('email','<strong>Email</strong>','required|min_length[12]|valid_email|is_unique[usuarios.email]|xss_clean');
-			$this->form_validation->set_rules('password','<strong>Contraseña</strong>','required|min_length[4]|xss_clean');
+			$this->form_validation->set_rules('password','<strong>Contraseï¿½a</strong>','required|min_length[4]|xss_clean');
 			$this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|min_length[5]|xss_clean');
 			
 			if($this->form_validation->run($this))
@@ -153,12 +153,33 @@ class Usuario extends MX_Controller
 				$post['password'] = sha1($post['password']);
 				$post['creacion'] = date('Y-m-d H:i:s');
 				$where['email'] = $post['email'];
-				if($this->general->insert('usuarios',$post,$where)) redirect('usuarios');
+				if($this->general->insert('usuarios',$post,$where)) redirect('index.php/usuarios');
 			}
 		}
 		
 		// INFORMACION DEL TEMPLATE
 		$data['title'] = lang('user.create').' | '.lang('project.title_long');
+		$data['main_content'] = $this->load->view($vista,$view,TRUE);
+		$this->load->view('front/template',$data);	
+	}
+
+	public function ficha_usuario($id_usuario)
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 5);
+		$vista = ($permiso) ? 'usuario_crear' : 'usuario_sinpermiso';
+		
+		// INFORMACION DE LA VISTA
+		$view['estados'] = $this->general->get_table('usuarios_estado');
+		$view['roles'] = $this->general->get_table('roles');
+		$view['modulos'] = $this->usuarios->get_modulos();
+		$view['mod_padre'] = $this->general->get_table('modulo_padre');
+		$view['usuario_crear_js'] = $this->load->view('usuario_crear_js','',TRUE);
+		$view['nivel'] = 5;
+		$view['user'] = $this->general->get_row('usuarios',array('id_usuario'=>$id_usuario));
+		
+		// INFORMACION DEL TEMPLATE
+		$data['title'] = lang('user.edit').' | '.lang('project.title_long');
 		$data['main_content'] = $this->load->view($vista,$view,TRUE);
 		$this->load->view('front/template',$data);	
 	}
@@ -171,7 +192,7 @@ class Usuario extends MX_Controller
 		{
 			$this->general->delete('usuarios',array('id_usuario' => $id_usuario));
 			$this->session->set_flashdata('success_delete',TRUE);
-			redirect('usuarios');
+			redirect('index.php/usuarios');
 		}else
 		{
 			$view['nivel'] = 4;
