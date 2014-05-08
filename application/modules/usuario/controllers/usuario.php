@@ -62,7 +62,7 @@ class Usuario extends MX_Controller
 	
 	public function index()
 	{
-		$view['title'] = 'Iniciar Sesi�n | '.lang('project.title_long');
+		$view['title'] = 'Iniciar Sesión | '.lang('project.title_long');
 		$view['base_url_tit'] = lang('project.title_short');
 		$view['project_tit'] = lang('project.title_long');
 		$view['usuario_login_js'] = $this->load->view('usuario_login_js','',TRUE);
@@ -81,7 +81,7 @@ class Usuario extends MX_Controller
 		
 		// REGLAS DEL FORM VALIDATION
 		$this->form_validation->set_rules('email','<strong>Email</strong>','required|min_length[12]|valid_email|xss_clean|callback_existemail');
-		$this->form_validation->set_rules('password','<strong>Contrase�a</strong>','required|min_length[3]|xss_clean|callback_validemail');
+		$this->form_validation->set_rules('password','<strong>Contraseña</strong>','required|min_length[3]|xss_clean|callback_validemail');
 		
 		if(!$this->form_validation->run($this))
 		{
@@ -98,7 +98,7 @@ class Usuario extends MX_Controller
 			}
 			else
 			{
-				$error = 'Ocurri� un error intentando iniciar sesi�n con ese usuario. Por favor contacte a su administrador.';
+				$error = 'Ocurrió un error intentando iniciar sesión con ese usuario. Por favor contacte a su administrador.';
 				$this->session->set_flashdata('error',$error);
 				redirect('index.php/usuario/iniciar-sesion');
 			}
@@ -111,8 +111,19 @@ class Usuario extends MX_Controller
 		$permiso = modules::run('general/have_permission', 1);
 		$vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
 		$view['nivel'] = 1;
-		$data['title'] = lang('user.watch').' | '.lang('project.title_long');
-		$view['usuarios'] = $this->general->get_table('usuarios');
+		
+		if($_POST)
+		{
+			$data['title'] = lang('user.search').' | '.lang('project.title_long');
+			$post = array_filter($_POST);
+			// echo_pre($_POST);die_pre($post);
+			$view['usuarios'] = $this->usuarios->search_users($post);
+		}else
+		{
+			$data['title'] = lang('user.watch').' | '.lang('project.title_long');
+			$view['usuarios'] = $this->general->get_table('usuarios');
+		}
+		
 		$data['main_content'] = $this->load->view($vista,$view,TRUE);
 		$this->load->view('front/template',$data);	
 	}
@@ -139,7 +150,7 @@ class Usuario extends MX_Controller
 			
 			// REGLAS DEL FORM_VALIDATION
 			$this->form_validation->set_rules('email','<strong>Email</strong>','required|min_length[12]|valid_email|is_unique[usuarios.email]|xss_clean');
-			$this->form_validation->set_rules('password','<strong>Contrase�a</strong>','required|min_length[4]|xss_clean');
+			$this->form_validation->set_rules('password','<strong>Contraseña</strong>','required|min_length[4]|xss_clean');
 			$this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|min_length[5]|xss_clean');
 			
 			if($this->form_validation->run($this))
@@ -182,6 +193,22 @@ class Usuario extends MX_Controller
 		$data['title'] = lang('user.edit').' | '.lang('project.title_long');
 		$data['main_content'] = $this->load->view($vista,$view,TRUE);
 		$this->load->view('front/template',$data);	
+	}
+	
+	public function buscar_usuarios()
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 3);
+		$vista = ($permiso) ? 'usuario_buscar' : 'usuario_sinpermiso';
+		
+		// INFORMACION DE LA VISTA
+		$view['estados'] = $this->general->get_table('usuarios_estado');
+		$view['roles'] = $this->general->get_table('roles');
+		
+		// INFORMACION DEL TEMPLATE
+		$data['title'] = lang('user.search').' | '.lang('project.title_long');
+		$data['main_content'] = $this->load->view($vista,$view,TRUE);
+		$this->load->view('front/template',$data);
 	}
 
 	public function eliminar_usuario($id_usuario)

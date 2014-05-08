@@ -56,6 +56,7 @@ $route['usuario']						= "usuario/usuario/ver_usuarios";
 $route['usuarios']						= "usuario/usuario/ver_usuarios";
 $route['usuarios/crear']				= "usuario/usuario/crear_usuarios";
 $route['usuarios/buscar']				= "usuario/usuario/buscar_usuarios";
+$route['usuarios/ver']					= "usuario/usuario/ver_usuarios";
 $route['usuarios/ficha/(:num)']			= "usuario/usuario/ficha_usuario/$1";
 $route['usuarios/eliminar/(:num)']		= "usuario/usuario/eliminar_usuario/$1";
 $route['usuarios/iniciar-sesion']		= "usuario/usuario";
