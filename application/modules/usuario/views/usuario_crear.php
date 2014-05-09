@@ -110,6 +110,8 @@
 				</div>
 			</div>
 			
+			<input type="hidden" name="form_type" value="<?php echo (isset($nivel) && ($nivel == 5)) ? 'edit' : 'create' ?>" />
+			
 			<!-- BOTON ENVIAR -->
 			<div class="row">
 				<div class="col-md-2"></div>

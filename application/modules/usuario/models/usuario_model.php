@@ -23,7 +23,7 @@ class Usuario_model extends CI_Model
 	public function search_users($param)
 	{
 		foreach($param as $key => $value)
-			$this->db->where($key,$value);
+			$this->db->like($key,$value);
 		
 		$query = $this->db->get('usuarios');
 		return $query->result();

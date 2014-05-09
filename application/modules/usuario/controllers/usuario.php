@@ -143,28 +143,49 @@ class Usuario extends MX_Controller
 		$view['usuario_crear_js'] = $this->load->view('usuario_crear_js','',TRUE);
 		
 		if($_POST)
-		{	
+		{
 			// DELIMITADOR DE ERROR
 			$this->form_validation->set_error_delimiters('<span style="margin-left:5px; color:#DF0101">','<span>');
-			$this->form_validation->set_message('is_unique','Ya existe una cuenta registrada con el Email ingresado');
-			
-			// REGLAS DEL FORM_VALIDATION
-			$this->form_validation->set_rules('email','<strong>Email</strong>','required|min_length[12]|valid_email|is_unique[usuarios.email]|xss_clean');
-			$this->form_validation->set_rules('password','<strong>Contraseña</strong>','required|min_length[4]|xss_clean');
 			$this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|min_length[5]|xss_clean');
 			
-			if($this->form_validation->run($this))
+			if($_POST['form_type'] && ($_POST['form_type']=='edit'))
 			{
-				$post = $_POST;
-				if(empty($_POST['permisologia']))
-					$post['permisologia'] = 'all';
-				else
-					$post['permisologia'] = implode(',',$_POST['permisologia']);
+				$this->form_validation->set_rules('email','<strong>Email</strong>','required|min_length[12]|valid_email|xss_clean');
+				if(empty($_POST['permisologia'])) unset($_POST['permisologia']);
+				else $_POST['permisologia'] = implode(',', $_POST['permisologia']);
+				if(empty($_POST['password'])) unset($_POST['password']);
+				else $this->form_validation->set_rules('password','<strong>Contraseña</strong>','required|min_length[4]|xss_clean');
+				unset($_POST['form_type']);
 				
-				$post['password'] = sha1($post['password']);
-				$post['creacion'] = date('Y-m-d H:i:s');
-				$where['email'] = $post['email'];
-				if($this->general->insert('usuarios',$post,$where)) redirect('index.php/usuarios');
+				if($this->form_validation->run($this))
+				{
+					if($this->general->update('usuarios',$_POST,array('email'=>$_POST['email'])))
+					{
+						$this->session->set_flashdata('success_edit',TRUE);
+						redirect('index.php/usuarios');
+					}
+				}
+			}else
+			{
+				$this->form_validation->set_message('is_unique','Ya existe una cuenta registrada con el Email ingresado');
+				
+				// REGLAS DEL FORM_VALIDATION
+				$this->form_validation->set_rules('email','<strong>Email</strong>','required|min_length[12]|valid_email|is_unique[usuarios.email]|xss_clean');
+				$this->form_validation->set_rules('password','<strong>Contraseña</strong>','required|min_length[4]|xss_clean');
+				
+				if($this->form_validation->run($this))
+				{
+					$post = $_POST;
+					if(empty($_POST['permisologia']))
+						$post['permisologia'] = 'all';
+					else
+						$post['permisologia'] = implode(',',$_POST['permisologia']);
+					
+					$post['password'] = sha1($post['password']);
+					$post['creacion'] = date('Y-m-d H:i:s');
+					$where['email'] = $post['email'];
+					if($this->general->insert('usuarios',$post,$where)) redirect('index.php/usuarios');
+				}	
 			}
 		}
 		
@@ -199,6 +220,7 @@ class Usuario extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 3);
+		$view['nivel'] = 3;
 		$vista = ($permiso) ? 'usuario_buscar' : 'usuario_sinpermiso';
 		
 		// INFORMACION DE LA VISTA

@@ -17,3 +17,11 @@ function echo_conditional($var='', $cond1='', $cond2='')
 {
 	echo (isset($var) && !empty($var)) ? $cond1 : $cond2; 
 }
+
+function print_alert($message='',$alert_type='success')
+{
+	$header = '<div class="alert alert-'.$alert_type.' alert-dismissable" style="text-align: center">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+	$footer = '</div>';
+	echo $header.$message.$footer;
+}

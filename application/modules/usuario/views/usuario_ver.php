@@ -4,9 +4,10 @@
 		<h1><strong><?php echo lang('user.gestion') ?></strong></h1><br />
 		<h2 style="color: #424242"><?php echo lang('user.watch') ?></h2>
 		<?php if($this->session->flashdata('success_delete')) : ?>
-			<div class="alert alert-success" style="text-align: center">
-				Usuario eliminado con éxito
-			</div>
+			<?php print_alert('Usuario eliminado con éxito','success') ?>
+		<?php endif ?>
+		<?php if($this->session->flashdata('success_edit')) : ?>
+			<?php print_alert('Datos de usuario editados con éxito','success') ?>
 		<?php endif ?>
 	</div>
 	
