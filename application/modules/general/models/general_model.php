@@ -62,4 +62,24 @@ class General_model extends CI_Model
 		}
 		return FALSE;
 	}
+	
+	// FUNCION PARA ACTUALIZAR CONTENIDO EN LA BASE DE DATOS
+	// RECIBE EL NOMBRE DE LA TABLA -$table-, LOS DATOS A ACTUALIZAR -$data-, Y UN ARREGLO DE CONDICIONES -$where-
+	// @author f6rnando - FERNANDO PINTO
+	public function update($table,$data,$where)
+	{
+		$query = $this->db->get_where($table,$where);
+		if($query->num_rows() != 0)
+		{
+			$query = (array)$query->row();
+			foreach($data as $key => $value)
+			{
+				if($query[$key] != $value)
+					$new_data[$key] = $value;
+			}
+			$this->db->update($table,$new_data,$where);
+			return TRUE;
+		}
+		return FALSE;
+	}
 }
