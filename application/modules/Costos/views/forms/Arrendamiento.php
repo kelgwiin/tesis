@@ -51,9 +51,20 @@
 
 										<!-- Text input - Nombre de Servicio a Arrendar-->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="nombre-arrendamiento">Nombre de Servicio o Activo</label>  
+											<label class="col-md-4 control-label" for="nombre">Nombre de Servicio o Activo</label>  
 											<div class="col-md-6">
-												<input id="nombre-arrendamiento" name="nombre-arrendamiento" type="text" placeholder="nombre" class="form-control input-md" required="required">
+												<input id="nombre" name="nombre" type="text" placeholder="nombre" class="form-control input-md" required="required">
+											</div>
+										</div>
+
+										<!-- Select Basic - Descripción default  -->
+										<!-- Se llena dese base de datos -->
+										<div class="form-group">
+											<label class="col-md-4 control-label" for="descripcion">Descripción Predeterminada</label>
+											<div class="col-md-6">
+												<select id="descripcion" name="descripcion" class="form-control">
+													<option value="2">Descripción inicial</option>
+												</select>
 											</div>
 										</div>
 
@@ -62,7 +73,7 @@
 											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-6">
 												<div class="input-group">
-													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" required="">
+													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" min = "1" required="">
 													<span class="input-group-addon">Bs.</span>
 												</div>
 												
@@ -79,7 +90,7 @@
 
 										<!-- Text input - Fecha final -->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="fecha_final">Fecha fin</label>  
+											<label class="col-md-4 control-label" for="fecha_final">Fecha final </label>  
 											<div class="col-md-6">
 												<input id="fecha_final" name="fecha_final" type="text" placeholder = "fecha final de arrendamiento" class="form-control input-md" required="required">
 											</div>

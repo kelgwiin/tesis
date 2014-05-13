@@ -38,4 +38,14 @@ insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) 
 	(5,'NA Licencia','NA',-1),
 	(6,'NA Otros','NA',-1);
 	
+#Motivos de Arrendamiento
+insert into ma_motivo (seccion, nombre) values 
+	('arrendaniemto','Servicio de Luz'),
+	('arrendaniemto','Servicio de IPS'),
+	('arrendaniemto','Llamdas telefónicas'),
+	('arrendaniemto','Alquiler de equipos de TI'),
+	('arrendaniemto','Otros');
+
+
+
 
