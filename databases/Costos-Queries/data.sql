@@ -42,7 +42,7 @@ insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) 
 insert into ma_motivo (seccion, nombre) values 
 	('arrendaniemto','Servicio de Luz'),
 	('arrendaniemto','Servicio de IPS'),
-	('arrendaniemto','Llamdas telefónicas'),
+	('arrendaniemto','Llamadas telefónicas'),
 	('arrendaniemto','Alquiler de equipos de TI'),
 	('arrendaniemto','Otros');
 

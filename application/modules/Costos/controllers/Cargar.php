@@ -13,7 +13,9 @@ class Cargar extends MX_Controller
 	 */
 	public function __construct(){
 		parent::__construct();
+		//Modelos
 		$this->load->model('utilities/utilities_model');
+		$this->load->model('cargar_costos_indirectos_model','cargar_ci_model');
 
 		//Helpers
 		$this->load->helper('date');
@@ -23,6 +25,9 @@ class Cargar extends MX_Controller
 		//Modules
 		//Cargando el módulo ./modules/utilities/utils.php
 		$this->load->module('utilities/utils');
+
+		//Cargando la información de la organización
+		$this->org = $this->utilities_model->first_row('organizacion','organizacion_id');
 	}
 	/**
 	 * Genera la lista de ítems para colocarlos en el menú izquierdo
@@ -107,7 +112,9 @@ class Cargar extends MX_Controller
 
 	//Conjunto de Formularios de Costos Indirectos
 	public function Arrendamiento(){
-		$this->utils->template($this->_list(),'Costos/forms/Arrendamiento','','Módulo de Gestión de Costos','Costos Indirectos',
+		$params['org'] = $this->org;
+		$params['motivos'] =  $this->cargar_ci_model->motivos_by_seccion('arrendamiento');
+		$this->utils->template($this->_list(),'Costos/forms/Arrendamiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -127,8 +134,31 @@ class Cargar extends MX_Controller
 	}
 	
 	public function Utileria(){
-		$this->utils->template($this->_list(1),'Costos/forms/Utileria','','Módulo de Gestión de Costos','Costos Indirectos',
+		$this->utils->template($this->_list(),'Costos/forms/Utileria','','Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
+	}
+
+	public function Guardar($opcion){
+		$table_name = "";
+		$p = $this->input->post();
+		
+		switch ($opcion) {
+			case 'Arrendamiento':
+				$table_name = "arrendamiento";
+				break;
+			case 'Mantenimiento':
+				$table_name = "mantenimiento";
+				break;
+			
+		}
+		//Guardando en la BD
+		if($this->utilities_model->add_ar($p, $table_name)){
+			echo "Ya guarde el " . $table_name;
+			$params['guardado_exitoso'] = true;
+			$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+			'two_level');
+			
+		}
 	}
 }
 /* End of file Cargar.php */

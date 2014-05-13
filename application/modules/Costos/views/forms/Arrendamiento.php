@@ -14,8 +14,7 @@
 <!-- Inicialización de los datepicker-->
 <script>
 	$(function() {
-		$( "input#fecha_inicial" ).datepicker();
-		$( "input#fecha_final").datepicker();
+		$( "input#fecha_inicial_vigencia" ).datepicker();
 	});
 </script>
 
@@ -43,7 +42,8 @@
 					<div class="panel-body">
 						<div class = "row">
 							<div class = "col-md-10">
-								<form id = "fr_" class="form-horizontal" method= "post">
+								<form id = "fr_arrendamiento" class="form-horizontal" 
+								method= "post" action = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento/Guardar');?>">
 									<fieldset>
 
 										<!-- Form Name -->
@@ -57,13 +57,18 @@
 											</div>
 										</div>
 
-										<!-- Select Basic - Descripción default  -->
+										<!-- Select Basic - Motivos  -->
 										<!-- Se llena dese base de datos -->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="descripcion">Descripción Predeterminada</label>
+											<label class="col-md-4 control-label" for="ma_motivo_id">Motivos de Arrendamiento</label>
 											<div class="col-md-6">
-												<select id="descripcion" name="descripcion" class="form-control">
-													<option value="2">Descripción inicial</option>
+												<select id="descripcion" name="ma_motivo_id" class="form-control">
+													<?php
+														foreach ($motivos as $m) {
+															printf('<option value = "%s">%s</option>',$m['ma_motivo_id'],$m['nombre']);
+														}
+													?>
+
 												</select>
 											</div>
 										</div>
@@ -74,25 +79,17 @@
 											<div class="col-md-6">
 												<div class="input-group">
 													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" min = "1" required="">
-													<span class="input-group-addon">Bs.</span>
+													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?></span>
 												</div>
 												
 											</div>
 										</div>
 
-										<!-- Text input - Fecha inicio -->
+										<!-- Text input - Fecha Inicial Vigencia  -->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="fecha_inicial">Fecha inicial</label>  
+											<label class="col-md-4 control-label" for="fecha_inicial_vigencia">Fecha inicial de vigencia</label>  
 											<div class="col-md-6">
-												<input id="fecha_inicial" name="fecha_inicial" placeholder="fecha inicial de arrendamiento" type="text" class="form-control input-md" required="required">
-											</div>
-										</div>
-
-										<!-- Text input - Fecha final -->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for="fecha_final">Fecha final </label>  
-											<div class="col-md-6">
-												<input id="fecha_final" name="fecha_final" type="text" placeholder = "fecha final de arrendamiento" class="form-control input-md" required="required">
+												<input id="fecha_inicial_vigencia" name="fecha_inicial_vigencia" placeholder="fecha inicial de arrendamiento" type="text" class="form-control input-md" required="required">
 											</div>
 										</div>
 

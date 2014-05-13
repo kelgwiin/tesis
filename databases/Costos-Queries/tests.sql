@@ -49,10 +49,11 @@ select * from servicio_proceso;
 
 select * from usuarios;
 
+select ma_motivo_id, nombre
+from ma_motivo
+where seccion = 'arrendamientso';
 
+select * from ma_motivo;
 
-
-
-
-
-
+select * from arrendamiento;
+-- delete from arrendamiento where arrendamiento_id >0;

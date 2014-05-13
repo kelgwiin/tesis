@@ -17,6 +17,18 @@
 					a los <strong>Costos Indirectos</strong> de la Organización. Usted deberá seleccionar la que desee
 					cargar.
 				</div>
+
+				<?php
+					if(isset($guardado_exitoso) && $guardado_exitoso){
+						echo '
+							<div class="alert alert-success alert-dismissable">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								El registro ha sido guardado con éxito.
+							</div>
+						';
+					}
+				?>
+
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
 
