@@ -119,7 +119,9 @@ class Cargar extends MX_Controller
 	}
 
 	public function Mantenimiento(){
-		$this->utils->template($this->_list(),'Costos/forms/Mantenimiento','','Módulo de Gestión de Costos','Costos Indirectos',
+		$params['org'] = $this->org;
+		$params['motivos'] =  $this->cargar_ci_model->motivos_by_seccion('mantenimiento');
+		$this->utils->template($this->_list(),'Costos/forms/Mantenimiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -141,7 +143,7 @@ class Cargar extends MX_Controller
 	public function Guardar($opcion){
 		$table_name = "";
 		$p = $this->input->post();
-		
+		//Se escoje hacia qué tabla será guardada la información
 		switch ($opcion) {
 			case 'Arrendamiento':
 				$table_name = "arrendamiento";
@@ -153,7 +155,6 @@ class Cargar extends MX_Controller
 		}
 		//Guardando en la BD
 		if($this->utilities_model->add_ar($p, $table_name)){
-			echo "Ya guarde el " . $table_name;
 			$params['guardado_exitoso'] = true;
 			$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');

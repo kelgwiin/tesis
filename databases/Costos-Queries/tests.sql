@@ -57,3 +57,6 @@ select * from ma_motivo;
 
 select * from arrendamiento;
 -- delete from arrendamiento where arrendamiento_id >0;
+
+select * from mantenimiento;
+

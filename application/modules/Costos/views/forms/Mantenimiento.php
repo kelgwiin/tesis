@@ -39,7 +39,7 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
-							<form class = "form-horizontal">
+							<form method="post" class = "form-horizontal" action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento/Guardar');?>">
 								<!-- DATOS BÁSICOS -->
 								<div class = "col-md-8">
 									<fieldset>
@@ -47,7 +47,7 @@
 										<!-- MANTENIMIETO -->
 										<legend>Datos Básicos</legend>
 
-										<!-- Select Basic -->
+										<!-- Select Basic - Tipo de Operación -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="tipo_operacion">Tipo de Operación</label>
 											<div class="col-md-6">
@@ -58,13 +58,29 @@
 											</div>
 										</div>
 
+										<!-- Select Basic - Motivos  -->
+										<!-- Se llena dese base de datos -->
+										<div class="form-group">
+											<label class="col-md-4 control-label" for="ma_motivo_id">Motivos de Mantenimiento/Instalación</label>
+											<div class="col-md-6">
+												<select id="descripcion" name="ma_motivo_id" class="form-control">
+													<?php
+														foreach ($motivos as $m) {
+															printf('<option value = "%s">%s</option>',$m['ma_motivo_id'],$m['nombre']);
+														}
+													?>
+
+												</select>
+											</div>
+										</div>
+
 										<!-- Appended Input-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-6">
 												<div class="input-group">
 													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" required="required">
-													<span class="input-group-addon">Bs.</span>
+													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
 												</div>
 
 											</div>
@@ -80,9 +96,9 @@
 
 										<!-- Select Basic -->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="departamento">Departamento</label>
+											<label class="col-md-4 control-label" for="departamento_id">Departamento</label>
 											<div class="col-md-6">
-												<select id="departamento" name="departamento" class="form-control">
+												<select id="departamento_id" name="departamento_id" class="form-control">
 													<option value="1">dpto1</option>
 													<option value="2">dpto2</option>
 													<option value="3">dpto3</option>
@@ -92,25 +108,17 @@
 
 										<!-- Select Basic -->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="categoria">Categoría</label>
+											<label class="col-md-4 control-label" for="ma_categoria_id">Categoría</label>
 											<div class="col-md-6">
-												<select id="categoria" name="categoria" class="form-control">
+												<select id="ma_categoria_id" name="ma_categoria_id" class="form-control">
 													<option value="1">categ</option>
 													<option value="2">categ1</option>
 													<option value="-1">No Aplica</option>
 												</select>
 											</div>
 										</div>
-
-										<!-- Textarea -->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for="descripcion">Descripción</label>
-											<div class="col-md-6">                     
-												<textarea class="form-control" id="descripcion" name="descripcion" required = "required">Descripción</textarea>	
-											</div>
-										</div>
-
 									</fieldset>
+
 
 									<!-- DATOS DE ENCARGADO DE MANTENIMIENTO-->
 									<fieldset>
@@ -139,9 +147,9 @@
 
 										<!-- Text input-->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="coreo">Correo</label>  
+											<label class="col-md-4 control-label" for="email">Correo</label>  
 											<div class="col-md-6">
-												<input id="coreo" name="coreo" type="email" placeholder="correo electrónico" class="form-control input-md" required="required">
+												<input id="email" name="email" type="email" placeholder="correo electrónico" class="form-control input-md" required="required">
 
 											</div>
 										</div>
@@ -162,7 +170,7 @@
 									<div class="form-group">
 										<label class="col-md-4 control-label" for="guardar"></label>
 										<div class="col-md-4">
-											<button id="guardar" name="guardar" class="btn btn-primary">Guardar</button>
+											<button id="guardar" type = "submit" class="btn btn-primary">Guardar</button>
 										</div>
 									</div>
 

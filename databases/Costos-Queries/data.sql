@@ -44,7 +44,22 @@ insert into ma_motivo (seccion, nombre) values
 	('arrendamiento','Servicio de IPS'),
 	('arrendamiento','Llamadas telefónicas'),
 	('arrendamiento','Alquiler de equipos de TI'),
-	('arrendamiento','Otros');
+	('arrendamiento','Otros'),
+
+	-- Motivos Mantenimiento
+	('mantenimiento','Instalación y configuración de los equipos de red'),
+	('mantenimiento','Soporte de Sistema Operativo'),
+	('mantenimiento','Afinación del desempeño y entonación del sistema'),
+	('mantenimiento','Investigación y planeación de sistemas'),
+	('mantenimiento','Evaluación y compra'),
+	('mantenimiento','Eliminación de Hardware'),
+	('mantenimiento','Respaldos y recuperación'),
+	('mantenimiento','Planeación de fallas'),
+	('mantenimiento','Soporte en general'),
+	('mantenimiento','Otros')
+
+;
+
 
 
 

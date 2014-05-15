@@ -79,7 +79,7 @@
 											<div class="col-md-6">
 												<div class="input-group">
 													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" min = "1" required="">
-													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?></span>
+													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
 												</div>
 												
 											</div>

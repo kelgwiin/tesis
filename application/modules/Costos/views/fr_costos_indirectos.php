@@ -42,7 +42,7 @@
 					</li>
 
 					<li><i class = "fa fa-angle-double-right"> </i> <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento');?>">
-						Mantenimiento de Hardware e Instalación de Sistemas.
+						Mantenimiento e Instalación.
 					</a></li>
 
 					<li><i class = "fa fa-angle-double-right"></i>  <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion');?>">
