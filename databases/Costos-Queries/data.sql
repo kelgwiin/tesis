@@ -40,11 +40,11 @@ insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) 
 	
 #Motivos de Arrendamiento
 insert into ma_motivo (seccion, nombre) values 
-	('arrendaniemto','Servicio de Luz'),
-	('arrendaniemto','Servicio de IPS'),
-	('arrendaniemto','Llamadas telefónicas'),
-	('arrendaniemto','Alquiler de equipos de TI'),
-	('arrendaniemto','Otros');
+	('arrendamiento','Servicio de Luz'),
+	('arrendamiento','Servicio de IPS'),
+	('arrendamiento','Llamadas telefónicas'),
+	('arrendamiento','Alquiler de equipos de TI'),
+	('arrendamiento','Otros');
 
 
 
