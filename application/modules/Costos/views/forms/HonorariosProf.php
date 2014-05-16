@@ -66,7 +66,7 @@
 											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-6">
 												<div class="input-group">
-													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" min = "1" required="">
+													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" pattern = "\d+((.\d+)|(\d*))" required="">
 													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
 												</div>
 
