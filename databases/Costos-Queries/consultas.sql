@@ -105,6 +105,10 @@ select nombre
 from servicio_proceso
 where servicio_proceso_id not in (14,3,16) and nombre in ('p1','cantinflas','Proceso-1');
 
+-- Obteniendo el nombre de formacion tipo
+select nombre,costo, formacion_id as id
+from formacion as f join formacion_tipo as ft on (f.formacion_tipo_id = ft.formacion_tipo_id);
+
 
 
 

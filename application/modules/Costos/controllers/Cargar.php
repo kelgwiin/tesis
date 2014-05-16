@@ -106,7 +106,8 @@ class Cargar extends MX_Controller
 	}//end of function: _list
 
 	public function CostosIndirectos(){
-		$this->utils->template($this->_list(),'Costos/fr_costos_indirectos','','Módulo de Gestión de Costos','Costos Indirectos',
+		$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
+		$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
