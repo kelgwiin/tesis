@@ -59,6 +59,15 @@
 											</div>
 										</div>
 
+										<!-- Text input - Nombre Mantenimiento/Instalación-->
+										<div class="form-group">
+											<label class="col-md-4 control-label" for="nombre_mantenimiento">Nombre Mantenimiento/Instalación</label>  
+											<div class="col-md-6">
+												<input id="nombre_mantenimiento" name="nombre_mantenimiento" type="text" placeholder="nombre mantenimiento/instalción" class="form-control input-md" required="required">
+
+											</div>
+										</div>
+
 										<!-- Select Basic - Motivos  -->
 										<!-- Se llena dese base de datos -->
 										<div class="form-group">
