@@ -63,3 +63,6 @@ select * from mantenimiento;
 select nombre, departamento_id as id
 from departamento;
 
+select * from formacion_tipo;
+
+select * from formacion;

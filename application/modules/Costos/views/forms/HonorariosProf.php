@@ -43,7 +43,10 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class = "col-md-8">
-								<form class = "form-horizontal">
+								<form class = "form-horizontal"
+									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Honorario/Guardar');?>"
+									method = "post"
+								>
 									<!-- DATOS BÁSICOS -->
 									<fieldset>
 
@@ -52,33 +55,25 @@
 
 										<!-- Text input-->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="textinput">Nombre</label>  
+											<label class="col-md-4 control-label" for="textinput">Nombre de Cargo</label>  
 											<div class="col-md-6">
-												<input id="textinput" name="textinput" type="text" placeholder="nombre" class="form-control input-md" required="">
+												<input id="nombre" name="nombre" type="text" placeholder="nombre de cargo" class="form-control input-md" required="">
 											</div>
 										</div>
 
-										<!-- Appended Input-->
+										<!-- Appended Input - Costo-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-6">
 												<div class="input-group">
-													<input id="costo" name="costo" class="form-control" placeholder="Costo" type="text" required="">
-													<span class="input-group-addon">Bs.</span>
+													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" min = "1" required="">
+													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
 												</div>
 
 											</div>
 										</div>
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
-											<div class="col-md-6">
-												<input id="fecha" name="fecha" type="text" placeholder="fecha" class="form-control input-md" required="">
 
-											</div>
-										</div>
-
-										<!-- Text input-->
+										<!-- Text input - Número de Profesionales-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="numero_profesionales">Número de Profesionales</label>  
 											<div class="col-md-6">
@@ -87,36 +82,28 @@
 											</div>
 										</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for="cargo">Nombre del Cargo</label>  
-											<div class="col-md-6">
-												<input id="cargo" name="cargo" type="text" placeholder="nombre del cargo" class="form-control input-md" required="">
-
-											</div>
-										</div>
 									</fieldset>
 
-									<!-- VIGENCIA -->
+									<!-- VIGENCIA (fechas)-->
 									<fieldset>
 
 										<!-- Form Name -->
 										<legend>Vigencia</legend>
 
-										<!-- Text input-->
+										<!-- Text input - Fecha Desde -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha_desde">Desde</label>  
 											<div class="col-md-6">
-												<input id="fecha_desde" name="fecha_desde" type="text" placeholder="fecha" class="form-control input-md" required="">
+												<input id="fecha_desde" name="fecha_desde" type="text" placeholder="fecha desde" class="form-control input-md" required="">
 
 											</div>
 										</div>
 
-										<!-- Text input-->
+										<!-- Text input - Fecha Hasta-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha_hasta">Hasta</label>  
 											<div class="col-md-6">
-												<input id="fecha_hasta" name="fecha_hasta" type="text" placeholder="fecha" class="form-control input-md" required="">
+												<input id="fecha_hasta" name="fecha_hasta" type="text" placeholder="fecha hasta" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -125,9 +112,9 @@
 									</fieldset>
 									<!-- Button  - Guardar -->
 									<div class="form-group">
-										<label class="col-md-4 control-label" for="guardar"></label>
+										<label class="col-md-4 control-label" for="btn-guardar"></label>
 										<div class="col-md-4">
-											<button type = "submit" id="guardar" name="guardar" class="btn btn-primary">Guardar</button>
+											<button type = "submit" id="btn-guardar" class="btn btn-primary">Guardar</button>
 										</div>
 									</div>
 

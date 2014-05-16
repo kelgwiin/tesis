@@ -135,7 +135,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function HonorariosProf(){
-		$this->utils->template($this->_list(),'Costos/forms/HonorariosProf','','Módulo de Gestión de Costos','Costos Indirectos',
+		$params['org'] = $this->org;
+		$this->utils->template($this->_list(),'Costos/forms/HonorariosProf',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 	
