@@ -141,7 +141,8 @@ class Cargar extends MX_Controller
 	}
 	
 	public function Utileria(){
-		$this->utils->template($this->_list(),'Costos/forms/Utileria','','Módulo de Gestión de Costos','Costos Indirectos',
+		$params['org'] = $this->org;
+		$this->utils->template($this->_list(),'Costos/forms/Utileria',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 

@@ -66,3 +66,7 @@ from departamento;
 select * from formacion_tipo;
 
 select * from formacion;
+
+select * from honorario;
+
+select * from utileria;

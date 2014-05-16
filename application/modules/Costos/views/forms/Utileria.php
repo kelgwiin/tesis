@@ -40,13 +40,16 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class = "col-md-8">
-								<form class="form-horizontal">
+								<form class="form-horizontal"
+									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria/Guardar');?>"
+									method = "post"
+								>
 									<fieldset>
 
 										<!-- Form Name -->
 										<legend>Utilería</legend>
 
-										<!-- Text input-->
+										<!-- Text input - Nombre -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="nombre">Nombre</label>  
 											<div class="col-md-6">
@@ -57,11 +60,11 @@
 
 										<!-- Appended Input-->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="appendedtext">costo</label>
+											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-6">
 												<div class="input-group">
-													<input id="appendedtext" name="appendedtext" class="form-control" placeholder="costo" type="text" required="">
-													<span class="input-group-addon">Bs.</span>
+													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" required="">
+													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
 												</div>
 
 											</div>
@@ -89,7 +92,7 @@
 									<div class="form-group">
 										<label class="col-md-4 control-label" for="guardar"></label>
 										<div class="col-md-4">
-											<button id="guardar" name="guardar" class="btn btn-primary">Guardar</button>
+											<button id="btn-guardar" class="btn btn-primary">Guardar</button>
 										</div>
 									</div>
 								</form>
