@@ -45,7 +45,10 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class = "col-md-8">
-								<form class = "form-horizontal">
+								<form class = "form-horizontal" 
+									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion/Guardar');?>"
+									method = "post">
+
 									<fieldset>
 
 										<!-- Form Name -->
@@ -53,38 +56,40 @@
 
 										<!-- Select Basic - Tipo de Formación realizada -->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="selectbasic">Tipo</label>
+											<label class="col-md-4 control-label" for="formacion_tipo_id">Tipo</label>
 											<div class="col-md-5">
-												<select id="selectbasic" name="tipo" class="form-control">
-													<option value="certificaciones">Certificaciones</option>
-													<option value="cursos">Cursos</option>
-													<option value="cap_usuario_final">Capacitación Usuario Final</option>
-													<option value="consultores_externos">Consultores Externos</option>
+												<select id="formacion_tipo_id" name="formacion_tipo_id" class="form-control">
+													<?php 
+														foreach ($tipos as $t) {
+															printf('<option value = "%s">%s</option>',$t['id'], $t['nombre']);
+														}
+													 ?>
 												</select>
 											</div>
 										</div>
 
-										<!-- Text input-->
+										<!-- Text input - Descripcion Breve-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="descripcion_breve">Descripción breve</label>  
 											<div class="col-md-5">
-												<input id="descripcion_breve" name="descripcion_breve" type="text" placeholder="Descripción breve" class="form-control input-md" required="">
+												<input id="descripcion_breve" name="descripcion_breve" type="text" 
+													placeholder="descripción breve" class="form-control input-md" required="">
 												
 											</div>
 										</div>
 
-										<!-- Appended Input-->
+										<!-- Appended Input - Costo-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-5">
 												<div class="input-group">
-													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" required="required">
-													<span class="input-group-addon">Bs.</span>
+													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" required="required">
+													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
 												</div>
 												
 											</div>
 										</div>
-										<!-- Text input-->
+										<!-- Text input  - Fecha -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
 											<div class="col-md-5">
@@ -100,7 +105,7 @@
 									<div class="form-group">
 										<label class="col-md-4 control-label" for=""></label>
 										<div class="col-md-4">
-											<button type = "submit" id="" name="btn-guardar-formacion" class="btn btn-primary">Guardar</button>
+											<button type = "submit" id = "btn-guardar" class="btn btn-primary">Guardar</button>
 										</div>
 									</div>
 								</form>

@@ -51,7 +51,7 @@ select * from usuarios;
 
 select ma_motivo_id, nombre
 from ma_motivo
-where seccion = 'arrendamientso';
+where seccion = 'arrendamiento';
 
 select * from ma_motivo;
 
@@ -59,4 +59,7 @@ select * from arrendamiento;
 -- delete from arrendamiento where arrendamiento_id >0;
 
 select * from mantenimiento;
+
+select nombre, departamento_id as id
+from departamento;
 

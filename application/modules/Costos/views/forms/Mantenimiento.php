@@ -39,7 +39,8 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
-							<form method="post" class = "form-horizontal" action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento/Guardar');?>">
+							<form method="post" class = "form-horizontal" 
+							action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento/Guardar');?>">
 								<!-- DATOS BÁSICOS -->
 								<div class = "col-md-8">
 									<fieldset>
@@ -74,46 +75,50 @@
 											</div>
 										</div>
 
-										<!-- Appended Input-->
+										<!-- Appended Input - Costo-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-6">
 												<div class="input-group">
-													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" required="required">
+													<input id="costo" name="costo" class="form-control" placeholder="costo" type="number" min = "1" required="required">
 													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
 												</div>
 
 											</div>
 										</div>
-										<!-- Text input-->
+										<!-- Text input - Fecha de realización del mantenimiento/instalación -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
 											<div class="col-md-6">
-												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento" class="form-control input-md" required="required">
+												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento/instalción" class="form-control input-md" required="required">
 
 											</div>
 										</div>
 
-										<!-- Select Basic -->
+										<!-- Select Basic  - Departamento -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="departamento_id">Departamento</label>
 											<div class="col-md-6">
 												<select id="departamento_id" name="departamento_id" class="form-control">
-													<option value="1">dpto1</option>
-													<option value="2">dpto2</option>
-													<option value="3">dpto3</option>
+													<?php 
+														foreach ($dptos as $d) {
+															printf('<option value="%s">%s</option>',$d['id'],$d['nombre']);
+														}
+													 ?>
 												</select>
 											</div>
 										</div>
 
-										<!-- Select Basic -->
+										<!-- Select Basic - Categoría -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="ma_categoria_id">Categoría</label>
 											<div class="col-md-6">
 												<select id="ma_categoria_id" name="ma_categoria_id" class="form-control">
-													<option value="1">categ</option>
-													<option value="2">categ1</option>
-													<option value="-1">No Aplica</option>
+													<?php 
+														foreach ($categorias as $c) {
+															printf('<option value="%s">%s</option>',$c['id'],$c['nombre']);
+														}
+													 ?>
 												</select>
 											</div>
 										</div>
@@ -125,7 +130,7 @@
 										<!-- Form Name -->
 										<legend>Encargado de Matenimiento/Instalación</legend>
 
-										<!-- Text input-->
+										<!-- Text input - Nombre -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="nombre">Nombre</label>  
 											<div class="col-md-6">
@@ -135,7 +140,7 @@
 										</div>
 
 
-										<!-- Text input-->
+										<!-- Text input - Apellido -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="apellido"></label>  
 											<div class="col-md-6">
@@ -145,7 +150,7 @@
 										</div>
 
 
-										<!-- Text input-->
+										<!-- Text input - Correo -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="email">Correo</label>  
 											<div class="col-md-6">
@@ -154,7 +159,7 @@
 											</div>
 										</div>
 
-										<!-- Text input-->
+										<!-- Text input- Teléfono -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="telefono">Teléfono</label>  
 											<div class="col-md-6">

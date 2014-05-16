@@ -61,6 +61,14 @@ insert into ma_motivo (seccion, nombre) values
 ;
 
 
+-- Tipo de Formación  (formacion_tipo)
+insert into formacion_tipo (nombre) values
+('Certificaciones'),
+('Cursos'),
+('Capacitación de usuario final'),
+('Consultorías externas');
+
+
 
 
 

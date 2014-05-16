@@ -121,12 +121,16 @@ class Cargar extends MX_Controller
 	public function Mantenimiento(){
 		$params['org'] = $this->org;
 		$params['motivos'] =  $this->cargar_ci_model->motivos_by_seccion('mantenimiento');
+		$params['dptos'] = $this->cargar_ci_model->nombres_ids_dpto();
+		$params['categorias'] = $this->cargar_ci_model->nombres_ids_ma_categoria();
 		$this->utils->template($this->_list(),'Costos/forms/Mantenimiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
 	public function Formacion(){
-		$this->utils->template($this->_list(),'Costos/forms/Formacion','','Módulo de Gestión de Costos','Costos Indirectos',
+		$params['org'] = $this->org;
+		$params['tipos'] = $this->cargar_ci_model->nombres_ids_formacion_tipo();
+		$this->utils->template($this->_list(),'Costos/forms/Formacion',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -140,19 +144,11 @@ class Cargar extends MX_Controller
 			'two_level');
 	}
 
-	public function Guardar($opcion){
-		$table_name = "";
+	public function Guardar($table_name){
 		$p = $this->input->post();
-		//Se escoje hacia qué tabla será guardada la información
-		switch ($opcion) {
-			case 'Arrendamiento':
-				$table_name = "arrendamiento";
-				break;
-			case 'Mantenimiento':
-				$table_name = "mantenimiento";
-				break;
-			
-		}
+		
+		$table_name = strtolower($table_name);
+
 		//Guardando en la BD
 		if($this->utilities_model->add_ar($p, $table_name)){
 			$params['guardado_exitoso'] = true;
