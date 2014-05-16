@@ -155,6 +155,7 @@ class Cargar extends MX_Controller
 		//Guardando en la BD
 		if($this->utilities_model->add_ar($p, $table_name)){
 			$params['guardado_exitoso'] = true;
+			$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
 			$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 			
