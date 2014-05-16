@@ -105,8 +105,8 @@ class Cargar_costos_indirectos_model extends CI_Model {
         }
 
         //Mantenimiento
-        $sql = "SELECT nombre, costo, mantenimiento_id AS id
-                FROM mantenimiento
+        $sql = "SELECT nombre_mantenimiento as nombre, costo, mantenimiento_id AS id
+                FROM mantenimiento 
                 WHERE borrado = false ;";
         $query = $this->db->query($sql);
         if($query->num_rows() > 0 ){
@@ -122,7 +122,7 @@ class Cargar_costos_indirectos_model extends CI_Model {
 
         //Formación
         $sql = "SELECT nombre,costo, formacion_id AS id
-                FROM formacion AS f join formacion_tipo AS ft ON (f.formacion_tipo_id = ft.formacion_tipo_id);";
+                FROM formacion AS f JOIN formacion_tipo AS ft ON (f.formacion_tipo_id = ft.formacion_tipo_id);";
         $query = $this->db->query($sql);
         if($query->num_rows() > 0 ){
             foreach ($query->result_array() as $row) {
