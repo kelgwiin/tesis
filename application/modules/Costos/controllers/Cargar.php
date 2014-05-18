@@ -161,6 +161,14 @@ class Cargar extends MX_Controller
 			
 		}
 	}
+	/**
+	 * Busca los detalles de los Costos Indirectos (from ajax)
+	 */
+	public function Detalles(){
+		$p = $this->input->post();
+		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
+		echo json_encode($resp);
+	}
 }
 /* End of file Cargar.php */
 /* Location: ./application/modules/Costos/controllers/Cargar.php */

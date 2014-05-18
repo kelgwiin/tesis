@@ -1,4 +1,46 @@
 <!-- Creado el 27-04-2014 por Kelwin Gamez <kelgwiin@gmail.com> -->
+<script >
+	//Conjunto de Eventos
+
+	//Muestra el detalle de los items
+	$(function() {
+		$('span.info').on('click',function(){
+			id_ = $(this).attr('data-id');
+			table_target = $(this).attr('target');
+
+			//Cambiando la orientación del caret
+			if($('i[data-id='+id_+']').attr('class') == 'fa fa-caret-right'){
+				$('i[data-id='+id_+']').attr('class','fa fa-caret-down');
+					
+				//Buscando detalles al server con ajax
+				if($('div[data-id=panel-body-'+id_+']').attr('data-status') != 'loaded'){//Si no ha sido ya cargada
+					url = "index.php/CargarCostosIndirectos/Detalles";
+					dataToSend = {id:id_,table_name:table_target}
+					fo_proccess = function(data){
+						detalles = '';
+						for (var i = 0; i < data.detalles.length; i++) {
+							nom = data.detalles[i]['nombre'];
+							info = data.detalles[i]['info'];
+							detalles += '<strong>'+nom+'</strong>: '+info+'<br>';
+						};
+						$('div[data-id=panel-body-'+id_+']').append(detalles);
+					};
+					$.post( url, dataToSend, fo_proccess,'json');
+					
+					//Indicando que ya fue cargada
+					$('div[data-id='+id_+'][data-aim=panel-row]').attr('data-status','loaded');
+				}
+
+				//Mostrando la data
+				$('div[data-id='+id_+'][data-aim=panel-row]').attr('class','row show');
+			}else{
+				$('i[data-id='+id_+']').attr('class','fa fa-caret-right');
+				//Ocultando la data
+				$('div[data-id='+id_+']').attr('class','row hidden');
+			}
+		});
+	});
+</script>
 
 <div id="page-wrapper">
 	<!-- Cabecera de la descripción-->
@@ -82,7 +124,30 @@
 
 													echo '<tr>';
 													printf('<td>%s</td>',$i+1);
-													printf('<td>%s</td>',$c['nombre']);
+													
+													echo '<td>
+
+													<span data-id = "'.$i.'" class = "info" data-target= "'.$c['target'].'"><i class = "fa fa-caret-right" data-id = "'.$i.'"></i> '.$c['nombre'].'</span>
+
+														<div class = "row hidden" data-id = "'.$i.'" data-aim = "panel-row">
+															<div class = "col-md-12 ficha-ci">
+																<div class="panel panel-info">
+																	<div class = "panel-heading">
+																		<strong>Detalles</strong>
+																	</div>
+
+																	<div class="panel-body" data-status = "no-load" data-id = "panel-body-'.$i.'">
+																	   	<strong>info: </strong> sd <br>
+																	   	<strong>info: </strong> sd <br>
+																	   	<strong>info: </strong> sd <br>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</td>';
+													
+													//printf('<td>%s</td>',);
+
 													printf('<td>%s</td>',$c['grupo']);
 													printf('<td>%s</td>',$c['costo']);
 

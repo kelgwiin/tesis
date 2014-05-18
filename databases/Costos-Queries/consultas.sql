@@ -109,6 +109,14 @@ where servicio_proceso_id not in (14,3,16) and nombre in ('p1','cantinflas','Pro
 select nombre,costo, formacion_id as id
 from formacion as f join formacion_tipo as ft on (f.formacion_tipo_id = ft.formacion_tipo_id);
 
+-- Datos de MANTENIMIENTO
+select tipo_operacion as tipo_de_operacion, mm.nombre as motivo, costo, fecha, d.nombre as departamento,
+mc.nombre as categoria, m.nombre as nombre_encargado, apellido as apellido_encargado,
+telefono as telefono_encargado
 
+from mantenimiento as m join (departamento as d, ma_categoria as mc, ma_motivo as mm) 
+on (m.departamento_id = d.departamento_id and m.ma_categoria_id = mc.ma_categoria_id and
+m.ma_motivo_id = mm.ma_motivo_id)
 
+where m.borrado = false and mantenimiento_id = 1;
 
