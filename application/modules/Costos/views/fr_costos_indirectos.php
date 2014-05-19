@@ -6,37 +6,40 @@
 	$(function() {
 		$('span.info').on('click',function(){
 			id_ = $(this).attr('data-id');
-			table_target = $(this).attr('target');
+			table_target = $(this).attr('data-target');
 
-			//Cambiando la orientación del caret
-			if($('i[data-id='+id_+']').attr('class') == 'fa fa-caret-right'){
-				$('i[data-id='+id_+']').attr('class','fa fa-caret-down');
-					
-				//Buscando detalles al server con ajax
-				if($('div[data-id=panel-body-'+id_+']').attr('data-status') != 'loaded'){//Si no ha sido ya cargada
-					url = "index.php/CargarCostosIndirectos/Detalles";
-					dataToSend = {id:id_,table_name:table_target}
+			if($('i[data-id='+id_+'][data-target='+table_target+']').attr('class') == 'fa fa-caret-right'){
+				
+				//Cambiando la orientación del caret
+				$('i[data-id='+id_+'][data-target='+table_target+']').attr('class','fa fa-caret-down');
+				
+				//Buscando detalles al server con ajax- Panel Body
+				if($('div[data-id=panel-body-'+id_+'][data-target='+table_target+']').attr('data-status') != 'loaded'){//Si no ha sido ya cargada
+					url = "index.php/Costos/CargarCostosIndirectos/Detalles";
+					dataToSend = {id:id_,table_name:table_target};
 					fo_proccess = function(data){
 						detalles = '';
-						for (var i = 0; i < data.detalles.length; i++) {
-							nom = data.detalles[i]['nombre'];
-							info = data.detalles[i]['info'];
+						
+						for (var i = 0; i < data.length; i++) {
+							nom = data[i]['nombre'];
+							info = data[i]['info'];
 							detalles += '<strong>'+nom+'</strong>: '+info+'<br>';
 						};
-						$('div[data-id=panel-body-'+id_+']').append(detalles);
+						$('div[data-id=panel-body-'+id_+'][data-target='+table_target+']').append(detalles);
 					};
+
 					$.post( url, dataToSend, fo_proccess,'json');
 					
 					//Indicando que ya fue cargada
-					$('div[data-id='+id_+'][data-aim=panel-row]').attr('data-status','loaded');
+					$('div[data-id=panel-body-'+id_+'][data-target='+table_target+']').attr('data-status','loaded');
 				}
 
 				//Mostrando la data
-				$('div[data-id='+id_+'][data-aim=panel-row]').attr('class','row show');
+				$('div[data-id='+id_+'][data-target='+table_target+'][data-aim=main]').attr('class','row show');
 			}else{
-				$('i[data-id='+id_+']').attr('class','fa fa-caret-right');
+				$('i[data-id='+id_+'][data-target='+table_target+']').attr('class','fa fa-caret-right');
 				//Ocultando la data
-				$('div[data-id='+id_+']').attr('class','row hidden');
+				$('div[data-id='+id_+'][data-target='+table_target+'][data-aim=main]').attr('class','row hidden');
 			}
 		});
 	});
@@ -126,20 +129,18 @@
 													printf('<td>%s</td>',$i+1);
 													
 													echo '<td>
-
-													<span data-id = "'.$i.'" class = "info" data-target= "'.$c['target'].'"><i class = "fa fa-caret-right" data-id = "'.$i.'"></i> '.$c['nombre'].'</span>
-
-														<div class = "row hidden" data-id = "'.$i.'" data-aim = "panel-row">
-															<div class = "col-md-12 ficha-ci">
+													<a class="btn btn-link">
+														<span data-id = "'.$c['id'].'" class = "info" data-target= "'.$c['target'].'"><i class = "fa fa-caret-right" data-id = "'.$c['id'].'" data-target = "'.$c['target'].'"></i> '.$c['nombre'].'</span>
+													</a>
+														<div class = "row hidden" data-id ="'.$c['id'].'" data-target = "'.$c['target'].'" data-aim = "main">
+															<div class = "col-sm-12 ficha-ci">
 																<div class="panel panel-info">
 																	<div class = "panel-heading">
 																		<strong>Detalles</strong>
 																	</div>
 
-																	<div class="panel-body" data-status = "no-load" data-id = "panel-body-'.$i.'">
-																	   	<strong>info: </strong> sd <br>
-																	   	<strong>info: </strong> sd <br>
-																	   	<strong>info: </strong> sd <br>
+																	<div class="panel-body" data-status = "no-load" data-id = "panel-body-'.$c['id'].'" data-target = "'.$c['target'].'">
+																		<!-- Se llena desde ajax-->
 																	</div>
 																</div>
 															</div>

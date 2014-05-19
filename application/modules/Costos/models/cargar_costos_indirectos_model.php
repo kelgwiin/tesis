@@ -184,9 +184,9 @@ class Cargar_costos_indirectos_model extends CI_Model {
     public function detalles_ci($table_name, $id){
         switch ($table_name) {
             case 'arrendamiento':
-                $sql = "SELECT nombre, costo, fecha_inicial_vigencia AS fecha, tiempo, esquema_tiempo, mm.nombre as motivo
+                $sql = "SELECT a.nombre, costo, fecha_inicial_vigencia AS fecha, tiempo, esquema_tiempo, mm.nombre as motivo
                         FROM arrendamiento AS a JOIN ma_motivo mm ON (a.ma_motivo_id = mm.ma_motivo_id) 
-                        WHERE borrado = false AND arrendamiento_id = ".$id." ;";
+                        WHERE borrado = false AND arrendamiento_id = ".$id.";";
                 break;
             case 'mantenimiento':
                 $sql = "SELECT tipo_operacion as tipo_de_operacion, mm.nombre as motivo, costo, fecha, d.nombre as departamento,
@@ -219,7 +219,18 @@ class Cargar_costos_indirectos_model extends CI_Model {
                 break;
         }
         $q = $this->db->query($sql);
-        return $q->result_array();
+
+        //Procesando al formato 'nombre' => 'info'
+        $resp = array();
+        $i = 0;
+        $r = $q->result_array();
+        foreach ($r[0] as $key => $value) {
+            $key = ucfirst(str_replace("_", " ", $key));//elimina '_' y pone el primer caracter mayusc
+            $resp[$i]['nombre'] = $key;
+            $resp[$i]['info'] = $value;
+            $i += 1;
+        }
+        return $resp;
     }
 
 
