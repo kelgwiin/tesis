@@ -1,4 +1,19 @@
 <!-- Creado el 27-04-2014 por Kelwin Gamez <kelgwiin@gmail.com> -->
+<!-- Scripts para el msj Modal (jquery-ui pluggin )-->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.widget.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.mouse.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.button.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.draggable.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.position.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.dialog.js');?>"></script>
+
+<!-- Config CSS-->
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/ui-lightness/jquery.ui.all.css');?>">
+<!-- /Fin de Scripts de librerías para Modal -->
+
+
 <script>
 	//Conjunto de Eventos
 
@@ -47,7 +62,50 @@
 		$('a.delete-ci').on('click',function(){
 			table_name = $(this).attr('data-target');
 			id = $(this).attr('data-id');
-			alert(table_name + ' - ' + id);
+
+			//Se muestra el diálogo de confirmación
+			$('div#confirm-delete-ci').dialog('open');
+
+			//Se coloca el valor del id 
+			$('div#confirm-delete-ci').attr('data-id',id).attr('data-target','table_name');
+		});
+
+
+		$( "div#confirm-delete-ci" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height:200,
+			width: 470,
+			modal: true,
+			buttons: {
+				"Eliminar": function() {
+					//Eliminando el departamento desde AJAX
+					
+					$( this ).dialog( "close" );
+					
+					/*var id  = $(this).attr('data-id');
+					var params = {dpto_id:id};
+					var url = "index.php/cargar_datos/departamentos/eliminar";
+					var dataType = "json";
+					var fo = function(data){
+					    if(data.estatus == 'ok'){
+					        //Mostrando msj de item eliminado lógicamente
+					        $('div#msj-eliminado-dpto').attr('class','alert alert-success alert-dismissable show');
+					        //Escondiendo msj de error inesperado
+					        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
+					    }else{
+					        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+					    }
+					}
+					//Haciendo llamada al controlador desde ajax
+					$.post(url,params,fo,dataType);
+					//Eliminando gráficamente
+					$('div[data-id=panel-item-dpto'+id+']').remove();*/
+				},
+				Cancelar: function() {
+					$( this ).dialog( "close" );
+				}
+			}
 		});
 	});
 </script>
@@ -208,4 +266,20 @@
 				</div><!-- /col-md-12-->
 			</div><!-- /row -->
 
+			<!-- Modal: Confirmar Eliminación-->
+			<div  id="confirm-delete-ci" data-id = "-1" data-target="">
+				<div class = "row">
+					<!-- Ícono -->
+					<div class = "col-md-1 col-md-offset-1">
+						<i class = "fa fa-question-circle fa-4x"></i>
+					</div><!-- /col-md-1 -->
+					
+					<!-- Cuerpo del msj -->
+					<div class = "col-md-10">
+						<h4 class= "text-center"> 
+							¿Está seguro que desea <strong>eliminar</strong> <br>el componente de costos indirectos?</h4>			
+						</div><!-- /col-md-10 -->
+
+					</div><!-- /row-->
+			</div><!-- /Modal: confirm-delete-ci -->
 </div><!-- /page-wrapper -->
