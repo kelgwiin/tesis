@@ -1,9 +1,9 @@
 <!-- Creado el 27-04-2014 por Kelwin Gamez <kelgwiin@gmail.com> -->
-<script >
+<script>
 	//Conjunto de Eventos
 
-	//Muestra el detalle de los items
 	$(function() {
+		//Muestra el detalle de los items de costos indirectos
 		$('span.info').on('click',function(){
 			id_ = $(this).attr('data-id');
 			table_target = $(this).attr('data-target');
@@ -41,6 +41,13 @@
 				//Ocultando la data
 				$('div[data-id='+id_+'][data-target='+table_target+'][data-aim=main]').attr('class','row hidden');
 			}
+		});
+
+		//Botón editar costos indirectos 
+		$('a.delete-ci').on('click',function(){
+			table_name = $(this).attr('data-target');
+			id = $(this).attr('data-id');
+			alert(table_name + ' - ' + id);
 		});
 	});
 </script>
@@ -128,7 +135,8 @@
 													echo '<tr>';
 													printf('<td>%s</td>',$i+1);
 													
-													echo '<td>
+													echo '<td data-id = "'.$c['id'].'" data-target= "'.$c['target'].'">
+
 													<a class="btn btn-link">
 														<span data-id = "'.$c['id'].'" class = "info" data-target= "'.$c['target'].'"><i class = "fa fa-caret-right" data-id = "'.$c['id'].'" data-target = "'.$c['target'].'"></i> '.$c['nombre'].'</span>
 													</a>
@@ -157,24 +165,24 @@
 													<td >
 													<div class = "row">
 														<div class = "col-md-1">
-															<a href="#" class = "btn"
-															data-toggle = "tooltip"
-															data-original-title = "Editar"
-															>
-															<i class = "fa fa-pencil negro"></i>
+															<a href="'.site_url('index.php/Costos/CargarCostosIndirectos/Editar/'.ucfirst($c['target']).'/'.$c['id']).'"
+																class = "btn"
+																data-toggle = "tooltip"
+																data-original-title = "Editar"
+																><i class = "fa fa-pencil negro"></i>
 															</a>
 														</div>
 
-														<div class = "col-md-1">
-															<a href="#" class = "btn"
-															data-toggle = "tooltip"
-															data-original-title = "Eliminar"
-																>
-															<i class = "fa fa-times rojo"></i>
+														<div class = "col-md-1 col-md-offset-1">
+															<a 	data-id = "'.$c['id'].'" data-target= "'.$c['target'].'"
+																class = "btn delete-ci"
+																data-toggle = "tooltip"
+																data-original-title = "Eliminar"
+															><i class = "fa fa-times rojo"></i>
 															</a>
 														</div>
 
-														<div class = "col-md-10">
+														<div class = "col-md-9">
 														</div>
 
 														</div>

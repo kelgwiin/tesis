@@ -161,6 +161,30 @@ class Cargar extends MX_Controller
 			
 		}
 	}
+
+	/**
+	 * Edita la información del costo indirecto dado el nombre de la tabla y el id
+	 * @param String $table_name Nombre de la tabla
+	 * @param Integer $id        Id de tabla
+	 */
+	public function Editar($table_name, $id){
+		echo 'Editando ....<br>';
+		printf("Nombre %s , %d", $table_name, $id);
+	}
+
+	/**
+	 * Elimina lógicamente el registo de  costo indirecto dado el nombre de la tabla y el id.
+	 * LLamado desde ajax inicialmente.
+	 * @param String $table_name Nombre de la tabla
+	 * @param Integer $id        Id de tabla
+	 */
+	public function Eliminar($table_name, $id){
+		echo 'Eliminando ....<br>';
+		printf("Nombre %s , %d", $table_name, $id);
+	}
+
+
+
 	/**
 	 * Busca los detalles de los Costos Indirectos (from ajax)
 	 */
