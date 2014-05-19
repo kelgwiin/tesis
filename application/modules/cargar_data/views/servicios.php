@@ -9,7 +9,7 @@
 <script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.dialog.js');?>"></script>
 
 <!-- Config CSS-->
-<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/ui-lightness/jquery.ui.all.css');?>">
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/custom-theme/jquery-ui-1.10.4.custom.css');?>">
 <!-- /Fin de Scripts de librerías para Modal -->
 
 <!-- Inicialización del Dialog-Modal -->
