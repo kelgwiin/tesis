@@ -184,50 +184,60 @@ class Cargar_costos_indirectos_model extends CI_Model {
     public function detalles_ci($table_name, $id){
         switch ($table_name) {
             case 'arrendamiento':
-                $sql = "SELECT a.nombre, costo, fecha_inicial_vigencia AS fecha, tiempo, esquema_tiempo, mm.nombre as motivo
+                $sql = "SELECT a.nombre, costo, fecha_inicial_vigencia AS fecha, tiempo, esquema_tiempo as esquema_de_tiempo, mm.nombre AS motivo
                         FROM arrendamiento AS a JOIN ma_motivo mm ON (a.ma_motivo_id = mm.ma_motivo_id) 
                         WHERE borrado = false AND arrendamiento_id = ".$id.";";
                 break;
             case 'mantenimiento':
-                $sql = "SELECT tipo_operacion as tipo_de_operacion, mm.nombre as motivo, costo, fecha, d.nombre as departamento,
-                        mc.nombre as categoria, m.nombre as nombre_encargado, apellido as apellido_encargado,
-                        telefono as telefono_encargado
+                $sql = "SELECT tipo_operacion AS tipo_de_operación, mm.nombre AS motivo, costo, fecha, d.nombre AS departamento,
+                        mc.nombre AS categoría, m.nombre AS nombre_de_encargado, apellido AS apellido_de_encargado,
+                        telefono AS teléfono_de_encargado
 
-                        FROM mantenimiento as m JOIN (departamento as d, ma_categoria as mc, ma_motivo as mm) 
+                        FROM mantenimiento AS m JOIN (departamento AS d, ma_categoria AS mc, ma_motivo AS mm) 
                         on (m.departamento_id = d.departamento_id and m.ma_categoria_id = mc.ma_categoria_id and
                         m.ma_motivo_id = mm.ma_motivo_id)
 
                         WHERE m.borrado = false and mantenimiento_id = ".$id.";";
                 break;
             case 'formacion':
-                $sql = "SELECT nombre as tipo,descripcion_breve, costo, fecha
+                $sql = "SELECT nombre AS tipo,descripcion_breve AS descripción_breve, costo, fecha
                         FROM formacion AS f JOIN formacion_tipo AS ft ON (f.formacion_tipo_id = ft.formacion_tipo_id)
                         WHERE borrado = false and formacion_id = ".$id.";";
 
                 break;
             case 'honorario':
-                $sql = "SELECT nombre, costo, numero_profesionales as numero_de_profesionales, 
-                        fecha_desde as inicio_de_fecha_de_vigencia, fecha_hasta as fin_de_fecha_de_vigencia 
+                $sql = "SELECT nombre, costo, numero_profesionales AS número_de_profesionales, 
+                        fecha_desde AS inicio_de_fecha_de_vigencia, fecha_hasta AS fin_de_fecha_de_vigencia 
                         FROM honorario
                         WHERE borrado = false and honorario_id = ".$id."; ";
                  
                 break;
             case 'utileria':
-                $sql = "SELECT nombre, costo, fecha, descripcion 
+                $sql = "SELECT nombre, costo, fecha, descripcion AS descripción
                         FROM utileria
                         WHERE borrado = false and utileria_id = ".$id.";";
                 break;
         }
-        $q = $this->db->query($sql);
+
+        //Obteniendo la información de la organización para obtener la Abreviatura de la Moneda
+        $sql_mon = "SELECT abrev_moneda from organizacion; ";
+        $q = $this->db->query($sql_mon);
+        $org = $q->first_row('array');
 
         //Procesando al formato 'nombre' => 'info'
+        $q = $this->db->query($sql);
         $resp = array();
         $i = 0;
         $r = $q->result_array();
         foreach ($r[0] as $key => $value) {
             $key = ucfirst(str_replace("_", " ", $key));//elimina '_' y pone el primer caracter mayusc
             $resp[$i]['nombre'] = $key;
-            $resp[$i]['info'] = $value;
+
+            if($key != "Costo"){
+                $resp[$i]['info'] = $value;
+            }else{
+                $resp[$i]['info'] = $value . " " . $org['abrev_moneda'];
+            }
             $i += 1;
         }
         return $resp;

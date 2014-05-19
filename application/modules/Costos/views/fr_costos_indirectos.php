@@ -174,14 +174,9 @@
 															</a>
 														</div>
 
-														<div class = "col-md-1">
-															<a href="" ref="#" class = "btn"
-															data-toggle = "tooltip"
-															data-original-title = "Ver detalle"
-															>	
-															<i class = "fa fa-eye verde"></i>
-															</a>
+														<div class = "col-md-10">
 														</div>
+
 														</div>
 													</td>
 
