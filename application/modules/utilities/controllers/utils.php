@@ -126,11 +126,36 @@ class Utils extends MX_Controller
 			"list"=> $sublista
 		);
 
-		//Continuidad del Negocio
+		// SUBLISTA DE LA GESTION DE CONTINUIDAD DEL NEGOCIO
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'Descripción',
+				'href' => site_url('index.php/continuidad')
+			),
+			array
+			(
+				'chain' => 'Formar comites de acción',
+				'href' => site_url('index.php/continuidad/comites')
+			),
+			array
+			(
+				'chain' => 'Configuraciones',
+				'href' => site_url('index.php/continuidad/configuraciones')
+			),
+			array
+			(
+				'chain' => 'Historial de interrupciones',
+				'href' => site_url('index.php/continuidad/historial')
+			),
+		);
+		// CONTINUIDAD DEL NEGOCIO
 		$l[] = array(
 			"chain" => "Gestión de Continuidad del Negocio",
 			"href" => site_url(''),
-			"icon" => "fa fa-retweet"
+			"icon" => "fa fa-retweet",
+			'list' => $sublista
 		);
 
 		//Gestión de Costos

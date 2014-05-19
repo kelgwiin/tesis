@@ -52,6 +52,11 @@ $route['Capacidad/Departamento'] = "Capacidad/Capacidad/Departamentos";
 $route['Capacidad/Umbrales'] = "Capacidad/Capacidad/Umbrales";
 /* Rutas Para el Modulo de Gestión de La capacidad */
 
+// RUTAS DE LA GESTION DE CONTINUIDAD DEL NEGOCIO
+// @author Fernando Pinto AKA f6rnando
+$route['continuidad']					= "continuidad/continuidad";
+$route['continuidad/descripcion']		= "continuidad/continuidad";
+
 // RUTAS DE USUARIOS
 //@author Fernando Pinto AKA f6rnando
 $route['usuario']						= "usuario/usuario/ver_usuarios";
