@@ -55,6 +55,12 @@ class Continuidad extends MX_Controller
 		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
 		// $view['nivel'] = 1;
 		
-		$this->utils->template($this->_list(),'continuidad/descripcion','',$this->title,'','two_level');
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			'#' => 'Continuidad del Negocio'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$this->utils->template($this->_list(),'continuidad/descripcion',$view,$this->title,'','two_level');
 	}
 }
