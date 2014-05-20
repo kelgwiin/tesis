@@ -112,14 +112,20 @@ class Cargar extends MX_Controller
 	}
 
 	//Conjunto de Formularios de Costos Indirectos
-	public function Arrendamiento(){
+	public function Arrendamiento($id_actualizar=NULL){
+		if(isset($id_actualizar) && $id_actualizar != NULL){
+			$params['id_actualizar'] = $id_actualizar;
+		}
 		$params['org'] = $this->org;
 		$params['motivos'] =  $this->cargar_ci_model->motivos_by_seccion('arrendamiento');
 		$this->utils->template($this->_list(),'Costos/forms/Arrendamiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
-	public function Mantenimiento(){
+	public function Mantenimiento($id_actualizar=NULL){
+		if(isset($id_actualizar) && $id_actualizar != NULL){
+			$params['id_actualizar'] = $id_actualizar;
+		}
 		$params['org'] = $this->org;
 		$params['motivos'] =  $this->cargar_ci_model->motivos_by_seccion('mantenimiento');
 		$params['dptos'] = $this->cargar_ci_model->nombres_ids_dpto();
@@ -128,20 +134,29 @@ class Cargar extends MX_Controller
 			'two_level');
 	}
 
-	public function Formacion(){
+	public function Formacion($id_actualizar=NULL){
+		if(isset($id_actualizar) && $id_actualizar != NULL){
+			$params['id_actualizar'] = $id_actualizar;
+		}
 		$params['org'] = $this->org;
 		$params['tipos'] = $this->cargar_ci_model->nombres_ids_formacion_tipo();
 		$this->utils->template($this->_list(),'Costos/forms/Formacion',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
-	public function HonorariosProf(){
+	public function HonorariosProf($id_actualizar=NULL){
+		if(isset($id_actualizar) && $id_actualizar != NULL){
+			$params['id_actualizar'] = $id_actualizar;
+		}
 		$params['org'] = $this->org;
 		$this->utils->template($this->_list(),'Costos/forms/HonorariosProf',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 	
-	public function Utileria(){
+	public function Utileria($id_actualizar=NULL){
+		if(isset($id_actualizar) && $id_actualizar != NULL){
+			$params['id_actualizar'] = $id_actualizar;
+		}
 		$params['org'] = $this->org;
 		$this->utils->template($this->_list(),'Costos/forms/Utileria',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
@@ -163,13 +178,37 @@ class Cargar extends MX_Controller
 	}
 
 	/**
-	 * Edita la información del costo indirecto dado el nombre de la tabla y el id
+	 * Edita la información del costo indirecto dado el nombre de la tabla y el id.
+	 * Se indica el "id" para que luego se haga la petición json para el llenado de los datos
+	 * y la configuración pertinente para indicar que el form corresponde a actualización.
 	 * @param String $table_name Nombre de la tabla
 	 * @param Integer $id        Id de tabla
+	 *
+	 * - arrendamiento
+     * - mantenimiento
+     * - formacion
+     * - honorario
+     * - utileria
 	 */
 	public function Editar($table_name, $id){
-		echo 'Editando ....<br>';
-		printf("Nombre %s , %d", $table_name, $id);
+		switch (strtolower($table_name)) {
+			case 'arrendamiento':
+				$this->Arrendamiento($id);
+				break;
+			case 'mantenimiento':
+				$this->Mantenimiento($id);
+				break;
+
+			case 'formacion':
+				$this->Formacion($id);
+				break;
+			case 'honorario':
+				$this->HonorariosProf($id);
+				break;
+			case 'utileria':
+				$this->Utileria($id);
+				break;
+		}
 	}
 
 	/**

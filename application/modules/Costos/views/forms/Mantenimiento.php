@@ -99,7 +99,7 @@
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
 											<div class="col-md-6">
-												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento/instalción" class="form-control input-md" required="required">
+												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento/instalación" class="form-control input-md" required="required">
 
 											</div>
 										</div>
@@ -219,5 +219,18 @@
 					</div>
 				</div>
 				<!-- Fin de Direccionamiento de formularios -->
+	<?php 
+		// Colocando Instrucción para indicar si va a obtener data de Actualzación
+		if(isset($id_actualizar)){
+			echo '<span id = "test" data-id = "'.$id_actualizar.'"></span>';
+			echo "
+				<script>
+					$(function() {
+						$('span#test').append('Actualzación');
+					});
+				</script>
+			";
 
-			</div><!-- /page-wrapper-->	
+		}
+	 ?>
+</div><!-- /page-wrapper-->	

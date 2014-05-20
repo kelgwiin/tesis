@@ -42,7 +42,7 @@
 					<div class="panel-body">
 						<div class = "row">
 							<div class = "col-md-10">
-								<form id = "fr_arrendamiento" class="form-horizontal" 
+								<form id = "fr_arrendamiento" class="form-horizontal"
 								method= "post" action = "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento/Guardar');?>">
 									<fieldset>
 
@@ -156,4 +156,19 @@
 					</div>
 				</div>
 				<!-- Fin de Direccionamiento de formularios -->
+
+	<?php 
+		// Colocando Instrucción para indicar si va a obtener data de Actualzación
+		if(isset($id_actualizar)){
+			echo '<span id = "test" data-id = "'.$id_actualizar.'"></span>';
+			echo "
+				<script>
+					$(function() {
+						$('span#test').append('Actualzación');
+					});
+				</script>
+			";
+
+		}
+	 ?>
 </div><!-- /page-wrapper -->
