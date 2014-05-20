@@ -179,8 +179,11 @@ class Cargar extends MX_Controller
 	 * @param Integer $id        Id de tabla
 	 */
 	public function Eliminar($table_name, $id){
-		echo 'Eliminando ....<br>';
-		printf("Nombre %s , %d", $table_name, $id);
+		if($this->cargar_ci_model->eliminar_costos_ind_item(strtolower($table_name),$id)){
+			echo '{"estatus":"ok"}';
+		}else{
+			echo '{"estatus":"fail"}';
+		}
 	}
 
 

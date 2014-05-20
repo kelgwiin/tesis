@@ -15,8 +15,11 @@
 
 
 <script>
-	//Conjunto de Eventos
+	function capitalizeFirstLetter(string){
+	    return string.charAt(0).toUpperCase() + string.slice(1);
+	}
 
+	//Conjunto de Eventos
 	$(function() {
 		//Muestra el detalle de los items de costos indirectos
 		$('span.info').on('click',function(){
@@ -58,7 +61,7 @@
 			}
 		});
 
-		//Botón editar costos indirectos 
+		//Botón Eliminar Costos indirectos 
 		$('a.delete-ci').on('click',function(){
 			table_name = $(this).attr('data-target');
 			id = $(this).attr('data-id');
@@ -67,10 +70,13 @@
 			$('div#confirm-delete-ci').dialog('open');
 
 			//Se coloca el valor del id 
-			$('div#confirm-delete-ci').attr('data-id',id).attr('data-target','table_name');
+			$('div#confirm-delete-ci').attr('data-id',id).attr('data-target',table_name);
+			
+			$('span#nombre-costos-ind').remove();//quitando el nombre viejo
+			$('strong#marco-nombre-costos-ind').append('<span id = "nombre-costos-ind">'+capitalizeFirstLetter(table_name)+'</span>');//Agregando el nombre nuevo
 		});
 
-
+				//Confirmación de eliminación	
 		$( "div#confirm-delete-ci" ).dialog({
 			autoOpen: false,
 			resizable: false,
@@ -83,14 +89,24 @@
 					
 					$( this ).dialog( "close" );
 					
-					/*var id  = $(this).attr('data-id');
-					var params = {dpto_id:id};
-					var url = "index.php/cargar_datos/departamentos/eliminar";
+					var id_  = $(this).attr('data-id');
+					var table_name_ = $(this).attr('data-target');
+					var target = table_name_;
+
+					var params = {id:id_, table_name:table_name_};
+
+					var url = "index.php/Costos/CargarCostosIndirectos/Eliminar/"+capitalizeFirstLetter(table_name_)+"/"+id_;
+					
 					var dataType = "json";
+					
 					var fo = function(data){
 					    if(data.estatus == 'ok'){
-					        //Mostrando msj de item eliminado lógicamente
-					        $('div#msj-eliminado-dpto').attr('class','alert alert-success alert-dismissable show');
+					        //Mostrando mensajes de eliminación
+					        $('span#elim-nombre-costos-ind').remove();
+					        $('strong#elim-marco-costos-ind').append('<span id = "elim-nombre-costos-ind">'+table_name_+'</span>');
+					        $('div#msj-eliminado').attr('class','alert alert-success alert-dismissable show');
+							$('tbody tr[data-id='+id_+'][data-target='+target+']').remove();
+
 					        //Escondiendo msj de error inesperado
 					        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
 					    }else{
@@ -99,14 +115,19 @@
 					}
 					//Haciendo llamada al controlador desde ajax
 					$.post(url,params,fo,dataType);
-					//Eliminando gráficamente
-					$('div[data-id=panel-item-dpto'+id+']').remove();*/
+
+
+
+					//Removiendo la fila visualmente
 				},
 				Cancelar: function() {
 					$( this ).dialog( "close" );
 				}
 			}
 		});
+
+
+
 	});
 </script>
 
@@ -128,6 +149,19 @@
 					cargar.
 				</div>
 
+				<!-- Mensaje de eliminación de item de costos indirectos -->
+				<div class="alert alert-success alert-dismissable hidden" id = "msj-eliminado">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					El ítem de <strong id = "elim-marco-costos-ind"></strong> ha sido <strong>eliminado</strong> con éxito.
+				</div>
+
+
+				<!-- Mensaje de Error Inesperado -->
+				<div class="alert alert-danger alert-dismissable hidden" id = "msj-error-inesperado-basico">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Ha ocurrido un error <strong>inesperado</strong>.
+				</div>
+				
 				<?php
 				if(isset($guardado_exitoso) && $guardado_exitoso){
 					echo '
@@ -190,10 +224,10 @@
 												for($i = 0; $i < $costos_indirectos['num_rows']; $i++) {
 													$c = $costos_indirectos['list'][$i];
 
-													echo '<tr>';
+													echo '<tr data-id = "'.$c['id'].'" data-target= "'.$c['target'].'">';
 													printf('<td>%s</td>',$i+1);
 													
-													echo '<td data-id = "'.$c['id'].'" data-target= "'.$c['target'].'">
+													echo '<td>
 
 													<a class="btn btn-link">
 														<span data-id = "'.$c['id'].'" class = "info" data-target= "'.$c['target'].'"><i class = "fa fa-caret-right" data-id = "'.$c['id'].'" data-target = "'.$c['target'].'"></i> '.$c['nombre'].'</span>
@@ -266,6 +300,7 @@
 				</div><!-- /col-md-12-->
 			</div><!-- /row -->
 
+			<!-- Conjunto de MODALES-->
 			<!-- Modal: Confirmar Eliminación-->
 			<div  id="confirm-delete-ci" data-id = "-1" data-target="">
 				<div class = "row">
@@ -277,7 +312,7 @@
 					<!-- Cuerpo del msj -->
 					<div class = "col-md-10">
 						<h4 class= "text-center"> 
-							¿Está seguro que desea <strong>eliminar</strong> <br>el componente de costos indirectos?</h4>			
+							¿Está seguro que desea <strong>eliminar</strong> <br>el ítem de <strong id = "marco-nombre-costos-ind"></strong> </h4>			
 						</div><!-- /col-md-10 -->
 
 					</div><!-- /row-->

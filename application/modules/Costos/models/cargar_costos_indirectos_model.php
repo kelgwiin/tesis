@@ -243,6 +243,16 @@ class Cargar_costos_indirectos_model extends CI_Model {
         return $resp;
     }
 
+    /**
+     * Elimina lógicamente el ítem de costos indirectos
+     * @param  String $table_name Nombre de la tabla
+     * @param  Integer $id id de tabla
+     * @return Boolean
+     */
+    public function eliminar_costos_ind_item($table_name, $id){
+        return $this->utilities_model->update_ar($table_name, array('borrado'=> TRUE), array($table_name.'_id'=>$id));
+    }
+
 
 
 }

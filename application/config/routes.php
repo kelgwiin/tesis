@@ -25,6 +25,7 @@ $route['Costos/CargarCostosIndirectos'] = "Costos/Cargar/CostosIndirectos";
 $route['Costos/CargarCostosIndirectos/Detalles'] = "Costos/Cargar/Detalles";
 $route['Costos/CargarCostosIndirectos/(:any)/Guardar'] = "Costos/Cargar/Guardar/$1";
 $route['Costos/CargarCostosIndirectos/Editar/(:any)/(:num)'] = "Costos/Cargar/Editar/$1/$2";
+$route['Costos/CargarCostosIndirectos/Eliminar/(:any)/(:num)'] = "Costos/Cargar/Eliminar/$1/$2";
 $route['Costos/CargarCostosIndirectos/(:any)'] = "Costos/Cargar/$1";
 /* end of: Rutas para el Módulo de Costos de Servicios de TI*/
 

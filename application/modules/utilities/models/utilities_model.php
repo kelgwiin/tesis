@@ -157,6 +157,16 @@ class Utilities_model extends CI_Model {
         
         return $this->db->query($sql,$vals);
     }
+    /**
+     * Update
+     * @param  String $table_name 
+     * @param  Array $data       
+     * @param  Array $ids
+     * @return Booelan
+     */
+    public function update_ar($table_name, $data, $ids){
+        return $this->db->update($table_name, $data, $ids);
+    }
 
     /**
      * Retorna una fila dado el nombre de la tabla y su respectivo 
