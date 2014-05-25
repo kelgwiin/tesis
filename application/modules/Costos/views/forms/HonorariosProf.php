@@ -44,6 +44,7 @@
 						<div class="row">
 							<div class = "col-md-8">
 								<form class = "form-horizontal"
+									id = "fr_honorario"
 									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Honorario/Guardar');?>"
 									method = "post"
 								>
@@ -53,7 +54,7 @@
 										<!-- Form Name -->
 										<legend>Honorarios Profesionales</legend>
 
-										<!-- Text input-->
+										<!-- Text input - Nombre-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="textinput">Nombre de Cargo</label>  
 											<div class="col-md-6">
@@ -149,18 +150,35 @@
 					</div>
 				</div>
 				<!-- Fin de Direccionamiento de formularios -->
+
 	<?php 
 		// Colocando Instrucción para indicar si va a obtener data de Actualzación
 		if(isset($id_actualizar)){
-			echo '<span id = "test" data-id = "'.$id_actualizar.'"></span>';
-			echo "
-				<script>
-					$(function() {
-						$('span#test').append('Actualzación');
-					});
-				</script>
-			";
-
+			echo '<span id = "actualizar" data-status = "yes" data-id = "'.$id_actualizar.'"></span>';
 		}
 	 ?>
+
+	<script>
+		$(function(){
+		 	//Verificando si corresponde a actualizar
+		 	if($('span#actualizar').attr('data-status') == "yes"){
+		 		id_act = $('span#actualizar').attr('data-id');
+		 		//form action
+		 		$('form#fr_honorario').attr('action','index.php/Costos/CargarCostosIndirectos/Honorario/GuardarAct/'+id_act);
+		 		//Obteniendo la data a través del post
+		 		//post
+		 		url = "index.php/Costos/CargarCostosIndirectos/DetallesAct";
+		 		params = {table_name:'honorario',id:id_act};
+		 		dataType = "json";
+		 		fo_process = function(data){
+		 			$('input[name=nombre]').attr('value',data.nombre);
+		 			$('input[name=costo]').attr('value',data.costo);
+		 			$('input[name=numero_profesionales]').attr('value',data.numero_profesionales);
+		 			$('input[name=fecha_desde]').attr('value',data.fecha_desde);
+		 			$('input[name=fecha_hasta]').attr('value',data.fecha_hasta);
+		 		};
+		 		$.post(url,params,fo_process, dataType);
+		 	}//end of if
+		});
+	</script>
 </div><!-- /page-wrapper-->
