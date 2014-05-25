@@ -62,7 +62,7 @@
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="ma_motivo_id">Motivos de Arrendamiento</label>
 											<div class="col-md-6">
-												<select id="descripcion" name="ma_motivo_id" class="form-control">
+												<select id="ma_motivo_id" name="ma_motivo_id" class="form-control">
 													<?php
 														foreach ($motivos as $m) {
 															printf('<option value = "%s">%s</option>',$m['ma_motivo_id'],$m['nombre']);
@@ -121,7 +121,7 @@
 									<div class="form-group">
 										<label class="col-md-4 control-label" for=""></label>
 										<div class="col-md-6">
-											<button id="" name="" class="btn btn-primary">Guardar</button>
+											<button id="" type = "submit" class="btn btn-primary">Guardar</button>
 										</div>
 									</div>
 								</form>
@@ -160,15 +160,56 @@
 	<?php 
 		// Colocando Instrucción para indicar si va a obtener data de Actualzación
 		if(isset($id_actualizar)){
-			echo '<span id = "test" data-id = "'.$id_actualizar.'"></span>';
-			echo "
-				<script>
-					$(function() {
-						$('span#test').append('Actualzación');
-					});
-				</script>
-			";
-
+			echo '<span id = "actualizar" data-status = "yes" data-id = "'.$id_actualizar.'"></span>';
 		}
 	 ?>
+
+	 <script>
+	 	$(function(){
+	 		//Verificando si corresponde a actualizar
+	 		if($('span#actualizar').attr('data-status') == "yes"){
+	 			id_act = $('span#actualizar').attr('data-id');
+	 			//form action
+	 			$('form#fr_arrendamiento').attr('action','index.php/Costos/CargarCostosIndirectos/Arrendamiento/GuardarAct/'+id_act);
+
+	 			//Obteniendo la data a través del post
+	 			//post
+	 			url = "index.php/Costos/CargarCostosIndirectos/DetallesAct";
+	 			params = {table_name:'arrendamiento',id:id_act};
+	 			dataType = "json";
+	 			fo_process = function(data){
+	 				/*nombre
+
+	 				select: ma_motivo_id
+
+	 				costo
+
+	 				fecha_inicial_vigencia
+
+	 				tiempo
+
+	 				esquema_tiempo*/
+
+	 				$('input[name=nombre]').attr('value',data.nombre);//nombre
+	 				$('select option[value='+data.ma_motivo_id+']').attr('selected','selected');//motivos
+	 				$('input[name=costo]').attr('value',data.costo);//costo
+	 				
+	 				$('input[name=fecha_inicial_vigencia]').attr('value',data.fecha_inicial_vigencia);//fecha inicial vigencia
+	 				$('input[name=tiempo]').attr('value',data.tiempo);//tiempo
+	 				$('select option[value='+data.esquema_tiempo+']').attr('selected','selected');//esquema tiempo
+
+
+
+	 				
+
+
+	 			};
+	 			$.post(url,params,fo_process, dataType);
+
+
+
+
+	 		}	
+	 	});
+	 </script>
 </div><!-- /page-wrapper -->

@@ -212,6 +212,32 @@ class Cargar extends MX_Controller
 	}
 
 	/**
+	 * Buscar los detalles originales para actualizarlos y llenar los Formularios
+	 */
+	public function DetallesAct(){
+		$p = $this->input->post();
+		$name = $p['table_name'];
+		$resp = $this->utilities_model->row_by_id($name, $name."_id",$p['id']);
+		echo json_encode($resp);
+	}
+	/**
+	 * Guarda desde actualizar la datas
+	 * @param String $table_name
+	 * @param Integer $id
+	 */
+	public function GuardarAct($table_name, $id){
+		$table_name = strtolower($table_name);
+		$p = $this->input->post();
+
+		if( $this->utilities_model->update_ar($table_name,$p,array($table_name."_id"=>$id)) ){
+			$params['actualizado_exitoso'] = true;
+			$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
+			$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+			'two_level');
+		}
+	}
+
+	/**
 	 * Elimina lógicamente el registo de  costo indirecto dado el nombre de la tabla y el id.
 	 * LLamado desde ajax inicialmente.
 	 * @param String $table_name Nombre de la tabla
@@ -229,12 +255,16 @@ class Cargar extends MX_Controller
 
 	/**
 	 * Busca los detalles de los Costos Indirectos (from ajax)
+	 * Con un formateo especial para los nombres de cada uno de los campos.
 	 */
 	public function Detalles(){
 		$p = $this->input->post();
 		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
 		echo json_encode($resp);
 	}
+
+	
+
 }
 /* End of file Cargar.php */
 /* Location: ./application/modules/Costos/controllers/Cargar.php */

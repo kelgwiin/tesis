@@ -172,6 +172,17 @@
 					</div>
 					';
 				}
+
+				if(isset($actualizado_exitoso) && $actualizado_exitoso){
+					echo '
+					<div class="alert alert-success alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						El registro ha sido actualizado con éxito.
+					</div>
+					';
+				}
+
+
 				?>
 
 			</div><!-- end of col-12-->

@@ -171,7 +171,9 @@ class Cargar_costos_indirectos_model extends CI_Model {
         return array('list' => $result, 'num_rows'=> $idx);
     }
     /**
-     * Obtiene toda la información de tabla dado el nombre y el id
+     * Obtiene toda la información de la fila dado el nombre y el id.
+     * Este es usado cuando se obtiene la información de la lista de costos indirectos.
+     * 
      * @param  String $table_name Nombre de la tabla
      * @param  Integer $id   Id de la tabla
      * @return Array  Campos de alguna de las siguientes tablas:
