@@ -46,6 +46,7 @@
 						<div class="row">
 							<div class = "col-md-8">
 								<form class = "form-horizontal" 
+									id = "fr_formacion"
 									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion/Guardar');?>"
 									method = "post">
 
@@ -137,18 +138,36 @@
 					</div>
 				</div>
 				<!-- Fin de Direccionamiento de formularios -->
-	<?php 
-		// Colocando Instrucción para indicar si va a obtener data de Actualzación
-		if(isset($id_actualizar)){
-			echo '<span id = "test" data-id = "'.$id_actualizar.'"></span>';
-			echo "
-				<script>
-					$(function() {
-						$('span#test').append('Actualzación');
-					});
-				</script>
-			";
 
+
+
+	<?php 
+		// Colocando Instrucción para indicar si va a obtener data de Actualización
+		if(isset($id_actualizar)){
+			echo '<span id = "actualizar" data-status = "yes" data-id = "'.$id_actualizar.'"></span>';
 		}
 	 ?>
+
+	<script>
+		$(function(){
+		 	//Verificando si corresponde a actualizar
+		 	if($('span#actualizar').attr('data-status') == "yes"){
+		 		id_act = $('span#actualizar').attr('data-id');
+		 		//form action
+		 		$('form#fr_formacion').attr('action','index.php/Costos/CargarCostosIndirectos/Formacion/GuardarAct/'+id_act);
+		 		//Obteniendo la data a través del post
+		 		//post
+		 		url = "index.php/Costos/CargarCostosIndirectos/DetallesAct";
+		 		params = {table_name:'formacion',id:id_act};
+		 		dataType = "json";
+		 		fo_process = function(data){
+		 			$('select option[value='+data.formacion_tipo_id+']').attr('selected','selected');//tipo
+		 			$('input[name=descripcion_breve]').attr('value',data.descripcion_breve);
+		 			$('input[name=costo]').attr('value',data.costo);
+		 			$('input[name=fecha]').attr('value',data.fecha);
+		 		};
+		 		$.post(url,params,fo_process, dataType);
+		 	}//end of if
+		});
+	</script>
 </div><!-- /page-wrapper-->

@@ -121,9 +121,9 @@ class Cargar_costos_indirectos_model extends CI_Model {
         }
 
         //Formación
-        $sql = "SELECT nombre,costo, formacion_id AS id
+        $sql = "SELECT f.descripcion_breve as nombre,costo, formacion_id AS id
                 FROM formacion AS f JOIN formacion_tipo AS ft ON (f.formacion_tipo_id = ft.formacion_tipo_id)
-                WHERE borrado = false;
+                WHERE borrado = false
                 ;";
         $query = $this->db->query($sql);
         if($query->num_rows() > 0 ){
@@ -202,7 +202,7 @@ class Cargar_costos_indirectos_model extends CI_Model {
                         WHERE m.borrado = false and mantenimiento_id = ".$id.";";
                 break;
             case 'formacion':
-                $sql = "SELECT nombre AS tipo,descripcion_breve AS descripción_breve, costo, fecha
+                $sql = "SELECT descripcion_breve AS descripción_breve, nombre AS tipo, costo, fecha
                         FROM formacion AS f JOIN formacion_tipo AS ft ON (f.formacion_tipo_id = ft.formacion_tipo_id)
                         WHERE borrado = false and formacion_id = ".$id.";";
 

@@ -223,7 +223,7 @@
 										<thead>
 											<tr>
 												<th>#</th>
-												<th>Nombre</th>
+												<th>Nombre/Descripción</th>
 												<th>Grupo</th>
 												<th>Costo</th>
 												<th>Acciones</th>
