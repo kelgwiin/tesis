@@ -40,7 +40,8 @@
 					<div class="panel-body">
 						<div class="row">
 							<form method="post" class = "form-horizontal" 
-							action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento/Guardar');?>">
+								id = "fr_mantenimiento"
+								action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento/Guardar');?>">
 								<!-- DATOS BÁSICOS -->
 								<div class = "col-md-8">
 									<fieldset>
@@ -73,7 +74,7 @@
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="ma_motivo_id">Motivos de Mantenimiento/Instalación</label>
 											<div class="col-md-6">
-												<select id="descripcion" name="ma_motivo_id" class="form-control">
+												<select id="ma_motivo_id" name="ma_motivo_id" class="form-control">
 													<?php
 														foreach ($motivos as $m) {
 															printf('<option value = "%s">%s</option>',$m['ma_motivo_id'],$m['nombre']);
@@ -219,18 +220,42 @@
 					</div>
 				</div>
 				<!-- Fin de Direccionamiento de formularios -->
+	
+
 	<?php 
 		// Colocando Instrucción para indicar si va a obtener data de Actualzación
 		if(isset($id_actualizar)){
-			echo '<span id = "test" data-id = "'.$id_actualizar.'"></span>';
-			echo "
-				<script>
-					$(function() {
-						$('span#test').append('Actualzación');
-					});
-				</script>
-			";
-
+			echo '<span id = "actualizar" data-status = "yes" data-id = "'.$id_actualizar.'"></span>';
 		}
 	 ?>
+
+	<script>
+		$(function(){
+		 	//Verificando si corresponde a actualizar
+		 	if($('span#actualizar').attr('data-status') == "yes"){
+		 		id_act = $('span#actualizar').attr('data-id');
+		 		//form action
+		 		$('form#fr_mantenimiento').attr('action','index.php/Costos/CargarCostosIndirectos/Mantenimiento/GuardarAct/'+id_act);
+		 		//Obteniendo la data a través del post
+		 		//post
+		 		url = "index.php/Costos/CargarCostosIndirectos/DetallesAct";
+		 		params = {table_name:'mantenimiento',id:id_act};
+		 		dataType = "json";
+		 		fo_process = function(data){
+		 			$('select option[value='+data.tipo_operacion+']').attr('selected','selected');
+		 			$('input[name=nombre_mantenimiento]').attr('value',data.nombre_mantenimiento);
+		 			$('select option[value='+data.ma_motivo_id+']').attr('selected','selected');
+		 			$('input[name=costo]').attr('value',data.costo);
+		 			$('input[name=fecha]').attr('value',data.fecha);
+		 			$('select option[value='+data.departamento_id+']').attr('selected','selected');
+		 			$('select option[value='+data.ma_categoria_id+']').attr('selected','selected');
+		 			$('input[name=nombre]').attr('value',data.nombre);
+		 			$('input[name=apellido]').attr('value',data.apellido);
+		 			$('input[name=email]').attr('value',data.email);
+		 			$('input[name=telefono]').attr('value',data.telefono);
+		 		};
+		 		$.post(url,params,fo_process, dataType);
+		 	}//end of if
+		});
+	</script>
 </div><!-- /page-wrapper-->	

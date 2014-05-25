@@ -191,7 +191,7 @@ class Cargar_costos_indirectos_model extends CI_Model {
                         WHERE borrado = false AND arrendamiento_id = ".$id.";";
                 break;
             case 'mantenimiento':
-                $sql = "SELECT tipo_operacion AS tipo_de_operación, mm.nombre AS motivo, costo, fecha, d.nombre AS departamento,
+                $sql = "SELECT m.nombre_mantenimiento as nombre, tipo_operacion AS tipo_de_operación, mm.nombre AS motivo, costo, fecha, d.nombre AS departamento,
                         mc.nombre AS categoría, m.nombre AS nombre_de_encargado, apellido AS apellido_de_encargado,
                         telefono AS teléfono_de_encargado
 

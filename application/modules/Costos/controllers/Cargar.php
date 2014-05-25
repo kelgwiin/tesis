@@ -250,9 +250,6 @@ class Cargar extends MX_Controller
 			echo '{"estatus":"fail"}';
 		}
 	}
-
-
-
 	/**
 	 * Busca los detalles de los Costos Indirectos (from ajax)
 	 * Con un formateo especial para los nombres de cada uno de los campos.
@@ -262,9 +259,6 @@ class Cargar extends MX_Controller
 		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
 		echo json_encode($resp);
 	}
-
-	
-
 }
 /* End of file Cargar.php */
 /* Location: ./application/modules/Costos/controllers/Cargar.php */

@@ -178,18 +178,6 @@
 	 			params = {table_name:'arrendamiento',id:id_act};
 	 			dataType = "json";
 	 			fo_process = function(data){
-	 				/*nombre
-
-	 				select: ma_motivo_id
-
-	 				costo
-
-	 				fecha_inicial_vigencia
-
-	 				tiempo
-
-	 				esquema_tiempo*/
-
 	 				$('input[name=nombre]').attr('value',data.nombre);//nombre
 	 				$('select option[value='+data.ma_motivo_id+']').attr('selected','selected');//motivos
 	 				$('input[name=costo]').attr('value',data.costo);//costo
@@ -198,18 +186,9 @@
 	 				$('input[name=tiempo]').attr('value',data.tiempo);//tiempo
 	 				$('select option[value='+data.esquema_tiempo+']').attr('selected','selected');//esquema tiempo
 
-
-
-	 				
-
-
 	 			};
 	 			$.post(url,params,fo_process, dataType);
-
-
-
-
-	 		}	
+	 		}//end of: if 
 	 	});
 	 </script>
 </div><!-- /page-wrapper -->
