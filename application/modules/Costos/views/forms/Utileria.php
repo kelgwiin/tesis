@@ -41,6 +41,7 @@
 						<div class="row">
 							<div class = "col-md-8">
 								<form class="form-horizontal"
+									id = "fr_utileria"
 									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria/Guardar');?>"
 									method = "post"
 								>
@@ -58,7 +59,7 @@
 											</div>
 										</div>
 
-										<!-- Appended Input-->
+										<!-- Appended Input - Costo-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
 											<div class="col-md-6">
@@ -69,7 +70,7 @@
 
 											</div>
 										</div>
-										<!-- Text input-->
+										<!-- Text input - Fecha -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
 											<div class="col-md-6">
@@ -78,11 +79,11 @@
 											</div>
 										</div>
 
-										<!-- Textarea -->
+										<!-- Textarea - Descripción -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="descripcion">Descripción</label>
 											<div class="col-md-6">                     
-												<textarea class="form-control" id="descripcion" name="descripcion" placeholder = "descripción"></textarea>
+												<textarea class="form-control pull-left" id="descripcion" name="descripcion" placeholder = "descripción"></textarea>
 											</div>
 										</div>
 
@@ -119,19 +120,35 @@
 				</div>
 			</div>
 			<!-- Fin de Direccionamiento de formularios -->
+
 	<?php 
 		// Colocando Instrucción para indicar si va a obtener data de Actualzación
 		if(isset($id_actualizar)){
-			echo '<span id = "test" data-id = "'.$id_actualizar.'"></span>';
-			echo "
-				<script>
-					$(function() {
-						$('span#test').append('Actualzación');
-					});
-				</script>
-			";
-
+			echo '<span id = "actualizar" data-status = "yes" data-id = "'.$id_actualizar.'"></span>';
 		}
 	 ?>
+
+	<script>
+		$(function(){
+		 	//Verificando si corresponde a actualizar
+		 	if($('span#actualizar').attr('data-status') == "yes"){
+		 		id_act = $('span#actualizar').attr('data-id');
+		 		//form action
+		 		$('form#fr_utileria').attr('action','index.php/Costos/CargarCostosIndirectos/Utileria/GuardarAct/'+id_act);
+		 		//Obteniendo la data a través del post
+		 		//post
+		 		url = "index.php/Costos/CargarCostosIndirectos/DetallesAct";
+		 		params = {table_name:'utileria',id:id_act};
+		 		dataType = "json";
+		 		fo_process = function(data){
+					$('input[name=nombre]').attr('value',data.nombre);
+					$('input[name=costo]').attr('value',data.costo);
+					$('input[name=fecha]').attr('value',data.fecha);
+					$('textarea[name=descripcion]').append(data.descripcion);
+		 		};
+		 		$.post(url,params,fo_process, dataType);
+		 	}//end of if
+		});
+	</script>
 
 </div><!-- /page-wrapper -->

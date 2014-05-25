@@ -216,3 +216,37 @@ $num_pages = ceil($config_pag['total_rows']/$config_pag['per_page']);
 		</div><!-- /modal-content-->
 	</div><!-- /modal-dialog-->
 </div><!-- /modal-dialog-->
+
+
+
+
+Actualizar JSON RESPONSE Costos
+<?php 
+	// Colocando Instrucción para indicar si va a obtener data de Actualzación
+	if(isset($id_actualizar)){
+		echo '<span id = "actualizar" data-status = "yes" data-id = "'.$id_actualizar.'"></span>';
+	}
+ ?>
+
+<script>
+	$(function(){
+	 	//Verificando si corresponde a actualizar
+	 	if($('span#actualizar').attr('data-status') == "yes"){
+	 		id_act = $('span#actualizar').attr('data-id');
+	 		//form action
+	 		$('form#fr_arrendamiento').attr('action','index.php/Costos/CargarCostosIndirectos/Arrendamiento/GuardarAct/'+id_act);
+	 		//Obteniendo la data a través del post
+	 		//post
+	 		url = "index.php/Costos/CargarCostosIndirectos/DetallesAct";
+	 		params = {table_name:'arrendamiento',id:id_act};
+	 		dataType = "json";
+	 		fo_process = function(data){
+	 			$('input[name=nombre]').append(data)
+
+
+
+	 		};
+	 		$.post(url,params,fo_process, dataType);
+	 	}//end of if
+	});
+</script>
