@@ -2,7 +2,7 @@
 <ul class="nav navbar-nav navbar-right navbar-user">
               
               <!-- Button of Apps Menu -->
-              <li>
+              <li class = "visible-md visible-lg">
               <a
               id="popoverMenu"
               data-toggle="popover" data-placement="bottom" 

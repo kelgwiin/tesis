@@ -44,7 +44,7 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
-							<div class = "col-md-8">
+							<div class = "col-md-10">
 								<form class = "form-horizontal" 
 									id = "fr_formacion"
 									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Formacion/Guardar');?>"
@@ -102,15 +102,32 @@
 
 									</fieldset>
 
-									<!-- Button  - Guardar-->
-									<div class="form-group">
-										<label class="col-md-4 control-label" for=""></label>
-										<div class="col-md-4">
-											<button type = "submit" id = "btn-guardar" class="btn btn-primary">Guardar</button>
+								<!-- Buttons: Guardar | Cancelar-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for=""></label>
+									<div class="col-md-6 col-xs-12">
+										<div class="row">
+											<div class = "col-md-3 col-xs-6">
+												<button id="" type = "submit" class="btn btn-primary">Guardar</button>
+											</div>
+
+											<div class ="col-md-3 col-xs-6">
+												<a 	
+													href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos');?>" 
+													class="btn btn-primary">Cancelar
+												</a>	
+											</div>
+
+											<div class = "col-md-6"></div><!-- Vacío-->
 										</div>
-									</div>
+									</div><!-- /col-md-6-->
+								</div><!-- /form-group -->
+
+
 								</form>
-							</div><!-- col-8 inner -->
+							</div><!-- col-10 inner -->
+
+							<div class = "col-md-2"></div><!-- Vacio-->
 						</div><!-- /row-->
 					</div><!-- /panel-body-->
 				</div><!-- /panel-default-->

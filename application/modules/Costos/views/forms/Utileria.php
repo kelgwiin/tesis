@@ -39,7 +39,7 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
-							<div class = "col-md-8">
+							<div class = "col-md-10">
 								<form class="form-horizontal"
 									id = "fr_utileria"
 									action="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria/Guardar');?>"
@@ -88,14 +88,29 @@
 										</div>
 
 									</fieldset>
-
-									<!-- Button  - Guardar -->
+									
+									<!-- Buttons: Guardar | Cancelar-->
 									<div class="form-group">
-										<label class="col-md-4 control-label" for="guardar"></label>
-										<div class="col-md-4">
-											<button id="btn-guardar" class="btn btn-primary">Guardar</button>
-										</div>
-									</div>
+										<label class="col-md-4 control-label" for=""></label>
+										<div class="col-md-6 col-xs-12">
+											<div class="row">
+												<div class = "col-md-3 col-xs-6">
+													<button id="" type = "submit" class="btn btn-primary">Guardar</button>
+												</div>
+
+												<div class ="col-md-3 col-xs-6">
+													<a 	
+														href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos');?>" 
+														class="btn btn-primary">Cancelar
+													</a>	
+												</div>
+
+												<div class = "col-md-6"></div><!-- Vacío-->
+											</div>
+										</div><!-- /col-md-6-->
+									</div><!-- /form-group -->
+
+
 								</form>
 
 							</div><!-- /col-md-8 -->

@@ -117,15 +117,32 @@
 
 
 									</fieldset>
-									<!-- Button  - Guardar-->
+
+									<!-- Buttons: Guardar | Cancelar-->
 									<div class="form-group">
 										<label class="col-md-4 control-label" for=""></label>
-										<div class="col-md-6">
-											<button id="" type = "submit" class="btn btn-primary">Guardar</button>
-										</div>
-									</div>
+										<div class="col-md-6 col-xs-12">
+											<div class="row">
+												<div class = "col-md-3 col-xs-6">
+													<button id="" type = "submit" class="btn btn-primary">Guardar</button>
+												</div>
+
+												<div class ="col-md-3 col-xs-6">
+													<a 	
+														href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos');?>" 
+														class="btn btn-primary">Cancelar
+													</a>	
+												</div>
+
+												<div class = "col-md-6"></div><!-- Vacío-->
+											</div>
+										</div><!-- /col-md-6-->
+									</div><!-- /form-group -->
+
 								</form>
 							</div><!-- /col-md-10-->
+
+							<div class = "col-md-2"></div>
 						</div><!-- /row inner-->
 
 

@@ -172,7 +172,8 @@ class Cargar_costos_indirectos_model extends CI_Model {
     }
     /**
      * Obtiene toda la información de la fila dado el nombre y el id.
-     * Este es usado cuando se obtiene la información de la lista de costos indirectos.
+     * Este es usado cuando se obtiene la información de la lista de costos indirectos 
+     * la cual es llamado desde ajax al pulsar sobre el nombre/descripción
      * 
      * @param  String $table_name Nombre de la tabla
      * @param  Integer $id   Id de la tabla
