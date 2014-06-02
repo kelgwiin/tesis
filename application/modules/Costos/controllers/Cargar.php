@@ -13,7 +13,7 @@ class Cargar extends MX_Controller
 	 */
 	public function __construct(){
 		parent::__construct();
-		//Modelos
+		//Models
 		$this->load->model('utilities/utilities_model');
 		$this->load->model('cargar_costos_indirectos_model','cargar_ci_model');
 
@@ -25,6 +25,9 @@ class Cargar extends MX_Controller
 		//Modules
 		//Cargando el módulo ./modules/utilities/utils.php
 		$this->load->module('utilities/utils');
+
+		//Libraries 
+		$this->load->library('Kmeans');
 
 		//Cargando la información de la organización
 		$this->org = $this->utilities_model->first_row('organizacion','organizacion_id');
@@ -258,6 +261,15 @@ class Cargar extends MX_Controller
 		$p = $this->input->post();
 		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
 		echo json_encode($resp);
+	}
+
+
+	public function testKmeans(){
+
+		echo 'Inicio de kmeans<br>';
+		$this->kmeans->test();
+		echo 'Fin de kmeans<br>';
+
 	}
 }
 /* End of file Cargar.php */

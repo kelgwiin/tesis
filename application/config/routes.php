@@ -29,6 +29,7 @@ $route['Costos/CargarCostosIndirectos/(:any)/GuardarAct/(:num)'] = "Costos/Carga
 $route['Costos/CargarCostosIndirectos/Editar/(:any)/(:num)'] = "Costos/Cargar/Editar/$1/$2";
 $route['Costos/CargarCostosIndirectos/Eliminar/(:any)/(:num)'] = "Costos/Cargar/Eliminar/$1/$2";
 $route['Costos/CargarCostosIndirectos/(:any)'] = "Costos/Cargar/$1";
+$route['Costos/Cargar/kmeans'] = "Costos/Cargar/testKmeans";
 /* end of: Rutas para el Módulo de Costos de Servicios de TI*/
 
 
