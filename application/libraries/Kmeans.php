@@ -29,8 +29,12 @@ class Kmeans{
 		foreach($data as $key => $d) {
 			$data[$key] = $this->normaliseValue($d, sqrt($d[0]*$d[0] + $d[1] * $d[1]));
 		}
+		echo 'Normalised Data<br>';
+		echo_pre($data);
 
-		var_dump($this->kMeans($data, 3));
+		$result = $this->kMeans($data, 3);
+
+		echo_pre($result);
 	}
 
 
