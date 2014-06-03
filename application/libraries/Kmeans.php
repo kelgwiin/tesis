@@ -8,6 +8,7 @@
  */
 class Kmeans{
 	public function __construct(){
+		$this->debug = false;
 
 	}
 
@@ -25,53 +26,96 @@ class Kmeans{
 			array(0.95, 0.05)
 		);
 
-		// Lets normalise the input data
+		//Normalizando la data de entrada para que sea 
+		//más consistente
 		foreach($data as $key => $d) {
-			$data[$key] = $this->normaliseValue($d, sqrt($d[0]*$d[0] + $d[1] * $d[1]));
+			$data[$key] = $this->normalizar_data($d, sqrt($d[0]*$d[0] + $d[1] * $d[1]));
 		}
-		echo 'Normalised Data<br>';
-		echo_pre($data);
+		if($this->debug){
+			echo 'Normalised Data<br>';
+			echo_pre($data);
+		}
 
 		$result = $this->kMeans($data, 3);
 
+		echo "Resultado<br>";
 		echo_pre($result);
 	}
 
+	/**
+	 * Permite la inicialización de los centroides.
+	 * @param  array  $data Data para agrupar
+	 * @param  [type] $k    Número de clusters/centroides iniciales
+	 * @return array       Lista de centyroides.
+	 */
+	function inicializar_centroides(array $data, $k) {
+		/**
+		 * $dimensiones Guarda la longitud de cada entrada de la variable 
+		 * 'data'. Que para efectos de estudio del sistema de TI se trabajaría
+		 * en R^2.
+		 * @var array
+		 */
+		$dimensiones = count($data[0]);
 
-	function initialiseCentroids(array $data, $k) {
-		$dimensions = count($data[0]);
-		$centroids = array();
+		$centroides = array();
 		$dimmax = array();
 		$dimmin = array(); 
-		foreach($data as $document) {
-			foreach($document as $dim => $val) {
-				if(!isset($dimmax[$dim]) || $val > $dimmax[$dim]) {
-					$dimmax[$dim] = $val;
+		foreach($data as $row) {
+			/**
+			 * Buscando el máximo y el mínimo en cada entrada (x_i,y_i) de la data que será
+			 * usado posteriormente para la inicialización propia de los
+			 * centroides.
+			 *
+			 * Min (x_i, y_i)
+			 * Max (x_j, y_j)
+			 * 
+			 */
+			foreach($row as $idx => $val) {
+				if(!isset($dimmax[$idx]) || $val > $dimmax[$idx]) {//máximo
+					$dimmax[$idx] = $val;
 				}
-				if(!isset($dimmin[$dim]) || $val < $dimmin[$dim]) {
-					$dimmin[$dim] = $val;
+				if(!isset($dimmin[$idx]) || $val < $dimmin[$idx]) {//mínimo
+					$dimmin[$idx] = $val;
 				}
 			}
 		}
-		for($i = 0; $i < $k; $i++) {
-			$centroids[$i] = $this->initialiseCentroid($dimensions, $dimmax, $dimmin);
+		if($this->debug){
+			echo "min ";
+			echo_pre($dimmin);
+			echo "max ";
+			echo_pre($dimmax);
 		}
-		return $centroids;
+
+		for($i = 0; $i < $k; $i++) {
+			$centroides[$i] = $this->inicializar_centroide($dimensiones, $dimmax, $dimmin);
+		}
+		return $centroides;
 	}
 
-	function initialiseCentroid($dimensions, $dimmax, $dimmin) {
+	/**
+	 * Inicializa el centroide de forma aleatoria según los parámetros que se encuentran entre el intervalo (x,y)
+	 * definido dentro del sistema por las coordenadas mínimas y máximas.
+	 * @param  integer $dimensiones Longitud de la coordenada, define si es R^2 o R^n.
+	 * Por lo general y para efectos de análisis del sistema de TI será R^2
+	 * @param  array $dimmax	Coordenadas de mayor dimensión
+	 * @param  array $dimmin	Coordenadas de menor dimensión
+	 * @return array Coordenadas del centroide
+	 */
+	function inicializar_centroide($dimensiones, $dimmax, $dimmin) {
 		$total = 0;
-		$centroid = array();
-		for($j = 0; $j < $dimensions; $j++) {
-			$centroid[$j] = (rand($dimmin[$j] * 1000, $dimmax[$j] * 1000));
-			$total += $centroid[$j] * $centroid[$j];
+		$centroide = array();
+		for($j = 0; $j < $dimensiones; $j++) {
+			$centroide[$j] = (rand($dimmin[$j] * 1000, $dimmax[$j] * 1000));
+			$total += $centroide[$j] * $centroide[$j];
 		}
-		$centroid = $this->normaliseValue($centroid, sqrt($total));
-		return $centroid;
+		//Normalizando el centroide
+		$centroide = $this->normalizar_data($centroide, sqrt($total));
+
+		return $centroide;
 	}
 
 	function kMeans($data, $k) {
-		$centroids = $this->initialiseCentroids($data, $k);
+		$centroids = $this->inicializar_centroides($data, $k);
 		$mapping = array();
 
 		while(true) {
@@ -136,13 +180,21 @@ class Kmeans{
 		}
 
 		if(count($centroids) < $k) {
-			$centroids = array_merge($centroids, $this->initialiseCentroids($data, $k - count($centroids)));
+			$centroids = array_merge($centroids, $this->inicializar_centroides($data, $k - count($centroids)));
 		}
 
 		return $centroids;
 	}
 
-	function normaliseValue(array $vector, $total) {
+	/**
+	 * Normaliza la data de entrada utilizando la normalización de vectores.
+	 * Posteriormente cuando se tengan todos los clusters formados se debe anular la normalización
+	 * para obtener los valores reales 
+	 * @param  array  $vector
+	 * @param  [type] $total sqrt(ai + ... + a_i+1 + ... + a_n)
+	 * @return array $vector El vector de la data normalizado.
+	 */
+	function normalizar_data(array $vector, $total) {
 		foreach($vector as &$value) {
 			$value = $value/$total;
 		}
