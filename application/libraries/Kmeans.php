@@ -119,7 +119,7 @@ class Kmeans{
 		$mapping = array();
 
 		while(true) {
-			$new_mapping = $this->assignCentroids($data, $centroids);
+			$new_mapping = $this->asignarCentroides($data, $centroids);
 			$changed = false;
 			foreach($new_mapping as $documentID => $centroidID) {
 				if(!isset($mapping[$documentID]) || $centroidID != $mapping[$documentID]) {
@@ -144,26 +144,44 @@ class Kmeans{
 		return $result;
 	}
 
-	function assignCentroids($data, $centroids) {
-		$mapping = array();
+	/**
+	 * Asigna los datos a los centroides que conformarán los clusters, tomando
+	 * en cuenta la distancia más cercana de los  datos de estudio hacia los centroides.
+	 * @param  array $data Data
+	 * @param  array $centroides Centroides
+	 * @return array La data asociada a los centroides
+	 */
+	function asignarCentroides($data, $centroides) {
+		/**
+		 *  Cada entrada es de la siguiente (key => value)
+		 *  key: clave de la coordenada del item en estudio
+		 *  value: clave del centroide
+		 * @var array
+		 */
+		$mapeo = array();
 
-		foreach($data as $documentID => $document) {
-			$minDist = 100;
-			$minCentroid = null;
-			foreach($centroids as $centroidID => $centroid) {
+		foreach($data as $coord_key => $coord) {// Recorrido de cada ítem, obteniendo un array 
+												//donde están sus coordenadas
+			$min_dist = 2014;//Se inicializa en un valor alto para que al comparar no de como mínimo
+			$min_centroide = null;
+			foreach($centroides as $centroide_key => $centroide) {
 				$dist = 0;
-				foreach($centroid as $dim => $value) {
-					$dist += abs($value - $document[$dim]);
+				//Calculando la distancia Euclidiana entre la data de estudio y los centroides
+				foreach($centroide as $dim => $value) {//sacando la sumatoria al cuadrado
+					$temp = $value - $coord[$dim];
+					$dist += $temp*$temp;
 				}
-				if($dist < $minDist) {
-					$minDist = $dist;
-					$minCentroid = $centroidID;
+				$dist = sqrt($dist);
+
+				if($dist < $min_dist) {
+					$min_dist = $dist;
+					$min_centroide = $centroide_key;
 				}
 			}
-			$mapping[$documentID] = $minCentroid;
+			$mapeo[$coord_key] = $min_centroide;
 		}
 
-		return $mapping;
+		return $mapeo;
 	}
 
 	function updateCentroids($mapping, $data, $k) {
