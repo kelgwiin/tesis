@@ -9,8 +9,30 @@
 class Kmeans{
 	public function __construct(){
 		$this->debug = false;
-
 	}
+
+	/**
+	 * Aplica la normalización vectorial a la data para tener una mayor consistencia 
+	 * de los datos con los que se está trabajando.
+	 * @param  array $data 
+	 * @return array La $data normalizada
+	 */
+	public function preprocesar_data($data){
+		/**
+		 * Número de dimensiones que posee la data en estudio.
+		 * @var integer
+		 */
+		$dimensiones = count($data[0]);
+		foreach ($data as $key => $coord) {
+			$sum = 0;
+			for ($i=0; $i < $dimensiones; $i++) { 
+				$sum += $coord[$i]*$coord[$i];
+			}
+			$data[$key] = $this->normalizar_data($coord, sqrt($sum));
+		}
+		return $data;
+	}
+
 
 	public function test(){
 		$data = array( 
@@ -23,20 +45,10 @@ class Kmeans{
 			array(0.55, 0.45), 
 			array(0.85, 0.15),
 			array(0.9, 0.1),
-			array(0.95, 0.05)
+			"alto" => array(500, 250)
 		);
-
-		//Normalizando la data de entrada para que sea 
-		//más consistente
-		foreach($data as $key => $d) {
-			$data[$key] = $this->normalizar_data($d, sqrt($d[0]*$d[0] + $d[1] * $d[1]));
-		}
-		if($this->debug){
-			echo 'Normalised Data<br>';
-			echo_pre($data);
-		}
-
-		$result = $this->kMeans($data, 3);
+		
+		$result = $this->kmeans($data, 3);
 
 		echo "Resultado<br>";
 		echo_pre($result);
@@ -45,7 +57,7 @@ class Kmeans{
 	/**
 	 * Permite la inicialización de los centroides.
 	 * @param  array  $data Data para agrupar
-	 * @param  [type] $k    Número de clusters/centroides iniciales
+	 * @param  integer $k    Número de clusters/centroides iniciales
 	 * @return array       Lista de centyroides.
 	 */
 	function inicializar_centroides(array $data, $k) {
@@ -60,7 +72,7 @@ class Kmeans{
 		$centroides = array();
 		$dimmax = array();
 		$dimmin = array(); 
-		foreach($data as $row) {
+		foreach($data as $coord) {
 			/**
 			 * Buscando el máximo y el mínimo en cada entrada (x_i,y_i) de la data que será
 			 * usado posteriormente para la inicialización propia de los
@@ -70,7 +82,7 @@ class Kmeans{
 			 * Max (x_j, y_j)
 			 * 
 			 */
-			foreach($row as $idx => $val) {
+			foreach($coord as $idx => $val) {
 				if(!isset($dimmax[$idx]) || $val > $dimmax[$idx]) {//máximo
 					$dimmax[$idx] = $val;
 				}
@@ -114,34 +126,60 @@ class Kmeans{
 		return $centroide;
 	}
 
-	function kMeans($data, $k) {
-		$centroids = $this->inicializar_centroides($data, $k);
-		$mapping = array();
+	/**
+	 * Aplica el algoritmo kmeans a una data y genera los clusters.
+	 *
+	 * Condiciones de parada:
+	 * 1.- Los elementos en estudio no se mueven de cluster/centroide.
+	 * 2.- Llegue al máximo de iteraciones permitidas.
+	 * @param  array  $data     Es un array de array, cada entrada del array posee 
+	 * @param  integer  $k      Número de centroides iniciales
+	 * @param  integer $max_iter Número máximo de iteraciones que poseerá el algoritmo.
+	 * Por defecto son 1000000 iteraciones.
+	 * @return array            Un array  con las coordenas de los centroides
+	 * y los clusters generados.
+	 */
+	function kmeans($data, $k, $max_iter = 1000000) {
+		//Normalizando la data de entrada para que sea 
+		//más consistente
+		$data_original = $data;//Haciendo el respaldo de la data
+		$data = $this->preprocesar_data($data);
 
-		while(true) {
-			$new_mapping = $this->asignarCentroides($data, $centroids);
-			$changed = false;
-			foreach($new_mapping as $documentID => $centroidID) {
-				if(!isset($mapping[$documentID]) || $centroidID != $mapping[$documentID]) {
-					$mapping = $new_mapping;
-					$changed = true;
+		$centroides = $this->inicializar_centroides($data, $k);
+		$mapeo = array();
+		$fin = false;
+		$iter = 0;
+		
+		while(!$fin && $iter <= $max_iter) {
+			$nuevo_mapeo = $this->asignar_centroides($data, $centroides);
+			$cambio_centroides = false;
+			/**
+			 * Verificar si la data ha cambiado de centroides.
+			 * Esta es una de las condiciones de paradas en conjunción con la
+			 * cantidad máxima de iteraciones determinada por "$max_iter".
+			 */
+			foreach($nuevo_mapeo as $coord_key => $centroide_key) {
+				if(!isset($mapeo[$coord_key]) || $centroide_key != $mapeo[$coord_key]) {
+					$mapeo = $nuevo_mapeo;
+					$cambio_centroides = true;
 					break;
 				}
-			}
-			if(!$changed){
-				return $this->formatResults($mapping, $data, $centroids); 
-			}
-			$centroids  = $this->updateCentroids($mapping, $data, $k); 
-		}
-	}
+			}//end of - for each
 
-	function formatResults($mapping, $data, $centroids) {
-		$result  = array();
-		$result['centroids'] = $centroids;
-		foreach($mapping as $documentID => $centroidID) {
-			$result[$centroidID][] = implode(',', $data[$documentID]);
+			//Verifica si los elementos se han movido de centroides/clusters.
+			if($cambio_centroides){
+				$centroides  = $this->actualizar_centroides($mapeo, $data, $k); 
+			}else{
+				$fin = true;
+			}
+			$iter += 1;
+		}//end of - while
+		
+		if($this->debug){
+			printf("Cantidad de iteraciones: %d <br>",$iter);
 		}
-		return $result;
+		return $this->formatear_resultado($mapeo, $data, $data_original, $centroides); 
+
 	}
 
 	/**
@@ -150,8 +188,11 @@ class Kmeans{
 	 * @param  array $data Data
 	 * @param  array $centroides Centroides
 	 * @return array La data asociada a los centroides
+	 *  array(coord_key => centroide_key ).
+	 *  Como se encuentran mapeados mediante la clave de los item de estudios 
+	 *  la cantidad de centroides podrías disminuirse.
 	 */
-	function asignarCentroides($data, $centroides) {
+	function asignar_centroides($data, $centroides) {
 		/**
 		 *  Cada entrada es de la siguiente (key => value)
 		 *  key: clave de la coordenada del item en estudio
@@ -167,8 +208,8 @@ class Kmeans{
 			foreach($centroides as $centroide_key => $centroide) {
 				$dist = 0;
 				//Calculando la distancia Euclidiana entre la data de estudio y los centroides
-				foreach($centroide as $dim => $value) {//sacando la sumatoria al cuadrado
-					$temp = $value - $coord[$dim];
+				foreach($centroide as $centroide_idx => $value) {//sacando la sumatoria al cuadrado
+					$temp = $coord[$centroide_idx] - $value ;
 					$dist += $temp*$temp;
 				}
 				$dist = sqrt($dist);
@@ -184,24 +225,36 @@ class Kmeans{
 		return $mapeo;
 	}
 
-	function updateCentroids($mapping, $data, $k) {
-		$centroids = array();
-		$counts = array_count_values($mapping);
+	/**
+	 * Actualizando los centroides.
+	 *  Ui = Centroides
+	 *  C_k = Elementos de cada cluster, que en realidad son coordenadas.
+	 * 	Ui(C_k) = (1 / cardinalidad(C_k)) * (Sumtaria(coordenas de cada vector de C_k),
+	 * @param  array $mapeo Mapeo de centroides con la data
+	 * @param  array $data  
+	 * @param  integer $k Numero de clusters o centroides iniciales
+	 * @return array Nuevos centroides.
+	 */
+	function actualizar_centroides($mapeo, $data, $k) {
+		$centroides = array();
+		$contador_items_clusters = array_count_values($mapeo);// (clave = item centroide , valor = veces asignacion a item centroide)
 
-		foreach($mapping as $documentID => $centroidID) {
-			foreach($data[$documentID] as $dim => $value) {
-				if(!isset($cenntroids[$centroidID][$dim])) {
-					$centroids[$centroidID][$dim] = 0;
+		foreach($mapeo as $coord_key => $centroide_key) {
+			foreach($data[$coord_key] as $idx => $value) {
+				if(!isset($centroides[$centroide_key][$idx])) {
+					$centroides[$centroide_key][$idx] = 0;
 				}
-				$centroids[$centroidID][$dim] += ($value/$counts[$centroidID]); 
+				$centroides[$centroide_key][$idx] += ($value/$contador_items_clusters[$centroide_key]); 
 			}
 		}
 
-		if(count($centroids) < $k) {
-			$centroids = array_merge($centroids, $this->inicializar_centroides($data, $k - count($centroids)));
+		if(count($centroides) < $k) {
+			//Entra cuando algun centroide en el método asignar_centroides ha sido eliminado
+			//porque no ha sido asignado a ninguna coordenada
+			$centroides = array_merge($centroides, $this->inicializar_centroides($data, $k - count($centroides)));
 		}
 
-		return $centroids;
+		return $centroides;
 	}
 
 	/**
@@ -217,6 +270,21 @@ class Kmeans{
 			$value = $value/$total;
 		}
 		return $vector;
+	}
+
+	function formatear_resultado($mapeo, $data, $data_original, $centroides) {
+		$resp  = array();
+		$resp['centroides'] = $centroides;
+		$clusters = array();
+		$dimensiones = count($data_original[0]);
+		foreach($mapeo as $coord_key => $centroide_key) {
+			$coord_original = $data_original[$coord_key];// Coordenada original sin normalización
+		
+			$tmp = array('coord_key' => $coord_key, 'coordenadas' =>$coord_original);
+			$clusters[$centroide_key][] = $tmp;
+		}
+		$resp['clusters'] = $clusters;
+		return $resp;
 	}
 
 }// location: ./application/libraries/Kmeans.php
