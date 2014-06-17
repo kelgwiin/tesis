@@ -262,7 +262,7 @@ class Kmeans{
 	 * Posteriormente cuando se tengan todos los clusters formados se debe anular la normalización
 	 * para obtener los valores reales 
 	 * @param  array  $vector
-	 * @param  [type] $total sqrt(ai + ... + a_i+1 + ... + a_n)
+	 * @param  array $total sqrt(ai + ... + a_i+1 + ... + a_n)
 	 * @return array $vector El vector de la data normalizado.
 	 */
 	function normalizar_data(array $vector, $total) {
