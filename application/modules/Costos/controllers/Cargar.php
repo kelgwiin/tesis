@@ -271,6 +271,12 @@ class Cargar extends MX_Controller
 		echo 'Fin de kmeans<br>';
 
 	}
+
+	public function testCostos(){
+		echo "Inicio de la prueba de Costos<br>";
+
+		echo "Fin de la prueba de Costos<br>";
+	}
 }
 /* End of file Cargar.php */
 /* Location: ./application/modules/Costos/controllers/Cargar.php */

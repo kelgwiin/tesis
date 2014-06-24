@@ -120,3 +120,9 @@ m.ma_motivo_id = mm.ma_motivo_id)
 
 where m.borrado = false and mantenimiento_id = 1;
 
+
+-- Totalizaciones de los Costos
+select ci.nombre, ci.cantidad, ci.precio
+from componente_ti as ci
+;
+
