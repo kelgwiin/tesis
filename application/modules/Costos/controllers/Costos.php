@@ -13,6 +13,7 @@ class Costos extends MX_Controller
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('utilities/utilities_model');
+		$this->load->model('costos_model');
 
 		//Helpers
 		$this->load->helper('date');
@@ -101,6 +102,18 @@ class Costos extends MX_Controller
 	public function index(){
 		$this->utils->template($this->_list(),'Costos/main','','Módulo de Gestión de Costos','',
 			'two_level');
+	}
+
+	public function testCostos(){
+		//Ver qué mantenimiento se le ha hecho a un item
+		//Contabilizar los Componentes de TI
+		//Guardar en Estructura de Costos
+		//Ver afección de costos indirectos por rango de fechas en correlacion con fecha de creacion
+		echo "Inicio de la prueba de Costos<br>";
+
+		$this->costos_model->estructura_costos();
+
+		echo "Fin de la prueba de Costos<br>";
 	}
 }
 /* End of file Costos.php */

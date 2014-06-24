@@ -121,8 +121,10 @@ m.ma_motivo_id = mm.ma_motivo_id)
 where m.borrado = false and mantenimiento_id = 1;
 
 
--- Totalizaciones de los Costos
-select ci.nombre, ci.cantidad, ci.precio
-from componente_ti as ci
-;
+-- Consultas pequelas para: Totalizaciones de los COSTOS por Categorías
+select ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion
+from componente_ti
+where activa = 'ON' and borrado = false;
+
+
 
