@@ -126,5 +126,28 @@ select ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion
 from componente_ti
 where activa = 'ON' and borrado = false;
 
+select ma_unidad_medida_id, ma_categoria_id, valor_nivel
+from ma_unidad_medida;
+
+-- --- arrendamiento
+select arrendamiento_id, costo, fecha_inicial_vigencia, tiempo, esquema_tiempo
+from arrendamiento
+where borrado = false;
+-- -- mantenimiento
+select mantenimiento_id, costo, fecha, departamento_id, ma_categoria_id
+from mantenimiento
+where borrado = false;
+-- --formacion
+select formacion_id, costo, fecha
+from formacion
+where borrado = false;
+-- --honoraios
+select honorario_id, costo, numero_profesionales, fecha_desde, fecha_hasta
+from honorario
+where borrado = false;
+-- -- utileria
+select utileria_id, costo, fecha
+from utileria
+where borrado = false;
 
 
