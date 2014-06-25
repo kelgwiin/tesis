@@ -187,7 +187,7 @@ class Cargar_costos_indirectos_model extends CI_Model {
     public function detalles_ci($table_name, $id){
         switch ($table_name) {
             case 'arrendamiento':
-                $sql = "SELECT a.nombre, costo, fecha_inicial_vigencia AS fecha, tiempo, esquema_tiempo as esquema_de_tiempo, mm.nombre AS motivo
+                $sql = "SELECT a.nombre, costo, fecha_inicial_vigencia AS fecha, esquema_tiempo as esquema_de_tiempo, mm.nombre AS motivo
                         FROM arrendamiento AS a JOIN ma_motivo mm ON (a.ma_motivo_id = mm.ma_motivo_id) 
                         WHERE borrado = false AND arrendamiento_id = ".$id.";";
                 break;

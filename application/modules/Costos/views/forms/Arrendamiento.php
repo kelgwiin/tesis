@@ -93,13 +93,6 @@
 											</div>
 										</div>
 
-										<!-- Text input - Tiempo Arrendamiento -->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for="tiempo">Tiempo de Arrendamiento</label>  
-											<div class="col-md-6">
-												<input id="tiempo" name="tiempo" type="number" min = "1" placeholder="tiempo" class="form-control input-md" required="required">
-											</div>
-										</div>
 
 										<!-- Select Basic - Esquema de Tiempo -->
 										<div class="form-group">
@@ -200,7 +193,6 @@
 	 				$('input[name=costo]').attr('value',data.costo);//costo
 	 				
 	 				$('input[name=fecha_inicial_vigencia]').attr('value',data.fecha_inicial_vigencia);//fecha inicial vigencia
-	 				$('input[name=tiempo]').attr('value',data.tiempo);//tiempo
 	 				$('select option[value='+data.esquema_tiempo+']').attr('selected','selected');//esquema tiempo
 
 	 			};

@@ -105,10 +105,7 @@ class Costos extends MX_Controller
 	}
 
 	public function testCostos(){
-		//Ver qué mantenimiento se le ha hecho a un item
-		//Contabilizar los Componentes de TI
-		//Guardar en Estructura de Costos
-		//Ver afección de costos indirectos por rango de fechas en correlacion con fecha de creacion
+		
 		echo "Inicio de la prueba de Costos<br>";
 
 		$this->costos_model->estructura_costos();

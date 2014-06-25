@@ -13,6 +13,11 @@ class Costos_model extends CI_Model{
 	 * los calculos.
 	 */
 	public function estructura_costos(){
+		//Ver qué mantenimiento se le ha hecho a un item
+		//Contabilizar los Componentes de TI
+		//Guardar en Estructura de Costos
+		//Ver afección de costos indirectos por rango de fechas en correlacion con fecha de creacion
+
 		//Componentes de TI
 		$sql_cti = "SELECT ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion
 				FROM componente_ti
@@ -79,6 +84,16 @@ class Costos_model extends CI_Model{
 
 
 		echo_pre($r_util);
+
+		//Opciones para hacer el prorrateo de los Costos Indirectos
+		//1.- Tomar en cuenta sólo los componentes que se encuentren >= a la fecha del costo ind
+		//2.- Tomar todos los componentes, se incluyen los viejos.
+		//
+		//Conclusión: Se deben tomar en cuenta todos los componentes de ti, ya que un costo
+		//indirecto pudiese afectar tanto a componentes viejos como a los que se integren en el futuro.
+		//Lo que si se debe monitorear es la VIDA ÚTIL, la cual al llegar a su fin pasará a estar
+		//inactivo, para ello se debe correr cada cierto tiempo un proceso que actualice los estados.
+		//
 
 	}
 
