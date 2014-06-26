@@ -14,8 +14,10 @@ class Costos_model extends CI_Model{
 	 * Permite calcular la estructura de costos por categoría, a partir de una 
 	 * fecha (mes y año) dada. Por ejemplo, si queremos los costos de febrero de 2010,
 	 * se contabilizarían los costos existentes de febrero hasta la presente fecha.
+	 * El cálculo se realiza por mes, en donde todos los elementos de costes involucrados
+	 * vigentes hasta la fecha serán tomados en cuenta.
 	 * 
-	 * @param string $year Año numérico, cuatro dígitos
+	 * @param string $year Año numérico, cuatro dígitos.
 	 * @param string $month Mes numérico, dos dígitos.
 	 * @return boolean Indica si fueron o no realizados con éxito
 	 * los calculos.
@@ -59,24 +61,19 @@ class Costos_model extends CI_Model{
 					(fecha_hasta BETWEEN ".$fecha." AND ".$fecha_fin_mes.")
 		
 				);";
-
 		$q_cti = $this->db->query($sql_cti);
 		$r_cti = $q_cti->result_array();
 
-
-
-
 		//ma_categoria
-		$sql_categ = "SELECT ma_categoria_id, valor_base
+		$sql_categ = "SELECT ma_categoria_id, valor_base, nombre
 					  FROM ma_categoria;";
 		$q_categ = $this->db->query($sql_categ);
 		
 		$r_categ = array();
 		foreach ($q_categ->result_array() as $row) {
-			$r_categ[$row['ma_categoria_id']] = $row['valor_base'];
+			$r_categ[$row['ma_categoria_id']]['valor_base'] = $row['valor_base'];
+			$r_categ[$row['ma_categoria_id']]['nombre'] = $row['nombre'];
 		}
-
-
 
 		//ma_unidad_medida
 		$sql_uni = "SELECT ma_unidad_medida_id, ma_categoria_id, valor_nivel
@@ -87,9 +84,6 @@ class Costos_model extends CI_Model{
 			$r_uni[$row['ma_unidad_medida_id']] = array('ma_categoria_id'=>$row['ma_categoria_id'],
 				'valor_nivel'=>$row['valor_nivel']);
 		}
-
-
-
 
 
 		//::: COSTOS INDIRECTOS ::::
@@ -104,7 +98,6 @@ class Costos_model extends CI_Model{
 						(fecha_inicial_vigencia BETWEEN ".$fecha." AND ".$fecha_fin_mes.")
 					);";
 					
-
 		$q = $this->db->query($sql_arren);
 		$r_arren = $q->result_array();
 
@@ -153,7 +146,54 @@ class Costos_model extends CI_Model{
 		$r_util = $q->result_array();
 
 
-		echo_pre($r_mant);
+		//Totalizar Capacidad y Costo de los Componentes de TI. Asignarlos a la categoría que corresponda
+		/**
+		 * Cada entrada contiene la siguiente estructura:
+		 * 		integer ma_categoria_id 
+		 *   	integer total_capacidad
+		 *    	double  total_monetario
+		 * @var array
+		 */
+		$costos_categoria = array();
+
+		$otros_costos = 0;
+		// $r_uni, $r_categ
+		foreach ($r_cti as $row) {
+			$uni_id = $row['ma_unidad_medida_id'];
+			$categ_id = $r_uni[$uni_id]['ma_categoria_id'];
+			$valor_nivel = $r_uni[$uni_id]['valor_nivel'];
+			$valor_base = $r_categ[$categ_id]['valor_base'];
+			$categ_nom = $r_categ[$categ_id]['nombre'];
+
+			$precio_total = $row['cantidad']*$row['precio'];
+
+			if(!isset($costos_categoria[$categ_id]['nombre'])){
+				$costos_categoria[$categ_id]['nombre'] = $categ_nom;
+			}
+
+			if($valor_base > 0){//No pertenece a la categoría de otros o licencia
+				//la unidades más bajas de cada categoria son: KB, Kb, KH. Esto es configurable desde la BD
+				$tmp_unidad = $valor_nivel == 1? $valor_base: pow($valor_base, $valor_nivel);
+				$tocal_capacidad = $row['capacidad']*$tmp_unidad*$row['cantidad'];
+
+				if(isset($costos_categoria[$categ_id]['total_capacidad'])){
+					$costos_categoria[$categ_id]['total_capacidad'] += $tocal_capacidad;
+					$costos_categoria[$categ_id]['total_monetario'] += $precio_total;
+				}else{
+					$costos_categoria[$categ_id]['total_capacidad'] = $tocal_capacidad;
+					$costos_categoria[$categ_id]['total_monetario'] = $precio_total;
+				}
+			}else{
+				if(isset($costos_categoria[$categ_id]['total_monetario'])){
+					$costos_categoria[$categ_id]['total_monetario'] += $precio_total;
+				}else{
+					$costos_categoria[$categ_id]['total_capacidad'] = -1;//para indicar que no aplica
+					$costos_categoria[$categ_id]['total_monetario'] = $precio_total;
+				}
+			}
+		}
+		echo_pre($costos_categoria);
+		echo_pre($r_cti);
 
 		//Opciones para hacer el prorrateo de los Costos Indirectos
 		//1.- Tomar en cuenta sólo los componentes que se encuentren >= a la fecha del costo ind

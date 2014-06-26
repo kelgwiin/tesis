@@ -223,9 +223,9 @@
 										<thead>
 											<tr>
 												<th>#</th>
-												<th>Nombre/Descripción</th>
-												<th>Grupo</th>
-												<th>Costo</th>
+												<th><i class = "fa fa-sort"></i> Nombre/Descripción</th>
+												<th><i class = "fa fa-sort"></i> Grupo</th>
+												<th><i class = "fa fa-sort"></i> Costo</th>
 												<th>Acciones</th>
 											</tr>
 										</thead>

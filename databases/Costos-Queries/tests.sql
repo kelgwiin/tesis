@@ -71,3 +71,7 @@ select * from formacion;
 select * from mantenimiento;
 select * from honorario;
 select * from utileria;
+
+select * from ma_categoria;
+select * from ma_unidad_medida;
+select * from componente_ti;
