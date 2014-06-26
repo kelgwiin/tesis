@@ -108,7 +108,7 @@ class Costos extends MX_Controller
 		
 		echo "Inicio de la prueba de Costos<br>";
 
-		$this->costos_model->estructura_costos();
+		$this->costos_model->estructura_costos('2014','05');
 
 		echo "Fin de la prueba de Costos<br>";
 	}

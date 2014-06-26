@@ -1,5 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/**
+ * Creado: 24-06-2014
+ * @author Kelwin Gamez <kelgwiin@gmail.com>
+ */
 class Costos_model extends CI_Model{
 	public function __construct(){
 	    parent::__construct();
@@ -8,22 +11,60 @@ class Costos_model extends CI_Model{
 	}
 
 	/**
-	 * Permite calcular la estructura de costos por categoría
+	 * Permite calcular la estructura de costos por categoría, a partir de una 
+	 * fecha (mes y año) dada. Por ejemplo, si queremos los costos de febrero de 2010,
+	 * se contabilizarían los costos existentes de febrero hasta la presente fecha.
+	 * 
+	 * @param string $year Año numérico, cuatro dígitos
+	 * @param string $month Mes numérico, dos dígitos.
 	 * @return boolean Indica si fueron o no realizados con éxito
 	 * los calculos.
 	 */
-	public function estructura_costos(){
+	public function estructura_costos($year, $month){
 		//Ver qué mantenimiento se le ha hecho a un item
 		//Contabilizar los Componentes de TI
 		//Guardar en Estructura de Costos
 		//Ver afección de costos indirectos por rango de fechas en correlacion con fecha de creacion
 
+		$fecha = " STR_TO_DATE('".$year.",".$month.",01','%Y,%m,%d') ";
+		
+		//Para saber cuando llega a diciembre
+		//$fecha & $fecha_fin_mes indican el intervalo del mes completo donde se 
+		if($month == 12){
+			$year += 1;
+			$month = 1;
+		}else{
+			$month += 1;
+		}
+		$fecha_fin_mes = " (STR_TO_DATE('".$year.",".$month.",01','%Y,%m,%d') - INTERVAL 1 DAY) ";
+
 		//Componentes de TI
+		$this->add_fecha_hasta_comp();// Actualizando la fecha de caducidad de los componentes de TI
+		
+		//Consultando los componentes de ti filtrandolo por fecha y por activo o inactivo 
+		//según las fecha de vigencia de cada ítem.
+		
+		//La primera es cuando es grande tal forma que abarca todo el  o una fraccion de el pero de forma externa
+		//La segunda condicion es cuando el intervalo es pequeño y cabe dentro del mes, está incluido
 		$sql_cti = "SELECT ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion
 				FROM componente_ti
-				WHERE activa = 'ON' AND borrado = false;";
+				WHERE activa = 'ON' AND borrado = false AND  
+				(
+				 
+					(".$fecha." BETWEEN fecha_creacion AND fecha_hasta ) OR 
+					(".$fecha_fin_mes." BETWEEN fecha_creacion AND fecha_hasta)
+				 
+				 OR
+					(fecha_creacion BETWEEN ".$fecha." AND ".$fecha_fin_mes." ) OR 
+					(fecha_hasta BETWEEN ".$fecha." AND ".$fecha_fin_mes.")
+		
+				);";
+
 		$q_cti = $this->db->query($sql_cti);
 		$r_cti = $q_cti->result_array();
+
+
+
 
 		//ma_categoria
 		$sql_categ = "SELECT ma_categoria_id, valor_base
@@ -35,6 +76,8 @@ class Costos_model extends CI_Model{
 			$r_categ[$row['ma_categoria_id']] = $row['valor_base'];
 		}
 
+
+
 		//ma_unidad_medida
 		$sql_uni = "SELECT ma_unidad_medida_id, ma_categoria_id, valor_nivel
 					FROM ma_unidad_medida;";
@@ -45,25 +88,41 @@ class Costos_model extends CI_Model{
 				'valor_nivel'=>$row['valor_nivel']);
 		}
 
-		//-- Obteniendo todos los Costos Indirectos
+
+
+
+
+		//::: COSTOS INDIRECTOS ::::
+		//
 		//arrendamiento
-		$sql_arren = "SELECT arrendamiento_id, costo, fecha_inicial_vigencia, tiempo, esquema_tiempo
+		$sql_arren = "SELECT arrendamiento_id, costo, fecha_inicial_vigencia, esquema_tiempo
 					FROM arrendamiento
-					WHERE borrado = false;";
+					WHERE borrado = false and 
+					(
+						fecha_inicial_vigencia <=  ".$fecha." OR
+						
+						(fecha_inicial_vigencia BETWEEN ".$fecha." AND ".$fecha_fin_mes.")
+					);";
+					
+
 		$q = $this->db->query($sql_arren);
 		$r_arren = $q->result_array();
+
 
 		//mantenimiento 
 		$sql_mant = "SELECT mantenimiento_id, costo, fecha, departamento_id, ma_categoria_id
 					FROM mantenimiento
-					WHERE borrado = false;";
+					WHERE borrado = false AND 
+						fecha BETWEEN ".$fecha." AND ".$fecha_fin_mes.";";
+
 		$q = $this->db->query($sql_mant);
 		$r_mant = $q->result_array();
 
 		//formacion
 		$sql_for = "SELECT formacion_id, costo, fecha
 					FROM formacion
-					WHERE borrado = false;";
+					WHERE borrado = false AND 
+						fecha BETWEEN ".$fecha." AND ".$fecha_fin_mes.";";
 		
 		$q = $this->db->query($sql_for);
 		$r_for = $q->result_array();
@@ -71,19 +130,30 @@ class Costos_model extends CI_Model{
 		//honoraios profesionales
 		$sql_hon = "SELECT honorario_id, costo, numero_profesionales, fecha_desde, fecha_hasta
 					FROM honorario
-					WHERE borrado = false;";
+					WHERE borrado = false AND
+						(
+						 
+							(".$fecha." BETWEEN fecha_desde AND fecha_hasta ) OR 
+							(".$fecha_fin_mes." BETWEEN fecha_desde AND fecha_hasta)
+						 
+						 OR
+							(fecha_desde BETWEEN ".$fecha." AND ".$fecha_fin_mes." ) OR 
+							(fecha_hasta BETWEEN ".$fecha." AND ".$fecha_fin_mes.")
+						);";
 		$q = $this->db->query($sql_hon);
 		$r_hon = $q->result_array();
 
 		//utileria
 		$sql_util = "SELECT utileria_id, costo, fecha
 					FROM utileria
-					WHERE borrado = false;";
+					WHERE borrado = false AND 
+						fecha BETWEEN ".$fecha." AND ".$fecha_fin_mes.";";
+
 		$q = $this->db->query($sql_util);
 		$r_util = $q->result_array();
 
 
-		echo_pre($r_util);
+		echo_pre($r_mant);
 
 		//Opciones para hacer el prorrateo de los Costos Indirectos
 		//1.- Tomar en cuenta sólo los componentes que se encuentren >= a la fecha del costo ind
@@ -94,6 +164,42 @@ class Costos_model extends CI_Model{
 		//Lo que si se debe monitorear es la VIDA ÚTIL, la cual al llegar a su fin pasará a estar
 		//inactivo, para ello se debe correr cada cierto tiempo un proceso que actualice los estados.
 		//
+
+	}
+	/**
+	 * Agrega la fecha de caducidad de un componente de ti, a partir de
+	 * la vida útil o el el tiempo de vida que este especifique dentro de su descripción
+	 */
+	public function add_fecha_hasta_comp(){
+		$sql = "SELECT componente_ti_id, unidad_tiempo_vida 
+				FROM componente_ti 
+				WHERE fecha_hasta IS NULL and unidad_tiempo_vida != 'NA'; ";
+		$q = $this->db->query($sql);
+
+		if($q->num_rows() > 0 ){
+			foreach ($q->result_array() as $row) {
+				//Obteniendo la unidad de tiempo de vida
+				$unidad = "";
+				switch ($row['unidad_tiempo_vida']) {
+					case 'AA':
+						$unidad = "YEAR";
+						break;
+					case 'MM':
+						$unidad = "MONTH";
+						break;
+					case 'DD':
+						$unidad = "DAY";
+						break;
+				}
+
+				$sql_upd = "UPDATE componente_ti
+							SET fecha_hasta = fecha_creacion + INTERVAL tiempo_vida ".$unidad."
+							WHERE componente_ti_id = '".$row['componente_ti_id']."'; ";
+				$this->db->query($sql_upd);
+			}
+		}
+
+
 
 	}
 

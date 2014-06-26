@@ -121,18 +121,36 @@ m.ma_motivo_id = mm.ma_motivo_id)
 where m.borrado = false and mantenimiento_id = 1;
 
 
--- Consultas pequelas para: Totalizaciones de los COSTOS por Categorías
-select ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion
+
+
+
+-- Consultas pequeñas para: Totalizaciones de los COSTOS por Categorías
+-- --componente_ti
+select ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion, fecha_hasta
 from componente_ti
-where activa = 'ON' and borrado = false;
+where activa = 'ON' and borrado = false and (
+	(fecha_creacion between '2010-05-01' and (str_to_date('2010,06,01','%Y,%m,%d') - INTERVAL 1 DAY) )
+or
+	(fecha_hasta between '2010-05-01' and (str_to_date('2010,06,01','%Y,%m,%d') - INTERVAL 1 DAY) )
+);
+
+select str_to_date('2010,01,01','%Y,%m,%d') - INTERVAL 1 DAY;
 
 select ma_unidad_medida_id, ma_categoria_id, valor_nivel
 from ma_unidad_medida;
 
 -- --- arrendamiento
-select arrendamiento_id, costo, fecha_inicial_vigencia, tiempo, esquema_tiempo
+select arrendamiento_id, costo, fecha_inicial_vigencia, esquema_tiempo
 from arrendamiento
-where borrado = false;
+where  borrado = false and 
+( fecha_inicial_vigencia <=  STR_TO_DATE('2014,05,01','%Y,%m,%d')
+	
+ or 
+  fecha_inicial_vigencia between STR_TO_DATE('2014,05,01','%Y,%m,%d') and (STR_TO_DATE('2014,06,01','%Y,%m,%d') - interval 1 day )
+
+)
+;
+
 -- -- mantenimiento
 select mantenimiento_id, costo, fecha, departamento_id, ma_categoria_id
 from mantenimiento
@@ -140,14 +158,18 @@ where borrado = false;
 -- --formacion
 select formacion_id, costo, fecha
 from formacion
-where borrado = false;
+where borrado = false and '2014-05-01' >= STR_TO_DATE();
 -- --honoraios
 select honorario_id, costo, numero_profesionales, fecha_desde, fecha_hasta
 from honorario
-where borrado = false;
+where CURDATE() between fecha_desde and fecha_hasta and borrado = false;
 -- -- utileria
 select utileria_id, costo, fecha
 from utileria
 where borrado = false;
 
+-- Agregando la vida util de un componente de ti
+select fecha_creacion,tiempo_vida, fecha_creacion + INTERVAL tiempo_vida DAY as fecha_hasta
+from componente_ti;
 
+select * from mantenimiento;
