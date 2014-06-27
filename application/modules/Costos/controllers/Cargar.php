@@ -31,86 +31,17 @@ class Cargar extends MX_Controller
 
 		//Cargando la información de la organización
 		$this->org = $this->utilities_model->first_row('organizacion','organizacion_id');
+
+		//Conjuto de menues que se encuentra en el lateral izquierdo.
+		$this->list_sidebar = $this->utils->list_sidebar_costos();
 	}
 	/**
-	 * Genera la lista de ítems para colocarlos en el menú izquierdo
-	 * @param $index_active Índice del ítem activo.
-	 * @return array
+	 * Despliega lalista de todos los costos indirectos y además contiene
+	 * también las links para la creación de ellos.
 	 */
-	private function _list(){
-		$l =  array();
-
-		$l[] = array(
-			"chain" => "Volver a Módulos Principales",
-			"href" => site_url(''),
-			"icon" => "fa fa-flag"
-		);
-		
-		$l[] = array(
-			"chain" => "Descripción",
-			"href" => site_url('index.php/Costos'),
-			"icon" => "fa fa-bar-chart-o"
-		);
-
-		//Costos Indirectos
-		$sublista = array(
-			array(
-				'chain' => 'Listar',
-				'href'=> site_url('index.php/Costos/CargarCostosIndirectos')
-			),
-
-			array(
-				'chain' => 'Arrendamiento',
-				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento')
-			),
-
-			array(
-				'chain' => 'Mantenimiento',
-				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento')
-			),
-
-			array(
-				'chain' => 'Formación',
-				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Formacion')
-			),
-			
-			array(
-				'chain' => 'Honorarios Prof.',
-				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf')
-			),	
-			
-			array(
-				'chain' => 'Utilería',
-				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Utileria')
-			)
-
-		);
-		$l[] = array(
-			"chain" => "Costos Indirectos",
-			"href" => site_url('index.php/Costos/CargarCostosIndirectos'),
-			"icon" => "fa fa-caret-square-o-down",
-			"list" => $sublista
-		);
-
-		$l[] = array(
-			"chain" => "Item2",
-			"href" => "#",
-			"icon" => "fa fa-caret-square-o-down"
-		
-		);
-
-		$l[] = array(
-			"chain" => "Item2",
-			"href" => "#",
-			"icon" => "fa fa-caret-square-o-down"
-		
-		);
-		return $l;
-	}//end of function: _list
-
 	public function CostosIndirectos(){
 		$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
-		$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+		$this->utils->template($this->list_sidebar,'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -121,7 +52,7 @@ class Cargar extends MX_Controller
 		}
 		$params['org'] = $this->org;
 		$params['motivos'] =  $this->cargar_ci_model->motivos_by_seccion('arrendamiento');
-		$this->utils->template($this->_list(),'Costos/forms/Arrendamiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+		$this->utils->template($this->list_sidebar,'Costos/forms/Arrendamiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -133,7 +64,7 @@ class Cargar extends MX_Controller
 		$params['motivos'] =  $this->cargar_ci_model->motivos_by_seccion('mantenimiento');
 		$params['dptos'] = $this->cargar_ci_model->nombres_ids_dpto();
 		$params['categorias'] = $this->cargar_ci_model->nombres_ids_ma_categoria();
-		$this->utils->template($this->_list(),'Costos/forms/Mantenimiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+		$this->utils->template($this->list_sidebar,'Costos/forms/Mantenimiento',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -143,7 +74,7 @@ class Cargar extends MX_Controller
 		}
 		$params['org'] = $this->org;
 		$params['tipos'] = $this->cargar_ci_model->nombres_ids_formacion_tipo();
-		$this->utils->template($this->_list(),'Costos/forms/Formacion',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+		$this->utils->template($this->list_sidebar,'Costos/forms/Formacion',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -152,7 +83,7 @@ class Cargar extends MX_Controller
 			$params['id_actualizar'] = $id_actualizar;
 		}
 		$params['org'] = $this->org;
-		$this->utils->template($this->_list(),'Costos/forms/HonorariosProf',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+		$this->utils->template($this->list_sidebar,'Costos/forms/HonorariosProf',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 	
@@ -161,7 +92,7 @@ class Cargar extends MX_Controller
 			$params['id_actualizar'] = $id_actualizar;
 		}
 		$params['org'] = $this->org;
-		$this->utils->template($this->_list(),'Costos/forms/Utileria',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+		$this->utils->template($this->list_sidebar,'Costos/forms/Utileria',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 	}
 
@@ -174,7 +105,7 @@ class Cargar extends MX_Controller
 		if($this->utilities_model->add_ar($p, $table_name)){
 			$params['guardado_exitoso'] = true;
 			$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
-			$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+			$this->utils->template($this->list_sidebar,'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 			
 		}
@@ -235,7 +166,7 @@ class Cargar extends MX_Controller
 		if( $this->utilities_model->update_ar($table_name,$p,array($table_name."_id"=>$id)) ){
 			$params['actualizado_exitoso'] = true;
 			$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
-			$this->utils->template($this->_list(),'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
+			$this->utils->template($this->list_sidebar,'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
 		}
 	}

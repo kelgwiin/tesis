@@ -51,63 +51,7 @@
 						</div>
 					</div>
 
-					<!-- Cargar Componentes de TI-->
-					<div class="col-lg-3">
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-6">
-										<i class="fa fa-cogs fa-5x"></i>
-									</div>
-									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Sección 2</p>
-									</div>
-								</div>
-							</div>
-							<a href="#">
-								<div class="panel-footer announcement-bottom">
-									<div class="row">
-										<div class="col-xs-6">
-											Examinar
-										</div>
-										<div class="col-xs-6 text-right">
-											<i class="fa fa-arrow-circle-right"></i>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<!-- Carga Departamentos -->
-					<div class="col-lg-3">
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-6">
-										<i class="fa fa-sitemap fa-5x"></i>
-									</div>
-									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Sección 3</p>
-									</div>
-								</div>
-							</div>
-							<a href="#">
-								<div class="panel-footer announcement-bottom">
-									<div class="row">
-										<div class="col-xs-6">
-											Examinar
-										</div>
-										<div class="col-xs-6 text-right">
-											<i class="fa fa-arrow-circle-right"></i>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<!-- Cargar Servicios-->
+					<!-- Modelo de Costos -->
 					<div class="col-lg-3">
 						<div class="panel panel-info">
 							<div class="panel-heading">
@@ -116,11 +60,67 @@
 										<i class="fa fa-list fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Sección 4</p>
+										<p class="announcement-text">Modelo de Costos</p>
 									</div>
 								</div>
 							</div>
-							<a href="">
+							<a href="<?php echo site_url('index.php/Costos/ModeloCostos');?>">
+								<div class="panel-footer announcement-bottom">
+									<div class="row">
+										<div class="col-xs-6">
+											Examinar
+										</div>
+										<div class="col-xs-6 text-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<!-- Históricos  -->
+					<div class="col-lg-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-6">
+										<i class="fa fa-signal fa-5x"></i>
+									</div>
+									<div class="col-xs-6 text-center">
+										<p class="announcement-text">Históricos</p>
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo site_url('index.php/Costos/Historicos');?>">
+								<div class="panel-footer announcement-bottom">
+									<div class="row">
+										<div class="col-xs-6">
+											Examinar
+										</div>
+										<div class="col-xs-6 text-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<!-- Recomendaciones -->
+					<div class="col-lg-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="fa fa-file-text fa-5x"></i>
+									</div>
+									<div class="col-xs-9 text-center">
+										<p class="announcement-text">Recomendaciones</p>
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo site_url('index.php/Costos/Recomendaciones');?>">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -145,10 +145,10 @@
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<div class="row">
-									<div class="col-xs-6">
+									<div class="col-xs-5">
 										<i class="fa fa-book fa-5x"></i>
 									</div>
-									<div class="col-xs-6 text-center">
+									<div class="col-xs-7 text-center">
 										<p class="announcement-text">Documentación</p>
 									</div>
 								</div>

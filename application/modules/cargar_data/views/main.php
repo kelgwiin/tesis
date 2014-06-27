@@ -82,10 +82,10 @@
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<div class="row">
-									<div class="col-xs-6">
+									<div class="col-xs-4">
 										<i class="fa fa-sitemap fa-5x"></i>
 									</div>
-									<div class="col-xs-6 text-center">
+									<div class="col-xs-8 text-center">
 										<p class="announcement-text">Cargar Departamentos</p>
 									</div>
 								</div>
@@ -143,10 +143,10 @@
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<div class="row">
-									<div class="col-xs-6">
+									<div class="col-xs-5">
 										<i class="fa fa-book fa-5x"></i>
 									</div>
-									<div class="col-xs-6 text-center">
+									<div class="col-xs-7 text-center">
 										<p class="announcement-text">Documentación</p>
 									</div>
 								</div>

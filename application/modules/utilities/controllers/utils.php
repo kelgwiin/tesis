@@ -251,5 +251,88 @@ class Utils extends MX_Controller
 
 		return $l;
 	}
+
+	/**
+	 * Creado: 27-06-2014
+	 * 
+	 * Genera la lista de ítems para colocarlos en el menú izquierdo
+	 * @return array
+	 */
+	public function list_sidebar_costos(){
+		$l =  array();
+
+		$l[] = array(
+			"chain" => "Volver a Módulos Principales",
+			"href" => site_url(''),
+			"icon" => "fa fa-flag"
+		);
+
+		$l[] = array(
+			"chain" => "Descripción",
+			"href" => site_url('index.php/Costos'),
+			"icon" => "fa fa-bar-chart-o"
+		);
+
+		//Costos Indirectos
+		$sublista = array(
+			array(
+				'chain' => 'Listar',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos')
+			),
+
+			array(
+				'chain' => 'Arrendamiento',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Arrendamiento')
+			),
+
+			array(
+				'chain' => 'Mantenimiento',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Mantenimiento')
+			),
+
+			array(
+				'chain' => 'Formación',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Formacion')
+			),
+			
+			array(
+				'chain' => 'Honorarios Prof.',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf')
+			),	
+			
+			array(
+				'chain' => 'Utilería',
+				'href'=> site_url('index.php/Costos/CargarCostosIndirectos/Utileria')
+			)
+		);
+		$l[] = array(
+			"chain" => "Costos Indirectos",
+			"href" => site_url('index.php/Costos/CargarCostosIndirectos'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+
+		$l[] = array(
+			"chain" => "Modelo de Costos",
+			"href" => site_url('index.php/Costos/ModeloCostos'),
+			"icon" => "fa fa-list"
+		
+		);
+
+		$l[] = array(
+			"chain" => "Históricos",
+			"href" => site_url('index.php/Costos/Historicos'),
+			"icon" => "fa fa-signal"
+		
+		);
+
+		$l[] = array(
+			"chain" => "Recomendaciones",
+			"href" => site_url('index.php/Costos/Recomendaciones'),
+			"icon" => "fa fa-file-text"
+		
+		);
+		return $l;
+	}//end of function: list_sidebar_costos
 }
 // Location: ./modules/utilities/controller/utils.php
