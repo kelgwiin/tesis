@@ -17,6 +17,13 @@ class Costos_model extends CI_Model{
 	 * El cálculo se realiza por mes, en donde todos los elementos de costes involucrados
 	 * vigentes hasta la fecha serán tomados en cuenta.
 	 * 
+	 * Para el estudio sólo se tomarán en cuenta las siguientes categorias que son las involucradas en
+	 * rendimiento el resto serán prorrateadas:
+	 * - Redes
+	 * - Memoria 
+	 * - Almacenamiento
+	 * - Procesador
+	 * 
 	 * @param string $year Año numérico, cuatro dígitos.
 	 * @param string $month Mes numérico, dos dígitos.
 	 * @return boolean Indica si fueron o no realizados con éxito
@@ -28,8 +35,11 @@ class Costos_model extends CI_Model{
 		//Guardar en Estructura de Costos
 		//Ver afección de costos indirectos por rango de fechas en correlacion con fecha de creacion
 
+		$debug = true;
 		$fecha = " STR_TO_DATE('".$year.",".$month.",01','%Y,%m,%d') ";
 		
+		$orig_month = $month;
+		$orig_year = $year;
 		//Para saber cuando llega a diciembre
 		//$fecha & $fecha_fin_mes indican el intervalo del mes completo donde se 
 		if($month == 12){
@@ -63,6 +73,8 @@ class Costos_model extends CI_Model{
 				);";
 		$q_cti = $this->db->query($sql_cti);
 		$r_cti = $q_cti->result_array();
+
+		if($q_cti->num_rows() <= 0 ) {return false;}
 
 		//ma_categoria
 		$sql_categ = "SELECT ma_categoria_id, valor_base, nombre
@@ -149,15 +161,19 @@ class Costos_model extends CI_Model{
 		//Totalizar Capacidad y Costo de los Componentes de TI. Asignarlos a la categoría que corresponda
 		/**
 		 * Cada entrada contiene la siguiente estructura:
-		 * 		integer ma_categoria_id 
+		 * 		(key) integer ma_categoria_id
+		 *   	integer cantidad_items
 		 *   	integer total_capacidad
 		 *    	double  total_monetario
+		 *     	double  total_monetario_cost_ind //dinero de costos indirectos
 		 * @var array
 		 */
 		$costos_categoria = array();
 
-		$otros_costos = 0;
+		$otros_costos = 0;// Orientadas a las categorías fuera 4 principales de estudio
 		// $r_uni, $r_categ
+		$total_cti_items = count($r_cti);
+		$total_otros_ci_items = 0;//items no principales
 		foreach ($r_cti as $row) {
 			$uni_id = $row['ma_unidad_medida_id'];
 			$categ_id = $r_uni[$uni_id]['ma_categoria_id'];
@@ -167,11 +183,13 @@ class Costos_model extends CI_Model{
 
 			$precio_total = $row['cantidad']*$row['precio'];
 
-			if(!isset($costos_categoria[$categ_id]['nombre'])){
-				$costos_categoria[$categ_id]['nombre'] = $categ_nom;
-			}
 
 			if($valor_base > 0){//No pertenece a la categoría de otros o licencia
+				//nombre
+				if(!isset($costos_categoria[$categ_id]['nombre'])){
+					$costos_categoria[$categ_id]['nombre'] = $categ_nom;
+				}
+
 				//la unidades más bajas de cada categoria son: KB, Kb, KH. Esto es configurable desde la BD
 				$tmp_unidad = $valor_nivel == 1? $valor_base: pow($valor_base, $valor_nivel);
 				$tocal_capacidad = $row['capacidad']*$tmp_unidad*$row['cantidad'];
@@ -179,22 +197,126 @@ class Costos_model extends CI_Model{
 				if(isset($costos_categoria[$categ_id]['total_capacidad'])){
 					$costos_categoria[$categ_id]['total_capacidad'] += $tocal_capacidad;
 					$costos_categoria[$categ_id]['total_monetario'] += $precio_total;
+					$costos_categoria[$categ_id]['cantidad_items'] += 1;
 				}else{
 					$costos_categoria[$categ_id]['total_capacidad'] = $tocal_capacidad;
 					$costos_categoria[$categ_id]['total_monetario'] = $precio_total;
+					$costos_categoria[$categ_id]['cantidad_items'] = 1;
+					$costos_categoria[$categ_id]['total_monetario_cost_ind'] = 0;
 				}
 			}else{
+				$otros_costos += $precio_total;
+				$total_otros_ci_items += 1;
+				/*
+				//Si se desea incluir las otras categorías dentro del prorrateo, de lo contrario estas son prorrateadas
 				if(isset($costos_categoria[$categ_id]['total_monetario'])){
 					$costos_categoria[$categ_id]['total_monetario'] += $precio_total;
+					$costos_categoria[$categ_id]['cantidad_items'] += 1;
 				}else{
 					$costos_categoria[$categ_id]['total_capacidad'] = -1;//para indicar que no aplica
 					$costos_categoria[$categ_id]['total_monetario'] = $precio_total;
+					$costos_categoria[$categ_id]['cantidad_items'] = 1;
+					$costos_categoria[$categ_id]['total_monetario_cost_ind'] = 0;
+				}*/
+			}
+		}
+		$total_cti_items -= $total_otros_ci_items;
+		if($debug){
+			echo "Componentes de TI <br>";
+			echo_pre($costos_categoria);
+		}
+
+		//Totalizar y asignar los Costos Indirectos.
+		$totales_ci = array();//totales de costos indirectos
+		//:: Arrendamiento ::
+		$totales_ci[0] = 0;
+		foreach ($r_arren as $row) {
+			switch ($row['esquema_tiempo']) {
+				case 'mensual':
+					$esquema_tiempo = 1;
+					break;
+				case 'trimestral':
+					$esquema_tiempo = 3;
+					break;
+				case 'semestral':
+					$esquema_tiempo = 6;
+					break;
+				case 'anual':
+					$esquema_tiempo = 12;
+					break;
+			}
+			$totales_ci[0] += $row['costo']/$esquema_tiempo;
+		}
+
+		//:: Mantenimiento :: (Afecta directo a una categoría)
+		foreach ($r_mant as $row) {
+			$categ_id = $row['ma_categoria_id'];
+			$costos_categoria[$categ_id]['total_monetario_cost_ind'] += $row['costo'];
+		}
+		if($debug){
+			echo "Agregándole Mantenimiento<br>";
+			echo_pre($costos_categoria);	
+		}
+
+		//:: Formación ::
+		$totales_ci[1] = 0;
+		foreach ($r_for as $row) {
+			$totales_ci[1] += $row['costo'];
+		}
+
+		//:: Honorarios ::
+		$totales_ci[2] = 0;
+		foreach ($r_hon as $row) {
+			$totales_ci[2] += $row['costo'];
+		}
+
+		//:: Utilería ::
+		$totales_ci[3] = 0;
+		foreach ($r_util as $row) {
+			$totales_ci[3] += $row['costo'];
+		}
+
+		//asignando los totales de ci restantes
+		if($debug){
+			echo_pre($totales_ci);
+			echo "total items " . $total_cti_items . "<br>";	
+		}
+		$totales_ci[4] = $otros_costos;
+		foreach ($totales_ci as $t) {
+			if($t > 0 ){
+				$costo_prorrateado = $t/$total_cti_items;//por unidad
+				foreach ($costos_categoria as &$cat) {
+					$monto = $costo_prorrateado*$cat['cantidad_items'];
+					$cat['total_monetario_cost_ind'] += $monto;
 				}
 			}
 		}
-		echo_pre($costos_categoria);
-		echo_pre($r_cti);
 
+		if($debug){
+			//Con costos indirectos
+			echo "Con costos indirectos <br>";
+			echo_pre($costos_categoria);	
+		}
+		
+		//Guardando la info en la BD
+		$f = $date = date('Y-m-d H:i:s',now());
+		$this->utilities_model->add_ar(
+			array('fecha_creacion'=>$f,
+				"mes"=>$orig_month,
+				"anio"=>$orig_year),"estructura_costo");
+		$last_id = $this->db->insert_id();
+		foreach ($costos_categoria as $categ_id => $c) {
+			$info = array(
+				"estructura_costo_id"=>$last_id,
+				"ma_categoria_id" => $categ_id,
+				"total_capacidad"=>$c['total_capacidad'],
+				"total_monetario" => $c['total_monetario'],
+				"total_monetario_cost_ind" => $c["total_monetario_cost_ind"],
+				"cantidad_items" => $c["cantidad_items"]
+			);
+			$status = $this->utilities_model->add_ar($info,"estructura_costo_item");
+		}
+		return $status;
 		//Opciones para hacer el prorrateo de los Costos Indirectos
 		//1.- Tomar en cuenta sólo los componentes que se encuentren >= a la fecha del costo ind
 		//2.- Tomar todos los componentes, se incluyen los viejos.

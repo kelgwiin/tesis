@@ -75,3 +75,6 @@ select * from utileria;
 select * from ma_categoria;
 select * from ma_unidad_medida;
 select * from componente_ti;
+
+select * from estructura_costo;
+select * from estructura_costo_item;
