@@ -79,8 +79,11 @@ select * from componente_ti;
 select * from estructura_costo;
 select * from estructura_costo_item;
 
+delete from estructura_costo where estructura_costo_id > 0;
 
 select estructura_costo_id, mes
 from estructura_costo
 where anio = '2014'
 order by mes asc;
+
+

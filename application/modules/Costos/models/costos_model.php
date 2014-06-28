@@ -48,7 +48,7 @@ class Costos_model extends CI_Model{
 		}else{
 			$month += 1;
 		}
-		$fecha_fin_mes = " (STR_TO_DATE('".$year.",".$month.",01','%Y,%m,%d') - INTERVAL 1 DAY) ";
+		$fecha_fin_mes = " (STR_TO_DATE('".$year.",".$month.",01 23:59:59','%Y,%m,%d %H:%i:%s') - INTERVAL 1 DAY) ";
 
 		//Componentes de TI
 		$this->add_fecha_hasta_comp();// Actualizando la fecha de caducidad de los componentes de TI
@@ -76,6 +76,10 @@ class Costos_model extends CI_Model{
 
 		if($q_cti->num_rows() <= 0 ) {return false;}
 
+		if($debug){
+			echo "Componentes de ti <br>";
+			echo_pre($r_cti);
+		}
 		//ma_categoria
 		$sql_categ = "SELECT ma_categoria_id, valor_base, nombre
 					  FROM ma_categoria;";
@@ -222,7 +226,7 @@ class Costos_model extends CI_Model{
 		}
 		$total_cti_items -= $total_otros_ci_items;
 		if($debug){
-			echo "Componentes de TI <br>";
+			echo "Costos - Componentes de TI <br>";
 			echo_pre($costos_categoria);
 		}
 
@@ -298,6 +302,10 @@ class Costos_model extends CI_Model{
 			echo_pre($costos_categoria);	
 		}
 		
+		//Eliminando de la BD si ya existía un registro para la misma fecha
+		$this->utilities_model->del_ar('estructura_costo', 
+			array('mes'=>$orig_month,'anio'=>$orig_year));
+
 		//Guardando la info en la BD
 		$f = $date = date('Y-m-d H:i:s',now());
 		$this->utilities_model->add_ar(
@@ -360,9 +368,16 @@ class Costos_model extends CI_Model{
 				$this->db->query($sql_upd);
 			}
 		}
+	}//end of function: add_fecha_hasta_comp
 
-
-
+	/**
+	 * Dado un año hace el llamado de la función estructura_costos para todo el año dado.
+	 * @param  integer $year Año
+	 */
+	public function estructura_costos_by_year($year){
+		for ($i=1; $i <= 12 ; $i++) { 
+			$this->estructura_costos($year,$i);
+		}
 	}
 
 }

@@ -125,16 +125,21 @@ where m.borrado = false and mantenimiento_id = 1;
 
 
 -- Consultas pequeñas para: Totalizaciones de los COSTOS por Categorías
+
 -- --componente_ti
 select ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion, fecha_hasta
 from componente_ti
 where activa = 'ON' and borrado = false and (
-	(fecha_creacion between '2010-05-01' and (str_to_date('2010,06,01','%Y,%m,%d') - INTERVAL 1 DAY) )
+	('2014-02-01' between fecha_creacion and fecha_hasta ) or
+	('2014-02-28' between fecha_creacion and fecha_hasta ) 
 or
-	(fecha_hasta between '2010-05-01' and (str_to_date('2010,06,01','%Y,%m,%d') - INTERVAL 1 DAY) )
+	(fecha_creacion between '2014-02-01' and '2014-02-28 23:59:59') or
+	(fecha_hasta between '2014-02-01' and '2014-02-28') 
 );
 
-select str_to_date('2010,01,01','%Y,%m,%d') - INTERVAL 1 DAY;
+select * from componente_ti;
+
+select str_to_date('2014,03,01 23:59:59','%Y,%m,%d %H:%i:%s') - interval 1 day ;
 
 select ma_unidad_medida_id, ma_categoria_id, valor_nivel
 from ma_unidad_medida;

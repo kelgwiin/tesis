@@ -177,7 +177,7 @@
 					echo '
 					<div class="alert alert-success alert-dismissable">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						El registro ha sido actualizado con éxito.
+						El registro ha sido <strong>actualizado</strong> con éxito.
 					</div>
 					';
 				}

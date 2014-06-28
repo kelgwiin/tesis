@@ -34,6 +34,7 @@ $route['Costos/Cargar/kmeans'] = "Costos/Cargar/testKmeans";
 
 $route['Costos/ModeloCostos'] = "Costos/Costos/ModeloCostos";
 $route['Costos/Historicos'] = "Costos/Costos/Historicos";
+$route['Costos/Historicos/(:any)'] = "Costos/Costos/Historicos/$1";
 $route['Costos/Recomendaciones'] = "Costos/Costos/Recomendaciones";
 /* end of: Rutas para el Módulo de Costos de Servicios de TI*/
 

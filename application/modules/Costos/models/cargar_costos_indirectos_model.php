@@ -43,11 +43,18 @@ class Cargar_costos_indirectos_model extends CI_Model {
 
     /**
      * Obtiene los nombres e ids de los departamentos que se encuentren cargados
+     * Toma en cuenta sólo las categorías principales:
+     * - Redes
+     * - Almacenamiento
+     * - Memoria
+     * - Procesador
+     * 
      * @return Array Es un result_array de CI de la tabla departamento. Ver consulta
      */
     public function nombres_ids_ma_categoria(){
         $sql = "SELECT nombre, ma_categoria_id AS id
-        FROM ma_categoria;";
+        FROM ma_categoria
+        WHERE valor_base != '-1';";
         $query = $this->db->query($sql);
         if($query->num_rows() > 0 ){
             return $query->result_array();

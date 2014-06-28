@@ -28,6 +28,9 @@ class Costos extends MX_Controller
 
 		//Sidebar
 		$this->list_sidebar = $this->utils->list_sidebar_costos();
+
+		//Cargando la información de la organización
+		$this->org = $this->utilities_model->first_row('organizacion','organizacion_id');
 	}
 	
 
@@ -40,7 +43,7 @@ class Costos extends MX_Controller
 		
 		echo "Inicio de la prueba de Costos<br>";
 
-		$this->costos_model->estructura_costos('2014','06');
+		$this->costos_model->estructura_costos('2014','5');
 
 		echo "Fin de la prueba de Costos<br>";
 	}
@@ -50,10 +53,33 @@ class Costos extends MX_Controller
 			'two_level');
 	}	
 
-	public function Historicos(){
-		$params['data_comp_ti'] = $this->historicos_model->evol_comp_ti('2014');
-		$this->utils->template($this->list_sidebar,'Costos/Historicos',$params,'Módulo de Gestión de Costos','Históricos',
-			'two_level');
+	public function Historicos($action = "index"){
+		switch ($action) {
+			case 'index':
+				$params['org'] = $this->org;//Datos de la organización
+				$this->utils->template($this->list_sidebar,'Costos/Historicos',$params,'Módulo de Gestión de Costos','Históricos',
+					'two_level');
+				break;
+
+			//Ajax
+			case 'evol_comp_ti':
+				$year = $this->input->post('anio_comp_ti');
+				$info = $this->historicos_model->evol_comp_ti($year);
+
+				if($info){
+					$data = array('data'=>$info, 'estatus'=>"ok");
+				}else{
+					$data = array('estatus'=>"fail");
+				}
+				echo json_encode($data);
+
+				break;
+
+			//Ajax
+			case 'evol_modelo_costo':
+				echo "hola modelo ";
+				break;
+		}
 	}	
 	
 	public function Recomendaciones(){

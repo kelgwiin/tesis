@@ -8,6 +8,7 @@ class Historicos_model extends CI_Model{
 	    parent::__construct();
 	    $this->load->database();
 	    $this->load->model('utilities/utilities_model');
+	    $this->load->model('costos_model');
 	}
 	/**
 	 * Permite calcular la evolución histórica de las inversiones hechas en componenentes
@@ -27,7 +28,16 @@ class Historicos_model extends CI_Model{
 				WHERE anio = '".$year."'
 				ORDER BY mes ASC;";
 		$q = $this->db->query($sql);
-		if($q->num_rows() <= 0 ){return false;}
+		if($q->num_rows() <= 0 ){
+			//Se calcula la estructura del año para cada mes del año.
+			$this->costos_model->estructura_costos_by_year($year);
+
+			//Se verifica de nuevo para ver si está vacío aún la estructura de costos
+			$q = $this->db->query($sql);
+			if($q->num_rows() <= 0){
+				return false;
+			}
+		}
 
 		$result = array();
 		foreach ($q->result_array() as $row) {

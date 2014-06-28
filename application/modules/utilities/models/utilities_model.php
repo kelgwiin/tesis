@@ -88,6 +88,10 @@ class Utilities_model extends CI_Model {
         return $this->db->query($sql, $vals);
     }
 
+    public function del_ar($nombre_tabla, $claves_vals){
+        return $this->db->delete($nombre_tabla, $claves_vals);
+    }
+
     /**
      * Obtiene toda la data dado el nombre de una tabla.
      * @param String $table_name Nombre de la tabla.
