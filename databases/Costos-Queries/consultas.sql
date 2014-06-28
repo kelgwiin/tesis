@@ -173,3 +173,5 @@ select fecha_creacion,tiempo_vida, fecha_creacion + INTERVAL tiempo_vida DAY as 
 from componente_ti;
 
 select * from mantenimiento;
+
+-- 

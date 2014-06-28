@@ -12,8 +12,10 @@ class Costos extends MX_Controller
 	 */
 	public function __construct(){
 		parent::__construct();
+		//Models
 		$this->load->model('utilities/utilities_model');
 		$this->load->model('costos_model');
+		$this->load->model('historicos_model');
 
 		//Helpers
 		$this->load->helper('date');
@@ -49,7 +51,8 @@ class Costos extends MX_Controller
 	}	
 
 	public function Historicos(){
-		$this->utils->template($this->list_sidebar,'Costos/Historicos','','Módulo de Gestión de Costos','Históricos',
+		$params['data_comp_ti'] = $this->historicos_model->evol_comp_ti('2014');
+		$this->utils->template($this->list_sidebar,'Costos/Historicos',$params,'Módulo de Gestión de Costos','Históricos',
 			'two_level');
 	}	
 	

@@ -21,4 +21,8 @@
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
 
+	<h2>Evolución del Modelo de Costos General</h2>
+
+	<h2>Evolución de las Inversiones en Componentes de TI</h2>
+	<?php print_r($data_comp_ti);?>
 </div><!-- /wrapper -->
