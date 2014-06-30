@@ -47,18 +47,21 @@
 							<tbody>
 								<?php 
 									$i = 1;
-									foreach ($recomendaciones as $row) {
-										echo "<tr>";
-										printf('<td>%s</td>',$i);
-										printf('<td>%s</td>',$row['nombre']);
-										printf('<td>%s</td>',$row['fecha_creacion']);
-										printf('<td>%s</td>',$row['fecha_hasta']);
-										printf('<td>%s</td>',$row['categoria']);
-										printf('<td>%s</td>',$row['cantidad']);
-										echo "</tr>";
+									if(isset($recomendaciones)){
+										foreach ($recomendaciones as $row) {
+											echo "<tr>";
+											printf('<td>%s</td>',$i);
+											printf('<td>%s</td>',$row['nombre']);
+											printf('<td>%s</td>',$row['fecha_creacion']);
+											printf('<td>%s</td>',$row['fecha_hasta']);
+											printf('<td>%s</td>',$row['categoria']);
+											printf('<td>%s</td>',$row['cantidad']);
+											echo "</tr>";
 
-										$i+= 1;
+											$i+= 1;
+										}	
 									}
+									
 								?>
 							</tbody>
 						</table>

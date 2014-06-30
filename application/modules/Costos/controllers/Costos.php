@@ -98,8 +98,12 @@ class Costos extends MX_Controller
 	public function Recomendaciones(){
 		//Calculando y agregando la fecha de caducidad de los componentes de ti
 		$this->costos_model->add_fecha_hasta_comp();
-
-		$params['recomendaciones'] = $this->recomendaciones_model->get();
+		$tmp = $this->recomendaciones_model->get();
+		if($tmp){
+			$params['recomendaciones'] = $tmp;
+		}else{
+			$params = null;
+		}
 		$this->utils->template($this->list_sidebar,'Costos/Recomendaciones',$params,'Módulo de Gestión de Costos','Recomendaciones',
 			'two_level');
 	}
