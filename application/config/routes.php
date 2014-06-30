@@ -21,7 +21,6 @@ $route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1"
 /* Rutas para el Módulo de Costos de Servicios de TI*/
 //Creado el 20-04-2014 por Kelwin Gamez
 $route['Costos/'] = "Costos/Costos";
-$route['Costos/testCostos'] = "Costos/Costos/testCostos";
 $route['Costos/CargarCostosIndirectos'] = "Costos/Cargar/CostosIndirectos";
 $route['Costos/CargarCostosIndirectos/Detalles'] = "Costos/Cargar/Detalles";
 $route['Costos/CargarCostosIndirectos/DetallesAct'] = "Costos/Cargar/DetallesAct";
@@ -31,6 +30,10 @@ $route['Costos/CargarCostosIndirectos/Editar/(:any)/(:num)'] = "Costos/Cargar/Ed
 $route['Costos/CargarCostosIndirectos/Eliminar/(:any)/(:num)'] = "Costos/Cargar/Eliminar/$1/$2";
 $route['Costos/CargarCostosIndirectos/(:any)'] = "Costos/Cargar/$1";
 $route['Costos/Cargar/kmeans'] = "Costos/Cargar/testKmeans";
+
+$route['Costos/testCostos'] = "Costos/Costos/testCostos";
+$route['Costos/testCostos/(:any)'] = "Costos/Costos/testCostos/$1";
+$route['Costos/testCostos/(:any)/(:num)'] = "Costos/Costos/testCostos/$1/$2";
 
 $route['Costos/ModeloCostos'] = "Costos/Costos/ModeloCostos";
 $route['Costos/Historicos'] = "Costos/Costos/Historicos";

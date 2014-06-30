@@ -255,7 +255,12 @@ class Costos_model extends CI_Model{
 		//:: Mantenimiento :: (Afecta directo a una categoría)
 		foreach ($r_mant as $row) {
 			$categ_id = $row['ma_categoria_id'];
-			$costos_categoria[$categ_id]['total_monetario_cost_ind'] += $row['costo'];
+			//Condición necesario para el caso de que NO existan
+			//componentes de ti de los grupos principales y existan costos
+			//indirectos previamente cargados
+			if(isset($costos_categoria[$categ_id])){
+				$costos_categoria[$categ_id]['total_monetario_cost_ind'] += $row['costo'];
+			}
 		}
 		if($debug){
 			echo "Agregándole Mantenimiento<br>";
@@ -369,6 +374,42 @@ class Costos_model extends CI_Model{
 			}
 		}
 	}//end of function: add_fecha_hasta_comp
+
+	 /**
+	  * Actualizada tadas las fechas de caducidad de los componentes de ti sin importar si estos ya han
+	  * sido previamente calculado.
+	  *
+	  * Debería ser llamdado como un dentro del sistema
+	  */
+	public function add_fecha_hasta_comp_all(){
+		$sql = "SELECT componente_ti_id, unidad_tiempo_vida 
+				FROM componente_ti 
+				WHERE unidad_tiempo_vida != 'NA'; ";
+		$q = $this->db->query($sql);
+
+		if($q->num_rows() > 0 ){
+			foreach ($q->result_array() as $row) {
+				//Obteniendo la unidad de tiempo de vida
+				$unidad = "";
+				switch ($row['unidad_tiempo_vida']) {
+					case 'AA':
+						$unidad = "YEAR";
+						break;
+					case 'MM':
+						$unidad = "MONTH";
+						break;
+					case 'DD':
+						$unidad = "DAY";
+						break;
+				}
+
+				$sql_upd = "UPDATE componente_ti
+							SET fecha_hasta = fecha_creacion + INTERVAL tiempo_vida ".$unidad."
+							WHERE componente_ti_id = '".$row['componente_ti_id']."'; ";
+				$this->db->query($sql_upd);
+			}
+		}
+	}
 
 	/**
 	 * Dado un año hace el llamado de la función estructura_costos para todo el año dado.

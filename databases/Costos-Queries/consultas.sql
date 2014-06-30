@@ -188,9 +188,9 @@ and fecha_hasta between curdate() and curdate() + interval 7 day;
 
 select * from componente_ti;
 
-select mes
+select *
 from estructura_costo
-where anio = '2030';
+where anio = '3000';
 
 select * from estructura_costo;
  

@@ -39,7 +39,7 @@ class Costos extends MX_Controller
 		 * o por lo menos del año en curso. Esta data se usa para la gestión de los
 		 * históricos. MODELO: 'costos_model'.estructura_costos_by_year_all($year)
 		 * 
-		 * 2.-
+		 * 2.- Cálculo de las fechas de caducidd: "$this->costos_model->add_fecha_hasta_comp_all()"
 		 */
 	}
 	
@@ -49,13 +49,26 @@ class Costos extends MX_Controller
 			'two_level');
 	}
 
-	public function testCostos(){
+	public function testCostos($action = "default",$anio="null"){
 		
-		echo "Inicio de la prueba de Costos<br>";
-
-		$this->costos_model->estructura_costos('2014','5');
-
-		echo "Fin de la prueba de Costos<br>";
+		switch ($action) {
+			case 'default':
+				echo "Inicio de la prueba de Costos<br>";
+				$this->costos_model->estructura_costos('2014','5');
+				echo "Fin de la prueba de Costos<br>";	
+				break;
+			
+			case 'costos-by-year':
+				echo "Calculando la estructura de costos  para el año " . $anio  . "<br>";
+				$this->costos_model->estructura_costos_by_year_all($anio);
+				echo "fin del costeo";
+				break;
+			case 'add-fecha-caducidad':
+				$this->costos_model->add_fecha_hasta_comp_all();
+				echo "Fecha de caducidad agregada<br>";
+				break;
+		}
+		
 	}
 
 	public function ModeloCostos(){
