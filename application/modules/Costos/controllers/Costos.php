@@ -16,6 +16,7 @@ class Costos extends MX_Controller
 		$this->load->model('utilities/utilities_model');
 		$this->load->model('costos_model');
 		$this->load->model('historicos_model');
+		$this->load->model('recomendaciones_model');
 
 		//Helpers
 		$this->load->helper('date');
@@ -31,6 +32,15 @@ class Costos extends MX_Controller
 
 		//Cargando la información de la organización
 		$this->org = $this->utilities_model->first_row('organizacion','organizacion_id');
+
+		//Daemons
+		/**
+		 * 1.- El que calcule la estructura de costos de cada año 
+		 * o por lo menos del año en curso. Esta data se usa para la gestión de los
+		 * históricos. MODELO: 'costos_model'.estructura_costos_by_year_all($year)
+		 * 
+		 * 2.-
+		 */
 	}
 	
 
@@ -64,6 +74,9 @@ class Costos extends MX_Controller
 			//Ajax
 			case 'evol_comp_ti':
 				$year = $this->input->post('anio_comp_ti');
+
+				//Se calculan los costos de un año, si estos fueron previamente
+				//calculados no se vuelven a realizar los cálculos.
 				$info = $this->historicos_model->evol_comp_ti($year);
 
 				if($info){
@@ -83,7 +96,11 @@ class Costos extends MX_Controller
 	}	
 	
 	public function Recomendaciones(){
-		$this->utils->template($this->list_sidebar,'Costos/Recomendaciones','','Módulo de Gestión de Costos','Recomendaciones',
+		//Calculando y agregando la fecha de caducidad de los componentes de ti
+		$this->costos_model->add_fecha_hasta_comp();
+
+		$params['recomendaciones'] = $this->recomendaciones_model->get();
+		$this->utils->template($this->list_sidebar,'Costos/Recomendaciones',$params,'Módulo de Gestión de Costos','Recomendaciones',
 			'two_level');
 	}
 

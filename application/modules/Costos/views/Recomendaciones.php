@@ -20,4 +20,53 @@
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
 
+	<!-- Lista de Componentes de TI a punto de Vencerse -->
+	<div class = "row">
+		<div class = "col-md-12">
+			<div class="panel panel-danger">
+				<!-- Default panel contents -->
+				<div class="panel-heading"><strong>Componentes de TI con fecha de caducidad cercana</strong></div>
+				
+				<div class = "panel-body">
+					Los componentes de TI de información que aparezcan este apartado deben ser adquiridos 
+					para su reemplazo lo más pronto posible para garantizar la estabilidad del sistema de la organización.
+				</div>
+
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover table-striped tablesorter ">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Nombre <i class = "fa fa-sort"></i></th>
+									<th>Fecha de creción <i class = "fa fa-sort"></i></th>
+									<th>Fecha de caducidad <i class = "fa fa-sort"></i></th>
+									<th>Categoría <i class = "fa fa-sort"></i></th>
+									<th>Cantidad <i class = "fa fa-sort"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+									$i = 1;
+									foreach ($recomendaciones as $row) {
+										echo "<tr>";
+										printf('<td>%s</td>',$i);
+										printf('<td>%s</td>',$row['nombre']);
+										printf('<td>%s</td>',$row['fecha_creacion']);
+										printf('<td>%s</td>',$row['fecha_hasta']);
+										printf('<td>%s</td>',$row['categoria']);
+										printf('<td>%s</td>',$row['cantidad']);
+										echo "</tr>";
+
+										$i+= 1;
+									}
+								?>
+							</tbody>
+						</table>
+					</div>
+			
+					
+			</div>
+		</div>
+	</div>
+
 </div><!-- /wrapper -->

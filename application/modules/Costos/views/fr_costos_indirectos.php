@@ -219,13 +219,13 @@
 								<!-- Table -->
 								<!-- Listado de Costos Indirectos -->
 								<div class="table-responsive">
-									<table id  = "list-costos-ind" class="table table-hover">
+									<table id  = "list-costos-ind" class="table table-bordered table-hover table-striped tablesorter">
 										<thead>
 											<tr>
 												<th>#</th>
-												<th><i class = "fa fa-sort"></i> Nombre/Descripción</th>
-												<th><i class = "fa fa-sort"></i> Grupo</th>
-												<th><i class = "fa fa-sort"></i> Costo</th>
+												<th>Nombre/Descripción <i class = "fa fa-sort"></i></th>
+												<th>Grupo <i class = "fa fa-sort"></i></th>
+												<th>Costo <i class = "fa fa-sort"></i></th>
 												<th>Acciones</th>
 											</tr>
 										</thead>

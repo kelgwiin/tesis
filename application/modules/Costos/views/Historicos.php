@@ -106,6 +106,7 @@
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
 
+
 	<h2>Evolución del Modelo de Costos General</h2>
 	<div class = "row">
 		<div class = "col-md-12">
@@ -116,7 +117,7 @@
 						<div class="col-md-3">
 							<input id="anio_modelo_c" name="anio_modelo_c" type="number"
 								data-toggle="tooltip"
-								data-original-title="Ingresa el año y presiona procesar"
+								data-original-title="Ingresa el año y presiona procesar para generar las gráficas del modelo de costo"
 								data-placement = "top"
 								
 								min = "1900" max = "3000"  placeholder="Ingrese el año"
@@ -141,7 +142,26 @@
 			</form>		
 		</div><!-- /col-md-12 -->
 	</div><!-- /row -->
+	<br>
+	<div class = "row">
+		<div class = "col-md-12">
+			<!-- Mensaje informativo -->
+			<div class="alert alert-danger alert-dismissable hidden" id = "msj_modelo_costo">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				No hay datos registrados para el año seleccionado.
+			</div>
 
+			<div class="panel panel-info">
+				  <div class="panel-heading">
+						<h3 class="panel-title">Gráficas de la evolución del modelo de costos por servicio</h3>
+				  </div>
+				  <div class="panel-body" id = "modelo_costo">
+						<span class = "text-info">
+						</span>
+				  </div>
+			</div>
+		</div>
+	</div>
 
 
 	<h2>Evolución de las Inversiones en Componentes de TI</h2>

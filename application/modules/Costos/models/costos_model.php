@@ -35,7 +35,7 @@ class Costos_model extends CI_Model{
 		//Guardar en Estructura de Costos
 		//Ver afección de costos indirectos por rango de fechas en correlacion con fecha de creacion
 
-		$debug = true;
+		$debug = false;
 		$fecha = " STR_TO_DATE('".$year.",".$month.",01','%Y,%m,%d') ";
 		
 		$orig_month = $month;
@@ -375,6 +375,33 @@ class Costos_model extends CI_Model{
 	 * @param  integer $year Año
 	 */
 	public function estructura_costos_by_year($year){
+		//Filtra los que ya fueron calculados para no sacar de nuevo la estructura de costos
+		$sql = "SELECT mes
+				FROM estructura_costo
+				WHERE anio = '".$year."';";
+		$q  = $this->db->query($sql);
+
+		if($q->num_rows() > 0 ){
+			$meses = array();
+			$r = $q->result_array();
+			foreach ($r as $m) {
+				$meses[] = $m['mes'];
+			}
+		}
+
+		for ($i=1; $i <= 12 ; $i++) { 
+			if(!isset($meses)){
+				$this->estructura_costos($year,$i);
+			}elseif (!in_array($i, $meses)) {
+				$this->estructura_costos($year,$i);
+			}
+		}
+	}
+	/**
+	 * Tiene la misma función que la anterior pero no evalua si ya está calculado.
+	 * @param  integer $year Año
+	 */
+	public function estructura_costos_by_year_all($year){
 		for ($i=1; $i <= 12 ; $i++) { 
 			$this->estructura_costos($year,$i);
 		}

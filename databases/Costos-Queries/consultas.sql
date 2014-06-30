@@ -179,4 +179,18 @@ from componente_ti;
 
 select * from mantenimiento;
 
--- 
+-- Componentes de TI que están a punto de vencerse (desde fecha actual hasta una semana después)
+select cti.nombre, cti.fecha_creacion, cti.fecha_hasta, cti.cantidad, categ.nombre as categoria
+from componente_ti  as cti join (ma_unidad_medida as uni, ma_categoria as categ) 
+on (cti.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id)
+where  borrado = false and activa = 'ON'
+and fecha_hasta between curdate() and curdate() + interval 7 day;
+
+select * from componente_ti;
+
+select mes
+from estructura_costo
+where anio = '2030';
+
+select * from estructura_costo;
+ 
