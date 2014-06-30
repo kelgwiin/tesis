@@ -121,7 +121,9 @@ class Costos extends MX_Controller
 			'two_level');
 	}
 
-
+	public function procesar_costeo(){
+		echo_pre($this->input->post());
+	}
 }
 /* End of file Costos.php */
 /* Location: ./application/modules/Costos/controllers/Costos.php */
