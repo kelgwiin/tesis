@@ -26,7 +26,7 @@
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Se despliegan los costos financieros asociados a los servicios en función de la
-				taza de utilización de los recursos. De igual forma se encuentran categorizados por departamento.
+				tasa de utilización de los recursos. De igual forma se encuentran categorizados por departamento.
 				</div>
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
