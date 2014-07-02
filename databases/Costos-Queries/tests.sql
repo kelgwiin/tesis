@@ -86,4 +86,6 @@ from estructura_costo
 where anio = '2014'
 order by mes asc;
 
+select * from usuarios;
+
 
