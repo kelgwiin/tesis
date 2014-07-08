@@ -69,11 +69,13 @@ $route['Capacidad/Umbrales'] = "Capacidad/Capacidad/Umbrales";
 
 // RUTAS DE LA GESTION DE CONTINUIDAD DEL NEGOCIO
 // @author Fernando Pinto AKA f6rnando
-$route['continuidad']								= "continuidad/continuidad";
-$route['continuidad/descripcion']					= "continuidad/continuidad";
-$route['continuidad/equipos_accion']				= "continuidad/continuidad/formar_equipos";
-$route['continuidad/listado_pcn']					= "continuidad/continuidad/listado";
-$route['continuidad/listado_amenazas']				= "continuidad/continuidad/amenazas";
+$route['continuidad']											= "continuidad/continuidad";
+$route['continuidad/descripcion']								= "continuidad/continuidad";
+$route['continuidad/equipos_accion']							= "continuidad/continuidad/formar_equipos";
+$route['continuidad/listado_pcn']								= "continuidad/continuidad/listado";
+$route['continuidad/gestion_riesgos']							= "continuidad/gestion_riesgos";
+$route['continuidad/gestion_riesgos/categorias']				= "continuidad/gestion_riesgos/categorias";
+$route['continuidad/gestion_riesgos/listado']					= "continuidad/gestion_riesgos/listado_riesgos";
 
 // RUTAS DE USUARIOS
 //@author Fernando Pinto AKA f6rnando

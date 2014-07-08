@@ -40,14 +40,14 @@
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-xs-6">
-							<i class="fa fa-th-list fa-5x"></i>
+							<i class="fa fa-fire-extinguisher fa-5x"></i>
 						</div>
 						<div class="col-xs-6 text-center">
-							<p class="announcement-text">Listado de amenazas y riesgos</p>
+							<p class="announcement-text">Gestión de Riesgos y Amenazas</p>
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url('index.php/continuidad/listado_amenazas');?>">
+				<a href="<?php echo site_url('index.php/continuidad/gestion_riesgos');?>">
 					<div class="panel-footer announcement-bottom">
 						<div class="row">
 							<div class="col-xs-6">

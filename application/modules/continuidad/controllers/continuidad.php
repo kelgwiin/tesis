@@ -10,15 +10,38 @@ class Continuidad extends MX_Controller
 	
 	// FUNCIONES Y VARIABLES PRIVADAS DEL CONTROLADOR
 	private $title = 'Gestión de Continuidad del Negocio';
-	private function _list()
+	private function _list1()
 	{
+		$l =  array();
+
+		$l[] = array(
+			"chain" => "Volver a Módulos Principales",
+			"href" => site_url(''),
+			"icon" => "fa fa-flag"
+		);
+		$l[] = array(
+			"chain" => "Continuidad del Negocio",
+			"href" => site_url('index.php/continuidad'),
+			"icon" => "fa fa-retweet"
+		);
+		return $l;
+	}
+	private function _list2()
+	{
+		$l =  array();
+
+		$l[] = array(
+			"chain" => "Volver a Módulos Principales",
+			"href" => site_url(''),
+			"icon" => "fa fa-flag"
+		);
+		$l[] = array(
+			"chain" => "Continuidad del Negocio",
+			"href" => site_url('index.php/continuidad'),
+			"icon" => "fa fa-retweet"
+		);
 		$sublista = array
 		(
-			array
-			(
-				'chain' => 'Descripción',
-				'href'=> site_url('index.php/continuidad/descripcion')
-			),
 			array
 			(
 				'chain' => 'Listado de PCN',
@@ -30,28 +53,12 @@ class Continuidad extends MX_Controller
 				'href'=> site_url('index.php/continuidad/crear_pcn')
 			)
 		);
-		
-		$l =  array();
-
 		$l[] = array(
-			"chain" => "Volver a Módulos Principales",
-			"href" => site_url(''),
-			"icon" => "fa fa-flag"
-		);
-		$l[] = array(
-			"chain" => "Continuidad del Negocio",
+			"chain" => "Planes de Continuidad del Negocio",
 			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-retweet",
+			"icon" => "fa fa-tasks",
 			"list" => $sublista
 		);
-		
-		
-		// $l[] = array(
-			// "chain" => "Item 1",
-			// "href" => site_url(''),
-			// "icon" => "fa fa-caret-square-o-down",
-			// "list" => $sublista
-		// );
 		return $l;
 	}
 	
@@ -69,7 +76,7 @@ class Continuidad extends MX_Controller
 			'#' => 'Continuidad del Negocio'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list(),'continuidad/descripcion',$view,$this->title,'','two_level');
+		$this->utils->template($this->_list1(),'continuidad/descripcion',$view,$this->title,'','two_level');
 	}
 	
 	public function formar_equipos()
@@ -102,23 +109,6 @@ class Continuidad extends MX_Controller
 			'#' => 'Listado de PCN'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list(),'continuidad/listado',$view,$this->title,'Listado de PCN','two_level');
-	}
-	
-	public function amenazas()
-	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
-		
-		$breadcrumbs = array
-		(
-			base_url() => 'Inicio',
-			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
-			'#' => 'Gestión de riesgos'
-		);
-		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list(),'continuidad/amenazas',$view,$this->title,'Gestión de riesgos','two_level');
+		$this->utils->template($this->_list2(),'continuidad/listado',$view,$this->title,'Listado de PCN','two_level');
 	}
 }

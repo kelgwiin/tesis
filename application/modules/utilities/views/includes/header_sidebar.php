@@ -9,7 +9,9 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="<?php echo site_url('index.php');?>">TEG: <?php echo $module_name;?></a> 
+    <a class="navbar-brand" href="<?php echo site_url('index.php');?>" data-toggle="tooltip" data-placement="bottom" title="Ir al Inicio">
+    	SIGITEC <?php echo (isset($module_name) && !empty($module_name)) ? ' | '.$module_name : '';?>
+    </a> 
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
