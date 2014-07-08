@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="#">
     <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
-    <title>Tesis Suprema</title>
+    <title>Gestión de Usuarios | SIGITEC</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/bootstrap.css" >
     <!-- Add custom CSS here -->
@@ -65,7 +65,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url(); ?>">Tesis suprema</a>
+          <a class="navbar-brand" href="<?php echo base_url(); ?>">SIGITEC</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

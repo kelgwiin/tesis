@@ -136,8 +136,8 @@ class Utils extends MX_Controller
 			),
 			array
 			(
-				'chain' => 'Formar comites de acción',
-				'href' => site_url('index.php/continuidad/comites')
+				'chain' => 'Formar equipos de acción',
+				'href' => site_url('index.php/continuidad/equipos_accion')
 			),
 			array
 			(

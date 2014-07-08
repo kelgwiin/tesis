@@ -21,6 +21,14 @@
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/jquery-1.10.2.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/bootstrap.js"></script>
     
+    <script src="<?php echo base_url() ?>assets/js/dataTables/jquery.dataTables.js"></script>
+	<script src="<?php echo base_url() ?>assets/js/dataTables/dataTables.bootstrap.js"></script>
+	<script>
+	    $(document).ready(function() {
+	        $('#dataTables-example').dataTable();
+	    });
+	</script>
+    
     <!-- Page Specific Plugins -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/raphael-min.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/jquery.tablesorter.js"></script>
