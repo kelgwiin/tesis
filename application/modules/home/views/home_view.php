@@ -186,7 +186,7 @@
                   </div>
                 </div>
               </div>
-              <a href="#">
+              <a href="<?php echo base_url() ?>index.php/usuarios">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">

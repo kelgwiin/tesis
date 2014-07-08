@@ -46,11 +46,6 @@ class Continuidad extends MX_Controller
 			(
 				'chain' => 'Listado de PCN',
 				'href'=> site_url('index.php/continuidad/listado_pcn')
-			),
-			array
-			(
-				'chain' => 'Crear PCN',
-				'href'=> site_url('index.php/continuidad/crear_pcn')
 			)
 		);
 		$l[] = array(
@@ -110,5 +105,23 @@ class Continuidad extends MX_Controller
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		$this->utils->template($this->_list2(),'continuidad/listado',$view,$this->title,'Listado de PCN','two_level');
+	}
+	
+	public function crear()
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		// $permiso = modules::run('general/have_permission', 1);
+		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
+		// $view['nivel'] = 1;
+		
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+			base_url().'index.php/continuidad/listado_pcn' => 'Listado de PCN',
+			'#' => 'Crear PCN'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$this->utils->template($this->_list2(),'continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
 	}
 }

@@ -7,6 +7,14 @@
 		</div>
 	</div>
 	
+	<div class="row">
+		<div class="col-lg-9"></div>
+		<div class="col-lg-2" style="left: 71px">
+			<a href="<?php echo base_url() ?>index.php/continuidad/crear_pcn" class="btn btn-success">
+				<i class="fa fa-plus"></i> Agregar nuevo PCN</a>
+		</div>
+	</div>
+	
 	<div class="row" style="margin-top: 25px">
 		<div class="col-lg-12">
 			<div class="table-responsive">
@@ -57,7 +65,7 @@
 	                	<tr>
 	                		<td><a>Robo de material</a></td>
 	                		<td>Sistemas</td>
-	                		<td>CalvinBowers</td>
+	                		<td>Calvin Bowers</td>
 	                		<td>Reactivo</td>
 	                		<td>Media</td>
 	                		<td>Inactivo</td>
