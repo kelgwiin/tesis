@@ -7,6 +7,13 @@
 		</div>
 	</div>
 	
+	<div class="row">
+		<div class="col-lg-9"></div>
+		<div class="col-lg-2" style="left: 71px">
+			<button class="btn btn-success"><i class="fa fa-plus"></i> Agregar nuevo riesgo</button>
+		</div>
+	</div>
+	
 	<div class="row" style="margin-top: 25px">
 		<div class="col-lg-12">
 			<div class="table-responsive">
@@ -14,74 +21,58 @@
 	                <thead>
 	                    <tr>
 	                        <th>Denominación <i class="fa fa-sort"></i></th>
-	                        <th>Departamento <i class="fa fa-sort"></i></th>
-	                        <th>Responsable <i class="fa fa-sort"></i></th>
-	                        <th>Tipo de PCN <i class="fa fa-sort"></i></th>
-	                        <th>Prioridad <i class="fa fa-sort"></i></th>
-	                        <th>Estado del PCN <i class="fa fa-sort"></i></th>
-	                        <th>Fecha de creación <i class="fa fa-sort"></i></th>
+	                        <th>Categoría <i class="fa fa-sort"></i></th>
+	                        <th>Probabilidad <i class="fa fa-sort"></i></th>
                         	<th>Eliminar <i class="fa fa-sort"></i></th>
 	                    </tr>
 	                </thead>
 	                <tbody>
 	                	<tr>
-	                		<td><a>Fallo de sistema</a></td>
-	                		<td>Contabilidad</td>
-	                		<td>Karl Rhodes</td>
-	                		<td>Reactivo</td>
-	                		<td>Alta</td>
-	                		<td>Activo</td>
-	                		<td>21/02/2014</td>
+	                		<td><a>Inundaciones</a></td>
+	                		<td>Desastres naturales</td>
+	                		<td>56%</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
-	                		<td><a>Fallo de suministro eléctrico</a></td>
-	                		<td>Producción</td>
-	                		<td>Karla Mccormick</td>
-	                		<td>Preventivo</td>
-	                		<td>Alta</td>
-	                		<td>Activo</td>
-	                		<td>31/08/2013</td>
+	                		<td><a>Humos / Gases tóxicos</a></td>
+	                		<td>Daños accidentales</td>
+	                		<td>47%</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
-	                		<td><a>Incendio</a></td>
-	                		<td>Producción</td>
-	                		<td>Alexandra Rowe</td>
-	                		<td>Reactivo</td>
-	                		<td>Alta</td>
-	                		<td>Inactivo</td>
-	                		<td>18/04/2014</td>
+	                		<td><a>Fallo del UPS</a></td>
+	                		<td>Daños accidentales</td>
+	                		<td>87%</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
-	                		<td><a>Robo de material</a></td>
-	                		<td>Sistemas</td>
-	                		<td>CalvinBowers</td>
-	                		<td>Reactivo</td>
-	                		<td>Media</td>
-	                		<td>Inactivo</td>
-	                		<td>15/02/2013</td>
+	                		<td><a>Incendios</a></td>
+	                		<td>Desastres naturales</td>
+	                		<td>68%</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
-	                		<td><a>Sofware malicioso</a></td>
-	                		<td>Sistemas</td>
-	                		<td>Cornelius Henry</td>
-	                		<td>Preventivo</td>
-	                		<td>Media</td>
-	                		<td>Activo</td>
-	                		<td>01/06/2014</td>
+	                		<td><a>Explosivos</a></td>
+	                		<td>Ataques intencionados externos</td>
+	                		<td>57%</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
-	                		<td><a>Fallo de UPS</a></td>
-	                		<td>Producción</td>
-	                		<td>Kathleen Harrington</td>
-	                		<td>Reactivo</td>
-	                		<td>Alta</td>
-	                		<td>Activo</td>
-	                		<td>15/02/2014</td>
+	                		<td><a>Huracanes</a></td>
+	                		<td>Desastres naturales</td>
+	                		<td>0%</td>
+	                		<td><a><span class="label label-danger">X</span></a></td>
+	                	</tr>
+	                	<tr>
+	                		<td><a>Actos de vandalismo</a></td>
+	                		<td>Ataques intencionados externos</td>
+	                		<td>51%</td>
+	                		<td><a><span class="label label-danger">X</span></a></td>
+	                	</tr>
+	                	<tr>
+	                		<td><a>Manipulación de datos</a></td>
+	                		<td>Ataques intencionados internos</td>
+	                		<td>47%</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                </tbody>
