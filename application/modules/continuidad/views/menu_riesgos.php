@@ -49,7 +49,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url('index.php/continuidad/gestion_riesgos/listado');?>">
+				<a href="<?php echo site_url('index.php/continuidad/gestion_riesgos/riesgos');?>">
 					<div class="panel-footer announcement-bottom">
 						<div class="row">
 							<div class="col-xs-6">

@@ -10,7 +10,8 @@
 	<div class="row">
 		<div class="col-lg-9"></div>
 		<div class="col-lg-2" style="left: 71px">
-			<button class="btn btn-success"><i class="fa fa-plus"></i> Agregar nuevo riesgo</button>
+			<a href="<?php echo base_url() ?>index.php/continuidad/gestion_riesgos/riesgos/crear" class="btn btn-success">
+				<i class="fa fa-plus"></i> Agregar nuevo riesgo</a>
 		</div>
 	</div>
 	

@@ -75,7 +75,8 @@ $route['continuidad/equipos_accion']							= "continuidad/continuidad/formar_equ
 $route['continuidad/listado_pcn']								= "continuidad/continuidad/listado";
 $route['continuidad/gestion_riesgos']							= "continuidad/gestion_riesgos";
 $route['continuidad/gestion_riesgos/categorias']				= "continuidad/gestion_riesgos/categorias";
-$route['continuidad/gestion_riesgos/listado']					= "continuidad/gestion_riesgos/listado_riesgos";
+$route['continuidad/gestion_riesgos/riesgos']					= "continuidad/gestion_riesgos/listado_riesgos";
+$route['continuidad/gestion_riesgos/riesgos/crear']				= "continuidad/gestion_riesgos/crear_riesgo";
 
 // RUTAS DE USUARIOS
 //@author Fernando Pinto AKA f6rnando

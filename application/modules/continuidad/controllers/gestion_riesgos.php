@@ -34,7 +34,7 @@ class Gestion_riesgos extends MX_Controller
 			array
 			(
 				'chain' => 'Listado de riesgos y amenazas',
-				'href'=> site_url('index.php/continuidad/gestion_riesgos/listado')
+				'href'=> site_url('index.php/continuidad/gestion_riesgos/riesgos')
 			),
 			array
 			(
@@ -135,7 +135,7 @@ class Gestion_riesgos extends MX_Controller
 		$this->utils->template($this->_list1(),'continuidad/menu_riesgos',$view,$this->title,'Gestión de riesgos','two_level');
 	}
 	
-	public function categorias($value='')
+	public function categorias()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		// $permiso = modules::run('general/have_permission', 1);
@@ -153,7 +153,7 @@ class Gestion_riesgos extends MX_Controller
 		$this->utils->template($this->_categorias(),'continuidad/listado_categorias',$view,$this->title,'Listado de categorías','two_level');
 	}
 	
-	public function listado_riesgos($value='')
+	public function listado_riesgos()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		// $permiso = modules::run('general/have_permission', 1);
@@ -169,5 +169,24 @@ class Gestion_riesgos extends MX_Controller
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		$this->utils->template($this->_riesgos(),'continuidad/listado_riesgos',$view,$this->title,'Listado de riesgos','two_level');
+	}
+	
+	public function crear_riesgo()
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		// $permiso = modules::run('general/have_permission', 1);
+		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
+		// $view['nivel'] = 1;
+		
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+			base_url().'index.php/continuidad/gestion_riesgos' => 'Gestión de riesgos',
+			base_url().'index.php/continuidad/gestion_riesgos/riesgos' => 'Listado de riesgos',
+			'#' => 'Nuevo riesgo'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$this->utils->template($this->_riesgos(),'continuidad/crear_riesgo',$view,$this->title,'Agregar nuevo riesgo','two_level');
 	}
 }
