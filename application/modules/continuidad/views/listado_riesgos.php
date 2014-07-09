@@ -24,56 +24,56 @@
 	                        <th>Denominación <i class="fa fa-sort"></i></th>
 	                        <th>Categoría <i class="fa fa-sort"></i></th>
 	                        <th>Probabilidad <i class="fa fa-sort"></i></th>
-                        	<th>Eliminar <i class="fa fa-sort"></i></th>
+                        	<th>Eliminar</th>
 	                    </tr>
 	                </thead>
 	                <tbody>
 	                	<tr>
 	                		<td><a>Inundaciones</a></td>
 	                		<td>Desastres naturales</td>
-	                		<td>56%</td>
+	                		<td>Media</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
 	                		<td><a>Humos / Gases tóxicos</a></td>
 	                		<td>Daños accidentales</td>
-	                		<td>47%</td>
+	                		<td>Media-Baja</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
 	                		<td><a>Fallo del UPS</a></td>
 	                		<td>Daños accidentales</td>
-	                		<td>87%</td>
+	                		<td>Media-Alta</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
 	                		<td><a>Incendios</a></td>
 	                		<td>Desastres naturales</td>
-	                		<td>68%</td>
+	                		<td>Media</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
 	                		<td><a>Explosivos</a></td>
 	                		<td>Ataques intencionados externos</td>
-	                		<td>57%</td>
+	                		<td>Media-Baja</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
 	                		<td><a>Huracanes</a></td>
 	                		<td>Desastres naturales</td>
-	                		<td>0%</td>
+	                		<td>Baja</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
 	                		<td><a>Actos de vandalismo</a></td>
 	                		<td>Ataques intencionados externos</td>
-	                		<td>51%</td>
+	                		<td>Alta</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                	<tr>
 	                		<td><a>Manipulación de datos</a></td>
 	                		<td>Ataques intencionados internos</td>
-	                		<td>47%</td>
+	                		<td>Media-Baja</td>
 	                		<td><a><span class="label label-danger">X</span></a></td>
 	                	</tr>
 	                </tbody>
