@@ -39,7 +39,7 @@
                  <!-- GESTIÓN DE RIESGOS-->
                  <a type="button" class="btn "
                   title="Gestión de Riesgos" 
-                  href = "#"  
+                  href = "<?php echo base_url() ?>index.php/continuidad"  
                  >
                  <i class="fa fa-retweet fa-3x"></i> <br> <small>Gestión de<br>Continuidad<br>del Negocio</small>
                  </a> 
