@@ -59,7 +59,7 @@ $(function () {
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          Permite la visualización del comportamiento de los recursos del servicio '<?php echo $nombre_servicio; ?>', usted deberá escoger el componente que desea estudiar de este servicio.
         </div>
         
 	</div>

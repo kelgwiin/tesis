@@ -54,12 +54,12 @@ $(function () {
     	<h1>Componentes IT</h1>
         
         <ol class="breadcrumb">
-          <li class="active"><i class="fa fa-dashboard"></i> Vista general de las métricas</li>
+          <li class="active"><i class="fa fa-dashboard"></i> Permite visualizar el redimiento de todos los componentes de IT y seleccionar el que se va a evaluar.</li>
         </ol>
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          Welcome to SB Admin by <a class="alert-link" href="http://startbootstrap.com">Start Bootstrap</a>! Feel free to use this template for your admin needs! We are using a few different plugins to handle the dynamic tables and charts, so make sure you check out the necessary documentation links provided.
+          En este apartado se muestran los distintos recursos de la Organización. Usted deberá seleccionar el que desee evaluar.
         </div>
         
 	</div>

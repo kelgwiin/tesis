@@ -71,7 +71,7 @@ $(function () {
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          En este módulo tenemos una representación gráfica del porcentaje de uso de los procesos del servicio '<?php echo $nombre_servicio; ?>'
         </div>
         
 	</div>
