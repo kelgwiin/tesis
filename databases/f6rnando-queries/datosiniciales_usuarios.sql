@@ -17,7 +17,9 @@ INSERT INTO `roles` (`id_rol`, `rol`) VALUES
 (1, 'administrador'),
 (2, 'general');
 insert into usuarios_estado(id_estado, estado) value (1, 'activo') , (2,'inactivo'), (3,'bloqueado');
-INSERT INTO `usuarios` (`id_usuario`,`id_rol`,`id_estado`,`permisologia`,`nombre`,`email`,`password`,`recuperacion`,`creacion`,`ultima_modificacion`) VALUES (1,1,1,'all','Admin Administrador','admin@admin.com','9dbf7c1488382487931d10235fc84a74bff5d2f4',NULL,'2013-12-09 14:43:47','2013-12-09 19:14:07');
-update usuarios set password=sha1('admin') where id_usuario=1;
+
+INSERT INTO `usuarios` (`id_usuario`,`id_rol`,`id_estado`,`permisologia`,`nombre`,`email`,`password`,`recuperacion`,`creacion`,`ultima_modificacion`)
+VALUES (1,1,1,'all','Admin Administrador','admin@admin.com','9dbf7c1488382487931d10235fc84a74bff5d2f4',NULL,'2013-12-09 14:43:47','2013-12-09 19:14:07');
+UPDATE usuarios set password=sha1('admin') where id_usuario=1;
 
 

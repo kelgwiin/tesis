@@ -87,5 +87,9 @@ where anio = '2014'
 order by mes asc;
 
 select * from usuarios;
+select * from modulo_padre;
+select * from modulo_hijo;
+select * from roles;
+
 
 
