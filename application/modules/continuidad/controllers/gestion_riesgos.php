@@ -6,6 +6,8 @@ class Gestion_riesgos extends MX_Controller
 	{
 		parent::__construct();
 		$this->load->module('utilities/utils');
+		$this->load->model('general/general_model','general');
+		$this->load->helper('text');
 	}
 	
 	// FUNCIONES Y VARIABLES PRIVADAS DEL CONTROLADOR
@@ -69,24 +71,10 @@ class Gestion_riesgos extends MX_Controller
 			"href" => site_url('index.php/continuidad/gestion_riesgos'),
 			"icon" => "fa fa-fire-extinguisher"
 		);
-		$sublista = array
-		(
-			array
-			(
-				'chain' => 'Listado de categorías',
-				'href'=> site_url('index.php/continuidad/gestion_riesgos/categorias')
-			),
-			array
-			(
-				'chain' => 'Crear categoría',
-				'href'=> site_url('index.php/continuidad/gestion_riesgos/categorias/crear')
-			)
-		);
 		$l[] = array(
 			"chain" => "Categorías",
 			"href" => site_url('index.php/continuidad/gestion_riesgos/categorias'),
-			"icon" => "fa fa-fire",
-			"list" => $sublista
+			"icon" => "fa fa-fire"
 		);
 		return $l;
 	}
@@ -132,7 +120,7 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Gestión de riesgos'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list1(),'continuidad/menu_riesgos',$view,$this->title,'Gestión de riesgos','two_level');
+		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/menu_riesgos',$view,$this->title,'Gestión de riesgos','two_level');
 	}
 	
 	public function categorias()
@@ -150,7 +138,53 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Listado de categorías'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_categorias(),'continuidad/listado_categorias',$view,$this->title,'Listado de categorías','two_level');
+		
+		$view['categorias'] = $this->general->get_table('categorias_riesgos');
+		
+		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/listado_categorias',$view,$this->title,'Listado de categorías','two_level');
+	}
+	
+	public function crear_categoria()
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		// $permiso = modules::run('general/have_permission', 1);
+		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
+		// $view['nivel'] = 1;
+		
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+			base_url().'index.php/continuidad/gestion_riesgos' => 'Gestión de riesgos',
+			base_url().'index.php/continuidad/gestion_riesgos/categorias' => 'Listado de categorías',
+			'#' => 'Crear categoría'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		
+		if($_POST)
+		{
+			// DELIMITADOR DE ERROR DEL FORM VALIDATION DEL LOGIN
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
+			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+			
+			// REGLAS DEL FORM VALIDATION
+			$this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean');
+			$this->form_validation->set_rules('descripcion','<strong>Descripción</strong>','required|min_length[40]|xss_clean');
+			
+			if($this->form_validation->run($this))
+			{
+				$_POST['categoria'] = ucfirst(strtolower($_POST['categoria']));
+				$categoria = $this->general->insert('categorias_riesgos',$_POST);
+				if($categoria != FALSE)
+					$this->session->set_flashdata('alert_success','Categoría creada con éxito');
+				else
+					$this->session->set_flashdata('alert_error','Hubo un error creando la nueva categoría, por favor intente de nuevo o contacte a su administrador');
+				
+				redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
+			}
+		}
+		
+		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/crear_categoria',$view,$this->title,'Agregar nueva categoría','two_level');
 	}
 	
 	public function listado_riesgos()
@@ -168,7 +202,7 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Listado de riesgos'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_riesgos(),'continuidad/listado_riesgos',$view,$this->title,'Listado de riesgos','two_level');
+		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/listado_riesgos',$view,$this->title,'Listado de riesgos','two_level');
 	}
 	
 	public function crear_riesgo()
@@ -187,6 +221,6 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Nuevo riesgo'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_riesgos(),'continuidad/crear_riesgo',$view,$this->title,'Agregar nuevo riesgo','two_level');
+		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/crear_riesgo',$view,$this->title,'Agregar nuevo riesgo','two_level');
 	}
 }

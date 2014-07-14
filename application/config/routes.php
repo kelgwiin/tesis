@@ -69,15 +69,19 @@ $route['Capacidad/Umbrales'] = "Capacidad/Capacidad/Umbrales";
 
 // RUTAS DE LA GESTION DE CONTINUIDAD DEL NEGOCIO
 // @author Fernando Pinto AKA f6rnando
-$route['continuidad']											= "continuidad/continuidad";
-$route['continuidad/descripcion']								= "continuidad/continuidad";
-$route['continuidad/equipos_accion']							= "continuidad/continuidad/formar_equipos";
-$route['continuidad/listado_pcn']								= "continuidad/continuidad/listado";
-$route['continuidad/crear_pcn']									= "continuidad/continuidad/crear";
-$route['continuidad/gestion_riesgos']							= "continuidad/gestion_riesgos";
-$route['continuidad/gestion_riesgos/categorias']				= "continuidad/gestion_riesgos/categorias";
-$route['continuidad/gestion_riesgos/riesgos']					= "continuidad/gestion_riesgos/listado_riesgos";
-$route['continuidad/gestion_riesgos/riesgos/crear']				= "continuidad/gestion_riesgos/crear_riesgo";
+$route['continuidad']														= "continuidad/continuidad";
+$route['continuidad/descripcion']											= "continuidad/continuidad";
+$route['continuidad/equipos_accion']										= "continuidad/continuidad/formar_equipos";
+$route['continuidad/listado_pcn']											= "continuidad/continuidad/listado";
+$route['continuidad/crear_pcn']												= "continuidad/continuidad/crear";
+$route['continuidad/gestion_riesgos']										= "continuidad/gestion_riesgos";
+$route['continuidad/gestion_riesgos/categorias/crear']						= "continuidad/gestion_riesgos/crear_categoria";
+$route['continuidad/gestion_riesgos/categorias/crear_categoria']			= "continuidad/gestion_riesgos/crear_categoria";
+$route['continuidad/gestion_riesgos/categorias/modificar/(:num)']			= "#";
+$route['continuidad/gestion_riesgos/categorias']							= "continuidad/gestion_riesgos/categorias";
+$route['continuidad/gestion_riesgos/riesgos']								= "continuidad/gestion_riesgos/listado_riesgos";
+$route['continuidad/gestion_riesgos/riesgos/crear']							= "continuidad/gestion_riesgos/crear_riesgo";
+
 
 // RUTAS DE USUARIOS
 //@author Fernando Pinto AKA f6rnando

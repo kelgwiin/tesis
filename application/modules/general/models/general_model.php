@@ -39,13 +39,21 @@ class General_model extends CI_Model
 	// @author f6rnando - FERNANDO PINTO
 	public function insert($table,$data,$where)
 	{
-		$query = $this->db->get_where($table,$where);
-		if($query->num_rows() == 0)
+		if(!empty($where))
 		{
-			if($this->db->insert($table,$data))
-				return $this->db->insert_id();
+			$query = $this->db->get_where($table,$where);
+			if($query->num_rows() == 0)
+			{
+				if($this->db->insert($table,$data))
+					return $this->db->insert_id();
+			}
+			return FALSE;
+		}else
+		{
+			if($this->db->insert($table,$data)) return $this->db->insert_id();
+			else return FALSE;
 		}
-		return FALSE;
+		
 	}
 	
 	// FUNCION PARA ELIMINAR CONTENIDO EN LA BASE DE DATOS
