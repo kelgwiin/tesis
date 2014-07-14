@@ -8,6 +8,7 @@
     <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
     <title><?php echo $title_name;?></title>
     <!-- Bootstrap core CSS -->
+    <link rel="icon" href="<?php echo site_url('assets/back/img/favicon.ico') ?>" type="image/x-icon" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/bootstrap.css" >
     
     <!-- Add custom CSS here -->
