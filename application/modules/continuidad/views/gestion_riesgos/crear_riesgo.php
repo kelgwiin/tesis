@@ -1,22 +1,40 @@
+<?php
+	if(isset($riesgo) && !empty($riesgo))
+	{
+		$h3 = 'Modificar riesgo';
+		$button = 'Modificar riesgo';
+	}else
+	{
+		$h3 = 'Agregar un nuevo riesgo';
+		$button = 'Crear nuevo riesgo';
+	}
+?>
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
 			<h1>Gestión de Continuidad del Negocio</h1>
 			<?php echo $breadcrumbs ?>
-			<h3>Agregar un nuevo riesgo</h3>
+			<h3><?php echo $h3 ?></h3>
 		</div>
 	</div>
 	
 	<div class="row" style="margin-top: 25px">
 		<div class="col-md-6">
 			<div class="row">
-				<form class="form-horizontal">
+				<form class="form-horizontal" method="post" action="<?php echo site_url('index.php/continuidad/gestion_riesgos/riesgos/crear_riesgo') ?>">
 					<fieldset>
 						<!-- Text input-->
-						<div class="form-group">
+						<div class="row">
+							<div class="col-md-4"></div>
+							<div class="col-md-6">
+								<?php echo form_error('denominacion') ?>
+							</div>
+						</div>
+						<div class="form-group <?php echo (form_error('denominacion')) ? 'has-error' : '' ?>">
 							<label class="col-md-4 control-label" for="denominacion">Denominación</label>  
 							<div class="col-md-6">
-								<input id="denominacion" name="denominacion" type="text" placeholder="Denominación del riesgo" class="form-control input-md" required="" />
+								<input name="denominacion" type="text" placeholder="Denominación del riesgo" class="form-control input-md"
+									value="<?php echo set_value('denominacion') ?>" required="" />
 							</div>
 						</div>
 						
@@ -25,12 +43,11 @@
 							<label class="col-md-4 control-label" for="id_categoria">Categoría</label>
 							<div class="col-md-6">
 								<select id="id_categoria" name="id_categoria" class="form-control">
-									<option value="1">Ataques intencionados internos</option>
-									<option value="2">Ataques intencionados externos</option>
-									<option value="3">Ataques no intencionados internos</option>
-									<option value="4">Ataques no intencionados externos</option>
-									<option value="5">Daños accidentales</option>
-									<option value="6">Desastres naturales</option>
+									<?php foreach($categorias as $key => $categoria) : ?>
+										<option value="<?php echo $categoria->id_categoria ?>" <?php echo set_select('id_categoria', @$riesgo->id_categoria); ?>>
+											<?php echo $categoria->categoria ?>
+										</option>
+									<?php endforeach ?>
 								</select>
 							</div>
 						</div>
@@ -39,12 +56,12 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label" for="probabilidad">Probabilidad</label>
 							<div class="col-md-6">
-								<select id="id_categoria" name="probabilidad" class="form-control">
-									<option value="5">Alta</option>
-									<option value="4">Media-Alta</option>
-									<option value="3">Media</option>
-									<option value="2">Media-Baja</option>
-									<option value="1">Baja</option>
+								<select name="probabilidad" class="form-control">
+									<option value="Alta">Alta</option>
+									<option value="Media-Alta">Media-Alta</option>
+									<option value="Media">Media</option>
+									<option value="Media-Baja">Media-Baja</option>
+									<option value="Baja">Baja</option>
 								</select>
 							</div>
 						</div>
@@ -53,21 +70,21 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label" for="probabilidad">Impacto</label>
 							<div class="col-md-6">
-								<select id="id_categoria" name="probabilidad" class="form-control">
-									<option value="5">Alto</option>
-									<option value="4">Medio-Alto</option>
-									<option value="3">Medio</option>
-									<option value="2">Medio-Bajo</option>
-									<option value="1">Bajo</option>
+								<select name="impacto" class="form-control">
+									<option value="Alto">Alto</option>
+									<option value="Medio-Alto">Medio-Alto</option>
+									<option value="Medio">Medio</option>
+									<option value="Medio-Bajo">Medio-Bajo</option>
+									<option value="Bajo">Bajo</option>
 								</select>
 							</div>
 						</div>
 						
 						<!-- Button -->
 						<div class="form-group">
-							<label class="col-md-4 control-label" for=""></label>
+							<label class="col-md-4 control-label"></label>
 							<div class="col-md-4">
-								<button id="" name="" class="btn btn-success">Crear nuevo riesgo</button>
+								<button type="submit" class="btn btn-success"><?php echo $button ?></button>
 							</div>
 						</div>
 					

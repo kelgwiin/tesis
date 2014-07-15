@@ -105,7 +105,7 @@ class Gestion_riesgos extends MX_Controller
 		);
 		$l[] = array(
 			"chain" => "Listado de Riesgos y Amenazas",
-			"href" => site_url('index.php/continuidad/gestion_riesgos/listado_riesgos'),
+			"href" => site_url('index.php/continuidad/gestion_riesgos/riesgos'),
 			"icon" => "fa fa-tasks"
 		);
 		return $l;
@@ -182,8 +182,9 @@ class Gestion_riesgos extends MX_Controller
 			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 			
 			// REGLAS DEL FORM VALIDATION
-			$this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean');
+			$this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean|is_unique[categorias_riesgos.categoria]');
 			$this->form_validation->set_rules('descripcion','<strong>Descripción</strong>','required|min_length[40]|xss_clean');
+			$this->form_validation->set_message('is_unique', 'El %s que intenta crear ya se encuentra almacenado en la base de datos');
 			
 			if($this->form_validation->run($this))
 			{
@@ -232,7 +233,7 @@ class Gestion_riesgos extends MX_Controller
 				base_url().'index.php/continuidad' => 'Continuidad del Negocio',
 				base_url().'index.php/continuidad/gestion_riesgos' => 'Gestión de riesgos',
 				base_url().'index.php/continuidad/gestion_riesgos/categorias' => 'Listado de categorías',
-				'#' => 'Modificar categoría'
+				'#' => $view['categoria']->categoria
 			);
 			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/crear_categoria',$view,$this->title,'Modificar categoría','two_level');
@@ -274,6 +275,7 @@ class Gestion_riesgos extends MX_Controller
 		// $permiso = modules::run('general/have_permission', 1);
 		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
 		// $view['nivel'] = 1;
+		$this->load->model('gestionriesgos_model','riesgos');
 		
 		$breadcrumbs = array
 		(
@@ -283,6 +285,11 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Listado de riesgos'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$riesgos = $this->riesgos->get_allrisks();
+		foreach($riesgos as $key => $riesgo)
+			$riesgo->valoracion = $this->valoracion_riesgo($riesgo);
+		
+		$view['riesgos'] = $riesgos;
 		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/listado_riesgos',$view,$this->title,'Listado de riesgos','two_level');
 	}
 	
@@ -293,15 +300,128 @@ class Gestion_riesgos extends MX_Controller
 		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
 		// $view['nivel'] = 1;
 		
+		if($_POST)
+		{
+			// DELIMITADOR DE ERROR DEL FORM VALIDATION
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
+			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+			
+			// REGLAS DEL FORM VALIDATION
+			$this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean|is_unique[riesgos_amenazas.denominacion]');
+			$this->form_validation->set_message('is_unique', 'La %s que intenta crear ya se encuentra almacenada en la base de datos');
+			
+			if($this->form_validation->run($this))
+			{
+				if($_POST['id_riesgo'])
+				{
+					// SI EXISTE $_POST['id_categoria'] QUIERE DECIR QUE YA LA CATEGORIA ESTA CREADA Y SE QUIERE ACTUALIZAR SU INFORMACION
+					$where['id_riesgo'] = $_POST['id_riesgo'];
+					unset($_POST['id_riesgo']);
+					$riesgo = $this->general->update('riesgos_amenazas',$_POST,$where);
+					if($riesgo)
+						$this->session->set_flashdata('alert_success','Riesgo modificado con éxito');
+					else
+						$this->session->set_flashdata('alert_error','Hubo un error al intentar modificar el riesgo, por favor intente de nuevo o contacte a su administrador');
+				}else
+				{
+					// SINO, ES INFORMACION NUEVA POR LO QUE SIGNIFICA LA CREACION DE UNA NUEVA CATEGORIA
+					$riesgo = $this->general->insert('riesgos_amenazas',$_POST);
+					if($riesgo != FALSE)
+						$this->session->set_flashdata('alert_success','Nuevo riesgo creado con éxito');
+					else
+						$this->session->set_flashdata('alert_error','Hubo un error creando el nuevo riesgo, por favor intente de nuevo o contacte a su administrador');
+				}
+				redirect(site_url('index.php/continuidad/gestion_riesgos/riesgos'));
+			}
+		}
+		$view['categorias'] = $this->general->get_table('categorias_riesgos');
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
 			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
 			base_url().'index.php/continuidad/gestion_riesgos' => 'Gestión de riesgos',
 			base_url().'index.php/continuidad/gestion_riesgos/riesgos' => 'Listado de riesgos',
-			'#' => 'Nuevo riesgo'
+			'#' => 'Crear riesgo'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/crear_riesgo',$view,$this->title,'Agregar nuevo riesgo','two_level');
+	}
+
+	// ESTA FUNCION LEVANTA LA VISTA crear_categoria PERO CON LA INFORMACION DE LA CATEGORIA SOLICITADA YA EN EL FORMULARIO A MANERA DE VER O ACTUALIZAR
+	public function modificar_riesgo($id_riesgo = '')
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		// $permiso = modules::run('general/have_permission', 1);
+		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
+		// $view['nivel'] = 1;
+		
+		$where['id_riesgo'] = $id_riesgo;
+		if($this->general->exist('riesgos_amenazas',$where))
+		{
+			$view['riesgo'] = $this->general->get_row('categorias_riesgos',$where);
+			$breadcrumbs = array
+			(
+				base_url() => 'Inicio',
+				base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+				base_url().'index.php/continuidad/gestion_riesgos' => 'Gestión de riesgos',
+				base_url().'index.php/continuidad/gestion_riesgos/categorias' => 'Listado de categorías',
+				'#' => $view['categoria']->categoria
+			);
+			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/crear_categoria',$view,$this->title,'Modificar categoría','two_level');
+		}else
+		{
+			$this->session->set_flashdata('alert_error','La categoría que intenta modificar no se encuentra en la base de datos');
+			redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
+		}
+	}
+	
+	
+	// public function eliminar_categoria($id_categoria = '')
+	// {
+		// modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		// // $permiso = modules::run('general/have_permission', 1);
+		// // $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
+		// // $view['nivel'] = 1;
+// 		
+		// $where['id_categoria'] = $id_categoria;
+		// if($this->general->exist('categorias_riesgos',$where))
+		// {
+			// if($this->general->delete('categorias_riesgos',$where))
+				// $this->session->set_flashdata('alert_success','La categoría se ha eliminado con éxito');
+			// else
+				// $this->session->set_flashdata('alert_error','Hubo un error al intentar eliminar categoría, por favor intente de nuevo o contacte a su administrador');
+// 			
+		// }else
+			// $this->session->set_flashdata('alert_error','La categoría que intenta eliminar no se encuentra en la base de datos');
+// 			
+		// redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
+	// }
+	
+	private function valoracion_riesgo($riesgo)
+	{
+		$probabilidad = array
+		(
+		 	'Baja' => 1, 'Media-Baja' => 2,
+		 	'Media' => 3, 'Media-Alta' => 4,
+		 	'Alta' => 5
+		);
+		$impacto = array
+		(
+		 	'Bajo' => 1, 'Medio-Bajo' => 2,
+		 	'Medio' => 3, 'Medio-Alto' => 4,
+		 	'Alto' => 5
+		);
+		$valoracion = array
+		(
+			1 => 'Baja', 1.5 => 'Baja',
+			2 => 'Media-Baja', 2.5 => 'Media-Baja',
+			3 => 'Media',
+			3.5 => 'Media-Alta', 4 => 'Media-Alta',
+			4.5 => 'Alta', 5 => 'Alta'
+		);
+		
+		$valor = ($probabilidad[$riesgo->probabilidad] + $impacto[$riesgo->impacto])/2;
+		return $valoracion[$valor];
 	}
 }

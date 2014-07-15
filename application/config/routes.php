@@ -75,13 +75,18 @@ $route['continuidad/equipos_accion']										= "continuidad/continuidad/formar_
 $route['continuidad/listado_pcn']											= "continuidad/continuidad/listado";
 $route['continuidad/crear_pcn']												= "continuidad/continuidad/crear";
 $route['continuidad/gestion_riesgos']										= "continuidad/gestion_riesgos";
+// CATEGORIAS
+$route['continuidad/gestion_riesgos/categorias']							= "continuidad/gestion_riesgos/categorias";
 $route['continuidad/gestion_riesgos/categorias/crear']						= "continuidad/gestion_riesgos/crear_categoria";
 $route['continuidad/gestion_riesgos/categorias/crear_categoria']			= "continuidad/gestion_riesgos/crear_categoria";
 $route['continuidad/gestion_riesgos/categorias/modificar/(:num)']			= "continuidad/gestion_riesgos/modificar_categoria/$1";
 $route['continuidad/gestion_riesgos/categorias/eliminar/(:num)']			= "continuidad/gestion_riesgos/eliminar_categoria/$1";
-$route['continuidad/gestion_riesgos/categorias']							= "continuidad/gestion_riesgos/categorias";
+// RIESGOS
 $route['continuidad/gestion_riesgos/riesgos']								= "continuidad/gestion_riesgos/listado_riesgos";
 $route['continuidad/gestion_riesgos/riesgos/crear']							= "continuidad/gestion_riesgos/crear_riesgo";
+$route['continuidad/gestion_riesgos/riesgos/crear_riesgo']					= "continuidad/gestion_riesgos/crear_riesgo";
+$route['continuidad/gestion_riesgos/riesgos/modificar/(:num)']				= "continuidad/gestion_riesgos/modificar_riesgo/$1";
+$route['continuidad/gestion_riesgos/riesgos/eliminar/(:num)']				= "#";
 
 
 // RUTAS DE USUARIOS
