@@ -31,6 +31,13 @@ function print_alert($message='',$alert_type='success')
 	echo $header.$message.$footer;
 }
 
+// IMPRIME ALGUNA CONDICION CON UN OPERADOR TERNARIO
+
+function echo_conditional($var='', $cond1='', $cond2='')
+{
+	echo (isset($var) && !empty($var)) ? $cond1 : $cond2;
+}
+
 /* 
  * RETORNA LOS BREADCRUMBS NADA MAS DE IMPRIMIRLOS CON echo
  * @param $breadcrumbs Arreglo asociativo que contiene un URL como key y una denominacion a mostrar como value
