@@ -15,6 +15,10 @@ $route['cargar_datos/departamentos'] = "cargar_data/cargar_data/departamentos";
 $route['cargar_datos/departamentos/(:any)'] = "cargar_data/cargar_data/departamentos/$1";
 $route['cargar_datos/servicios'] = "cargar_data/cargar_data/servicios";
 $route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1";
+$route['cargar_datos/personal']												= "cargar_data/cargar_data/cargar_personal";
+$route['cargar_datos/personal/cargar_personal/(:num)']						= "cargar_data/cargar_data/agregar_personal/$1";
+$route['cargar_datos/personal/crear_empleado']								= "cargar_data/cargar_data/guardar_empleado";
+
 /*end of: Rutas para el Modulo de Carga de Infraestructura de IT (cargar data)*/
 
 

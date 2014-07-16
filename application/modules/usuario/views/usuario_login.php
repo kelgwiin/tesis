@@ -6,6 +6,7 @@
     <meta name="author" content="f6rnando">
     <base href="<?php echo base_url(); ?>" />
     <title><?php echo_conditional($title,$title,'Sistema de Gestión de Infraestructuras de Tecnologías de Información') ?></title>
+    <link rel="icon" href="<?php echo site_url('assets/back/img/favicon.ico') ?>" type="image/x-icon" />
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-114x114-precomposed.png">
@@ -101,7 +102,6 @@
                 <div id="div_pass" class="form-group <?php echo (strlen(form_error('password'))) ? 'has-error' : '' ?>" style="margin-top: -17px">
                   <input class="form-control" placeholder="Contraseña" name="password" type="password" value="<?php echo set_value('email') ?>" required />
                 </div>
-                <a class="pull-right" href="#">¿Olvidó la contraseña?</a>
                 <div style="margin-bottom: 10px">&nbsp;</div>
                 <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                 <br>

@@ -137,9 +137,36 @@
 
 				<!-- Segunda fila para colocar la documentación-->
 				<div class="row">
+					<!-- Cargar Personal-->
+					<div class="col-lg-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-6">
+										<i class="fa fa-user fa-5x"></i>
+									</div>
+									<div class="col-xs-6 text-center">
+										<p class="announcement-text">Cargar Personal</p>
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo site_url('index.php/cargar_datos/personal');?>">
+								<div class="panel-footer announcement-bottom">
+									<div class="row">
+										<div class="col-xs-6">
+											Examinar
+										</div>
+										<div class="col-xs-6 text-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
 
 					<!-- Documentación-->
-					<div class="col-lg-3 col-lg-offset-3"> <!-- avanza 9 columnas hacia la derecha con el offset-->
+					<div class="col-lg-3"> <!-- avanza 9 columnas hacia la derecha con el offset-->
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<div class="row">

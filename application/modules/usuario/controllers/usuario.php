@@ -9,7 +9,10 @@ class Usuario extends MX_Controller
 		$this->lang->load('admin','es');
 		$this->load->model('general/general_model','general');
 		$this->load->model('usuario_model','usuarios');
+		$this->load->module('utilities/utils');
     }
+	
+	private $title = 'Gestión de Usuarios';
 	
 //--------------------- INICIO - CALLBACKS FORM_VALIDATION ---------------------
 	// CALLBACK QUE VERIFICA SI UNA CUENTA DE EMAIL EXISTE EN LA TABLA USUARIOS
@@ -50,7 +53,7 @@ class Usuario extends MX_Controller
 		
 		if(!$this->general->exist('usuarios',$where))
 		{
-			$this->form_validation->set_message('validemail','Combinaci�n de Email y Contrase�a incorrecta');
+			$this->form_validation->set_message('validemail','Combinación de Email y Contraseña incorrecta');
 			return FALSE;
 		}else
 		{
@@ -124,8 +127,11 @@ class Usuario extends MX_Controller
 			$view['usuarios'] = $this->general->get_table('usuarios');
 		}
 		
-		$data['main_content'] = $this->load->view($vista,$view,TRUE);
-		$this->load->view('front/template',$data);	
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'usuario/'.$vista,$view,$this->title,'Listado de usuarios','two_level');
+		
+		// $data['main_content'] = $this->load->view($vista,$view,TRUE);
+		// $this->load->view('front/template',$data);	
 	}
 	
 	public function crear_usuarios()
@@ -188,11 +194,14 @@ class Usuario extends MX_Controller
 				}	
 			}
 		}
+
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'usuario/'.$vista,$view,$this->title,'Crear usuarios','two_level');
 		
 		// INFORMACION DEL TEMPLATE
-		$data['title'] = lang('user.create').' | '.lang('project.title_long');
-		$data['main_content'] = $this->load->view($vista,$view,TRUE);
-		$this->load->view('front/template',$data);	
+		// $data['title'] = lang('user.create').' | '.lang('project.title_long');
+		// $data['main_content'] = $this->load->view($vista,$view,TRUE);
+		// $this->load->view('front/template',$data);	
 	}
 
 	public function ficha_usuario($id_usuario)
@@ -210,10 +219,13 @@ class Usuario extends MX_Controller
 		$view['nivel'] = 5;
 		$view['user'] = $this->general->get_row('usuarios',array('id_usuario'=>$id_usuario));
 		
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'usuario/'.$vista,$view,$this->title,'Detalle de '.$view['user']->nombre,'two_level');
+		
 		// INFORMACION DEL TEMPLATE
-		$data['title'] = lang('user.edit').' | '.lang('project.title_long');
-		$data['main_content'] = $this->load->view($vista,$view,TRUE);
-		$this->load->view('front/template',$data);	
+		// $data['title'] = lang('user.edit').' | '.lang('project.title_long');
+		// $data['main_content'] = $this->load->view($vista,$view,TRUE);
+		// $this->load->view('front/template',$data);	
 	}
 	
 	public function buscar_usuarios()
@@ -227,10 +239,13 @@ class Usuario extends MX_Controller
 		$view['estados'] = $this->general->get_table('usuarios_estado');
 		$view['roles'] = $this->general->get_table('roles');
 		
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'usuario/'.$vista,$view,$this->title,'Buscar usuarios','two_level');
+		
 		// INFORMACION DEL TEMPLATE
-		$data['title'] = lang('user.search').' | '.lang('project.title_long');
-		$data['main_content'] = $this->load->view($vista,$view,TRUE);
-		$this->load->view('front/template',$data);
+		// $data['title'] = lang('user.search').' | '.lang('project.title_long');
+		// $data['main_content'] = $this->load->view($vista,$view,TRUE);
+		// $this->load->view('front/template',$data);
 	}
 
 	public function eliminar_usuario($id_usuario)
@@ -245,10 +260,13 @@ class Usuario extends MX_Controller
 		}else
 		{
 			$view['nivel'] = 4;
+			
+			$l = $this->utils->list_sidebar();
+			$this->utils->template($l,'usuario/'.$vista,$view,$this->title,'Eliminar usuarios','two_level');
 			// INFORMACION DEL TEMPLATE
-			$data['title'] = lang('user.delete').' | '.lang('project.title_long');
-			$data['main_content'] = $this->load->view('usuario_sinpermiso',$view,TRUE);
-			$this->load->view('front/template',$data);	
+			// $data['title'] = lang('user.delete').' | '.lang('project.title_long');
+			// $data['main_content'] = $this->load->view('usuario_sinpermiso',$view,TRUE);
+			// $this->load->view('front/template',$data);	
 		}
 	}
 

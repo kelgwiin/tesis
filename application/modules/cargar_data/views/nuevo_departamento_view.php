@@ -270,7 +270,7 @@
 
 							<!-- Boton Cancelar-->
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-								<a href = "<?php echo site_url('index.php/cargar_datos/departamentos/1'); ?>" class="btn btn-primary">Cancelar</a>
+								<a href = "<?php echo site_url('index.php/cargar_datos/departamentos/1'); ?>" class="btn btn-danger">Cancelar</a>
 							</div>
 								
 							<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"><!-- Vacío -->

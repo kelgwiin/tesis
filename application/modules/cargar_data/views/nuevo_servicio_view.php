@@ -19,7 +19,9 @@
 	
 
 ?>
-
+<style>
+	.red{color: #d9534f}
+</style>
 <div id = "page-wrapper">
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
@@ -280,7 +282,7 @@
 						</div><!-- /col-1-->
 
 						<div class="col-md-1">
-							<a  class = "btn "
+							<a  class = "btn red"
 								data-id = "btn-remove-forms-cronograma"
 								data-toggle = "tooltip"  
 								data-original-title = "Eliminar último cronograma"
@@ -399,7 +401,7 @@
 										  		</div><!-- /col-1-->
 
 										  		<div class="col-md-1">
-										  			<a  class = "btn "
+										  			<a  class = "btn red"
 										  				data-id = "btn-remove-forms-comandos-oper"
 										  				data-secuencia = "'.$idx.'"
 												  		data-toggle = "tooltip"  
@@ -543,7 +545,7 @@
 									  		</div><!-- /col-1-->
 
 									  		<div class="col-md-1">
-									  			<a  class = "btn "
+									  			<a  class = "btn red"
 									  				data-id = "btn-remove-forms-comandos-oper"
 									  				data-secuencia = "1"
 											  		data-toggle = "tooltip"  
@@ -625,7 +627,7 @@
 						</div><!-- /col-1-->
 
 						<div class="col-md-1">
-							<a  class = "btn "
+							<a  class = "btn red"
 								id = "btn-remove-forms-umbrales"
 								data-toggle = "tooltip"  
 								data-original-title = "Eliminar último formulario"
@@ -779,7 +781,7 @@
 						</div><!-- /col-1-->
 
 						<div class="col-md-1">
-							<a  class = "btn "
+							<a  class = "btn red"
 								id = "btn-remove-forms-procesos"
 								data-toggle = "tooltip"  
 								data-original-title = "Eliminar último formulario"
@@ -895,7 +897,7 @@
 
 						<!-- Boton Cancelar-->
 						<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-							<a href = "<?php echo site_url('index.php/cargar_datos/servicios/1'); ?>" class="btn btn-primary">Cancelar</a>
+							<a href = "<?php echo site_url('index.php/cargar_datos/servicios/1'); ?>" class="btn btn-danger">Cancelar</a>
 						</div>
 
 						<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"><!-- Vacío -->

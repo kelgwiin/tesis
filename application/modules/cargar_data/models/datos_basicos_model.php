@@ -978,5 +978,18 @@ class Datos_basicos_model extends CI_Model {
         $st_pro && $st_pro_act;
     }
 
+	public function get_personal_bydepto($id_departamento = '')
+	{
+		if(!empty($id_departamento))
+		{
+			$this->db->select('personal.*, departamento.nombre as nombre_dpto, departamento.icono_fa');
+			$this->db->where('personal.id_departamento',$id_departamento);
+			$this->db->join('departamento','departamento.departamento_id = personal.id_departamento','left');
+			$query = $this->db->get('personal')->result();
+			return $query;
+		}
+		return FALSE;
+	}
+
 } // /class Datos_basicos_model.php
 //Location: ./modules/cargar_data/datos_basicos_model.php

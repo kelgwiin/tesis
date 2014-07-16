@@ -796,14 +796,14 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Descripción",
 			"active" => false,
-			"href" => "index.php/cargar_datos",
+			"href" => site_url("index.php/cargar_datos"),
 			"icon" => "fa fa-bar-chart-o"
 		
 		);
 		$l[] = array(
 			"chain" => "Básico",
 			"active" => false,
-			"href" => "index.php/cargar_datos/basico",
+			"href" => site_url("index.php/cargar_datos/basico"),
 			"icon" => "fa fa-cog"
 		
 		);
@@ -811,7 +811,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Componentes de TI",
 			"active" => false,
-			"href" => "index.php/cargar_datos/componentes_ti/1",
+			"href" => site_url("index.php/cargar_datos/componentes_ti/1"),
 			"icon" => "fa fa-cogs"
 		
 		);
@@ -819,7 +819,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Departamentos",
 			"active" => false,
-			"href" => "index.php/cargar_datos/departamentos/1",
+			"href" => site_url("index.php/cargar_datos/departamentos/1"),
 			"icon" => "fa fa-sitemap"
 		
 		);
@@ -827,14 +827,74 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Servicios",
 			"active" => false,
-			"href" => "index.php/cargar_datos/servicios/1",
+			"href" => site_url("index.php/cargar_datos/servicios/1"),
 			"icon" => "fa fa-list"
+		);
 		
+		$l[] = array(
+			"chain" => "Personal",
+			"active" => false,
+			"href" => site_url("index.php/cargar_datos/personal"),
+			"icon" => "fa fa-user"
 		);
 
 		$l[$index_active]["active"] = true; //Colocar el ítem activo
 		return $l;
 	}//end of function: _list
+	
+	public function cargar_personal()
+	{
+		$this->load->model('general/general_model','general');
+		if($_POST)
+		{
+			$view['id_departamento'] = $_POST['id_departamento'];
+			$view['dpto_actual'] = $this->general->get_row('departamento',array('departamento_id'=>$_POST['id_departamento']));
+			$view['personal'] = $this->basico_model->get_personal_bydepto($_POST['id_departamento']);
+		}
+		$view['departamentos'] = $this->general->get_table('departamento');
+		$this->utils->template($this->_list(5),'cargar_data/personal',$view,'Cargar personal','Personal de la organización');
+	}
+	
+	public function agregar_personal($id_departamento = '')
+	{
+		if(!empty($id_departamento))
+		{
+			$this->load->model('general/general_model','general');
+			$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$id_departamento));
+			$this->utils->template($this->_list(5),'cargar_data/personal_add',$view,'Cargar personal','Agregar personal');
+		}else
+		{
+			$this->session->set_flashdata('alert_error','Parece que existe un problema con el departamento al que intenta acceder. Por favor contacte a su administrador');
+			redirect(site_url('index.php/cargar_datos/personal'));
+		}
+	}
+	
+	public function guardar_empleado()
+	{
+		if($_POST)
+		{
+			// DELIMITADOR DE ERROR DEL FORM VALIDATION
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
+			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+			
+			// REGLAS DEL FORM VALIDATION
+			$this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean|is_unique[personal.codigo_empleado]');
+			$this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|xss_clean');
+			$this->form_validation->set_rules('apellido','<strong>Apellido</strong>','required|xss_clean');
+			$this->form_validation->set_rules('cargo','<strong>Cargo</strong>','required|xss_clean');
+			$this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean|is_unique[personal.cedula]');
+			$this->form_validation->set_rules('email_corporativo','<strong>Email corporativo</strong>','required|valid_email|xss_clean|is_unique[personal.email_corporativo]');
+			$this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean|is_unique[personal.email_personal]');
+			$this->form_validation->set_rules('tlfn_corporativo','<strong>Teléfono corporativo</strong>','required|xss_clean');
+			$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean');
+			$this->form_validation->set_rules('fechaingreso_empresa','<strong>Fecha Ingreso</strong>','required|xss_clean');
+			$this->form_validation->set_message('is_unique', 'No es posible crear un duplicado para el campo %s');
+			
+			if($this->form_validation->run($this))
+			{
+			}
+		}
+	}
 
 }//end of class: Cargar_Data
 

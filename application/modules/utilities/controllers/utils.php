@@ -131,24 +131,19 @@ class Utils extends MX_Controller
 		(
 			array
 			(
-				'chain' => 'Descripción',
+				'chain' => 'Principal',
 				'href' => site_url('index.php/continuidad')
 			),
 			array
 			(
-				'chain' => 'Formar equipos de acción',
-				'href' => site_url('index.php/continuidad/equipos_accion')
+				'chain' => 'Plan de continuidad del negocio',
+				'href' => site_url('index.php/continuidad/listado_pcn')
 			),
 			array
 			(
-				'chain' => 'Configuraciones',
-				'href' => site_url('index.php/continuidad/configuraciones')
-			),
-			array
-			(
-				'chain' => 'Historial de interrupciones',
-				'href' => site_url('index.php/continuidad/historial')
-			),
+				'chain' => 'Gestión de riesgos y amenazas',
+				'href' => site_url('index.php/continuidad/gestion_riesgos')
+			)
 		);
 		// CONTINUIDAD DEL NEGOCIO
 		$l[] = array(

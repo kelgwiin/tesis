@@ -8,6 +8,7 @@ class Usuario_model extends CI_Model
 		$this->db->order_by('mh.id_modulo_hijo','asc');
 		$query = $this->db->get('modulo_hijo mh');
 		$query =  $query->result();
+		$mod = array();
 		
 		foreach($query as $key => $q)
 		{
