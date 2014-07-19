@@ -66,12 +66,12 @@ $(function () {
     	<h1>Procesos en Memoria del Servicio: <?php echo $nombre_servicio; ?></h1>
         
         <ol class="breadcrumb">
-          <li class="active"><i class="fa fa-dashboard"></i> Consumo de Memoria del Servicio: <?php echo $nombre_servicio; ?></li>
+          <li class="active"><i class="fa fa-dashboard"></i> Consumo de Memoria del servicio: <?php echo $nombre_servicio; ?></li>
         </ol>
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+           En esta sección podemos ver un histórico del consumo de memoria RAM y un listado del porcentaje de uso de cada proceso del servicio '<?php echo $nombre_servicio; ?>'
         </div>
         
 	</div>

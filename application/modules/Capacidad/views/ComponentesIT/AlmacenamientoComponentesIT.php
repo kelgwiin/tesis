@@ -66,12 +66,12 @@ $(function () {
     	<h1>Almacenamiento</h1>
         
         <ol class="breadcrumb">
-          <li class="active"><i class="fa fa-dashboard"></i> Tasa de uso de discos.</li>
+          <li class="active"><i class="fa fa-dashboard"></i> Permite apreciar la tasa de uso de discos.</li>
         </ol>
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          En la capa de Datos, podemos evaluar el estado del acceso al almacenamiento físico en disco y verificar si está bien dimensionado y los tiempos de respuesta del acceso a los discos está dentro de los márgenes que hemos establecido. 
         </div>
         
 	</div>

@@ -27,12 +27,13 @@ order by comp.componente_ti_id;
 -- Obtener los componentse de TI filtrados por categoria
 select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
 from componente_ti as comp join ma_unidad_medida as uni on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id) inner join ma_categoria as categ on (uni.ma_categoria_id = categ.ma_categoria_id)
-where categ.nombre like '%redes%'and comp.borrado = false and comp.activa = 'ON';
+where categ.nombre like '%red%'and comp.borrado = false and comp.activa = 'ON';
 
-	-- Otra forma (esta parece que va mas rápido)
+	-- Otra forma (esta parece que va mas rápido USADA)
 select  comp.*,uni.abrev_nombre,categ.nombre as nomcateg , categ.icono_fa
 from componente_ti as comp join (ma_unidad_medida as uni,ma_categoria as categ) on (comp.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id) 
-where categ.nombre like '%redes%' and comp.borrado = false and comp.activa = 'ON';
+where categ.nombre like '%red%' and comp.borrado = false and comp.activa = 'ON'
+order by comp.componente_ti_id;
 
 
 -- -----------------------------
@@ -71,8 +72,11 @@ from inventario_ti
 where departamento_id = 36
 order by fecha_creacion desc;
 
+-- ----------------------------------------------
+-- SERVICIOS
+-- ----------------------------------------------
 
--- SERVICIO
+-- Servicio
 select *
 from servicio
 where borrado = false;
@@ -96,7 +100,97 @@ select servicio_proceso_id, nombre, tipo, descripcion
 from servicio_proceso
 where borrado = false and servicio_id = 10;
 
+-- Consulta los nombre de procesos repetidos que no coincidan con los ID's dados.
+select nombre
+from servicio_proceso
+where servicio_proceso_id not in (14,3,16) and nombre in ('p1','cantinflas','Proceso-1');
+
+-- Obteniendo el nombre de formacion tipo
+select nombre,costo, formacion_id as id
+from formacion as f join formacion_tipo as ft on (f.formacion_tipo_id = ft.formacion_tipo_id);
+
+-- Datos de MANTENIMIENTO
+select tipo_operacion as tipo_de_operacion, mm.nombre as motivo, costo, fecha, d.nombre as departamento,
+mc.nombre as categoria, m.nombre as nombre_encargado, apellido as apellido_encargado,
+telefono as telefono_encargado
+
+from mantenimiento as m join (departamento as d, ma_categoria as mc, ma_motivo as mm) 
+on (m.departamento_id = d.departamento_id and m.ma_categoria_id = mc.ma_categoria_id and
+m.ma_motivo_id = mm.ma_motivo_id)
+
+where m.borrado = false and mantenimiento_id = 1;
 
 
 
 
+
+-- Consultas pequeñas para: Totalizaciones de los COSTOS por Categorías
+
+-- --componente_ti
+select ma_unidad_medida_id,nombre, precio,cantidad, capacidad, fecha_creacion, fecha_hasta
+from componente_ti
+where activa = 'ON' and borrado = false and (
+	('2014-02-01' between fecha_creacion and fecha_hasta ) or
+	('2014-02-28' between fecha_creacion and fecha_hasta ) 
+or
+	(fecha_creacion between '2014-02-01' and '2014-02-28 23:59:59') or
+	(fecha_hasta between '2014-02-01' and '2014-02-28') 
+);
+
+select * from componente_ti;
+
+select str_to_date('2014,03,01 23:59:59','%Y,%m,%d %H:%i:%s') - interval 1 day ;
+
+select ma_unidad_medida_id, ma_categoria_id, valor_nivel
+from ma_unidad_medida;
+
+-- --- arrendamiento
+select arrendamiento_id, costo, fecha_inicial_vigencia, esquema_tiempo
+from arrendamiento
+where  borrado = false and 
+( fecha_inicial_vigencia <=  STR_TO_DATE('2014,05,01','%Y,%m,%d')
+	
+ or 
+  fecha_inicial_vigencia between STR_TO_DATE('2014,05,01','%Y,%m,%d') and (STR_TO_DATE('2014,06,01','%Y,%m,%d') - interval 1 day )
+
+)
+;
+
+-- -- mantenimiento
+select mantenimiento_id, costo, fecha, departamento_id, ma_categoria_id
+from mantenimiento
+where borrado = false;
+-- --formacion
+select formacion_id, costo, fecha
+from formacion
+where borrado = false and '2014-05-01' >= STR_TO_DATE();
+-- --honoraios
+select honorario_id, costo, numero_profesionales, fecha_desde, fecha_hasta
+from honorario
+where CURDATE() between fecha_desde and fecha_hasta and borrado = false;
+-- -- utileria
+select utileria_id, costo, fecha
+from utileria
+where borrado = false;
+
+-- Agregando la vida util de un componente de ti
+select fecha_creacion,tiempo_vida, fecha_creacion + INTERVAL tiempo_vida DAY as fecha_hasta
+from componente_ti;
+
+select * from mantenimiento;
+
+-- Componentes de TI que están a punto de vencerse (desde fecha actual hasta una semana después)
+select cti.nombre, cti.fecha_creacion, cti.fecha_hasta, cti.cantidad, categ.nombre as categoria
+from componente_ti  as cti join (ma_unidad_medida as uni, ma_categoria as categ) 
+on (cti.ma_unidad_medida_id = uni.ma_unidad_medida_id and uni.ma_categoria_id = categ.ma_categoria_id)
+where  borrado = false and activa = 'ON'
+and fecha_hasta between curdate() and curdate() + interval 7 day;
+
+select * from componente_ti;
+
+select *
+from estructura_costo
+where anio = '3000';
+
+select * from estructura_costo;
+ 

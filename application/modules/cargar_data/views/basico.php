@@ -194,7 +194,7 @@
 								Guardar
 							</button>                        
 						</form>
-							<a  class="btn btn-primary"
+							<a  class="btn btn-danger"
 							href = "<?php echo site_url('index.php/cargar_datos');?>">
 							Cancelar
 						</a>        

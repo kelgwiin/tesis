@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="#">
     <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
-    <title>Tesis Suprema</title>
+    <title>Gestión de Usuarios | SIGITEC</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/bootstrap.css" >
     <!-- Add custom CSS here -->
@@ -25,7 +25,19 @@
 	<script src="<?php echo base_url(); ?>assets/front/highcharts/exporting.js"></script>
   
   <!-- Configurations JS -->
-    <script src="assets/front/js/apps/App.js"></script>
+    <script src="<?php echo base_url(); ?>assets/front/js/apps/App.js"></script>
+    <style type="text/css">
+      ul.sub-menu li
+      {
+        font-size: 11px;
+        height: 30px;
+      }
+      ul.sub-menu li a:hover
+      {
+        vertical-align: middle;
+        height: 20px;
+      }
+    </style>
   </head>
 
   <body>
@@ -53,7 +65,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url(); ?>">Tesis suprema</a>
+          <a class="navbar-brand" href="<?php echo base_url(); ?>">SIGITEC</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -65,7 +77,7 @@
             <!-- Gestion de la Capacidad -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> Gestión de Capacidad <b class="caret"></b></a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu sub-menu">
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/">Descripción</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/ComponentesIT/">Componetes IT</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/">Servicios</a></li>
@@ -74,18 +86,17 @@
               </ul>
             </li>  
             <!-- Gestion de la Capacidad -->
-            <li><a href="typography.html"><i class="fa fa-font"></i> Gestión de Riesgos</a></li>
-            <li><a href="bootstrap-elements.html"><i class="fa fa-desktop"></i> Gestión de Costos</a></li>
+            <li><a href="<?php echo site_url('index.php/continuidad-negocio') ?>"><i class="fa fa-retweet"></i> Continuidad del Negocio</a></li>
+            <li><a href="<?php echo site_url('index.php/Costos');?>"><i class="fa fa-clipboard"></i> Gestión de Costos</a></li>
             <li><a href="<?php echo base_url(); ?>index.php/Disponibilidad/"><i class="fa fa-clock-o"></i> Gestión de Disponibilidad</a></li>
-            <li><a href="bootstrap-grid.html"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
-            <li><a href="blank-page.html"><i class="fa fa-file"></i> Blank Page</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Dropdown Item</a></li>
-                <li><a href="#">Another Item</a></li>
-                <li><a href="#">Third Item</a></li>
-                <li><a href="#">Last Item</a></li>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i> <?php echo 'Gestión de Usuarios' ?> <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu sub-menu">
+                <li><a href="<?php echo base_url() ?>index.php/usuarios"><?php echo 'Ver usuarios' ?></a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/crear"><?php echo 'Crear usuarios' ?></a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/buscar"><?php echo 'Buscar usuarios' ?></a></li>
               </ul>
             </li>
           </ul>
@@ -131,7 +142,7 @@
                   title="Gestión de Riesgos" 
                   href = "#"  
                  >
-                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Riesgos</small>
+                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Continuidad<br>del Negocio</small>
                  </a> 
                </div>
 
@@ -143,7 +154,7 @@
                 <!-- GESTIÓN DE COSTOS-->
                 <a type="button" class="btn"
                   title="Gestión de Costos" 
-                  href = "#"  
+                  href = "<?php echo site_url('index.php/Costos');?>"  
                  >
                  <i class="fa fa-clipboard fa-3x"></i> <br> <small> Gestión de<br>Costos</small>
                  </a>
@@ -251,13 +262,16 @@
               </ul>
             </li>
             <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $nombre_usuario; ?> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i>
+                <?php $nombre_usuario = !empty($this->session->userdata('user')->nombre) ? $this->session->userdata('user')->nombre : 'Usuario' ?>
+                <?php echo $nombre_usuario; ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
                 <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
                 <li><a href="#"><i class="fa fa-gear"></i> Preferencias</a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/cerrar-sesion"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
               </ul>
             </li>
           </ul>

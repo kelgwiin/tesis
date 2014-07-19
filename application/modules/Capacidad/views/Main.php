@@ -119,9 +119,7 @@ $(function (){
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          En el contexto de las tecnologías de la información o IT, el término capacidad, se emplea tanto para 
-          describir la cantidad de información que es capaz de contener o almacenar un dispositivo, 
-          como la habilidad que tienen los componentes IT para tratar los datos y convertirlos en información.
+          Este módulo permite la gestión de las Capacidad de la organización, basado en el estado actual e histórico de los servicios y componentes.
         </div>
         
 	</div>

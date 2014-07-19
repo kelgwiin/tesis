@@ -33,25 +33,63 @@ select * from departamento;
 
 -- SERVICIO
 select * from servicio;
+-- where servicio_id = 9;
+
 -- delete from servicio where servicio_id > 0; 
 
-select * from tarea;
-select * from tarea_detalle;
+select * from tarea
+where servicio_id =  9 ;
+
+select * from tarea_detalle
+where tarea_id = 11 ;
 
 select * from umbral;
 
 select * from servicio_proceso;
 
+select * from usuarios;
+
+select ma_motivo_id, nombre
+from ma_motivo
+where seccion = 'arrendamiento';
+
+select * from ma_motivo;
+
+
+-- delete from arrendamiento where arrendamiento_id >0;
 
 
 
+select nombre, departamento_id as id
+from departamento;
 
+select * from formacion_tipo;
 
+-- Costos indirectos
+select * from arrendamiento;
+select * from formacion;
+select * from mantenimiento;
+select * from honorario;
+select * from utileria;
 
+select * from ma_categoria;
+select * from ma_unidad_medida;
+select * from componente_ti;
 
+select * from estructura_costo;
+select * from estructura_costo_item;
 
+delete from estructura_costo where estructura_costo_id > 0;
 
+select estructura_costo_id, mes
+from estructura_costo
+where anio = '2014'
+order by mes asc;
 
+select * from usuarios;
+select * from modulo_padre;
+select * from modulo_hijo;
+select * from roles;
 
 
 

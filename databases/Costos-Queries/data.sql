@@ -38,4 +38,37 @@ insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) 
 	(5,'NA Licencia','NA',-1),
 	(6,'NA Otros','NA',-1);
 	
+#Motivos de Arrendamiento
+insert into ma_motivo (seccion, nombre) values 
+	('arrendamiento','Servicio de Luz'),
+	('arrendamiento','Servicio de IPS'),
+	('arrendamiento','Llamadas telefónicas'),
+	('arrendamiento','Alquiler de equipos de TI'),
+	('arrendamiento','Otros'),
+
+	-- Motivos Mantenimiento
+	('mantenimiento','Instalación y configuración de los equipos de red'),
+	('mantenimiento','Soporte de Sistema Operativo'),
+	('mantenimiento','Afinación del desempeño y entonación del sistema'),
+	('mantenimiento','Investigación y planeación de sistemas'),
+	('mantenimiento','Evaluación y compra'),
+	('mantenimiento','Eliminación de Hardware'),
+	('mantenimiento','Respaldos y recuperación'),
+	('mantenimiento','Planeación de fallas'),
+	('mantenimiento','Soporte en general'),
+	('mantenimiento','Otros')
+
+;
+
+
+-- Tipo de Formación  (formacion_tipo)
+insert into formacion_tipo (nombre) values
+('Certificaciones'),
+('Cursos'),
+('Capacitación de usuario final'),
+('Consultorías externas');
+
+
+
+
 

@@ -69,12 +69,12 @@ $(function () {
     	<h1>Memoria</h1>
         
         <ol class="breadcrumb">
-          <li class="active"><i class="fa fa-dashboard"></i> Consumo de Memoria RAM</li>
+          <li class="active"><i class="fa fa-dashboard"></i> Permite monitorear el porcentaje de uso de memoria RAM. </li>
         </ol>
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          En esta sección podemos ver un histórico del consumo de memoria RAM y un listado del porcentaje de uso de cada proceso.
         </div>
         
 	</div>

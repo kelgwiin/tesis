@@ -3128,6 +3128,7 @@ td.visible-print {
   z-index: 1000;
   display: none;
   float: left;
+  font-size: 11px;
   min-width: 160px;
   padding: 5px 0;
   margin: 2px 0 0;

@@ -184,9 +184,12 @@
 												<div class = "form-group">
 													<select id = "all-componentes-ti-dpto" size = "15" multiple class="form-control"  >
 														<?php
-															foreach ($list_comp_ti as $row) {
-																printf('<option data-cant-disp = "%d" value = "%d">%s</option>',$row['cant_disp'],$row['id'],$row['nombre']);
+															if(isset($list_comp_ti) && $list_comp_ti !== NULL){
+																foreach ($list_comp_ti as $row) {
+																	printf('<option data-cant-disp = "%d" value = "%d">%s</option>',$row['cant_disp'],$row['id'],$row['nombre']);
+																}	
 															}
+															
 														?>
 													</select>
 													<span class = "help-block">Todos los Componentes de TI </span>
@@ -267,7 +270,7 @@
 
 							<!-- Boton Cancelar-->
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-								<a href = "<?php echo site_url('index.php/cargar_datos/departamentos/1'); ?>" class="btn btn-primary">Cancelar</a>
+								<a href = "<?php echo site_url('index.php/cargar_datos/departamentos/1'); ?>" class="btn btn-danger">Cancelar</a>
 							</div>
 								
 							<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"><!-- Vacío -->

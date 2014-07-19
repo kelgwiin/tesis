@@ -1,3 +1,62 @@
+<!-- Scripts para el msj Modal (jquery-ui pluggin )-->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.widget.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.mouse.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.button.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.draggable.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.position.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.dialog.js');?>"></script>
+
+<!-- Config CSS-->
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/custom-theme/jquery-ui-1.10.4.custom.css');?>">
+<!-- /Fin de Scripts de librerías para Modal -->
+
+<!-- Inicialización del Dialog-Modal -->
+<script>
+$(function() {
+	$( "div#confirm-delete" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height:200,
+		width: 470,
+		modal: true,
+		buttons: {
+			"Eliminar": function() {
+				//Eliminando el componente de TI desde AJAX
+				
+				$( this ).dialog( "close" );
+				
+				var id  = $(this).attr('data-id');
+				var params = {componente_ti_id:id};
+				var url = "index.php/cargar_datos/componentes_ti/eliminar";
+				var dataType = "json";
+				var fo = function(data){
+				    if(data.estatus == 'ok'){
+				        //Mostrando msj de item eliminado lógicamente
+				        $('div#msj-eliminado-comp-ti').attr('class','alert alert-success alert-dismissable show');
+				        //Escondiendo msj de error inesperado
+				        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
+				    }else{
+				        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+				    }
+				}
+				//Haciendo llamada al controlador desde ajax
+				$.post(url,params,fo,dataType);
+				//Eliminando gráficamente
+				$('div[data-id=panel-item-comp'+id+']').remove();
+			},
+			Cancelar: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+	
+
+});
+</script>
+
+<!-- Inicio del Cuerpo de la Página -->
 <div id = "page-wrapper">
 <!-- Cabecera de la descripción-->
 	<div class = "row">
@@ -80,7 +139,7 @@
 		<!-- Buscar, filtrar, nuevo-->
 		<div class="col-lg-8">
 			<!-- Formulario -->
-			<form method = "post" action = "<?php echo site_url('index.php/cargar_datos/componentes_ti/filtrar');?>" 
+			<form method = "GET" action = "<?php echo site_url('index.php/cargar_datos/componentes_ti/filtrar/pag/1');?>" 
 			 class="form-inline" role = "form">
 				<!-- boton nuevo-->
 				<div class = " form-group" >
@@ -364,7 +423,11 @@
 	<div class="col-md-12">
 		<center>
 		<?php 
-			$config_pag['url'] = site_url('index.php/cargar_datos/componentes_ti');
+			if(isset($is_filtered) && $is_filtered){
+				$config_pag['url'] = site_url('index.php/cargar_datos/componentes_ti/filtrar/pag');
+			}else{
+				$config_pag['url'] = site_url('index.php/cargar_datos/componentes_ti');
+			}
 			pagination($config_pag);
 		?>
 		</center>
@@ -398,45 +461,23 @@
 	</div>
 </div>
 <!-- Fin de Direccionamiento de formularios -->
+	
+	<!-- Modal: Confirmar Eliminación-->
+	<div id="confirm-delete" data-id = "-1">
+		<div class = "row">
+			<!-- Ícono -->
+			<div class = "col-md-1 col-md-offset-1">
+				<i class = "fa fa-question-circle fa-4x"></i>
+			</div><!-- /col-md-1 -->
+			
+			<!-- Cuerpo del msj -->
+			<div class = "col-md-10">
+				<h4 class= "text-center"> 
+				¿Está seguro que desea <strong>eliminar</strong> <br>el componente de TI?</h4>			
+			</div><!-- /col-md-10 -->
 
-
-	<!-- Modals-->
-
-	<!-- Msj de Confirmación de Eliminación de Comp de TI -->
-	<div class="modal fade" id = "confirmar-eliminar-comp-ti" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content bg-info">
-				<div class="modal-body">
-					<!-- ícono de cerrar-->
-					<div class = "row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true"><i class = "fa fa-times"></i></button>	
-						</div>
-					</div>
-					<!-- Cuerpo del mensaje -->
-					<div class = "row">
-						<div class = "col-md-1 col-md-offset-1">
-							<i class = "fa fa-question-circle fa-5x"></i>	
-						</div>
-						<div class="col-md-10">
-							<h3 class= "text-center">¿Está seguro que desea <strong>eliminar</strong> <br>el componente de TI?</h3>			
-						</div>
-					</div>
-					<br><br>
-					<!-- Botones Cerrar y Eliminar -->
-					<div class = "row">
-						<div class="col-md-4 col-md-offset-4">
-							
-							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-							&nbsp 
-							<button data-id = "-1" id = "btn-aceptar-componente-ti" type="button" class="btn btn-primary">Aceptar</button>
-							
-						</div>
-					</div>
-				</div><!-- /modal-body-->
-			</div><!-- /modal-content-->
-		</div><!-- /modal-dialog-->
-	</div><!-- /modal-dialog-->
+		</div><!-- /row-->
+	</div><!-- /Modal: confirm-delete -->
 
 </div><!-- end of: page wrapper -->
 

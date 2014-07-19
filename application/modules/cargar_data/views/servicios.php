@@ -1,3 +1,62 @@
+<!-- Scripts para el msj Modal (jquery-ui pluggin )-->
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.widget.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.mouse.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.button.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.draggable.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.position.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.dialog.js');?>"></script>
+
+<!-- Config CSS-->
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/custom-theme/jquery-ui-1.10.4.custom.css');?>">
+<!-- /Fin de Scripts de librerías para Modal -->
+
+<!-- Inicialización del Dialog-Modal -->
+<script>
+$(function() {
+	$( "div#confirm-delete" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height:200,
+		width: 470,
+		modal: true,
+		buttons: {
+			"Eliminar": function() {
+				//Eliminando el departamento desde AJAX
+				
+				$( this ).dialog( "close" );
+
+				var id  = $(this).attr('data-id');
+				var params = {servicio_id:id};
+				var url = "index.php/cargar_datos/servicios/eliminar";
+				var dataType = "json";
+				var fo = function(data){
+				    if(data.estatus == 'ok'){
+				        //Mostrando msj de item eliminado lógicamente
+				        $('div#msj-eliminado-servicio').attr('class','alert alert-success alert-dismissable show');
+				        //Escondiendo msj de error inesperado
+				        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable hidden');
+				    }else{
+				        $('div#msj-error-inesperado-basico').attr('class','alert alert-danger alert-dismissable show');
+				    }
+				}
+				//Haciendo llamada al controlador desde ajax
+				$.post(url,params,fo,dataType);
+				//Eliminando gráficamente
+				$('div[data-id=panel-item-servicio-'+id+']').remove();
+			},
+			Cancelar: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+	
+
+});
+</script>
+
+<!-- Inicio del Cuerpo de la Página -->
 <div id = "page-wrapper">
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
@@ -37,7 +96,7 @@
 					if($actualizado){
 					echo '<div class="alert alert-success alert-dismissable" id = "msj-actualizado-dpto">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-							El Departamento ha sido <strong>actualizado</strong> con éxito y se ha <strong>creado</strong> un campo nuevo en el inventario asociado al dpto.!
+							El Servicio ha sido <strong>actualizado</strong> con éxito!
 						</div>
 					';
 					}
@@ -46,13 +105,20 @@
 				<!-- Mensaje Lista Actualizada -->
 				<?php 
 					if($filtrado){
-					echo '<div class="alert alert-success alert-dismissable" id = "msj-filtrado-dpto">
+					echo '<div class="alert alert-success alert-dismissable" id = "msj-filtrado-servicio">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-							La lista de Departamentos de TI ha sido <strong>Actualizada</strong>!
+							La lista de Servicios de TI ha sido <strong>Actualizada</strong>!
 						</div>
 					';
 					}
 				?>
+
+				<!-- Mensaje de Aviso de Servicio eliminado -->
+				<div class="alert alert-success alert-dismissable hidden" id = "msj-eliminado-servicio">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Ha sido <strong>eliminado</strong> el servicio con éxito!
+				</div>
+
 			</div><!-- /col-12-->
 		</div><!-- /row: breadcrumb -->
 
@@ -61,8 +127,8 @@
 		<!-- Buscar, filtrar, nuevo-->
 		<div class="col-lg-6">
 			<!-- Formulario de Filtrar -->
-			<form action = "<?php echo site_url('index.php/cargar_datos/servicios/filtrar');?>" 
-				class="form-inline"  method = "POST">
+			<form action = "<?php echo site_url('index.php/cargar_datos/servicios/filtrar/pag/1');?>" 
+				class="form-inline"  method = "GET">
 
 				<!-- boton nuevo-->
 				<div class = " form-group" >
@@ -101,6 +167,7 @@
 						<option value="USR">Serv. Usuario</option>
 						<option value="SYS">Serv. Sistema</option>
 						<option value="nombre">Nombre</option>
+						<option value="ingresos">Por Ingreso</option>
 					</select>
 				</div>
 
@@ -171,7 +238,7 @@
 						$url_ed = site_url('index.php/cargar_datos/servicios/actualizar/'.$servicio_id);
 						echo '
 							<!-- Servicio: '.$servicio_id.' -->
-							<div class="panel panel-info"><!-- Inner-->
+							<div class="panel panel-info" data-id = "panel-item-servicio-'.$servicio_id.'"><!-- Inner-->
 								<div class="panel-heading">
 									<div class="row">
 										
@@ -195,7 +262,7 @@
 															data-toggle="tooltip" 
 															data-original-title="Características"
 															data-placement = "bottom">
-															<i id = "servicio1" class = "fa fa-caret-right fa-lg"></i>	
+															<i id = "'.$servicio_id.'" class = "fa fa-caret-right fa-lg"></i>	
 														</a>
 														<a  class="btn"
 															data-id = "'.$servicio_id.'"
@@ -461,8 +528,8 @@
 						echo '
 								</div><!-- /panel-body -->
 							</div> <!-- panel-info -->
-
 							<br>
+
 						';
 
 						$cur_page+=1;
@@ -511,8 +578,6 @@
 								if($config_pag['total_rows'] > 0){
 									show_servicio($rs['is_top'],$org, $config_pag, $list_servicio, $rs['servicio_id'],
 									 $rs['cur_page']);
-								}else{
-									echo '<h3 class = "text-muted"> La búsqueda ha generado cero (0) resultados</h3>';
 								}
 							?>
 						</div><!-- columna Derecha-->
@@ -546,8 +611,13 @@
 	<div class="col-md-12">
 		<center>
 		<?php 
-			$config_pag['url'] = site_url('index.php/cargar_datos/servicios');
-			pagination($config_pag);
+			if(!$filtrado){
+				$config_pag['url'] = site_url('index.php/cargar_datos/servicios');
+			}else{
+				$config_pag['url'] = site_url('index.php/cargar_datos/servicios/filtrar/pag');
+			}
+				pagination($config_pag);
+
 		?>
 		</center>
 	</div><!-- /col-12 -->
@@ -571,4 +641,23 @@
 	</div>
 </div>
 <!-- Fin de Direccionamiento de formularios -->
+
+<!-- Modal: Confirmar Eliminación-->
+<div id="confirm-delete" data-id = "-1">
+	<div class = "row">
+		<!-- Ícono -->
+		<div class = "col-md-1 col-md-offset-1">
+			<i class = "fa fa-question-circle fa-4x"></i>
+		</div><!-- /col-md-1 -->
+		
+		<!-- Cuerpo del msj -->
+		<div class = "col-md-10">
+			<h4 class= "text-center"> 
+			¿Está seguro que desea <strong>eliminar</strong> <br>el servicio?</h4>			
+		</div><!-- /col-md-10 -->
+
+	</div><!-- /row-->
+</div><!-- /Modal: confirm-delete -->
+
+
 </div><!-- end of: page-wrapper-->

@@ -5,3 +5,31 @@ hr{
 div.sche-bgcolor{
 	background-color: #E9F2F3
 }
+
+ul.sub-menu li{
+  font-size: 11px;
+  height: 30px;
+}
+
+ul.sub-menu li a:hover{
+	vertical-align: middle;
+ 	height: 20px;
+}
+
+.negro{
+	color:black;
+}
+.rojo{
+	color:red;
+}
+.verde{
+	color:green;
+}
+
+.blanco {
+	color:white;
+}
+
+div.ficha-ci{
+	font-size: 12px;
+}

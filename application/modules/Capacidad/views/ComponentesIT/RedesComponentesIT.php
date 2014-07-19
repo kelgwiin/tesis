@@ -66,12 +66,12 @@ $(function () {
     	<h1>Comunicaciones</h1>
         
         <ol class="breadcrumb">
-          <li class="active"><i class="fa fa-dashboard"></i> Tráfico en la red.</li>
+          <li class="active"><i class="fa fa-dashboard"></i> Permite analizar el Tráfico en la red.</li>
         </ol>
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          En este apartado se puede verificar el tráfico en la red de los distintos canales internos de la plataforma
         </div>
         
 	</div>

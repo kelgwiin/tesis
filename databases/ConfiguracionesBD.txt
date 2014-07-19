@@ -2,7 +2,7 @@ Configuraciones de la Base de Datos
 
 Usuario:admin
 Clave:admin
-Nombre de la BD: TI
+Nombre de la BD: ti
 
 La Base de Datos está dentro archivo workbench y sería más facil si le dan
 a la opción de sincronizar la bd con una conexión existente la cual debe

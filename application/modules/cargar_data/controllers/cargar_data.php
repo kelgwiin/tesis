@@ -26,7 +26,7 @@ class Cargar_Data extends MX_Controller
 
 		//Variables de la clase
 		/**
-		 * Número de items de componentes de ti por página 
+		 * Número de items (componentes, dpto. o servicio) por página 
 		 * @var integer
 		 */
 		$this->per_page = 6;
@@ -110,7 +110,7 @@ class Cargar_Data extends MX_Controller
 			//Listando los componentes de ti
 			case 'list':
 				$params_main_content = $this->_config_comp_ti($this->per_page,
-					false,$cur_page,array('accion' => 'all' ));
+					false,$cur_page,array('accion' => 'all' ),NULL);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -118,7 +118,7 @@ class Cargar_Data extends MX_Controller
 			//Muestra el mensaje de guardado exitoso
 			case 'guardado': 
 				$params_main_content = $this->_config_comp_ti($this->per_page,
-					true,1,array('accion' => 'all' ));
+					true,1,array('accion' => 'all' ),NULL);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -154,6 +154,12 @@ class Cargar_Data extends MX_Controller
 				//Procesando la fecha actual
     			$p_procesado['fecha_creacion'] = date('Y-m-d H:i:s',now());
 
+    			//Verificando la cantidad
+    			if(!isset($p_procesado['cantidad'])){
+    				//Se hace esta validación ya que cuando se encuentra
+    				//no editable "disable" él parámetro no se envía al servidor.
+    				$p_procesado['cantidad'] = 1;
+    			}
     			//Cantidad Disponible
     			$p_procesado['cantidad_disponible'] = $p_procesado['cantidad'];
 
@@ -167,27 +173,36 @@ class Cargar_Data extends MX_Controller
 
 			//Filtrando el contenido de los componentes de ti
 			case 'filtrar':
-				$op = $this->input->post('filtro-componente-ti');
+				$op = $this->input->get('filtro-componente-ti');
+				
+				$p_get = get_encode($this->input->get());
+				$cur_page = $this->uri->segment(5);
+				//Para desplegar el mensade de filtrado
+				$params_main_content['is_filtered'] = true;
+
 				switch ($op) {
 					case 'todos':
 						$params_main_content = $this->_config_comp_ti($this->per_page,
-							false,1, array('accion' => 'all' ));
+							false,$cur_page, array('accion' => 'all' ),NULL);
+						
+						//Como son todos se configura como si fuese un listar normal 
+						//de todos los componentes
+						$params_main_content['is_filtered'] = false;
 						break;
 					
 					case 'nombre':
-						$busq = $this->input->post('buscar-componente-ti');
+						$busq = $this->input->get('buscar-componente-ti');
 						$params_main_content = $this->_config_comp_ti($this->per_page,
-							false,1, array('accion' => 'nombre','campo_buscar' => $busq ));
+							false,$cur_page, array('accion' => 'nombre','campo_buscar' => $busq ),$p_get);
 						break;
 
 					case 'categoria':
-						$busq = $this->input->post('buscar-componente-ti');
+						$busq = $this->input->get('buscar-componente-ti');
 						$params_main_content = $this->_config_comp_ti($this->per_page,
-							false,1, array('accion' => 'categoria','campo_buscar' => $busq ));
+							false,$cur_page, array('accion' => 'categoria','campo_buscar' => $busq ),$p_get);
 						break;
 				}
-				//Para desplegar el mensade de filtrado
-				$params_main_content['is_filtered'] = true;
+				
 				
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
@@ -246,6 +261,16 @@ class Cargar_Data extends MX_Controller
 					}
 				}
 
+				//Verificando la cantidad
+				if(!isset($p_procesado['cantidad'])){
+					//Se hace esta validación ya que cuando se encuentra
+					//no editable "disable" él parámetro no se envía al servidor.
+					$p_procesado['cantidad'] = 1;
+				}
+				//Cantidad Disponible
+				$p_procesado['cantidad_disponible'] = $p_procesado['cantidad'];
+
+
 				if($this->utilities_model->update('componente_ti',
 						array('componente_ti_id'=>$id_comp_ti),$p_procesado ) ){
 					echo '{"estatus":"ok"}';
@@ -255,7 +280,7 @@ class Cargar_Data extends MX_Controller
 				break;
 			case 'actualizado':
 				$params_main_content = $this->_config_comp_ti($this->per_page,
-					false,1,array('accion' => 'all' ),true);
+					false,1,array('accion' => 'all' ),NULL,true);
 				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
@@ -283,18 +308,21 @@ class Cargar_Data extends MX_Controller
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
 			
-			//Formulario de nuevo componente de ti
+			//Formulario de nuevo Departamento de ti
 			case 'filtrar':
-				$op = $this->input->post('filtro-dpto');
+				$op = $this->input->get('filtro-dpto');
+				$p_get = get_encode($this->input->get());
+				$cur_page = $this->uri->segment(5);
+
 				switch ($op) {
 					case 'todos':
-						$params_main_content = $this->_config_dpto(false,false,true,1,
+						$params_main_content = $this->_config_dpto(false,false,false,$cur_page,
 							$this->per_page, array('accion' => 'todos'));
 						break;
 					case 'nombre':
-						$campo_buscar = $this->input->post('buscar');
-						$params_main_content = $this->_config_dpto(false,false,true,1,
-							$this->per_page, array('accion' => 'nombre','info' =>$campo_buscar));
+						$campo_buscar = $this->input->get('buscar');
+						$params_main_content = $this->_config_dpto(false,false,true,$cur_page,
+							$this->per_page, array('accion' => 'nombre','info' =>$campo_buscar),$p_get);
 						break;
 				}
 				
@@ -303,7 +331,7 @@ class Cargar_Data extends MX_Controller
 
 				break;
 			case 'nuevo':
-				//Info de los Componentes en el sistema
+				//Info de los Departamentos en el sistema
 				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
 				$params_main_content['actualizar'] = false;
 				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
@@ -389,10 +417,11 @@ class Cargar_Data extends MX_Controller
 	 *         array('accion' => String,
 	 *         		'info' => String //valor del filtro
 	 *         )
+	 * @param $p_get Parámetros en formato GET, sólo usado para el caso de filtrado.
 	 * @return Array              	Config. del main_content
 	 */
 	private function  _config_dpto($actualizado, $guardado,$filtrado, $cur_page,$per_page,
-		$data_filtro){
+		$data_filtro,$p_get=NULL){
 		/**
 		 * Contiene las configuraciones de main_content
 		 * @var $mc
@@ -415,7 +444,8 @@ class Cargar_Data extends MX_Controller
 		$config_pag = array(
 			'total_rows' => $l['total_rows'],
 			'per_page' => $per_page,
-			'cur_page' => $cur_page
+			'cur_page' => $cur_page,
+			'p_get' => $p_get
 			);
 		$mc['config_pag'] = $config_pag;
 		$mc['list_dpto'] = $l['data'];
@@ -438,6 +468,7 @@ class Cargar_Data extends MX_Controller
 				$params_main_content = $this->_config_service(false,false,false,
 					$cur_page,$this->per_page, array('accion'=>'todos'));
 
+				//Organización
 				$params_main_content['org'] = $this->utilities_model->
 						first_row('organizacion','organizacion_id');
 						
@@ -466,6 +497,38 @@ class Cargar_Data extends MX_Controller
 				}
 				break;
 			
+			case 'validar_nombres_actualizar':
+				//Validación de Nombre de Procesos Nuevo
+				$nombres_nuevos = $this->input->post('nombres_procesos_nuevos');
+				$n_nuevo = NULL;
+
+				if($nombres_nuevos != NULL){
+					$n_nuevo = $this->basico_model->nombre_procesos_repetidos($nombres_nuevos);
+				}
+				
+				//Validación de Nombre de Procesos Actualizados
+				$nombres_act = $this->input->post('nombres_procesos_act');
+				
+				$n_act = $this->basico_model->nombre_procesos_repetidos_act($nombres_act);
+
+				$n_act_nuevo = NULL;
+
+				if($n_nuevo != NULL && $n_act != NULL){
+					//Haciendo el merge de los dos arrays nombres repetidos
+					$n_act_nuevo = array_merge($n_act, $n_nuevo);
+				}elseif ($n_nuevo != NULL && $n_act == NULL) {
+					$n_act_nuevo = $n_nuevo;
+				}elseif ($n_act != NULL && $n_nuevo == NULL) {
+					$n_act_nuevo = $n_act;
+				}
+				
+				if(isset($n_act_nuevo)){
+					echo json_encode(array('nombres'=>$n_act_nuevo, 'repetidos'=>'yes'));
+				}else{
+					echo '{"repetidos":"no"}';
+				}
+				break;
+
 			case 'guardar':
 				$p = $this->input->post();
 				if($this->basico_model->add_servicio($p)){
@@ -474,43 +537,123 @@ class Cargar_Data extends MX_Controller
 					echo '{"estatus":"fail"}';
 				}
 				break;
+			
 			case 'guardado':
 				$params_main_content = $this->_config_service(false,true,false,
 					1,$this->per_page, array('accion'=>'todos'));
+				
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
 
 				$this->utils->template($this->_list(4),'cargar_data/servicios',
 					$params_main_content,'Cargar Infraestructura','Servicios');
 				break;
 
 			case 'actualizar':
-				# code...
+				$servicio_id = $this->uri->segment(4);
+				$data = $this->basico_model->servicio_info_by_id($servicio_id);
+
+				//Información Principal asociada al proceso
+				$params_main_content['servicio'] = $data['servicio'];
+				$params_main_content['list_tarea'] = $data['list_tarea'];
+				$params_main_content['list_umbral'] = $data['list_umbral'];
+				$params_main_content['list_proceso'] = $data['list_proceso'];
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
+				//Indicador de actualizar
+				$params_main_content['actualizar'] = true;
+				
+				$this->utils->template($this->_list(4),'cargar_data/nuevo_servicio_view',
+					$params_main_content,'Cargar Infraestructura','Actualizando serv.');
+
 				break;
 			case 'actualizar_guardar':
-				# code...
+				$servicio_id = $this->uri->segment(4);
+				$p = $this->input->post();
+				$p['servicio_id'] = $servicio_id;
+
+				if($this->basico_model->update_servicio($p)){
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
 				break;
 			case 'actualizado':
-				# code...
+				$params_main_content = $this->_config_service(true,false,false,
+					1,$this->per_page, array('accion'=>'todos'));
+				
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
+
+				$this->utils->template($this->_list(4),'cargar_data/servicios',
+					$params_main_content,'Cargar Infraestructura','Servicios');
 				break;
 			case 'filtrar':
-				$op = $this->input->post('filtro_servicio');
-				$campo_buscar = $this->input->post('buscar_servicio');
+				$p_get = get_encode($this->input->get());
+				$cur_page = $this->uri->segment(5);
+
+				$op = $this->input->get('filtro_servicio');
+
+				$campo_buscar = $this->input->get('buscar_servicio');
 				
-				$in = $this->input->post('genera_ingresos');
-				$genera_in = ($in == 'on')?true:false;
+				$in = $this->input->get('genera_ingresos');
+				$genera_in = ($in == 'on')?1:0;
 
-				if($op == 'nombre'){
-					$params = array('accion'=>'nombre',
-									 'info'=>$campo_buscar,
-									 'genera_ingresos'=>$genera_in);
+				$is_filtered = true;
+				switch ($op) {
+					case 'todos':
+						$params = array('accion'=>'todos');
+						$p_get = NULL;
+						$is_filtered = false;//Para que actúe como 
+						//un listar de todos los servicios común
+						break;
+					case 'nombre':
+						$params = array('accion'=>'filtrar',
+										'operacion'=>'nombre',
+										'info'=>$campo_buscar);
+						break;
+					case 'ingresos':
+						$params = array('accion'=>'filtrar',
+										'operacion'=>'by_ingresos',
+										 'genera_ingresos'=>$genera_in
+										 );
+						break;
 
-				}else{
-					//todos|USR|SYS
-					$params = array('accion'=>$op,
-									 'genera_ingresos'=>$genera_in);
+					default:
+						$params = array('accion'=>'filtrar',
+										'operacion'=>$op
+										);	
+						break;
 				}
+				
+				$params_main_content = $this->_config_service(false,false,$is_filtered,
+					$cur_page,$this->per_page, $params,$p_get);
+				
+				//Organización
+				$params_main_content['org'] = $this->utilities_model->
+						first_row('organizacion','organizacion_id');
 
-				//Realizar la llamada.
+				$this->utils->template($this->_list(4),'cargar_data/servicios',
+					$params_main_content,'Cargar Infraestructura','Servicios');
 
+				break;
+			//Se elimina lógicamente desde ajax
+			case 'eliminar':
+				$servicio_id = $this->input->post('servicio_id');
+				//Eliminando lógicamente: No se eliminan los componentes 
+				//asociados al servicio, ello podría hacerse desde un TRIGGER en base
+				//de datos que al cambiar el estatus de 'borrado' a 'true' todos
+				//los elementos asociados cambien su estatus respectivamente. 
+				if($this->utilities_model->update('servicio',
+					array('servicio_id'=>$servicio_id),array('borrado'=>true)) ){
+					
+					echo '{"estatus":"ok"}';
+				}else{
+					echo '{"estatus":"fail"}';
+				}
 				break;
 		}
 	}
@@ -525,13 +668,16 @@ class Cargar_Data extends MX_Controller
 	 * @param  Integer $per_page 	Número de item por página
 	 * @param  Array   $data_filtro Posee la siguiente forma
 	 *      Array(
-	 *         	'accion' => todos|nombre|USR|SYS,
+	 *         	'accion' => todos|filtrar,
+	 *          'operacion'=>todos|nombre|USR|SYS,
+	 *          'genera_ingresos'=> 0|1,
 	 *         	'info' => String		
 	 *      )
-	 * @return Array              	Config. del main_content
+	 * @param $p_get Parámetros en formato GET, sólo usado para el caso de filtrado.
+	 * @return Array   Config. del main_content
 	 */
 	private function  _config_service($actualizado, $guardado,$filtrado, $cur_page,
-		$per_page,$data_filtro){
+		$per_page,$data_filtro,$p_get=NULL){
 		/**
 		 * Contiene las configuraciones de main_content
 		 * @var $mc
@@ -545,26 +691,19 @@ class Cargar_Data extends MX_Controller
 			case 'todos':
 				$l = $this->basico_model->all_servicio();
 				break;
-
-			case 'nombre':
-				$name = $data_filtro['info'];
-				$l = $this->basico_model->all_servicio($name);
-				break;
-			//Servicios de Usuario
-			case 'USR':
-				# code...
+			//Filtrar 
+			case 'filtrar':
+				$l = $this->basico_model->all_servicio($data_filtro);
 				break;
 
-			//Servicios de Sistema
-			case 'SYS':
-				# code...
-				break;
 		}
 		$config_pag = array(
 			'total_rows' => $l['total_rows'],
 			'per_page' => $per_page,
-			'cur_page' => $cur_page
+			'cur_page' => $cur_page,
+			'p_get'=>$p_get
 			);
+
 		$mc['config_pag'] = $config_pag;
 		$mc['list_servicio'] = $l['data'];
 
@@ -602,11 +741,12 @@ class Cargar_Data extends MX_Controller
 	 * array ('accion' => 'all|categoria|nombre',
 	 * 		 'campo_buscar' => 'algun dato como filtro'
 	 * )
+	 * @param $p_get Parámetros en formato GET, sólo usado para el caso de filtrado.
 	 * @param  Boolean $actualizado_exitoso Indica si viene de actualizar o no.
 	 * @return Array Una array asociativo con las configuraciones. 
 	 */
 	private function _config_comp_ti($per_page, $guardado_exitoso,
-		$cur_page,$data_origin,$actualizado_exitoso=false){
+		$cur_page,$data_origin,$p_get,$actualizado_exitoso=false){
 
 		$params_main_content['guardado_exitoso'] = $guardado_exitoso;
 		$params_main_content['actualizado_exitoso'] = $actualizado_exitoso;
@@ -634,7 +774,8 @@ class Cargar_Data extends MX_Controller
 		$componente_ti = array( 
 			'total_rows' => $total_rows,
 			'per_page' => $per_page,
-			'cur_page' => $cur_page
+			'cur_page' => $cur_page,
+			'p_get' => $p_get
 			);
 		
 		$params_main_content['config_pag'] = $componente_ti;
@@ -655,14 +796,14 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Descripción",
 			"active" => false,
-			"href" => "index.php/cargar_datos",
+			"href" => site_url("index.php/cargar_datos"),
 			"icon" => "fa fa-bar-chart-o"
 		
 		);
 		$l[] = array(
 			"chain" => "Básico",
 			"active" => false,
-			"href" => "index.php/cargar_datos/basico",
+			"href" => site_url("index.php/cargar_datos/basico"),
 			"icon" => "fa fa-cog"
 		
 		);
@@ -670,7 +811,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Componentes de TI",
 			"active" => false,
-			"href" => "index.php/cargar_datos/componentes_ti/1",
+			"href" => site_url("index.php/cargar_datos/componentes_ti/1"),
 			"icon" => "fa fa-cogs"
 		
 		);
@@ -678,7 +819,7 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Departamentos",
 			"active" => false,
-			"href" => "index.php/cargar_datos/departamentos/1",
+			"href" => site_url("index.php/cargar_datos/departamentos/1"),
 			"icon" => "fa fa-sitemap"
 		
 		);
@@ -686,16 +827,76 @@ class Cargar_Data extends MX_Controller
 		$l[] = array(
 			"chain" => "Servicios",
 			"active" => false,
-			"href" => "index.php/cargar_datos/servicios/1",
+			"href" => site_url("index.php/cargar_datos/servicios/1"),
 			"icon" => "fa fa-list"
+		);
 		
+		$l[] = array(
+			"chain" => "Personal",
+			"active" => false,
+			"href" => site_url("index.php/cargar_datos/personal"),
+			"icon" => "fa fa-user"
 		);
 
 		$l[$index_active]["active"] = true; //Colocar el ítem activo
 		return $l;
 	}//end of function: _list
+	
+	public function cargar_personal()
+	{
+		$this->load->model('general/general_model','general');
+		if($_POST)
+		{
+			$view['id_departamento'] = $_POST['id_departamento'];
+			$view['dpto_actual'] = $this->general->get_row('departamento',array('departamento_id'=>$_POST['id_departamento']));
+			$view['personal'] = $this->basico_model->get_personal_bydepto($_POST['id_departamento']);
+		}
+		$view['departamentos'] = $this->general->get_table('departamento');
+		$this->utils->template($this->_list(5),'cargar_data/personal',$view,'Cargar personal','Personal de la organización');
+	}
+	
+	public function agregar_personal($id_departamento = '')
+	{
+		if(!empty($id_departamento))
+		{
+			$this->load->model('general/general_model','general');
+			$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$id_departamento));
+			$this->utils->template($this->_list(5),'cargar_data/personal_add',$view,'Cargar personal','Agregar personal');
+		}else
+		{
+			$this->session->set_flashdata('alert_error','Parece que existe un problema con el departamento al que intenta acceder. Por favor contacte a su administrador');
+			redirect(site_url('index.php/cargar_datos/personal'));
+		}
+	}
+	
+	public function guardar_empleado()
+	{
+		if($_POST)
+		{
+			// DELIMITADOR DE ERROR DEL FORM VALIDATION
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
+			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+			
+			// REGLAS DEL FORM VALIDATION
+			$this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean|is_unique[personal.codigo_empleado]');
+			$this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|xss_clean');
+			$this->form_validation->set_rules('apellido','<strong>Apellido</strong>','required|xss_clean');
+			$this->form_validation->set_rules('cargo','<strong>Cargo</strong>','required|xss_clean');
+			$this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean|is_unique[personal.cedula]');
+			$this->form_validation->set_rules('email_corporativo','<strong>Email corporativo</strong>','required|valid_email|xss_clean|is_unique[personal.email_corporativo]');
+			$this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean|is_unique[personal.email_personal]');
+			$this->form_validation->set_rules('tlfn_corporativo','<strong>Teléfono corporativo</strong>','required|xss_clean');
+			$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean');
+			$this->form_validation->set_rules('fechaingreso_empresa','<strong>Fecha Ingreso</strong>','required|xss_clean');
+			$this->form_validation->set_message('is_unique', 'No es posible crear un duplicado para el campo %s');
+			
+			if($this->form_validation->run($this))
+			{
+			}
+		}
+	}
 
 }//end of class: Cargar_Data
 
 /* End of file cargar_data.php */
-/* Location: ./application/modules/controllers/cargar_data.php */
+/* Location: ./application/modules/cargar_data/controllers/cargar_data.php */

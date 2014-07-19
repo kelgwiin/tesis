@@ -1,13 +1,13 @@
 <!-- Scripts de DATEPICKER-->
-<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/jquery.ui.core.js');?>"></script>
-<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/jquery.ui.datepicker.js');?>"></script>
-<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/jquery.ui.widget.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.core.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.datepicker.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/jquery.ui.widget.js');?>"></script>
 
 <!-- Traducción Español -->
-<script src="<?php echo site_url('assets/front/datepicker(jquery-ui)/js/i18n/jquery.ui.datepicker-es.js');?>"></script>
+<script src="<?php echo site_url('assets/front/jquery-ui/js/i18n/jquery.ui.datepicker-es.js');?>"></script>
 
 <!-- Config CSS-->
-<link rel="stylesheet" href="<?php echo site_url('assets/front/datepicker(jquery-ui)/css/themes/ui-lightness/jquery.ui.all.css');?>">
+<link rel="stylesheet" href="<?php echo site_url('assets/front/jquery-ui/css/themes/custom-theme/jquery-ui-1.10.4.custom.css');?>">
 
 <!-- Inicialización de los datepicker-->
 <script>
@@ -400,7 +400,11 @@
 										placeholder = "Cantidad"
 										<?php 
 											if($accion == "actualizar"){
-												printf('value = "%s"',$comp_ti['cantidad']);
+												printf(' value = "%s" ',$comp_ti['cantidad']);
+
+												if($comp_ti['tipo_asignacion'] == 'MULT'){
+													echo ' disabled = "disabled" ';
+												}
 											}
 										?>
 										>
@@ -502,7 +506,7 @@
 
 							<!-- Boton Cancelar-->
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
-								<a href = "<?php echo site_url('index.php/cargar_datos/componentes_ti/1'); ?>" class="btn btn-primary">Cancelar</a>
+								<a href = "<?php echo site_url('index.php/cargar_datos/componentes_ti/1'); ?>" class="btn btn-danger">Cancelar</a>
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11"></div><!-- Vacío -->
 						</div>

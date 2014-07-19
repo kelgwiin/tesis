@@ -59,7 +59,7 @@ $(function () {
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          En este apartado se muestran los distintos Servicios de la Organización. Usted deberá seleccionar el que desee evaluar.
         </div>
         
 	</div>

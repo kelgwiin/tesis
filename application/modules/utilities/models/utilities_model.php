@@ -50,6 +50,15 @@ class Utilities_model extends CI_Model {
     }
 
     /**
+     * Agrega a la base de datos
+     * @param Array $data Contiene todos los datos
+     * @param String $table_name Nombre de la tabla a guardar
+     */
+    public function add_ar($data, $table_name){
+        return $this->db->insert($table_name,$data);
+    }
+
+    /**
      * Genera la consulta para eliminar data de una tabla, dados su(s) 
      * clave(s) con su(s) respectivo(s) valor(es).
      * @param String $nombre_tabla
@@ -77,6 +86,10 @@ class Utilities_model extends CI_Model {
         
         $sql .= $where . " ;";
         return $this->db->query($sql, $vals);
+    }
+
+    public function del_ar($nombre_tabla, $claves_vals){
+        return $this->db->delete($nombre_tabla, $claves_vals);
     }
 
     /**
@@ -147,6 +160,16 @@ class Utilities_model extends CI_Model {
         $sql .= $set . $where. ";";
         
         return $this->db->query($sql,$vals);
+    }
+    /**
+     * Update
+     * @param  String $table_name 
+     * @param  Array $data       
+     * @param  Array $ids
+     * @return Booelan
+     */
+    public function update_ar($table_name, $data, $ids){
+        return $this->db->update($table_name, $data, $ids);
     }
 
     /**

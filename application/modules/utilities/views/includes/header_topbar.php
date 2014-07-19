@@ -2,7 +2,7 @@
 <ul class="nav navbar-nav navbar-right navbar-user">
               
               <!-- Button of Apps Menu -->
-              <li>
+              <li class = "visible-md visible-lg">
               <a
               id="popoverMenu"
               data-toggle="popover" data-placement="bottom" 
@@ -39,9 +39,9 @@
                  <!-- GESTIÓN DE RIESGOS-->
                  <a type="button" class="btn "
                   title="Gestión de Riesgos" 
-                  href = "#"  
+                  href = "<?php echo base_url() ?>index.php/continuidad"  
                  >
-                 <i class="fa fa-fire-extinguisher fa-3x"></i> <br> <small>Gestión de<br>Riesgos</small>
+                 <i class="fa fa-retweet fa-3x"></i> <br> <small>Gestión de<br>Continuidad<br>del Negocio</small>
                  </a> 
                </div>
 
@@ -50,10 +50,12 @@
 
               <div class="row">
                <div class="col-lg-4 col-md-4">
+                
                 <!-- GESTIÓN DE COSTOS-->
+
                 <a type="button" class="btn"
                   title="Gestión de Costos" 
-                  href = "#"  
+                  href = "<?php echo site_url('index.php/Costos');?>"  
                  >
                  <i class="fa fa-clipboard fa-3x"></i> <br> <small> Gestión de<br>Costos</small>
                  </a>
@@ -161,13 +163,15 @@
               </ul>
             </li>
             <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $nombre_usuario; ?> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                <?php $nombre_usuario = !empty($this->session->userdata('user')->nombre) ? $this->session->userdata('user')->nombre : 'Usuario' ?>
+                <?php echo $nombre_usuario; ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
                 <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
                 <li><a href="#"><i class="fa fa-gear"></i> Preferencias</a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/cerrar-sesion"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
               </ul>
             </li>
           </ul>

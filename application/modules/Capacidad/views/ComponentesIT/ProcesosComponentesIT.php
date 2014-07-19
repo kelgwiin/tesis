@@ -66,12 +66,12 @@ $(function () {
     	<h1>Procesos</h1>
         
         <ol class="breadcrumb">
-          <li class="active"><i class="fa fa-dashboard"></i> Consumo de CPU Sistema</li>
+          <li class="active"><i class="fa fa-dashboard"></i> Consumo de CPU de la Organización</li>
         </ol>
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          En este módulo tenemos una representación gráfica del porcentaje de uso de los procesos de la Organización.
         </div>
         
 	</div>

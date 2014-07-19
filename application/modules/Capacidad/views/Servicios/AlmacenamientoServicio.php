@@ -71,7 +71,7 @@ $(function () {
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          
+          En la capa de Datos, podemos evaluar el estado del acceso al almacenamiento físico en disco y verificar si está bien dimensionado y los tiempos de respuesta del acceso a los discos está dentro de los márgenes que hemos establecido para el servicio '<?php echo $nombre_servicio; ?>'.
         </div>
         
 	</div>
