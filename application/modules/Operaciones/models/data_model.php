@@ -22,7 +22,7 @@ class Data_model extends MY_Model
     }
     function insertar_csv($data)
     {
-        
+        //preparar datos obtenidos de csv para posterior inserción en BD
         $this->my_insert($data);
     }
 }
