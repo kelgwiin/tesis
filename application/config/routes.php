@@ -16,6 +16,7 @@ $route['cargar_datos/departamentos/(:any)'] = "cargar_data/cargar_data/departame
 $route['cargar_datos/servicios'] = "cargar_data/cargar_data/servicios";
 $route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1";
 $route['cargar_datos/personal']												= "cargar_data/cargar_data/cargar_personal";
+$route['cargar_datos/personal/(:num)']										= "cargar_data/cargar_data/cargar_personal/$1";
 $route['cargar_datos/personal/cargar_personal/(:num)']						= "cargar_data/cargar_data/agregar_personal/$1";
 $route['cargar_datos/personal/crear_empleado']								= "cargar_data/cargar_data/guardar_empleado";
 

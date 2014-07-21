@@ -36,7 +36,8 @@
 								<label class="col-md-5 control-label" for="codigo_empleado">Código</label>  
 								<div class="col-md-4">
 									<input name="codigo_empleado" type="text" placeholder="Código de empleado" class="form-control input-md"
-										data-toggle="tooltip" data-original-title="Código o identificador único del empleado con respecto a la organización" required />
+										data-toggle="tooltip" data-original-title="Código o identificador único del empleado con respecto a la organización"
+										value="<?php echo set_value('codigo_empleado',@$empleado->codigo_empleado) ?>" required />
 								</div>
 							</div>
 							
@@ -51,10 +52,12 @@
 							<div class="form-group <?php echo (form_error('nombre') OR form_error('apellido')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="nombre">Nombre del empleado</label>  
 								<div class="col-md-2">
-									<input name="nombre" type="text" placeholder="Nombre" class="form-control input-md" required />
+									<input name="nombre" type="text" placeholder="Nombre" class="form-control input-md"
+										value="<?php echo set_value('nombre',@$empleado->nombre) ?>" required />
 								</div>
 								<div class="col-md-2">
-									<input name="apellido" type="text" placeholder="Apellido" class="form-control input-md" required />
+									<input name="apellido" type="text" placeholder="Apellido" class="form-control input-md"
+										value="<?php echo set_value('apellido',@$empleado->apellido) ?>" required />
 								</div>
 							</div>
 							
@@ -68,7 +71,8 @@
 							<div class="form-group <?php echo (form_error('cargo')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="cargo">Cargo</label>  
 								<div class="col-md-4">
-									<input name="cargo" type="text" placeholder="Cargo del empleado" class="form-control input-md" required />
+									<input name="cargo" type="text" placeholder="Cargo del empleado" class="form-control input-md"
+										value="<?php echo set_value('cargo',@$empleado->cargo) ?>" required />
 								</div>
 							</div>
 							
@@ -82,7 +86,8 @@
 							<div class="form-group <?php echo (form_error('cedula')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="cedula">Cédula/Pasaporte</label>  
 								<div class="col-md-4">
-									<input name="cedula" type="text" placeholder="V-00000000" class="form-control input-md" required />
+									<input name="cedula" type="text" placeholder="V-00000000" class="form-control input-md"
+										value="<?php echo set_value('cedula',@$empleado->cedula) ?>" required />
 								</div>
 							</div>
 							
@@ -96,7 +101,8 @@
 							<div class="form-group <?php echo (form_error('email_corporativo')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="email_corporativo">Email corporativo</label>  
 								<div class="col-md-4">
-									<input name="email_corporativo" type="email" placeholder="Email corporativo" class="form-control input-md" required />
+									<input name="email_corporativo" type="email" placeholder="Email corporativo" class="form-control input-md"
+										value="<?php echo set_value('email_corporativo',@$empleado->email_corporativo) ?>" required />
 								</div>
 							</div>
 							
@@ -110,7 +116,8 @@
 							<div class="form-group <?php echo (form_error('email_personal')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="email_personal">Email personal</label>  
 								<div class="col-md-4">
-									<input name="email_personal" type="email" placeholder="Email personal" class="form-control input-md" required />
+									<input name="email_personal" type="email" placeholder="Email personal" class="form-control input-md"
+										value="<?php echo set_value('email_personal',@$empleado->email_personal) ?>" required />
 								</div>
 							</div>
 							
@@ -124,7 +131,8 @@
 							<div class="form-group <?php echo (form_error('tlfn_corporativo')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="tlfn_corporativo">Teléfono corporativo</label>  
 								<div class="col-md-4">
-									<input name="tlfn_corporativo" type="text" placeholder="0000-0000000" class="form-control input-md" required />
+									<input name="tlfn_corporativo" type="text" placeholder="0000-0000000" class="form-control input-md"
+										value="<?php echo set_value('tlfn_corporativo',@$empleado->tlfn_corporativo) ?>" required />
 								</div>
 							</div>
 							
@@ -138,7 +146,8 @@
 							<div class="form-group <?php echo (form_error('tlfn_personal')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="tlfn_personal">Teléfono personal</label>  
 								<div class="col-md-4">
-									<input name="tlfn_personal" type="text" placeholder="0000-0000000" class="form-control input-md" required />
+									<input name="tlfn_personal" type="text" placeholder="0000-0000000" class="form-control input-md"
+										value="<?php echo set_value('tlfn_personal',@$empleado->tlfn_personal) ?>" required />
 								</div>
 							</div>
 							
@@ -152,7 +161,8 @@
 							<div class="form-group <?php echo (form_error('fechaingreso_empresa')) ? 'has-error' : '' ?>">
 								<label class="col-md-5 control-label" for="fechaingreso_empresa">Fecha de ingreso</label>  
 								<div class="col-md-4">
-									<input name="fechaingreso_empresa" type="text" placeholder="12/05/2013" class="form-control input-md" data-date-format="dd/mm/yyyy" required readonly />
+									<input name="fechaingreso_empresa" type="text" placeholder="12/05/2013" class="form-control input-md"
+										data-date-format="dd/mm/yyyy" value="<?php echo set_value('fechaingreso_empresa',@$empleado->fechaingreso_empresa) ?>" required readonly />
 								</div>
 							</div>
 							

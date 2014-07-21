@@ -842,14 +842,17 @@ class Cargar_Data extends MX_Controller
 		return $l;
 	}//end of function: _list
 	
-	public function cargar_personal()
+	public function cargar_personal($id_departamento = '')
 	{
 		$this->load->model('general/general_model','general');
-		if($_POST)
+		$id = '';
+		if(!empty($id_departamento)) $id = $id_departamento;
+		if(isset($_POST['id_departamento'])) $id = $_POST['id_departamento'];
+		if(!empty($id))
 		{
-			$view['id_departamento'] = $_POST['id_departamento'];
-			$view['dpto_actual'] = $this->general->get_row('departamento',array('departamento_id'=>$_POST['id_departamento']));
-			$view['personal'] = $this->basico_model->get_personal_bydepto($_POST['id_departamento']);
+			$view['id_departamento'] = $id;
+			$view['dpto_actual'] = $this->general->get_row('departamento',array('departamento_id'=>$id));
+			$view['personal'] = $this->basico_model->get_personal_bydepto($id);
 		}
 		$view['departamentos'] = $this->general->get_table('departamento');
 		$this->utils->template($this->_list(5),'cargar_data/personal',$view,'Cargar personal','Personal de la organización');
@@ -871,8 +874,10 @@ class Cargar_Data extends MX_Controller
 	
 	public function guardar_empleado()
 	{
+		$this->load->module('general/general_model','general');
 		if($_POST)
 		{
+			$post = $_POST;
 			// DELIMITADOR DE ERROR DEL FORM VALIDATION
 			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
 			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
@@ -883,15 +888,24 @@ class Cargar_Data extends MX_Controller
 			$this->form_validation->set_rules('apellido','<strong>Apellido</strong>','required|xss_clean');
 			$this->form_validation->set_rules('cargo','<strong>Cargo</strong>','required|xss_clean');
 			$this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean|is_unique[personal.cedula]');
-			$this->form_validation->set_rules('email_corporativo','<strong>Email corporativo</strong>','required|valid_email|xss_clean|is_unique[personal.email_corporativo]');
+			$this->form_validation->set_rules('email_corporativo','<strong>Email corporativo</strong>','valid_email|xss_clean');
 			$this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean|is_unique[personal.email_personal]');
-			$this->form_validation->set_rules('tlfn_corporativo','<strong>Teléfono corporativo</strong>','required|xss_clean');
-			$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean');
+			$this->form_validation->set_rules('tlfn_corporativo','<strong>Teléfono corporativo</strong>','xss_clean');
+			$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean|is_unique[personal.tlfn_personal]');
 			$this->form_validation->set_rules('fechaingreso_empresa','<strong>Fecha Ingreso</strong>','required|xss_clean');
 			$this->form_validation->set_message('is_unique', 'No es posible crear un duplicado para el campo %s');
 			
 			if($this->form_validation->run($this))
 			{
+				$post['nombre'] = ucwords($post['nombre'].' '.$post['apellido']);
+				unset($post['apellido']);
+				$post['fecha_creacion'] = date('Y-m-d H:i:s');
+				$post['fechaingreso_empresa'] = date('Y-m-d H:i:s',strtotime($post['fechaingreso_empresa']));
+				$id_empleado = $this->general->insert('personal',$post);
+				if($id_empleado) $this->session->set_flashdata('alert_success','El empleado ha sido ingresado exitosamente en este departamento');
+				else $this->session->set_flashdata('alert_success','Ocurrió un problema ingresando el empleado en este departamento. Por favor intente más tarde o contacte a su administrador');
+				
+				redirect(site_url('index.php/cargar_datos/personal/'.$post['id_departamento']));
 			}
 		}
 	}
