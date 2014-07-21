@@ -92,4 +92,50 @@ select * from modulo_hijo;
 select * from roles;
 
 
+-- DATA DE PRUEBA: SERVICIOS para compararlos generar los costos respectivos
+
+-- servicios
+insert into servicio (servicio_id, nombre, descripcion, fecha_creacion, tipo,genera_ingresos) values 
+('1','servicio 1 ', 'Descripcion ', '2014-07-20','USR',false),
+('2','servicio 2 ', 'Descripcion ', '2014-07-20','USR',false),
+('3','servicio 3 ', 'Descripcion ', '2014-07-20','USR',false),
+('4','servicio 4 ', 'Descripcion ', '2014-07-20','USR',false),
+('5','servicio 5 ', 'Descripcion ', '2014-07-20','SYS',false),
+('6','servicio 6 ', 'Descripcion ', '2014-07-20','USR',false),
+('7','servicio 7 ', 'Descripcion ', '2014-07-20','USR',false),
+('8','servicio 8 ', 'Descripcion ', '2014-07-20','SYS',false),
+('9','servicio 9 ', 'Descripcion ', '2014-07-20','USR',false);
+
+select * from servicio;
+
+-- servicio costo
+insert into servicio_costo (servicio_costo_id, servicio_id, costo, fecha_creacion, mes, anio) values
+ -- Enero
+('1', '1','250', '2014-07-20','1','2014'),
+('2', '2', '8000','2014-07-20','1','2014'),
+('3', '3', '70000','2014-07-20','1','2014'),
+('4', '4', '80089', '2014-07-20','1','2014'),
+('5', '5', '12589', '2014-07-20','1','2014'),
+('6', '6', '20001', '2014-07-20','1','2014'),
+('7', '7', '2001', '2014-07-20','1','2014'),
+('8', '8', '300000', '2014-07-20','1','2014'),
+('9', '9', '100000', '2014-07-20','1','2014'),
+  
+-- Febrero
+('10', '1','2589', '2014-07-20','2','2014'),
+('11', '2', '8056','2014-07-20','2','2014'),
+('12', '3', '70001','2014-07-20','2','2014'),
+('13', '4', '81089', '2014-07-20','2','2014'),
+('14', '5', '12519', '2014-07-20','2','2014'),
+('15', '6', '20002', '2014-07-20','2','2014'),
+('16', '7', '2010', '2014-07-20','2','2014'),
+('17', '8', '300099', '2014-07-20','2','2014'),
+('18', '9', '100088', '2014-07-20','2','2014')
+
+;
+
+select * from servicio_costo;
+
+
+-- --------------------------------
 

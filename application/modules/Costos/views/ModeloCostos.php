@@ -40,7 +40,7 @@
 						<div class="col-md-3">
 							<input id="anio" name="anio" type="number"
 								data-toggle="tooltip"
-								data-original-title="Ingresa el año y presiona procesar para general el modelo de costo"
+								data-original-title="Ingresa el año y escoja el esquema de tiempo"
 								data-placement = "top"
 								
 								min = "1900" max = "3000"  placeholder="Ingrese el año"
@@ -48,9 +48,15 @@
 						</div>
 
 						<div class = "col-md-3">
-							<select name="esquema_tiempo" id="esquema_tiempo" class="form-control" required="required">
-								<option value="MM">Mensual</option>
+							<select name="esquema_tiempo" id="esquema_tiempo" class="form-control" 
+								required="required"
+								data-toggle = "tooltip"
+								data-original-title = "Esquema de tiempo"
+								data-placement = "top"
+								>
+
 								<option value="AA">Anual</option>
+								<option value="MM">Mensual</option>
 							</select>
 						</div>
 
@@ -77,7 +83,7 @@
 									type = "submit"
 									class="btn btn-primary"
 									data-toggle="tooltip"
-									data-original-title="Procesar consulta"
+									data-original-title="Procesar consulta del Modelo de Costo"
 									data-placement = "right"
 									id = "btn-procesar-comp-ti">
 								<i class = "fa fa-cog" ></i> Procesar
@@ -90,5 +96,39 @@
 			</form>		
 		</div><!-- /col-md-12 -->
 	</div><!-- /row -->
+
+	<br><br>
+	<!-- Costos por servicio -->
+	<div class = "row">
+		<div class = "col-md-12">
+			<div class="panel panel-primary">
+				<!-- Default panel contents -->
+				<div class="panel-heading"><strong>Costos por Servicio de TI</strong></div>
+				
+				<div class = "panel-body">
+					Precios de cada Servicio de TI asociado a la organización
+				</div>
+
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover table-striped tablesorter ">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Nombre <i class = "fa fa-sort"></i></th>
+									<th>Fecha de creción <i class = "fa fa-sort"></i></th>
+									<th>Nivel de Criticidad <i class = "fa fa-sort"></i></th>
+									<th>Costo <i class = "fa fa-sort"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+							
+							</tbody>
+						</table>
+					</div>
+			
+					
+			</div>
+		</div>
+	</div>
 
 </div><!-- /wrapper -->
