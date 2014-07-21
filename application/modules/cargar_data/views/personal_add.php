@@ -2,7 +2,54 @@
 <script>
 	$(function()
 	{
+		function get_row(key,value,name)
+		{
+			$.post
+			(
+				'<?php echo site_url('index.php/cargar_data/cargar_data/get_empleado') ?>',
+				{value: value, key: key},
+				function(empleado)
+				{
+					if(empleado != 'false')
+					{
+						$('input[name='+key+']').parent().parent().addClass('has-error');
+						$('input:not(input[name='+key+'])').attr('disabled',true);
+						$('input[name='+key+']').parent().parent().prev().children().last().html("<div class='alert alert-danger'>Este <strong>"+name+"</strong> ya se encuentra registrado en la base de datos</div>");
+						$('input[name='+key+']').select();
+					}
+					if(!empleado)
+					{
+						$('input[name='+key+']').parent().parent().removeClass('has-error');
+						$('input').removeAttr('disabled');
+						$('input[name='+key+']').parent().parent().prev().children().last().html("");
+						$('input[name='+key+']').parent().parent().next().next().children().next().children().focus();
+					}
+				},
+				'json'
+			);
+		}
+		
 		$('input[name=fechaingreso_empresa]').datepicker();
+		$('input[name=codigo_empleado]').change(function()
+		{
+			var codigo = $(this).val();
+			get_row('codigo_empleado',codigo,'Código de empleado');
+		});
+		$('input[name=cedula]').change(function()
+		{
+			var cedula = $(this).val();
+			get_row('cedula',cedula,'Cédula');
+		});
+		$('input[name=email_personal]').change(function()
+		{
+			var email_personal = $(this).val();
+			get_row('email_personal',email_personal,'Email personal');
+		});
+		$('input[name=tlfn_personal]').change(function()
+		{
+			var tlfn_personal = $(this).val();
+			get_row('tlfn_personal',tlfn_personal,'Teléfono personal');
+		});
 	});
 </script>
 <div id="page-wrapper">
@@ -23,12 +70,12 @@
 					<h3 class="panel-title">Creación de personal para el departamento <strong><?php echo ucfirst($departamento->nombre) ?></strong></h3>
 				</div>
 				<div class = "panel-body">
-					<form class="form-horizontal" method="post" action="<?php echo site_url('index.php/cargar_datos/personal/crear_empleado') ?>">
+					<form class="form-horizontal" method="post" action="<?php echo site_url('index.php/cargar_datos/personal/crear_empleado/'.$departamento->departamento_id) ?>">
 						<fieldset>
 							<!-- CODIGO DEL EMPLEADO-->
 							<div class="row">
 								<div class="col-md-5"></div>
-								<div class="col-md-4">
+								<div class="col-md-4" id="codigo-error">
 									<?php echo form_error('codigo_empleado') ?>
 								</div>
 							</div>
