@@ -122,7 +122,15 @@ class Costos extends MX_Controller
 	}
 
 	public function procesar_costeo(){
-		echo_pre($this->input->post());
+		$this->load->model('modelo_costos_model','mcm');
+		$result = $this->mcm->costos_by_servicio($this->input->post());
+		
+		if($result !== null){
+			$r = array ('estatus' => 'ok', 'info' => $result);
+		}else{
+			$r = array('estatus'=>'empty');
+		}
+		echo_pre(json_encode($r));
 	}
 }
 /* End of file Costos.php */

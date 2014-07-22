@@ -9,7 +9,32 @@
 				$('div#div-meses').attr('class','col-md-3 hidden');
 			}
 		});
+
+		//Para procear la llamda ajax
+		$('form#fr_modelo_costo').on('submit',function(event){
+			event.preventDefault();
+			// store reference to the form
+			var bk_this = $(this);
+
+			// grab the url from the form element
+			var url = bk_this.attr('action');
+			    
+			//Obteniendo la data del form
+			var dataToSend = bk_this.serialize();
+
+			fo_proccess = function(data){
+				if(data.estatus == "ok"){
+					alert('okkk');
+				}
+			}
+
+			//Haciendo la llamada post desde ajax
+		    $.post( url, dataToSend, fo_proccess,'json');
+
+		});
 	});
+
+
 </script>
 <div id="page-wrapper">
 	<!-- Cabecera de la descripción-->
@@ -115,11 +140,13 @@
 								<tr>
 									<th>#</th>
 									<th>Nombre <i class = "fa fa-sort"></i></th>
+									<th>Mes</th>
 									<th>Fecha de creción <i class = "fa fa-sort"></i></th>
 									<th>Nivel de Criticidad <i class = "fa fa-sort"></i></th>
 									<th>Costo <i class = "fa fa-sort"></i></th>
 								</tr>
 							</thead>
+
 							<tbody>
 							
 							</tbody>
