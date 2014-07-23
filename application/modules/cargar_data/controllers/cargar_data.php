@@ -871,27 +871,45 @@ class Cargar_Data extends MX_Controller
 				'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 				
 				// REGLAS DEL FORM VALIDATION
-				$this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean|is_unique[personal.codigo_empleado]');
+				if($post['id_personal'])
+				{
+					$this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean');
+					$this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean');
+					$this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean');
+					$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean');
+				}else
+				{
+					$this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean|is_unique[personal.codigo_empleado]');
+					$this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean|is_unique[personal.cedula]');
+					$this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean|is_unique[personal.email_personal]');
+					$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean|is_unique[personal.tlfn_personal]');
+					$this->form_validation->set_message('is_unique', 'No es posible crear un duplicado para el campo %s');
+				}
 				$this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|xss_clean');
 				$this->form_validation->set_rules('apellido','<strong>Apellido</strong>','required|xss_clean');
 				$this->form_validation->set_rules('cargo','<strong>Cargo</strong>','required|xss_clean');
-				$this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean|is_unique[personal.cedula]');
 				$this->form_validation->set_rules('email_corporativo','<strong>Email corporativo</strong>','valid_email|xss_clean');
-				$this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean|is_unique[personal.email_personal]');
 				$this->form_validation->set_rules('tlfn_corporativo','<strong>Teléfono corporativo</strong>','xss_clean');
-				$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean|is_unique[personal.tlfn_personal]');
 				$this->form_validation->set_rules('fechaingreso_empresa','<strong>Fecha Ingreso</strong>','required|xss_clean');
-				$this->form_validation->set_message('is_unique', 'No es posible crear un duplicado para el campo %s');
 				
 				if($this->form_validation->run($this))
 				{
 					$post['nombre'] = ucwords($post['nombre'].' '.$post['apellido']);
 					unset($post['apellido']);
-					$post['fecha_creacion'] = date('Y-m-d H:i:s');
 					$post['fechaingreso_empresa'] = date('Y-m-d H:i:s',strtotime($post['fechaingreso_empresa']));
-					$id_empleado = $this->general->insert('personal',$post);
-					if($id_empleado) $this->session->set_flashdata('alert_success','El empleado ha sido ingresado exitosamente en este departamento');
-					else $this->session->set_flashdata('alert_success','Ocurrió un problema ingresando el empleado en este departamento. Por favor intente más tarde o contacte a su administrador');
+					
+					if($post['id_personal'])
+					{
+						if($this->general->update('personal',$post,array('id_personal'=>$post['id_personal'])))
+							$this->session->set_flashdata('alert_success','Los datos del empleado han sido actualizado exitosamente');
+						else $this->session->set_flashdata('alert_success','Ocurrió un problema actualizando los datos del empleado. Por favor intente más tarde o contacte a su administrador');
+					}else
+					{
+						$post['fecha_creacion'] = date('Y-m-d H:i:s');
+						$id_empleado = $this->general->insert('personal',$post);
+						if($id_empleado) $this->session->set_flashdata('alert_success','El empleado ha sido ingresado exitosamente en este departamento');
+						else $this->session->set_flashdata('alert_success','Ocurrió un problema ingresando el empleado en este departamento. Por favor intente más tarde o contacte a su administrador');
+					}
 					
 					redirect(site_url('index.php/cargar_datos/personal/'.$post['id_departamento']));
 				}
@@ -905,47 +923,94 @@ class Cargar_Data extends MX_Controller
 		}
 	}
 	
-	public function guardar_empleado()
+	// public function guardar_empleado()
+	// {
+		// $this->load->module('general/general_model','general');
+		// if($_POST)
+		// {
+			// $post = $_POST;
+			// die_pre($post);
+			// // DELIMITADOR DE ERROR DEL FORM VALIDATION
+			// $this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
+			// '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+// 			
+			// // REGLAS DEL FORM VALIDATION
+			// if($post['id_personal'])
+			// {
+				// $this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean');
+				// $this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean');
+				// $this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean');
+				// $this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean');
+			// }else
+			// {
+				// $this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean|is_unique[personal.codigo_empleado]');
+				// $this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean|is_unique[personal.cedula]');
+				// $this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean|is_unique[personal.email_personal]');
+				// $this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean|is_unique[personal.tlfn_personal]');
+				// $this->form_validation->set_message('is_unique', 'No es posible crear un duplicado para el campo %s');
+			// }
+			// $this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|xss_clean');
+			// $this->form_validation->set_rules('apellido','<strong>Apellido</strong>','required|xss_clean');
+			// $this->form_validation->set_rules('cargo','<strong>Cargo</strong>','required|xss_clean');
+			// $this->form_validation->set_rules('email_corporativo','<strong>Email corporativo</strong>','valid_email|xss_clean');
+			// $this->form_validation->set_rules('tlfn_corporativo','<strong>Teléfono corporativo</strong>','xss_clean');
+			// $this->form_validation->set_rules('fechaingreso_empresa','<strong>Fecha Ingreso</strong>','required|xss_clean');
+// 			
+// 			
+			// if($this->form_validation->run($this))
+			// {
+// 				
+				// $post['nombre'] = ucwords($post['nombre'].' '.$post['apellido']);
+				// unset($post['apellido']);
+				// $post['fechaingreso_empresa'] = date('Y-m-d H:i:s',strtotime($post['fechaingreso_empresa']));
+// 				
+				// if($post['id_personal'])
+				// {
+					// if($this->general->update('personal',$post,array('id_personal'=>$post['id_personal'])))
+						// $this->session->set_flashdata('alert_success','Los datos del empleado han sido actualizado exitosamente');
+					// else $this->session->set_flashdata('alert_success','Ocurrió un problema actualizando los datos del empleado. Por favor intente más tarde o contacte a su administrador');
+				// }else
+				// {
+					// $post['fecha_creacion'] = date('Y-m-d H:i:s');
+					// $id_empleado = $this->general->insert('personal',$post);
+					// if($id_empleado) $this->session->set_flashdata('alert_success','El empleado ha sido ingresado exitosamente en este departamento');
+					// else $this->session->set_flashdata('alert_success','Ocurrió un problema ingresando el empleado en este departamento. Por favor intente más tarde o contacte a su administrador');
+				// }
+// 
+				// redirect(site_url('index.php/cargar_datos/personal/'.$post['id_departamento']));
+			// }
+			// // die_pre('antes de vista personal_add');
+			// $view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$post['id_departamento']));
+			// $this->utils->template($this->_list(5),'cargar_data/personal_add',$view,'Cargar personal','Agregar personal');
+		// }
+		// // die_pre('no hay post');
+		// redirect(site_url('index.php/cargar_datos/personal'));
+	// }
+
+	public function editar_personal($id_empleado = '')
 	{
-		$this->load->module('general/general_model','general');
-		if($_POST)
+		$where['id_personal'] = $id_empleado;
+		modules::run('general/exist_index','personal',$where,'cargar_datos/personal');
+		
+		$view['empleado'] = $this->general->get_row('personal',array('id_personal'=>$id_empleado));
+		if(!empty($view['empleado']))
 		{
-			$post = $_POST;
-			// DELIMITADOR DE ERROR DEL FORM VALIDATION
-			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
-			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
-			
-			// REGLAS DEL FORM VALIDATION
-			$this->form_validation->set_rules('codigo_empleado','<strong>Código</strong>','required|xss_clean|is_unique[personal.codigo_empleado]');
-			$this->form_validation->set_rules('nombre','<strong>Nombre</strong>','required|xss_clean');
-			$this->form_validation->set_rules('apellido','<strong>Apellido</strong>','required|xss_clean');
-			$this->form_validation->set_rules('cargo','<strong>Cargo</strong>','required|xss_clean');
-			$this->form_validation->set_rules('cedula','<strong>Cédula/Pasaporte</strong>','required|xss_clean|is_unique[personal.cedula]');
-			$this->form_validation->set_rules('email_corporativo','<strong>Email corporativo</strong>','valid_email|xss_clean');
-			$this->form_validation->set_rules('email_personal','<strong>Email personal</strong>','required|valid_email|xss_clean|is_unique[personal.email_personal]');
-			$this->form_validation->set_rules('tlfn_corporativo','<strong>Teléfono corporativo</strong>','xss_clean');
-			$this->form_validation->set_rules('tlfn_personal','<strong>Teléfono personal</strong>','required|xss_clean|is_unique[personal.tlfn_personal]');
-			$this->form_validation->set_rules('fechaingreso_empresa','<strong>Fecha Ingreso</strong>','required|xss_clean');
-			$this->form_validation->set_message('is_unique', 'No es posible crear un duplicado para el campo %s');
-			
-			if($this->form_validation->run($this))
-			{
-				$post['nombre'] = ucwords($post['nombre'].' '.$post['apellido']);
-				unset($post['apellido']);
-				$post['fecha_creacion'] = date('Y-m-d H:i:s');
-				$post['fechaingreso_empresa'] = date('Y-m-d H:i:s',strtotime($post['fechaingreso_empresa']));
-				$id_empleado = $this->general->insert('personal',$post);
-				if($id_empleado) $this->session->set_flashdata('alert_success','El empleado ha sido ingresado exitosamente en este departamento');
-				else $this->session->set_flashdata('alert_success','Ocurrió un problema ingresando el empleado en este departamento. Por favor intente más tarde o contacte a su administrador');
-				
-				// die_pre('dentro de run this');
-				redirect(site_url('index.php/cargar_datos/personal/'.$post['id_departamento']));
-			}
-			// die_pre('antes de vista personal_add');
-			$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$post['id_departamento']));
-			$this->utils->template($this->_list(5),'cargar_data/personal_add',$view,'Cargar personal','Agregar personal');
+			$nombre = explode(' ', $view['empleado']->nombre);
+			$view['empleado']->nombre = current($nombre);
+			$view['empleado']->apellido = end($nombre);
 		}
-		// die_pre('no hay post');
+		$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$view['empleado']->id_departamento));
+		$this->utils->template($this->_list(5),'cargar_data/personal_add',$view,'Cargar personal','Modificar personal');
+	}
+	
+	public function eliminar_personal($id_empleado='')
+	{
+		$where['id_personal'] = $id_empleado;
+		modules::run('general/exist_index','personal',$where,'cargar_datos/personal');
+		
+		if($this->general->delete('personal',$where)) $this->session->set_flashdata('alert_success','El empleado ha sido eliminado exitosamente');
+		else $this->session->set_flashdata('alert_success','Ocurrió un problema al intentar eliminar al empleado. Por favor intente más tarde o contacte a su administrador');
+		
 		redirect(site_url('index.php/cargar_datos/personal'));
 	}
 

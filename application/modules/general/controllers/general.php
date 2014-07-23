@@ -45,4 +45,15 @@ class General extends MX_Controller
 		
 		return $return;
 	}
+	
+	public function exist_index($table, $where, $fail = 'usuarios/iniciar-sesion', $message = 'Ocurrió un problema inesperado. Por favor intente nuevamente o contacte a su administrador')
+	{
+		if(!empty($table) && !empty($where))
+		{
+			if($this->general->exist($table,$where))
+				return TRUE;
+		}
+		$this->session->set_flashdata('alert_error',$message);
+		redirect($fail);
+	}
 }

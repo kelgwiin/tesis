@@ -67,6 +67,7 @@
 							                        <th>Nombre <i class="fa fa-sort"></i></th>
 							                        <th>Cargo <i class="fa fa-sort"></i></th>
 							                        <th>Cédula <i class="fa fa-sort"></i></th>
+							                        <th>Teléfono <i class="fa fa-sort"></i></th>
 						                        	<th>Eliminar</th>
 							                    </tr>
 							                </thead>
@@ -86,33 +87,34 @@
 								                		<td><?php echo $person->nombre ?></td>
 								                		<td><?php echo $person->cargo ?></td>
 								                		<td><?php echo $person->cedula ?></td>
+								                		<td><?php echo $person->tlfn_personal ?></td>
 								                		<td>
 								                			<a data-toggle="modal" data-target="#delete<?php echo $person->id_personal ?>">
 								                				<span class="label label-danger">X</span>
 								                			</a>
 							                			</td>
 							                		</tr>
-							                	<?php endforeach ?>
-							                	<div class="modal fade" id="delete<?php echo $person->id_personal ?>" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
-													<div class="modal-dialog modal-sm">
-														<div class="modal-content">
-															<div class="modal-header">
-																<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-																<h4 class="modal-title" id="myModalLabel">Eliminar empleado</h4>
-															</div>
-															<div class="modal-body">
-																¿Está seguro que desea eliminar al <?php echo $person->cargo ?> <strong><?php echo ucfirst($person->nombre) ?></strong>?<br />
-															</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
-																<a href="<?php echo base_url().'index.php/cargar_datos/personal/eliminar/'.$person->id_personal ?>"
-																	type="button" class="btn btn-danger">
-																	Eliminar
-																</a>
+							                		<div class="modal fade" id="delete<?php echo $person->id_personal ?>" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+														<div class="modal-dialog modal-sm">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																	<h4 class="modal-title" id="myModalLabel">Eliminar empleado</h4>
+																</div>
+																<div class="modal-body">
+																	¿Está seguro que desea eliminar al <?php echo $person->cargo ?> <strong><?php echo ucfirst($person->nombre) ?></strong>?<br />
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+																	<a href="<?php echo base_url().'index.php/cargar_datos/personal/eliminar/'.$person->id_personal ?>"
+																		type="button" class="btn btn-danger">
+																		Eliminar
+																	</a>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
+							                	<?php endforeach ?>
 							                </tbody>
 										</table>
 									</div>

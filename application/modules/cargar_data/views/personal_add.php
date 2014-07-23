@@ -52,6 +52,7 @@
 		});
 	});
 </script>
+<?php $view = (isset($empleado) && !empty($empleado)) ? 'Modificar' : 'Crear' ?>
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
@@ -67,7 +68,7 @@
 		<div class="col-md-12">
 			<div class="panel panel-primary">
 				<div class = "panel-heading">
-					<h3 class="panel-title">Creación de personal para el departamento <strong><?php echo ucfirst($departamento->nombre) ?></strong></h3>
+					<h3 class="panel-title"><?php echo $view ?> personal para el departamento <strong><?php echo ucfirst($departamento->nombre) ?></strong></h3>
 				</div>
 				<div class = "panel-body">
 					<form class="form-horizontal" method="post" action="<?php echo site_url('index.php/cargar_datos/personal/crear_empleado/'.$departamento->departamento_id) ?>">
@@ -198,6 +199,7 @@
 								</div>
 							</div>
 							
+							<?php $fecha = (isset($empleado) && !empty($empleado->fechaingreso_empresa)) ? date('d-m-Y',strtotime($empleado->fechaingreso_empresa)) : '' ?>
 							<!-- FECHA DE INGRESO -->
 							<div class="row">
 								<div class="col-md-5"></div>
@@ -209,17 +211,20 @@
 								<label class="col-md-5 control-label" for="fechaingreso_empresa">Fecha de ingreso</label>  
 								<div class="col-md-4">
 									<input name="fechaingreso_empresa" type="text" placeholder="12/05/2013" class="form-control input-md"
-										data-date-format="dd/mm/yyyy" value="<?php echo set_value('fechaingreso_empresa',@$empleado->fechaingreso_empresa) ?>" required readonly />
+										data-date-format="dd/mm/yyyy" value="<?php echo set_value('fechaingreso_empresa',$fecha) ?>" required readonly />
 								</div>
 							</div>
 							
 							<input type="hidden" name="id_departamento" value="<?php echo $departamento->departamento_id ?>" />
+							<?php if(isset($empleado) && !empty($empleado)) : ?>
+								<input type="hidden" name="id_personal" value="<?php echo $empleado->id_personal ?>" />
+							<?php endif ?>
 							
 							<!-- Button -->
 							<div class="form-group">
 								<label class="col-md-5 control-label" for=""></label>
 								<div class="col-md-4">
-									<button name="" class="btn btn-success">Crear empleado</button>
+									<button name="" class="btn btn-success"><?php echo $view ?> empleado</button>
 								</div>
 							</div>
 							
