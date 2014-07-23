@@ -81,7 +81,7 @@
 					</select>
 				</div>
 			</div>
-			
+			<?php //echo_pre($mod_padre);echo_pre($modulos) ?>
 			<!-- PERMISOLOGIA DE MODULOS -->
 			<div id="permisologia" class="row hidden">
 				<div class="col-md-2">
@@ -89,9 +89,9 @@
 				</div>
 				<div class="col-md-10">
 					<?php foreach($mod_padre as $key => $mod) : ?>
-						<strong><?php echo lang('perm.padre_'.$mod->id_modulo_padre) ?></strong><br />
-						<?php foreach($modulos[$mod->id_modulo_padre] as $k => $modulo) : ?>
-							<label class="checkbox-inline">
+						<?php if(isset($modulos[$mod->id_modulo_padre]) && !empty($modulos[$mod->id_modulo_padre])) : ?>
+							<strong><?php echo lang('perm.padre_'.$mod->id_modulo_padre) ?></strong><br />
+							<?php foreach($modulos[$mod->id_modulo_padre] as $k => $modulo) : ?>
 								<?php
 									if(isset($user->permisologia))
 									{
@@ -100,12 +100,14 @@
 										$find = in_array($modulo->id_modulo_hijo, $perm);
 									}
 								?>
-								<input type="checkbox" name="permisologia[]" <?php echo (isset($find) && ($find)) ? 'checked' : '' ?>
-									value="<?php echo $modulo->id_modulo_hijo ?>" />
-								<?php echo lang('perm.hijo_'.$modulo->id_modulo_hijo) ?>
-							</label>
-						<?php endforeach; ?>
-						<br /><br />
+								<label class="checkbox-inline">
+									<input type="checkbox" name="permisologia[]" <?php echo (isset($find) && ($find)) ? 'checked' : '' ?>
+										value="<?php echo $modulo->id_modulo_hijo ?>" />
+									<?php echo lang('perm.hijo_'.$modulo->id_modulo_hijo) ?>
+								</label>
+							<?php endforeach ?>
+							<br /><br />
+						<?php endif ?>
 					<?php endforeach; ?>
 				</div>
 			</div>

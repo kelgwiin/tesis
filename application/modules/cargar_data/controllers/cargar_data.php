@@ -33,6 +33,7 @@ class Cargar_Data extends MX_Controller
 	}
 
 	public function index(){
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$this->utils->template($this->_list(0),'cargar_data/main','','Cargar Infraestructura','');
 	}
 
@@ -844,6 +845,11 @@ class Cargar_Data extends MX_Controller
 	
 	public function cargar_personal($id_departamento = '')
 	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 6);
+		$view['nivel'] = 6;
+		$vista = ($permiso) ? 'personal' : 'personal_sinpermiso';
+		
 		$this->load->model('general/general_model','general');
 		$id = '';
 		if(!empty($id_departamento)) $id = $id_departamento;
@@ -855,11 +861,16 @@ class Cargar_Data extends MX_Controller
 			$view['personal'] = $this->basico_model->get_personal_bydepto($id);
 		}
 		$view['departamentos'] = $this->general->get_table('departamento');
-		$this->utils->template($this->_list(5),'cargar_data/personal',$view,'Cargar personal','Personal de la organización');
+		$this->utils->template($this->_list(5),'cargar_data/'.$vista,$view,'Cargar personal','Personal de la organización');
 	}
 	
 	public function agregar_personal($id_departamento = '')
 	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 7);
+		$view['nivel'] = 7;
+		$vista = ($permiso) ? 'personal_add' : 'personal_sinpermiso';
+		
 		if(!empty($id_departamento))
 		{
 			$this->load->model('general/general_model','general');
@@ -915,7 +926,7 @@ class Cargar_Data extends MX_Controller
 				}
 			}
 			$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$id_departamento));
-			$this->utils->template($this->_list(5),'cargar_data/personal_add',$view,'Cargar personal','Agregar personal');
+			$this->utils->template($this->_list(5),'cargar_data/'.$vista,$view,'Cargar personal','Agregar personal');
 		}else
 		{
 			$this->session->set_flashdata('alert_error','Parece que existe un problema con el departamento al que intenta acceder. Por favor contacte a su administrador');
@@ -989,6 +1000,10 @@ class Cargar_Data extends MX_Controller
 
 	public function editar_personal($id_empleado = '')
 	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 8);
+		$view['nivel'] = 8;
+		$vista = ($permiso) ? 'personal_add' : 'personal_sinpermiso';
 		$where['id_personal'] = $id_empleado;
 		modules::run('general/exist_index','personal',$where,'cargar_datos/personal');
 		
@@ -1000,18 +1015,23 @@ class Cargar_Data extends MX_Controller
 			$view['empleado']->apellido = end($nombre);
 		}
 		$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$view['empleado']->id_departamento));
-		$this->utils->template($this->_list(5),'cargar_data/personal_add',$view,'Cargar personal','Modificar personal');
+		$this->utils->template($this->_list(5),'cargar_data/'.$vista,$view,'Cargar personal','Modificar personal');
 	}
 	
 	public function eliminar_personal($id_empleado='')
 	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 9);
+		$view['nivel'] = 9;
+		$vista = ($permiso) ? 'personal_add' : 'personal_sinpermiso';
 		$where['id_personal'] = $id_empleado;
 		modules::run('general/exist_index','personal',$where,'cargar_datos/personal');
 		
 		if($this->general->delete('personal',$where)) $this->session->set_flashdata('alert_success','El empleado ha sido eliminado exitosamente');
 		else $this->session->set_flashdata('alert_success','Ocurrió un problema al intentar eliminar al empleado. Por favor intente más tarde o contacte a su administrador');
 		
-		redirect(site_url('index.php/cargar_datos/personal'));
+		if($vista == 'personal_sinpermiso') $this->utils->template($this->_list(5),'cargar_data/'.$vista,$view,'Cargar personal','Modificar personal');
+		else redirect(site_url('index.php/cargar_datos/personal'));
 	}
 
 	public function get_empleado()

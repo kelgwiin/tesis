@@ -45,15 +45,16 @@ $lang['user.watch_singular']					= "Ver usuario";
 
 // PERMISOLOGIA
 $lang['perm.padre_1']							= "Módulo de Usuarios";
-$lang['perm.padre_2']							= "Módulo de Plan de Continuidad del Negocio";
+$lang['perm.padre_2']							= "Módulo de Plan de Continuiidad del Negocio";
+$lang['perm.padre_8']							= "Carga de infraestructura: Personal de la organización";
 
 $lang['perm.hijo_1']							= "Ver usuario";
 $lang['perm.hijo_2']							= "Crear usuario";
 $lang['perm.hijo_3']							= "Buscar usuario";
 $lang['perm.hijo_4']							= "Eliminar usuario";
 $lang['perm.hijo_5']							= "Editar usuario";
-$lang['perm.hijo_6']							= "Ver PCN";
-$lang['perm.hijo_7']							= "Crear PCN";
-$lang['perm.hijo_8']							= "Buscar PCN";
-$lang['perm.hijo_9']							= "Eliminar PCN";
+$lang['perm.hijo_6']							= "Listado de personal por departamento";
+$lang['perm.hijo_7']							= "Agregar personal a un departamento";
+$lang['perm.hijo_8']							= "Modificar datos del personal";
+$lang['perm.hijo_9']							= "Eliminar personal";
 $lang['perm.hijo_10']							= "Editar PCN";
