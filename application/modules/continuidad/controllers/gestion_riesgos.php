@@ -118,9 +118,9 @@ class Gestion_riesgos extends MX_Controller
 	public function index()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 12);
+		$vista = ($permiso) ? 'menu_riesgos' : 'continuidad_sinpermiso';
+		$view['nivel'] = 12;
 		
 		$breadcrumbs = array
 		(
@@ -129,7 +129,7 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Gestión de riesgos'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/menu_riesgos',$view,$this->title,'Gestión de riesgos','two_level');
+		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Gestión de riesgos','two_level');
 	}
 	
 	// LISTADO DE CATEGORIAS
@@ -137,9 +137,9 @@ class Gestion_riesgos extends MX_Controller
 	public function categorias()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 13);
+		$vista = ($permiso) ? 'listado_categorias' : 'continuidad_sinpermiso';
+		$view['nivel'] = 13;
 		
 		$breadcrumbs = array
 		(
@@ -152,7 +152,7 @@ class Gestion_riesgos extends MX_Controller
 		
 		$view['categorias'] = $this->general->get_table('categorias_riesgos');
 		
-		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/listado_categorias',$view,$this->title,'Listado de categorías','two_level');
+		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de categorías','two_level');
 	}
 	
 	// SE CREAN CATEGORIAS NUEVAS PARA LOS RIESGOS Y AMENAZAS. 
@@ -160,9 +160,9 @@ class Gestion_riesgos extends MX_Controller
 	public function crear_categoria()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 14);
+		$vista = ($permiso) ? 'crear_categoria' : 'continuidad_sinpermiso';
+		$view['nivel'] = 14;
 		
 		$breadcrumbs = array
 		(
@@ -212,16 +212,16 @@ class Gestion_riesgos extends MX_Controller
 			}
 		}
 		
-		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/crear_categoria',$view,$this->title,'Agregar nueva categoría','two_level');
+		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Agregar nueva categoría','two_level');
 	}
 	
 	// ESTA FUNCION LEVANTA LA VISTA crear_categoria PERO CON LA INFORMACION DE LA CATEGORIA SOLICITADA YA EN EL FORMULARIO A MANERA DE VER O ACTUALIZAR
 	public function modificar_categoria($id_categoria = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 15);
+		$vista = ($permiso) ? 'crear_categoria' : 'continuidad_sinpermiso';
+		$view['nivel'] = 15;
 		
 		$where['id_categoria'] = $id_categoria;
 		if($this->general->exist('categorias_riesgos',$where))
@@ -236,7 +236,7 @@ class Gestion_riesgos extends MX_Controller
 				'#' => $view['categoria']->categoria
 			);
 			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/crear_categoria',$view,$this->title,'Modificar categoría','two_level');
+			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar categoría','two_level');
 		}else
 		{
 			$this->session->set_flashdata('alert_error','La categoría que intenta modificar no se encuentra en la base de datos');
@@ -248,12 +248,12 @@ class Gestion_riesgos extends MX_Controller
 	public function eliminar_categoria($id_categoria = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 16);
+		$vista = ($permiso) ? 'eliminar' : 'continuidad_sinpermiso';
+		$view['nivel'] = 16;
 		
 		$where['id_categoria'] = $id_categoria;
-		if($this->general->exist('categorias_riesgos',$where))
+		if(($vista == 'eliminar') && $this->general->exist('categorias_riesgos',$where))
 		{
 			if($this->general->delete('categorias_riesgos',$where))
 				$this->session->set_flashdata('alert_success','La categoría se ha eliminado con éxito');
@@ -262,6 +262,9 @@ class Gestion_riesgos extends MX_Controller
 			
 		}else
 			$this->session->set_flashdata('alert_error','La categoría que intenta eliminar no se encuentra en la base de datos');
+			
+		if($vista == 'continuidad_sinpermiso')
+			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Eliminar categoría','two_level');
 			
 		redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
 	}
@@ -272,9 +275,9 @@ class Gestion_riesgos extends MX_Controller
 	public function listado_riesgos()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 17);
+		$vista = ($permiso) ? 'listado_riesgos' : 'continuidad_sinpermiso';
+		$view['nivel'] = 17;
 		$this->load->model('gestionriesgos_model','riesgos');
 		
 		$breadcrumbs = array
@@ -290,15 +293,15 @@ class Gestion_riesgos extends MX_Controller
 			$riesgo->valoracion = $this->valoracion_riesgo($riesgo);
 		
 		$view['riesgos'] = $riesgos;
-		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/listado_riesgos',$view,$this->title,'Listado de riesgos','two_level');
+		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de riesgos','two_level');
 	}
 	
 	public function crear_riesgo()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 18);
+		$vista = ($permiso) ? 'crear_riesgo' : 'continuidad_sinpermiso';
+		$view['nivel'] = 18;
 		
 		if($_POST)
 		{
@@ -344,16 +347,16 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Crear riesgo'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/crear_riesgo',$view,$this->title,'Agregar nuevo riesgo','two_level');
+		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Agregar nuevo riesgo','two_level');
 	}
 
 	// ESTA FUNCION LEVANTA LA VISTA crear_categoria PERO CON LA INFORMACION DE LA CATEGORIA SOLICITADA YA EN EL FORMULARIO A MANERA DE VER O ACTUALIZAR
 	public function modificar_riesgo($id_riesgo = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 19);
+		$vista = ($permiso) ? 'crear_riesgo' : 'continuidad_sinpermiso';
+		$view['nivel'] = 19;
 		
 		$where['id_riesgo'] = $id_riesgo;
 		if($this->general->exist('riesgos_amenazas',$where))
@@ -368,7 +371,7 @@ class Gestion_riesgos extends MX_Controller
 				'#' => $view['categoria']->categoria
 			);
 			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/crear_categoria',$view,$this->title,'Modificar categoría','two_level');
+			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar categoría','two_level');
 		}else
 		{
 			$this->session->set_flashdata('alert_error','La categoría que intenta modificar no se encuentra en la base de datos');
@@ -380,9 +383,9 @@ class Gestion_riesgos extends MX_Controller
 	// public function eliminar_categoria($id_categoria = '')
 	// {
 		// modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// // $permiso = modules::run('general/have_permission', 1);
-		// // $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// // $view['nivel'] = 1;
+		// // $permiso = modules::run('general/have_permission', 20);
+		// // $vista = ($permiso) ? 'usuario_ver' : 'continuidad_sinpermiso';
+		// // $view['nivel'] = 20;
 // 		
 		// $where['id_categoria'] = $id_categoria;
 		// if($this->general->exist('categorias_riesgos',$where))

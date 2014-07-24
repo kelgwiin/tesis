@@ -89,7 +89,7 @@
                 <!-- ACCESO A USUARIOS-->
                 <a type="button" class="btn"
                   title="Acceso a Usuaios" 
-                  href = "#"  
+                  href = "<?php echo site_url("index.php/usuarios");?>"  
                  >
                  <i class="fa fa-users fa-3x"></i> <br> <small>Acceso<br>a Usuarios</small>
                  </a>

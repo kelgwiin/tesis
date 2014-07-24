@@ -61,9 +61,9 @@ class Continuidad extends MX_Controller
 	public function index()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 10);
+		$vista = ($permiso) ? 'descripcion' : 'continuidad_sinpermiso';
+		$view['nivel'] = 10;
 		
 		$breadcrumbs = array
 		(
@@ -71,7 +71,7 @@ class Continuidad extends MX_Controller
 			'#' => 'Continuidad del Negocio'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list1(),'continuidad/descripcion',$view,$this->title,'','two_level');
+		$this->utils->template($this->_list1(),'continuidad/'.$vista,$view,$this->title,'','two_level');
 	}
 	
 	public function formar_equipos()
@@ -93,9 +93,9 @@ class Continuidad extends MX_Controller
 	public function listado()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 11);
+		$vista = ($permiso) ? 'listado' : 'continuidad_sinpermiso';
+		$view['nivel'] = 1;
 		
 		$breadcrumbs = array
 		(
@@ -104,7 +104,7 @@ class Continuidad extends MX_Controller
 			'#' => 'Listado de PCN'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list2(),'continuidad/listado',$view,$this->title,'Listado de PCN','two_level');
+		$this->utils->template($this->_list2(),'continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
 	}
 	
 	public function crear()
