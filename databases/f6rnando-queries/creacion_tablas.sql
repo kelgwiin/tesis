@@ -19,7 +19,8 @@ INSERT INTO `categorias_riesgos` (`id_categoria`, `categoria`, `descripcion`) VA
 (3, 'Humano intencionado interno', 'Amenaza o riesgo efectuado de manera intencional por personal interno de la organización '),
 (4, 'Humano intencionado externo', 'Amenaza o riesgo efectuado de manera intencional por personal externo a la organización '),
 (5, 'Humano no intencionado interno', 'Amenaza o riesgo efectuado de manera no intencional por personal interno de la organización '),
-(6, 'Humano no intencionado externo', 'Amenaza o riesgo efectuado de manera no intencional por personal externo de la organización');
+(6, 'Humano no intencionado externo', 'Amenaza o riesgo efectuado de manera no intencional por personal externo de la organización'),
+(7, 'Otros daños', 'Categoría creada para cualquier otro tipo de daños que no tengan una clasificación específica.');
 
 --
 -- Estructura de tabla para la tabla `riesgos_amenazas`
@@ -58,8 +59,7 @@ INSERT INTO `riesgos_amenazas` (`id_riesgo`, `id_categoria`, `denominacion`, `pr
 (16, 4, 'Robo', 'Media', 'Alto'),
 (17, 5, 'Introducción de virus', 'Baja', 'Medio-Alto'),
 (18, 5, 'Error en mantenimiento', 'Media-Baja', 'Medio'),
-(19, 6, 'Daños a la propiedad privada', 'Baja', 'Medio'),
-(20, 6, '', '', '');
+(19, 6, 'Daños a la propiedad privada', 'Baja', 'Medio');
 
 --
 -- Restricciones para tablas volcadas
@@ -110,4 +110,45 @@ INSERT INTO `vulnerabilidades` (`id_vulnerabilidad`, `vulnerabilidad`) VALUES
 (22, 'Incumplimientos legales'),
 (23, 'Definición de privilegios de acceso inadecuada'),
 (24, 'Ausencia de Planes de Continuidad y Recuperación del Negocio');
+
+--
+-- Volcado de datos para la tabla `modulo_padre`
+--
+
+INSERT INTO `modulo_padre` (`id_modulo_padre`, `modulo_padre`) VALUES
+(1, 'usuario'),
+(2, 'operaciones'),
+(3, 'capacidad'),
+(4, 'continuidad'),
+(5, 'costos'),
+(6, 'disponibilidad'),
+(7, 'niveles_servicio'),
+(8, 'cargar_infraestructura'),
+(9, 'ajustes_sistema');
+
+--
+-- Volcado de datos para la tabla `modulo_hijo`
+--
+
+INSERT INTO `modulo_hijo` (`id_modulo_hijo`, `id_modulo_padre`, `modulo_hijo`) VALUES
+(1, 1, 'ver_usuario'),
+(2, 1, 'crear_usuario'),
+(3, 1, 'buscar_usuario'),
+(4, 1, 'eliminar_usuario'),
+(5, 1, 'editar_usuario'),
+(6, 8, 'cargar_personal'),
+(7, 8, 'agregar_personal'),
+(8, 8, 'editar_personal'),
+(9, 8, 'eliminar_personal'),
+(10, 4, 'continuidad_index'),
+(11, 4, 'continuidad_listadopcn'),
+(12, 4, 'continuidad_riesgos'),
+(13, 4, 'continuidad_listadocategorias'),
+(14, 4, 'continuidad_crearcategoria'),
+(15, 4, 'continuidad_modificarcategoria'),
+(16, 4, 'continuidad_eliminarcategoria'),
+(17, 4, 'continuidad_listadoriesgos'),
+(18, 4, 'continuidad_crearriesgos'),
+(19, 4, 'continuidad_modificarriesgos'),
+(20, 4, 'continuidad_eliminarriesgos');
 
