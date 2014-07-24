@@ -126,11 +126,11 @@ class Costos extends MX_Controller
 		$result = $this->mcm->costos_by_servicio($this->input->post());
 		
 		if($result !== null){
-			$r = array ('estatus' => 'ok', 'info' => $result);
+			$r = array ('estatus' => "ok", 'info' => $result);
 		}else{
 			$r = array('estatus'=>'empty');
 		}
-		echo_pre(json_encode($r));
+		echo(json_encode($r));
 	}
 }
 /* End of file Costos.php */

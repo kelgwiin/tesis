@@ -24,8 +24,27 @@
 
 			fo_proccess = function(data){
 				if(data.estatus == "ok"){
-					alert('okkk');
+					$('div#msj-vacio').removeClass('show').addClass('hidden');//escondiendo el msj, si estaba
+					info = "";
+					for (var i = 0; i < data.info.length; i++) {
+						it = data.info[i];
+						info += "<tr><td>"+(i+1)+"</td>"
+						+"<td>" +it.nombre+"</td>" +
+						"<td>" +it.mes + "</td>" +
+						"<td>" + it.fecha_creacion+ "</td>"+
+						"<td>" +it.nivel_criticidad + "</td>"+
+						"<td>" + it.costo+ "</td> </tr>";
+					};
+					//Limpiando la información previamente cargada
+					$('tbody#info > tr').remove();
+					$('tbody#info').append(info);
+					//Para indicar a la tabla que se agregó nueva información
+					$('table').trigger('update');
+				}else{
+					$('tbody#info > tr').remove();
+					$('div#msj-vacio').removeClass('hidden').addClass('show');//mostrando el msj de error
 				}
+
 			}
 
 			//Haciendo la llamada post desde ajax
@@ -123,6 +142,14 @@
 	</div><!-- /row -->
 
 	<br><br>
+	
+	<!-- Mensaje de vacío-->
+	<div id = "msj-vacio" class="alert alert-warning alert-dismissable hidden">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		No hay elementos registrados.
+	</div>
+
+
 	<!-- Costos por servicio -->
 	<div class = "row">
 		<div class = "col-md-12">
@@ -135,20 +162,20 @@
 				</div>
 
 					<div class="table-responsive">
-						<table class="table table-bordered table-hover table-striped tablesorter ">
+						<table class="table table-bordered table-hover table-striped tablesorter">
 							<thead>
 								<tr>
 									<th>#</th>
 									<th>Nombre <i class = "fa fa-sort"></i></th>
-									<th>Mes</th>
+									<th>Mes <i class = "fa fa-sort"></i></th>
 									<th>Fecha de creción <i class = "fa fa-sort"></i></th>
 									<th>Nivel de Criticidad <i class = "fa fa-sort"></i></th>
 									<th>Costo <i class = "fa fa-sort"></i></th>
 								</tr>
 							</thead>
 
-							<tbody>
-							
+							<tbody id = "info">
+						
 							</tbody>
 						</table>
 					</div>
