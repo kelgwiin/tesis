@@ -21,7 +21,7 @@ class Recomendaciones_model extends CI_Model{
 				FROM componente_ti  AS cti JOIN (ma_unidad_medida AS uni, ma_categoria AS categ) 
 					ON (cti.ma_unidad_medida_id = uni.ma_unidad_medida_id AND uni.ma_categoria_id = categ.ma_categoria_id)
 				WHERE borrado = false AND activa = 'ON'
-					AND fecha_hasta BETWEEN curdate() AND curdate() + INTERVAL 7 DAY;";
+					AND ((fecha_hasta BETWEEN curdate() AND curdate() + INTERVAL 7 DAY) OR CURDATE() > fecha_hasta);";
 		$q = $this->db->query($sql);
 		if($q->num_rows() > 0){
 			return $q->result_array();

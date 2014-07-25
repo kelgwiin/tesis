@@ -25,7 +25,7 @@
 		<div class = "col-md-12">
 			<div class="panel panel-danger">
 				<!-- Default panel contents -->
-				<div class="panel-heading"><strong>Componentes de TI con fecha de caducidad cercana</strong></div>
+				<div class="panel-heading"><strong>Componentes de TI con fecha de caducidad cercana o ya vencidos</strong></div>
 				
 				<div class = "panel-body">
 					Los componentes de TI de información que aparezcan este apartado deben ser adquiridos 
