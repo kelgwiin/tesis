@@ -62,7 +62,7 @@
 
 										<!-- Text input - Nombre Mantenimiento/Instalación-->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="nombre_mantenimiento">Nombre Mantenimiento/Instalación</label>  
+											<label class="col-md-4 control-label" for="nombre_mantenimiento">Nombre mantenimiento/instalación</label>  
 											<div class="col-md-6">
 												<input id="nombre_mantenimiento" name="nombre_mantenimiento" type="text" placeholder="nombre mantenimiento/instalción" class="form-control input-md" required="required">
 
@@ -88,7 +88,7 @@
 										<!-- Appended Input - Costo-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
-											<div class="col-md-6">
+											<div class="col-md-3">
 												<div class="input-group">
 													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" pattern = "\d+((.\d+)|(\d*))" required="required">
 													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
@@ -99,8 +99,8 @@
 										<!-- Text input - Fecha de realización del mantenimiento/instalación -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="fecha">Fecha</label>  
-											<div class="col-md-6">
-												<input id="fecha" name="fecha" type="text" placeholder="fecha de mantenimiento/instalación" class="form-control input-md" required="required">
+											<div class="col-md-3">
+												<input id="fecha" name="fecha" type="text" placeholder="fecha" class="form-control input-md" required="required">
 
 											</div>
 										</div>
@@ -143,19 +143,13 @@
 										<!-- Text input - Nombre -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="nombre">Nombre</label>  
-											<div class="col-md-6">
+											<div class="col-md-3">
 												<input id="nombre" name="nombre" type="text" placeholder="nombre" class="form-control input-md" required="required">
-
 											</div>
-										</div>
-
-
+										
 										<!-- Text input - Apellido -->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for="apellido"></label>  
-											<div class="col-md-6">
+											<div class = "col-md-3">
 												<input id="apellido" name="apellido" type="text" placeholder="apellido" class="form-control input-md" required="required">
-
 											</div>
 										</div>
 
@@ -172,7 +166,7 @@
 										<!-- Text input- Teléfono -->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="telefono">Teléfono</label>  
-											<div class="col-md-6">
+											<div class="col-md-3">
 												<input id="telefono" name="telefono" type="tel" placeholder="teléfono" class="form-control input-md" required="required">
 
 											</div>
@@ -181,6 +175,7 @@
 
 									</fieldset><!-- Encargado de Mantenimiento y/o Instalación -->
 									
+									<br>
 									<!-- Buttons: Guardar | Cancelar-->
 									<div class="form-group">
 										<label class="col-md-4 control-label" for=""></label>
@@ -193,7 +188,7 @@
 												<div class ="col-md-3 col-xs-6">
 													<a 	
 														href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos');?>" 
-														class="btn btn-primary">Cancelar
+														class="btn btn-danger">Cancelar
 													</a>	
 												</div>
 

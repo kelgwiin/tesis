@@ -65,7 +65,7 @@
 										<!-- Appended Input - Costo-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="costo">Costo</label>
-											<div class="col-md-6">
+											<div class="col-md-3">
 												<div class="input-group">
 													<input id="costo" name="costo" class="form-control" placeholder="costo" type="text" pattern = "\d+((.\d+)|(\d*))" required="">
 													<span class="input-group-addon"><?php echo $org['abrev_moneda'];?>.</span>
@@ -77,8 +77,8 @@
 										<!-- Text input - Número de Profesionales-->
 										<div class="form-group">
 											<label class="col-md-4 control-label" for="numero_profesionales">Número de Profesionales</label>  
-											<div class="col-md-6">
-												<input id="numero_profesionales" name="numero_profesionales" type="text" placeholder="número" class="form-control input-md" required="">
+											<div class="col-md-3">
+												<input id="numero_profesionales" name="numero_profesionales" type="number" min = "1" placeholder="número" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -93,25 +93,19 @@
 
 										<!-- Text input - Fecha Desde -->
 										<div class="form-group">
-											<label class="col-md-4 control-label" for="fecha_desde">Desde</label>  
-											<div class="col-md-6">
+											<label class="col-md-4 control-label" for="fecha_desde">Fecha de Vigencia</label>  
+											<div class="col-md-3">
 												<input id="fecha_desde" name="fecha_desde" type="text" placeholder="fecha desde" class="form-control input-md" required="">
-
 											</div>
-										</div>
 
 										<!-- Text input - Fecha Hasta-->
-										<div class="form-group">
-											<label class="col-md-4 control-label" for="fecha_hasta">Hasta</label>  
-											<div class="col-md-6">
+											<div class = "col-md-3">
 												<input id="fecha_hasta" name="fecha_hasta" type="text" placeholder="fecha hasta" class="form-control input-md" required="">
-
 											</div>
 										</div>
 
-
 									</fieldset>
-									
+									<br>
 									<!-- Buttons: Guardar | Cancelar-->
 									<div class="form-group">
 										<label class="col-md-4 control-label" for=""></label>
@@ -124,7 +118,7 @@
 												<div class ="col-md-3 col-xs-6">
 													<a 	
 													href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos');?>" 
-													class="btn btn-primary">Cancelar
+													class="btn btn-danger">Cancelar
 												</a>	
 											</div>
 

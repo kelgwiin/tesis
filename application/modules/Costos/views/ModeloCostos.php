@@ -168,7 +168,7 @@
 									<th>#</th>
 									<th>Nombre <i class = "fa fa-sort"></i></th>
 									<th>Mes <i class = "fa fa-sort"></i></th>
-									<th>Fecha de creción <i class = "fa fa-sort"></i></th>
+									<th>Fecha de creación <i class = "fa fa-sort"></i></th>
 									<th>Nivel de Criticidad <i class = "fa fa-sort"></i></th>
 									<th>Costo <i class = "fa fa-sort"></i></th>
 								</tr>
