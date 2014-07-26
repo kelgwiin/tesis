@@ -216,10 +216,11 @@
 								<!-- Default panel contents -->
 								<div class="panel-heading"><strong>Lista de Costos Indirectos</strong></div>
 
+								<br><br>
 								<!-- Table -->
 								<!-- Listado de Costos Indirectos -->
 								<div class="table-responsive">
-									<table id  = "list-costos-ind" class="table table-bordered table-hover table-striped tablesorter">
+									<table id  = "dataTables-example" class="table table-bordered table-hover table-striped tablesorter"  >
 										<thead>
 											<tr>
 												<th>#</th>

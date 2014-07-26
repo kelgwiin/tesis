@@ -32,8 +32,9 @@
 					para su reemplazo lo más pronto posible para garantizar la estabilidad del sistema de la organización.
 				</div>
 
+					<br><br>
 					<div class="table-responsive">
-						<table class="table table-bordered table-hover table-striped tablesorter ">
+						<table id = "dataTables-example" class="table table-bordered table-hover table-striped tablesorter ">
 							<thead>
 								<tr>
 									<th>#</th>
