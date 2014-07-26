@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-07-2014 a las 09:48:06
+-- Tiempo de generación: 26-07-2014 a las 16:11:54
 -- Versión del servidor: 5.5.37
 -- Versión de PHP: 5.4.6-1ubuntu1.8
 
@@ -835,7 +835,7 @@ CREATE TABLE IF NOT EXISTS `personal` (
   UNIQUE KEY `tlfn_personal` (`tlfn_personal`),
   UNIQUE KEY `id_organizacion` (`codigo_empleado`,`email_personal`,`email_corporativo`),
   KEY `id_departamento` (`id_departamento`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- RELACIONES PARA LA TABLA `personal`:
@@ -849,8 +849,45 @@ CREATE TABLE IF NOT EXISTS `personal` (
 
 INSERT INTO `personal` (`id_personal`, `codigo_empleado`, `id_departamento`, `nombre`, `cedula`, `email_personal`, `email_corporativo`, `tlfn_personal`, `tlfn_corporativo`, `cargo`, `fechaingreso_empresa`, `fecha_creacion`, `fecha_modificacion`) VALUES
 (1, 'LOG-001', 1, 'Fernando Pinto', 'V-19524910', 'f6rnando@gmail.com', 'f6rnando@sigitec.com', '0424-0000101', '0412-7439763', 'Gerente de departamento', '2014-01-06 00:00:00', '2014-07-21 11:53:15', '2014-07-23 16:44:12'),
-(2, 'LOG-002', 1, 'Fernando Colmenares', 'V-19000698', 'fernandocolmenares@gmail.com', 'fernandocolmenares@sigitec.com', '0242-0012547', '0424-8741014', 'Desarrollador Web', '2014-10-07 00:00:00', '2014-07-21 12:41:02', '2014-07-21 17:11:02'),
-(3, 'LOG-003', 2, 'Kelwin Gamez', 'V-20123456', 'kelwin@gmail.com', 'kelwingamez@sigitec.com', '0416-0102030', '0424-0708090', 'Gerente Investigador', '1969-12-31 20:00:00', '2014-07-23 12:16:10', '2014-07-23 16:46:10');
+(3, 'LOG-003', 2, 'Kelwin Gamez', 'V-20123456', 'kelwin@gmail.com', 'kelwingamez@sigitec.com', '0416-0102030', '0424-0708090', 'Gerente Investigador', '1969-12-31 20:00:00', '2014-07-23 12:16:10', '2014-07-23 16:46:10'),
+(4, 'LOG-002', 1, 'Fernando Colmenares', 'V-19000698', 'fer_elsabrosom@gmail.com', 'fernandocolmenares@sigitec.com', '0424-7854125', '0424-0708090', 'Desarrollador Web', '2014-01-07 00:00:00', '2014-07-26 10:02:52', '2014-07-26 20:12:52'),
+(5, 'LOG-004', 1, 'Gustavo Martínez', 'V-20147852', 'gustavito_elpro@gmail.com', 'gustavomartinez@sigitec.com', '0424-0100101', '0412-0505050', 'Gerente creativo', '1969-12-31 20:00:00', '2014-07-26 10:14:14', '2014-07-26 14:44:14'),
+(6, 'LOG-005', 2, 'Harold Araujo', 'V-17458745', 'haroldo@gmail.com', 'haroldaraujo@sigitec.com', '0412-0022336', '0424-0909090', 'Desarrollador Web', '1969-12-31 20:00:00', '2014-07-26 10:15:47', '2014-07-26 14:45:47'),
+(7, 'LOG-006', 2, 'Elier Cuicas', 'V-18877887', 'elier@gmail.com', 'eliercuicas@sigitec.com', '0424-1231231', '0416-1231231', 'Desarrollador Web', '2014-01-07 00:00:00', '2014-07-26 10:17:12', '2014-07-26 14:47:12');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `plan_continuidad`
+--
+
+CREATE TABLE IF NOT EXISTS `plan_continuidad` (
+  `id_continuidad` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_riesgo` bigint(20) NOT NULL,
+  `id_departamento` bigint(20) NOT NULL,
+  `id_empleado` bigint(20) NOT NULL,
+  `id_estado` bigint(20) NOT NULL,
+  `tipo_plan` varchar(20) NOT NULL,
+  `fecha_creacion` datetime NOT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_continuidad`),
+  KEY `id_riesgo` (`id_riesgo`),
+  KEY `id_departamento` (`id_departamento`),
+  KEY `id_empleado` (`id_empleado`),
+  KEY `id_estado` (`id_estado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- RELACIONES PARA LA TABLA `plan_continuidad`:
+--   `id_estado`
+--       `usuarios_estado` -> `id_estado`
+--   `id_riesgo`
+--       `riesgos_amenazas` -> `id_riesgo`
+--   `id_departamento`
+--       `departamento` -> `departamento_id`
+--   `id_empleado`
+--       `personal` -> `id_personal`
+--
 
 -- --------------------------------------------------------
 
@@ -1148,7 +1185,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `email` (`email`),
   KEY `id_rol` (`id_rol`),
   KEY `id_estado` (`id_estado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- RELACIONES PARA LA TABLA `usuarios`:
@@ -1163,7 +1200,8 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `id_rol`, `id_estado`, `permisologia`, `nombre`, `email`, `password`, `recuperacion`, `creacion`, `ultima_modificacion`) VALUES
-(1, 1, 1, 'all', 'Admin Administrador', 'admin@admin.com', '9dbf7c1488382487931d10235fc84a74bff5d2f4', NULL, '2013-12-09 14:43:47', '2013-12-09 23:44:07');
+(1, 1, 1, 'all', 'Admin Administrador', 'admin@admin.com', '9dbf7c1488382487931d10235fc84a74bff5d2f4', NULL, '2013-12-09 14:43:47', '2013-12-09 23:44:07'),
+(2, 2, 1, '1,3,10,11,12,13,14,15,16,17,18,19,20,6', 'Fernando Pinto', 'f6rnando@gmail.com', 'ec3e661d7bc7bfbf5334e7dfad309f947dace5f7', NULL, '2014-07-26 09:53:41', '2014-07-26 14:23:41');
 
 -- --------------------------------------------------------
 
@@ -1363,6 +1401,15 @@ ALTER TABLE `opciones_mejoras`
 --
 ALTER TABLE `personal`
   ADD CONSTRAINT `personal_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`departamento_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `plan_continuidad`
+--
+ALTER TABLE `plan_continuidad`
+  ADD CONSTRAINT `plan_continuidad_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `usuarios_estado` (`id_estado`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `plan_continuidad_ibfk_1` FOREIGN KEY (`id_riesgo`) REFERENCES `riesgos_amenazas` (`id_riesgo`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `plan_continuidad_ibfk_2` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`departamento_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `plan_continuidad_ibfk_3` FOREIGN KEY (`id_empleado`) REFERENCES `personal` (`id_personal`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `presupuesto`

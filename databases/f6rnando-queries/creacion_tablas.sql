@@ -203,3 +203,49 @@ INSERT INTO `personal` (`id_personal`, `codigo_empleado`, `id_departamento`, `no
 ALTER TABLE `personal`
   ADD CONSTRAINT `personal_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`departamento_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
+--
+-- Estructura de tabla para la tabla `plan_continuidad`
+--
+
+CREATE TABLE IF NOT EXISTS `plan_continuidad` (
+  `id_continuidad` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_riesgo` bigint(20) NOT NULL,
+  `id_departamento` bigint(20) NOT NULL,
+  `id_empleado` bigint(20) NOT NULL,
+  `id_estado` bigint(20) NOT NULL,
+  `tipo_plan` varchar(20) NOT NULL,
+  `fecha_creacion` datetime NOT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_continuidad`),
+  KEY `id_riesgo` (`id_riesgo`),
+  KEY `id_departamento` (`id_departamento`),
+  KEY `id_empleado` (`id_empleado`),
+  KEY `id_estado` (`id_estado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- RELACIONES PARA LA TABLA `plan_continuidad`:
+--   `id_estado`
+--       `usuarios_estado` -> `id_estado`
+--   `id_riesgo`
+--       `riesgos_amenazas` -> `id_riesgo`
+--   `id_departamento`
+--       `departamento` -> `departamento_id`
+--   `id_empleado`
+--       `personal` -> `id_personal`
+--
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `plan_continuidad`
+--
+ALTER TABLE `plan_continuidad`
+  ADD CONSTRAINT `plan_continuidad_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `usuarios_estado` (`id_estado`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `plan_continuidad_ibfk_1` FOREIGN KEY (`id_riesgo`) REFERENCES `riesgos_amenazas` (`id_riesgo`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `plan_continuidad_ibfk_2` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`departamento_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `plan_continuidad_ibfk_3` FOREIGN KEY (`id_empleado`) REFERENCES `personal` (`id_personal`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+
