@@ -21,7 +21,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url('index.php/continuidad/listado_pcn');?>">
+				<a href="<?php echo site_url('index.php/continuidad/seleccionar_listado') ?>">
 					<div class="panel-footer announcement-bottom">
 						<div class="row">
 							<div class="col-xs-6">
@@ -47,7 +47,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url('index.php/continuidad/gestion_riesgos');?>">
+				<a href="<?php echo site_url('index.php/continuidad/gestion_riesgos') ?>">
 					<div class="panel-footer announcement-bottom">
 						<div class="row">
 							<div class="col-xs-6">

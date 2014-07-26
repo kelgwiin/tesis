@@ -1027,9 +1027,11 @@ class Cargar_Data extends MX_Controller
 		$where['id_personal'] = $id_empleado;
 		modules::run('general/exist_index','personal',$where,'cargar_datos/personal');
 		
-		if($this->general->delete('personal',$where)) $this->session->set_flashdata('alert_success','El empleado ha sido eliminado exitosamente');
-		else $this->session->set_flashdata('alert_success','Ocurrió un problema al intentar eliminar al empleado. Por favor intente más tarde o contacte a su administrador');
-		
+		if($vista != 'personal_sinpermiso')
+		{
+			if($this->general->delete('personal',$where)) $this->session->set_flashdata('alert_success','El empleado ha sido eliminado exitosamente');
+			else $this->session->set_flashdata('alert_success','Ocurrió un problema al intentar eliminar al empleado. Por favor intente más tarde o contacte a su administrador');
+		}
 		if($vista == 'personal_sinpermiso') $this->utils->template($this->_list(5),'cargar_data/'.$vista,$view,'Cargar personal','Modificar personal');
 		else redirect(site_url('index.php/cargar_datos/personal'));
 	}

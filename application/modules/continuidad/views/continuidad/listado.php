@@ -17,7 +17,18 @@
 	
 	<div class="row" style="margin-top: 25px">
 		<div class="col-lg-12">
-			<div class="table-responsive">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Planes de continuidad del negocio</h3>
+				</div>
+				<div class="panel-body">
+					<?php if(!isset($planes_continuidad) OR empty($planes_continuidad)) : ?>
+						<?php print_alert('<strong>No existe ningún plan de continuidad. Puede crear uno clickeando el botón de arriba.</strong>','warning') ?>
+					<?php else : ?>
+					<?php endif ?>
+				</div>
+			</div>
+			<!-- <div class="table-responsive">
 	            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 	                <thead>
 	                    <tr>
@@ -94,7 +105,7 @@
 	                	</tr>
 	                </tbody>
 				</table>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>

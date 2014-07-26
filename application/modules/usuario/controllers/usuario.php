@@ -173,6 +173,7 @@ class Usuario extends MX_Controller
 				}
 			}else
 			{
+				unset($_POST['form_type']);
 				$this->form_validation->set_message('is_unique','Ya existe una cuenta registrada con el Email ingresado');
 				
 				// REGLAS DEL FORM_VALIDATION
@@ -262,7 +263,7 @@ class Usuario extends MX_Controller
 			$view['nivel'] = 4;
 			
 			$l = $this->utils->list_sidebar();
-			$this->utils->template($l,'usuario/'.$vista,$view,$this->title,'Eliminar usuarios','two_level');
+			$this->utils->template($l,'usuario/usuario_sinpermiso',$view,$this->title,'Eliminar usuarios','two_level');
 			// INFORMACION DEL TEMPLATE
 			// $data['title'] = lang('user.delete').' | '.lang('project.title_long');
 			// $data['main_content'] = $this->load->view('usuario_sinpermiso',$view,TRUE);

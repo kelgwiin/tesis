@@ -401,6 +401,16 @@ class Gestion_riesgos extends MX_Controller
 		// redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
 	// }
 	
+	public function get_risks()
+	{
+		$this->load->model('gestionriesgos_model','riesgos');
+		$riesgos = $this->riesgos->get_allrisks();
+		foreach($riesgos as $key => $riesgo)
+			$riesgo->valoracion = $this->valoracion_riesgo($riesgo);
+		
+		return $riesgos;
+	}
+	
 	private function valoracion_riesgo($riesgo)
 	{
 		$probabilidad = array
@@ -417,14 +427,17 @@ class Gestion_riesgos extends MX_Controller
 		);
 		$valoracion = array
 		(
-			1 => 'Baja', 1.5 => 'Baja',
-			2 => 'Media-Baja', 2.5 => 'Media-Baja',
-			3 => 'Media',
-			3.5 => 'Media-Alta', 4 => 'Media-Alta',
-			4.5 => 'Alta', 5 => 'Alta'
+			'1' => 'Baja',
+			'2' => 'Media-Baja',
+			'3' => 'Media',
+			'4' => 'Media-Alta',
+			'5' => 'Alta',
+			'1.5' => 'Baja',
+			'2.5' => 'Media-Baja',
+			'3.5' => 'Media-Alta',
+			'4.5' => 'Alta'
 		);
-		
 		$valor = ($probabilidad[$riesgo->probabilidad] + $impacto[$riesgo->impacto])/2;
-		return $valoracion[$valor];
+		return $valoracion[(string)$valor];
 	}
 }

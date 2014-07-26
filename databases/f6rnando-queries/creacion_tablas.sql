@@ -152,3 +152,54 @@ INSERT INTO `modulo_hijo` (`id_modulo_hijo`, `id_modulo_padre`, `modulo_hijo`) V
 (19, 4, 'continuidad_modificarriesgos'),
 (20, 4, 'continuidad_eliminarriesgos');
 
+--
+-- Estructura de tabla para la tabla `personal`
+--
+
+CREATE TABLE IF NOT EXISTS `personal` (
+  `id_personal` bigint(20) NOT NULL AUTO_INCREMENT,
+  `codigo_empleado` varchar(20) NOT NULL COMMENT 'Este identificador es el ID que se usa internamente en la organización para identificar a sus empleados',
+  `id_departamento` bigint(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `cedula` varchar(20) NOT NULL,
+  `email_personal` varchar(100) NOT NULL,
+  `email_corporativo` varchar(100) DEFAULT NULL,
+  `tlfn_personal` varchar(50) NOT NULL,
+  `tlfn_corporativo` varchar(50) DEFAULT NULL,
+  `cargo` varchar(200) NOT NULL,
+  `fechaingreso_empresa` datetime NOT NULL,
+  `fecha_creacion` datetime NOT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_personal`),
+  UNIQUE KEY `cedula` (`cedula`),
+  UNIQUE KEY `email_personal` (`email_personal`),
+  UNIQUE KEY `tlfn_personal` (`tlfn_personal`),
+  UNIQUE KEY `id_organizacion` (`codigo_empleado`,`email_personal`,`email_corporativo`),
+  KEY `id_departamento` (`id_departamento`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- RELACIONES PARA LA TABLA `personal`:
+--   `id_departamento`
+--       `departamento` -> `departamento_id`
+--
+
+--
+-- Volcado de datos para la tabla `personal`
+--
+
+INSERT INTO `personal` (`id_personal`, `codigo_empleado`, `id_departamento`, `nombre`, `cedula`, `email_personal`, `email_corporativo`, `tlfn_personal`, `tlfn_corporativo`, `cargo`, `fechaingreso_empresa`, `fecha_creacion`, `fecha_modificacion`) VALUES
+(1, 'LOG-001', 1, 'Fernando Pinto', 'V-19524910', 'f6rnando@gmail.com', 'f6rnando@sigitec.com', '0424-0000101', '0412-7439763', 'Gerente de departamento', '2014-01-06 00:00:00', '2014-07-21 11:53:15', '2014-07-23 16:44:12'),
+(2, 'LOG-002', 1, 'Fernando Colmenares', 'V-19000698', 'fernandocolmenares@gmail.com', 'fernandocolmenares@sigitec.com', '0242-0012547', '0424-8741014', 'Desarrollador Web', '2014-10-07 00:00:00', '2014-07-21 12:41:02', '2014-07-21 17:11:02'),
+(3, 'LOG-003', 2, 'Kelwin Gamez', 'V-20123456', 'kelwin@gmail.com', 'kelwingamez@sigitec.com', '0416-0102030', '0424-0708090', 'Gerente Investigador', '1969-12-31 20:00:00', '2014-07-23 12:16:10', '2014-07-23 16:46:10');
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `personal`
+--
+ALTER TABLE `personal`
+  ADD CONSTRAINT `personal_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`departamento_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+

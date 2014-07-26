@@ -90,21 +90,80 @@ class Continuidad extends MX_Controller
 		$this->utils->template($this->_list(),'continuidad/formar_equipos',$view,$this->title,'','two_level');
 	}
 	
-	public function listado()
+	public function chart()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 11);
-		$vista = ($permiso) ? 'listado' : 'continuidad_sinpermiso';
-		$view['nivel'] = 1;
+		$vista = ($permiso) ? 'chart_select' : 'continuidad_sinpermiso';
+		$view['nivel'] = 11;
 		
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
 			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+			'#' => 'Seleccionar Listado'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$js['riesgos'] = modules::run('continuidad/gestion_riesgos/get_risks');
+		$baja = $mediabaja = $media = $mediaalta = $alta = 0;
+		foreach($js['riesgos'] as $key => $riesgo)
+		{
+			switch ($riesgo->valoracion)
+			{
+				case 'Baja': $baja++; break;
+				case 'Media-Baja': $mediabaja++; break;
+				case 'Media': $media++; break;
+				case 'Media-Alta': $mediaalta++; break;
+				case 'Alta': $alta++; break;
+			}
+		}
+		$count_risk = count($js['riesgos']);
+		$js['percents'] = array
+		(
+			'Baja' => $this->percent($baja, $count_risk),
+			'Media-Baja' => $this->percent($mediabaja, $count_risk),
+			'Media' => $this->percent($media, $count_risk),
+			'Media-Alta' => $this->percent($mediaalta, $count_risk),
+			'Alta' => $this->percent($alta, $count_risk),
+		);
+		$view['piechart_js'] = $this->load->view('continuidad/continuidad/piechart_js',$js,TRUE);
+		$this->utils->template($this->_list2(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
+	}
+	
+	public function listado($tipo_listado = '')
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 11);
+		$vista = ($permiso) ? 'listado' : 'continuidad_sinpermiso';
+		$view['nivel'] = 11;
+		$this->load->model('gestionriesgos_model','riesgos');
+		
+		$tipo_listado = str_replace('-', ' ', $tipo_listado);
+		$tipo_listado = ucwords($tipo_listado);
+		$tipo_listado = str_replace(' ', '-', $tipo_listado);
+		
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+			base_url().'index.php/continuidad/seleccionar_listado' => 'Seleccionar Listado',
 			'#' => 'Listado de PCN'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list2(),'continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
+		
+		// $riesgos = modules::run('continuidad/gestion_riesgos/get_risks');
+		// if(!empty($tipo_listado))
+		// {
+			// foreach($riesgos as $key => $riesgo)
+			// {
+				// if($riesgo->valoracion != $tipo_listado)
+					// unset($riesgos[$key]);
+			// }
+		// }
+		// $view['riesgos'] = $riesgos;
+		
+		$view['planes_continuidad'] = $this->riesgos->get_allpcn();
+		$this->utils->template($this->_list2(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
 	}
 	
 	public function crear()
@@ -123,5 +182,10 @@ class Continuidad extends MX_Controller
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		$this->utils->template($this->_list2(),'continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
+	}
+
+	private function percent($item, $count)
+	{
+		return (float)($item * 100)/$count;
 	}
 }
