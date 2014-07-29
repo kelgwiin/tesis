@@ -81,7 +81,7 @@ $route['continuidad/descripcion']											= "continuidad/continuidad";
 $route['continuidad/equipos_accion']										= "continuidad/continuidad/formar_equipos";
 $route['continuidad/seleccionar_listado']									= "continuidad/continuidad/chart";
 $route['continuidad/listado_pcn/?(.*)']										= "continuidad/continuidad/listado/$1";
-$route['continuidad/crear_pcn']												= "continuidad/continuidad/crear";
+$route['continuidad/crear_pcn/?(.*)']										= "continuidad/continuidad/crear/$1";
 $route['continuidad/gestion_riesgos']										= "continuidad/gestion_riesgos";
 // CATEGORIAS
 $route['continuidad/gestion_riesgos/categorias']							= "continuidad/gestion_riesgos/categorias";

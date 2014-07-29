@@ -7,10 +7,16 @@
 		</div>
 	</div>
 	
+	<?php
+		$val = str_replace('-', ' ', $valoracion);
+		$val = strtolower($val);
+		$val = str_replace(' ', '-', $val);
+	?>
+	
 	<div class="row">
 		<div class="col-lg-9"></div>
 		<div class="col-lg-2" style="left: 71px">
-			<a href="<?php echo base_url() ?>index.php/continuidad/crear_pcn" class="btn btn-success">
+			<a href="<?php echo site_url('index.php/continuidad/crear_pcn/'.$val) ?>" class="btn btn-success">
 				<i class="fa fa-plus"></i> Agregar nuevo PCN</a>
 		</div>
 	</div>
@@ -23,7 +29,7 @@
 				</div>
 				<div class="panel-body">
 					<?php if(!isset($planes_continuidad) OR empty($planes_continuidad)) : ?>
-						<?php print_alert('<strong>No existe ningún plan de continuidad. Puede crear uno clickeando el botón de arriba.</strong>','warning') ?>
+						<?php print_alert('<strong>No existe ningún Plan de Continuidad del Negocio para riesgos con valoración '.$valoracion.'. Puede crear uno dando click al botón de arriba.</strong>','danger') ?>
 					<?php else : ?>
 					<?php endif ?>
 				</div>

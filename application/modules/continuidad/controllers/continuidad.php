@@ -6,6 +6,7 @@ class Continuidad extends MX_Controller
 	{
 		parent::__construct();
 		$this->load->module('utilities/utils');
+		$this->load->model('gestionriesgos_model','riesgos');
 	}
 	
 	// FUNCIONES Y VARIABLES PRIVADAS DEL CONTROLADOR
@@ -104,7 +105,8 @@ class Continuidad extends MX_Controller
 			'#' => 'Seleccionar Listado'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$js['riesgos'] = modules::run('continuidad/gestion_riesgos/get_risks');
+		$js['riesgos'] = $this->riesgos->get_allrisks();
+		
 		$baja = $mediabaja = $media = $mediaalta = $alta = 0;
 		foreach($js['riesgos'] as $key => $riesgo)
 		{
@@ -136,11 +138,6 @@ class Continuidad extends MX_Controller
 		$permiso = modules::run('general/have_permission', 11);
 		$vista = ($permiso) ? 'listado' : 'continuidad_sinpermiso';
 		$view['nivel'] = 11;
-		$this->load->model('gestionriesgos_model','riesgos');
-		
-		$tipo_listado = str_replace('-', ' ', $tipo_listado);
-		$tipo_listado = ucwords($tipo_listado);
-		$tipo_listado = str_replace(' ', '-', $tipo_listado);
 		
 		$breadcrumbs = array
 		(
@@ -150,6 +147,7 @@ class Continuidad extends MX_Controller
 			'#' => 'Listado de PCN'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		
 		
 		// $riesgos = modules::run('continuidad/gestion_riesgos/get_risks');
 		// if(!empty($tipo_listado))
@@ -162,11 +160,15 @@ class Continuidad extends MX_Controller
 		// }
 		// $view['riesgos'] = $riesgos;
 		
-		$view['planes_continuidad'] = $this->riesgos->get_allpcn();
+		$view['planes_continuidad'] = (empty($tipo_listado)) ? $this->riesgos->get_allpcn() : $this->riesgos->get_allpcn(array('ra.valoracion' => $tipo_listado));
+		$tipo_listado = str_replace('-', ' ', $tipo_listado);
+		$tipo_listado = ucwords($tipo_listado);
+		$tipo_listado = str_replace(' ', '-', $tipo_listado);
+		$view['valoracion'] = $tipo_listado;
 		$this->utils->template($this->_list2(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
 	}
 	
-	public function crear()
+	public function crear($valoracion = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		// $permiso = modules::run('general/have_permission', 1);
@@ -181,7 +183,11 @@ class Continuidad extends MX_Controller
 			'#' => 'Crear PCN'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list2(),'continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
+		$view['riesgos'] = $this->riesgos->get_allrisks(array('riesgos_amenazas.valoracion'=>$valoracion));
+		$view['departamentos'] = $this->general->get_table('departamento');
+		$view['estados'] = $this->general->get_table('usuarios_estado');
+		$view['crearpcn_js'] = $this->load->view('continuidad/continuidad/crearpcn_js','',TRUE);
+		$this->utils->template($this->_list2(),'continuidad/continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
 	}
 
 	private function percent($item, $count)

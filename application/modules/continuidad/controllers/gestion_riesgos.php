@@ -289,8 +289,8 @@ class Gestion_riesgos extends MX_Controller
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		$riesgos = $this->riesgos->get_allrisks();
-		foreach($riesgos as $key => $riesgo)
-			$riesgo->valoracion = $this->valoracion_riesgo($riesgo);
+		// foreach($riesgos as $key => $riesgo)
+			// $riesgo->valoracion = $this->valoracion_riesgo($riesgo);
 		
 		$view['riesgos'] = $riesgos;
 		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de riesgos','two_level');
@@ -315,6 +315,7 @@ class Gestion_riesgos extends MX_Controller
 			
 			if($this->form_validation->run($this))
 			{
+				$_POST['valoracion'] = $this->valoracion_riesgo($_POST);
 				if($_POST['id_riesgo'])
 				{
 					// SI EXISTE $_POST['id_categoria'] QUIERE DECIR QUE YA LA CATEGORIA ESTA CREADA Y SE QUIERE ACTUALIZAR SU INFORMACION
@@ -327,7 +328,6 @@ class Gestion_riesgos extends MX_Controller
 						$this->session->set_flashdata('alert_error','Hubo un error al intentar modificar el riesgo, por favor intente de nuevo o contacte a su administrador');
 				}else
 				{
-					// SINO, ES INFORMACION NUEVA POR LO QUE SIGNIFICA LA CREACION DE UNA NUEVA CATEGORIA
 					$riesgo = $this->general->insert('riesgos_amenazas',$_POST);
 					if($riesgo != FALSE)
 						$this->session->set_flashdata('alert_success','Nuevo riesgo creado con éxito');
@@ -401,17 +401,17 @@ class Gestion_riesgos extends MX_Controller
 		// redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
 	// }
 	
-	public function get_risks()
-	{
-		$this->load->model('gestionriesgos_model','riesgos');
-		$riesgos = $this->riesgos->get_allrisks();
-		foreach($riesgos as $key => $riesgo)
-			$riesgo->valoracion = $this->valoracion_riesgo($riesgo);
-		
-		return $riesgos;
-	}
+	// public function get_risks()
+	// {
+		// $this->load->model('gestionriesgos_model','riesgos');
+		// $riesgos = $this->riesgos->get_allrisks();
+		// foreach($riesgos as $key => $riesgo)
+			// $riesgo->valoracion = $this->valoracion_riesgo($riesgo);
+// 		
+		// return $riesgos;
+	// }
 	
-	private function valoracion_riesgo($riesgo)
+	private function valoracion_riesgo($riesgo = array())
 	{
 		$probabilidad = array
 		(
@@ -437,7 +437,7 @@ class Gestion_riesgos extends MX_Controller
 			'3.5' => 'Media-Alta',
 			'4.5' => 'Alta'
 		);
-		$valor = ($probabilidad[$riesgo->probabilidad] + $impacto[$riesgo->impacto])/2;
+		$valor = ($probabilidad[$riesgo['probabilidad']] + $impacto[$riesgo['impacto']])/2;
 		return $valoracion[(string)$valor];
 	}
 }

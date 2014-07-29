@@ -11,16 +11,15 @@
 
 		<form class="form-horizontal">
 			<fieldset>
-				
+				<?php //echo_pre($departamentos) ?>
 				<!-- Select Basic -->
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="denominacion_riesgo">Denominación</label>
 					<div class="col-md-4">
-						<select id="denominacion_riesgo" name="denominacion_riesgo" class="form-control">
-							<option value="1">Fallo del sistema</option>
-							<option value="2">Fallo del suministro eléctrico</option>
-							<option value="3">Incendio</option>
-							<option value="4">Robo de material</option>
+						<select name="id_riesgo" class="form-control">
+							<?php foreach($riesgos as $key => $riesgo) : ?>
+								<option value="<?php echo $riesgo->id_riesgo ?>"><?php echo $riesgo->denominacion ?></option>
+							<?php endforeach ?>
 						</select>
 					</div>
 				</div>
@@ -29,10 +28,11 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="id_departamento">Departamento</label>
 					<div class="col-md-4">
-						<select id="id_departamento" name="id_departamento" class="form-control">
-							<option value="1">Contabilidad</option>
-							<option value="2">Producción</option>
-							<option value="3">Sistemas</option>
+						<select name="id_departamento" class="form-control">
+							<option selected=""> -- </option>
+							<?php foreach($departamentos as $key => $departamento) : ?>
+								<option value="<?php echo $departamento->departamento_id ?>"><?php echo ucfirst($departamento->nombre) ?></option>
+							<?php endforeach ?>
 						</select>
 					</div>
 				</div>
@@ -41,13 +41,8 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="id_responsable">Responsable</label>
 					<div class="col-md-4">
-						<select id="id_responsable" name="id_responsable" class="form-control">
-							<option value="1">Karl Rhodes</option>
-							<option value="2">Karla Mccormick</option>
-							<option value="3">Alexandra Rowe</option>
-							<option value="4">Calvin Bowers</option>
-							<option value="5">Cornelius Henry</option>
-							<option value="6">Kathleen Harrington</option>
+						<select name="id_empleado" class="form-control">
+							<option> -- </option>
 						</select>
 					</div>
 				</div>
@@ -69,23 +64,12 @@
 				
 				<!-- Select Basic -->
 				<div class="form-group">
-					<label class="col-md-4 control-label" for="prioridad">Prioridad</label>
-					<div class="col-md-4">
-						<select id="prioridad" name="prioridad" class="form-control">
-							<option value="1">Alta</option>
-							<option value="2">Media</option>
-							<option value="3">Baja</option>
-						</select>
-					</div>
-				</div>
-				
-				<!-- Select Basic -->
-				<div class="form-group">
 					<label class="col-md-4 control-label" for="id_estado">Estado del PCN</label>
 					<div class="col-md-4">
 						<select id="id_estado" name="id_estado" class="form-control">
-							<option value="1">Activo</option>
-							<option value="2">Inactivo</option>
+							<?php foreach($estados as $key => $estado) : ?>
+								<option value="<?php echo $estado->id_estado ?>"><?php echo ucfirst($estado->estado) ?></option>
+							<?php endforeach ?>
 						</select>
 					</div>
 				</div>
@@ -118,3 +102,4 @@
 		</form>
 	</div>
 </div>
+<?php echo $crearpcn_js ?>

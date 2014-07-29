@@ -24,6 +24,15 @@ class General_model extends CI_Model
 		return $query->row();
 	}
 	
+	// FUNCION QUE RETORNA TODOS LOS RESULTADOS DE UNA TABLA
+	// RECIBE EL NOMBRE DE LA TABLA -$table-, Y UN ARREGLO DE CONDICIONES -$where-
+	// @author f6rnando - FERNANDO PINTO
+	public function get_result($table,$where)
+	{
+		$query = $this->db->get_where($table,$where);
+		return $query->result();
+	}
+	
 	// FUNCION QUE RETORNA UNA FILA DE UNA TABLA
 	// RECIBE EL NOMBRE DE LA TABLA -$table-, Y UN ARREGLO DE CONDICIONES -$where-
 	// @author f6rnando - FERNANDO PINTO

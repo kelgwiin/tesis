@@ -56,4 +56,14 @@ class General extends MX_Controller
 		$this->session->set_flashdata('alert_error',$message);
 		redirect($fail);
 	}
+	
+	public function get_result()
+	{
+		$table = $this->input->post('table');
+		$key = $this->input->post('key');
+		$value = $this->input->post('value');
+		$where[$key] = $value;
+		$result = $this->general->get_result($table,$where);
+		echo json_encode($result);
+	}
 }
