@@ -77,4 +77,19 @@ class Equipos extends MX_Controller
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		$this->utils->template($this->_list1(),'continuidad/equipos/equipos_listado',$view,$this->title,'Equipos de desarrollo','two_level');
 	}
+	
+	public function crear_equipo($tipo_equipo)
+	{
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			base_url().'index.php/continuidad/equipos' => 'Equipos de desarrollo',
+			'#' => 'Crear equipo'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$view['tipo_equipo'] = $tipo_equipo;
+		$view['personal'] = $this->riesgos->get_personal();
+		$view['equipocrear_js'] = $this->load->view('continuidad/equipos/equipocrear_js','',TRUE);
+		$this->utils->template($this->_list1(),'continuidad/equipos/equipos_crear',$view,$this->title,'Crear equipo','two_level');
+	}
 }

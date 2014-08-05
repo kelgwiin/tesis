@@ -28,6 +28,21 @@ class Gestionriesgos_model extends CI_Model
 		
 		return $query;
 	}
+	
+	public function get_personal($where = array())
+	{
+		$this->db->select('per.*, dp.nombre as nombre_dpto');
+		if(!empty($where)) $this->db->where($where);
+		$this->db->join('departamento dp','dp.departamento_id = per.id_departamento');
+		$this->db->order_by('per.nombre');
+		$this->db->order_by('per.id_departamento');
+		$query = $this->db->get('personal per')->result();
+		
+		foreach($query as $key => $q)
+			$new[$q->nombre_dpto][] = $q;
+
+		return $new;
+	}
 
 	// private function valoracion_riesgo($riesgo)
 	// {
