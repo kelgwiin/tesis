@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * PERMITE UNA GESTION PARA LA CONTINUIDAD DEL NEGOCIO DE LA ORGANIZACION
+ * @author Fernando Pinto <f6rnando@gmail.com>
+*/
+ 
 class Continuidad extends MX_Controller
 {
 	public function __construct()

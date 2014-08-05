@@ -95,6 +95,8 @@ $route['continuidad/gestion_riesgos/riesgos/crear']							= "continuidad/gestion
 $route['continuidad/gestion_riesgos/riesgos/crear_riesgo']					= "continuidad/gestion_riesgos/crear_riesgo";
 $route['continuidad/gestion_riesgos/riesgos/modificar/(:num)']				= "continuidad/gestion_riesgos/modificar_riesgo/$1";
 $route['continuidad/gestion_riesgos/riesgos/eliminar/(:num)']				= "#";
+//EQUIPOS DE DESARROLLO
+$route['continuidad/equipos']												= "continuidad/equipos/listado_equipos";
 
 
 // RUTAS DE USUARIOS
