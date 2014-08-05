@@ -12,6 +12,7 @@ class Equipos extends MX_Controller
 		parent::__construct();
 		$this->load->module('utilities/utils');
 		$this->load->model('gestionriesgos_model','riesgos');
+		$this->lang->load('admin');
 	}
 	
 	private $title = 'Gestión de Continuidad del Negocio';
@@ -80,6 +81,10 @@ class Equipos extends MX_Controller
 	
 	public function crear_equipo($tipo_equipo)
 	{
+		if($_POST)
+		{
+			die_pre($_POST);
+		}
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
