@@ -34,7 +34,7 @@
 						<div class="form-group">
 							<div class="col-md-4 col-md-offset-1">
 								<label>Personal de la organización</label>
-								<select name="personal" class="form-control" size="10" style="margin-top: 25px">
+								<select id="personal" class="form-control" size="10" style="margin-top: 25px">
 									<?php foreach($personal as $key => $person) : ?>
 										<optgroup label="<?php echo strtoupper($key) ?>">
 											<?php foreach($person as $k => $per) : ?>
@@ -76,7 +76,7 @@
 							</div>
 						</div>
 					</fieldset>
-					<div id="hidden"></div>
+					<input type="hidden" name="tipo_equipo" value="<?php echo $tipo_equipo ?>" />
 				</form>
 			</div>
 		</div>

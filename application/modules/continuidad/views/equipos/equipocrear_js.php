@@ -3,15 +3,14 @@
 	{
 		$('#add').click(function()
 		{
-			var id_personal = $('select[name=personal]').val();
-			var personal = $('select[name=personal] option:selected').data('nombre');
-			var dpto = $('select[name=personal] option:selected').data('dpto');
+			var id_personal = $('#personal').val();
+			var personal = $('#personal option:selected').data('nombre');
+			var dpto = $('#personal option:selected').data('dpto');
 			// alert('id_personal: '+id_personal+' - personal: '+personal+' - dpto: '+dpto);
 			if(id_personal != null && id_personal != '')
 			{
-				$('select[name=personal] option:selected').remove();
+				$('#personal option:selected').remove();
 				$('select[name=equipo\\[\\]]').append('<option value="'+id_personal+'" data-nombre="'+personal+'" data-dpto="'+dpto+'">'+personal+'</option>');
-				// $('#hidden').append('<input type="hidden" name="equipo[]" value="'+id_personal+'" />');
 			}else
 			{
 				alert('Debe seleccionar personal para agregarlo al campo de Equipo de desarrollo');
@@ -27,8 +26,7 @@
 			if(id_personal != null && id_personal != '')
 			{
 				$('select[name=equipo\\[\\]] option:selected').remove();
-				$('select[name=personal] optgroup[label="'+dpto+'"]').append('<option value="'+id_personal+'" data-nombre="'+personal+'" data-dpto="'+dpto+'">'+personal+'</option>');
-				// $('#hidden').append('<input type="hidden" name="noequipo[]" value="'+id_personal+'" />');
+				$('#personal optgroup[label="'+dpto+'"]').append('<option value="'+id_personal+'" data-nombre="'+personal+'" data-dpto="'+dpto+'">'+personal+'</option>');
 			}else
 			{
 				alert('Debe seleccionar personal para removerlo del campo de Equipo de desarrollo');

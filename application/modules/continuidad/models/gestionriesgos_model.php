@@ -44,33 +44,24 @@ class Gestionriesgos_model extends CI_Model
 		return $new;
 	}
 
-	// private function valoracion_riesgo($riesgo)
-	// {
-		// $probabilidad = array
-		// (
-		 	// 'Baja' => 1, 'Media-Baja' => 2,
-		 	// 'Media' => 3, 'Media-Alta' => 4,
-		 	// 'Alta' => 5
-		// );
-		// $impacto = array
-		// (
-		 	// 'Bajo' => 1, 'Medio-Bajo' => 2,
-		 	// 'Medio' => 3, 'Medio-Alto' => 4,
-		 	// 'Alto' => 5
-		// );
-		// $valoracion = array
-		// (
-			// '1' => 'Baja',
-			// '2' => 'Media-Baja',
-			// '3' => 'Media',
-			// '4' => 'Media-Alta',
-			// '5' => 'Alta',
-			// '1.5' => 'Baja',
-			// '2.5' => 'Media-Baja',
-			// '3.5' => 'Media-Alta',
-			// '4.5' => 'Alta'
-		// );
-		// $valor = ($probabilidad[$riesgo->probabilidad] + $impacto[$riesgo->impacto])/2;
-		// return $valoracion[(string)$valor];
-	// }
+	public function set_equipo($data)
+	{
+		if(!empty($data))
+		{
+			$id_tipo = $this->db->get_where('tipoequipos_pcn',array('tipo_equipo' => $data['tipo_equipo']))->row()->id_tipo;
+			$data['id_tipo'] = $id_tipo;
+			$nombre_equipo = $data['tipo_equipo'];
+			unset($data['tipo_equipo']);
+			$query = $this->db->get_where('equipo_pcn',$data);
+			if($query->num_rows() == 0)
+			{
+				$data['fecha_creacion'] = date('Y-m-d H:i:s');
+				$this->db->insert('equipo_pcn',$data);
+				$id_equipo = $this->db->insert_id();
+				$this->db->update('equipo_pcn',array('nombre_equipo'=>$nombre_equipo.$id_equipo),array('id_equipo'=>$id_equipo));
+				return $id_equipo;
+			}
+		}
+		return FALSE;
+	}
 }

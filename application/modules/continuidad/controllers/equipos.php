@@ -76,6 +76,7 @@ class Equipos extends MX_Controller
 			'#' => 'Equipos de desarrollo'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$view['equiposlistado_js'] = $this->load->view('continuidad/equipos/equiposlistado_js','',TRUE);
 		$this->utils->template($this->_list1(),'continuidad/equipos/equipos_listado',$view,$this->title,'Equipos de desarrollo','two_level');
 	}
 	
@@ -83,7 +84,16 @@ class Equipos extends MX_Controller
 	{
 		if($_POST)
 		{
-			die_pre($_POST);
+			// die_pre($_POST);
+			$post['equipo'] = implode(',', $_POST['equipo']);
+			$post['tipo_equipo'] = $_POST['tipo_equipo'];
+			$equipo = $this->riesgos->set_equipo($post);
+			if($equipo)
+				$this->session->set_flashdata('alert_success','Equipo de '.ucfirst($tipo_equipo).' creado con éxito');
+			else
+				$this->session->set_flashdata('alert_error','Hubo un error creando el nuevo equipo, por favor intente de nuevo o contacte a su administrador');
+			
+			redirect(site_url('index.php/continuidad/equipos'));
 		}
 		$breadcrumbs = array
 		(

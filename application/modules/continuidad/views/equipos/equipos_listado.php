@@ -37,13 +37,15 @@
 	                        </div>
 	                    </div>
 	                    <div class="panel-footer">
-	                    	<a href="#">
-		                        <span class="pull-left">Ocultar detalles</span>
-		                        <span class="pull-right"><i class="fa fa-arrow-circle-up"></i></span>
+	                    	<a href="#" class="toggledetails">
+		                        <span class="pull-left">Mostrar detalles</span>
+		                        <span class="pull-left" style="display: none">Ocultar detalles</span>
+		                        <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
+		                        <span class="pull-right"><i class="fa fa-arrow-circle-up" style="display: none"></i></span>
 	                        </a>
 	                        <div class="clearfix" style="margin-top: 25px"></div>
-	                        <hr />
-	                        <div>
+	                        <div class="equipos hidden">
+	                        	<hr />
 	                        	<div class="row">
 		                        	<div class="col-md-4 col-md-push-11">
 		                        		<a class="btn btn-success" href="<?php echo site_url('index.php/continuidad/equipos/crear/crisis') ?>"
@@ -81,11 +83,31 @@
 	                        </div>
 	                    </div>
 	                    <div class="panel-footer">
-	                    	<a href="#">
+	                    	<a href="#" class="toggledetails">
 	                            <span class="pull-left">Mostrar detalles</span>
-	                            <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
+		                        <span class="pull-left" style="display: none">Ocultar detalles</span>
+		                        <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
+		                        <span class="pull-right"><i class="fa fa-arrow-circle-up" style="display: none"></i></span>
 	                        </a>
 	                        <div class="clearfix"></div>
+	                        <div class="equipos hidden">
+	                        	<hr />
+	                        	<div class="row">
+		                        	<div class="col-md-4 col-md-push-11">
+		                        		<a class="btn btn-success" href="<?php echo site_url('index.php/continuidad/equipos/crear/recuperacion') ?>"
+		                        			data-toggle="tooltip" data-placement="top" data-original-title="Agregar un nuevo equipo de recuperación">
+		                        			<i class="fa fa-plus" style="color: white"></i>
+		                        		</a>
+		                        	</div>
+	                        	</div>
+	                        	<ul>
+	                        		<li>Anthony	Wagner</li>
+	                        		<li>Dianne Graham</li>
+	                        		<li>Randal Ramsey</li>
+	                        		<li>Billie Gonzalez</li>
+	                        		<li>Marsha Morrison</li>
+	                        	</ul>
+	                        </div>
 	                    </div>
 	                </div>
 				</div>
@@ -171,6 +193,6 @@
 		</div>
 	</div>
 </div>
-
+<?php echo $equiposlistado_js ?>
 
 	
