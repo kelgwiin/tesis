@@ -73,9 +73,15 @@ class Equipos extends MX_Controller
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
+			base_url().'/continuidad' => 'Continuidad del Negocio',
 			'#' => 'Equipos de desarrollo'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		$view['crisis'] = $this->riesgos->get_allteams(array('e.id_tipo'=>1));
+		$view['recuperacion'] = $this->riesgos->get_allteams(array('e.id_tipo'=>2));
+		$view['logistica'] = $this->riesgos->get_allteams(array('e.id_tipo'=>3));
+		$view['rrpp'] = $this->riesgos->get_allteams(array('e.id_tipo'=>4));
+		$view['pruebas'] = $this->riesgos->get_allteams(array('e.id_tipo'=>5));
 		$view['equiposlistado_js'] = $this->load->view('continuidad/equipos/equiposlistado_js','',TRUE);
 		$this->utils->template($this->_list1(),'continuidad/equipos/equipos_listado',$view,$this->title,'Equipos de desarrollo','two_level');
 	}
