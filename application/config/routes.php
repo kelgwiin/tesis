@@ -98,6 +98,7 @@ $route['continuidad/gestion_riesgos/riesgos/eliminar/(:num)']				= "#";
 //EQUIPOS DE DESARROLLO
 $route['continuidad/equipos']												= "continuidad/equipos/listado_equipos";
 $route['continuidad/equipos/crear/(.*)']									= "continuidad/equipos/crear_equipo/$1";
+$route['continuidad/equipos/eliminar/(:num)']								= "continuidad/equipos/eliminar_equipo/$1";
 
 
 // RUTAS DE USUARIOS

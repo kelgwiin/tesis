@@ -8,5 +8,7 @@
 			$(this).children('.pull-right').children('.fa').toggle();
 			$(this).parent().children(':last').toggleClass('hidden');
 		});
+		
+		$()
 	});
 </script>

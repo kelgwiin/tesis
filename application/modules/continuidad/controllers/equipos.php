@@ -73,7 +73,7 @@ class Equipos extends MX_Controller
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
-			base_url().'/continuidad' => 'Continuidad del Negocio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
 			'#' => 'Equipos de desarrollo'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
@@ -104,6 +104,7 @@ class Equipos extends MX_Controller
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
 			base_url().'index.php/continuidad/equipos' => 'Equipos de desarrollo',
 			'#' => 'Crear equipo'
 		);
@@ -112,5 +113,12 @@ class Equipos extends MX_Controller
 		$view['personal'] = $this->riesgos->get_personal();
 		$view['equipocrear_js'] = $this->load->view('continuidad/equipos/equipocrear_js','',TRUE);
 		$this->utils->template($this->_list1(),'continuidad/equipos/equipos_crear',$view,$this->title,'Crear equipo','two_level');
+	}
+
+	public function eliminar_equipo($id_equipo)
+	{
+		$message = "El equipo que intenta eliminar no se encuentra almacenado en la base de datos";
+		modules::run('general/exist_index', 'equipo_pcn', array('id_equipo'=>$id_equipo), 'index.php/continuidad/equipos', $message);
+		
 	}
 }

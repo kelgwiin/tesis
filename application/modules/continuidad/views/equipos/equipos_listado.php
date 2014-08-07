@@ -47,7 +47,7 @@
 	                        <div class="equipos hidden">
 	                        	<hr />
 	                        	<blockquote><span><small><em><?php echo lang('comite.crisis') ?></em></small></span></blockquote>
-	                        	<div class="row" style="margin-top: 25px">
+	                        	<div class="row" style="margin-top: 25px; margin-bottom: 25px">
 		                        	<div class="col-md-4 col-md-push-11">
 		                        		<a class="btn btn-success" href="<?php echo site_url('index.php/continuidad/equipos/crear/crisis') ?>"
 		                        			data-toggle="tooltip" data-placement="top" data-original-title="Agregar un nuevo comité de crisis">
@@ -63,7 +63,38 @@
 			                        			<?php foreach($cri->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
+			                        			<span class="pull-right">
+			                        				<a data-toggle="modal" data-target="#eliminarcrisis<?php echo $cri->id_equipo ?>">
+			                        					<i data-toggle="tooltip" data-placement="top"
+			                        						data-original-title="Eliminar equipo <?php echo ucfirst($cri->nombre_equipo) ?>"
+			                        						class="fa fa-times fa-lg" style="color: #FE2E2E">
+			                        					</i>
+			                        				</a>
+			                        			</span>
 		                        			</li>
+		                        			<div class="modal fade" id="eliminarcrisis<?php echo $cri->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Eliminar comité de crisis</h4>
+														</div>
+														<div class="modal-body">
+															¿Está seguro de que desea eliminar el equipo <?php echo ucfirst($cri->nombre_equipo) ?>?
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+															<a type="button" class="btn btn-danger" style="color: white"
+																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$cri->id_equipo) ?>">
+																Eliminar
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
 	                        			<?php endforeach ?>
 		                        	</ul>
 		                        <?php else : ?>
@@ -103,8 +134,9 @@
 	                        </a>
 	                        <div class="clearfix"></div>
 	                        <div class="equipos hidden">
+	                        	<hr />
 	                        	<blockquote><span><small><em><?php echo lang('comite.recuperacion') ?></em></small></span></blockquote>
-	                        	<div class="row">
+	                        	<div class="row" style="margin-top: 25px; margin-bottom: 25px">
 		                        	<div class="col-md-4 col-md-push-11">
 		                        		<a class="btn btn-success" href="<?php echo site_url('index.php/continuidad/equipos/crear/recuperacion') ?>"
 		                        			data-toggle="tooltip" data-placement="top" data-original-title="Agregar un nuevo equipo de recuperación">
@@ -120,7 +152,38 @@
 			                        			<?php foreach($recup->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
+			                        			<span class="pull-right">
+			                        				<a data-toggle="modal" data-target="#eliminarrecuperacion<?php echo $recup->id_equipo ?>">
+			                        					<i data-toggle="tooltip" data-placement="top"
+			                        						data-original-title="Eliminar equipo <?php echo ucfirst($recup->nombre_equipo) ?>"
+			                        						class="fa fa-times fa-lg" style="color: #FE2E2E">
+			                        					</i>
+			                        				</a>
+			                        			</span>
 		                        			</li>
+		                        			<div class="modal fade" id="eliminarrecuperacion<?php echo $recup->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Eliminar equipo de recuperación</h4>
+														</div>
+														<div class="modal-body">
+															¿Está seguro de que desea eliminar el equipo <?php echo ucfirst($recup->nombre_equipo) ?>?
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+															<a type="button" class="btn btn-danger" style="color: white"
+																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$recup->id_equipo) ?>">
+																Eliminar
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
 	                        			<?php endforeach ?>
 		                        	</ul>
 		                        <?php else : ?>
@@ -160,8 +223,9 @@
 	                        </a>
 	                        <div class="clearfix"></div>
 	                        <div class="equipos hidden">
+	                        	<hr />
 	                        	<blockquote><span><small><em><?php echo lang('comite.logistica') ?></em></small></span></blockquote>
-	                        	<div class="row">
+	                        	<div class="row" style="margin-top: 25px; margin-bottom: 25px">
 		                        	<div class="col-md-4 col-md-push-11">
 		                        		<a class="btn btn-success" href="<?php echo site_url('index.php/continuidad/equipos/crear/logistica') ?>"
 		                        			data-toggle="tooltip" data-placement="top" data-original-title="Agregar un nuevo equipo de logística">
@@ -177,7 +241,38 @@
 			                        			<?php foreach($log->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
+			                        			<span class="pull-right">
+			                        				<a data-toggle="modal" data-target="#eliminarlogistica<?php echo $log->id_equipo ?>">
+			                        					<i data-toggle="tooltip" data-placement="top"
+			                        						data-original-title="Eliminar equipo <?php echo ucfirst($log->nombre_equipo) ?>"
+			                        						class="fa fa-times fa-lg" style="color: #FE2E2E">
+			                        					</i>
+			                        				</a>
+			                        			</span>
 		                        			</li>
+		                        			<div class="modal fade" id="eliminarlogistica<?php echo $log->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Eliminar equipo de logística</h4>
+														</div>
+														<div class="modal-body">
+															¿Está seguro de que desea eliminar el equipo <?php echo ucfirst($log->nombre_equipo) ?>?
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+															<a type="button" class="btn btn-danger" style="color: white"
+																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$log->id_equipo) ?>">
+																Eliminar
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
 	                        			<?php endforeach ?>
 		                        	</ul>
 		                        <?php else : ?>
@@ -217,8 +312,9 @@
 	                        </a>
 	                        <div class="clearfix"></div>
 	                        <div class="equipos hidden">
+	                        	<hr />
 	                        	<blockquote><span><small><em><?php echo lang('comite.rrpp') ?></em></small></span></blockquote>
-	                        	<div class="row">
+	                        	<div class="row" style="margin-top: 25px; margin-bottom: 25px">
 		                        	<div class="col-md-4 col-md-push-11">
 		                        		<a class="btn btn-success" href="<?php echo site_url('index.php/continuidad/equipos/crear/rrpp') ?>"
 		                        			data-toggle="tooltip" data-placement="top" data-original-title="Agregar un nuevo equipo de relaciones públicas">
@@ -234,7 +330,38 @@
 			                        			<?php foreach($rp->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
+			                        			<span class="pull-right">
+			                        				<a data-toggle="modal" data-target="#eliminarrrpp<?php echo $rp->id_equipo ?>">
+			                        					<i data-toggle="tooltip" data-placement="top"
+			                        						data-original-title="Eliminar equipo <?php echo ucfirst($rp->nombre_equipo) ?>"
+			                        						class="fa fa-times fa-lg" style="color: #FE2E2E">
+			                        					</i>
+			                        				</a>
+			                        			</span>
 		                        			</li>
+		                        			<div class="modal fade" id="eliminarrrpp<?php echo $rp->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Eliminar equipo de relaciones públicas</h4>
+														</div>
+														<div class="modal-body">
+															¿Está seguro de que desea eliminar el equipo <?php echo ucfirst($rp->nombre_equipo) ?>?
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+															<a type="button" class="btn btn-danger" style="color: white"
+																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$rp->id_equipo) ?>">
+																Eliminar
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
 	                        			<?php endforeach ?>
 		                        	</ul>
 		                        <?php else : ?>
@@ -274,8 +401,9 @@
 	                        </a>
 	                        <div class="clearfix"></div>
 	                        <div class="equipos hidden">
+	                        	<hr />
 	                        	<blockquote><span><small><em><?php echo lang('comite.pruebas') ?></em></small></span></blockquote>
-	                        	<div class="row">
+	                        	<div class="row" style="margin-top: 25px; margin-bottom: 25px">
 		                        	<div class="col-md-4 col-md-push-11">
 		                        		<a class="btn btn-success" href="<?php echo site_url('index.php/continuidad/equipos/crear/pruebas') ?>"
 		                        			data-toggle="tooltip" data-placement="top" data-original-title="Agregar un nuevo equipo de pruebas">
@@ -291,7 +419,39 @@
 			                        			<?php foreach($prueba->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
+			                        			<span class="pull-right">
+			                        				<a data-toggle="modal" data-target="#eliminarprueba<?php echo $prueba->id_equipo ?>">
+			                        					<i data-toggle="tooltip" data-placement="top"
+			                        						data-original-title="Eliminar equipo <?php echo ucfirst($prueba->nombre_equipo) ?>"
+			                        						class="fa fa-times fa-lg" style="color: #FE2E2E">
+			                        					</i>
+			                        				</a>
+			                        			</span>
 		                        			</li>
+		                        			<!-- Modal -->
+											<div class="modal fade" id="eliminarprueba<?php echo $prueba->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Eliminar equipo de pruebas</h4>
+														</div>
+														<div class="modal-body">
+															¿Está seguro de que desea eliminar el equipo <?php echo ucfirst($prueba->nombre_equipo) ?>?
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+															<a type="button" class="btn btn-danger" style="color: white"
+																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$prueba->id_equipo) ?>">
+																Eliminar
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
 	                        			<?php endforeach ?>
 		                        	</ul>
 		                        <?php else : ?>
