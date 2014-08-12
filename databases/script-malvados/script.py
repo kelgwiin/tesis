@@ -18,6 +18,7 @@ REGEX:
 import subprocess
 import re
 import time
+import datetime
 import ps_mem
 import os
 from collections import defaultdict
@@ -30,6 +31,25 @@ proc = ps_mem.Proc()
 Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
 command = "chrome"
 regex_cifras = re.compile('([0-9]+)')
+file_name = str(datetime.datetime.now())
+print file_name
+file_dir = "stats/"
+path = file_dir + file_name
+
+
+def verificar_csv():
+    if not os.path.exists(os.path.dirname(path)):
+        try:
+            os.makedirs(os.path.dirname(path))  # CREAR DIRECTORIO SI NO EXISTE
+            print os.path.dirname(path)
+        except OSError as exc:  # Python >2.5
+            if exc.errno == errno.EEXIST and os.path.isdir(path):
+                pass
+            else:
+                raise
+
+    if not os.path.exists(path):
+        os.open(path, 'w').close()
 
 
 def stat():
@@ -68,7 +88,6 @@ def datos_proceso(p, stat_antes, stat_despues, io_antes, io_despues, memoria):
     mac_address,error = mac_address.communicate()
     mac_address = re.search(r'HWaddr\s+(.*).\s+\n', mac_address).group(1)
     tiempo_cpu = stat_despues[p][5] + stat_despues[p][6]  # Falta decidir si agarrar el tiempo de los hijos
-    print totales[0], stat_despues[p][10], Hertz
     segundos = totales[0] - (stat_despues[p][10] / Hertz)
     tasa_cpu = 100 * ((tiempo_cpu / Hertz) / segundos)
     tasa_memoria = 100 * (memoria[p] / totales[2])
@@ -134,6 +153,7 @@ def pid_mem(p, array):
 
 
 def principal(comandos, ajuste):
+    verificar_csv()
     pids = buscar_pids(comandos)
     io_before = defaultdict(dict)
     io_after = defaultdict(dict)
