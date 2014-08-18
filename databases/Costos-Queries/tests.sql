@@ -136,8 +136,17 @@ insert into servicio_costo (servicio_costo_id, servicio_id, costo, fecha_creacio
 
 select s.nombre, c.costo, c.fecha_creacion, nivel_criticidad, mes
 from servicio_costo as c join servicio as s ON (c.servicio_id = s.servicio_id)
-where c.borrado = false and anio = '2014' and mes = '1';
+where c.borrado = false and anio = '2016' and mes = '1';
 
 
 -- --------------------------------
+
+
+-- EVOLUCIÓN DEL MODELO DE COSTOS
+select s.nombre, c.costo, mes
+from servicio_costo as c join servicio as s ON (c.servicio_id = s.servicio_id)
+where c.borrado = false and anio = '2014';
+
+
+
 

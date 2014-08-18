@@ -46,4 +46,23 @@ class Historicos_model extends CI_Model{
 
 		return $result;
 	}//end of function: evol_comp_ti
+
+	/**
+	 * Permite obtener la información relacionada con la Evolución del Modelo de Costos
+	 * de cada servicio.
+	 * @param  integer $year Año
+	 * @return array 
+	 */
+	public function evol_modelo_c($year){
+		$sql = "SELECT s.nombre, c.costo, mes
+				FROM servicio_costo AS c JOIN servicio AS s ON (c.servicio_id = s.servicio_id)
+				WHERE c.borrado = false AND anio = '".$year."';";
+		$q = $this->db->query($sql);
+
+		if($q->num_rows() <= 0){return false;}
+
+		return $q->result_array();
+
+
+	}
 }
