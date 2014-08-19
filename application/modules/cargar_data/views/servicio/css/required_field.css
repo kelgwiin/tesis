@@ -1,0 +1,15 @@
+/* Required field START */
+
+
+.required .control-label:after {
+  
+    font-family:'FontAwesome';
+    font-weight: bold;
+    vertical-align:super;
+    font-size: 7.4px;
+    content:"\f069";
+    color:red;
+
+}
+
+/* Required field END */
