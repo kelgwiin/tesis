@@ -1,0 +1,4 @@
+[variables]
+comandos = chrome,apache2
+intervalo = 5
+ps_mem = False

@@ -56,6 +56,35 @@
 
 ?>
 
+<div class="form-group">
+	<label for=""></label>
+	
+			<div class="col-md-5">
+				<div class = "offset1 span5 well">
+					<?php echo form_label('Servicio Afectado:','serv' ); ?>
+					<?php echo form_dropdown('servic', $servicios) ?>			
+				</div>
+
+				<div class ="offset1 span5 well">
+					<label for="impacto_mejoras">Codigo:</label>
+   					<input type="text" class="input-group" name="codigo" value="<?php echo set_value('codigo'); ?>">
+				</div>
+	
+		
+			</div>
+</div><!-- /form-group -->
+
+
+  <br><br><br>
+
+
+
+  <br><br><br>
+  <br><br><br>
+
+
+
+
 <div class="container">
 		<div class="row">
 			<div class="offset1 span5 well">
@@ -66,10 +95,11 @@
 </div>
 <?php echo form_error('codigo'); ?>
 <form class="form-inline" role="form">
-  <div class="offset1 span5 well">
+  <div class="col-md-3">
     <label for="impacto_mejoras">Codigo de la Incidencia:</label>
     <input type="text" class="form-control" name="codigo" value="<?php echo set_value('codigo'); ?>">
   </div>
+  <br><br><br>
 <?php echo form_error('descripcion'); ?>
 <form class="form-inline" role="form">
   <div class="offset1 span5 well">
@@ -113,13 +143,27 @@
     <input type="text" class="form-control" name="confiabilidad_informacion" value="<?php echo set_value('confiabilidad_informacion'); ?>">
   </div>
      
-<br><br>
+<br>
 
-<center><button type="submit" class="btn btn-primary">Registrar</button></center>
-<?php echo form_close(); ?>
-<br><br>
-<center><input type="button" value="Atras" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/'"/></center>
-<br><br>
+<div class="form-group">
+	<label class="col-md-4 control-label" for=""></label>
+		<div class="col-md-6 col-xs-12">
+			<div class="row">
+				<div class = "col-md-3 col-xs-6">
+					<button id="" type = "submit" class="btn btn-primary">Guardar</button>
+				</div>
+
+			<div class ="col-md-3 col-xs-6">
+				<a 	
+					href="<?php echo base_url(); ?>index.php/Disponibilidad/" 
+					class="btn btn-danger">Cancelar
+				</a>	
+			</div>
+
+		<div class = "col-md-6"></div><!-- Vacío-->
+		</div>
+		</div><!-- /col-md-6-->
+</div><!-- /form-group -->
 
 </body>
 </html>

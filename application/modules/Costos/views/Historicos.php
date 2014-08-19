@@ -77,6 +77,9 @@
 	        $.post( url, dataToSend, fo_proccess,'json');
 		});
 
+		//Evolución de Modelo de Costos
+		
+
 	});
 	
 
@@ -114,28 +117,6 @@
 				method= "post" action = "<?php echo site_url('index.php/Costos/Historicos/evol_modelo_costo');?>">
 				<fieldset>
 					<div class="form-group">
-						<div class = "col-md-3">
-							<select name="mes" id="meses" class="form-control" required="required"
-								data-toggle="tooltip"
-								data-original-title="Seleccione un mes"
-								data-placement = "top"
-
-							>
-								<option value = "1">Enero</option>
-								<option value = "2">Febrero</option>
-								<option value = "3">Marzo</option>
-								<option value = "4">Abril</option>
-								<option value = "5">Mayo</option>
-								<option value = "6">Junio</option>
-								<option value = "7">Julio</option>
-								<option value = "8">Agosto</option>
-								<option value = "9">Septiembre</option>
-								<option value = "10">Octubre</option>
-								<option value = "11">Noviembre</option>
-								<option value = "12">Diciembre</option>
-							</select>
-						</div>
-
 						<div class="col-md-3">
 							<input id="anio_modelo_c" name="anio_modelo_c" type="number"
 								data-toggle="tooltip"

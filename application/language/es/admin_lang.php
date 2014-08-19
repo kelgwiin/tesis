@@ -69,3 +69,10 @@ $lang['perm.hijo_17']							= "Listado de riesgos";
 $lang['perm.hijo_18']							= "Crear riesgos";
 $lang['perm.hijo_19']							= "Modificar riesgos";
 $lang['perm.hijo_20']							= "Eliminar riesgos";
+
+//TIPOS DE COMITE DE PLAN DE CONTINUIDAD DEL NEGOCIO
+$lang['comite.crisis']							= "El <strong>Comité de Crisis</strong> se encarga de realizar un análisis situacional y de acuerdo a los resultados debe tomar la decisión de activación del Plan de Continuidad del negocio.";
+$lang['comite.recuperacion']					= "El <strong>Equipo de Recuperación</strong> debe reestablecer la infraestructura caida o procesos en estado de alerta, lo cual comprende levantamiento de servidores, clientes, comunicaciones en general, entre otros.";
+$lang['comite.logistica']						= "El <strong>Equipo de Logística</strong> debe tener preparado un plan de transporte, suministros de oficina, comida, estadía en hoteles y demás elementos que sean necesarios de acuerdo al nivel de riesgo generado.";
+$lang['comite.rrpp']							= "El <strong>Equipo de RRPP</strong> debe solventar la comunicación con la prensa, socios, clientes y cualquier entidad pública o privada de importancia para la organización";
+$lang['comite.pruebas']							= "El <strong>Equipo de Pruebas</strong> realiza las pruebas a las aplicaciones, servicios y procesos, verificando su nivel de operatividad para la vuelta a la normalidad de la organización";

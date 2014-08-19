@@ -41,7 +41,6 @@
   <!-- Configurations JS -->
     <script src="<?php echo base_url(); ?>assets/front/js/apps/App.js"></script>
 
-
     <!-- Editor de texto -->
     <script src="<?=base_url()?>assets/js/editor_texto/tinymce/js/tinymce/tinymce.min.js"></script>
 
@@ -62,6 +61,33 @@
     <link href="<?=base_url()?>application/modules/cargar_data/views/servicio/css/required_field.css" rel="stylesheet">
 
     <!-- ./ Modulo de Gestion de Servicios-->
+
+    <style>
+	    .steps ul
+	    {
+	        list-style:none;
+	    }
+	
+	    .steps ul li
+	    {
+	        list-style:none;
+	        padding:5px 6px;
+	        border: 2px solid #848484;
+	        display:inline;
+	        border-radius:7px;
+	        font-size:10px;
+	        font-weight:bold;
+	        margin:0;
+	        color:#848484;
+	    }
+	
+	    .steps ul li.active
+	    {
+	        list-style:none;
+	        background:#848484;
+	        color:white;
+	    }
+	</style>
   
 
   </head>

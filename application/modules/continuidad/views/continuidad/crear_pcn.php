@@ -4,6 +4,7 @@
 			<h1>Gestión de Continuidad del Negocio</h1>
 			<?php echo $breadcrumbs ?>
 			<h3>Agregar un nuevo Plan de Continuidad del Negocio</h3>
+			<h4>Datos generales</h4>
 		</div>
 	</div>
 	
@@ -12,9 +13,25 @@
 		<form class="form-horizontal">
 			<fieldset>
 				<?php //echo_pre($departamentos) ?>
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="creacion">Código</label>  
+					<div class="col-md-4">
+						<input name="codigo" type="text" placeholder="Código del PCN" class="form-control input-md"
+							data-toggle="tooltip" data-placement="top" data-original-title="Código del Plan de Continuidad del Negocio" required />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="creacion">Denominación</label>  
+					<div class="col-md-4">
+						<input name="denominacion" type="text" placeholder="Denominación del PCN" class="form-control input-md"
+							data-toggle="tooltip" data-placement="top" data-original-title="Nombre que lleva el Plan de Continuidad del Negocio" required />
+					</div>
+				</div>
+				
 				<!-- Select Basic -->
 				<div class="form-group">
-					<label class="col-md-4 control-label" for="denominacion_riesgo">Denominación</label>
+					<label class="col-md-4 control-label" for="denominacion_riesgo">Riesgo/Amenaza</label>
 					<div class="col-md-4">
 						<select name="id_riesgo" class="form-control">
 							<?php foreach($riesgos as $key => $riesgo) : ?>
@@ -74,27 +91,23 @@
 					</div>
 				</div>
 				
-				<!-- Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="creacion">Fecha de creación</label>  
-					<div class="col-md-4">
-						<input id="creacion" name="creacion" type="text" placeholder="15/03/2014" class="form-control input-md" required="">
-					</div>
-				</div>
-				
-				<!-- Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="modificacion">Fecha de modificación</label>  
-					<div class="col-md-4">
-						<input id="modificacion" name="modificacion" type="text" placeholder="02/07/2014" class="form-control input-md" required="">
-					</div>
-				</div>
+				<div class="form-group" style="margin-top: 25px">
+					<label class="col-md-4 control-label" ></label>
+					<div class="col-md-2 col-md-offset-1">
+						<div class="steps">
+			                <ul>
+			                    <li class="active">1</li>
+			                    <li>2</li>
+			                </ul>
+			            </div>
+		            </div>
+	            </div>
 				
 				<!-- Button -->
 				<div class="form-group">
 					<label class="col-md-4 control-label" for=""></label>
-					<div class="col-md-4">
-						<button id="" name="" class="btn btn-success">Crear nuevo PCN</button>
+					<div class="col-md-4 col-md-offset-3">
+						<button class="btn btn-success">Siguiente <i class="fa fa-arrow-right"></i></button>
 					</div>
 				</div>
 			

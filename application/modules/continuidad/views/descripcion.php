@@ -8,33 +8,6 @@
 		?>
 	</div>
 	<div class="row">
-		<div class="col-lg-2"></div>
-		<div class="col-lg-4">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-6">
-							<i class="fa fa-th-list fa-5x"></i>
-						</div>
-						<div class="col-xs-6 text-center">
-							<p class="announcement-text">Listado de Planes de Continuidad del Negocio</p>
-						</div>
-					</div>
-				</div>
-				<a href="<?php echo site_url('index.php/continuidad/seleccionar_listado') ?>">
-					<div class="panel-footer announcement-bottom">
-						<div class="row">
-							<div class="col-xs-6">
-								Examinar
-							</div>
-							<div class="col-xs-6 text-right">
-								<i class="fa fa-arrow-circle-right"></i>
-							</div>
-						</div>
-					</div>
-				</a>
-			</div>
-		</div>
 		<div class="col-lg-4">
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -61,6 +34,57 @@
 				</a>
 			</div>
 		</div>
-		<div class="col-lg-2"></div>
+		<div class="col-lg-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<i class="fa fa-user fa-5x"></i>
+						</div>
+						<div class="col-xs-6 text-center">
+							<p class="announcement-text">Creación de equipos para el desarrollo de los PCN</p>
+						</div>
+					</div>
+				</div>
+				<a href="<?php echo site_url('index.php/continuidad/equipos') ?>">
+					<div class="panel-footer announcement-bottom">
+						<div class="row">
+							<div class="col-xs-6">
+								Examinar
+							</div>
+							<div class="col-xs-6 text-right">
+								<i class="fa fa-arrow-circle-right"></i>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<i class="fa fa-th-list fa-5x"></i>
+						</div>
+						<div class="col-xs-6 text-center">
+							<p class="announcement-text">Listado de Planes de Continuidad del Negocio</p>
+						</div>
+					</div>
+				</div>
+				<a href="<?php echo site_url('index.php/continuidad/seleccionar_listado') ?>">
+					<div class="panel-footer announcement-bottom">
+						<div class="row">
+							<div class="col-xs-6">
+								Examinar
+							</div>
+							<div class="col-xs-6 text-right">
+								<i class="fa fa-arrow-circle-right"></i>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
 	</div>
 </div>
