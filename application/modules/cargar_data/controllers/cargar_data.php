@@ -846,7 +846,7 @@ class Cargar_Data extends MX_Controller
 
             	if($id_proceso)
 	            	{
-	            		$this->session->set_flashdata('Success', 'El Proceso de Negocio ha sido Modificado con Éxito');
+	            		$this->session->set_flashdata('Success', 'El Proceso de Negocio ha sido Actualizado con Éxito');
 	            		redirect(site_url('index.php/cargar_datos/procesos_de_negocio'));
 	            	}
 	            	
@@ -874,6 +874,19 @@ class Cargar_Data extends MX_Controller
 		$this->general->delete('proceso_negocio',array('procesoneg_id'=>$id_proceso));
 		$this->session->set_flashdata('Success', 'El Proceso de Negocio ha sido Eliminado con Éxito');
 		redirect(site_url('index.php/cargar_datos/procesos_de_negocio'));
+	}
+
+	public function eliminarProcesosNegocio(){
+
+		$this->load->model('general/general_model','general');
+		$procesos_id = $this->input->post('proceso_id');
+		foreach ($procesos_id as $proceso) {		    
+			    
+			    $this->general->delete('proceso_negocio',array('procesoneg_id'=>$proceso));
+		}
+		
+		$this->session->set_flashdata('Success', 'Los Procesos de Negocio han sido Eliminados con Éxito');
+		
 	}
 
 

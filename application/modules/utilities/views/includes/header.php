@@ -32,8 +32,8 @@
     
     <!-- Page Specific Plugins -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/raphael-min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/tables.js"></script>
+   <!--  <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/tables.js"></script> -->
     <script src="<?php echo base_url(); ?>assets/front/highcharts/highcharts.js"></script>
 	<script src="<?php echo base_url(); ?>assets/front/highcharts/exporting.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/jquery.mask.js"></script>

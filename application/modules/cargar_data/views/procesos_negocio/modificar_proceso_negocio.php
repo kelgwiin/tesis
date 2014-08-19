@@ -7,7 +7,7 @@
 	</div>
 
 	<div class="panel panel-default">
-		<div class="panel-heading"> <i class="fa fa-building-o"></i> Proceso de Negocio - Modificar</div>
+		<div class="panel-heading"> <i class="fa fa-building-o"></i> Proceso de Negocio - Actualizar</div>
 		<br>
 		 <?php
 		 // Apertura de Formulario
@@ -135,7 +135,7 @@
 		      
 		      </div>
 		      <div class="modal-body text-center">
-		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Modificar</b> este Proceso de Negocio?</div></p>
+		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Actualizar</b> este Proceso de Negocio?</div></p>
 		      </div>
 		      <div class="modal-footer">
 		      	<button type="submit" class="btn btn-warning">Actualizar</button>
