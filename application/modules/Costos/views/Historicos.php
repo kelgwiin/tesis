@@ -78,7 +78,91 @@
 		});
 
 		//Evolución de Modelo de Costos
-		
+		$('form#fr_evol_modelo_costo').on('submit',function(event){
+		    event.preventDefault();
+		    // store reference to the form
+		    var bk_this = $(this);
+
+		    // grab the url from the form element
+		    var url = bk_this.attr('action');
+		        
+		    //Obteniendo la data del form
+		    var dataToSend = bk_this.serialize();
+
+		    fo_proccess = function(data){
+		    	if(data.estatus == "ok"){
+		    		$('div#msj_modelo_costo').attr('class','alert alert-danger alert-dismissable hidden');
+		    	
+		    		//Inicializando los costos
+		    		costos = new Array();
+		    		for (var i = 1; i <= 12; i++) {
+		    			costos.push(0);	
+		    		}
+		    		var data_processed = new Array();
+		    		cad = '';
+		    		for (j = 0; j < data.data.length; j++) {
+		    			//Inicializando los meses por cada servicio
+		    			mes_costos = costos;
+
+		    			name_serv = data.data[j].name;
+		    			months = data.data[j].months;
+
+		    			for (var k = 0; k < months.length; k++) {
+		    				m = parseInt(months[k]['month']);
+		    				m-= 1;
+		    				c = months[k]['cost'];
+		    				mes_costos[m] = c;
+		    			};
+		    			data_processed.push({name:name_serv, data: mes_costos});
+		    		}
+
+
+		    		
+		    		$('div#modelo_costo').highcharts({
+		    		    title: {
+		    		        text: 'Costos de cada servicio de TI',
+		    		        x: -20 //center
+		    		    },
+		    		    subtitle: {
+		    		        text: 'Incluye los costos indirectos, los cuales fueron prorrateados',
+		    		        x: -20
+		    		    },
+		    		    xAxis: {
+		    		        categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+		    		            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+		    		    },
+		    		    yAxis: {
+		    		        title: {
+		    		            text: 'Moneda: ' + $('label#moneda').attr('data-moneda')
+		    		        },
+		    		        plotLines: [{
+		    		            value: 0,
+		    		            width: 1,
+		    		            color: '#808080'
+		    		        }]
+		    		    },
+		    		    tooltip: {
+		    		        valueSuffix: $('label#moneda').attr('data-abrev')
+		    		    },
+		    		    legend: {
+		    		        layout: 'vertical',
+		    		        align: 'right',
+		    		        verticalAlign: 'middle',
+		    		        borderWidth: 0
+		    		    },
+		    		    series: data_processed
+
+		    		});
+
+
+		    	}else{
+		    		$('div#msj_comp_ti').attr('class','alert alert-danger alert-dismissable show');
+		    	}
+		    }//end of function: fo_proccess
+
+		    //Haciendo la llamada post desde ajax
+	        $.post( url, dataToSend, fo_proccess,'json');
+		});
 
 	});
 	
@@ -114,7 +198,7 @@
 	<div class = "row">
 		<div class = "col-md-12">
 			<form id = "fr_evol_modelo_costo" role = "form" 
-				method= "post" action = "<?php echo site_url('index.php/Costos/Historicos/evol_modelo_costo');?>">
+				method = "post" action = "<?php echo site_url('index.php/Costos/Historicos/evol_modelo_costo');?>">
 				<fieldset>
 					<div class="form-group">
 						<div class="col-md-3">

@@ -105,13 +105,13 @@ class Costos extends MX_Controller
 			case 'evol_modelo_costo':
 				$year = $this->input->post('anio_modelo_c');
 				$info = $this->historicos_model->evol_modelo_c($year);
-				echo_pre($info);
-				/*if($info){
+				
+				if($info){
 					$data = array('data'=>$info, 'estatus'=>"ok");
 				}else{
 					$data = array('estatus'=>"fail");
 				}
-				echo json_encode($data);*/
+				echo json_encode($data);
 				break;
 		}
 	}	
