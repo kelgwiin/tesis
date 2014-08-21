@@ -19,7 +19,7 @@
 		    		
 		    		//Inicializando los costos
 		    		var costos;
-		    		costos = new Array();
+		    		costos = [];
 		    		for (var i = 1; i <= 12; i++) {
 		    			costos.push(0);	
 		    		}
@@ -27,7 +27,7 @@
 		    		for (var j = 0; j < data.data.length; j++) {
 		    			mes = data.data[j]['month'];
 		    			mes = parseInt(mes-1);
-		    			costos[mes] = data.data[j]['monto'];
+		    			costos[mes] = parseFloat(data.data[j]['monto']);
 		    		}
 
 		    		$('div#comp_ti').highcharts({
@@ -89,34 +89,36 @@
 		    //Obteniendo la data del form
 		    var dataToSend = bk_this.serialize();
 
-		    fo_proccess = function(data){
-		    	if(data.estatus == "ok"){
+		    fo_proccess = function(data_inf){
+		    	if(data_inf.estatus == "ok"){
 		    		$('div#msj_modelo_costo').attr('class','alert alert-danger alert-dismissable hidden');
 		    	
 		    		//Inicializando los costos
-		    		costos = new Array();
+		    		costos = [];
 		    		for (var i = 1; i <= 12; i++) {
 		    			costos.push(0);	
 		    		}
-		    		var data_processed = new Array();
+		    		var data_processed = [];
 		    		cad = '';
-		    		for (j = 0; j < data.data.length; j++) {
+		    		for (j = 0; j < data_inf.data.length; j++) {
 		    			//Inicializando los meses por cada servicio
-		    			mes_costos = costos;
+		    			mes_costos = [];
+		    			for (var ii = 1; ii <= 12; ii++) {
+		    				mes_costos.push(0);	
+		    			}
 
-		    			name_serv = data.data[j].name;
-		    			months = data.data[j].months;
+		    			name_serv = data_inf.data[j].name;
+		    			months = data_inf.data[j].months;
 
 		    			for (var k = 0; k < months.length; k++) {
 		    				m = parseInt(months[k]['month']);
 		    				m-= 1;
-		    				c = months[k]['cost'];
+		    				c =  parseFloat(months[k]['cost']);
 		    				mes_costos[m] = c;
 		    			};
+		    			
 		    			data_processed.push({name:name_serv, data: mes_costos});
-		    		}
-
-
+		    		};
 		    		
 		    		$('div#modelo_costo').highcharts({
 		    		    title: {
@@ -154,9 +156,8 @@
 
 		    		});
 
-
 		    	}else{
-		    		$('div#msj_comp_ti').attr('class','alert alert-danger alert-dismissable show');
+		    		$('div#msj_modelo_costo').attr('class','alert alert-danger alert-dismissable show');
 		    	}
 		    }//end of function: fo_proccess
 
