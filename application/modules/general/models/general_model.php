@@ -99,4 +99,21 @@ class General_model extends CI_Model
 		}
 		return FALSE;
 	}
+
+
+		public function update2($table,$data,$where)
+	{
+		$query = $this->db->get_where($table,$where);
+		if($query->num_rows() != 0)
+		{
+			$query = (array)$query->row();
+			foreach($data as $key => $value)
+			{
+				$new_data[$key] = $value;
+			}
+			$this->db->update($table,$new_data,$where);
+			return TRUE;
+		}
+		return FALSE;
+	}
 }

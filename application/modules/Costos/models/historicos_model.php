@@ -46,4 +46,45 @@ class Historicos_model extends CI_Model{
 
 		return $result;
 	}//end of function: evol_comp_ti
+
+	/**
+	 * Permite obtener la información relacionada con la Evolución del Modelo de Costos
+	 * de cada servicio.
+	 * @param  integer $year Año
+	 * @return array 
+	 */
+	public function evol_modelo_c($year){
+		$sql = "SELECT c.servicio_id, s.nombre, c.costo, mes
+				FROM servicio_costo AS c JOIN servicio AS s ON (c.servicio_id = s.servicio_id)
+				WHERE c.borrado = false AND anio = '".$year."'
+				ORDER BY c.servicio_id;";
+		$q = $this->db->query($sql);
+
+		if($q->num_rows() <= 0){return false;}
+
+		$data = array();
+		$idx_months = array();
+		foreach ($q->result_array() as $row) {
+			$data[$row['servicio_id']]['name'] = $row['nombre'];
+			$data[$row['servicio_id']]['servicio_id'] = $row['servicio_id'];
+			
+			//Para verificar lo de los índices de los meses
+			if(!isset($idx_months[$row['servicio_id']])){
+				$idx_months[$row['servicio_id']] = 0;
+			}else{
+				$idx_months[$row['servicio_id']] += 1;
+			}
+			$idx_m = $idx_months[$row['servicio_id']];
+
+			$data[$row['servicio_id']]['months'][$idx_m]['cost'] = $row['costo'];
+			$data[$row['servicio_id']]['months'][$idx_m]['month'] = $row['mes'];
+		}
+		$data_final = array();
+		foreach ($data as $value) {
+			$data_final[] = $value;
+		}
+		return $data_final;
+
+
+	}
 }

@@ -84,7 +84,7 @@ class Costos extends MX_Controller
 					'two_level');
 				break;
 
-			//Ajax
+			//Ajax: Evolución de los Componentes de TI
 			case 'evol_comp_ti':
 				$year = $this->input->post('anio_comp_ti');
 
@@ -101,9 +101,17 @@ class Costos extends MX_Controller
 
 				break;
 
-			//Ajax
+			//Ajax: Evolución del Modelo de Costo asociado a los servicios de TI
 			case 'evol_modelo_costo':
-				echo "hola modelo ";
+				$year = $this->input->post('anio_modelo_c');
+				$info = $this->historicos_model->evol_modelo_c($year);
+				
+				if($info){
+					$data = array('data'=>$info, 'estatus'=>"ok");
+				}else{
+					$data = array('estatus'=>"fail");
+				}
+				echo json_encode($data);
 				break;
 		}
 	}	

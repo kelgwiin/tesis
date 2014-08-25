@@ -33,15 +33,36 @@
     
     <!-- Page Specific Plugins -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/raphael-min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/tables.js"></script>
+   <!--  <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/tables.js"></script> -->
     <script src="<?php echo base_url(); ?>assets/front/highcharts/highcharts.js"></script>
 	<script src="<?php echo base_url(); ?>assets/front/highcharts/exporting.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/jquery.mask.js"></script>
   
   <!-- Configurations JS -->
     <script src="<?php echo base_url(); ?>assets/front/js/apps/App.js"></script>
+
+    <!-- Editor de texto -->
+    <script src="<?=base_url()?>assets/js/editor_texto/tinymce/js/tinymce/tinymce.min.js"></script>
+
+    <!-- Procesos de Negocio -->
+    <script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/procesos_negocio/js/operaciones_ajax.js"></script>
+    <!-- ./ Procesos de Negocio -->
+
     
+    <!-- Modulo de Gestion de Niveles de Servicios-->
+    <script type="text/javascript">
+
+         var config = {
+            base: "<?php echo base_url(); ?>",
+            
+            };
+    </script>
+
+    <link href="<?=base_url()?>application/modules/cargar_data/views/servicio/css/required_field.css" rel="stylesheet">
+
+    <!-- ./ Modulo de Gestion de Servicios-->
+
     <style>
 	    .steps ul
 	    {

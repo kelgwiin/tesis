@@ -379,107 +379,8 @@ class Datos_basicos_model extends CI_Model {
         }
         return $st_dpto && $st_inv && $st_inv_comp;
     }
-    /**
-     * Guarda el servicio en conjunto con: los Cronogramas de Ejecución, 
-     * los Umbrales y los Procesos asociados.
-     * 
-     * @param Array $data Contiene la siguiente forma.
-     *    Array(
-     *    'nombre'=> String,
-     *    'tipo_servicio'=>String,
-     *    'genera_ingresos'=>Boolean,
-     *    'monto'=>Integer,
-     *    'descripcion'=>String,
-     *    'list_cronogramas'=> Array *,
-     *    'list_umbrales'=> Array **,
-     *    'list_procesos'=> Array ***
-     * )   
-     * 
-     * [*] Cada item es de la siguiente forma:
-     *     Array(
-     *         'nombre'=>String,
-     *         'horario_desde'=>String,
-     *         'horaio_hasta'=>String,
-     *         'list_comandos_operaciones'=>Array('comando' => String,'operacion'=>String)
-     * )
-     * 
-     * [**] Cada item es de la siguiente forma:
-     *     Array(
-     *         'descripcion'=>String,
-     *         'tiempo_acordado'=>String,
-     *         'medida_tiempo'=>String,
-     *         'valor'=>Integer
-     *     )
-     * 
-     * [***] Cada item es de la siguiente forma:
-     *     Array(
-     *         'nombre'=>String,
-     *         'descripcion'=>String,
-     *         'tipo'=>String
-     *     )
-     */
-    public function add_servicio($data){
-        //Agregando el servicio
-        $date = date('Y-m-d H:i:s',now());
-        $data_serv = array(
-            'nombre'=>$data['nombre'],
-            'descripcion'=>$data['descripcion'],
-            'fecha_creacion'=>$date,
-            'tipo'=>$data['tipo_servicio'],
-            'genera_ingresos'=>($data['genera_ingresos']=='true'?true:false),
-            'cantidad_ingresos'=>$data['monto']
-        );
-        $st_servicio = $this->utilities_model->add($data_serv,'servicio');
-        $serv_id = $this->db->insert_id();//id del último campo insertado
+  
 
-        //Cronogramas de Ejecución
-        foreach ($data['list_cronogramas_ejecucion'] as $item) {
-            //Tarea (Cronograma)
-            $data_tarea = array(
-                'servicio_id'=>$serv_id,
-                'descripcion'=>$item['descripcion'],
-                'horario_desde'=>$item['horario_desde'],
-                'horario_hasta'=>$item['horario_hasta']
-            );
-            $st_tarea = $this->utilities_model->add($data_tarea,'tarea');
-            $tarea_id = $this->db->insert_id();//id de la tarea insertada
-
-            //Tarea Detalle (Comandos & Operaciones )
-            foreach ($item['list_comandos_operaciones'] as $item_co) {
-                $data_tdet = array(
-                    'tarea_id'=>$tarea_id,
-                    'operacion'=>$item_co['operacion'],
-                    'comando'=>$item_co['comando']
-                );
-                $this->utilities_model->add($data_tdet,'tarea_detalle');
-            }
-        }//end of: foreach Cronogramas de Ejecución
-
-        //Umbrales
-        foreach ($data['list_umbrales'] as $item) {
-            $data_umb = array(
-                'servicio_id'=>$serv_id,
-                'descripcion'=>$item['descripcion'],
-                'tiempo_acordado'=>$item['tiempo_acordado'],
-                'medida'=>$item['medida_tiempo'],
-                'valor'=>$item['valor']
-            );
-            $st_umb = $this->utilities_model->add($data_umb,'umbral');
-        }
-
-        //Procesos (servicio_proceso)
-        foreach ($data['list_procesos'] as $item) {
-            $data_pro = array (
-                'servicio_id'=>$serv_id,
-                'nombre'=>$item['nombre'],
-                'descripcion'=>$item['descripcion'],
-                'tipo'=>$item['tipo']
-            );
-            $st_pro = $this->utilities_model->add($data_pro,'servicio_proceso');
-        }
-
-        return $st_servicio && $st_tarea && $st_umb && $st_pro;
-    }
     /**
      * Devuelve una lista con los nombre de procesos repetidos en la tabla 'servicio_proceso'
      * @param  Array $l_nom Lista de los nombre de los procesos a verificar.
@@ -570,6 +471,126 @@ class Datos_basicos_model extends CI_Model {
 
     }
 
+    
+
+    public function get_personal_bydepto($id_departamento = '')
+    {
+        if(!empty($id_departamento))
+        {
+            $this->db->select('personal.*, departamento.nombre as nombre_dpto, departamento.icono_fa');
+            $this->db->where('personal.id_departamento',$id_departamento);
+            $this->db->join('departamento','departamento.departamento_id = personal.id_departamento','left');
+            $query = $this->db->get('personal')->result();
+            return $query;
+        }
+        return FALSE;
+    }
+
+
+      /**
+     * Guarda el servicio en conjunto con: los Cronogramas de Ejecución, 
+     * los Umbrales y los Procesos asociados.
+     * 
+     * @param Array $data Contiene la siguiente forma.
+     *    Array(
+     *    'nombre'=> String,
+     *    'tipo_servicio'=>String,
+     *    'genera_ingresos'=>Boolean,
+     *    'monto'=>Integer,
+     *    'descripcion'=>String,
+     *    'list_cronogramas'=> Array *,
+     *    'list_umbrales'=> Array **,
+     *    'list_procesos'=> Array ***
+     * )   
+     * 
+     * [*] Cada item es de la siguiente forma:
+     *     Array(
+     *         'nombre'=>String,
+     *         'horario_desde'=>String,
+     *         'horaio_hasta'=>String,
+     *         'list_comandos_operaciones'=>Array('comando' => String,'operacion'=>String)
+     * )
+     * 
+     * [**] Cada item es de la siguiente forma:
+     *     Array(
+     *         'descripcion'=>String,
+     *         'tiempo_acordado'=>String,
+     *         'medida_tiempo'=>String,
+     *         'valor'=>Integer
+     *     )
+     * 
+     * [***] Cada item es de la siguiente forma:
+     *     Array(
+     *         'nombre'=>String,
+     *         'descripcion'=>String,
+     *         'tipo'=>String
+     *     )
+     */
+
+    /*
+    public function add_servicio($data){
+        //Agregando el servicio
+        $date = date('Y-m-d H:i:s',now());
+        $data_serv = array(
+            'nombre'=>$data['nombre'],
+            'descripcion'=>$data['descripcion'],
+            'fecha_creacion'=>$date,
+            'tipo'=>$data['tipo_servicio'],
+            'genera_ingresos'=>($data['genera_ingresos']=='true'?true:false),
+            'cantidad_ingresos'=>$data['monto']
+        );
+        $st_servicio = $this->utilities_model->add($data_serv,'servicio');
+        $serv_id = $this->db->insert_id();//id del último campo insertado
+
+        //Cronogramas de Ejecución
+        foreach ($data['list_cronogramas_ejecucion'] as $item) {
+            //Tarea (Cronograma)
+            $data_tarea = array(
+                'servicio_id'=>$serv_id,
+                'descripcion'=>$item['descripcion'],
+                'horario_desde'=>$item['horario_desde'],
+                'horario_hasta'=>$item['horario_hasta']
+            );
+            $st_tarea = $this->utilities_model->add($data_tarea,'tarea');
+            $tarea_id = $this->db->insert_id();//id de la tarea insertada
+
+            //Tarea Detalle (Comandos & Operaciones )
+            foreach ($item['list_comandos_operaciones'] as $item_co) {
+                $data_tdet = array(
+                    'tarea_id'=>$tarea_id,
+                    'operacion'=>$item_co['operacion'],
+                    'comando'=>$item_co['comando']
+                );
+                $this->utilities_model->add($data_tdet,'tarea_detalle');
+            }
+        }//end of: foreach Cronogramas de Ejecución
+
+        //Umbrales
+        foreach ($data['list_umbrales'] as $item) {
+            $data_umb = array(
+                'servicio_id'=>$serv_id,
+                'descripcion'=>$item['descripcion'],
+                'tiempo_acordado'=>$item['tiempo_acordado'],
+                'medida'=>$item['medida_tiempo'],
+                'valor'=>$item['valor']
+            );
+            $st_umb = $this->utilities_model->add($data_umb,'umbral');
+        }
+
+        //Procesos (servicio_proceso)
+        foreach ($data['list_procesos'] as $item) {
+            $data_pro = array (
+                'servicio_id'=>$serv_id,
+                'nombre'=>$item['nombre'],
+                'descripcion'=>$item['descripcion'],
+                'tipo'=>$item['tipo']
+            );
+            $st_pro = $this->utilities_model->add($data_pro,'servicio_proceso');
+        }
+
+        return $st_servicio && $st_tarea && $st_umb && $st_pro;
+    }*/
+
     /**
      * Obtiene todos los Servicios en conjunto con: los Cronogramas de Ejecución (tareas),
      * Umbrales y Procesos.
@@ -620,6 +641,7 @@ class Datos_basicos_model extends CI_Model {
      *         'descripcion' => String 
      *     )
      */
+    /*
     public function all_servicio($data_filtro=NULL){
         if(!isset($data_filtro)){// Si son las opciones de filtrado
             $sql = 'SELECT servicio_id, nombre, descripcion, fecha_creacion, 
@@ -716,7 +738,7 @@ class Datos_basicos_model extends CI_Model {
         }
         return array('data'=> $resp,'total_rows'=>$q->num_rows());
     }
-
+    */
     /**
      * Obtiene la información del servicio en conjunto con la info asociada a 
      * siguientes tablas 'tarea', 'tarea_detalle', 'umbral' y 'servicio_proceso'.
@@ -734,6 +756,7 @@ class Datos_basicos_model extends CI_Model {
      * del método 'all_servicio'.
      *     
      */
+    /*
     public function servicio_info_by_id($servicio_id){
         //Servicio
         $s = $this->utilities_model->row_by_id('servicio','servicio_id',$servicio_id);
@@ -777,7 +800,7 @@ class Datos_basicos_model extends CI_Model {
         $resp['list_proceso'] = $q_pro->result_array();
 
         return $resp;
-    }
+    }*/
     /**
      * Actualiza el servicio  y elimina lógicamente los elementos necesarios.
      * @param  Array $p Contiene la siguiente estructura
@@ -799,6 +822,7 @@ class Datos_basicos_model extends CI_Model {
      * )
      * @return Boolean TRUE|FALSE Dependiendo de se actualiza o no con éxito los campos.
      */
+    /*
     public function update_servicio($data){
         $st_tarea = TRUE;
         $st_umb = TRUE;
@@ -976,20 +1000,7 @@ class Datos_basicos_model extends CI_Model {
 
         return $st_servicio && $st_tarea && $st_tarea_act && $st_umb && $st_umb_act && 
         $st_pro && $st_pro_act;
-    }
-
-	public function get_personal_bydepto($id_departamento = '')
-	{
-		if(!empty($id_departamento))
-		{
-			$this->db->select('personal.*, departamento.nombre as nombre_dpto, departamento.icono_fa');
-			$this->db->where('personal.id_departamento',$id_departamento);
-			$this->db->join('departamento','departamento.departamento_id = personal.id_departamento','left');
-			$query = $this->db->get('personal')->result();
-			return $query;
-		}
-		return FALSE;
-	}
+    }*/
 
 } // /class Datos_basicos_model.php
 //Location: ./modules/cargar_data/datos_basicos_model.php

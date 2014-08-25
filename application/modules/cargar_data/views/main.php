@@ -114,11 +114,11 @@
 										<i class="fa fa-list fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Cargar Servicios</p>
+										<p class="announcement-text">Gestionar Servicios</p>
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('index.php/cargar_datos/servicios/1');?>/">
+							<a href="<?php echo site_url('index.php/cargar_datos/servicios');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -165,6 +165,34 @@
 						</div>
 					</div>
 
+						<!-- Procesos de Negocio-->
+					<div class="col-lg-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-6">
+										<i class="fa fa-building-o fa-5x"></i>
+									</div>
+									<div class="col-xs-6 text-center">
+										<p class="announcement-text"> Gestionar Procesos de Negocio</p>
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio');?>">
+								<div class="panel-footer announcement-bottom">
+									<div class="row">
+										<div class="col-xs-6">
+											Examinar
+										</div>
+										<div class="col-xs-6 text-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
 					<!-- Documentación-->
 					<div class="col-lg-3"> <!-- avanza 9 columnas hacia la derecha con el offset-->
 						<div class="panel panel-info">
@@ -192,6 +220,8 @@
 							</a>
 						</div>
 					</div>
+
+
 					
 					<!-- Módulos-->
 					<div class="col-lg-3">
