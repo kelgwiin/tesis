@@ -10,11 +10,17 @@
 	
 	<div class="row" style="margin-top: 25px">
 
-		<form class="form-horizontal">
+		<form class="form-horizontal" method="post" action="<?php echo site_url('index.php/continuidad/crear_pcn/'.$valoracion) ?>">
 			<fieldset>
 				<?php //echo_pre($departamentos) ?>
 <!-- PANEL DE DATOS GENERALES -->
 				<div id="datos-generales">
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<?php echo form_error('codigo') ?>
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="creacion">Código</label>  
 						<div class="col-md-4">
@@ -23,6 +29,12 @@
 						</div>
 					</div>
 					
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<?php echo form_error('denominacion') ?>
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="creacion">Denominación</label>  
 						<div class="col-md-4">
@@ -68,15 +80,15 @@
 					
 					<!-- Multiple Radios (inline) -->
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="tipo_pcn">Tipo de PCN</label>
+						<label class="col-md-4 control-label" for="tipo_plan">Tipo de PCN</label>
 						<div class="col-md-6"> 
-							<label class="radio-inline" for="tipo_pcn-0">
-								<input type="radio" name="tipo_pcn" id="tipo_pcn-0" value="1" checked="checked">
-								Reactivo
-							</label> 
 							<label class="radio-inline" for="tipo_pcn-1">
-								<input type="radio" name="tipo_pcn" id="tipo_pcn-1" value="2">
+								<input type="radio" name="tipo_plan" id="tipo_plan-1" value="proactivo" checked="checked">
 								Proactivo
+							</label>
+							<label class="radio-inline" for="tipo_pcn-0">
+								<input type="radio" name="tipo_plan" id="tipo_plan-0" value="reactivo">
+								Reactivo
 							</label>
 						</div>
 					</div>
@@ -121,7 +133,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="crisis">Comité de crisis</label>
 						<div class="col-md-4">
-							<select name="crisis" class="form-control" style="font-size: 12px">
+							<select name="id_crisis" class="form-control" style="font-size: 12px">
 								<?php foreach($crisis as $key => $cri) : ?>
 									<?php $teamname = '' ?>
 									<option value="<?php echo $cri->id_equipo ?>">
@@ -139,7 +151,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="recuperacion">Equipo de recuperación</label>
 						<div class="col-md-4">
-							<select name="recuperacion" class="form-control" style="font-size: 12px">
+							<select name="id_recuperacion" class="form-control" style="font-size: 12px">
 								<?php foreach($recuperacion as $key => $rec) : ?>
 									<?php $teamname = '' ?>
 									<option value="<?php echo $rec->id_equipo ?>">
@@ -157,7 +169,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="logistica">Equipo de logística</label>
 						<div class="col-md-4">
-							<select name="logistica" class="form-control" style="font-size: 12px">
+							<select name="id_logistica" class="form-control" style="font-size: 12px">
 								<?php foreach($logistica as $key => $log) : ?>
 									<?php $teamname = '' ?>
 									<option value="<?php echo $log->id_equipo ?>">
@@ -175,7 +187,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="rrpp">Equipo de RRPP</label>
 						<div class="col-md-4">
-							<select name="rrpp" class="form-control" style="font-size: 12px">
+							<select name="id_rrpp" class="form-control" style="font-size: 12px">
 								<?php foreach($rrpp as $key => $rrp) : ?>
 									<?php $teamname = '' ?>
 									<option value="<?php echo $rrp->id_equipo ?>">
@@ -193,7 +205,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="pruebas">Equipo de pruebas</label>
 						<div class="col-md-4">
-							<select name="pruebas" class="form-control" style="font-size: 12px">
+							<select name="id_pruebas" class="form-control" style="font-size: 12px">
 								<?php foreach($pruebas as $key => $prueba) : ?>
 									<?php $teamname = '' ?>
 									<option value="<?php echo $prueba->id_equipo ?>">

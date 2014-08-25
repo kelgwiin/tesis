@@ -12,6 +12,7 @@ class Continuidad extends MX_Controller
 		parent::__construct();
 		$this->load->module('utilities/utils');
 		$this->load->model('gestionriesgos_model','riesgos');
+		$this->load->model('general/general_model','general');
 	}
 	
 	// FUNCIONES Y VARIABLES PRIVADAS DEL CONTROLADOR
@@ -185,9 +186,36 @@ class Continuidad extends MX_Controller
 		(
 			base_url() => 'Inicio',
 			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
-			base_url().'index.php/continuidad/listado_pcn' => 'Listado de PCN',
+			base_url().'index.php/continuidad/seleccionar_listado' => 'Seleccionar Listado',
+			base_url().'index.php/continuidad/listado_pcn/'.$valoracion => 'Listado de PCN',
 			'#' => 'Crear PCN'
 		);
+		
+		if($_POST)
+		{
+			$post = $_POST;
+			// DELIMITADOR DE ERROR DEL FORM VALIDATION
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
+			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+			
+			// REGLAS DEL FORM VALIDATION
+			$this->form_validation->set_rules('codigo','<strong>Código</strong>','required|xss_clean|is_unique[plan_continuidad.codigo]');
+			$this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean');
+			$this->form_validation->set_message('is_unique', 'El %s que intenta crear ya se encuentra almacenado en la base de datos');
+			
+			if($this->form_validation->run($this))
+			{
+				$post['fecha_creacion'] = date('Y-m-d H:i:s');
+				if($this->general->insert('plan_continuidad',$post))
+					$this->session->set_flashdata('alert_success','Nuevo Plan de Continuidad del Negocio creado con éxito');
+				else
+					$this->session->set_flashdata('alert_error','Hubo un error al intentar crear el Plan de  Continuidad del Negocio, por favor intente de nuevo o contacte a su administrador');
+				
+				redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
+			}
+		}
+		
+		$view['valoracion'] = $valoracion;
 		$view['crisis'] = $this->riesgos->get_allteams(array('e.id_tipo'=>1));
 		$view['recuperacion'] = $this->riesgos->get_allteams(array('e.id_tipo'=>2));
 		$view['logistica'] = $this->riesgos->get_allteams(array('e.id_tipo'=>3));
