@@ -179,6 +179,7 @@ class Continuidad extends MX_Controller
 		// $permiso = modules::run('general/have_permission', 1);
 		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
 		// $view['nivel'] = 1;
+		$this->load->helper('text');
 		
 		$breadcrumbs = array
 		(
@@ -187,6 +188,11 @@ class Continuidad extends MX_Controller
 			base_url().'index.php/continuidad/listado_pcn' => 'Listado de PCN',
 			'#' => 'Crear PCN'
 		);
+		$view['crisis'] = $this->riesgos->get_allteams(array('e.id_tipo'=>1));
+		$view['recuperacion'] = $this->riesgos->get_allteams(array('e.id_tipo'=>2));
+		$view['logistica'] = $this->riesgos->get_allteams(array('e.id_tipo'=>3));
+		$view['rrpp'] = $this->riesgos->get_allteams(array('e.id_tipo'=>4));
+		$view['pruebas'] = $this->riesgos->get_allteams(array('e.id_tipo'=>5));
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		$view['riesgos'] = $this->riesgos->get_allrisks(array('riesgos_amenazas.valoracion'=>$valoracion));
 		$view['departamentos'] = $this->general->get_table('departamento');

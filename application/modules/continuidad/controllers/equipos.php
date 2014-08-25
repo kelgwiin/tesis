@@ -12,6 +12,7 @@ class Equipos extends MX_Controller
 		parent::__construct();
 		$this->load->module('utilities/utils');
 		$this->load->model('gestionriesgos_model','riesgos');
+		$this->load->model('general/general_model','general');
 		$this->lang->load('admin');
 	}
 	
@@ -119,6 +120,12 @@ class Equipos extends MX_Controller
 	{
 		$message = "El equipo que intenta eliminar no se encuentra almacenado en la base de datos";
 		modules::run('general/exist_index', 'equipo_pcn', array('id_equipo'=>$id_equipo), 'index.php/continuidad/equipos', $message);
+		$where = array('id_equipo' => $id_equipo);
+		if($this->general->delete('equipo_pcn',$where))
+			$this->session->set_flashdata('alert_success','Equipo de eliminado exitósamente');
+		else
+			$this->session->set_flashdata('alert_error','Hubo un error eliminando el equipo, por favor intente de nuevo o contacte a su administrador');
 		
+		redirect(site_url('index.php/continuidad/equipos'));
 	}
 }
