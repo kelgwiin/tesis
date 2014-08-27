@@ -42,9 +42,8 @@ class Data_model extends MY_Model
                             "tasa_transferencia_dd" =>$line[8],
                             "pagina_errores" =>$line[9],
                             "tiempo_online" =>$line[10],
-                            "estado_proceso" =>$line[11]/*,
-                            "usuario" => $line[12],
-                            "timestamp" => $line[13] */);
+                            "estado_proceso" =>$line[11],
+                            "timestamp" => $line[12]);
         }
         return $data;
     }
