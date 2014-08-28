@@ -2,7 +2,7 @@ $( document ).ready(function() {
 
   /*$("#dropdown_categorias" ).click(function() {
 
-});*/
+});*//*
 		tinymce.init({
            selector: "textarea",
            plugins: [
@@ -15,10 +15,10 @@ $( document ).ready(function() {
            toolbar_items_size: 'small',
            language : 'es',
            entity_encoding : "raw"
-           });
+           });*/
 
 	// LLena el dropdown de Categorias de Servicio
-    $.ajax({
+   /* $.ajax({
                 url: config.base+'index.php/cargar_data/cargar_data/obtenerCategoriasServicio',
                 type: 'POST',              
                 dataType: 'json',
@@ -34,10 +34,10 @@ $( document ).ready(function() {
                 	alert(xhr.status+" "+thrownError);
                     //$("#modal_error").modal('show');
                         }
-            });
+            });*/
 
     // LLena el dropdown de Tipos de Servicio
-    $.ajax({
+ /*   $.ajax({
                 url: config.base+'index.php/cargar_data/cargar_data/obtenerTiposServicio',
                 type: 'POST',              
                 dataType: 'json',
@@ -53,10 +53,10 @@ $( document ).ready(function() {
                 	alert(xhr.status+" "+thrownError);
                     //$("#modal_error").modal('show');
                         }
-            });
+            });*/
 
     // LLena el dropdown de Propietario del Servicio
-    $.ajax({
+   /* $.ajax({
                 url: config.base+'index.php/cargar_data/cargar_data/obtenerPropietarioServicio',
                 type: 'POST',              
                 dataType: 'json',
@@ -72,7 +72,7 @@ $( document ).ready(function() {
                 	alert(xhr.status+" "+thrownError);
                     //$("#modal_error").modal('show');
                         }
-            });
+            });*/
 
 
 

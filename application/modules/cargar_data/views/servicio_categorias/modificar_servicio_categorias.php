@@ -1,18 +1,20 @@
+<script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/servicio_categorias/js/operaciones_ajax.js"></script>
+
 <div id="page-wrapper">
 
 	<div class="row">
 		<div class="col-lg-12">
-			<h1>Gesti&#243;n de Procesos de Negocio</h1>
+			<h1>Gesti&#243;n de Categor&#237;as de Servicio</h1>
 		</div>
 	</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading"> <i class="fa fa-building-o"></i> Proceso de Negocio - Actualizar</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading"> <i class="fa fa-folder-open-o"></i> Categor&#237;a de Servicio - Actualizar</div>
 		<br>
 		 <?php
 		 // Apertura de Formulario
 		$attributes = array('role' => 'form', 'id'=> 'new_service_form','class'=>'form-horizontal');
-		echo form_open(base_url().'index.php/cargar_datos/procesos_de_negocio/modificar/'.$proceso->procesoneg_id,$attributes); 
+		echo form_open(base_url().'index.php/cargar_datos/servicio_categorias/modificar/'.$servicio_categoria->categoria_id,$attributes); 
 
 	
 		?>
@@ -20,16 +22,16 @@
 		
 
 		<div class="required">
-			<label for="service_name" class="col-lg-4 control-label">Nombre</label> 
+			<label for="service_name" class="col-lg-4 control-label">Nombre de la Categor&#237;a</label> 
 		</div>
 	    <div class="col-lg-4">
 
 	       	<?php	
 			    $input_data = array(
-	            'value'=> set_value('process_name',@$proceso->nombre),
-		        'name'        => 'process_name',
-		        'id'          => 'process_name',
-		        'placeholder' => 'Nombre del Servicio',
+	            'value'=> set_value('categoria_name',@$servicio_categoria->nombre),
+		        'name'        => 'categoria_name',
+		        'id'          => 'categoria_name',
+		        'placeholder' => 'Nombre de la Categor&#237;a',
 		        //'autofocus'=>  'autofocus',
 		        'type' =>'text',
 		        'autocomplete'=> "off",
@@ -49,7 +51,7 @@
 	      	<div class="col-lg-5">
 			    <label style="color:red;">
 			   	<?php 
-			        echo form_error('process_name');
+			        echo form_error('categoria_name');
 				 ?>
 				</label>
 			</div>
@@ -61,7 +63,7 @@
 			</div>
 	        <div class="col-lg-5">
 	            <?php $data = array(
-	            		   'value'=> set_value('descripcion',@$proceso->descripcion),
+	            		   'value'=> set_value('descripcion',@$servicio_categoria->descripcion),
 	                       'name'        => 'descripcion',
 	                       'id'          => 'descripcion', 
 	                       'class'          => 'form-control boxsizingBorder',
@@ -83,45 +85,10 @@
 			</div>
 		</div>	
 
-	    <div class="form-group">
-		    <div class="required">
-				<label for="tipo_servicio" class="col-lg-4 control-label">Departamento</label>		    
-			</div>
-			<div class="col-lg-4">
-		        <?php
-		        	$options = array(
-		        		'-1' => 'Seleccione un Departamento',		        	  
-	                );
-					//$options['-1'] = 'Seleccione un Departamento';
-					foreach($departamentos as $departamento)
-		            { 
-		              $options[$departamento->departamento_id] = $departamento->nombre;
-		            }
-
-
-		        ?>
-
-		       <?php echo form_dropdown('departamentos', $options,set_value('departamentos',@$proceso->id_departamento),'class="form-control" id="dropdown_departamentos" '); ?>
-
-		    </div>
-		</div>
-
-		<div class="form-group">
-	      	<div class="control-label col-lg-4">
-	      	</div>
-	      	<div class="col-lg-5">
-			    <label style="color:red;">
-			   	<?php 
-			        echo form_error('departamentos');
-				 ?>
-				</label>
-			</div>
-		</div>	
-
 		<div class="form-group">
 		   	<div class="col-lg-offset-5 col-lg-10">
 			    <button data-toggle="modal" data-target="#modificar" class="btn btn-warning">Actualizar</button> 
-		    	<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio');?>" type="button" class="btn btn-danger" id="cancelar">Cancelar</a>
+		    	<a href="<?php echo base_url('index.php/cargar_datos/servicio_categorias');?>" type="button" class="btn btn-danger" id="cancelar">Cancelar</a>
 		    </div> 	
 		</div>
 
@@ -135,7 +102,7 @@
 		      
 		      </div>
 		      <div class="modal-body text-center">
-		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Actualizar</b> este Proceso de Negocio?</div></p>
+		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Actualizar</b> esta Categor&#237;a de Servicio?</div></p>
 		      </div>
 		      <div class="modal-footer">
 		      	<button type="submit" class="btn btn-warning">Actualizar</button>
