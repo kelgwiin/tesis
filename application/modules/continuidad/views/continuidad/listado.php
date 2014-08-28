@@ -10,8 +10,17 @@
 	<?php
 		$val = str_replace('-', ' ', $valoracion);
 		$val = strtolower($val);
-		$val = str_replace(' ', '-', $val);
+		$val = str_replace(' ', '-', $val);echo_pre($planes_continuidad);
 	?>
+	
+	<div class="row">
+		<div class="col-lg-12">
+			<?php 
+				if($this->session->flashdata('alert_success')) print_alert($this->session->flashdata('alert_success'));
+				if($this->session->flashdata('alert_error')) print_alert($this->session->flashdata('alert_error'),'danger');
+			?>
+		</div>
+	</div>
 	
 	<div class="row">
 		<div class="col-lg-9"></div>
@@ -34,10 +43,11 @@
 					<?php endif ?>
 				</div>
 			</div>
-			<!-- <div class="table-responsive">
+			<div class="table-responsive">
 	            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 	                <thead>
 	                    <tr>
+	                        <th>Código <i class="fa fa-sort"></i></th>
 	                        <th>Denominación <i class="fa fa-sort"></i></th>
 	                        <th>Departamento <i class="fa fa-sort"></i></th>
 	                        <th>Responsable <i class="fa fa-sort"></i></th>
@@ -111,7 +121,7 @@
 	                	</tr>
 	                </tbody>
 				</table>
-			</div> -->
+			</div>
 		</div>
 	</div>
 </div>

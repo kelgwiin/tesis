@@ -20,6 +20,7 @@
     
     <!-- JavaScript -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/jquery-1.10.2.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/jquery-ui-1.9.2.custom.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/bootstrap.js"></script>
     
     <script src="<?php echo base_url() ?>assets/js/dataTables/jquery.dataTables.js"></script>

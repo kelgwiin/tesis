@@ -1,6 +1,7 @@
 <script>
 	$(function()
 	{
+		$('#creacion-equipos').hide();
 		$('select[name=id_departamento]').change(function()
 		{
 			var dpto = $(this).val();
@@ -22,6 +23,18 @@
 				},
 				'json'
 			);
+		});
+		
+		$('#next').click(function()
+		{
+			$('#datos-generales').hide();
+			$('#creacion-equipos').show('slide',{direction: 'right'}, 800);
+		});
+		
+		$('#prev').click(function()
+		{
+			$('#creacion-equipos').hide();
+			$('#datos-generales').show('slide',{direction: 'left'}, 800);
 		});
 	});
 </script>

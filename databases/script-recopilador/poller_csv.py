@@ -30,6 +30,12 @@ import logging.handlers
 import ConfigParser
 from collections import defaultdict
 
+
+if os.getuid() != 0:
+    print("Este script necesita privilegios de administrador.")
+    sys.exit()
+
+
 # Defaults
 file_name = datetime.date.today().__str__()
 LOG_FILENAME = "log/" + file_name + ".log"
@@ -155,6 +161,7 @@ def datos_proceso(p, stat_antes, stat_despues, io_antes, io_despues, memoria):
     #mac_address = subprocess.Popen(['ifconfig', interface], stdout=subprocess.PIPE)
     #mac_address, error = mac_address.communicate()
     #mac_address = re.search(r'HWaddr\s+(.*).\s+\n', mac_address).group(1)
+    timestamp = (time.strftime('%Y-%m-%d %H:%M:%S'))
     tiempo_cpu = stat_despues[5] + stat_despues[6]  # Falta decidir si agarrar el tiempo de los hijos
     segundos = totales[0] - (stat_despues[10] / Hertz)
     tasa_cpu = 100 * ((tiempo_cpu / Hertz) / segundos)
@@ -166,7 +173,7 @@ def datos_proceso(p, stat_antes, stat_despues, io_antes, io_despues, memoria):
     errores_pagina = (stat_despues[1] + stat_despues[3]) - (stat_antes[1] + stat_antes[3])
     linea = [p, stat_despues[12].strip('()'), tasa_cpu, tasa_memoria, operaciones_dd_lectura, operaciones_dd_escritura,
              tasa_dd_lectura, tasa_dd_escritura, tasa_dd_escritura + tasa_dd_lectura, errores_pagina, segundos,
-             stat_despues[0]]
+             stat_despues[0], timestamp]
     return linea
 
 
