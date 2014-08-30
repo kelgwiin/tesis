@@ -1,52 +1,73 @@
-#!/bin/sh
+#!/bin/bash
 
-### BEGIN INIT INFO
-# Provides:          poller_csv
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Servicio de recopilacion de contadores de rendimiento
-# Description:       Servicio de recopilacion de contadores de rendimiento 
-### END INIT INFO
+PID=""
 
-DIR=/var/www/databases/script-malvados
-DAEMON=$DIR/poller_csv.py
-DAEMON_NAME=poller_csv
-DAEMON_OPTS=""
-DAEMON_USER=root
-PIDFILE=/var/run/$DAEMON_NAME.pid
-. /lib/lsb/init-functions
-
-do_start () {
-    log_daemon_msg "Starting system $DAEMON_NAME daemon"
-    start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --user $DAEMON_USER --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_OPTS
-    log_end_msg $?
+function get_pid {
+   PID=`pidof python /home/poller_csv/poller_csv.py`
 }
-do_stop () {
-    log_daemon_msg "Stopping system $DAEMON_NAME daemon"
-    start-stop-daemon --stop --pidfile $PIDFILE --retry 10
-    log_end_msg $?
+
+function stop {
+   get_pid
+   if [ -z $PID ]; then
+      echo "server is not running."
+      exit 1
+   else
+      echo -n "Stopping server.."
+      kill -9 $PID
+      sleep 1
+      echo ".. Done."
+   fi
+}
+
+
+function start {
+   get_pid
+   if [ -z $PID ]; then
+      echo  "Starting server.."
+      python /home/poller_csv/poller_csv.py &
+      get_pid
+      echo "Done. PID=$PID"
+   else
+      echo "server is already running, PID=$PID"
+   fi
+}
+
+function restart {
+   echo  "Restarting server.."
+   get_pid
+   if [ -z $PID ]; then
+      start
+   else
+      stop
+      sleep 5
+      start
+   fi
+}
+
+
+function status {
+   get_pid
+   if [ -z  $PID ]; then
+      echo "Server is not running."
+      exit 1
+   else
+      echo "Server is running, PID=$PID"
+   fi
 }
 
 case "$1" in
-
-    start|stop)
-        do_${1}
-        ;;
-
-    restart|reload|force-reload)
-        do_stop
-        do_start
-        ;;
-
-    status)
-        status_of_proc "$DAEMON_NAME" "$DAEMON" && exit 0 || exit $?
-        ;;
-    *)
-        echo "Usage: /etc/init.d/$DAEMON_NAME {start|stop|restart|status}"
-        exit 1
-        ;;
-
+   start)
+      start
+   ;;
+   stop)
+      stop
+   ;;
+   restart)
+      restart
+   ;;
+   status)
+      status
+   ;;
+   *)
+      echo "Usage: $0 {start|stop|restart|status}"
 esac
-exit 0
