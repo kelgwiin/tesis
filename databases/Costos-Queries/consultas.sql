@@ -123,7 +123,6 @@ where m.borrado = false and mantenimiento_id = 1;
 
 
 
-
 -- Consultas pequeñas para: Totalizaciones de los COSTOS por Categorías
 
 -- --componente_ti
@@ -192,5 +191,5 @@ select *
 from estructura_costo
 where anio = '3000';
 
-select * from estructura_costo;
+
  

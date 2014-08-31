@@ -147,6 +147,16 @@ select s.nombre, c.costo, mes
 from servicio_costo as c join servicio as s ON (c.servicio_id = s.servicio_id)
 where c.borrado = false and anio = '2014';
 
+select * from servicio;
+
+-- DATOS DE PRUEBA DE CARACTERIZACIÓN (se asume la cantidad más baja que es bytes, bits, porcentaje uso cpu, respectivamente )
+insert into caracterizacion (servicio_id,total_uso_redes, total_uso_cpu, 
+total_uso_almacenamiento, total_uso_memoria, fecha) values
+
+(1,'238','5','5896','89','2014-06-01')
+
+;
+select * from caracterizacion;
 
 
 

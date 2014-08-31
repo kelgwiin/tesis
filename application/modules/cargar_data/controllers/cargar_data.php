@@ -668,14 +668,132 @@ class Cargar_Data extends MX_Controller
 	 *
 	 */
 	public function servicios(){
-		$this->utils->template($this->_list(4),'cargar_data/servicio/main_servicio','','Cargar Infraestructura','Servicios');
+
+		$this->utils->template($this->_list(5),'cargar_data/servicio/main_servicio','','Cargar Infraestructura','Servicios');
 	}
+
+
+	function servicio_check()
+	{
+		if (($this->general->exist('servicio',array('nombre' => $this->input->post('service_name')))))
+		{
+			$this->form_validation->set_message('servicio_check', 'Este Servicio ya existe en el Sistema');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+
+	function dropdown_categoria()
+	{
+		if ($this->input->post('categoria_servicio') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_categoria', 'Por favor seleccione una Categor&#237;a');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
+	function dropdown_tipo()
+	{
+		if ($this->input->post('tipo_servicio') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_tipo', 'Por favor seleccione un Tipo');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
+	function dropdown_propietario()
+	{
+		if ($this->input->post('propietario_servicio') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_propietario', 'Por favor seleccione una Persona');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
+	function dropdown_impacto()
+	{
+		if ($this->input->post('impacto_servicio') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_impacto', 'Por favor seleccione el Impacto del Servicio');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
+	function dropdown_proveedor()
+	{
+		if ($this->input->post('proveedor_servicio') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_proveedor', 'Por favor seleccione al Proveedor del Servicio');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+	
 
 	public function nuevo_servicio(){
-		$this->utils->template($this->_list(4),'cargar_data/servicio/servicios','','Cargar Infraestructura','Servicios');
+
+
+		$this->load->model('general/general_model','general');
+
+		$data_view['servicio_categorias'] = $this->general->get_table('servicio_categoria');
+		$data_view['servicio_tipos'] = $this->general->get_table('servicio_tipo');
+		$data_view['personal'] = $this->general->get_table('personal');
+		$data_view['proveedores'] = $this->general->get_table('servicio_proveedor');
+		//$data_view['departamentos'] = $this->general->get_table('departamento');*/
+
+
+	     $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+         
+         
+         $this->form_validation->set_rules('service_name', 'Nombre del Servicio', 'required|min_length[3]|max_length[150]|trim|callback_servicio_check');
+         $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
+         $this->form_validation->set_rules('caracteristicas_servicio', 'Caracter&#237;sticas', 'required|trim');
+         $this->form_validation->set_rules('categoria_servicio', 'Categorias', 'callback_dropdown_categoria');
+         $this->form_validation->set_rules('tipo_servicio', 'Tipos', 'callback_dropdown_tipo');
+         $this->form_validation->set_rules('propietario_servicio', 'Propietario', 'callback_dropdown_propietario');
+         $this->form_validation->set_rules('impacto_servicio', 'Impacto', 'callback_dropdown_impacto');
+         $this->form_validation->set_rules('proveedor_servicio', 'Impacto', 'callback_dropdown_proveedor');
+
+        $this->form_validation->set_message('required','El campo %s es obligatorio');
+
+
+           if ($this->form_validation->run($this) == FALSE)
+            {
+
+                $this->utils->template($this->_list(5),'cargar_data/servicio/nuevo_servicio',$data_view,'Cargar Infraestructura','Servicios');
+            }
+            else
+            {
+
+            }
+		
+		
 	}
 
-	public function obtenerCategoriasServicio(){
+	/*public function obtenerCategoriasServicio(){
 		//$this->utils->template($this->_list(4),'cargar_data/servicio/servicios','','Cargar Infraestructura','Servicios');
 		$this->load->model('general/general_model','general');
 		$categorias = $this->general->get_table('servicio_categoria');
@@ -688,9 +806,9 @@ class Cargar_Data extends MX_Controller
 		echo json_encode($dropdown_data);
 
 
-	}
+	}*/
 
-	public function obtenerTiposServicio(){
+	/*public function obtenerTiposServicio(){
 		//$this->utils->template($this->_list(4),'cargar_data/servicio/servicios','','Cargar Infraestructura','Servicios');
 		$this->load->model('general/general_model','general');
 		$tipos = $this->general->get_table('servicio_tipo');
@@ -701,9 +819,9 @@ class Cargar_Data extends MX_Controller
 			    $dropdown_data = $dropdown_data. '<option value='.$tipo->nombre.'>'. $tipo->nombre.'</option>' ;
 			}
 		echo json_encode($dropdown_data);
-	}
+	}*/
 
-	public function obtenerPropietarioServicio(){
+	/*public function obtenerPropietarioServicio(){
 		//$this->utils->template($this->_list(4),'cargar_data/servicio/servicios','','Cargar Infraestructura','Servicios');
 		$this->load->model('general/general_model','general');
 		$empleados = $this->general->get_table('personal');
@@ -713,13 +831,626 @@ class Cargar_Data extends MX_Controller
 			    //echo $categoria->nombre;
 			    $dropdown_data = $dropdown_data. '<option value='.$empleado->id_personal.'>'.$empleado->nombre.' '.$empleado->cedula.'</option>' ;
 			}
-		echo json_encode($dropdown_data);
-	}
+		echo json_encode($dropdown_data);*/
+	//}
 
 	/*
 	 *FIN de Funciones para Servicios
 	 *
 	 */
+
+	/*
+	 * Funciones para Categoria de Servicio
+	 *
+	 */
+
+	public function servicio_categorias(){
+		$this->load->model('general/general_model','general');
+		$data_view['servicio_categorias'] = $this->general->get_table('servicio_categoria');
+		$this->utils->template($this->_list(5),'cargar_data/servicio_categorias/main_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');
+	}
+
+
+	function categoria_name_check()
+	{
+		if (($this->general->exist('servicio_categoria',array('nombre' => $this->input->post('categoria_name')))))
+		{
+			$this->form_validation->set_message('categoria_name_check', 'Este Nombre de Categor&#237;a ya existe en el Sistema');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+
+
+	public function nuevo_servicio_categoria(){
+		 
+
+		$this->load->model('general/general_model','general');
+
+
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+         $this->form_validation->set_rules('categoria_name', 'Nombre de la Categor&#237;a', 'required|min_length[3]|max_length[150]|trim|callback_categoria_name_check');
+         $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
+
+         $this->form_validation->set_message('required','El campo %s es obligatorio');
+         
+         if ($this->form_validation->run($this) == FALSE)
+            {
+
+                $this->utils->template($this->_list(5),'cargar_data/servicio_categorias/nuevo_servicio_categorias','','Cargar Infraestructura','Servicio');
+            }
+            else
+            {
+            	
+                $categoria = array(
+                                'nombre' => $this->input->post('categoria_name'),
+                                'descripcion' => $this->input->post('descripcion'),       
+                                );
+
+            	$id_categoria = $this->general->insert('servicio_categoria',$categoria,'');
+
+            	if($id_categoria)
+	            	{
+	            		$this->session->set_flashdata('Success', 'La Nueva Categor&#237;a de Servicio ha sido Creada con Éxito');
+	            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+	            	}
+	            else
+	            	{
+	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear la Nueva Categor&#237;a de Servicio');
+	            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+	            	}
+                
+            }
+
+
+	}
+
+	public function ver_servicio_categoria($id_categoria = ''){
+
+		$this->load->model('general/general_model','general');	
+		$data_view['servicio_categoria'] = $this->general->get_row('servicio_categoria',array('categoria_id'=>$id_categoria));
+		$this->utils->template($this->_list(5),'cargar_data/servicio_categorias/ver_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');
+
+	}
+
+
+	public function modificar_servicio_categoria($id_categoria = ''){
+		 
+
+		$this->load->model('general/general_model','general');
+		 
+		$data_view['servicio_categoria'] = $this->general->get_row('servicio_categoria',array('categoria_id'=>$id_categoria));
+
+
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+		 $categoria = $this->general->get_row('servicio_categoria',array('categoria_id' => $id_categoria));
+
+		  if( ($this->input->post('categoria_name')) != ($categoria->nombre))
+		 	{
+         		$this->form_validation->set_rules('categoria_name', 'Nombre de la Categor&#237;a', 'required|min_length[3]|max_length[150]|trim|callback_categoria_name_check');
+		 	}
+		 else
+		 	{
+		 		$this->form_validation->set_rules('categoria_name', 'Nombre de la Categor&#237;a', 'required|min_length[3]|max_length[150]|trim');
+		 	}
+
+         $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
+
+         $this->form_validation->set_message('required','El campo %s es obligatorio');
+
+         
+         if ($this->form_validation->run($this) == FALSE)
+            {
+            	$this->utils->template($this->_list(5),'cargar_data/servicio_categorias/modificar_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');                
+            }
+            else
+            {
+            	
+                $categoria = array(
+                                'nombre' => $this->input->post('categoria_name'),
+                                'descripcion' => $this->input->post('descripcion'),      
+                                );
+
+            	$categoria_id = $this->general->update2('servicio_categoria',$categoria,array('categoria_id'=>$id_categoria));
+
+            	if($categoria_id)
+	            	{
+	            		$this->session->set_flashdata('Success', 'La Categor&#237;a de Servicio ha sido Actualizada con Éxito');
+	            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+	            	}
+	               else
+	            	{
+	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar la Categor&#237;a de Servicio');
+	            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+	            	}
+	            	
+                
+            }
+
+
+	}
+
+	public function eliminar_servicio_categoria(){
+
+		$this->load->model('general/general_model','general');
+		$id_categoria = $this->input->post('categoria_id');
+		$delete = $this->general->delete('servicio_categoria',array('categoria_id'=>$id_categoria));
+		if($delete)
+	        {
+				$this->session->set_flashdata('Success', 'La Categor&#237;a de Servicio ha sido Eliminada con Éxito');
+			}
+		else
+			{
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar la Categor&#237;a de Servicio');
+			}
+		if($this->input->post('delete_ver'))
+			{
+				redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+			}	
+	}
+
+
+	public function eliminar_servicio_categorias(){
+
+		$this->load->model('general/general_model','general');
+		$categorias_id = $this->input->post('categoria_id');
+		foreach ($categorias_id as $categoria) {		    
+			    
+			   $delete = $this->general->delete('servicio_categoria',array('categoria_id'=>$categoria));
+			}
+		if($delete)
+	        {
+				$this->session->set_flashdata('Success', 'Las Categor&#237;as de Servicio han sido Eliminadas con Éxito');
+			}
+		else
+			{
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar las Categor&#237;as de Servicio Seleccionadas');
+			}
+
+			
+	}
+
+
+	/*
+	 * FIN de Funciones para Categoria de Servicio
+	 *
+	 */
+
+
+
+
+	/*
+	 * Funciones para Tipos de Servicio
+	 *
+	 */
+
+
+	public function servicio_tipos(){
+		$this->load->model('general/general_model','general');
+		$data_view['servicio_tipos'] = $this->general->get_table('servicio_tipo');
+		$this->utils->template($this->_list(5),'cargar_data/servicio_tipos/main_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');
+	}
+
+	function tipo_name_check()
+	{
+		if (($this->general->exist('servicio_tipo',array('nombre' => $this->input->post('tipo_name')))))
+		{
+			$this->form_validation->set_message('tipo_name_check', 'Este Tipo de Servicio ya existe en el Sistema');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+
+
+	public function nuevo_servicio_tipo(){
+		 
+
+		$this->load->model('general/general_model','general');
+
+
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+         $this->form_validation->set_rules('tipo_name', 'Nombre de Tipo de Servicio', 'required|min_length[3]|max_length[150]|trim|callback_tipo_name_check');
+         $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
+
+         $this->form_validation->set_message('required','El campo %s es obligatorio');
+         
+         if ($this->form_validation->run($this) == FALSE)
+            {
+
+                $this->utils->template($this->_list(5),'cargar_data/servicio_tipos/nuevo_servicio_tipos','','Cargar Infraestructura','Servicio');
+            }
+            else
+            {
+            	
+                $tipo = array(
+                                'nombre' => $this->input->post('tipo_name'),
+                                'descripcion' => $this->input->post('descripcion'),       
+                                );
+
+            	$id_tipo = $this->general->insert('servicio_tipo',$tipo,'');
+
+            	if($id_tipo)
+	            	{
+	            		$this->session->set_flashdata('Success', 'El Nuevo Tipo de Servicio ha sido Creado con Éxito');
+	            		redirect(site_url('index.php/cargar_datos/servicio_tipos'));
+	            	}
+	            else
+	            	{
+	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Nuevo Tipo de Servicio');
+	            		redirect(site_url('index.php/cargar_datos/servicio_tipos'));
+	            	}
+                
+            }
+
+
+	}
+
+	public function ver_servicio_tipo($id_tipo = ''){
+
+		$this->load->model('general/general_model','general');	
+		$data_view['servicio_tipo'] = $this->general->get_row('servicio_tipo',array('tipo_id'=>$id_tipo));
+		$this->utils->template($this->_list(5),'cargar_data/servicio_tipos/ver_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');
+
+	}
+
+
+	public function modificar_servicio_tipo($id_tipo = ''){
+		 
+
+		$this->load->model('general/general_model','general');
+		 
+		$data_view['servicio_tipo'] = $this->general->get_row('servicio_tipo',array('tipo_id'=>$id_tipo));
+
+
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+		 $tipo = $this->general->get_row('servicio_tipo',array('tipo_id' => $id_tipo));
+
+		  if( ($this->input->post('tipo_name')) != ($tipo->nombre))
+		 	{
+         		$this->form_validation->set_rules('tipo_name', 'Nombre del Tipo de Servicio', 'required|min_length[3]|max_length[150]|trim|callback_tipo_name_check');
+		 	}
+		 else
+		 	{
+		 		$this->form_validation->set_rules('tipo_name', 'Nombre del Tipo de Servicio', 'required|min_length[3]|max_length[150]|trim');
+		 	}
+
+         $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
+
+         $this->form_validation->set_message('required','El campo %s es obligatorio');
+
+         
+         if ($this->form_validation->run($this) == FALSE)
+            {
+            	$this->utils->template($this->_list(5),'cargar_data/servicio_tipos/modificar_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');                
+            }
+            else
+            {
+            	
+                $tipo = array(
+                                'nombre' => $this->input->post('tipo_name'),
+                                'descripcion' => $this->input->post('descripcion'),      
+                                );
+
+            	$tipo_id = $this->general->update2('servicio_tipo',$tipo,array('tipo_id'=>$id_tipo));
+
+            	if($tipo_id)
+	            	{
+	            		$this->session->set_flashdata('Success', 'El Tipo de Servicio ha sido Actualizado con Éxito');
+	            		redirect(site_url('index.php/cargar_datos/servicio_tipos'));
+	            	}
+	               else
+	            	{
+	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar el Tipo de Servicio');
+	            		redirect(site_url('index.php/cargar_datos/servicio_tipos'));
+	            	}
+	            	
+                
+            }
+
+
+	}
+
+		public function eliminar_servicio_tipo(){
+
+		$this->load->model('general/general_model','general');
+		$id_tipo = $this->input->post('tipo_id');
+		$delete = $this->general->delete('servicio_tipo',array('tipo_id'=>$id_tipo));
+		if($delete)
+	        {
+				$this->session->set_flashdata('Success', 'El Tipo de Servicio ha sido Eliminado con Éxito');
+			}
+		else
+			{
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar el Tipo de Servicio');
+			}
+		if($this->input->post('delete_ver'))
+			{
+				redirect(site_url('index.php/cargar_datos/servicio_tipos'));
+			}	
+	}
+
+
+	public function eliminar_servicio_tipos(){
+
+		$this->load->model('general/general_model','general');
+		$tipos_id = $this->input->post('tipo_id');
+		foreach ($tipos_id as $tipo) {		    
+			    
+			  $delete = $this->general->delete('servicio_tipo',array('tipo_id'=>$tipo));
+			}
+		if($delete)
+	        {
+				$this->session->set_flashdata('Success', 'Los Tipos de Servicio han sido Eliminados con Éxito');
+			}
+		else
+			{
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar los Tipos de Servicio Seleccionados');
+			}
+
+			
+	}
+
+
+
+	/*
+	 * FIN de Funciones para Tipos de Servicio
+	 *
+	 */
+
+
+
+
+
+	/*
+	 * Funciones para Proveedores
+	 *
+	 */
+
+
+
+	public function servicio_proveedores(){
+		$this->load->model('general/general_model','general');
+		$data_view['servicio_proveedores'] = $this->general->get_table('servicio_proveedor');
+		$this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/main_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
+	}
+
+	function proveedor_name_check()
+	{
+		if (($this->general->exist('servicio_proveedor',array('nombre' => $this->input->post('proveedor_name')))))
+		{
+			$this->form_validation->set_message('proveedor_name_check', 'Este Proveedor de Servicio ya existe en el Sistema');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+
+	function dropdown_tipo_proveedor()
+	{
+		if ($this->input->post('tipo_proveedor') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_tipo_proveedor', 'Por favor seleccione un Tipo de Proveedor');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
+	function dropdown_proveedor_interno()
+	{
+		if ($this->input->post('proveedor_interno') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_proveedor_interno', 'Por favor seleccione un Proveedor Interno');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
+	public function nuevo_servicio_proveedor(){
+		 
+
+		$this->load->model('general/general_model','general');
+
+
+		$departamentos =  $this->general->get_table('departamento');
+		foreach($departamentos as $key => $departamento)
+			{ 
+			    
+			    if($this->general->exist('servicio_proveedor',array('nombre' => $departamento->nombre)))
+			    {
+			    	unset($departamentos[$key]);
+			    }
+			}
+
+		$data_view['departamentos'] = $departamentos;
+
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+
+         $this->form_validation->set_rules('tipo_proveedor', 'Tipo de Proveedor', 'required|trim|callback_dropdown_tipo_proveedor');
+         $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
+         
+         if($this->input->post('tipo_proveedor') == 'Proveedor Externo')
+         	{
+         		$this->form_validation->set_rules('proveedor_name', 'Nombre del Proveedor', 'required|min_length[3]|max_length[150]|trim|callback_proveedor_name_check');
+         	}
+         if($this->input->post('tipo_proveedor') == 'Proveedor Interno')
+         	{	
+         		$this->form_validation->set_rules('proveedor_interno', 'Proveedor Interno', 'required|trim|callback_dropdown_proveedor_interno');
+         	}
+         
+         $this->form_validation->set_message('required','El campo %s es obligatorio');
+         
+         if ($this->form_validation->run($this) == FALSE)
+            {
+
+                $this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/nuevo_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
+            }
+            else
+            {
+            	 if($this->input->post('tipo_proveedor') == 'Proveedor Externo')
+		         	{
+		         		$nombre = $this->input->post('proveedor_name');
+		         	}
+		         if($this->input->post('tipo_proveedor') == 'Proveedor Interno')
+		         	{	
+		         		$nombre = $this->input->post('proveedor_interno');
+		         	}
+                $proveedor = array(
+                				'nombre' => $nombre,
+                                'descripcion' => $this->input->post('descripcion'),
+                                'tipo' => $this->input->post('tipo_proveedor'),       
+                                );
+
+            	$id_proveedor = $this->general->insert('servicio_proveedor',$proveedor,'');
+
+            	if($id_proveedor)
+	            	{
+	            		$this->session->set_flashdata('Success', 'La Nueva Categor&#237;a de Servicio ha sido Creada con Éxito');
+	            		redirect(site_url('index.php/cargar_datos/servicio_proveedores'));
+	            	}
+	            else
+	            	{
+	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear la Nueva Categor&#237;a de Servicio');
+	            		redirect(site_url('index.php/cargar_datos/servicio_proveedores'));
+	            	}
+                
+            }
+
+
+	}
+
+	public function ver_servicio_proveedor($id_proveedor = ''){
+
+		$this->load->model('general/general_model','general');	
+		$data_view['servicio_proveedor'] = $this->general->get_row('servicio_proveedor',array('proveedor_id'=>$id_proveedor));
+		$this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/ver_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
+
+	}
+
+	public function modificar_servicio_proveedor($id_proveedor = ''){
+		 
+
+		$this->load->model('general/general_model','general');
+		 
+		$data_view['servicio_proveedor'] = $this->general->get_row('servicio_proveedor',array('proveedor_id'=>$id_proveedor));
+
+
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+		 $proveedor = $this->general->get_row('servicio_proveedor',array('proveedor_id' => $id_proveedor));
+
+		  if( ($this->input->post('proveedor_name')) != ($proveedor->nombre))
+		 	{
+         		$this->form_validation->set_rules('proveedor_name', 'Nombre del Proveedor de Servicio', 'required|min_length[3]|max_length[150]|trim|callback_proveedor_name_check');
+		 	}
+		 else
+		 	{
+		 		$this->form_validation->set_rules('proveedor_name', 'Nombre del Proveedor de Servicio', 'required|min_length[3]|max_length[150]|trim');
+		 	}
+
+         $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
+
+         $this->form_validation->set_message('required','El campo %s es obligatorio');
+
+         
+         if ($this->form_validation->run($this) == FALSE)
+            {
+            	$this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/modificar_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');                
+            }
+            else
+            {
+            	
+                $proveedor = array(
+                                'nombre' => $this->input->post('proveedor_name'),
+                                'descripcion' => $this->input->post('descripcion'),      
+                                );
+
+            	$proveedor_id = $this->general->update2('servicio_proveedor',$proveedor,array('proveedor_id'=>$id_proveedor));
+
+            	if($proveedor_id)
+	            	{
+	            		$this->session->set_flashdata('Success', 'El Proveedor de Servicio ha sido Actualizado con Éxito');
+	            		redirect(site_url('index.php/cargar_datos/servicio_proveedores'));
+	            	}
+	               else
+	            	{
+	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar el Proveedor de Servicio');
+	            		redirect(site_url('index.php/cargar_datos/servicio_proveedores'));
+	            	}
+	            	
+                
+            }
+
+
+	}
+
+
+	public function eliminar_servicio_proveedor(){
+
+		$this->load->model('general/general_model','general');
+		$id_proveedor = $this->input->post('proveedor_id');
+		$delete = $this->general->delete('servicio_proveedor',array('proveedor_id'=>$id_proveedor));
+		if($delete)
+	        {
+				$this->session->set_flashdata('Success', 'El proveedor de Servicio ha sido Eliminado con Éxito');
+			}
+		else
+			{
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar el Proveedor de Servicio');
+			}
+		if($this->input->post('delete_ver'))
+			{
+				redirect(site_url('index.php/cargar_datos/servicio_proveedores'));
+			}	
+	}
+
+
+	public function eliminar_servicio_proveedores(){
+
+		$this->load->model('general/general_model','general');
+		$proveedors_id = $this->input->post('proveedor_id');
+		foreach ($proveedors_id as $proveedor) {		    
+			    
+			 $delete = $this->general->delete('servicio_proveedor',array('proveedor_id'=>$proveedor));
+			}
+		if($delete)
+	        {
+				$this->session->set_flashdata('Success', 'Los Proveedores de Servicio han sido Eliminados con Éxito');
+			}
+		else
+			{
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar los Proveedores de Servicio Seleccionados');
+			}
+
+			
+	}
+
+
+
+	/*
+	 * FIN de Funciones para Proveedores
+	 *
+	 */
+
+
 
 	/*
 	 * Funciones para Procesos de Negocio
@@ -745,8 +1476,6 @@ class Cargar_Data extends MX_Controller
 		{
 			return TRUE;
 		}
-			
-	
 	}
 
 
@@ -871,9 +1600,10 @@ class Cargar_Data extends MX_Controller
 
 		$this->load->model('general/general_model','general');
 		$id_proceso = $this->input->post('proceso_id');
-		$this->general->delete('proceso_negocio',array('procesoneg_id'=>$id_proceso));
-		$this->session->set_flashdata('Success', 'El Proceso de Negocio ha sido Eliminado con Éxito');
+		//$this->general->delete('proceso_negocio',array('procesoneg_id'=>$id_proceso));
+		//$this->session->set_flashdata('Success', 'El Proceso de Negocio ha sido Eliminado con Éxito');
 		redirect(site_url('index.php/cargar_datos/procesos_de_negocio'));
+		
 	}
 
 	public function eliminarProcesosNegocio(){
@@ -882,10 +1612,10 @@ class Cargar_Data extends MX_Controller
 		$procesos_id = $this->input->post('proceso_id');
 		foreach ($procesos_id as $proceso) {		    
 			    
-			    $this->general->delete('proceso_negocio',array('procesoneg_id'=>$proceso));
+			   // $this->general->delete('proceso_negocio',array('procesoneg_id'=>$proceso));
 		}
 		
-		$this->session->set_flashdata('Success', 'Los Procesos de Negocio han sido Eliminados con Éxito');
+		//$this->session->set_flashdata('Success', 'Los Procesos de Negocio han sido Eliminados con Éxito');
 		
 	}
 

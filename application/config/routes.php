@@ -15,7 +15,24 @@ $route['cargar_datos/departamentos'] = "cargar_data/cargar_data/departamentos";
 $route['cargar_datos/departamentos/(:any)'] = "cargar_data/cargar_data/departamentos/$1";
 $route['cargar_datos/servicios'] = "cargar_data/cargar_data/servicios";
 $route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1";
-$route['cargar_datos/servicio/nuevo_servicio'] = "cargar_data/cargar_data/nuevo_servicio";
+$route['cargar_datos/servicio/crear'] = "cargar_data/cargar_data/nuevo_servicio";
+$route['cargar_datos/servicio_categorias'] = "cargar_data/cargar_data/servicio_categorias";
+$route['cargar_datos/servicio_categorias/crear'] = "cargar_data/cargar_data/nuevo_servicio_categoria";
+$route['cargar_datos/servicio_categorias/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_categoria/$1";
+$route['cargar_datos/servicio_categorias/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio_categoria/$1";
+$route['cargar_datos/servicio_categorias/eliminar'] = "cargar_data/cargar_data/eliminar_servicio_categoria";
+$route['cargar_datos/servicio_tipos'] = "cargar_data/cargar_data/servicio_tipos";
+$route['cargar_datos/servicio_tipos/crear'] = "cargar_data/cargar_data/nuevo_servicio_tipo";
+$route['cargar_datos/servicio_tipos/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_tipo/$1";
+$route['cargar_datos/servicio_tipos/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio_tipo/$1";
+$route['cargar_datos/servicio_tipos/eliminar'] = "cargar_data/cargar_data/eliminar_servicio_tipo";
+
+$route['cargar_datos/servicio_proveedores'] = "cargar_data/cargar_data/servicio_proveedores";
+$route['cargar_datos/servicio_proveedores/crear'] = "cargar_data/cargar_data/nuevo_servicio_proveedor";
+$route['cargar_datos/servicio_proveedores/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_proveedor/$1";
+$route['cargar_datos/servicio_proveedores/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio_proveedor/$1";
+$route['cargar_datos/servicio_proveedores/eliminar'] = "cargar_data/cargar_data/eliminar_servicio_proveedor";
+
 $route['cargar_datos/procesos_de_negocio'] = "cargar_data/cargar_data/procesoNegocio";
 $route['cargar_datos/procesos_de_negocio/crear'] = "cargar_data/cargar_data/nuevoProcesoNegocio";
 $route['cargar_datos/procesos_de_negocio/ver/(:any)'] = "cargar_data/cargar_data/verProcesoNegocio/$1";
