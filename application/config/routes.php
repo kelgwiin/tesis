@@ -117,7 +117,7 @@ $route['continuidad/gestion_riesgos/riesgos']								= "continuidad/gestion_ries
 $route['continuidad/gestion_riesgos/riesgos/crear']							= "continuidad/gestion_riesgos/crear_riesgo";
 $route['continuidad/gestion_riesgos/riesgos/crear_riesgo']					= "continuidad/gestion_riesgos/crear_riesgo";
 $route['continuidad/gestion_riesgos/riesgos/modificar/(:num)']				= "continuidad/gestion_riesgos/modificar_riesgo/$1";
-$route['continuidad/gestion_riesgos/riesgos/eliminar/(:num)']				= "#";
+$route['continuidad/gestion_riesgos/riesgos/eliminar/(:num)']				= "continuidad/gestion_riesgos/eliminar_riesgo/$1";
 //EQUIPOS DE DESARROLLO
 $route['continuidad/equipos']												= "continuidad/equipos/listado_equipos";
 $route['continuidad/equipos/crear/(.*)']									= "continuidad/equipos/crear_equipo/$1";
