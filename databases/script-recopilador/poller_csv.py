@@ -27,10 +27,14 @@ PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  # KiB
 
 try:
     # Read command line args
-    myopts, args = getopt.getopt(sys.argv[1:], "c:o:")
+    myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:")
 except getopt.GetoptError as e:
     print(str(e))
-    print("Usage: %s -c [command1,command2] -o output" % sys.argv[0])
+    print("Usage: %s -c [command1,command2,command3..] -i [secs]" % sys.argv[0])
+    print("   -psmem Use psmem module to calculate memory usage per thread ")
+    print("   -o Print output to stout instead of file ")
+    print("   -i Interval between polls in seconds")
+    print("   -c processes names(system command) separated by commas(,) ")
     sys.exit(2)
 
 for o, a in myopts:
@@ -39,8 +43,6 @@ for o, a in myopts:
         comandos = a.split(',')
     elif o == '-i':
         intervalo = a
-    elif o == '-p':
-        por_thread = False
     elif o == '-psmem':
         use_ps_mem = False
     elif o == '-o':
