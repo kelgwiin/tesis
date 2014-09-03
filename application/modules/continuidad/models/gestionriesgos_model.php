@@ -16,7 +16,7 @@ class Gestionriesgos_model extends CI_Model
 	{
 		$this->db->select('pc.*, ue.estado,
 							cr.categoria, ra.denominacion as riesgos_denominacion, ra.probabilidad, ra.impacto,
-							d.nombre, d.icono_fa,
+							d.nombre as dpto_nombre, d.icono_fa,
 							p.codigo_empleado, p.nombre as nombre_empleado');
 		if(!empty($where)) $this->db->where($where);
 		$this->db->join('riesgos_amenazas ra','ra.id_riesgo = pc.id_riesgo');

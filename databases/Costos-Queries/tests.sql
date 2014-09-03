@@ -153,10 +153,23 @@ select * from servicio;
 insert into caracterizacion (servicio_id,total_uso_redes, total_uso_cpu, 
 total_uso_almacenamiento, total_uso_memoria, fecha) values
 
-(1,'238','5','5896','89','2014-06-01')
+(1,'238','5','5896','89','2014-06-01'),
+(2,'3213','8','23123','823','2014-06-01'),
+(3,'2048','12','89635','22223','2014-06-01'),
+(4,'2','89','10','10','2014-06-01')
+;
+
+select * from servicio_costo;
+select * from estructura_costo where mes = 6 and anio = 2014;
+
+select servicio_id, total_uso_redes, total_uso_cpu,
+total_uso_almacenamiento, total_uso_memoria,
+year(fecha) anio , month(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
+from caracterizacion as c
+join estructura_costo ec on year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
 
 ;
+
+
 select * from caracterizacion;
-
-
-
+select * from estructura_costo_item where estructura_costo_id = 558;

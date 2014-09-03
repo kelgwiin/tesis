@@ -62,7 +62,9 @@
 			<div class="col-md-5">
 				<div class = "offset1 span5 well">
 					<?php echo form_label('Servicio Afectado:','serv' ); ?>
-					<?php echo form_dropdown('servic', $servicios) ?>			
+					<?php if($servicios!=false){
+						echo form_dropdown('servic', $servicios);
+					} ?>			
 				</div>
 
 				<div class ="offset1 span5 well">
@@ -89,7 +91,11 @@
 		<div class="row">
 			<div class="offset1 span5 well">
 				<?php echo form_label('Servicio Afectado:','serv' ); ?>
-				<?php echo form_dropdown('servic', $servicios) ?>				
+				<?php 
+					if($servicios!=false){
+						echo form_dropdown('servic', $servicios);
+					}
+					 ?>				
 			</div>
 		</div>
 </div>
