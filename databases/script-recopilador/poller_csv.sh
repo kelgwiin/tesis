@@ -1,41 +1,58 @@
 #!/bin/bash
 
-PID=""
+cd /var/www/tesis/databases/script-recopilador/
 
+function install {
+   echo -n "Installing server..."
+   cp poller_csv.sh /etc/init.d/
+   echo "..Done"
+   exit 1
+}
+
+function uninstall {
+   echo -n "Uninstalling server..."
+   rm /etc/init.d/poller_csv.sh
+   echo "..Done"
+   exit 1
+}
 function get_pid {
-   PID=`pidof python /home/poller_csv/poller_csv.py`
+   IFS=' ' read -a pids <<< $(pidof python poller_csv.py)
 }
 
 function stop {
    get_pid
-   if [ -z $PID ]; then
+   if [ "${#pids[@]}" = 0 ]
+   then
       echo "server is not running."
-      exit 1
    else
-      echo -n "Stopping server.."
-      kill -9 $PID
+      echo -n "Stopping server..."
+      kill "$pids"
       sleep 1
       echo ".. Done."
    fi
+   exit 1
 }
 
 
 function start {
    get_pid
-   if [ -z $PID ]; then
-      echo  "Starting server.."
-      python /home/poller_csv/poller_csv.py &
+   if [ "${#pids[@]}" = 0 ]
+   then
+      echo  "Starting server..."
+      ./poller_csv.py &
       get_pid
-      echo "Done. PID=$PID"
+      echo "$pids" 1>! ${PIDFILE}
+      echo "Done."
    else
-      echo "server is already running, PID=$PID"
+      echo "server is already running, PIDS: $PID"
    fi
 }
 
 function restart {
    echo  "Restarting server.."
    get_pid
-   if [ -z $PID ]; then
+   if [ "${#pids[@]}" = 0 ]
+   then
       start
    else
       stop
@@ -44,15 +61,15 @@ function restart {
    fi
 }
 
-
 function status {
    get_pid
-   if [ -z  $PID ]; then
+   if [ "${#pids[@]}" = 0 ]
+   then
       echo "Server is not running."
-      exit 1
    else
-      echo "Server is running, PID=$PID"
+      echo "Server is running, PIDS: $pids"
    fi
+   exit 1
 }
 
 case "$1" in
@@ -67,6 +84,12 @@ case "$1" in
    ;;
    status)
       status
+   ;;
+   install)
+      install
+   ;;
+   uninstall)
+      uninstall
    ;;
    *)
       echo "Usage: $0 {start|stop|restart|status}"

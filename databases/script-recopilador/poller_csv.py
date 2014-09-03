@@ -5,6 +5,7 @@ __author__ = 'Harold Araujo'
 import subprocess
 import re
 import sys
+import getopt
 import time
 import datetime
 import ps_mem
@@ -23,31 +24,67 @@ startTime = time.time()
 proc = ps_mem.Proc()
 Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
 PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  # KiB
-configParser = ConfigParser.RawConfigParser()
-configFilePath = r'config'
-configParser.read(configFilePath)
-tiempos = configParser.get("variables", 'logtiempo') is True
-comandos = configParser.get("variables", 'comandos').split(",")
-intervalo = float(configParser.get("variables", 'intervalo'))
-use_ps_mem = configParser.get("variables", 'ps_mem') is True
+
+try:
+    # Read command line args
+    myopts, args = getopt.getopt(sys.argv[1:], "c:o:")
+except getopt.GetoptError as e:
+    print(str(e))
+    print("Usage: %s -c [command1,command2] -o output" % sys.argv[0])
+    sys.exit(2)
+
+for o, a in myopts:
+
+    if o == '-c':
+        comandos = a.split(',')
+    elif o == '-i':
+        intervalo = a
+    elif o == '-p':
+        por_thread = False
+    elif o == '-psmem':
+        use_ps_mem = False
+    elif o == '-o':
+        out_term = True
+
+try:
+    with open('config') as f:
+        configParser = ConfigParser.RawConfigParser()
+        configParser.read(r'config')
+        tiempos = configParser.get('variables', 'logtiempo') is True
+        if 'comandos' not in globals():
+            comandos = configParser.get('variables', 'comandos').split(",")
+        if 'intervalo' not in globals():
+            intervalo = float(configParser.get('variables', 'intervalo'))
+        if 'use_ps_mem' not in globals():
+            use_ps_mem = configParser.get('variables', 'ps_mem') is True
+        if 'directorio' not in globals():
+            directorio = configParser.get('variables', 'storepath')
+        if directorio is not "":
+            directorio += "poller_csv/"
+
+
+except IOError:
+    raise Exception("No se pudo abrir el archivo de configuracion.")
+except ConfigParser.NoSectionError:
+    raise Exception("No se pudieron leer parametros.")
 
 
 def set_exit_handler(func):
     signal.signal(signal.SIGTERM, func)
 
 
-def on_exit(sig, func=None):
+def on_exit(sig, func=sys.exit):
     print "exit handler triggered"
-    sys.exit(1)
+    func(sig)
 
 
 def log_filename():
-    logname = "log/" + datetime.date.today().__str__() + ".log"
+    logname = directorio + "log/" + datetime.date.today().__str__() + ".log"
     return logname
 
 
 def proc_filename():
-    procname = "stats/" + "proc_" + datetime.date.today().__str__() + ".csv"
+    procname = directorio + "stats/" + "proc_" + datetime.date.today().__str__() + ".csv"
     return procname
 
 
@@ -104,8 +141,8 @@ class FuncionHilo(threading.Thread):
 
 
 def escribir_archivo(array):
-    with open(proc_filename(), 'a',) as f:
-        writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+    with open(proc_filename(), 'a',) as fi:
+        writer = csv.writer(fi, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
         for row in array:
             writer.writerow(array[row])
 
@@ -165,8 +202,8 @@ def buscar_pids(comand):
     """
     pids = []
     for c in comand:
-        f = subprocess.Popen(["pgrep", c], stdout=subprocess.PIPE)
-        (output, err) = f.communicate()
+        t = subprocess.Popen(["pgrep", c], stdout=subprocess.PIPE)
+        (output, err) = t.communicate()
         p = output.split('\n')
         del p[-1]
         pids += p
@@ -190,7 +227,7 @@ def pid_io(p, array):
         if tiempos:
             print "pid_io: %f" % despues
         return array
-    except KeyError:
+    except KeyError or LookupError:
         array[p] = [0, 0, 0, 0, 0]
 
 
@@ -203,7 +240,7 @@ def pid_stat(p, array):
         cifras = proc.open(p, 'stat').readline().split()
         datos = [cifras[2], float(cifras[9]), float(cifras[10]), float(cifras[11]), float(cifras[12]),
                  float(cifras[13]), float(cifras[14]), float(cifras[15]), float(cifras[16]), float(cifras[19]),
-                 float(cifras[21]), float(cifras[22]), cifras[1]]
+                 float(cifras[21]), float(cifras[22]), cifras[1], int(cifras[4])]
         #(2) Estatus: R running, S sleeping in an interruptible wait, D is waiting in uninterruptible disk sleep,
         #             Z zombie, T is traced or stopped (on a signal) and W is paging.
         #(9)fallas menores pagina, (10)fallas menores pagina hijos
@@ -214,7 +251,7 @@ def pid_stat(p, array):
         despues = time.time() - antes - startTime
         if tiempos:
             print "pid_stat: %f" % despues
-    except KeyError:
+    except KeyError or LookupError:
         array[p] = ["", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""]
     return array
 
@@ -237,7 +274,7 @@ def pid_mem(p, array):
             shared = (int(lectura[2]) * PAGESIZE)
             private = rss - shared
             array[p] = private + shared
-    except KeyError or RuntimeError:
+    except KeyError or RuntimeError or LookupError:
         array[p] = 0
     return array
 
@@ -289,6 +326,7 @@ def principal(comms):
     escribir_archivo(datos)
     delay_completo = time.time() - principal_starttime
     return delay_completo
+
 
 if __name__ == "__main__":
     set_exit_handler(on_exit)
