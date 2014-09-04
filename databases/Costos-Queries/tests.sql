@@ -169,7 +169,14 @@ from caracterizacion as c
 join estructura_costo ec on year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
 
 ;
-
+-- Procesador, Memoria, Redes, Almacenamiento
 
 select * from caracterizacion;
-select * from estructura_costo_item where estructura_costo_id = 558;
+
+-- obtención de los precios
+select  eci.*, c.nombre as categoria
+from estructura_costo_item eci
+join ma_categoria c on c.ma_categoria_id = eci.ma_categoria_id
+where estructura_costo_id = 558;
+
+select * from ma_categoria;
