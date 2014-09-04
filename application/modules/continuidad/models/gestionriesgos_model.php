@@ -50,7 +50,7 @@ class Gestionriesgos_model extends CI_Model
 		if(!empty($where)) $this->db->where($where);
 		$this->db->join('tipoequipos_pcn te','te.id_tipo = e.id_tipo');
 		$query = $this->db->get('equipo_pcn e')->result();
-		// die_pre($query);
+		// die_pre($this->db->last_query());
 		foreach($query as $key => $q)
 		{
 			$empleado = array();
