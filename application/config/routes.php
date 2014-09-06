@@ -13,9 +13,25 @@ $route['cargar_datos/componentes_ti/(:any)'] = "cargar_data/cargar_data/componen
 $route['cargar_datos/medidas_capacidad/(:any)'] = "cargar_data/cargar_data/medidas_capacidad_ajax/$1";
 $route['cargar_datos/departamentos'] = "cargar_data/cargar_data/departamentos";
 $route['cargar_datos/departamentos/(:any)'] = "cargar_data/cargar_data/departamentos/$1";
+
+$route['cargar_datos/umbrales'] = "cargar_data/cargar_data/servicio_umbral";
+$route['cargar_datos/umbrales/(:any)'] = "cargar_data/cargar_data/servicio_umbral/$1";
+
 $route['cargar_datos/servicios'] = "cargar_data/cargar_data/servicios";
-$route['cargar_datos/servicios/(:any)'] = "cargar_data/cargar_data/servicios/$1";
-$route['cargar_datos/servicio/crear'] = "cargar_data/cargar_data/nuevo_servicio";
+$route['cargar_datos/servicios/crear'] = "cargar_data/cargar_data/nuevo_servicio";
+$route['cargar_datos/servicios/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio/$1";
+$route['cargar_datos/servicios/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio/$1";
+$route['cargar_datos/servicios/eliminar'] = "cargar_data/cargar_data/eliminar_servicio";
+
+$route['cargar_datos/servicio_procesos'] = "cargar_data/cargar_data/servicio_proceso";
+$route['cargar_datos/servicio_procesos/(:num)'] = "cargar_data/cargar_data/servicio_proceso/$1";
+
+//$route['cargar_datos/servicio_procesos/crear'] = "cargar_data/cargar_data/nuevo_servicio_proceso";
+$route['cargar_datos/servicio_procesos/crear/(:any)'] = "cargar_data/cargar_data/nuevo_servicio_proceso/$1";
+$route['cargar_datos/servicio_procesos/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_proceso/$1";
+$route['cargar_datos/servicio_procesos/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio_proceso/$1";
+$route['cargar_datos/servicio_procesos/eliminar'] = "cargar_data/cargar_data/eliminar_servicio_proceso";
+
 $route['cargar_datos/servicio_categorias'] = "cargar_data/cargar_data/servicio_categorias";
 $route['cargar_datos/servicio_categorias/crear'] = "cargar_data/cargar_data/nuevo_servicio_categoria";
 $route['cargar_datos/servicio_categorias/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_categoria/$1";

@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/procesos_negocio/js/operaciones_ajax.js"></script>
+
 <div id="page-wrapper">
 
 	<div class="row">
@@ -6,7 +8,7 @@
 		</div>
 	</div>
 
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
 		<div class="panel-heading"> <i class="fa fa-building-o"></i> Proceso de Negocio - Actualizar</div>
 		<br>
 		 <?php

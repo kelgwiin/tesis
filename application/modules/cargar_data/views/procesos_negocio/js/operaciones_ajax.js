@@ -55,8 +55,8 @@ $( document ).ready(function() {
            entity_encoding : "raw"
            });
 
-	 setTimeout(function() {
-        $("#success").fadeOut(1500);
+	  setTimeout(function() {
+        $("#message").fadeOut(1500);
     },10000);
 
 
