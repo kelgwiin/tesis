@@ -24,17 +24,21 @@ startTime = time.time()
 proc = ps_mem.Proc()
 Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
 PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  # KiB
+out_term = False
+single_pass = False
 
 try:
     # Read command line args
-    myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:")
+    myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:s:")
 except getopt.GetoptError as e:
     print(str(e))
     print("Usage: %s -c [command1,command2,command3..] -i [secs]" % sys.argv[0])
-    print("   -psmem Use psmem module to calculate memory usage per thread ")
-    print("   -o Print output to stout instead of file ")
-    print("   -i Interval between polls in seconds")
+    print("   -psmem Use psmem module to calculate memory usage per thread. Uses more system resources!. ")
+    print("   -o Print output to stout instead of local file. Useful for remote polling. ")
+    print("   -i Interval between polls in seconds. ")
     print("   -c processes names(system command) separated by commas(,) ")
+    print("   -s Polls processes only one time. Overrides the -i option. ")
+    print("   -p Outputs the sum of threads per process. ")
     sys.exit(2)
 
 for o, a in myopts:
@@ -47,6 +51,10 @@ for o, a in myopts:
         use_ps_mem = False
     elif o == '-o':
         out_term = True
+    elif o == '-s':
+        single_pass = True
+    elif o == '-p':
+        all_threads = False
 
 try:
     with open('config') as f:
@@ -61,6 +69,8 @@ try:
             use_ps_mem = configParser.get('variables', 'ps_mem') is True
         if 'directorio' not in globals():
             directorio = configParser.get('variables', 'storepath')
+        if 'all_threads' not in globals():
+            all_threads = configParser.get('variables', 'per_threads')
         if directorio is not "":
             directorio += "poller_csv/"
 
@@ -298,6 +308,21 @@ def muestreo_mem(pids, memorias):
         memt.join()
 
 
+def allthreads():
+    verificar_dir()
+    log = init_log()
+    count = 1
+    iterate = True
+    while iterate:
+        log.info("Lectura " + str(count))
+        print "Leyendo datos..."
+        tiempo_transcurrido = principal(comandos)
+        print "Tiempo transcurrido: %f" % tiempo_transcurrido
+        count += 1
+        time.sleep(intervalo - tiempo_transcurrido)
+        iterate = not single_pass    
+
+
 def principal(comms):
     principal_starttime = time.time()
     pids = buscar_pids(comms)
@@ -306,11 +331,8 @@ def principal(comms):
     pstat_before = defaultdict(dict)
     pstat_after = defaultdict(dict)
     datos = defaultdict(dict)
-    #stat_before = defaultdict(dict)
-    #stat_after = defaultdict(dict)
     mem = defaultdict(dict)
     muestreo(pids, io_before, pstat_before)  # ANTES
-    #stat_before = stat()
     delay_primer_muestreo = time.time() - principal_starttime
     ajuste_delay = 1 - delay_primer_muestreo
     if tiempos:
@@ -332,13 +354,5 @@ def principal(comms):
 
 if __name__ == "__main__":
     set_exit_handler(on_exit)
-    verificar_dir()
-    log = init_log()
-    count = 1
-    while True:
-        log.info("Lectura " + str(count))
-        print "Leyendo datos..."
-        tiempo_transcurrido = principal(comandos)
-        print "Tiempo transcurrido: %f" % tiempo_transcurrido
-        count += 1
-        time.sleep(intervalo - tiempo_transcurrido)
+    if all_threads:
+        allthreads()
