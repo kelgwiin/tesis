@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/procesos_negocio/js/operaciones_ajax.js"></script>
+
 <div id="page-wrapper">
 
 		<div class="col-lg-12">
@@ -46,6 +48,7 @@
 
 				<div style="display: none;">				
 				<?php echo form_input('proceso_id', $proceso->procesoneg_id);
+				      echo form_input('delete_ver', true);
 			
 				?>
 				</div>

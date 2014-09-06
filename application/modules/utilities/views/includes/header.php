@@ -44,10 +44,6 @@
 
     <!-- Editor de texto -->
     <script src="<?=base_url()?>assets/js/editor_texto/tinymce/js/tinymce/tinymce.min.js"></script>
-
-    <!-- Procesos de Negocio 
-    <script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/procesos_negocio/js/operaciones_ajax.js"></script>-->
-    <!-- ./ Procesos de Negocio -->
    
     <!-- Modulo de Gestion de Niveles de Servicios-->
     <script type="text/javascript">

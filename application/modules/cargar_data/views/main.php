@@ -55,7 +55,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-6">
-										<i class="fa fa-cogs fa-5x"></i>
+										<i class="fa fa-desktop fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
 										<p class="announcement-text">Cargar Componentes de TI</p>
@@ -105,39 +105,7 @@
 						</div>
 					</div>
 
-					<!-- Cargar Servicios-->
-					<div class="col-lg-3">
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-6">
-										<i class="fa fa-list fa-5x"></i>
-									</div>
-									<div class="col-xs-6 text-center">
-										<p class="announcement-text">Gestionar Servicios</p>
-									</div>
-								</div>
-							</div>
-							<a href="<?php echo site_url('index.php/cargar_datos/servicios');?>/">
-								<div class="panel-footer announcement-bottom">
-									<div class="row">
-										<div class="col-xs-6">
-											Examinar
-										</div>
-										<div class="col-xs-6 text-right">
-											<i class="fa fa-arrow-circle-right"></i>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div><!-- end of row: inner-->
-
-
-				<!-- Segunda fila para colocar la documentación-->
-				<div class="row">
-					<!-- Cargar Personal-->
+				  <!-- Cargar Personal-->
 					<div class="col-lg-3">
 						<div class="panel panel-info">
 							<div class="panel-heading">
@@ -151,6 +119,42 @@
 								</div>
 							</div>
 							<a href="<?php echo site_url('index.php/cargar_datos/personal');?>">
+								<div class="panel-footer announcement-bottom">
+									<div class="row">
+										<div class="col-xs-6">
+											Examinar
+										</div>
+										<div class="col-xs-6 text-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+
+				
+				</div><!-- end of row: inner-->
+
+
+				<!-- Segunda fila para colocar la documentación-->
+				<div class="row">
+
+						<!-- Cargar Servicios-->
+					<div class="col-lg-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-6">
+										<i class="fa fa-list fa-5x"></i>
+									</div>
+									<div class="col-xs-6 text-center">
+										<p class="announcement-text">Gestionar Servicios</p>
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo site_url('index.php/cargar_datos/servicios');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
@@ -193,8 +197,72 @@
 						</div>
 					</div>
 
-					<!-- Documentación-->
+					<!-- Umbrales-->
 					<div class="col-lg-3"> <!-- avanza 9 columnas hacia la derecha con el offset-->
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-5">
+										<i class="fa fa-arrows-v fa-5x"></i>
+									</div>
+									<div class="col-xs-7 text-center">
+										<p class="announcement-text">Gestionar Umbrales de Servicio</p>
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo site_url('index.php/cargar_datos/documentacion');?>/">
+								<div class="panel-footer announcement-bottom">
+									<div class="row">
+										<div class="col-xs-6">
+											Revisar
+										</div>
+										<div class="col-xs-6 text-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+
+					
+					<!-- Procesos de Servicio-->
+					<div class="col-lg-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-6">
+										<i class="fa fa-cogs fa-5x"></i>
+									</div>
+									<div class="col-xs-6 text-center">
+										<p class="announcement-text">Gestionar Procesos de Servicio</p>
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo site_url('index.php/cargar_datos/servicio_procesos');?>">
+								<div class="panel-footer announcement-bottom">
+									<div class="row">
+										<div class="col-xs-6">
+											Examinar
+										</div>
+										<div class="col-xs-6 text-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<!-- Vacío-->
+					<div class = "col-lg-3"></div>
+				</div><!-- end of row 2: inner-->
+
+				<div class="row">
+
+					<!-- Documentación-->
+					<div class="col-lg-3 col-lg-offset-3"> <!-- avanza 9 columnas hacia la derecha con el offset-->
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<div class="row">
@@ -251,9 +319,8 @@
 						</div>
 					</div>
 
-					<!-- Vacío-->
-					<div class = "col-lg-3"></div>
-				</div><!-- end of row 2: inner-->
+
+				</div><!-- end of row 3: inner-->
 
 
 

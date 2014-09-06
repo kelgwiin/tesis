@@ -1,4 +1,4 @@
-
+<script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/procesos_negocio/js/operaciones_ajax.js"></script>
 
 
 <div id="page-wrapper">
@@ -14,12 +14,22 @@
 	</div>
 	
 	<?php if($this->session->flashdata('Success')) { ?>
-	<div class="alert alert-success text-center" role="alert" id="success">
+	<div class="alert alert-success text-center" role="alert" id="message">
 		<i class="fa fa-check"></i> <b><?php echo $this->session->flashdata('Success');?></b>
 	</div>
 
       <?php }
       ?>
+
+
+    <?php if($this->session->flashdata('Error')) { ?>
+	<div class="alert alert-danger text-center" role="alert" id="message">
+		<i class="fa fa-exclamation-circle"></i> <b><?php echo $this->session->flashdata('Error');?></b>
+	</div>
+
+      <?php }
+      ?>
+
      <div class="alert alert-success text-center" role="alert" id="success2" style="display: none;">
 	</div>
 
@@ -49,9 +59,9 @@
 											echo form_checkbox($data); ?>
 											<a type="button" class="btn btn-danger btn-xs disabled" onclick="" data-toggle="tooltip" data-placement="top" title="Eliminar Seleccionados" id="delete_checkbox"><i class="fa fa-times"> </i> Eliminar</a></th>
                                         <th>Nombre <i class="fa fa-sort"></i></th>
-                                        <th width="50%">Descripcion <i class="fa fa-sort"></i></th>
-                                        <th>Departamento <i class="fa fa-sort"></i></th>
-                                        <th>Acciones <i class="fa fa-sort"></i></th>
+                                        <th width="40%">Descripcion <i class="fa fa-sort"></i></th>
+                                        <th width="20%">Departamento <i class="fa fa-sort"></i></th>
+                                        <th >Acciones <i class="fa fa-sort"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -129,7 +139,7 @@
 		      
 		      </div>
 		      <div class="modal-body text-center">
-		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Eliminar TODOS</b> los Proceso de Negocio Seleccionados?</div></p>
+		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Eliminar TODOS</b> los Procesos de Negocio Seleccionados?</div></p>
 		      </div>
 		      <div class="modal-footer">
 		      	<button  id="eliminarselect_confirm" class="btn btn-danger">Eliminar</button>
