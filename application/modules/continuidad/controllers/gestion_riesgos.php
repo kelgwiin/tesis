@@ -12,6 +12,7 @@ class Gestion_riesgos extends MX_Controller
 		parent::__construct();
 		$this->load->module('utilities/utils');
 		$this->load->model('general/general_model','general');
+		$this->load->model('gestionriesgos_model','riesgos');
 		$this->load->helper('text');
 	}
 	
@@ -182,9 +183,13 @@ class Gestion_riesgos extends MX_Controller
 			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 			
 			// REGLAS DEL FORM VALIDATION
-			$this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean|is_unique[categorias_riesgos.categoria]');
+			if($_POST['id_categoria']) $this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean');
+			else
+			{
+				$this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean|is_unique[categorias_riesgos.categoria]');
+				$this->form_validation->set_message('is_unique', 'El %s que intenta crear ya se encuentra almacenado en la base de datos');
+			}
 			$this->form_validation->set_rules('descripcion','<strong>Descripción</strong>','required|min_length[40]|xss_clean');
-			$this->form_validation->set_message('is_unique', 'El %s que intenta crear ya se encuentra almacenado en la base de datos');
 			
 			if($this->form_validation->run($this))
 			{
@@ -310,15 +315,19 @@ class Gestion_riesgos extends MX_Controller
 			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 			
 			// REGLAS DEL FORM VALIDATION
-			$this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean|is_unique[riesgos_amenazas.denominacion]');
-			$this->form_validation->set_message('is_unique', 'La %s que intenta crear ya se encuentra almacenada en la base de datos');
+			if($_POST['id_riesgo']) $this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean');
+			else
+			{
+				$this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean|is_unique[riesgos_amenazas.denominacion]');
+				$this->form_validation->set_message('is_unique', 'La %s que intenta crear ya se encuentra almacenada en la base de datos');
+			}
 			
 			if($this->form_validation->run($this))
 			{
 				$_POST['valoracion'] = $this->valoracion_riesgo($_POST);
 				if($_POST['id_riesgo'])
 				{
-					// SI EXISTE $_POST['id_categoria'] QUIERE DECIR QUE YA LA CATEGORIA ESTA CREADA Y SE QUIERE ACTUALIZAR SU INFORMACION
+					// SI EXISTE $_POST['id_riesgo'] QUIERE DECIR QUE YA LA AMENAZA ESTA CREADA Y SE QUIERE ACTUALIZAR SU INFORMACION
 					$where['id_riesgo'] = $_POST['id_riesgo'];
 					unset($_POST['id_riesgo']);
 					$riesgo = $this->general->update('riesgos_amenazas',$_POST,$where);
@@ -361,55 +370,49 @@ class Gestion_riesgos extends MX_Controller
 		$where['id_riesgo'] = $id_riesgo;
 		if($this->general->exist('riesgos_amenazas',$where))
 		{
-			$view['riesgo'] = $this->general->get_row('categorias_riesgos',$where);
+			$view['categorias'] = $this->general->get_table('categorias_riesgos');
+			$view['riesgo'] = $this->riesgos->get_allrisks($where);
+			$view['riesgo'] = $view['riesgo'][0];
 			$breadcrumbs = array
 			(
 				base_url() => 'Inicio',
 				base_url().'index.php/continuidad' => 'Continuidad del Negocio',
 				base_url().'index.php/continuidad/gestion_riesgos' => 'Gestión de riesgos',
-				base_url().'index.php/continuidad/gestion_riesgos/categorias' => 'Listado de categorías',
-				'#' => $view['categoria']->categoria
+				base_url().'index.php/continuidad/gestion_riesgos/riesgos' => 'Listado de riesgos',
+				'#' => $view['riesgo']->denominacion
 			);
 			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar categoría','two_level');
+			$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar riesgos','two_level');
 		}else
 		{
-			$this->session->set_flashdata('alert_error','La categoría que intenta modificar no se encuentra en la base de datos');
-			redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
+			$this->session->set_flashdata('alert_error','La amenaza que intenta modificar no se encuentra en la base de datos');
+			redirect(site_url('index.php/continuidad/gestion_riesgos/riesgos'));
 		}
 	}
-	
-	
-	// public function eliminar_categoria($id_categoria = '')
-	// {
-		// modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// // $permiso = modules::run('general/have_permission', 20);
-		// // $vista = ($permiso) ? 'usuario_ver' : 'continuidad_sinpermiso';
-		// // $view['nivel'] = 20;
-// 		
-		// $where['id_categoria'] = $id_categoria;
-		// if($this->general->exist('categorias_riesgos',$where))
-		// {
-			// if($this->general->delete('categorias_riesgos',$where))
-				// $this->session->set_flashdata('alert_success','La categoría se ha eliminado con éxito');
-			// else
-				// $this->session->set_flashdata('alert_error','Hubo un error al intentar eliminar categoría, por favor intente de nuevo o contacte a su administrador');
-// 			
-		// }else
-			// $this->session->set_flashdata('alert_error','La categoría que intenta eliminar no se encuentra en la base de datos');
-// 			
-		// redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
-	// }
-	
-	// public function get_risks()
-	// {
-		// $this->load->model('gestionriesgos_model','riesgos');
-		// $riesgos = $this->riesgos->get_allrisks();
-		// foreach($riesgos as $key => $riesgo)
-			// $riesgo->valoracion = $this->valoracion_riesgo($riesgo);
-// 		
-		// return $riesgos;
-	// }
+
+	public function eliminar_riesgo($id_riesgo = '')
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 16);
+		$vista = ($permiso) ? 'eliminar' : 'continuidad_sinpermiso';
+		$view['nivel'] = 16;
+		
+		$where['id_riesgo'] = $id_riesgo;
+		if(($vista == 'eliminar') && $this->general->exist('riesgos_amenazas',$where))
+		{
+			if($this->general->delete('riesgos_amenazas',$where))
+				$this->session->set_flashdata('alert_success','La amenaza/riesgo se ha eliminado con éxito');
+			else
+				$this->session->set_flashdata('alert_error','Hubo un error al intentar eliminar la amenaza/riesgo, por favor intente de nuevo o contacte a su administrador');
+			
+		}else
+			$this->session->set_flashdata('alert_error','La amenaza/riesgo que intenta eliminar no se encuentra en la base de datos');
+			
+		if($vista == 'continuidad_sinpermiso')
+			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Eliminar riesgos','two_level');
+			
+		redirect(site_url('index.php/continuidad/gestion_riesgos/riesgos'));
+	}
 	
 	private function valoracion_riesgo($riesgo = array())
 	{

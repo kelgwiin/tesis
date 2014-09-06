@@ -192,4 +192,26 @@ from estructura_costo
 where anio = '3000';
 
 
+-- Obtención de precios y consumo de acuerdo al consumo almacenado en la tabla de caracterización
+select * from estructura_costo where mes = 6 and anio = 2014;
+
+select servicio_id, total_uso_redes, total_uso_cpu,
+total_uso_almacenamiento, total_uso_memoria,
+year(fecha) anio , month(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
+from caracterizacion as c
+join estructura_costo ec on year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
+
+;
+-- Procesador, Memoria, Redes, Almacenamiento
+
+select * from caracterizacion;
+
+-- obtención de los precios y cantidades asociadas a la estructura de costos.
+select  eci.*, c.nombre as nom_categ
+from estructura_costo_item eci
+join ma_categoria c on c.ma_categoria_id = eci.ma_categoria_id
+where estructura_costo_id = 558;
+
+select * from ma_categoria;
+
  

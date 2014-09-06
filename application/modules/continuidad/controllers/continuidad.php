@@ -229,6 +229,48 @@ class Continuidad extends MX_Controller
 		$this->utils->template($this->_list2(),'continuidad/continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
 	}
 
+	public function modificar_pcn($valoracion, $id_continuidad = '')
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 15);
+		$vista = ($permiso) ? 'crear_pcn' : 'continuidad_sinpermiso';
+		$view['nivel'] = 15;
+		$this->load->helper('text');
+		$view['valoracion'] = $valoracion;
+		
+		
+		
+		$where['id_continuidad'] = $id_continuidad;
+		if($this->general->exist('plan_continuidad',$where))
+		{
+			$view['plan_continuidad'] = $this->riesgos->get_allpcn($where);
+			$view['plan_continuidad'] = $view['plan_continuidad'][0];
+			$breadcrumbs = array
+			(
+				base_url() => 'Inicio',
+				base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+				base_url().'index.php/continuidad/seleccionar_listado' => 'Seleccionar Listado',
+				base_url().'index.php/continuidad/listado_pcn/'.$valoracion => 'Listado de PCN',
+				'#' => $view['plan_continuidad']->codigo
+			);
+			$view['crisis'] = $this->riesgos->get_allteams(array('e.id_tipo'=>1));
+			$view['recuperacion'] = $this->riesgos->get_allteams(array('e.id_tipo'=>2));
+			$view['logistica'] = $this->riesgos->get_allteams(array('e.id_tipo'=>3));
+			$view['rrpp'] = $this->riesgos->get_allteams(array('e.id_tipo'=>4));
+			$view['pruebas'] = $this->riesgos->get_allteams(array('e.id_tipo'=>5));
+			$view['riesgos'] = $this->riesgos->get_allrisks(array('riesgos_amenazas.valoracion'=>$valoracion));
+			$view['departamentos'] = $this->general->get_table('departamento');
+			$view['estados'] = $this->general->get_table('usuarios_estado');
+			$view['crearpcn_js'] = $this->load->view('continuidad/continuidad/crearpcn_js','',TRUE);
+			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+			$this->utils->template($this->_list2(),'continuidad/continuidad/'.$vista,$view,$this->title,'Modificar PCN','two_level');
+		}else
+		{
+			$this->session->set_flashdata('alert_error','El Plan de Continuidad del Negocio que intenta modificar no se encuentra en la base de datos');
+			redirect(site_url('index.php/continuidad/listado_pcn'));
+		}
+	}
+
 	private function percent($item, $count)
 	{
 		return (float)($item * 100)/$count;

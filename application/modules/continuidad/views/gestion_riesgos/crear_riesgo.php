@@ -34,7 +34,7 @@
 							<label class="col-md-4 control-label" for="denominacion">Denominación</label>  
 							<div class="col-md-6">
 								<input name="denominacion" type="text" placeholder="Denominación del riesgo" class="form-control input-md"
-									value="<?php echo set_value('denominacion') ?>" required="" />
+									value="<?php echo set_value('denominacion',@$riesgo->denominacion) ?>" required="" />
 							</div>
 						</div>
 						
@@ -44,7 +44,8 @@
 							<div class="col-md-6">
 								<select id="id_categoria" name="id_categoria" class="form-control">
 									<?php foreach($categorias as $key => $categoria) : ?>
-										<option value="<?php echo $categoria->id_categoria ?>" <?php echo set_select('id_categoria', @$riesgo->id_categoria); ?>>
+										<option value="<?php echo $categoria->id_categoria ?>"
+											<?php echo (isset($riesgo->id_categoria) && ($categoria->id_categoria == $riesgo->id_categoria)) ? 'selected' : '' ?>>
 											<?php echo $categoria->categoria ?>
 										</option>
 									<?php endforeach ?>
@@ -57,11 +58,11 @@
 							<label class="col-md-4 control-label" for="probabilidad">Probabilidad</label>
 							<div class="col-md-6">
 								<select name="probabilidad" class="form-control">
-									<option value="Alta">Alta</option>
-									<option value="Media-Alta">Media-Alta</option>
-									<option value="Media">Media</option>
-									<option value="Media-Baja">Media-Baja</option>
-									<option value="Baja">Baja</option>
+									<option value="Alta" <?php echo (isset($riesgo->probabilidad) && ($riesgo->probabilidad == 'Alta')) ? 'selected' : '' ?>>Alta</option>
+									<option value="Media-Alta" <?php echo (isset($riesgo->probabilidad) && ($riesgo->probabilidad == 'Media-Alta')) ? 'selected' : '' ?>>Media-Alta</option>
+									<option value="Media" <?php echo (isset($riesgo->probabilidad) && ($riesgo->probabilidad == 'Media')) ? 'selected' : '' ?>>Media</option>
+									<option value="Media-Baja" <?php echo (isset($riesgo->probabilidad) && ($riesgo->probabilidad == 'Media-Baja')) ? 'selected' : '' ?>>Media-Baja</option>
+									<option value="Baja" <?php echo (isset($riesgo->probabilidad) && ($riesgo->probabilidad == 'Baja')) ? 'selected' : '' ?>>Baja</option>
 								</select>
 							</div>
 						</div>
@@ -71,14 +72,18 @@
 							<label class="col-md-4 control-label" for="probabilidad">Impacto</label>
 							<div class="col-md-6">
 								<select name="impacto" class="form-control">
-									<option value="Alto">Alto</option>
-									<option value="Medio-Alto">Medio-Alto</option>
-									<option value="Medio">Medio</option>
-									<option value="Medio-Bajo">Medio-Bajo</option>
-									<option value="Bajo">Bajo</option>
+									<option value="Alto" <?php echo (isset($riesgo->impacto) && ($riesgo->impacto == 'Alto')) ? 'selected' : '' ?>>Alto</option>
+									<option value="Medio-Alto" <?php echo (isset($riesgo->impacto) && ($riesgo->impacto == 'Medio-Alto')) ? 'selected' : '' ?>>Medio-Alto</option>
+									<option value="Medio" <?php echo (isset($riesgo->impacto) && ($riesgo->impacto == 'Medio')) ? 'selected' : '' ?>>Medio</option>
+									<option value="Medio-Bajo" <?php echo (isset($riesgo->impacto) && ($riesgo->impacto == 'Medio-Bajo')) ? 'selected' : '' ?>>Medio-Bajo</option>
+									<option value="Bajo" <?php echo (isset($riesgo->impacto) && ($riesgo->impacto == 'Bajo')) ? 'selected' : '' ?>>Bajo</option>
 								</select>
 							</div>
 						</div>
+						
+						<?php if(isset($riesgo) && !empty($riesgo)) : ?>
+							<input type="hidden" name="id_riesgo" value="<?php echo $riesgo->id_riesgo ?>" />
+						<?php endif ?>
 						
 						<!-- Button -->
 						<div class="form-group">

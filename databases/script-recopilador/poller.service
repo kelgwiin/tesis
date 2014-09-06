@@ -1,0 +1,11 @@
+[Unit]
+Description=Start Poller_CSV server
+
+[Service]
+User=root
+WorkingDirectory=/home/poller_csv
+ExecStart=/bin/bash poller_csv.sh start
+KillMode=process
+
+[Install]
+WantedBy=default.target
