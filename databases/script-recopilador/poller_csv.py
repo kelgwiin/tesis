@@ -19,13 +19,59 @@ import logging.handlers
 import ConfigParser
 from collections import defaultdict
 
+
 # DEFAULTS
+class Proceso:
+    def __init__(self):
+        uname = os.uname()
+        if uname[0] == "FreeBSD":
+            self.proc = '/compat/linux/proc'
+        else:
+            self.proc = '/proc'
+
+    def path(self, *args):
+        return os.path.join(self.proc, *(str(a) for a in args))
+
+    def open(self, *args):
+        try:
+            return open(self.path(*args))
+        except (IOError, OSError):
+            val = sys.exc_info()[1]
+            if val.errno == errno.ENOENT or val.errno == errno.EPERM:  # kernel thread or process gone
+                raise LookupError
+            raise
+
+
+# Make a class we can use to capture stdout and sterr in the log
+class MyLogger(object):
+    def __init__(self, logge, level):
+        self.logger = logge
+        self.level = level
+
+    def write(self, message):
+        # Only log if there is a message (not just a new line)
+        if message.rstrip() != "":
+            self.logger.log(self.level, message.rstrip())
+
+
+class FuncionHilo(threading.Thread):
+    def __init__(self, target, *arg):
+        self._target = target
+        self._args = arg
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self._target(*self._args)
+
+
 startTime = time.time()
-proc = ps_mem.Proc()
+proc = Proceso()
 Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
-PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  # KiB
+PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  #
+directorio = ""
 out_term = False
 single_pass = False
+all_threads = False
 
 try:
     # Read command line args
@@ -60,19 +106,20 @@ try:
     with open('config') as f:
         configParser = ConfigParser.RawConfigParser()
         configParser.read(r'config')
-        tiempos = configParser.get('variables', 'logtiempo') is True
+        tiempos = configParser.get('variables', 'logtime') is True
         if 'comandos' not in globals():
-            comandos = configParser.get('variables', 'comandos').split(",")
+            comandos = configParser.get('variables', 'commands').split(",")
         if 'intervalo' not in globals():
-            intervalo = float(configParser.get('variables', 'intervalo'))
+            intervalo = float(configParser.get('variables', 'interval'))
         if 'use_ps_mem' not in globals():
             use_ps_mem = configParser.get('variables', 'ps_mem') is True
         if 'directorio' not in globals():
             directorio = configParser.get('variables', 'storepath')
         if 'all_threads' not in globals():
             all_threads = configParser.get('variables', 'per_threads')
-        if directorio is not "":
-            directorio += "poller_csv/"
+        if 'directorio' in globals():
+            if directorio is not "":
+                directorio += "poller_csv/"
 
 
 except IOError:
@@ -128,28 +175,6 @@ def verificar_dir():
                     pass
                 else:
                     raise
-
-
-# Make a class we can use to capture stdout and sterr in the log
-class MyLogger(object):
-    def __init__(self, logge, level):
-        self.logger = logge
-        self.level = level
-
-    def write(self, message):
-        # Only log if there is a message (not just a new line)
-        if message.rstrip() != "":
-            self.logger.log(self.level, message.rstrip())
-
-
-class FuncionHilo(threading.Thread):
-    def __init__(self, target, *arg):
-        self._target = target
-        self._args = arg
-        threading.Thread.__init__(self)
-
-    def run(self):
-        self._target(*self._args)
 
 
 def escribir_archivo(array):

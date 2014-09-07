@@ -3,14 +3,14 @@
 cd /var/www/tesis/databases/script-recopilador/
 
 function install {
-   echo -n "Installing server..."
+   echo -n "Installing poller_csv service..."
    cp poller_csv.sh /etc/init.d/
    echo "..Done"
    exit 1
 }
 
 function uninstall {
-   echo -n "Uninstalling server..."
+   echo -n "Uninstalling poller_csv service..."
    rm /etc/init.d/poller_csv.sh
    echo "..Done"
    exit 1
@@ -23,9 +23,9 @@ function stop {
    get_pid
    if [ "${#pids[@]}" = 0 ]
    then
-      echo "server is not running."
+      echo "poller_csv service is not running."
    else
-      echo -n "Stopping server..."
+      echo -n "Stopping poller_csv service..."
       kill "$pids"
       sleep 1
       echo ".. Done."
@@ -38,18 +38,18 @@ function start {
    get_pid
    if [ "${#pids[@]}" = 0 ]
    then
-      echo  "Starting server..."
+      echo  "Starting poller_csv service..."
       ./poller_csv.py &
       get_pid
       echo "$pids" 1>! ${PIDFILE}
       echo "Done."
    else
-      echo "server is already running, PIDS: $PID"
+      echo "poller_csv service is already running, PIDS: $PID"
    fi
 }
 
 function restart {
-   echo  "Restarting server.."
+   echo  "Restarting poller_csv service.."
    get_pid
    if [ "${#pids[@]}" = 0 ]
    then
@@ -65,9 +65,9 @@ function status {
    get_pid
    if [ "${#pids[@]}" = 0 ]
    then
-      echo "Server is not running."
+      echo "poller_csv service is not running."
    else
-      echo "Server is running, PIDS: $pids"
+      echo "poller_csv service is running, PIDS: $pids"
    fi
    exit 1
 }
