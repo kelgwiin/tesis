@@ -158,6 +158,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Crisis</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_crisis" placeholder="Plan de acción que debe seguir el Comité de Crisis una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="recuperacion">Equipo de recuperación</label>
@@ -176,6 +185,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Recuperación</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_recuperacion" placeholder="Plan de acción que debe seguir el Equipo de Recuperación una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="logistica">Equipo de logística</label>
@@ -194,6 +212,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Logística</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_logistica" placeholder="Plan de acción que debe seguir el Equipo de Logística una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="rrpp">Equipo de RRPP</label>
@@ -212,6 +239,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción RRPP</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_rrpp" placeholder="Plan de acción que debe seguir el Equipo de RRPP una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="pruebas">Equipo de pruebas</label>
@@ -228,6 +264,13 @@
 									</option>
 								<?php endforeach ?>
 							</select>
+						</div>
+					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Pruebas</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_pruebas" placeholder="Plan de acción que debe seguir el Equipo de Pruebas una vez activado el PCN"></textarea>
 						</div>
 					</div>
 					

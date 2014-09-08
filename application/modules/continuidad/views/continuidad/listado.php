@@ -51,6 +51,7 @@
 				                        <th>Tipo de PCN <i class="fa fa-sort"></i></th>
 				                        <th>Estado del PCN <i class="fa fa-sort"></i></th>
 				                        <th>Fecha de creación <i class="fa fa-sort"></i></th>
+			                        	<th>Activar</th>
 			                        	<th>Eliminar</th>
 				                    </tr>
 				                </thead>
@@ -68,6 +69,9 @@
 				                			<td><?php echo ucfirst($plan->tipo_plan) ?></td>
 				                			<td><?php echo ucfirst($plan->estado) ?></td>
 				                			<td><?php echo date('d-m-Y h:i A', strtotime($plan->fecha_creacion)) ?></td>
+				                			<td>
+				                				<input type="checkbox" data-toggle="modal" data-target="#activar<?php echo $plan->id_continuidad ?>" />
+				                			</td>
 				                			<td>
 					                			<a data-toggle="modal" data-target="#delete<?php echo $plan->id_continuidad ?>">
 					                				<span class="label label-danger">X</span>
@@ -90,6 +94,27 @@
 														<a href="<?php echo base_url().'index.php/continuidad/listado_pcn/eliminar/'.$plan->id_continuidad ?>"
 															type="button" class="btn btn-danger">
 															Eliminar
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal fade" id="activar<?php echo $plan->id_continuidad ?>" tabindex="-1" role="dialog" aria-labelledby="activar" aria-hidden="true">
+											<div class="modal-dialog modal-sm">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+														<h4 class="modal-title" id="myModalLabel">Eliminar Plan de Continuidad del Negocio</h4>
+													</div>
+													<div class="modal-body">
+														Va a activar el Plan de Continuidad del Negocio <strong><?php echo ucfirst($plan->denominacion) ?></strong> para la amenaza <strong><?php echo ucfirst($plan->riesgos_denominacion) ?></strong><br />
+														¿Está seguro que desea continuar con la activación del PCN?
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+														<a href="<?php echo base_url().'index.php/continuidad/listado_pcn/eliminar/'.$plan->id_continuidad ?>"
+															type="button" class="btn btn-primary">
+															Activar
 														</a>
 													</div>
 												</div>
