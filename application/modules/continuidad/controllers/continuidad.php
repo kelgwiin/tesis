@@ -275,4 +275,13 @@ class Continuidad extends MX_Controller
 	{
 		return (float)($item * 100)/$count;
 	}
+	
+	public function maqueta()
+	{
+		$this->load->library('mpdf');
+		$pdf = $this->load->view('continuidad/continuidad/pdf_template.php','',TRUE);
+		$mpdf = new mPDF();
+		$mpdf->WriteHTML($pdf);
+		$content = $mpdf->Output('pdsdasdasf.pdf','I');
+	}
 }

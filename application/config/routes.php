@@ -124,6 +124,7 @@ $route['continuidad/listado_pcn/eliminar/(:num)']							= "#";
 $route['continuidad/listado_pcn/?(.*)']										= "continuidad/continuidad/listado/$1";
 $route['continuidad/crear_pcn/?(.*)']										= "continuidad/continuidad/crear/$1";
 $route['continuidad/gestion_riesgos']										= "continuidad/gestion_riesgos";
+$route['continuidad/crear_maqueta']											= "continuidad/maqueta";
 // CATEGORIAS
 $route['continuidad/gestion_riesgos/categorias']							= "continuidad/gestion_riesgos/categorias";
 $route['continuidad/gestion_riesgos/categorias/crear']						= "continuidad/gestion_riesgos/crear_categoria";

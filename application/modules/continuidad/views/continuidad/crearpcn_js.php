@@ -2,6 +2,7 @@
 	$(function()
 	{
 		$('#creacion-equipos').hide();
+		$('#consideraciones').hide();
 		$('select[name=id_departamento]').change(function()
 		{
 			var dpto = $(this).val();
@@ -28,13 +29,29 @@
 		$('#next').click(function()
 		{
 			$('#datos-generales').hide();
+			$('#consideraciones').hide();
 			$('#creacion-equipos').show('slide',{direction: 'right'}, 800);
 		});
 		
 		$('#prev').click(function()
 		{
 			$('#creacion-equipos').hide();
+			$('#consideraciones').hide();
 			$('#datos-generales').show('slide',{direction: 'left'}, 800);
+		});
+		
+		$('#prev2').click(function()
+		{
+			$('#datos-generales').hide();
+			$('#consideraciones').hide();
+			$('#creacion-equipos').show('slide',{direction: 'left'}, 800);
+		});
+		
+		$('#next2').click(function()
+		{
+			$('#datos-generales').hide();
+			$('#creacion-equipos').hide();
+			$('#consideraciones').show('slide',{direction: 'right'}, 800);
 		});
 	});
 </script>
