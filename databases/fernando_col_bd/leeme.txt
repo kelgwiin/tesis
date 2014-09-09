@@ -1,0 +1,7 @@
+He agregado las tablas:
+servicio_categoria
+servicio_tipo
+proceso_negocio
+servicio_proveedor
+
+He modificado la tabla Servicio, deje los atributos originales y agregue otros.
