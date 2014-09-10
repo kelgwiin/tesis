@@ -64,18 +64,48 @@ class FuncionHilo(threading.Thread):
         self._target(*self._args)
 
 
+def buscar_pids(comms):
+    """"
+    BUSCAR PIDS POR COMANDO DE EJECUCION DE PROCESO
+    """
+    pid = []
+    pid_command = defaultdict(dict)
+    for c in comms:
+        t = subprocess.Popen(["pgrep", c], stdout=subprocess.PIPE)
+        (output, err) = t.communicate()
+        p = output.split('\n')
+        del p[-1]
+        pid += p
+        pid_command[c] = p
+    return pid, pid_command
+
+
 startTime = time.time()
 proc = Proceso()
 Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
 PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  #
 directorio = ""
-out_term = False
-single_pass = False
-all_threads = False
+out_term = single_pass = all_threads = False
+count = 1
+iterate = True
+intervalo = 5
 
 try:
     # Read command line args
     myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:s:")
+    for o, a in myopts:
+        if o == '-c':
+            comandos = a.split(',')
+        elif o == '-i':
+            intervalo = a
+        elif o == '-psmem':
+            use_ps_mem = False
+        elif o == '-o':
+            out_term = True
+        elif o == '-s':
+            single_pass = True
+        elif o == '-p':
+            all_threads = False
 except getopt.GetoptError as e:
     print(str(e))
     print("Usage: %s -c [command1,command2,command3..] -i [secs]" % sys.argv[0])
@@ -87,20 +117,6 @@ except getopt.GetoptError as e:
     print("   -p Outputs the sum of threads per process. ")
     sys.exit(2)
 
-for o, a in myopts:
-
-    if o == '-c':
-        comandos = a.split(',')
-    elif o == '-i':
-        intervalo = a
-    elif o == '-psmem':
-        use_ps_mem = False
-    elif o == '-o':
-        out_term = True
-    elif o == '-s':
-        single_pass = True
-    elif o == '-p':
-        all_threads = False
 
 try:
     with open('config') as f:
@@ -120,12 +136,13 @@ try:
         if 'directorio' in globals():
             if directorio is not "":
                 directorio += "poller_csv/"
-
-
 except IOError:
     raise Exception("No se pudo abrir el archivo de configuracion.")
 except ConfigParser.NoSectionError:
     raise Exception("No se pudieron leer parametros.")
+
+# Bucar pids por comando
+pids, pids_comando = buscar_pids(comandos)
 
 
 def set_exit_handler(func):
@@ -178,6 +195,12 @@ def verificar_dir():
 
 
 def escribir_archivo(array):
+    if all_threads is False:
+        '''
+        linea = [p, stat_despues[12].strip('()'), tasa_cpu, tasa_memoria, operaciones_dd_lectura, operaciones_dd_escritura,
+                 tasa_dd_lectura, tasa_dd_escritura, tasa_dd_escritura + tasa_dd_lectura, errores_pagina, segundos,
+                 stat_despues[0], timestamp]
+        '''
     with open(proc_filename(), 'a',) as fi:
         writer = csv.writer(fi, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
         for row in array:
@@ -231,20 +254,6 @@ def datos_proceso(p, stat_antes, stat_despues, io_antes, io_despues, memoria):
              tasa_dd_lectura, tasa_dd_escritura, tasa_dd_escritura + tasa_dd_lectura, errores_pagina, segundos,
              stat_despues[0], timestamp]
     return linea
-
-
-def buscar_pids(comand):
-    """"
-    BUSCAR PIDS POR COMANDO DE EJECUCION DE PROCESO
-    """
-    pids = []
-    for c in comand:
-        t = subprocess.Popen(["pgrep", c], stdout=subprocess.PIPE)
-        (output, err) = t.communicate()
-        p = output.split('\n')
-        del p[-1]
-        pids += p
-    return pids
 
 
 def pid_io(p, array):
@@ -316,8 +325,8 @@ def pid_mem(p, array):
     return array
 
 
-def muestreo(pids, array_io, array_pstat):
-    for p in pids:
+def muestreo(pid_s, array_io, array_pstat):
+    for p in pid_s:
         io = FuncionHilo(pid_io, p, array_io)
         pstat = FuncionHilo(pid_stat, p, array_pstat)
         io.start()
@@ -326,31 +335,15 @@ def muestreo(pids, array_io, array_pstat):
         pstat.join()
 
 
-def muestreo_mem(pids, memorias):
-    for p in pids:
+def muestreo_mem(p_ids, memorias):
+    for p in p_ids:
         memt = FuncionHilo(pid_mem, p, memorias)
         memt.start()
         memt.join()
 
 
-def allthreads():
-    verificar_dir()
-    log = init_log()
-    count = 1
-    iterate = True
-    while iterate:
-        log.info("Lectura " + str(count))
-        print "Leyendo datos..."
-        tiempo_transcurrido = principal(comandos)
-        print "Tiempo transcurrido: %f" % tiempo_transcurrido
-        count += 1
-        time.sleep(intervalo - tiempo_transcurrido)
-        iterate = not single_pass    
-
-
-def principal(comms):
+def principal():
     principal_starttime = time.time()
-    pids = buscar_pids(comms)
     io_before = defaultdict(dict)
     io_after = defaultdict(dict)
     pstat_before = defaultdict(dict)
@@ -360,14 +353,12 @@ def principal(comms):
     muestreo(pids, io_before, pstat_before)  # ANTES
     delay_primer_muestreo = time.time() - principal_starttime
     ajuste_delay = 1 - delay_primer_muestreo
-    if tiempos:
-        print "Tiempo de Ajuste Automatico: %f" % ajuste_delay
     time.sleep(ajuste_delay)
-    if tiempos:
-        print "Tiempo de Primer Muestreo: %f" % delay_primer_muestreo
     muestreo(pids, io_after, pstat_after)  # DESPUES
-    delay_segundo_muestreo = time.time() - principal_starttime - delay_primer_muestreo - ajuste_delay
     if tiempos:
+        delay_segundo_muestreo = time.time() - principal_starttime - delay_primer_muestreo - ajuste_delay
+        print "Tiempo de Ajuste Automatico: %f" % ajuste_delay
+        print "Tiempo de Primer Muestreo: %f" % delay_primer_muestreo
         print "Tiempo de Segundo Muestreo: %f" % delay_segundo_muestreo
     muestreo_mem(pids, mem)
     for p in pids:
@@ -379,5 +370,13 @@ def principal(comms):
 
 if __name__ == "__main__":
     set_exit_handler(on_exit)
-    if all_threads:
-        allthreads()
+    verificar_dir()
+    log = init_log()
+    while iterate:
+        log.info("Lectura " + str(count))
+        print "Leyendo datos..."
+        tiempo_transcurrido = principal()
+        print "Tiempo transcurrido: %f" % tiempo_transcurrido
+        count += 1
+        time.sleep(intervalo - tiempo_transcurrido)
+        iterate = not single_pass
