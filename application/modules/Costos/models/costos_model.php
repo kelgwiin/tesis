@@ -447,5 +447,29 @@ class Costos_model extends CI_Model{
 			$this->estructura_costos($year,$i);
 		}
 	}
+	/**
+	 * Permite hacer el cálculo del Modelo de Costos por Servicio. Tomando 
+	 * la información que fue previamente caracterzada.
+	 * @param  Integer $year  Año
+	 * @param  Integer $month Mes
+	 * @return 
+	 */
+	public function modelo_costos($year=2014, $month=-1){
+		echo "Inicio del cálculo del modelo de costos <br>";
+
+		$sql = "SELECT servicio_id, total_uso_redes, total_uso_cpu,
+				total_uso_almacenamiento, total_uso_memoria,
+				YEAR(fecha) anio , MONTH(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
+				FROM caracterizacion AS c
+				JOIN estructura_costo ec ON year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
+				WHERE YEAR(c.fecha) = $year
+		;";
+
+		$query = $this->db->query($sql);
+		if($query->num_rows > 0 ){
+			$rs = $query->result_array();
+			echo_pre($rs);
+		}
+	}
 
 }
