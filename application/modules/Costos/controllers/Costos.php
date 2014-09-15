@@ -69,7 +69,7 @@ class Costos extends MX_Controller
 				break;
 			case 'modelo-costos-by-year':
 				echo "Calculando el modelo de Costos para el año de: <code>$anio</code> <br>";
-				$this->costos_model->modelo_costos($anio);
+				$this->costos_model->modelo_costos($anio,6);
 				break;
 		}
 		

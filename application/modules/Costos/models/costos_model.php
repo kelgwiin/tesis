@@ -449,27 +449,80 @@ class Costos_model extends CI_Model{
 	}
 	/**
 	 * Permite hacer el cálculo del Modelo de Costos por Servicio. Tomando 
-	 * la información que fue previamente caracterzada.
+	 * la información que fue previamente caracterizada.
+	 * 
+	 * Nota: Por servicio en conjunto con el mes debe existir una única caracterización asociada.
+	 * De manera que ésta debería de correrse mensualmente.
+	 * 
+	 * Creado: 14-Sep-2014
 	 * @param  Integer $year  Año
 	 * @param  Integer $month Mes
 	 * @return 
 	 */
-	public function modelo_costos($year=2014, $month=-1){
-		echo "Inicio del cálculo del modelo de costos <br>";
-
+	public function modelo_costos($year=2014, $month){
 		$sql = "SELECT servicio_id, total_uso_redes, total_uso_cpu,
 				total_uso_almacenamiento, total_uso_memoria,
 				YEAR(fecha) anio , MONTH(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
 				FROM caracterizacion AS c
 				JOIN estructura_costo ec ON year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
-				WHERE YEAR(c.fecha) = $year
-		;";
-
+				WHERE YEAR(c.fecha) = $year AND MONTH(c.fecha) = $month
+		";
+		
 		$query = $this->db->query($sql);
-		if($query->num_rows > 0 ){
+
+		if($query->num_rows() > 0 ){
 			$rs = $query->result_array();
-			echo_pre($rs);
-		}
+			//Buscando los costos asociados a cada categoría y ya fueron obtenidos
+			//no se buscan de nuevo
+			$ec = array();// estructura de costos
+			$sql_eci = "SELECT  eci.*, c.nombre AS nom_categ
+						FROM estructura_costo_item eci
+						JOIN ma_categoria c ON c.ma_categoria_id = eci.ma_categoria_id
+						WHERE estructura_costo_id = ? ";
+
+			/**
+			 * Permite guardar los costos por servicio
+			 * que posteriormente serán almacenados en la tabla de
+			 * 'servicio_costo'.
+			 * 
+			 * @var array
+			 */
+			$costos_by_servicio = array();
+
+			//info de caracterización
+			foreach ($rs as $row) {
+				$ec_id = $row['estructura_costo_id'];
+				echo " ec_id $ec_id <br>";
+				if( !isset($ec[$ec_id]) ){
+					$q_eci = $this->db->query($sql_eci, array($ec_id) );
+					
+					//info de la estructura de costos
+					$tmp_costos  = array();
+					$rs_eci = $q_eci->result_array();
+					foreach ($rs_eci as $row_ci) {
+						$total_dinero = $row_ci['total_monetario'] + $row_ci['total_monetario_cost_ind'];
+						$dinero_por_unidad = $total_dinero/$row_ci['total_capacidad'];//Monto de dinero por unidad
+						$tmp_costos[$row_ci['nom_categ']] = $dinero_por_unidad;
+					}//end of: foreach inner
+					$ec[$ec_id] = $tmp_costos;
+				}
+
+				$rs_eci = $ec[$ec_id];//info de costos por unidad
+				$alm = $row['total_uso_almacenamiento'] * $rs_eci['Almacenamiento'];
+				$mem = $row['total_uso_memoria'] * $rs_eci['Memoria'];
+				$red = $row['total_uso_redes'] * $rs_eci['Redes'];
+				$proc = $row['total_uso_cpu'] * $rs_eci['Procesador'];
+				
+				$costos_by_servicio[$row['servicio_id']] = array(
+					'Almacenamiento'=>$alm,
+					'Memoria'=>$mem,
+					'Redes'=>$red,
+					'Procesador'=>$proc
+				);
+				
+			}//end of: foreach outter
+			echo_pre($costos_by_servicio);	//prueba
+		}// end of: if
 	}
 
 }
