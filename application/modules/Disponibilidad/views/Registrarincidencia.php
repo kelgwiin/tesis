@@ -64,48 +64,24 @@
 					<?php echo form_label('Servicio Afectado:','serv' ); ?>
 					<?php if($servicios!=false){
 						echo form_dropdown('servic', $servicios);
-					} ?>			
+					}else{
+						echo "No hay Servicios Registrados";
+					}
+					 ?>			
 				</div>
 
 				<div class ="offset1 span5 well">
-					<label for="impacto_mejoras">Codigo:</label>
+					<label for="impacto_mejoras">Codigo de la Incidencia:</label>
    					<input type="text" class="input-group" name="codigo" value="<?php echo set_value('codigo'); ?>">
 				</div>
-	
-		
 			</div>
 </div><!-- /form-group -->
 
 
   <br><br><br>
-
-
-
   <br><br><br>
-  <br><br><br>
-
-
-
-
-<div class="container">
-		<div class="row">
-			<div class="offset1 span5 well">
-				<?php echo form_label('Servicio Afectado:','serv' ); ?>
-				<?php 
-					if($servicios!=false){
-						echo form_dropdown('servic', $servicios);
-					}
-					 ?>				
-			</div>
-		</div>
-</div>
-<?php echo form_error('codigo'); ?>
-<form class="form-inline" role="form">
-  <div class="col-md-3">
-    <label for="impacto_mejoras">Codigo de la Incidencia:</label>
-    <input type="text" class="form-control" name="codigo" value="<?php echo set_value('codigo'); ?>">
-  </div>
-  <br><br><br>
+    <br><br><br>
+    
 <?php echo form_error('descripcion'); ?>
 <form class="form-inline" role="form">
   <div class="offset1 span5 well">

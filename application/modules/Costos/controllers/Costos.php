@@ -67,6 +67,10 @@ class Costos extends MX_Controller
 				$this->costos_model->add_fecha_hasta_comp_all();
 				echo "Fecha de caducidad agregada<br>";
 				break;
+			case 'modelo-costos-by-year':
+				echo "Calculando el modelo de Costos para el año de: <code>$anio</code> <br>";
+				$this->costos_model->modelo_costos($anio,6);
+				break;
 		}
 		
 	}
