@@ -8,11 +8,15 @@ Example output:
 ---------------
 
 ```
-"16111","chrome","17.805196393350926","5.983826549153017","7.0","5.0","0.0","0.0","0.0","1.0","16518.379999999997","S","2014-09-06 21:10:05"
+"16111","chrome","17.805196393350926","5.983826549153017","7.0","5.0","0.0","0.0","0.0","1.0","16518.379999999997","S","2014-09-06 21:10:05","T"
 
 ```
-"PID(Process ID)","process(command)","%cpu_usage","%memory_usage","#disk_reads","#disk_writes","%disk_read_rate","%disk_write_rate",
-"%disk_total","page_erros","time_alive","status","timestamp"
+"PID","process(command)","%cpu_usage","%memory_usage","#disk_reads","#disk_writes","%disk_read_rate","%disk_write_rate",
+"%disk_total","page_erros","time_alive","status","timestamp","PID list"
+
+PID field could be a "P" value if the per_threads flag is set to False, if not it will print the PID number.
+PID list field is the PID numbers of the parent and children processes for the specified command.
+
 
 Usage as terminal command:
 --------------------------
@@ -50,7 +54,7 @@ per_threads = True
 * ps_mem: This flag activates the usage of the module ps_mem for more accurate memory stats.
 * logtime: This flag creates a file for logging polling times, issues and exceptions.
 * storepath: Defines the path where this module creates a filesystem to store the stats directory(containing the csv per day of polling)
-* per_threads: EXPERIMENTAL. This flags is used for detailing threads in the target csv or to consolidate data per process.
+* per_threads: This flags is used for detailing threads in the target csv or to consolidate data per process.
 
 
 Bash script:
