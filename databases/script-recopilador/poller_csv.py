@@ -92,7 +92,7 @@ intervalo = 5
 
 try:
     # Read command line args
-    myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:s:")
+    myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:s:p:")
     for o, a in myopts:
         if o == '-c':
             comandos = a.split(',')
@@ -196,15 +196,43 @@ def verificar_dir():
 
 def escribir_archivo(array):
     if all_threads is False:
-        '''
-        linea = [p, stat_despues[12].strip('()'), tasa_cpu, tasa_memoria, operaciones_dd_lectura, operaciones_dd_escritura,
-                 tasa_dd_lectura, tasa_dd_escritura, tasa_dd_escritura + tasa_dd_lectura, errores_pagina, segundos,
-                 stat_despues[0], timestamp]
-        '''
+        output = defaultdict(dict)
+        for key in pids_comando.iterkeys():
+            procesos = "-".join(pids_comando[key])
+            nombre = key
+            cpu = 0
+            memoria = 0
+            lectop = 0
+            escriop = 0
+            ddlect = 0
+            ddescri = 0
+            ddtotal = 0
+            pagerr = 0
+            timealive = 0
+            for pid in pids_comando[key]:
+                cpu += array[pid][2]
+                memoria += array[pid][3]
+                lectop += array[pid][4]
+                escriop += array[pid][5]
+                ddlect += array[pid][6]
+                ddescri += array[pid][7]
+                ddtotal += array[pid][8]
+                pagerr += array[pid][9]
+                if timealive < array[pid][10]:
+                    timealive = array[pid][10]
+            status = "R"
+            timestamp = (time.strftime('%Y-%m-%d %H:%M:%S'))
+            output[nombre] = ["P", nombre, cpu, memoria, lectop, escriop, ddlect, ddescri, ddtotal, pagerr,
+                              timealive, status, timestamp, procesos]
+
     with open(proc_filename(), 'a',) as fi:
         writer = csv.writer(fi, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-        for row in array:
-            writer.writerow(array[row])
+        if all_threads is False:
+            for row in output:
+                writer.writerow(output[row])
+        else:
+            for row in array:
+                writer.writerow(array[row])
 
 
 def stat():
@@ -252,7 +280,7 @@ def datos_proceso(p, stat_antes, stat_despues, io_antes, io_despues, memoria):
     errores_pagina = (stat_despues[1] + stat_despues[3]) - (stat_antes[1] + stat_antes[3])
     linea = [p, stat_despues[12].strip('()'), tasa_cpu, tasa_memoria, operaciones_dd_lectura, operaciones_dd_escritura,
              tasa_dd_lectura, tasa_dd_escritura, tasa_dd_escritura + tasa_dd_lectura, errores_pagina, segundos,
-             stat_despues[0], timestamp]
+             stat_despues[0], timestamp, "T"]
     return linea
 
 
@@ -370,13 +398,15 @@ def principal():
 
 if __name__ == "__main__":
     set_exit_handler(on_exit)
-    verificar_dir()
-    log = init_log()
+    if not out_term:
+        verificar_dir()
+        log = init_log()
     while iterate:
-        log.info("Lectura " + str(count))
-        print "Leyendo datos..."
         tiempo_transcurrido = principal()
-        print "Tiempo transcurrido: %f" % tiempo_transcurrido
         count += 1
         time.sleep(intervalo - tiempo_transcurrido)
+        if not out_term:
+            log.info("Lectura " + str(count))
+            print "Leyendo datos..."
+            print "Tiempo transcurrido: %f" % tiempo_transcurrido
         iterate = not single_pass
