@@ -623,6 +623,12 @@ class Cargar_Data extends MX_Controller
 		
 		$servicio =  $this->general->get_row('servicio',array('servicio_id'=>$id_servicio));
 		$data_view['servicio'] = $servicio;
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['procesos_negocio'] = $this->general->get_table('proceso_negocio');
+		$data_view['procesos_negocio_soportados'] = $this->general->get_result('proceso_negocio_soporte',array('servicio_id'=> $id_servicio)); 
+
+		$data_view['servicios_soportados'] = $this->general->get_result('soporta_a',array('servicio_soporte'=> $id_servicio)); 
+		$data_view['servicios_soporte'] = $this->general->get_result('soporta_a',array('servicio_soportado'=> $id_servicio)); 
 
 		$data_view['propietario'] = $this->general->get_row('personal',array('id_personal'=> $servicio->propietario_servicio));
 		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
@@ -749,6 +755,138 @@ class Cargar_Data extends MX_Controller
 
 	/*
 	 * FIN deFunciones para Servicios
+	 *
+	 */
+
+
+
+	/*
+	 * Funciones para Servicio Soportados
+	 *
+	 */
+
+
+		public function servicio_soportados($servicio_proceso_id = ''){
+
+		$this->load->model('general/general_model','general');
+		$data_view['servicios'] = $this->general->get_table('servicio');
+
+		if(!empty($servicio_proceso_id)) { 
+		 $data_view['servicio_proceso_id'] = $servicio_proceso_id;
+		 $data_view['servicio_actual'] = $servicio_proceso_id;
+
+				$data_view['servicios_soportados'] = [];
+
+				if($this->general->exist('soporta_a',array('servicio_soporte'=> $servicio_proceso_id)))
+		            {
+		            	$data_view['servicios_soportados'] = $this->general->get_result('soporta_a',array('servicio_soporte'=> $servicio_proceso_id)); 
+		            }
+		}
+
+
+		if($this->input->post('servicios'))
+			{
+				$data_view['servicio_actual'] = $this->input->post('servicios');
+
+				$data_view['servicios_soportados'] = [];
+
+				if($this->general->exist('soporta_a',array('servicio_soporte'=> $this->input->post('servicios') )))
+		            {
+		            	$data_view['servicios_soportados'] = $this->general->get_result('soporta_a',array('servicio_soporte'=> $this->input->post('servicios'))); 
+		            }
+			}
+
+   		if($this->input->post('servicios') == 'seleccione')
+            {
+            	unset($data_view['servicio_actual']);
+            }
+
+
+        $this->form_validation->set_rules('servicios', 'Servicios', 'callback_dropdown_servicio');
+
+	    if ($this->form_validation->run($this) == FALSE)
+          {
+             	$this->utils->template($this->_list(5),'cargar_data/servicio_soportados/main_servicio_soportados',$data_view,'Cargar Infraestructura','Servicio');             
+          }
+        else
+          {
+            	$this->utils->template($this->_list(5),'cargar_data/servicio_soportados/main_servicio_soportados',$data_view,'Cargar Infraestructura','Servicio');
+          } 
+
+
+
+       if ($this->input->post('servicios_soportados'))
+        {
+	       	foreach ($this->input->post('servicios_soportados') as $key => $servicio_soportado)
+	       	{
+	       		//$servicios_soportados[$key] = $servicio_soportado;
+	       		$soporte = false;
+	       		if( !($this->general->exist('soporta_a',array('servicio_soportado'=> $servicio_soportado,'servicio_soporte'=> $this->input->post('servicios')))) )
+	       		{
+	       		  $servicios = array(
+	                                'servicio_soporte' => $this->input->post('servicios'),
+	                                'servicio_soportado' => $servicio_soportado,  
+	                                );
+
+	            	$this->general->insert('soporta_a',$servicios,'');
+	            }
+	             if(($this->general->exist('soporta_a',array('servicio_soportado'=> $servicio_soportado,'servicio_soporte'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       	//$data_view['servicios_agregados'] = $servicios_soportados;
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Servicios Seleccionados han sido Agregados con Éxito');
+					redirect(site_url('index.php/cargar_datos/servicio_soportados/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Agregar los Servicios Seleccionados');
+					redirect(site_url('index.php/cargar_datos/servicio_soportados/'.$this->input->post('servicios')));
+				}
+       }
+
+         if ($this->input->post('lista_servicios'))
+        {
+	       	foreach ($this->input->post('lista_servicios') as $key => $lista_servicio)
+	       	{
+	       		//$lista_servicios[$key] = $lista_servicio;
+	       		$soporte = false;
+	       		if(($this->general->exist('soporta_a',array('servicio_soportado'=> $lista_servicio,'servicio_soporte'=> $this->input->post('servicios')))) )
+	       		{
+
+	            	$this->general->delete('soporta_a',array('servicio_soportado'=> $lista_servicio,'servicio_soporte'=> $this->input->post('servicios')));
+	            }
+	             if(!($this->general->exist('soporta_a',array('servicio_soportado'=> $lista_servicio,'servicio_soporte'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       	//$data_view['servicios_agregados'] = $servicios_soportados;
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Servicios Seleccionados han sido Removidos con Éxito');
+					redirect(site_url('index.php/cargar_datos/servicio_soportados/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Remover los Servicios Seleccionados');
+					redirect(site_url('index.php/cargar_datos/servicio_soportados/'.$this->input->post('servicios')));
+				}
+       }
+		  
+	}
+
+
+	/*
+	 * FIN deFunciones para Servicio Soportados
+	 *
 	 *
 	 */
 
@@ -1864,6 +2002,123 @@ class Cargar_Data extends MX_Controller
 	}
 
 
+		public function procesos_negocio_soporte($servicio_id = ''){
+
+		$this->load->model('general/general_model','general');
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['procesos_negocio'] = $this->general->get_table('proceso_negocio');
+
+		if(!empty($servicio_id)) { 
+		 $data_view['servicio_id'] = $servicio_id;
+		 $data_view['servicio_actual'] = $servicio_id;
+
+				$data_view['procesos_soportados'] = [];
+
+				if($this->general->exist('proceso_negocio_soporte',array('servicio_id'=> $servicio_id)))
+		            {
+		            	$data_view['procesos_soportados'] = $this->general->get_result('proceso_negocio_soporte',array('servicio_id'=> $servicio_id)); 
+		            }
+		}
+
+
+		if($this->input->post('servicios'))
+			{
+				$data_view['servicio_actual'] = $this->input->post('servicios');
+
+				$data_view['procesos_soportados'] = [];
+
+				if($this->general->exist('proceso_negocio_soporte',array('servicio_id'=> $this->input->post('servicios'))))
+		            {
+		            	$data_view['procesos_soportados'] = $this->general->get_result('proceso_negocio_soporte',array('servicio_id'=> $this->input->post('servicios'))); 
+		            }
+			}
+
+   		if($this->input->post('servicios') == 'seleccione')
+            {
+            	unset($data_view['servicio_actual']);
+            }
+
+
+        $this->form_validation->set_rules('servicios', 'Servicios', 'callback_dropdown_servicio');
+
+	    if ($this->form_validation->run($this) == FALSE)
+          {
+             	$this->utils->template($this->_list(5),'cargar_data/procesos_negocio/procesos_negocio_soportados',$data_view,'Cargar Infraestructura','Servicio');             
+          }
+        else
+          {
+            	$this->utils->template($this->_list(5),'cargar_data/procesos_negocio/procesos_negocio_soportados',$data_view,'Cargar Infraestructura','Servicio');
+          } 
+
+
+
+       if ($this->input->post('procesos_soportados'))
+        {
+	       	foreach ($this->input->post('procesos_soportados') as $key => $proceso_soportado)
+	       	{
+	       		
+	       		$soporte = false;
+	       		if( !($this->general->exist('proceso_negocio_soporte',array('proceso_id'=> $proceso_soportado,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       		  $proceso_soporte = array(
+	                                'servicio_id' => $this->input->post('servicios'),
+	                                'proceso_id' => $proceso_soportado,  
+	                                );
+
+	            	$this->general->insert('proceso_negocio_soporte',$proceso_soporte,'');
+	            }
+	             if(($this->general->exist('proceso_negocio_soporte',array('proceso_id'=> $proceso_soportado,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Procesos de Negocio Seleccionados han sido Agregados con Éxito');
+					redirect(site_url('index.php/cargar_datos/procesos_de_negocio_soportados/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Agregar los Procesos de Negocio Seleccionados');
+					redirect(site_url('index.php/cargar_datos/procesos_de_negocio_soportados/'.$this->input->post('servicios')));
+				}
+       }
+
+        if ($this->input->post('lista_procesos'))
+        {
+	       	foreach ($this->input->post('lista_procesos') as $key => $lista_proceso)
+	       	{
+	       		
+	       		$soporte = false;
+	       		if(($this->general->exist('proceso_negocio_soporte',array('proceso_id'=> $lista_proceso,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+
+	            	$this->general->delete('proceso_negocio_soporte',array('proceso_id'=> $lista_proceso,'servicio_id'=> $this->input->post('servicios')));
+	            }
+	             if(!($this->general->exist('proceso_negocio_soporte',array('proceso_id'=> $lista_proceso,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Procesos de Negocio Seleccionados han sido Removidos con Éxito');
+					redirect(site_url('index.php/cargar_datos/procesos_de_negocio_soportados/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Remover los Procesos de Negocio Seleccionados');
+					redirect(site_url('index.php/cargar_datos/procesos_de_negocio_soportados/'.$this->input->post('servicios')));
+				}
+       }
+		  
+	}
+
+
 	/*
 	 * FIN de Funciones para Servicios
 	 *
@@ -2047,12 +2302,34 @@ class Cargar_Data extends MX_Controller
 			"icon" => "fa fa-building-o"
 		);
 
+
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'Principal',
+				'href' => site_url('index.php/continuidad')
+			),
+			array
+			(
+				'chain' => 'Plan de continuidad del negocio',
+				'href' => site_url('index.php/continuidad/listado_pcn')
+			),
+			array
+			(
+				'chain' => 'Gestión de riesgos y amenazas',
+				'href' => site_url('index.php/continuidad/gestion_riesgos')
+			)
+		);
 		$l[] = array(
 			"chain" => "Servicios",
 			"active" => false,
 			"href" => site_url("index.php/cargar_datos/servicios"),
-			"icon" => "fa fa-list"
+			"icon" => "fa fa-list",
+			"list"=> $sublista
 		);
+
+		
 
 
 		$l[] = array(

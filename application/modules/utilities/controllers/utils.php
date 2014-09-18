@@ -76,6 +76,16 @@ class Utils extends MX_Controller
 			"href" => site_url(''),
 			"icon" => "fa fa-flag"
 		);	
+
+
+		//Catalogo de Servicios
+		$l[] = array(
+			"chain" => "Cat&#225;logo de Servicios",
+			"href" => site_url('index.php/catalogo'),
+			"icon" => "fa fa-book"
+		);
+
+
 		//Gestion de Operaciones
 		$l[] = array(
 			"chain" => "Gestión de Operaciones",
@@ -218,6 +228,16 @@ class Utils extends MX_Controller
 			"list" => $sublista
 		);
 
+
+		//Carga de Infraestructura
+		$l[] = array(
+			"chain" => "Carga de Infraestructura",
+			"href" => site_url('index.php/cargar_datos'),
+			"icon" => "fa fa-sitemap"
+		);
+
+
+
 		//Gestión de Usuarios
 		$sublista = array(
 			array(
@@ -329,5 +349,7 @@ class Utils extends MX_Controller
 		);
 		return $l;
 	}//end of function: list_sidebar_costos
+
+
 }
 // Location: ./modules/utilities/controller/utils.php

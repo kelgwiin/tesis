@@ -42,7 +42,6 @@
 	  	<div class="panel-body">
 
 
-
 		<a class="btn btn-success" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/procesos_de_negocio/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Proceso de Negocio</a><br><br>
 		
 		<div class="table-responsive">

@@ -8,7 +8,7 @@
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
 		<div class="col-lg-12">
-			<h1>Gesti&#243;n de Servicios de TI</h1>
+			<h1>Gesti&#243;n de Servicios</h1>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
@@ -54,6 +54,9 @@
 
 	                    <a href="<?php echo base_url('index.php/cargar_datos/servicio_proveedores');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-exchange"></i> Gestion de Proveedores </b> </a>
 
+	                    <a href="<?php echo base_url('index.php/cargar_datos/servicio_soportados');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-retweet"></i> Gestion de Soporte de Servicios </b> </a>
+
+	                    <a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio_soportados');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-plus-square"></i> Asignar Procesos Negocios a Servicios </b> </a>
 	    </div>
 		<a class="btn btn-success" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/servicios/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Servicio</a><br><br>
 		
