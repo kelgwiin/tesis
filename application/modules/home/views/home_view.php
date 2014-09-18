@@ -11,13 +11,40 @@
         </div><!-- /.row -->
 
         <div class="row">
+
+          <div class="col-lg-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-book fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-center">
+                    <p class="announcement-text">Cat&#225;logo de Servicios</p>
+                  </div>
+                </div>
+              </div>
+              <a href="<?php echo site_url('index.php/catalogo');?>/">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Examinar
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
         	
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <i class="fa fa-cogs fa-5x"></i>
+                    <i class="fa fa-bar-chart-o fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
                     <p class="announcement-text">Gestión de Operaciones</p>
@@ -44,7 +71,7 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <i class="fa fa-book fa-5x"></i>
+                    <i class="fa fa-tasks fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
                     <p class="announcement-text">Gestion de Capacidad</p>
@@ -172,35 +199,9 @@
                 </div>
               </a>
             </div>
-          </div>     
-          
-          <div class="col-lg-3">
-            <div class="panel panel-info">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <i class="fa fa-users fa-5x"></i>
-                  </div>
-                  <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Acceso de Usuarios</p>
-                  </div>
-                </div>
-              </div>
-              <a href="<?php echo base_url() ?>index.php/usuarios">
-                <div class="panel-footer announcement-bottom">
-                  <div class="row">
-                    <div class="col-xs-6">
-                      Examinar
-                    </div>
-                    <div class="col-xs-6 text-right">
-                      <i class="fa fa-arrow-circle-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          
+          </div>    
+
+
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">
@@ -227,7 +228,35 @@
               </a>
             </div>
           </div>
+           
           
+          <div class="col-lg-3 col-lg-offset-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-users fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-center">
+                    <p class="announcement-text">Acceso de Usuarios</p>
+                  </div>
+                </div>
+              </div>
+              <a href="<?php echo base_url() ?>index.php/usuarios">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Examinar
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        
           <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">

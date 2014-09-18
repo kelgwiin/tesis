@@ -23,10 +23,14 @@ $route['cargar_datos/servicios/ver/(:any)'] = "cargar_data/cargar_data/ver_servi
 $route['cargar_datos/servicios/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio/$1";
 $route['cargar_datos/servicios/eliminar'] = "cargar_data/cargar_data/eliminar_servicio";
 
+$route['cargar_datos/procesos_de_negocio_soportados'] = "cargar_data/cargar_data/procesos_negocio_soporte";
+$route['cargar_datos/procesos_de_negocio_soportados/(:num)'] = "cargar_data/cargar_data/procesos_negocio_soporte/$1";
+
+$route['cargar_datos/servicio_soportados'] = "cargar_data/cargar_data/servicio_soportados";
+$route['cargar_datos/servicio_soportados/(:num)'] = "cargar_data/cargar_data/servicio_soportados/$1";
+
 $route['cargar_datos/servicio_procesos'] = "cargar_data/cargar_data/servicio_proceso";
 $route['cargar_datos/servicio_procesos/(:num)'] = "cargar_data/cargar_data/servicio_proceso/$1";
-
-//$route['cargar_datos/servicio_procesos/crear'] = "cargar_data/cargar_data/nuevo_servicio_proceso";
 $route['cargar_datos/servicio_procesos/crear/(:any)'] = "cargar_data/cargar_data/nuevo_servicio_proceso/$1";
 $route['cargar_datos/servicio_procesos/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_proceso/$1";
 $route['cargar_datos/servicio_procesos/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio_proceso/$1";
@@ -37,6 +41,7 @@ $route['cargar_datos/servicio_categorias/crear'] = "cargar_data/cargar_data/nuev
 $route['cargar_datos/servicio_categorias/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_categoria/$1";
 $route['cargar_datos/servicio_categorias/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio_categoria/$1";
 $route['cargar_datos/servicio_categorias/eliminar'] = "cargar_data/cargar_data/eliminar_servicio_categoria";
+
 $route['cargar_datos/servicio_tipos'] = "cargar_data/cargar_data/servicio_tipos";
 $route['cargar_datos/servicio_tipos/crear'] = "cargar_data/cargar_data/nuevo_servicio_tipo";
 $route['cargar_datos/servicio_tipos/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_tipo/$1";
@@ -54,6 +59,7 @@ $route['cargar_datos/procesos_de_negocio/crear'] = "cargar_data/cargar_data/nuev
 $route['cargar_datos/procesos_de_negocio/ver/(:any)'] = "cargar_data/cargar_data/verProcesoNegocio/$1";
 $route['cargar_datos/procesos_de_negocio/modificar/(:any)'] = "cargar_data/cargar_data/modificarProcesoNegocio/$1";
 $route['cargar_datos/procesos_de_negocio/eliminar'] = "cargar_data/cargar_data/eliminarProcesoNegocio";
+
 $route['cargar_datos/personal']												= "cargar_data/cargar_data/cargar_personal";
 $route['cargar_datos/personal/(:num)']										= "cargar_data/cargar_data/cargar_personal/$1";
 $route['cargar_datos/personal/modificar/(:num)']							= "cargar_data/cargar_data/editar_personal/$1/$2";
@@ -89,6 +95,12 @@ $route['Costos/procesar_costeo'] = "Costos/Costos/procesar_costeo";
 /* end of: Rutas para el Módulo de Costos de Servicios de TI*/
 
 
+/* Rutas del Modulo de Catalogo de Servicio*/
+$route['catalogo'] = "catalogo/catalogo";
+$route['catalogo/por_categorias'] = "catalogo/catalogo_categorias";
+$route['catalogo/lista_servicios/(:any)'] = "catalogo/listado_servicios/$1";
+$route['catalogo/vista_negocio/(:num)'] = "catalogo/vista_negocio/$1";
+/* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/
 $route['operaciones'] = "operaciones/toolset";

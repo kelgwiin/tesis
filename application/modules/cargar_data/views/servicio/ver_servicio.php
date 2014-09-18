@@ -37,32 +37,116 @@
 					   <tr>
 						  <td class="col-lg-4"><b>Categoria</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->categoria_servicio; ?></td>
-						</tr>		
-						<tr>
+						</tr>
 
 						 <tr>
 						  <td class="col-lg-4"><b>Tipo</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->tipo_servicio; ?></td>
-						</tr>		
-						<tr>
+						</tr>
 
 						 <tr>
 						  <td class="col-lg-4"><b>Proveedor del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $proveedor->nombre; ?></td>
-						</tr>		
-						<tr>
+						</tr>
 
 						<tr>
 						  <td class="col-lg-4"><b>Propietario del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $propietario->codigo_empleado.' - '.$propietario->nombre; ?></td>
-						</tr>		
-						<tr>
+						</tr>
 
 						<tr>
 						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->prioridad_servicio; ?></td>
-						</tr>		
-						<tr>				
+						</tr>	
+
+						
+						<tr>
+						  <td class="col-lg-4"><b>Procesos de Negocio que Soporta</b></td>
+						  <td class="col-lg-8 text-left">
+
+						  <?php $last = end($procesos_negocio_soportados); ?>
+						  <?php if(count($procesos_negocio_soportados) > 0) : ?>
+							  <?php foreach ($procesos_negocio_soportados as $proceso_negocio_soportado) : ?>
+																		
+									<?php foreach ($procesos_negocio as $proceso_negocio) : ?>
+
+											<?php if($proceso_negocio_soportado->proceso_id == $proceso_negocio->procesoneg_id) : ?>
+												 
+												 <?php if($proceso_negocio_soportado != $last) : ?>
+													<?php echo $proceso_negocio->nombre.", ";?>
+												<?php else : ?>
+													<?php echo $proceso_negocio->nombre;?>
+												<?php endif ?>
+
+											<?php endif ?>
+									<?php endforeach ?>
+							   <?php endforeach ?>	
+							   		
+							<?php else : ?>
+								<em> No Posee </em>
+							<?php endif ?>
+						  </td>
+						</tr>
+
+
+						<tr>
+						  <td class="col-lg-4"><b>Servicios Soportados</b></td>
+						  <td class="col-lg-8 text-left">
+						  	 <?php $last = end($servicios_soportados); ?>
+						  	<?php if(count($servicios_soportados) > 0) : ?>
+					    
+								<?php foreach ($servicios_soportados as $servicio_soportado) : ?>
+									<?php foreach ($servicios as $servicio) : ?>
+										<?php if($servicio_soportado->servicio_soportado == $servicio->servicio_id) : ?>
+										   
+										    <?php if($servicio_soportado != $last) : ?>      
+												<?php echo $servicio->nombre.", ";?> 
+											<?php else : ?>
+												<?php echo $servicio->nombre;?>
+											<?php endif ?>	
+										
+										<?php endif ?>
+									<?php endforeach ?>
+							    <?php endforeach ?>
+																				
+					    	<?php else : ?>
+								<em> No Posee </em>
+							<?php endif ?>
+
+						  </td>
+						</tr>
+
+
+						<tr>
+						  <td class="col-lg-4"><b>Servicios de Apoyo</b></td>
+						  <td class="col-lg-8 text-left">
+						  	 <?php $last = end($servicios_soporte); ?>
+						  	<?php if(count($servicios_soporte) > 0) : ?>
+					    
+								<?php foreach ($servicios_soporte as $servicio_soporte) : ?>
+									<?php foreach ($servicios as $servicio) : ?>
+										<?php if($servicio_soporte->servicio_soporte == $servicio->servicio_id) : ?>
+										   
+										    <?php if($servicio_soporte != $last) : ?>      
+												<?php echo $servicio->nombre.", ";?> 
+											<?php else : ?>
+												<?php echo $servicio->nombre;?>
+											<?php endif ?>	
+										
+										<?php endif ?>
+									<?php endforeach ?>
+							    <?php endforeach ?>
+																				
+					    	<?php else : ?>
+								<em> No Posee </em>
+							<?php endif ?>
+
+						  </td>
+						</tr>
+
+						<tr> <td></td><td></td></tr>	
+						
+			
 	
 					</tbody>
 				</table>

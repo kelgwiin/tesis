@@ -155,6 +155,32 @@ $( document ).ready(function() {
 
     // Crea el Datatable
     $('#dataTables-proceso').dataTable();
+
+
+     //:: btn add Componente al dpto ::
+    $('button#add_proceso_soportado').on('click',function(){
+        options = $('select#lista_procesos :selected');
+        options.each(     
+                function(){
+                    op = $(this);
+                    $('select#procesos_soportados').append(op);
+                }
+            );
+    });
+
+    //:: btn rm Componente al dpto ::
+    //remueve los componentes seleccionados
+    $('button#rm_proceso_soportado').on('click',function(){
+        options = $('select#procesos_soportados :selected');
+        lon = options.length;
+        vals = "";
+        options.each(     
+                function(){
+                    op = $(this);
+                    $('select#lista_procesos').append(op);
+                }
+            );
+    });
  
 
 
