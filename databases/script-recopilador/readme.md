@@ -22,15 +22,15 @@ Usage as terminal command:
 --------------------------
 
 ```
-poller_csv.py [-psmem -o -s -p] -c [command1,command2,command3..] -i [secs]
+poller_csv.py [-psmem -o -s -p] [-c COMMANDS] [-i INTERVAL]
 
 ```
-* -psmem Use psmem module to calculate memory usage per thread. Uses more system resources!
-* -o Print output to stout instead of local file. Useful for remote polling.
-* -i Interval between polls in seconds.
-* -c processes names(system command) separated by commas(,)
-* -s Polls processes only one time. **Overrides the -i option**.
-* -p Outputs the sum of threads per process.EXPERIMENTAL!
+* -psmem --use-ps-mem Use psmem module to calculate memory usage per thread. Uses more system resources!
+* -o --out-term Print output to stout instead of local file. Useful for remote polling.
+* -i --interval Interval between polls in seconds.
+* -c --commands processes names(system command) separated by commas(,)
+* -s --single-pass Polls processes only one time. **Overrides the -i option**.
+* -p --process Outputs the sum of threads per process.
 
 
 Config file

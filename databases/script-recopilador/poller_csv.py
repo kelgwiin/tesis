@@ -2,6 +2,8 @@
 __author__ = 'Harold Araujo'
 # Script para recopilar los datos necesarios de cada uno de los threads
 # de los procesos a monitorear
+import argparse
+import tempfile
 import subprocess
 import re
 import sys
@@ -85,27 +87,27 @@ proc = Proceso()
 Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
 PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  #
 directorio = ""
-out_term = single_pass = all_threads = False
+out_term = single_pass = process = False
 count = 1
 iterate = True
-intervalo = 5
+interval = 5
 
-try:
+'''try:
     # Read command line args
     myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:s:p:")
     for o, a in myopts:
         if o == '-c':
-            comandos = a.split(',')
+            commands = a.split(',')
         elif o == '-i':
-            intervalo = a
+            interval = a
         elif o == '-psmem':
-            use_ps_mem = False
+            use_ps_mem = True
         elif o == '-o':
             out_term = True
         elif o == '-s':
             single_pass = True
         elif o == '-p':
-            all_threads = False
+            process = True
 except getopt.GetoptError as e:
     print(str(e))
     print("Usage: %s -c [command1,command2,command3..] -i [secs]" % sys.argv[0])
@@ -115,24 +117,46 @@ except getopt.GetoptError as e:
     print("   -c processes names(system command) separated by commas(,) ")
     print("   -s Polls processes only one time. Overrides the -i option. ")
     print("   -p Outputs the sum of threads per process. ")
-    sys.exit(2)
+    sys.exit(2)'''
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-ps', '--use-ps-mem', action='store_true',
+                    help="Use psmem module to calculate memory usage per thread. Uses more system resources!")
+parser.add_argument('-o', '--out-term', action='store_true',
+                    help="Print output to stout instead of local file. Useful for remote polling.")
+parser.add_argument('-s', '--single-pass', action='store_true',
+                    help="Polls processes only one time. Overrides the -i option.")
+parser.add_argument('-p', '--process', action='store_true',
+                    help="Outputs the sum of threads per process.")
+parser.add_argument('-i', '--interval', default=5,
+                    help="Interval between polls in seconds. Default set to 5 seconds.")
+parser.add_argument('-c', '--commands', default="null",
+                    help="Processes names(system command) separated by commas(,)")
+args = parser.parse_args()
+
+if args.commands != "null":
+    commands = args.commands.split(',')
+use_ps_mem = args.use_ps_mem
+out_term = args.out_term
+single_pass = args.single_pass
+process = args.process
+interval = args.interval
 
 try:
     with open('config') as f:
         configParser = ConfigParser.RawConfigParser()
         configParser.read(r'config')
         tiempos = configParser.get('variables', 'logtime') is True
-        if 'comandos' not in globals():
-            comandos = configParser.get('variables', 'commands').split(",")
-        if 'intervalo' not in globals():
-            intervalo = float(configParser.get('variables', 'interval'))
+        if 'commands' not in globals():
+            commands = configParser.get('variables', 'commands').split(",")
+        if 'interval' not in globals():
+            interval = float(configParser.get('variables', 'interval'))
         if 'use_ps_mem' not in globals():
             use_ps_mem = configParser.get('variables', 'ps_mem') is True
         if 'directorio' not in globals():
             directorio = configParser.get('variables', 'storepath')
-        if 'all_threads' not in globals():
-            all_threads = configParser.get('variables', 'per_threads')
+        if 'process' not in globals():
+            process = not configParser.get('variables', 'per_threads')
         if 'directorio' in globals():
             if directorio is not "":
                 directorio += "poller_csv/"
@@ -142,7 +166,7 @@ except ConfigParser.NoSectionError:
     raise Exception("No se pudieron leer parametros.")
 
 # Bucar pids por comando
-pids, pids_comando = buscar_pids(comandos)
+pids, pids_comando = buscar_pids(commands)
 
 
 def set_exit_handler(func):
@@ -195,7 +219,7 @@ def verificar_dir():
 
 
 def escribir_archivo(array):
-    if all_threads is False:
+    if process:
         output = defaultdict(dict)
         for key in pids_comando.iterkeys():
             procesos = "-".join(pids_comando[key])
@@ -224,10 +248,14 @@ def escribir_archivo(array):
             timestamp = (time.strftime('%Y-%m-%d %H:%M:%S'))
             output[nombre] = ["P", nombre, cpu, memoria, lectop, escriop, ddlect, ddescri, ddtotal, pagerr,
                               timealive, status, timestamp, procesos]
+    if out_term:
+        file_out = sys.stdout
+    else:
+        file_out = open(proc_filename(), 'a',)
 
-    with open(proc_filename(), 'a',) as fi:
+    with file_out as fi:
         writer = csv.writer(fi, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-        if all_threads is False:
+        if process:
             for row in output:
                 writer.writerow(output[row])
         else:
@@ -404,7 +432,8 @@ if __name__ == "__main__":
     while iterate:
         tiempo_transcurrido = principal()
         count += 1
-        time.sleep(intervalo - tiempo_transcurrido)
+        if not single_pass:
+            time.sleep(interval - tiempo_transcurrido)
         if not out_term:
             log.info("Lectura " + str(count))
             print "Leyendo datos..."
