@@ -2,7 +2,7 @@ poller_csv
 ==========
 
 A tool for retreaving performance stats for processes in linux, detailing threads, by using the proc filesystem,
-in comma separated values.
+outputs results in csv files for later retrieval.
 
 Example output:
 ---------------

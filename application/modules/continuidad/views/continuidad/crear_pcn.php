@@ -8,6 +8,8 @@
 		</div>
 	</div>
 	
+	<a class="btn btn-primary" target="blank" href="<?php echo site_url('index.php/continuidad/crear_maqueta') ?>">PDF</a>
+	
 	<div class="row" style="margin-top: 25px">
 
 		<form class="form-horizontal" method="post" action="<?php echo site_url('index.php/continuidad/crear_pcn/'.$valoracion) ?>">
@@ -123,6 +125,7 @@
 				                <ul>
 				                    <li class="active">1</li>
 				                    <li>2</li>
+				                    <li>3</li>
 				                </ul>
 				            </div>
 			            </div>
@@ -158,6 +161,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Crisis</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_crisis" placeholder="Plan de acción que debe seguir el Comité de Crisis una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="recuperacion">Equipo de recuperación</label>
@@ -176,6 +188,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Recuperación</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_recuperacion" placeholder="Plan de acción que debe seguir el Equipo de Recuperación una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="logistica">Equipo de logística</label>
@@ -194,6 +215,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Logística</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_logistica" placeholder="Plan de acción que debe seguir el Equipo de Logística una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="rrpp">Equipo de RRPP</label>
@@ -212,6 +242,15 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción RRPP</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_rrpp" placeholder="Plan de acción que debe seguir el Equipo de RRPP una vez activado el PCN"></textarea>
+						</div>
+					</div>
+					<br />
+					
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="pruebas">Equipo de pruebas</label>
@@ -230,6 +269,13 @@
 							</select>
 						</div>
 					</div>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Plan de acción Pruebas</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" name="accion_pruebas" placeholder="Plan de acción que debe seguir el Equipo de Pruebas una vez activado el PCN"></textarea>
+						</div>
+					</div>
 					
 					<div class="form-group" style="margin-top: 25px">
 						<label class="col-md-4 control-label" ></label>
@@ -238,6 +284,7 @@
 				                <ul>
 				                    <li>1</li>
 				                    <li class="active">2</li>
+				                    <li>3</li>
 				                </ul>
 				            </div>
 			            </div>
@@ -254,11 +301,47 @@
 							<a class="btn btn-primary" id="prev"><i class="fa fa-arrow-left"></i> Atras</a>
 						</div>
 						<div class="col-md-4">
-							<button type="submit" class="btn btn-success">Guardar</button>
+							<a class="btn btn-primary" id="next2">Siguiente <i class="fa fa-arrow-right"></i></a>
 						</div>
 					</div>
 				</div>
 <!-- FIN PANEL DE CREACION DE EQUIPOS -->
+
+<!-- PANEL DE OTRAS CONSIDERACIONES-->
+				<div id="consideraciones">
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label">Otras consideraciones</label>
+						<div class="col-md-4">                     
+							<textarea class="form-control" rows="8" name="consideraciones"
+								placeholder="Otras consideraciones u observaciones importantes y necesarias para la correcta ejecución del presente PCN"></textarea>
+						</div>
+					</div>
+					
+					<div class="form-group" style="margin-top: 25px">
+						<label class="col-md-4 control-label" ></label>
+						<div class="col-md-2 col-md-offset-1">
+							<div class="steps">
+				                <ul>
+				                    <li>1</li>
+				                    <li>2</li>
+				                    <li class="active">3</li>
+				                </ul>
+				            </div>
+			            </div>
+		            </div>
+		            
+					<!-- Buttons -->
+					<div class="form-group">
+						<label class="col-md-3 control-label" for=""></label>
+						<div class="col-md-4">
+							<a class="btn btn-primary" id="prev2"><i class="fa fa-arrow-left"></i> Atras</a>
+						</div>
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-success">Guardar</button>
+						</div>
+					</div>
+				</div>
 			</fieldset>
 		</form>
 	</div>

@@ -200,7 +200,7 @@ total_uso_almacenamiento, total_uso_memoria,
 year(fecha) anio , month(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
 from caracterizacion as c
 join estructura_costo ec on year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
-
+where year(c.fecha) = 2014 and month(c.fecha) = 6
 ;
 -- Procesador, Memoria, Redes, Almacenamiento
 
