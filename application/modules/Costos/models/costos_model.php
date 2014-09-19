@@ -514,14 +514,60 @@ class Costos_model extends CI_Model{
 				$proc = $row['total_uso_cpu'] * $rs_eci['Procesador'];
 				
 				$costos_by_servicio[$row['servicio_id']] = array(
-					'Almacenamiento'=>$alm,
-					'Memoria'=>$mem,
-					'Redes'=>$red,
-					'Procesador'=>$proc
+					'almacenamiento'=>$alm,
+					'memoria'=>$mem,
+					'redes'=>$red,
+					'procesador'=>$proc,
+					'mes' =>$row['mes'],
+					'anio'=>$row['anio']
 				);
 				
 			}//end of: foreach outter
 			echo_pre($costos_by_servicio);	//prueba
+
+			//Inserción en la BD.
+			foreach ($costos_by_servicio as $servicio_id => $row) {
+				//Si ya existe un costo calculado para un mes y año se marca como
+				//borrado y se calcula de nuevo
+				$this->utilities_model->update_ar(
+					"servicio_costo",
+					array('borrado'=>TRUE),
+					array('mes'=>$row['mes'], 'anio'=>$row['anio'], 'servicio_id'=>$servicio_id)
+				);
+
+				//insertando fila en "servicio_costo"
+				$f = date('Y-m-d H:i:s',now());//fecha formato datetime
+				$total_costo = $row["almacenamiento"]+$row["memoria"]+$row["redes"]
+				+$row["procesador"];
+
+				$this->utilities_model->add_ar(
+					array(
+						"servicio_id"=>$servicio_id,
+						"costo"=>$total_costo,
+						"fecha_creacion"=>$f,
+						"mes"=>$row["mes"],
+						"anio"=>$row["anio"]
+					),
+					"servicio_costo"
+				);
+
+				$last_id_serv_cos = $this->utilities_model->last_insert_id();
+
+				//insertando servicio costo detalle
+				$f = date('Y-m-d H:i:s',now());//fecha formato datetime
+				$this->utilities_model->add_ar(
+					array(
+						"servicio_costo_id"=>$last_id_serv_cos,
+						"c_almacenamiento"=>$row["almacenamiento"],
+						"c_memoria"=>$row["memoria"],
+						"c_redes"=>$row["redes"],
+						"c_procesador"=>$row["procesador"]
+					),
+					"servicio_costo_detalle"
+
+				);
+			}
+
 		}// end of: if
 	}
 

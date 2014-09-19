@@ -56,7 +56,7 @@ class Historicos_model extends CI_Model{
 	public function evol_modelo_c($year){
 		$sql = "SELECT c.servicio_id, s.nombre, c.costo, mes
 				FROM servicio_costo AS c JOIN servicio AS s ON (c.servicio_id = s.servicio_id)
-				WHERE c.borrado = false AND anio = '".$year."'
+				WHERE c.borrado = false AND anio = '".$year." AND borrado = false '
 				ORDER BY c.servicio_id;";
 		$q = $this->db->query($sql);
 
