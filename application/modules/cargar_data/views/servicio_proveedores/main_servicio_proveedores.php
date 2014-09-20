@@ -9,6 +9,11 @@
 			<br>
 		</div>
 	</div>
+	<ol class="breadcrumb">
+				<li class="active">
+					<i class="fa fa-exchange"></i>  Secci&#243;n que brinda las opciones para Ver, Crear, Actualizar y Eliminar los Proveedores de Servicios de TI en el Sistema.
+				</li>
+	</ol>
 	
 	<?php if($this->session->flashdata('Success')) { ?>
 	<div class="alert alert-success text-center" role="alert" id="message">

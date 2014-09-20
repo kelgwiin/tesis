@@ -27,7 +27,7 @@ class Catalogo extends MX_Controller
 		$l =  array();
 
 		$l[] = array(
-			"chain" => "Volver a Módulos Principales",
+			"chain" => "Inicio",
 			"href" => site_url(''),
 			"icon" => "fa fa-flag"
 		);
@@ -63,6 +63,18 @@ class Catalogo extends MX_Controller
 			array(
 				'chain' => 'Gesti&#243;n de Tipos',
 				'href'=> site_url('index.php/cargar_datos/servicio_tipos')
+			),
+			array(
+				'chain' => 'Gesti&#243;n de Procesos de Negocio',
+				'href'=> site_url('index.php/cargar_datos/procesos_de_negocio')
+			),
+			array(
+				'chain' => 'Asignar Procesos Negocios a Servicios',
+				'href'=> site_url('index.php/cargar_datos/procesos_de_negocio_soportados')
+			),
+			array(
+				'chain' => 'Gestion de Servicios de Apoyo',
+				'href'=> site_url('index.php/cargar_datos/servicio_soportados')
 			),
 		);
 		$l[] = array(
@@ -207,11 +219,55 @@ class Catalogo extends MX_Controller
 
 	public function vista_negocio($servicio_id = '')
 	{
-		$data_view['servicio'] = $this->general->get_row('servicio',array('servicio_id'=> $servicio_id));
-		//$data_view['categoria'] = $categoria;
-	   //$data_view['proveedores'] = $this->general->get_table('servicio_proveedor');
+		$servicio =  $this->general->get_row('servicio',array('servicio_id'=>$servicio_id));
+		$data_view['servicio'] = $servicio;
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['procesos_negocio'] = $this->general->get_table('proceso_negocio');
+		$data_view['procesos_negocio_soportados'] = $this->general->get_result('proceso_negocio_soporte',array('servicio_id'=> $servicio_id)); 
+
+		$data_view['servicios_soportados'] = $this->general->get_result('soporta_a',array('servicio_soporte'=> $servicio_id)); 
+		$data_view['servicios_soporte'] = $this->general->get_result('soporta_a',array('servicio_soportado'=> $servicio_id)); 
+
+		$data_view['propietario'] = $this->general->get_row('personal',array('id_personal'=> $servicio->propietario_servicio));
+		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
 		
 		$this->utils->template($this->list_sidebar_catalogo(2),'catalogo/vista_negocio',$data_view,'Catalogo de Servicios','','two_level');
+	}
+
+
+		public function vista_tecnica($servicio_id = '')
+	{
+		$servicio =  $this->general->get_row('servicio',array('servicio_id'=>$servicio_id));
+		$data_view['servicio_actual'] = $servicio;
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['procesos_negocio'] = $this->general->get_table('proceso_negocio');
+		$data_view['procesos_negocio_soportados'] = $this->general->get_result('proceso_negocio_soporte',array('servicio_id'=> $servicio_id)); 
+
+		$data_view['servicios_soportados'] = $this->general->get_result('soporta_a',array('servicio_soporte'=> $servicio_id)); 
+		$data_view['servicios_soporte'] = $this->general->get_result('soporta_a',array('servicio_soportado'=> $servicio_id)); 
+
+		$data_view['propietario'] = $this->general->get_row('personal',array('id_personal'=> $servicio->propietario_servicio));
+		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
+		
+		$this->utils->template($this->list_sidebar_catalogo(2),'catalogo/vista_tecnica',$data_view,'Catalogo de Servicios','','two_level');
+	}
+
+
+			public function vista_completa($servicio_id = '')
+	{
+		$servicio =  $this->general->get_row('servicio',array('servicio_id'=>$servicio_id));
+		$data_view['servicio_actual'] = $servicio;
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['procesos_negocio'] = $this->general->get_table('proceso_negocio');
+		$data_view['procesos_negocio_soportados'] = $this->general->get_result('proceso_negocio_soporte',array('servicio_id'=> $servicio_id)); 
+
+		$data_view['servicios_soportados'] = $this->general->get_result('soporta_a',array('servicio_soporte'=> $servicio_id)); 
+		$data_view['servicios_soporte'] = $this->general->get_result('soporta_a',array('servicio_soportado'=> $servicio_id)); 
+
+		$data_view['propietario'] = $this->general->get_row('personal',array('id_personal'=> $servicio->propietario_servicio));
+		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
+		
+		$this->utils->template($this->list_sidebar_catalogo(2),'catalogo/vista_completa',$data_view,'Catalogo de Servicios','','two_level');
 	}
 	
 

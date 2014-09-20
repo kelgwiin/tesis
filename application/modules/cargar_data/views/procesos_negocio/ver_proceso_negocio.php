@@ -55,7 +55,7 @@
 			
 
 			<div class="panel-footer text-right">
-				<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio');?>" type="button" class="btn btn-default" id="cancelar">Volver</a>
+				<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio');?>" type="button" class="btn btn-default" id="cancelar">Volver al Men&#250; de Gesti&#243;n</a>
 	                <a href="<?php echo base_url().'index.php/cargar_datos/procesos_de_negocio/modificar/'.$proceso->procesoneg_id ?>"  data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Actualizar</a>
 	                <a  data-original-title="Eliminar" data-target="#eliminar" data-toggle="modal" type="button" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Eliminar</a>
 

@@ -6,11 +6,14 @@
 			<h1>Gesti&#243;n de Procesos de Servicio</h1>
 			<ol class="breadcrumb">
 				<li class="active">
-					
+					<i class="fa fa-cogs"></i>  Secci&#243;n que brinda las opciones para Ver, Crear, Actualizar y Eliminar Procesos de Servicio para el Servicio Seleccionado.
 				</li>
 			</ol>
 		</div>
 	</div>
+
+
+
 
 		<?php if($this->session->flashdata('Success')) { ?>
 	<div class="alert alert-success text-center" role="alert" id="message">

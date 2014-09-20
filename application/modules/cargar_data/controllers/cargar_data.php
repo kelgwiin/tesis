@@ -34,7 +34,7 @@ class Cargar_Data extends MX_Controller
 
 	public function index(){
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$this->utils->template($this->_list(0),'cargar_data/main','','Cargar Infraestructura','');
+		$this->utils->template($this->_list(1),'cargar_data/main','','Cargar Infraestructura','');
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Cargar_Data extends MX_Controller
 					$info['org'] = $row;
 				}
 				//Cargando los datos básicos
-				$this->utils->template($this->_list(1),'cargar_data/basico',$info,'Cargar Infraestructura','Básico');
+				$this->utils->template($this->_list(2),'cargar_data/basico',$info,'Cargar Infraestructura','Básico');
 				break;
 
 			case 'guardar':
@@ -112,7 +112,7 @@ class Cargar_Data extends MX_Controller
 			case 'list':
 				$params_main_content = $this->_config_comp_ti($this->per_page,
 					false,$cur_page,array('accion' => 'all' ),NULL);
-				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+				$this->utils->template($this->_list(3),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
 
@@ -120,7 +120,7 @@ class Cargar_Data extends MX_Controller
 			case 'guardado': 
 				$params_main_content = $this->_config_comp_ti($this->per_page,
 					true,1,array('accion' => 'all' ),NULL);
-				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+				$this->utils->template($this->_list(3),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
 
@@ -137,7 +137,7 @@ class Cargar_Data extends MX_Controller
 					'ma_categoria_id', $first_id_cat);
 				$info['accion'] = "nuevo";
 				//Cargando la plantilla
-				$this->utils->template($this->_list(2),'cargar_data/nuevo_componente_ti_view',$info,
+				$this->utils->template($this->_list(3),'cargar_data/nuevo_componente_ti_view',$info,
 				'Cargar Infraestructura','Nuevo Comp. TI');
 
 				break;
@@ -205,7 +205,7 @@ class Cargar_Data extends MX_Controller
 				}
 				
 				
-				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+				$this->utils->template($this->_list(3),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				
 				break;
@@ -244,7 +244,7 @@ class Cargar_Data extends MX_Controller
 				//Indicando que se va a actualizar
 				$info['accion'] = "actualizar";
 					//Cargando la plantilla
-				$this->utils->template($this->_list(2),'cargar_data/nuevo_componente_ti_view',$info,
+				$this->utils->template($this->_list(3),'cargar_data/nuevo_componente_ti_view',$info,
 				'Cargar Infraestructura','Actualizar Comp. TI');
 				break;
 			//Actualiza la información desde ajax
@@ -282,7 +282,7 @@ class Cargar_Data extends MX_Controller
 			case 'actualizado':
 				$params_main_content = $this->_config_comp_ti($this->per_page,
 					false,1,array('accion' => 'all' ),NULL,true);
-				$this->utils->template($this->_list(2),'cargar_data/componentes_ti_view',
+				$this->utils->template($this->_list(3),'cargar_data/componentes_ti_view',
 					$params_main_content,'Cargar Infraestructura','Componentes TI');
 				break;
 			
@@ -305,7 +305,7 @@ class Cargar_Data extends MX_Controller
 			case 'list':
 				$params_main_content = $this->_config_dpto(false,false,false,$cur_page,
 					$this->per_page, array('accion' => 'todos'));
-				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+				$this->utils->template($this->_list(4),'cargar_data/departamentos',
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
 			
@@ -326,8 +326,8 @@ class Cargar_Data extends MX_Controller
 							$this->per_page, array('accion' => 'nombre','info' =>$campo_buscar),$p_get);
 						break;
 				}
-				
-				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+			
+				$this->utils->template($this->_list(4),'cargar_data/departamentos',
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 
 				break;
@@ -335,7 +335,7 @@ class Cargar_Data extends MX_Controller
 				//Info de los Departamentos en el sistema
 				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
 				$params_main_content['actualizar'] = false;
-				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
+				$this->utils->template($this->_list(4),'cargar_data/nuevo_departamento_view',
 					$params_main_content,'Cargar Infraestructura','Nuevo dpto');
 				break;
 			//Guardando departamento desde ajax
@@ -352,7 +352,7 @@ class Cargar_Data extends MX_Controller
 			case 'guardado':
 				$params_main_content = $this->_config_dpto(false,true,false,1,
 					$this->per_page,array('accion'=>'todos'));
-				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+				$this->utils->template($this->_list(4),'cargar_data/departamentos',
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
 			//Desplegando formulario lleno para su edición
@@ -370,7 +370,7 @@ class Cargar_Data extends MX_Controller
 				$params_main_content['list_comp_ti_asig']  = $this->basico_model->comp_ti_asig_dpto($dpto_id);
 
 				$params_main_content['actualizar'] = true;
-				$this->utils->template($this->_list(3),'cargar_data/nuevo_departamento_view',
+				$this->utils->template($this->_list(4),'cargar_data/nuevo_departamento_view',
 					$params_main_content,'Cargar Infraestructura','Actualizar dpto');
 
 				break;
@@ -390,7 +390,7 @@ class Cargar_Data extends MX_Controller
 			case 'actualizado':
 				$params_main_content = $this->_config_dpto(true,false,false,1,
 					$this->per_page,array('accion'=>'todos'));
-				$this->utils->template($this->_list(3),'cargar_data/departamentos',
+				$this->utils->template($this->_list(4),'cargar_data/departamentos',
 					$params_main_content,'Cargar Infraestructura','Departamentos');
 				break;
 			case 'eliminar':
@@ -468,7 +468,7 @@ class Cargar_Data extends MX_Controller
 		$data_view['proveedores'] = $this->general->get_table('servicio_proveedor');
 		$data_view['propietarios'] = $this->general->get_table('personal');
 
-		$this->utils->template($this->_list(5),'cargar_data/servicio/main_servicio',$data_view,'Cargar Infraestructura','Servicios');
+		$this->utils->template($this->_list(6),'cargar_data/servicio/main_servicio',$data_view,'Cargar Infraestructura','Servicios');
 	}
 
 
@@ -581,7 +581,7 @@ class Cargar_Data extends MX_Controller
            if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->_list(5),'cargar_data/servicio/nuevo_servicio',$data_view,'Cargar Infraestructura','Servicios');
+                $this->utils->template($this->_list(6),'cargar_data/servicio/nuevo_servicio',$data_view,'Cargar Infraestructura','Servicios');
             }
             else
             {
@@ -633,7 +633,7 @@ class Cargar_Data extends MX_Controller
 		$data_view['propietario'] = $this->general->get_row('personal',array('id_personal'=> $servicio->propietario_servicio));
 		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
 		
-		$this->utils->template($this->_list(5),'cargar_data/servicio/ver_servicio',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/servicio/ver_servicio',$data_view,'Cargar Infraestructura','Servicio');
 
 	}
 
@@ -677,7 +677,7 @@ class Cargar_Data extends MX_Controller
          
          if ($this->form_validation->run($this) == FALSE)
             {
-            	$this->utils->template($this->_list(5),'cargar_data/servicio/modificar_servicio',$data_view,'Cargar Infraestructura','Servicio');                
+            	$this->utils->template($this->_list(6),'cargar_data/servicio/modificar_servicio',$data_view,'Cargar Infraestructura','Servicio');                
             }
             else
             {
@@ -806,11 +806,11 @@ class Cargar_Data extends MX_Controller
 
 	    if ($this->form_validation->run($this) == FALSE)
           {
-             	$this->utils->template($this->_list(5),'cargar_data/servicio_soportados/main_servicio_soportados',$data_view,'Cargar Infraestructura','Servicio');             
+             	$this->utils->template($this->_list(6),'cargar_data/servicio_soportados/main_servicio_soportados',$data_view,'Cargar Infraestructura','Servicio');             
           }
         else
           {
-            	$this->utils->template($this->_list(5),'cargar_data/servicio_soportados/main_servicio_soportados',$data_view,'Cargar Infraestructura','Servicio');
+            	$this->utils->template($this->_list(6),'cargar_data/servicio_soportados/main_servicio_soportados',$data_view,'Cargar Infraestructura','Servicio');
           } 
 
 
@@ -899,7 +899,7 @@ class Cargar_Data extends MX_Controller
 	public function servicio_umbral(){
 		$this->load->model('general/general_model','general');
 		$data_view['servicio_categorias'] = $this->general->get_table('servicio_categoria');
-		$this->utils->template($this->_list(5),'cargar_data/umbral/main_servicio_umbrales',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/umbral/main_servicio_umbrales',$data_view,'Cargar Infraestructura','Servicio');
 	}
 
 
@@ -965,11 +965,11 @@ class Cargar_Data extends MX_Controller
 
 	    if ($this->form_validation->run($this) == FALSE)
           {
-             	$this->utils->template($this->_list(6),'cargar_data/servicio_procesos/main_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');             
+             	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/main_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');             
           }
         else
           {
-            	$this->utils->template($this->_list(6),'cargar_data/servicio_procesos/main_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
+            	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/main_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
           }          
 	}
 
@@ -1007,7 +1007,7 @@ class Cargar_Data extends MX_Controller
 		         if ($this->form_validation->run($this) == FALSE)
 		            {
 
-		                $this->utils->template($this->_list(6),'cargar_data/servicio_procesos/nuevo_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
+		                $this->utils->template($this->_list(7),'cargar_data/servicio_procesos/nuevo_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
 		            }
 		            else
 		            {
@@ -1061,7 +1061,7 @@ class Cargar_Data extends MX_Controller
 		$data_view['servicio_proceso'] =$this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$servicio_proceso_id));
 		$data_view['servicios'] = $this->general->get_table('servicio');
 		
-		$this->utils->template($this->_list(6),'cargar_data/servicio_procesos/ver_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
+		$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/ver_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
 
 	}
 
@@ -1099,7 +1099,7 @@ class Cargar_Data extends MX_Controller
          
          if ($this->form_validation->run($this) == FALSE)
             {
-            	$this->utils->template($this->_list(6),'cargar_data/servicio_procesos/modificar_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');                
+            	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/modificar_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');                
             }
             else
             {
@@ -1206,7 +1206,7 @@ class Cargar_Data extends MX_Controller
 	public function servicio_categorias(){
 		$this->load->model('general/general_model','general');
 		$data_view['servicio_categorias'] = $this->general->get_table('servicio_categoria');
-		$this->utils->template($this->_list(5),'cargar_data/servicio_categorias/main_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/servicio_categorias/main_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');
 	}
 
 
@@ -1240,7 +1240,7 @@ class Cargar_Data extends MX_Controller
          if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->_list(5),'cargar_data/servicio_categorias/nuevo_servicio_categorias','','Cargar Infraestructura','Servicio');
+                $this->utils->template($this->_list(6),'cargar_data/servicio_categorias/nuevo_servicio_categorias','','Cargar Infraestructura','Servicio');
             }
             else
             {
@@ -1272,7 +1272,7 @@ class Cargar_Data extends MX_Controller
 
 		$this->load->model('general/general_model','general');	
 		$data_view['servicio_categoria'] = $this->general->get_row('servicio_categoria',array('categoria_id'=>$id_categoria));
-		$this->utils->template($this->_list(5),'cargar_data/servicio_categorias/ver_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/servicio_categorias/ver_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');
 
 	}
 
@@ -1305,7 +1305,7 @@ class Cargar_Data extends MX_Controller
          
          if ($this->form_validation->run($this) == FALSE)
             {
-            	$this->utils->template($this->_list(5),'cargar_data/servicio_categorias/modificar_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');                
+            	$this->utils->template($this->_list(6),'cargar_data/servicio_categorias/modificar_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');                
             }
             else
             {
@@ -1392,7 +1392,7 @@ class Cargar_Data extends MX_Controller
 	public function servicio_tipos(){
 		$this->load->model('general/general_model','general');
 		$data_view['servicio_tipos'] = $this->general->get_table('servicio_tipo');
-		$this->utils->template($this->_list(5),'cargar_data/servicio_tipos/main_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/servicio_tipos/main_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');
 	}
 
 	function tipo_name_check()
@@ -1425,7 +1425,7 @@ class Cargar_Data extends MX_Controller
          if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->_list(5),'cargar_data/servicio_tipos/nuevo_servicio_tipos','','Cargar Infraestructura','Servicio');
+                $this->utils->template($this->_list(6),'cargar_data/servicio_tipos/nuevo_servicio_tipos','','Cargar Infraestructura','Servicio');
             }
             else
             {
@@ -1457,7 +1457,7 @@ class Cargar_Data extends MX_Controller
 
 		$this->load->model('general/general_model','general');	
 		$data_view['servicio_tipo'] = $this->general->get_row('servicio_tipo',array('tipo_id'=>$id_tipo));
-		$this->utils->template($this->_list(5),'cargar_data/servicio_tipos/ver_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/servicio_tipos/ver_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');
 
 	}
 
@@ -1490,7 +1490,7 @@ class Cargar_Data extends MX_Controller
          
          if ($this->form_validation->run($this) == FALSE)
             {
-            	$this->utils->template($this->_list(5),'cargar_data/servicio_tipos/modificar_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');                
+            	$this->utils->template($this->_list(6),'cargar_data/servicio_tipos/modificar_servicio_tipos',$data_view,'Cargar Infraestructura','Servicio');                
             }
             else
             {
@@ -1580,7 +1580,7 @@ class Cargar_Data extends MX_Controller
 	public function servicio_proveedores(){
 		$this->load->model('general/general_model','general');
 		$data_view['servicio_proveedores'] = $this->general->get_table('servicio_proveedor');
-		$this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/main_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/servicio_proveedores/main_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
 	}
 
 	function proveedor_name_check()
@@ -1660,7 +1660,7 @@ class Cargar_Data extends MX_Controller
          if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/nuevo_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
+                $this->utils->template($this->_list(6),'cargar_data/servicio_proveedores/nuevo_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
             }
             else
             {
@@ -1700,7 +1700,7 @@ class Cargar_Data extends MX_Controller
 
 		$this->load->model('general/general_model','general');	
 		$data_view['servicio_proveedor'] = $this->general->get_row('servicio_proveedor',array('proveedor_id'=>$id_proveedor));
-		$this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/ver_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
+		$this->utils->template($this->_list(6),'cargar_data/servicio_proveedores/ver_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');
 
 	}
 
@@ -1732,7 +1732,7 @@ class Cargar_Data extends MX_Controller
          
          if ($this->form_validation->run($this) == FALSE)
             {
-            	$this->utils->template($this->_list(5),'cargar_data/servicio_proveedores/modificar_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');                
+            	$this->utils->template($this->_list(6),'cargar_data/servicio_proveedores/modificar_servicio_proveedores',$data_view,'Cargar Infraestructura','Servicio');                
             }
             else
             {
@@ -1821,7 +1821,7 @@ class Cargar_Data extends MX_Controller
 		$this->load->model('general/general_model','general');
 		$data_view['proceso_negocio'] = $this->general->get_table('proceso_negocio');
 		$data_view['departamentos'] = $this->general->get_table('departamento');
-		$this->utils->template($this->_list(4),'cargar_data/procesos_negocio/main_procesos_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');
+		$this->utils->template($this->_list(5),'cargar_data/procesos_negocio/main_procesos_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');
 	}
 
 	function name_check()
@@ -1860,7 +1860,7 @@ class Cargar_Data extends MX_Controller
          if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->_list(4),'cargar_data/procesos_negocio/nuevo_proceso_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');
+                $this->utils->template($this->_list(5),'cargar_data/procesos_negocio/nuevo_proceso_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');
             }
             else
             {
@@ -1919,7 +1919,7 @@ class Cargar_Data extends MX_Controller
          
          if ($this->form_validation->run($this) == FALSE)
             {
-            	$this->utils->template($this->_list(4),'cargar_data/procesos_negocio/modificar_proceso_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');                
+            	$this->utils->template($this->_list(5),'cargar_data/procesos_negocio/modificar_proceso_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');                
             }
             else
             {
@@ -1955,7 +1955,7 @@ class Cargar_Data extends MX_Controller
 		$this->load->model('general/general_model','general');
 		$data_view['proceso'] = $this->general->get_row('proceso_negocio',array('procesoneg_id'=>$id_proceso));		
 		$data_view['departamentos'] = $this->general->get_table('departamento');
-		$this->utils->template($this->_list(4),'cargar_data/procesos_negocio/ver_proceso_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');
+		$this->utils->template($this->_list(5),'cargar_data/procesos_negocio/ver_proceso_negocio',$data_view,'Cargar Infraestructura','Procesos de Negocio');
 
 	}
 
@@ -2043,11 +2043,11 @@ class Cargar_Data extends MX_Controller
 
 	    if ($this->form_validation->run($this) == FALSE)
           {
-             	$this->utils->template($this->_list(5),'cargar_data/procesos_negocio/procesos_negocio_soportados',$data_view,'Cargar Infraestructura','Servicio');             
+             	$this->utils->template($this->_list(6),'cargar_data/procesos_negocio/procesos_negocio_soportados',$data_view,'Cargar Infraestructura','Servicio');             
           }
         else
           {
-            	$this->utils->template($this->_list(5),'cargar_data/procesos_negocio/procesos_negocio_soportados',$data_view,'Cargar Infraestructura','Servicio');
+            	$this->utils->template($this->_list(6),'cargar_data/procesos_negocio/procesos_negocio_soportados',$data_view,'Cargar Infraestructura','Servicio');
           } 
 
 
@@ -2264,6 +2264,13 @@ class Cargar_Data extends MX_Controller
 	private function _list($index_active){
 		$l =  array();
 
+			$l[] = array(
+			"chain" => "Inicio",
+			"href" => site_url(''),
+			"active" => false,
+			"icon" => "fa fa-flag"
+		);
+
 		$l[] = array(
 			"chain" => "Descripción",
 			"active" => false,
@@ -2346,6 +2353,8 @@ class Cargar_Data extends MX_Controller
 			"icon" => "fa fa-user"
 		);
 
+
+
 		$l[$index_active]["active"] = true; //Colocar el ítem activo
 		return $l;
 	}//end of function: _list
@@ -2368,7 +2377,7 @@ class Cargar_Data extends MX_Controller
 			$view['personal'] = $this->basico_model->get_personal_bydepto($id);
 		}
 		$view['departamentos'] = $this->general->get_table('departamento');
-		$this->utils->template($this->_list(7),'cargar_data/'.$vista,$view,'Cargar personal','Personal de la organización');
+		$this->utils->template($this->_list(8),'cargar_data/'.$vista,$view,'Cargar personal','Personal de la organización');
 	}
 	
 	public function agregar_personal($id_departamento = '')
@@ -2433,7 +2442,7 @@ class Cargar_Data extends MX_Controller
 				}
 			}
 			$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$id_departamento));
-			$this->utils->template($this->_list(7),'cargar_data/'.$vista,$view,'Cargar personal','Agregar personal');
+			$this->utils->template($this->_list(8),'cargar_data/'.$vista,$view,'Cargar personal','Agregar personal');
 		}else
 		{
 			$this->session->set_flashdata('alert_error','Parece que existe un problema con el departamento al que intenta acceder. Por favor contacte a su administrador');
@@ -2522,7 +2531,7 @@ class Cargar_Data extends MX_Controller
 			$view['empleado']->apellido = end($nombre);
 		}
 		$view['departamento'] = $this->general->get_row('departamento',array('departamento_id'=>$view['empleado']->id_departamento));
-		$this->utils->template($this->_list(7),'cargar_data/'.$vista,$view,'Cargar personal','Modificar personal');
+		$this->utils->template($this->_list(8),'cargar_data/'.$vista,$view,'Cargar personal','Modificar personal');
 	}
 	
 	public function eliminar_personal($id_empleado='')
@@ -2539,7 +2548,7 @@ class Cargar_Data extends MX_Controller
 			if($this->general->delete('personal',$where)) $this->session->set_flashdata('alert_success','El empleado ha sido eliminado exitosamente');
 			else $this->session->set_flashdata('alert_success','Ocurrió un problema al intentar eliminar al empleado. Por favor intente más tarde o contacte a su administrador');
 		}
-		if($vista == 'personal_sinpermiso') $this->utils->template($this->_list(7),'cargar_data/'.$vista,$view,'Cargar personal','Modificar personal');
+		if($vista == 'personal_sinpermiso') $this->utils->template($this->_list(8),'cargar_data/'.$vista,$view,'Cargar personal','Modificar personal');
 		else redirect(site_url('index.php/cargar_datos/personal'));
 	}
 

@@ -7,7 +7,7 @@
 			<h1>Gesti&#243;n de Procesos de Negocio</h1>
 			<ol class="breadcrumb">
 				<li class="active">
-					<i class="fa fa-dashboard"></i> 
+					<i class="fa fa-building-o"></i> Secci&#243;n que brinda las opciones para Ver, Crear, Actualizar y Eliminar los Procesos de Negocio en el Sistema. 
 				</li>
 			</ol>
 		</div>

@@ -152,22 +152,7 @@
 			            </td>
 		            </tr>
 
-		            <tr> 
-              			<td class="col-lg-4"><p><b>Descripci&#243;n:  </b> </p>  </td>
-              			<td class="col-lg-8 text-left">  
-		             		<?php 
-		                	if(strlen($servicio->descripcion) > 100)
-			                    {       
-			                        $conntent = substr($servicio->descripcion, 0, 100);
-			                         echo $conntent.' (...)';                                                       
-			                    }
-		                    else
-			                    {
-			                        echo $servicio->descripcion;
-			                                                       
-			                    } ?> 
-			            </td>
-		            </tr>
+		           
 
 		            <tr> <td></td><td></td></tr>	
 
@@ -178,9 +163,9 @@
               <div class="panel-footer text-right">
 				<a href="<?php echo base_url('index.php/catalogo/vista_negocio/'.$servicio->servicio_id);?>" type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista de Negocio del Servicio"><i class="fa fa-users"></i> Vista de Negocio</a> |
 
-				<a href="<?php echo base_url('index.php/cargar_datos/servicios');?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista T&#233;cnica del Servicio"><i class="fa fa-wrench"></i> Vista T&#233;cnica</a> |
+				<a href="<?php echo base_url('index.php/catalogo/vista_tecnica/'.$servicio->servicio_id);?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista T&#233;cnica del Servicio"><i class="fa fa-wrench"></i> Vista T&#233;cnica</a> |
 
-				<a href="<?php echo base_url('index.php/cargar_datos/servicios');?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista Completa del Servicio"><i class="fa fa-bars"></i> Vista Completa</a>
+				<a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio->servicio_id);?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista Completa del Servicio"><i class="fa fa-bars"></i> Vista Completa</a>
        		 </div>
 
             </div>

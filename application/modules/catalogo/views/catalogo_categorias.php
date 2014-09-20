@@ -16,7 +16,9 @@
 		<?php if(count($categorias) > 0) : ?>
 
 	    
-	    
+	    		<div class="text-right">
+	    			<a href="<?php echo base_url('index.php/catalogo');?>" type="button" class="btn btn-info"><b> <i class="fa fa-arrow-circle-left"></i> Cat&#225;logo General</b> </a><br><br>
+	    		</div>
 				<table id="dataTables-categorias" class="table table-hover" >
 
 					<thead>

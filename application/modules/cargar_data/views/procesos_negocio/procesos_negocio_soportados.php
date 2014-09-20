@@ -9,8 +9,8 @@
 
 <h1>Gesti&#243;n de Soporte de Procesos de Negocio</h1>
 	<ol class="breadcrumb">
-				<li class="active"><i class="fa fa-dashboard"></i> 
-					Carga de los componentes de tecnología de primaryrmación (TI) de la organización.</li>
+				<li class="active"><i class="fa fa-retweet"></i> 
+					Secci&#243;n que brinda las opci&#243;n de Asignar cuales Procesos de Negocio son Soportados por el Servicio Seleccionado.</li>
 				</ol><br>
 
 <?php if($this->session->flashdata('Success')) { ?>

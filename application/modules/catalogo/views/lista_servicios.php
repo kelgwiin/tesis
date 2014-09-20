@@ -10,13 +10,16 @@
 
 	 
 	<div class="panel panel-primary" >
-	 <div class="panel-heading text-center" style="font-size:20px;"><b>Categoria: <span class="badge" style="font-size:20px;"><em><?php echo $categoria; ?></span></em></b></div>
+	 <div class="panel-heading text-center" style="font-size:20px;"><b>Categoria: <span class="label label-default" style="font-size:20px;"><em><?php echo $categoria; ?></span></em></b></div>
 	<div class="panel-body">
+		
+
 	<br>
 		<?php if(count($servicios) > 0) : ?>
-
-	    
-	    
+		
+		<div class="text-right">
+	    <a href="<?php echo base_url('index.php/catalogo/por_categorias');?>" type="button" class="btn btn-info"><b> <i class="fa fa-arrow-circle-left"></i> Cat&#225;logo por Categor&#237;as </b> </a><br><br>
+	    </div>
 				<table id="dataTables-categorias" class="table table-hover" >
 
 					<thead>
@@ -35,7 +38,7 @@
 							
 							<td width="10%">
 								<b>Nombre: </b><br>
-								<?php echo $servicio->descripcion; ?>
+								<?php echo $servicio->nombre; ?>
 							</td>
 
 							<td width="20%">
@@ -71,11 +74,11 @@
 							</td>
 
 							<td width="20%">
-								<a href="<?php echo base_url('index.php/cargar_datos/servicios');?>" type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista de Negocio del Servicio"><i class="fa fa-users"></i> Vista de Negocio</a> <br>
+								<a href="<?php echo base_url('index.php/catalogo/vista_negocio/'.$servicio->servicio_id);?>" type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista de Negocio del Servicio"><i class="fa fa-users"></i> Vista de Negocio</a> <br>
 
-								<a href="<?php echo base_url('index.php/cargar_datos/servicios');?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista T&#233;cnica del Servicio"><i class="fa fa-wrench"></i> Vista T&#233;cnica</a> <br>
+								<a href="<?php echo base_url('index.php/catalogo/vista_tecnica/'.$servicio->servicio_id);?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista T&#233;cnica del Servicio"><i class="fa fa-wrench"></i> Vista T&#233;cnica</a> <br>
 
-								<a href="<?php echo base_url('index.php/cargar_datos/servicios');?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista Completa del Servicio"><i class="fa fa-bars"></i> Vista Completa</a>
+								<a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio->servicio_id);?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista Completa del Servicio"><i class="fa fa-bars"></i> Vista Completa</a>
 							</td>			
 						</tr>
 							
@@ -88,7 +91,7 @@
 		 
 
         <?php else : ?>
-			<div class="alert alert-info text-center col-md-8 col-md-offset-2" role="alert"><i class="fa fa-exclamation-circle"></i> ¡No existen Servicios en esta Categoria!</div>
+			<div class="alert alert-info text-center col-md-8 col-md-offset-2" role="alert"><i class="fa fa-exclamation-circle"></i> ¡No existen Servicios en esta Categoria! <a href="<?php echo base_url('index.php/catalogo/por_categorias');?>" type="button" class="btn btn-primary"><b> <i class="fa fa-arrow-circle-left"></i> Volver al Cat&#225;logo por Categor&#237;as </b> </a></div>
 		<?php endif ?>
 	</div>
 		

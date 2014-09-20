@@ -11,8 +11,8 @@
 			<h1>Gesti&#243;n de Servicios</h1>
 
 			<ol class="breadcrumb">
-				<li class="active"><i class="fa fa-dashboard"></i> 
-					Carga de los componentes de tecnología de primaryrmación (TI) de la organización.</li>
+				<li class="active"><i class="fa fa-list"></i> 
+					Secci&#243;n que brinda las opciones para Ver, Crear, Actualizar y Eliminar los Servicios de TI en el Sistema.</li>
 				</ol>
 
 	<?php if($this->session->flashdata('Success')) { ?>
@@ -33,8 +33,6 @@
       ?>
      <div class="alert alert-success text-center" role="alert" id="success2" style="display: none;">
 	</div>
-
-<br>
 
 	<div class="panel panel-primary">
 

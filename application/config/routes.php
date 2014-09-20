@@ -100,6 +100,8 @@ $route['catalogo'] = "catalogo/catalogo";
 $route['catalogo/por_categorias'] = "catalogo/catalogo_categorias";
 $route['catalogo/lista_servicios/(:any)'] = "catalogo/listado_servicios/$1";
 $route['catalogo/vista_negocio/(:num)'] = "catalogo/vista_negocio/$1";
+$route['catalogo/vista_tecnica/(:num)'] = "catalogo/vista_tecnica/$1";
+$route['catalogo/vista_completa/(:num)'] = "catalogo/vista_completa/$1";
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/

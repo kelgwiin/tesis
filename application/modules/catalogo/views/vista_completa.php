@@ -4,14 +4,14 @@
 <div id="page-wrapper">
 
 	<ol class="breadcrumb">
-				<li class="active"><i class="fa fa-users"></i> 
-					Vista de Negocio del Servicio Seleccionado.</li>
+				<li class="active"><i class="fa fa-bars"></i> 
+					Vista de Completa del Servicio Seleccionado.</li>
 				</ol>
 
 
 	<div class="col-lg-7 col-lg-offset-2">
 		<div class="panel panel-primary">
-			<div class="panel-heading"> <i class="fa fa-list"></i> Servicio - Vista de Negocio</div>
+			<div class="panel-heading"> <i class="fa fa-list"></i> Servicio - Vista Completa</div>
 			<div class="panel-body">
 				<div class="table-responsive">
 				<table class="table">	
@@ -25,24 +25,34 @@
 						
 						 <tr>
 						  <td class="col-lg-4"><b>Nombre</b></td>
-						  <td class="col-lg-8 text-left"><span class="label label-primary"><?php echo $servicio->nombre; ?></span></td>
+						  <td class="col-lg-8 text-left"><span class="label label-primary"><?php echo $servicio_actual->nombre; ?></span></td>
+						</tr>
+
+						<tr>
+						  <td class="col-lg-4"><b>Descripci&#243;n</b></td>
+						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->descripcion; ?></td>
+						</tr>
+					    <tr>
+					    	
+						  <td class="col-lg-4"><b>Caracter&#237;sticas</b></td>
+						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->caracteristicas; ?></td>
 						</tr>
 
 					
 						  <td class="col-lg-4"><b>Fecha de Creaci&#243;n</b></td>
 						  <td class="col-lg-8 text-left"><?php 
-							                	 $date = date_create($servicio->fecha_creacion);
+							                	 $date = date_create($servicio_actual->fecha_creacion);
 							                	 echo date_format($date,"d/m/y"); ?> </td>
 						</tr>
 
 					   <tr>
 						  <td class="col-lg-4"><b>Categoria</b></td>
-						  <td class="col-lg-8 text-left"><?php echo $servicio->categoria_servicio; ?></td>
+						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->categoria_servicio; ?></td>
 						</tr>
 
 						 <tr>
 						  <td class="col-lg-4"><b>Tipo</b></td>
-						  <td class="col-lg-8 text-left"><?php echo $servicio->tipo_servicio; ?></td>
+						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->tipo_servicio; ?></td>
 						</tr>
 
 						<tr>
@@ -62,7 +72,7 @@
 
 						<tr>
 						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
-						  <td class="col-lg-8 text-left"><?php echo $servicio->prioridad_servicio; ?></td>
+						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->prioridad_servicio; ?></td>
 						</tr>	
 
 						
@@ -98,6 +108,66 @@
 
 
 						<tr>
+						  <td class="col-lg-4"><b>Servicios Soportados</b></td>
+						  <td class="col-lg-8 text-left">
+						  	 <?php $last = end($servicios_soportados); ?>
+						  	<?php if(count($servicios_soportados) > 0) : ?>
+					    
+								<?php foreach ($servicios_soportados as $servicio_soportado) : ?>
+									<?php foreach ($servicios as $servicio) : ?>
+										<?php if($servicio_soportado->servicio_soportado == $servicio->servicio_id) : ?>
+										   
+										    <?php if($servicio_soportado != $last) : ?>      
+												<a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soportado->servicio_soportado);?>">
+													<?php echo $servicio->nombre;?> </a> <?php echo ", ";?> 
+											<?php else : ?>
+											<a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soportado->servicio_soportado);?>">
+												<?php echo $servicio->nombre;?> </a>
+											<?php endif ?>	
+										
+										<?php endif ?>
+									<?php endforeach ?>
+							    <?php endforeach ?>
+																				
+					    	<?php else : ?>
+								<em> No Posee </em>
+							<?php endif ?>
+
+						  </td>
+						</tr>
+
+
+						<tr>
+						  <td class="col-lg-4"><b>Servicios de Apoyo</b></td>
+						  <td class="col-lg-8 text-left">
+						  	 <?php $last = end($servicios_soporte); ?>
+						  	<?php if(count($servicios_soporte) > 0) : ?>
+					    
+								<?php foreach ($servicios_soporte as $servicio_soporte) : ?>
+									<?php foreach ($servicios as $servicio) : ?>
+										<?php if($servicio_soporte->servicio_soporte == $servicio->servicio_id) : ?>
+										   
+										    <?php if($servicio_soporte != $last) : ?>  
+										    <a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soporte->servicio_soporte);?>">    
+												<?php echo $servicio->nombre;?> </a> <?php echo ", ";?>
+											<?php else : ?>
+											 <a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soporte->servicio_soporte);?>">  
+												<?php echo $servicio->nombre;?></a> 
+											<?php endif ?>	
+										
+										<?php endif ?>
+									<?php endforeach ?>
+							    <?php endforeach ?>
+																				
+					    	<?php else : ?>
+								<em> No Posee </em>
+							<?php endif ?>
+
+						  </td>
+						</tr>
+
+
+						<tr>
 						  <td class="col-lg-4"><b>Informes de Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo '"Una lista de los informes operativos disponibles para los servicios de TI."'; ?></td>
 						</tr>
@@ -118,6 +188,9 @@
 						  <td class="col-lg-4"><b>Costo </b></td>
 						  <td class="col-lg-8 text-left"><?php echo '"Costo del Servicio"'; ?></td>
 						</tr>
+
+
+
 
 
 
@@ -147,7 +220,7 @@
 
 			<div class="panel-footer text-right">
 				<a href="<?php echo base_url('index.php/catalogo');?>" type="button" class="btn btn-default" id="cancelar">Volver al Cat&#225;logo Completo</a>
-				<a href="<?php echo base_url('index.php/catalogo/lista_servicios/'.$servicio->categoria_servicio);?>" type="button" class="btn btn-default" id="cancelar">Volver al Cat&#225;logo por Categor&#237;as</a>
+				<a href="<?php echo base_url('index.php/catalogo/lista_servicios/'.$servicio_actual->categoria_servicio);?>" type="button" class="btn btn-default" id="cancelar">Volver al Cat&#225;logo por Categor&#237;as</a>
 	         
        		 </div>
 		</div>

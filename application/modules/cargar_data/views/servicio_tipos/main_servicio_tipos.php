@@ -6,9 +6,14 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h1>Gesti&#243;n de Tipos de Servicio</h1>
-			<br>
+			
 		</div>
 	</div>
+
+	<ol class="breadcrumb">
+				<li class="active"><i class="fa fa-bars"></i>  
+					Secci&#243;n que brinda las opciones para Ver, Crear, Actualizar y Eliminar los Tipos de Servicios de TI en el Sistema.</li>
+				</ol>
 	
 	<?php if($this->session->flashdata('Success')) { ?>
 	<div class="alert alert-success text-center" role="alert" id="message">
