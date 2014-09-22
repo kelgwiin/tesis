@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/procesos_negocio/js/operaciones_ajax.js"></script>
+<script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/servicio_infraestructura/js/operaciones_ajax.js"></script>
 
 <div id="page-wrapper">
 
@@ -7,10 +7,10 @@
 
 <!-- Lista de Componentes para copiar-->
 
-<h1>Gesti&#243;n de Soporte de Procesos de Negocio</h1>
+<h1>Gesti&#243;n de Infraestructura de Soporte</h1>
 	<ol class="breadcrumb">
-				<li class="active"><i class="fa fa-retweet"></i> 
-					Secci&#243;n que brinda la opci&#243;n de Asignar cuales Procesos de Negocio son Soportados por el Servicio Seleccionado.</li>
+				<li class="active"><i class="fa fa-laptop"></i> 
+					Secci&#243;n que brinda la opci&#243;n de Asignar cuales Componentes de TI Soportan el Servicio Seleccionado.</li>
 				</ol><br>
 
 <?php if($this->session->flashdata('Success')) { ?>
@@ -33,7 +33,7 @@
 		<div class="panel panel-primary">
 
 		<div class="panel-heading">
-	   		<h3 class="panel-title"> <i class="fa fa-retweet"></i> Gestion de Soporte de Servicios</h3>
+	   		<h3 class="panel-title"> <i class="fa  fa-laptop"></i> Gestion de Infraestructura de Soporte de Servicios</h3>
 	  	</div>
 
 	  	<div class="panel-body">
@@ -46,7 +46,7 @@
 					 <?php
 						    // Apertura de Formulario
 						    $attributes = array('role' => 'form','class'=>'form-horizontal');
-							echo form_open(base_url().'index.php/cargar_datos/procesos_de_negocio_soportados',$attributes); 
+							echo form_open(base_url().'index.php/cargar_datos/servicio_infraestructura',$attributes); 
 					    ?>
 
 	  				<div class="form-group">
@@ -88,8 +88,8 @@
 					
 					<?php if(isset($servicio_actual) && !empty($servicio_actual)) : ?>
 
-						<?php if(count($procesos_negocio) < 1) : ?>
-		  				<div class="alert alert-info text-center col-md-8 col-md-offset-2" role="alert"><i class="fa fa-exclamation-circle"></i> ¡No existen Procesos de Negocio Registrados en el Sistema! <u><b><a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio');?>">Crear Proceso de Negocio</a></b></u></div>
+						<?php if(count($componentes_ti) < 1) : ?>
+		  				<div class="alert alert-info text-center col-md-8 col-md-offset-2" role="alert"><i class="fa fa-exclamation-circle"></i> ¡No existen Componentes de TI Registrados en el Sistema! <u><b><a href="<?php echo base_url('index.php/cargar_datos/componentes_ti/1');?>">Registrar Componentes de TI</a></b></u></div>
 
 		  				<?php else : ?>
 
@@ -100,17 +100,17 @@
 										<div class="panel-body">
 											<div class = "row">
 												<div class = "col-md-4 col-md-offset-1">
-													<span class = "help-block">Procesos de Negocio SIN Soporte de Servicio </span>
+													<span class = "help-block">Componentes de TI disponibles para este Servicio </span>
 													<div class = "form-group">
-														<select id = "lista_procesos" name="lista_procesos[]" size = "15" multiple class="form-control"  >
-															<?php foreach ($procesos_negocio as $proceso_negocio) : ?>
+														<select id = "lista_componentes" name="lista_componentes[]" size = "15" multiple class="form-control"  >
+															<?php foreach ($componentes_ti as $componente_ti) : ?>
 																
 
-																		<?php if(count($procesos_soportados) > 0) : ?>
+																		<?php if(count($componentes_soporte) > 0) : ?>
 						                										<?php $soportado = false; ?>
-								                								<?php foreach ($procesos_soportados as $proceso_soportado) : ?>
+								                								<?php foreach ($componentes_soporte as $componente_soporte) : ?>
 
-								                									<?php if($proceso_soportado->proceso_id == $proceso_negocio->procesoneg_id) : ?>
+								                									<?php if($componente_soporte->componente_id == $componente_ti->componente_ti_id) : ?>
 								              	
 																				  		<?php $soportado = true; ?>
 																				  	<?php endif ?>
@@ -118,11 +118,11 @@
 																				<?php endforeach ?>
 
 																				<?php if(!$soportado) : ?>
-																					<option value="<?php echo $proceso_negocio->procesoneg_id;?>"><?php echo $proceso_negocio->nombre;?></option>
+																					<option value="<?php echo $componente_ti->componente_ti_id;?>"><?php echo $componente_ti->nombre;?></option>
 																					
 																				<?php endif ?>
 																		<?php else : ?>
-																			<option value="<?php echo $proceso_negocio->procesoneg_id;?>"><?php echo $proceso_negocio->nombre;?></option>
+																			<option value="<?php echo $componente_ti->componente_ti_id;?>"><?php echo $componente_ti->nombre;?></option>
 																		<?php endif ?>
 																
 															<?php endforeach ?>	
@@ -138,10 +138,10 @@
 													<div style = "margin-top:70px">
 														<button 
 															type="button"
-															id = "add_proceso_soportado"
+															id = "add_componente_soportado"
 															class="btn btn-primary"
 															data-toggle = "tooltip"
-															data-original-title = "Agregar Proceso Soportado"
+															data-original-title = "Agregar Compoenente de TI"
 															data-placement = "top"
 															>
 															
@@ -152,10 +152,10 @@
 
 														<button 
 															type="button"
-															id = "rm_proceso_soportado"
+															id = "rm_compoenente_soportado"
 															class="btn btn-primary"
 															data-toggle = "tooltip"
-															data-original-title = "Remover Proceso Soportado."
+															data-original-title = "Remover Componente de TI"
 															data-placement = "bottom"
 															>
 															
@@ -168,20 +168,20 @@
 
 												<!-- Lista de Componentes Copiados -->
 												<div class = "col-md-4">
-													<span class = "help-block">Procesos de Negocio Soportados</span>
+													<span class = "help-block">Componentes de TI que Soportan a este Servicio</span>
 													<div class = "form-group" id = "fg-copied-componentes-ti-dpto">
-														<select id = "procesos_soportados" name='procesos_soportados[]' size = "15" multiple class="form-control"  >
+														<select id = "infraestructura_soporte" name='infraestructura_soporte[]' size = "15" multiple class="form-control"  >
 															<!-- Se llena desde jquery cuando es nuevo -->
 
-															<?php if(count($procesos_soportados) > 0) : ?>
+															<?php if(count($componentes_soporte) > 0) : ?>
 
 
-																<?php foreach ($procesos_soportados as $proceso_soportado) : ?>
+																<?php foreach ($componentes_soporte as $componente_soporte) : ?>
 																	
-																	<?php foreach ($procesos_negocio as $proceso_negocio) : ?>
+																	<?php foreach ($componentes_ti as $componente_ti) : ?>
 
-																		<?php if($proceso_soportado->proceso_id == $proceso_negocio->procesoneg_id) : ?>
-																			<option value="<?php echo $proceso_soportado->proceso_id;?>"><?php echo $proceso_negocio->nombre;?></option>
+																		<?php if($componente_soporte->componente_id == $componente_ti->componente_ti_id) : ?>
+																			<option value="<?php echo $componente_soporte->componente_id;?>"><?php echo $componente_ti->nombre;?></option>
 																		<?php endif ?>
 																	<?php endforeach ?>
 																<?php endforeach ?>	

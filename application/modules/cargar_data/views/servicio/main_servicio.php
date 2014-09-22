@@ -44,7 +44,7 @@
 
 
 
-		<div class="row col-lg-12 text-right">
+		<div class="row col-lg-12 text-center">
 
 	                    <a href="<?php echo base_url('index.php/cargar_datos/servicio_categorias');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-folder-open-o"></i> Gestion de Categor&#237;as </b> </a>
 
@@ -55,8 +55,10 @@
 	                    <a href="<?php echo base_url('index.php/cargar_datos/servicio_soportados');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-retweet"></i> Gestion de Soporte de Servicios </b> </a>
 
 	                    <a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio_soportados');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-plus-square"></i> Asignar Procesos Negocios a Servicios </b> </a>
-	    </div>
-		<a class="btn btn-success" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/servicios/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Servicio</a><br><br>
+
+	                    <a href="<?php echo base_url('index.php/cargar_datos/servicio_infraestructura');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-laptop"></i> Infraestructura de Servicios</b> </a>
+	    </div><hr>
+		<br><a class="btn btn-success" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/servicios/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Servicio</a><br><br>
 		
 		<div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped" id="dataTables-servicio">

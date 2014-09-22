@@ -891,6 +891,136 @@ class Cargar_Data extends MX_Controller
 	 */
 
 
+
+	/*
+	 * Funciones para Infraestructura de Soporte para los Servicios
+	 *
+	 *
+	 */
+	public function servicio_infraestructura($servicio_id = ''){
+
+		$this->load->model('general/general_model','general');
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['componentes_ti'] = $this->general->get_table('componente_ti');
+
+		if(!empty($servicio_id)) { 
+		 $data_view['servicio_id'] = $servicio_id;
+		 $data_view['servicio_actual'] = $servicio_id;
+
+				$data_view['componentes_soporte'] = [];
+
+				if($this->general->exist('servicio_infraestructura',array('servicio_id'=> $servicio_id)))
+		            {
+		            	$data_view['componentes_soporte'] = $this->general->get_result('servicio_infraestructura',array('servicio_id'=> $servicio_id)); 
+		            }
+		}
+
+
+		if($this->input->post('servicios'))
+			{
+				$data_view['servicio_actual'] = $this->input->post('servicios');
+
+				$data_view['componentes_soporte'] = [];
+
+				if($this->general->exist('servicio_infraestructura',array('servicio_id'=> $this->input->post('servicios'))))
+		            {
+		            	$data_view['componentes_soporte'] = $this->general->get_result('servicio_infraestructura',array('servicio_id'=> $this->input->post('servicios'))); 
+		            }
+			}
+
+   		if($this->input->post('servicios') == 'seleccione')
+            {
+            	unset($data_view['servicio_actual']);
+            }
+
+
+        $this->form_validation->set_rules('servicios', 'Servicios', 'callback_dropdown_servicio');
+
+	    if ($this->form_validation->run($this) == FALSE)
+          {
+             	$this->utils->template($this->_list(6),'cargar_data/servicio_infraestructura/servicio_infraestructura',$data_view,'Cargar Infraestructura','Servicio');             
+          }
+        else
+          {
+            	$this->utils->template($this->_list(6),'cargar_data/servicio_infraestructura/servicio_infraestructura',$data_view,'Cargar Infraestructura','Servicio');
+          } 
+
+
+
+       if ($this->input->post('infraestructura_soporte'))
+        {
+	       	foreach ($this->input->post('infraestructura_soporte') as $key => $componente_soporte)
+	       	{
+	       		
+	       		$soporte = false;
+	       		if( !($this->general->exist('servicio_infraestructura',array('componente_id'=> $componente_soporte,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       		  $servicio_componente = array(
+	                                'servicio_id' => $this->input->post('servicios'),
+	                                'componente_id' => $componente_soporte,  
+	                                );
+
+	            	$this->general->insert('servicio_infraestructura',$servicio_componente,'');
+	            }
+	             if(($this->general->exist('servicio_infraestructura',array('componente_id'=> $componente_soporte,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Componentes de TI Seleccionados han sido Agregados con Éxito');
+					redirect(site_url('index.php/cargar_datos/servicio_infraestructura/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Agregar los Componentes de TI Seleccionados');
+					redirect(site_url('index.php/cargar_datos/servicio_infraestructura/'.$this->input->post('servicios')));
+				}
+       }
+
+        if ($this->input->post('lista_componentes'))
+        {
+	       	foreach ($this->input->post('lista_componentes') as $key => $lista_componente)
+	       	{
+	       		
+	       		$soporte = false;
+	       		if(($this->general->exist('servicio_infraestructura',array('componente_id'=> $lista_componente,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+
+	            	$this->general->delete('servicio_infraestructura',array('componente_id'=> $lista_componente,'servicio_id'=> $this->input->post('servicios')));
+	            }
+	             if(!($this->general->exist('servicio_infraestructura',array('componente_id'=> $lista_componente,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Componentes de TI Seleccionados han sido Removidos con Éxito');
+					redirect(site_url('index.php/cargar_datos/servicio_infraestructura/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Remover los Componentes de TI Seleccionados');
+					redirect(site_url('index.php/cargar_datos/servicio_infraestructura/'.$this->input->post('servicios')));
+				}
+       }
+		  
+	}
+
+
+	/*
+	 * FIN deFunciones para Infraestructura de Soporte para los Servicios
+	 *
+	 *
+	 */
+
+
 	/*
 	 * Funciones para Umbrales
 	 *

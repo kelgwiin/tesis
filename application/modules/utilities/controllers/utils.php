@@ -75,6 +75,14 @@ class Utils extends MX_Controller
 			"chain" => "Inicio",
 			"href" => site_url(''),
 			"icon" => "fa fa-flag"
+		);
+
+		
+		//Carga de Infraestructura
+		$l[] = array(
+			"chain" => "Carga de Infraestructura",
+			"href" => site_url('index.php/cargar_datos'),
+			"icon" => "fa fa-sitemap"
 		);	
 
 
@@ -229,12 +237,6 @@ class Utils extends MX_Controller
 		);
 
 
-		//Carga de Infraestructura
-		$l[] = array(
-			"chain" => "Carga de Infraestructura",
-			"href" => site_url('index.php/cargar_datos'),
-			"icon" => "fa fa-sitemap"
-		);
 
 
 

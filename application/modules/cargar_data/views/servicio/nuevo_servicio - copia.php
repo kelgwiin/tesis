@@ -7,27 +7,24 @@
 
 	<div class="panel panel-primary">
 
-		<div class="panel-heading">
-	   		<i class="fa fa-plus-circle"></i> Crear Nuevo Servicio de TI
-	  	</div>
+	<div class="panel-heading">
+   		<i class="fa fa-plus-circle"></i> Crear Nuevo Servicio de TI
+  	</div>
 
-	  	<div class="panel-body">
-		 	
-		 	 <?php
+  	<div class="panel-body">
+	    <?php
 		    // Apertura de Formulario
 		    $attributes = array('role' => 'form', 'id'=> 'new_service_form','class'=>'form-horizontal');
 			echo form_open(base_url().'index.php/cargar_datos/servicios/crear',$attributes); 
 	    ?>
-	     <h3 class = "text-primary"> Datos Básicos</h3> <hr>
-			<div class="row">
-			<div class="col-md-5">
-	    	<div class="form-group">
+
+	    <div class="form-group">
 			
 			<div class="required">
-				<label for="service_name" class="col-md-4 control-label">Nombre del Servicio</label> 
+				<label for="service_name" class="col-lg-4 control-label">Nombre del Servicio</label> 
 			</div>
 
-		    <div class="col-md-7">
+		    <div class="col-lg-3">
 
 		       	<?php	
 				    $input_data = array(
@@ -47,27 +44,88 @@
 			    ?>	
 		    </div>
 		</div>
+
 		 <div class="form-group">
-	      	<div class="control-label col-md-4">
+	      	<div class="control-label col-lg-4">
 	      	</div>
-	      	<div class="col-md-7">
+	      	<div class="col-lg-5">
 			    <label style="color:red;">
 			   	<?php 
 			        echo form_error('service_name');
 				 ?>
 				</label>
 			</div>
-		</div>
+		</div>	
 
 
 
+	    <div class="form-group">
+
+	        <div class="required">
+				<label for="tipo_servicio" class="col-lg-4 control-label">Descripci&#243;n</label>		    
+			</div>
+
+	        <div class="col-lg-5">
+	            <?php $data = array(
+	            		'value' => set_value('descripcion'),
+                        'name'        => 'descripcion',
+                        'id'          => 'descripcion', 
+                        'class'          => 'form-control boxsizingBorder',
+                        //'rows' => '6',                           
+                                  );
+                echo form_textarea($data)?>
+	        </div>
+	    </div>
+
+	    <div class="form-group">
+	      	<div class="control-label col-lg-4">
+	      	</div>
+	      	<div class="col-lg-5">
+			    <label style="color:red;">
+			   	<?php 
+			        echo form_error('descripcion');
+				 ?>
+				</label>
+			</div>
+		</div>	
+
+	    <div class="form-group">
+	        
+	    	<div class="required">
+				<label for="tipo_servicio" class="col-lg-4 control-label">Caracter&#237;sticas</label>		    
+			</div>
+
+	        <div class="col-lg-5">
+	            <?php $data2 = array(
+	            		'value' => set_value('caracteristicas_servicio'),
+                        'name'        => 'caracteristicas_servicio',
+                        'id'          => 'caracteristicas_servicio', 
+                        'class'          => 'form-control boxsizingBorder',
+                        //'rows' => '6',                           
+                                  );
+                echo form_textarea($data2)?>
+	        </div>
+	    </div>
+
+	    <div class="form-group">
+	      	<div class="control-label col-lg-4">
+	      	</div>
+	      	<div class="col-lg-5">
+			    <label style="color:red;">
+			   	<?php 
+			        echo form_error('caracteristicas_servicio');
+				 ?>
+				</label>
+			</div>
+		</div>	
+	 
 		<div class="form-group">
 	 		
 	 		<div class="required">
-				<label for="categoria_servicio" class="col-md-4 control-label">Categor&#237;a del Servicio</label>		    
+				<label for="categoria_servicio" class="col-lg-4 control-label">Categor&#237;a del Servicio</label>		    
 			</div>
 
-			<div class="col-md-7">
+			<div class="col-lg-3">
 
 				 <?php
 		        	$options = array(
@@ -87,24 +145,23 @@
 	        </div>
 		</div>
 		<div class="form-group">
-	      	<div class="control-label col-md-4">
+	      	<div class="control-label col-lg-4">
 	      	</div>
-	      	<div class="col-md-7">
+	      	<div class="col-lg-5">
 			    <label style="color:red;">
 			   	<?php 
 			        echo form_error('categoria_servicio');
 				 ?>
 				</label>
 			</div>
-		</div>
-
+		</div>	
 
 		<div class="form-group">
 	        <div class="required">
-				<label for="tipo_servicio" class="col-md-4 control-label">Tipo de Servicio</label>		    
+				<label for="tipo_servicio" class="col-lg-4 control-label">Tipo de Servicio</label>		    
 			</div>
 
-			<div class="col-md-7">
+			<div class="col-lg-3">
 
 				 <?php
 		        	$options = array(
@@ -125,9 +182,9 @@
 	    </div>
 
 	    <div class="form-group">
-	      	<div class="control-label col-md-4">
+	      	<div class="control-label col-lg-4">
 	      	</div>
-	      	<div class="col-md-7">
+	      	<div class="col-lg-5">
 			    <label style="color:red;">
 			   	<?php 
 			        echo form_error('tipo_servicio');
@@ -139,10 +196,10 @@
 
 		<div class="form-group">
 	        <div class="required">
-				<label for="tipo_servicio" class="col-md-4 control-label">Proveedor del Servicio</label>		    
+				<label for="tipo_servicio" class="col-lg-4 control-label">Proveedor del Servicio</label>		    
 			</div>
 
-			<div class="col-md-7">
+			<div class="col-lg-3">
 
 				 <?php
 		        	$options = array(
@@ -163,9 +220,9 @@
 	    </div>
 
 	    <div class="form-group">
-	      	<div class="control-label col-md-4">
+	      	<div class="control-label col-lg-4">
 	      	</div>
-	      	<div class="col-md-7">
+	      	<div class="col-lg-5">
 			    <label style="color:red;">
 			   	<?php 
 			        echo form_error('proveedor_servicio');
@@ -176,10 +233,10 @@
 
 	    <div class="form-group">
 	        <div class="required">
-				<label for="tipo_servicio" class="col-md-4 control-label">Propietario del Servicio</label>		    
+				<label for="tipo_servicio" class="col-lg-4 control-label">Propietario del Servicio</label>		    
 			</div>
 
-			<div class="col-md-7">
+			<div class="col-lg-3">
 
 				   <?php
 		        	$options = array(
@@ -199,9 +256,9 @@
 	    </div>
 
 	    <div class="form-group">
-	      	<div class="control-label col-md-4">
+	      	<div class="control-label col-lg-4">
 	      	</div>
-	      	<div class="col-md-7">
+	      	<div class="col-lg-5">
 			    <label style="color:red;">
 			   	<?php 
 			        echo form_error('propietario_servicio');
@@ -212,10 +269,10 @@
 
 		<div class="form-group">
 	        <div class="required">
-				<label for="prioridad_servicio" class="col-md-4 control-label">Prioridad en el Negocio</label>		    
+				<label for="prioridad_servicio" class="col-lg-4 control-label">Prioridad en el Negocio</label>		    
 			</div>
 
-			<div class="col-md-7">
+			<div class="col-lg-3">
 		        <?php
 		        	$options = array(
 		        	  'seleccione' => 'Seleccione una Categoria',
@@ -231,109 +288,28 @@
 	    </div>
 
 	    <div class="form-group">
-	      	<div class="control-label col-md-4">
+	      	<div class="control-label col-lg-4">
 	      	</div>
-	      	<div class="col-md-7">
+	      	<div class="col-lg-5">
 			    <label style="color:red;">
 			   	<?php 
 			        echo form_error('prioridad_servicio');
 				 ?>
 				</label>
 			</div>
-		</div>			
-		   
-		</div>
-
-
-		<div class="col-md-7" style="border-left:1px solid #D0D0D0 ;">
-
-				  <div class="form-group">
-
-			        <div class="required">
-						<label for="tipo_servicio" class="col-md-2 control-label">Descripci&#243;n</label>		    
-					</div>
-
-			        <div class="col-md-9">
-			            <?php $data = array(
-			            		'value' => set_value('descripcion'),
-		                        'name'        => 'descripcion',
-		                        'id'          => 'descripcion', 
-		                        'class'          => 'form-control boxsizingBorder',
-		                        //'rows' => '6',                           
-		                                  );
-		                echo form_textarea($data)?>
-			        </div>
-			    </div>
-
-			    <div class="form-group">
-			      	<div class="control-label col-md-2">
-			      	</div>
-			      	<div class="col-md-9">
-					    <label style="color:red;">
-					   	<?php 
-					        echo form_error('descripcion');
-						 ?>
-						</label>
-					</div>
-				</div>	
-
-				 <div class="form-group">
-	        
-	    	<div class="required">
-				<label for="tipo_servicio" class="col-md-2 control-label">Caracter&#237;sticas</label>		    
-			</div>
-
-	        <div class="col-md-9">
-	            <?php $data2 = array(
-	            		'value' => set_value('caracteristicas_servicio'),
-                        'name'        => 'caracteristicas_servicio',
-                        'id'          => 'caracteristicas_servicio', 
-                        'class'          => 'form-control boxsizingBorder',
-                        //'rows' => '6',                           
-                                  );
-                echo form_textarea($data2)?>
-	        </div>
-	    </div>
-
-	    <div class="form-group">
-	      	<div class="control-label col-md-2">
-	      	</div>
-	      	<div class="col-md-9">
-			    <label style="color:red;">
-			   	<?php 
-			        echo form_error('caracteristicas_servicio');
-				 ?>
-				</label>
-			</div>
 		</div>	
-		</div>	
-		</div>
 
-		 <h3 class = "text-primary"> Informacion del Negocio</h3> <hr>
-		 <div class="row">
-			<div class="col-md-5 ">
-			</div>
-			<div class="col-md-7 ">
-			</div>
-		 </div>
+	
 
 
-		  <div class="row">
-		<div class="col-lg-1 col-lg-offset-5">
+	 	<div class="col-lg-1 col-lg-offset-5">
 	     <button type="submit" class="btn btn-primary form-group">Crear Servicio</button>
 	     </div>
 	     <div class="col-lg-1">
 	     <a href="<?php echo base_url('index.php/cargar_datos/servicios');?>" type="button" class="btn btn-danger" id="cancelar">Cancelar</a>
 	    <?php echo form_close(); ?>
 		</div>
-		 </div>
 
+	</div>
 
-
-
-		</div>
-
-	</div> 
-
-
-   
+</div> <!-- Page wraper -->
