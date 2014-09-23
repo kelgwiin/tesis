@@ -1,4 +1,15 @@
 <script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/servicio/js/operaciones_ajax.js"></script>
+<style>
+#imagePreview {
+    width: 80px;
+    height: 80px;
+    background-position: center center;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+    display: inline-block;
+}
+</style>
+
 <div id="page-wrapper">
 
 
@@ -16,7 +27,7 @@
 		 	 <?php
 		    // Apertura de Formulario
 		    $attributes = array('role' => 'form', 'id'=> 'new_service_form','class'=>'form-horizontal');
-			echo form_open(base_url().'index.php/cargar_datos/servicios/crear',$attributes); 
+			echo form_open_multipart(base_url().'index.php/cargar_datos/servicios/crear',$attributes); 
 	    ?>
 	     <h3 class = "text-primary"> Datos Básicos</h3> <hr>
 			<div class="row">
@@ -58,6 +69,33 @@
 				</label>
 			</div>
 		</div>
+
+		<div class="form-group">
+			
+			<div class="">
+				<label class="col-md-4 control-label">Imagen para Cat&#225;logo</label> 
+			</div>
+
+		    <div class="col-md-7">
+
+		       	 <div id="imagePreview"></div>
+    			<input id="uploadFile" type="file" name="userfile" size="20" />
+    			<h5><small>Tamaño max: <b>140x140</b>. Peso max: <b>50 kb.</b> Formato: <b>jpg|png</b>. </small></h5> 
+		    </div>
+		</div>
+
+		 <div class="form-group">
+	      	<div class="control-label col-md-4">
+	      	</div>
+	      	<div class="col-md-7">
+			    <label style="color:red;">
+			   	<?php 
+			        echo $mensaje;
+				 ?>
+				</label>
+			</div>
+		</div>
+
 
 
 
@@ -210,37 +248,7 @@
 			</div>
 		</div>	
 
-		<div class="form-group">
-	        <div class="required">
-				<label for="prioridad_servicio" class="col-md-4 control-label">Prioridad en el Negocio</label>		    
-			</div>
-
-			<div class="col-md-7">
-		        <?php
-		        	$options = array(
-		        	  'seleccione' => 'Seleccione una Categoria',
-		        	  'Baja' => 'Baja',
-		        	  'Media' => 'Media',
-		        	  'Alta' => 'Alta',
-
-	                );
-		        ?>
-
-	            <?php echo form_dropdown('prioridad_servicio', $options,set_value('prioridad_servicio'),'class="form-control" id="dropdown_prioridad"'); ?>
-	        </div>
-	    </div>
-
-	    <div class="form-group">
-	      	<div class="control-label col-md-4">
-	      	</div>
-	      	<div class="col-md-7">
-			    <label style="color:red;">
-			   	<?php 
-			        echo form_error('prioridad_servicio');
-				 ?>
-				</label>
-			</div>
-		</div>			
+		
 		   
 		</div>
 
@@ -309,14 +317,154 @@
 		</div>	
 		</div>
 
-		 <h3 class = "text-primary"> Informacion del Negocio</h3> <hr>
+		 <h3 class = "text-primary"> Informaci&#243;n del Negocio</h3> <hr>
 		 <div class="row">
+		
 			<div class="col-md-5 ">
-			</div>
-			<div class="col-md-7 ">
-			</div>
-		 </div>
 
+					<div class="form-group">
+				        <div class="">
+							<label for="prioridad_servicio" class="col-md-4 control-label">Prioridad en el Negocio</label>		    
+						</div>
+
+						<div class="col-md-7">
+					        <?php
+					        	$options = array(
+					        	  'seleccione' => 'Seleccione una Categoria',
+					        	  'Baja' => 'Baja',
+					        	  'Media' => 'Media',
+					        	  'Alta' => 'Alta',
+
+				                );
+					        ?>
+
+				            <?php echo form_dropdown('prioridad_servicio', $options,set_value('prioridad_servicio'),'class="form-control" id="dropdown_prioridad"'); ?>
+				        </div>
+				    </div>
+
+				    <div class="form-group">
+				      	<div class="control-label col-md-4">
+				      	</div>
+				      	<div class="col-md-7">
+						    <label style="color:red;">
+						   	<?php 
+						        echo form_error('prioridad_servicio');
+							 ?>
+							</label>
+						</div>
+					</div>			
+			</div>
+
+			<div class="col-md-7 ">
+
+				  <div class="form-group">
+
+			        <div class="">
+						<label for="tipo_servicio" class="col-md-2 control-label">Impacto en el Negocio</label>		    
+					</div>
+
+			        <div class="col-md-9">
+			            <?php $data = array(
+			            		'value' => set_value('impacto'),
+		                        'name'        => 'impacto',
+		                        'id'          => 'impacto', 
+		                        'class'          => 'form-control boxsizingBorder',
+		                        //'rows' => '6',                           
+		                                  );
+		                echo form_textarea($data)?>
+			        </div>
+			    </div>
+
+			    <div class="form-group">
+			      	<div class="control-label col-md-2">
+			      	</div>
+			      	<div class="col-md-9">
+					    <label style="color:red;">
+					   	<?php 
+					        echo form_error('impacto');
+						 ?>
+						</label>
+					</div>
+				</div>	
+
+
+			</div>
+
+		</div>
+
+
+
+		 <h3 class = "text-primary"> Informaci&#243;n de Contacto y Procedimientos de Solicitud </h3> <hr>
+		 <div class="row ">
+
+		 	  <div class="form-group">
+
+			        <div class="">
+						<label for="tipo_servicio" class="col-md-2 control-label">Procedimiento de Solicitud</label>		    
+					</div>
+
+			        <div class="col-md-9">
+			            <?php $data = array(
+			            		'value' => set_value('procedimiento_solicitud'),
+		                        'name'        => 'procedimiento_solicitud',
+		                        'id'          => 'procedimiento_solicitud', 
+		                        'class'          => 'form-control boxsizingBorder',
+		                        'placeholder' => 'Describir el impacto positivo de tener el servicio disponible y / o el impacto negativo de lo contrario. 
+		                                          El impacto se puede cuantificar por el número de usuarios afectados, el impacto sobre cada usuario, 
+		                                          y el coste para la empresa.',
+		                        //'rows' => '6',                           
+		                                  );
+		                echo form_textarea($data)?>
+			        </div>
+			    </div>
+
+			    <div class="form-group">
+			      	<div class="control-label col-md-2">
+			      	</div>
+			      	<div class="col-md-9">
+					    <label style="color:red;">
+					   	<?php 
+					        echo form_error('procedimiento_solicitud');
+						 ?>
+						</label>
+					</div>
+				</div>	
+
+
+				 <div class="form-group">
+
+			        <div class="">
+						<label for="tipo_servicio" class="col-md-2 control-label">Informaci&#243;n de Contacto</label>		    
+					</div>
+
+			        <div class="col-md-9">
+			            <?php $data = array(
+			            		'value' => set_value('contacto'),
+		                        'name'        => 'contacto',
+		                        'id'          => 'contacto', 
+		                        'class'          => 'form-control boxsizingBorder',
+		                        //'rows' => '6',                           
+		                                  );
+		                echo form_textarea($data)?>
+			        </div>
+			    </div>
+
+	
+		
+			<div class="col-md-5 ">
+
+							
+			</div>
+
+			<div class="col-md-7 ">
+
+				
+
+
+			</div>
+
+		</div>
+		<hr>
 
 		  <div class="row">
 		<div class="col-lg-1 col-lg-offset-5">

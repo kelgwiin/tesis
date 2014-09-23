@@ -118,7 +118,7 @@
               </div>
               <div class="panel-body">
               	<table class="table">
-              		<img src="<?=base_url()?>assets/imagenes/servicio/imagen.jpg" width='80' height='80'  class="img-thumbnail">
+              		<img src="<?=base_url().$servicio->ruta_imagen?>" width='80' height='80'  class="img-thumbnail">
               		
               		<thead>
               			 <tr> 

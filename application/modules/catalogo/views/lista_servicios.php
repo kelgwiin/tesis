@@ -10,7 +10,7 @@
 
 	 
 	<div class="panel panel-primary" >
-	 <div class="panel-heading text-center" style="font-size:20px;"><b>Categoria: <span class="label label-default" style="font-size:20px;"><em><?php echo $categoria; ?></span></em></b></div>
+	 <div class="panel-heading text-center" style="font-size:20px;"><b>Categoria: <span class="label label-info" style="font-size:20px;"><em><?php echo $categoria; ?></span></em></b></div>
 	<div class="panel-body">
 		
 
@@ -34,7 +34,7 @@
 						
 						<tr >					
 							
-							<td width="10%"><img src="<?=base_url()?>assets/imagenes/servicio/imagen.jpg" width='80' height='80'  class="img-thumbnail"></td>
+							<td width="10%"><img src="<?=base_url().$servicio->ruta_imagen?>" width='80' height='80'  class="img-thumbnail"></td>
 							
 							<td width="10%">
 								<b>Nombre: </b><br>

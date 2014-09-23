@@ -524,7 +524,7 @@ class Cargar_Data extends MX_Controller
 		}	
 	}
 
-	function dropdown_prioridad()
+	/*function dropdown_prioridad()
 	{
 		if ($this->input->post('prioridad_servicio') === 'seleccione')
 		{
@@ -535,7 +535,7 @@ class Cargar_Data extends MX_Controller
 		{
 			return TRUE;
 		}	
-	}
+	}*/
 
 	function dropdown_proveedor()
 	{
@@ -549,7 +549,8 @@ class Cargar_Data extends MX_Controller
 			return TRUE;
 		}	
 	}
-	
+
+
 
 	public function nuevo_servicio(){
 
@@ -572,8 +573,14 @@ class Cargar_Data extends MX_Controller
          $this->form_validation->set_rules('categoria_servicio', 'Categorias', 'callback_dropdown_categoria');
          $this->form_validation->set_rules('tipo_servicio', 'Tipos', 'callback_dropdown_tipo');
          $this->form_validation->set_rules('propietario_servicio', 'Propietario', 'callback_dropdown_propietario');
-         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', 'callback_dropdown_prioridad');
          $this->form_validation->set_rules('proveedor_servicio', 'Proveedor', 'callback_dropdown_proveedor');
+         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', '');
+         $this->form_validation->set_rules('impacto', 'impacto', '');
+         $this->form_validation->set_rules('procedimiento_solicitud', 'Procedimientos de Solicitud', '');
+         $this->form_validation->set_rules('contacto', 'Informacion de Contactos', '');
+
+
+          $data_view['mensaje'] = '';
 
         $this->form_validation->set_message('required','El campo %s es obligatorio');
 
@@ -586,6 +593,40 @@ class Cargar_Data extends MX_Controller
             else
             {
 
+
+            	if( $this->input->post('prioridad_servicio'))
+		            	{
+		            		$prioridad = $this->input->post('prioridad_servicio');
+		            	}
+		            	else
+		            	{
+		            		$prioridad = NULL;
+		            	}
+		        if( $this->input->post('impacto'))
+		            	{
+		            		$impacto = $this->input->post('impacto');
+		            	}
+		            	else
+		            	{
+		            		$impacto = NULL;
+		            	}
+		        if( $this->input->post('procedimiento_solicitud'))
+		            	{
+		            		$procedimiento = $this->input->post('procedimiento_solicitud');
+		            	}
+		            	else
+		            	{
+		            		$procedimiento = NULL;
+		            	}
+		         if( $this->input->post('contacto'))
+		            	{
+		            		$contacto = $this->input->post('contacto');
+		            	}
+		            	else
+		            	{
+		            		$contacto = NULL;
+		            	}
+
             	
                 $servicio = array(
                                 'nombre' => $this->input->post('service_name'),
@@ -593,24 +634,88 @@ class Cargar_Data extends MX_Controller
                                 'caracteristicas' => $this->input->post('caracteristicas_servicio'),
                                 'categoria_servicio' => $this->input->post('categoria_servicio'),
                                 'tipo_servicio' => $this->input->post('tipo_servicio'),
-                                'propietario_servicio' => $this->input->post('propietario_servicio'),
-                                'prioridad_servicio' => $this->input->post('prioridad_servicio'),
+                                'propietario_servicio' => $this->input->post('propietario_servicio'),                               
                                 'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
-                                'fecha_creacion' => date('Y-m-d H:i:s'),       
+                                'fecha_creacion' => date('Y-m-d H:i:s'),  
+                                'prioridad_servicio' => $prioridad,
+                                'impacto' => $impacto,
+                                'procedimiento_solicitud' => $procedimiento,
+                                'contacto' => $contacto,
+                                'estatus' => 'Activo',
+                                'ruta_imagen' => 'assets/imagenes/servicio/default.jpg',
+
                                 );
 
-            	$id_servicio = $this->general->insert('servicio',$servicio,'');
+            	if ( $_FILES AND $_FILES['userfile']['name'] ) 
+				{
+	            	$config['upload_path'] = './assets/imagenes/servicio';
+			        $config['allowed_types'] = 'jpg|png';
+			        $config['max_size'] = '50';
+			        $config['max_width']  = '140';
+			        $config['max_height']  = '140';
 
-            	if($id_servicio)
-	            	{
-	            		$this->session->set_flashdata('Success', 'El Nuevo Servicio ha sido Creado con Éxito');
-	            		redirect(site_url('index.php/cargar_datos/servicios'));
-	            	}
-	            else
-	            	{
-	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Nuevo Servicio');
-	            		redirect(site_url('index.php/cargar_datos/servicios'));
-	            	}
+			        $this->load->library('upload', $config);
+			        
+			        //verificamos si existen errores
+			        if (!$this->upload->do_upload())
+			        {
+			            $data_view['mensaje'] = $this->upload->display_errors();
+			            $this->utils->template($this->_list(6),'cargar_data/servicio/nuevo_servicio',$data_view,'Cargar Infraestructura','Servicios');
+			        }  
+			        else
+			        {
+			        	$file_info = $this->upload->data();
+			        	//$ruta_imagen = $file_info['file_name'];
+			        	$ruta_imagen = 'assets/imagenes/servicio/'.$file_info['file_name'];
+			        	 $servicio = array(
+                                'nombre' => $this->input->post('service_name'),
+                                'descripcion' => $this->input->post('descripcion'),
+                                'caracteristicas' => $this->input->post('caracteristicas_servicio'),
+                                'categoria_servicio' => $this->input->post('categoria_servicio'),
+                                'tipo_servicio' => $this->input->post('tipo_servicio'),
+                                'propietario_servicio' => $this->input->post('propietario_servicio'),                               
+                                'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
+                                'fecha_creacion' => date('Y-m-d H:i:s'),  
+                                'prioridad_servicio' => $prioridad,
+                                'impacto' => $impacto,
+                                'procedimiento_solicitud' => $procedimiento,
+                                'contacto' => $contacto,
+                                'estatus' => 'Activo',
+                                'ruta_imagen' => $ruta_imagen
+
+                                );
+			        	
+
+			        	$id_servicio = $this->general->insert('servicio',$servicio,'');
+
+		            	if($id_servicio)
+			            	{
+			            		$this->session->set_flashdata('Success', 'El Nuevo Servicio ha sido Creado con Éxito');
+			            		redirect(site_url('index.php/cargar_datos/servicios'));
+			            	}
+			            else
+			            	{
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Nuevo Servicio');
+			            		redirect(site_url('index.php/cargar_datos/servicios'));
+			            	}
+			        }
+		       }
+		       else
+		       {
+			       	$id_servicio = $this->general->insert('servicio',$servicio,'');
+
+	            	if($id_servicio)
+		            	{
+		            		$this->session->set_flashdata('Success', 'El Nuevo Servicio ha sido Creado con Éxito');
+		            		redirect(site_url('index.php/cargar_datos/servicios'));
+		            	}
+		            else
+		            	{
+		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Nuevo Servicio');
+		            		redirect(site_url('index.php/cargar_datos/servicios'));
+		            	}
+
+		       }
 
             }
 		
@@ -628,7 +733,10 @@ class Cargar_Data extends MX_Controller
 		$data_view['procesos_negocio_soportados'] = $this->general->get_result('proceso_negocio_soporte',array('servicio_id'=> $id_servicio)); 
 
 		$data_view['servicios_soportados'] = $this->general->get_result('soporta_a',array('servicio_soporte'=> $id_servicio)); 
-		$data_view['servicios_soporte'] = $this->general->get_result('soporta_a',array('servicio_soportado'=> $id_servicio)); 
+		$data_view['servicios_soporte'] = $this->general->get_result('soporta_a',array('servicio_soportado'=> $id_servicio));
+
+		$data_view['componentes_ti'] = $this->general->get_table('componente_ti'); 
+		$data_view['servicio_componentes'] = $this->general->get_result('servicio_infraestructura',array('servicio_id'=> $id_servicio)); 
 
 		$data_view['propietario'] = $this->general->get_row('personal',array('id_personal'=> $servicio->propietario_servicio));
 		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
@@ -658,8 +766,14 @@ class Cargar_Data extends MX_Controller
          $this->form_validation->set_rules('categoria_servicio', 'Categorias', 'callback_dropdown_categoria');
          $this->form_validation->set_rules('tipo_servicio', 'Tipos', 'callback_dropdown_tipo');
          $this->form_validation->set_rules('propietario_servicio', 'Propietario', 'callback_dropdown_propietario');
-         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', 'callback_dropdown_prioridad');
          $this->form_validation->set_rules('proveedor_servicio', 'Proveedor', 'callback_dropdown_proveedor');
+         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', '');
+         $this->form_validation->set_rules('impacto', 'impacto', '');
+         $this->form_validation->set_rules('procedimiento_solicitud', 'Procedimientos de Solicitud', '');
+         $this->form_validation->set_rules('contacto', 'Informacion de Contactos', '');
+         
+         $data_view['mensaje'] = '';
+
 
 		 $servicio = $this->general->get_row('servicio',array('servicio_id' => $id_servicio));
 
@@ -681,6 +795,41 @@ class Cargar_Data extends MX_Controller
             }
             else
             {
+
+
+	            	if( $this->input->post('prioridad_servicio'))
+		            	{
+		            		$prioridad = $this->input->post('prioridad_servicio');
+		            	}
+		            	else
+		            	{
+		            		$prioridad = NULL;
+		            	}
+		        if( $this->input->post('impacto'))
+		            	{
+		            		$impacto = $this->input->post('impacto');
+		            	}
+		            	else
+		            	{
+		            		$impacto = NULL;
+		            	}
+		        if( $this->input->post('procedimiento_solicitud'))
+		            	{
+		            		$procedimiento = $this->input->post('procedimiento_solicitud');
+		            	}
+		            	else
+		            	{
+		            		$procedimiento = NULL;
+		            	}
+		         if( $this->input->post('contacto'))
+		            	{
+		            		$contacto = $this->input->post('contacto');
+		            	}
+		            	else
+		            	{
+		            		$contacto = NULL;
+		            	}
+
             	
                 $servicio = array(
                                 'nombre' => $this->input->post('service_name'),
@@ -688,24 +837,88 @@ class Cargar_Data extends MX_Controller
                                 'caracteristicas' => $this->input->post('caracteristicas_servicio'),
                                 'categoria_servicio' => $this->input->post('categoria_servicio'),
                                 'tipo_servicio' => $this->input->post('tipo_servicio'),
-                                'propietario_servicio' => $this->input->post('propietario_servicio'),
-                                'prioridad_servicio' => $this->input->post('prioridad_servicio'),
+                                'propietario_servicio' => $this->input->post('propietario_servicio'),                               
                                 'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
-                                'fecha_modificado' => date('Y-m-d H:i:s'),       
+                                'fecha_modificado' => date('Y-m-d H:i:s'),  
+                                'prioridad_servicio' => $prioridad,
+                                'impacto' => $impacto,
+                                'procedimiento_solicitud' => $procedimiento,
+                                'contacto' => $contacto,
+                                'estatus' => 'Activo',
+                                'ruta_imagen' => $servicio->ruta_imagen,
+
                                 );
 
-            	$servicio_id = $this->general->update2('servicio',$servicio,array('servicio_id'=>$id_servicio));
+            	if ( $_FILES AND $_FILES['userfile']['name'] ) 
+				{
+	            	$config['upload_path'] = './assets/imagenes/servicio';
+			        $config['allowed_types'] = 'jpg|png';
+			        $config['max_size'] = '50';
+			        $config['max_width']  = '140';
+			        $config['max_height']  = '140';
 
-            	if($servicio_id)
-	            	{
-	            		$this->session->set_flashdata('Success', 'El Servicio ha sido Actualizado con Éxito');
-	            		redirect(site_url('index.php/cargar_datos/servicios'));
-	            	}
-	               else
-	            	{
-	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar el Servicio');
-	            		redirect(site_url('index.php/cargar_datos/servicios'));
-	            	}
+			        $this->load->library('upload', $config);
+			        
+			        //verificamos si existen errores
+			        if (!$this->upload->do_upload())
+			        {
+			            $data_view['mensaje'] = $this->upload->display_errors();
+			            $this->utils->template($this->_list(6),'cargar_data/servicio/modificar_servicio',$data_view,'Cargar Infraestructura','Servicios');
+			        }  
+			        else
+			        {
+			        	$file_info = $this->upload->data();
+			        	//$ruta_imagen = $file_info['file_name'];
+			        	$ruta_imagen = 'assets/imagenes/servicio/'.$file_info['file_name'];
+			        	 $servicio = array(
+                                'nombre' => $this->input->post('service_name'),
+                                'descripcion' => $this->input->post('descripcion'),
+                                'caracteristicas' => $this->input->post('caracteristicas_servicio'),
+                                'categoria_servicio' => $this->input->post('categoria_servicio'),
+                                'tipo_servicio' => $this->input->post('tipo_servicio'),
+                                'propietario_servicio' => $this->input->post('propietario_servicio'),                               
+                                'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
+                                'fecha_modificado' => date('Y-m-d H:i:s'),  
+                                'prioridad_servicio' => $prioridad,
+                                'impacto' => $impacto,
+                                'procedimiento_solicitud' => $procedimiento,
+                                'contacto' => $contacto,
+                                'estatus' => 'Activo',
+                                'ruta_imagen' => $ruta_imagen
+
+                                );
+			        	
+
+			        	$servicio_id = $this->general->update2('servicio',$servicio,array('servicio_id'=>$id_servicio));
+
+		            	if($servicio_id)
+			            	{
+			            		$this->session->set_flashdata('Success', 'El Servicio ha sido Actualizado con Éxito');
+			            		redirect(site_url('index.php/cargar_datos/servicios'));
+			            	}
+			               else
+			            	{
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar el Servicio');
+			            		redirect(site_url('index.php/cargar_datos/servicios'));
+			            	}
+			        }
+		       }
+		       else
+		       {
+			       $servicio_id = $this->general->update2('servicio',$servicio,array('servicio_id'=>$id_servicio));
+
+	            	if($servicio_id)
+		            	{
+		            		$this->session->set_flashdata('Success', 'El Servicio ha sido Actualizado con Éxito');
+		            		redirect(site_url('index.php/cargar_datos/servicios'));
+		            	}
+		               else
+		            	{
+		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar el Servicio');
+		            		redirect(site_url('index.php/cargar_datos/servicios'));
+		            	}
+
+		       }
 	            	
                 
             }
@@ -775,7 +988,7 @@ class Cargar_Data extends MX_Controller
 		 $data_view['servicio_proceso_id'] = $servicio_proceso_id;
 		 $data_view['servicio_actual'] = $servicio_proceso_id;
 
-				$data_view['servicios_soportados'] = [];
+				$data_view['servicios_soportados'] = array();
 
 				if($this->general->exist('soporta_a',array('servicio_soporte'=> $servicio_proceso_id)))
 		            {
@@ -788,7 +1001,7 @@ class Cargar_Data extends MX_Controller
 			{
 				$data_view['servicio_actual'] = $this->input->post('servicios');
 
-				$data_view['servicios_soportados'] = [];
+				$data_view['servicios_soportados'] = array();
 
 				if($this->general->exist('soporta_a',array('servicio_soporte'=> $this->input->post('servicios') )))
 		            {
@@ -907,7 +1120,7 @@ class Cargar_Data extends MX_Controller
 		 $data_view['servicio_id'] = $servicio_id;
 		 $data_view['servicio_actual'] = $servicio_id;
 
-				$data_view['componentes_soporte'] = [];
+				$data_view['componentes_soporte'] = array();
 
 				if($this->general->exist('servicio_infraestructura',array('servicio_id'=> $servicio_id)))
 		            {
@@ -920,7 +1133,7 @@ class Cargar_Data extends MX_Controller
 			{
 				$data_view['servicio_actual'] = $this->input->post('servicios');
 
-				$data_view['componentes_soporte'] = [];
+				$data_view['componentes_soporte'] = array();
 
 				if($this->general->exist('servicio_infraestructura',array('servicio_id'=> $this->input->post('servicios'))))
 		            {
@@ -1366,32 +1579,82 @@ class Cargar_Data extends MX_Controller
          $this->form_validation->set_rules('descripcion', 'Descripción', 'required|trim');
 
          $this->form_validation->set_message('required','El campo %s es obligatorio');
+
+         $data_view['mensaje'] = '';
          
          if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->_list(6),'cargar_data/servicio_categorias/nuevo_servicio_categorias','','Cargar Infraestructura','Servicio');
+                $this->utils->template($this->_list(6),'cargar_data/servicio_categorias/nuevo_servicio_categorias',$data_view,'Cargar Infraestructura','Servicio');
             }
             else
             {
             	
-                $categoria = array(
+	            $categoria = array(
                                 'nombre' => $this->input->post('categoria_name'),
-                                'descripcion' => $this->input->post('descripcion'),       
+                                'descripcion' => $this->input->post('descripcion'), 
+                                'ruta_imagen' => 'assets/imagenes/servicio/default.jpg',      
                                 );
 
-            	$id_categoria = $this->general->insert('servicio_categoria',$categoria,'');
 
-            	if($id_categoria)
-	            	{
-	            		$this->session->set_flashdata('Success', 'La Nueva Categor&#237;a de Servicio ha sido Creada con Éxito');
-	            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
-	            	}
-	            else
-	            	{
-	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear la Nueva Categor&#237;a de Servicio');
-	            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
-	            	}
+	            if ( $_FILES AND $_FILES['userfile']['name'] ) 
+				{
+	            	$config['upload_path'] = './assets/imagenes/servicio';
+			        $config['allowed_types'] = 'jpg|png';
+			        $config['max_size'] = '50';
+			        $config['max_width']  = '140';
+			        $config['max_height']  = '140';
+
+			        $this->load->library('upload', $config);
+			        
+			        //verificamos si existen errores
+			        if (!$this->upload->do_upload())
+			        {
+			            $data_view['mensaje'] = $this->upload->display_errors();
+			            $this->utils->template($this->_list(6),'cargar_data/servicio_categorias/nuevo_servicio_categorias',$data_view,'Cargar Infraestructura','Servicios');
+			        }  
+			        else
+			        {
+			        	$file_info = $this->upload->data();
+			        	$ruta_imagen = 'assets/imagenes/servicio/'.$file_info['file_name'];
+			        
+						$categoria = array(
+                                'nombre' => $this->input->post('categoria_name'),
+                                'descripcion' => $this->input->post('descripcion'), 
+                                'ruta_imagen' => $ruta_imagen,     
+                                );
+			        	
+
+			        	$id_categoria = $this->general->insert('servicio_categoria',$categoria,'');
+
+		            	if($id_categoria)
+			            	{
+			            		$this->session->set_flashdata('Success', 'La Nueva Categor&#237;a de Servicio ha sido Creada con Éxito');
+			            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+			            	}
+			            else
+			            	{
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear la Nueva Categor&#237;a de Servicio');
+			            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+			            	}
+			        }
+		       }
+		       else
+		       {
+			       $id_categoria = $this->general->insert('servicio_categoria',$categoria,'');
+
+	            	if($id_categoria)
+		            	{
+		            		$this->session->set_flashdata('Success', 'La Nueva Categor&#237;a de Servicio ha sido Creada con Éxito');
+		            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+		            	}
+		            else
+		            	{
+		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear la Nueva Categor&#237;a de Servicio');
+		            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+		            	}
+
+		       }
                 
             }
 
@@ -1419,6 +1682,8 @@ class Cargar_Data extends MX_Controller
 		 $this->load->helper(array('form', 'url'));
 		 $categoria = $this->general->get_row('servicio_categoria',array('categoria_id' => $id_categoria));
 
+		 $data_view['mensaje'] = '';
+
 		  if( ($this->input->post('categoria_name')) != ($categoria->nombre))
 		 	{
          		$this->form_validation->set_rules('categoria_name', 'Nombre de la Categor&#237;a', 'required|min_length[3]|max_length[150]|trim|callback_categoria_name_check');
@@ -1440,7 +1705,7 @@ class Cargar_Data extends MX_Controller
             else
             {
             	
-                $categoria = array(
+                /*$categoria = array(
                                 'nombre' => $this->input->post('categoria_name'),
                                 'descripcion' => $this->input->post('descripcion'),      
                                 );
@@ -1456,7 +1721,73 @@ class Cargar_Data extends MX_Controller
 	            	{
 	            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar la Categor&#237;a de Servicio');
 	            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
-	            	}
+	            	}*/
+
+	            $categoria = array(
+                                'nombre' => $this->input->post('categoria_name'),
+                                'descripcion' => $this->input->post('descripcion'), 
+                                'ruta_imagen' =>  $categoria->ruta_imagen,      
+                                );
+
+
+	            if ( $_FILES AND $_FILES['userfile']['name'] ) 
+				{
+	            	$config['upload_path'] = './assets/imagenes/servicio';
+			        $config['allowed_types'] = 'jpg|png';
+			        $config['max_size'] = '50';
+			        $config['max_width']  = '140';
+			        $config['max_height']  = '140';
+
+			        $this->load->library('upload', $config);
+			        
+			        //verificamos si existen errores
+			        if (!$this->upload->do_upload())
+			        {
+			            $data_view['mensaje'] = $this->upload->display_errors();
+			            $this->utils->template($this->_list(6),'cargar_data/servicio_categorias/modificar_servicio_categorias',$data_view,'Cargar Infraestructura','Servicios');
+			        }  
+			        else
+			        {
+			        	$file_info = $this->upload->data();
+			        	$ruta_imagen = 'assets/imagenes/servicio/'.$file_info['file_name'];
+			        
+						$categoria = array(
+                                'nombre' => $this->input->post('categoria_name'),
+                                'descripcion' => $this->input->post('descripcion'), 
+                                'ruta_imagen' => $ruta_imagen,     
+                                );
+			        	
+
+			        	$categoria_id = $this->general->update2('servicio_categoria',$categoria,array('categoria_id'=>$id_categoria));
+
+		            	if($categoria_id)
+			            	{
+			            		$this->session->set_flashdata('Success', 'La Categor&#237;a de Servicio ha sido Actualizada con Éxito');
+			            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+			            	}
+			               else
+			            	{
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar la Categor&#237;a de Servicio');
+			            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+			            	}
+			        }
+		       }
+		       else
+		       {
+			       $categoria_id = $this->general->update2('servicio_categoria',$categoria,array('categoria_id'=>$id_categoria));
+
+		            	if($categoria_id)
+			            	{
+			            		$this->session->set_flashdata('Success', 'La Categor&#237;a de Servicio ha sido Actualizada con Éxito');
+			            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+			            	}
+			               else
+			            	{
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar la Categor&#237;a de Servicio');
+			            		redirect(site_url('index.php/cargar_datos/servicio_categorias'));
+			            	}
+
+		       }
 	            	
                 
             }
@@ -2142,7 +2473,7 @@ class Cargar_Data extends MX_Controller
 		 $data_view['servicio_id'] = $servicio_id;
 		 $data_view['servicio_actual'] = $servicio_id;
 
-				$data_view['procesos_soportados'] = [];
+				$data_view['procesos_soportados'] = array();
 
 				if($this->general->exist('proceso_negocio_soporte',array('servicio_id'=> $servicio_id)))
 		            {
@@ -2155,7 +2486,7 @@ class Cargar_Data extends MX_Controller
 			{
 				$data_view['servicio_actual'] = $this->input->post('servicios');
 
-				$data_view['procesos_soportados'] = [];
+				$data_view['procesos_soportados'] = array();
 
 				if($this->general->exist('proceso_negocio_soporte',array('servicio_id'=> $this->input->post('servicios'))))
 		            {
