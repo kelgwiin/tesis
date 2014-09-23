@@ -44,13 +44,35 @@ class Gestionriesgos_model extends CI_Model
 		return $new;
 	}
 	
-	public function get_allteams($where = array())
+	public function get_personal_normal($where = array(),$personal = array())
+	{
+		$this->db->select('per.*, dp.nombre as nombre_dpto');
+		if(!empty($where)) $this->db->where($where);
+		if(!empty($personal))
+		{
+			foreach($personal as $key => $per)
+				$this->db->or_where('per.id_personal',$per);
+		}
+		$this->db->join('departamento dp','dp.departamento_id = per.id_departamento');
+		$this->db->order_by('per.nombre');
+		$this->db->order_by('per.id_departamento');
+		$query = $this->db->get('personal per')->result();
+		
+		return $query;
+	}
+	
+	public function get_allteams($where = array(),$equipos = array())
 	{
 		$this->db->select('e.*, te.tipo_equipo, te.denominacion');
 		if(!empty($where)) $this->db->where($where);
+		if(!empty($equipos))
+		{
+			foreach($equipos as $key => $team)
+				$this->db->or_where('e.id_equipo',$team);
+		}
 		$this->db->join('tipoequipos_pcn te','te.id_tipo = e.id_tipo');
 		$query = $this->db->get('equipo_pcn e')->result();
-		// die_pre($this->db->last_query());
+		// echo_pre($this->db->last_query());
 		foreach($query as $key => $q)
 		{
 			$empleado = array();
