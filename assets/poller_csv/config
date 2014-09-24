@@ -1,0 +1,7 @@
+[variables]
+commands = chrome,apache2
+interval = 5
+ps_mem = False
+logtime = False
+storepath = /home/
+per_threads = False

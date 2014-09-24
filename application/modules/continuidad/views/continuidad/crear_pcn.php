@@ -143,6 +143,13 @@
 				<?php //echo_pre($crisis) ?>
 <!-- PANEL DE CREACION DE EQUIPOS -->
 				<div id="creacion-equipos">
+					<?php
+						$desc_crisis = (isset($plan_continuidad->desc_crisis) && !empty($plan_continuidad->desc_crisis)) ? $plan_continuidad->desc_crisis : '';
+						$desc_recuperacion = (isset($plan_continuidad->desc_recuperacion) && !empty($plan_continuidad->desc_recuperacion)) ? $plan_continuidad->desc_recuperacion : '';
+						$desc_logistica = (isset($plan_continuidad->desc_logistica) && !empty($plan_continuidad->desc_logistica)) ? $plan_continuidad->desc_logistica : '';
+						$desc_rrpp = (isset($plan_continuidad->desc_rrpp ) && !empty($plan_continuidad->desc_rrpp )) ? $plan_continuidad->desc_rrpp  : '';
+						$desc_pruebas = (isset($plan_continuidad->desc_pruebas) && !empty($plan_continuidad->desc_pruebas)) ? $plan_continuidad->desc_pruebas : '';
+					?>
 					<!-- Select Basic -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="crisis">Comité de crisis</label>
@@ -165,7 +172,8 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label">Plan de acción Crisis</label>
 						<div class="col-md-4">                     
-							<textarea class="form-control" name="accion_crisis" placeholder="Plan de acción que debe seguir el Comité de Crisis una vez activado el PCN"></textarea>
+							<textarea class="form-control" name="desc_crisis" rows="4"
+								placeholder="Plan de acción que debe seguir el Comité de Crisis una vez activado el PCN"><?php echo $desc_crisis ?></textarea>
 						</div>
 					</div>
 					<br />
@@ -192,7 +200,8 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label">Plan de acción Recuperación</label>
 						<div class="col-md-4">                     
-							<textarea class="form-control" name="accion_recuperacion" placeholder="Plan de acción que debe seguir el Equipo de Recuperación una vez activado el PCN"></textarea>
+							<textarea class="form-control" name="desc_recuperacion" rows="4"
+								placeholder="Plan de acción que debe seguir el Equipo de Recuperación una vez activado el PCN"><?php echo $desc_recuperacion ?></textarea>
 						</div>
 					</div>
 					<br />
@@ -219,7 +228,8 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label">Plan de acción Logística</label>
 						<div class="col-md-4">                     
-							<textarea class="form-control" name="accion_logistica" placeholder="Plan de acción que debe seguir el Equipo de Logística una vez activado el PCN"></textarea>
+							<textarea class="form-control" name="desc_logistica" rows="4"
+								placeholder="Plan de acción que debe seguir el Equipo de Logística una vez activado el PCN"><?php echo $desc_logistica ?></textarea>
 						</div>
 					</div>
 					<br />
@@ -246,7 +256,8 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label">Plan de acción RRPP</label>
 						<div class="col-md-4">                     
-							<textarea class="form-control" name="accion_rrpp" placeholder="Plan de acción que debe seguir el Equipo de RRPP una vez activado el PCN"></textarea>
+							<textarea class="form-control" name="desc_rrpp" rows="4"
+								placeholder="Plan de acción que debe seguir el Equipo de RRPP una vez activado el PCN"><?php echo $desc_rrpp ?></textarea>
 						</div>
 					</div>
 					<br />
@@ -273,7 +284,8 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label">Plan de acción Pruebas</label>
 						<div class="col-md-4">                     
-							<textarea class="form-control" name="accion_pruebas" placeholder="Plan de acción que debe seguir el Equipo de Pruebas una vez activado el PCN"></textarea>
+							<textarea class="form-control" name="desc_pruebas" rows="4"
+								placeholder="Plan de acción que debe seguir el Equipo de Pruebas una vez activado el PCN"><?php echo $desc_pruebas ?></textarea>
 						</div>
 					</div>
 					
