@@ -13,12 +13,19 @@
 				<div class="table-responsive">
 				<table class="table">	
 					<thead>
+						
+						
 						 <tr>
 						  <td class="col-lg-4"><b>Nombre</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->nombre; ?></td>
 						</tr>
+
 					</thead>	
 					<tbody>
+						 <tr>
+						  <td class="col-lg-4"><b>Imagen para Cat&#225;logo</b></td>
+						  <td class="col-lg-8 text-left"><img src="<?=base_url().$servicio->ruta_imagen?>" width='80' height='80'  class="img-thumbnail"></td>
+						</tr>
 						 <tr>
 						  <td class="col-lg-4"><b>Descripci&#243;n</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->descripcion; ?></td>
@@ -57,6 +64,44 @@
 						<tr>
 						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->prioridad_servicio; ?></td>
+						</tr>
+
+						</tr>
+
+						 <tr>
+						  <td class="col-lg-4"><b>Impacto en el Negocio</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio->impacto != NULL) : ?>
+
+							                 	<?php echo $servicio->impacto; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?>
+							</td>
+						</tr>	
+
+					   <tr>
+						  <td class="col-lg-4"><b>Procedimiento de Solicitud</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio->procedimiento_solicitud != NULL) : ?>
+
+							                 	<?php echo $servicio->procedimiento_solicitud; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?>
+							</td>
+						</tr>	
+
+						 <tr>
+						  <td class="col-lg-4"><b>Contactos para el Soporte</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio->contacto != NULL) : ?>
+
+							                 	<?php echo $servicio->contacto; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?>
+							</td>
 						</tr>	
 
 						
@@ -131,6 +176,33 @@
 												<?php echo $servicio->nombre.", ";?> 
 											<?php else : ?>
 												<?php echo $servicio->nombre;?>
+											<?php endif ?>	
+										
+										<?php endif ?>
+									<?php endforeach ?>
+							    <?php endforeach ?>
+																				
+					    	<?php else : ?>
+								<em> No Posee </em>
+							<?php endif ?>
+
+						  </td>
+						</tr>
+
+						<tr>
+						  <td class="col-lg-4"><b>Infraestructura de Soporte</b></td>
+						  <td class="col-lg-8 text-left">
+						  	 <?php $last = end($servicio_componentes); ?>
+						  	<?php if(count($servicio_componentes) > 0) : ?>
+					    
+								<?php foreach ($servicio_componentes as $servicio_componente) : ?>
+									<?php foreach ($componentes_ti as $componente_ti) : ?>
+										<?php if($servicio_componente->componente_id == $componente_ti->componente_ti_id) : ?>
+										   
+										    <?php if($servicio_componente != $last) : ?>      
+												<?php echo $componente_ti->nombre.", ";?> 
+											<?php else : ?>
+												<?php echo $componente_ti->nombre;?>
 											<?php endif ?>	
 										
 										<?php endif ?>

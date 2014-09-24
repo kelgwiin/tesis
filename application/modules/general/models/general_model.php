@@ -46,7 +46,7 @@ class General_model extends CI_Model
 	// RECIBE EL NOMBRE DE LA TABLA -$table-, UN ARREGLO DE CONDICIONES -$where-, Y LOS DATOS A INSERTAR -$data-
 	// SI YA EXISTE UNA FILA O HUBO UN PROBLEMA EN LA INSERSION, RETORNA -FALSE-, SINO, RETORNA EL ID
 	// @author f6rnando - FERNANDO PINTO
-	public function insert($table,$data,$where)
+	public function insert($table,$data,$where = '')
 	{
 		if(!empty($where))
 		{

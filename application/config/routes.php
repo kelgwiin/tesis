@@ -32,6 +32,7 @@ $route['cargar_datos/servicio_soportados/(:num)'] = "cargar_data/cargar_data/ser
 $route['cargar_datos/servicio_infraestructura'] = "cargar_data/cargar_data/servicio_infraestructura";
 $route['cargar_datos/servicio_infraestructura/(:num)'] = "cargar_data/cargar_data/servicio_infraestructura/$1";
 
+
 $route['cargar_datos/servicio_procesos'] = "cargar_data/cargar_data/servicio_proceso";
 $route['cargar_datos/servicio_procesos/(:num)'] = "cargar_data/cargar_data/servicio_proceso/$1";
 $route['cargar_datos/servicio_procesos/crear/(:any)'] = "cargar_data/cargar_data/nuevo_servicio_proceso/$1";

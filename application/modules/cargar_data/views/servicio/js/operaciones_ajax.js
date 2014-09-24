@@ -46,12 +46,27 @@ $( document ).ready(function() {
                        "searchreplace wordcount visualblocks visualchars code insertdatetime media nonbreaking",
                        "table contextmenu directionality smileys template textcolor paste textcolor colorpicker textpattern"
                     ],
-           toolbar1: "bold italic underline strikethrough | bullist numlist outdent indent | fontsizeselect | cut copy paste",
+           toolbar1: "bold italic underline strikethrough | bullist numlist outdent indent | fontsizeselect | cut copy paste | link",
            menubar: false,
            toolbar_items_size: 'small',
            language : 'es',
            entity_encoding : "raw"
            });
+
+    $("#uploadFile").on("change", function()
+    {
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+        if (/^image/.test( files[0].type)){ // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+
+            reader.onloadend = function(){ // set image data as background of div
+                $("#imagePreview").css("background-image", "url("+this.result+")");
+            }
+        }
+    });
 
     setTimeout(function() {
         $("#message").fadeOut(1500);

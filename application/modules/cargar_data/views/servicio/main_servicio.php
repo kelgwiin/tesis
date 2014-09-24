@@ -73,14 +73,15 @@
 
 											echo form_checkbox($data); ?>
 											<a type="button" class="btn btn-danger btn-xs disabled" onclick="" data-toggle="tooltip" data-placement="top" title="Eliminar Seleccionados" id="delete_checkbox"><i class="fa fa-times"> </i> Eliminar</a></th>
-                                        <th >Nombre <i class="fa fa-sort"></i></th>
-                                        <th >Descripcion <i class="fa fa-sort"></i></th>
-                                        <th >Creado el <i class="fa fa-sort"></i></th>
+                                        <th width="10%">Nombre <i class="fa fa-sort"></i></th>
+                                        <th width="10%"> Estatus <i class="fa fa-sort"></i></th>
+                                        <th width="15%">Descripcion <i class="fa fa-sort"></i></th>
+                                        <th width="10%">Creado el <i class="fa fa-sort"></i></th>
                                         <th width="10%">Proovedor <i class="fa fa-sort"></i></th>
                                         <th >Tipo <i class="fa fa-sort"></i></th>
                                         <th >Categoria <i class="fa fa-sort"></i></th>
-                                        <th>Propietario <i class="fa fa-sort"></i></th>
-                                        <th>Prioridad de Negocio <i class="fa fa-sort"></i></th>
+                                        <th>Propietario <i class="fa fa-sort"></i></th> 
+                                        <th width="10%">Prioridad <i class="fa fa-sort"></i></th> 
                                         <th width="10%">Acciones <i class="fa fa-sort"></i></th>
                                     </tr>
                                 </thead>
@@ -100,6 +101,7 @@
 
 											echo form_checkbox($data); ?> </td>
 							                <td> <?php echo $servicio->nombre; ?>  </td>
+							                 <td> <?php echo $servicio->estatus; ?>  </td>	
 							                <td> <?php 
                                                   if(strlen($servicio->descripcion)> 100)
                                                         {       
@@ -137,7 +139,7 @@
 							                				}
 							                			}
 							                	   ?> </td>
-							                <td> <?php echo $servicio->prioridad_servicio; ?>  </td>			
+							               		<td> <?php echo $servicio->prioridad_servicio; ?>  </td>	
 							                <td class="text-center"> <a href="<?php echo base_url().'index.php/cargar_datos/servicios/ver/'.$servicio->servicio_id ?>" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fa fa-search"></i></a> 
 							                	 <a href="<?php echo base_url().'index.php/cargar_datos/servicios/modificar/'.$servicio->servicio_id ?>" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Actualizar"><i class="fa fa-pencil"></i></a>
 							                	 <a type="button" class="btn btn-danger btn-xs" onclick="deleteServicio(<?php echo $servicio->servicio_id; ?>);" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times"></i></a> </td>

@@ -21,6 +21,10 @@
 					</thead>	
 					<tbody>
 						 <tr>
+						  <td class="col-lg-4"><b>Imagen para Cat&#225;logo</b></td>
+						  <td class="col-lg-8 text-left"><img src="<?=base_url().$servicio_categoria->ruta_imagen?>" width='80' height='80'  class="img-thumbnail"></td>
+						</tr>
+						 <tr>
 						  <td class="col-lg-4"><b>Descripci&#243;n</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio_categoria->descripcion; ?></td>
 						</tr>	

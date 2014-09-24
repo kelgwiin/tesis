@@ -33,7 +33,7 @@
 						
 						<tr >					
 							
-							<td width="10%"><img src="<?=base_url()?>assets/imagenes/servicio/imagen.jpg" width='80' height='80'  class="img-thumbnail"></td>
+							<td width="10%"><img src="<?=base_url().$categoria->ruta_imagen?>" width='80' height='80'  class="img-thumbnail"></td>
 							
 							<td>
 								<a  href="<?php echo base_url('index.php/catalogo/listado_servicios/'.$categoria->nombre);?>" ><h5><b><?php echo $categoria->nombre; ?> (<?php echo $num_categorias[$categoria->nombre]; ?>)</b></h5></a>

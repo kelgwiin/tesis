@@ -1,4 +1,14 @@
 <script type="text/javascript" src="<?=base_url()?>application/modules/cargar_data/views/servicio_categorias/js/operaciones_ajax.js"></script>
+<style>
+#imagePreview {
+    width: 80px;
+    height: 80px;
+    background-position: center center;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+    display: inline-block;
+}
+</style>
 
 <div id="page-wrapper">
 
@@ -14,10 +24,37 @@
 		 <?php
 		 // Apertura de Formulario
 		$attributes = array('role' => 'form', 'id'=> 'new_service_form','class'=>'form-horizontal');
-		echo form_open(base_url().'index.php/cargar_datos/servicio_categorias/modificar/'.$servicio_categoria->categoria_id,$attributes); 
+		echo form_open_multipart(base_url().'index.php/cargar_datos/servicio_categorias/modificar/'.$servicio_categoria->categoria_id,$attributes); 
 
 	
 		?>
+
+		<div class="form-group">
+			
+			<div class="">
+				<label class="col-md-4 control-label">Imagen para Cat&#225;logo</label> 
+			</div>
+
+		    <div class="col-md-7">
+
+		       	 <div id="imagePreview"  style="background-image: url(<?=base_url().$servicio_categoria->ruta_imagen?>);"></div>
+    			<input id="uploadFile" type="file" name="userfile" size="20" />
+    			<h5><small>Tamaño max: <b>140x140</b>. Peso max: <b>50 kb.</b> Formato: <b>jpg|png</b>. </small></h5> 
+		    </div>
+		</div>
+
+		 <div class="form-group">
+	      	<div class="control-label col-md-4">
+	      	</div>
+	      	<div class="col-md-7">
+			    <label style="color:red;">
+			   	<?php 
+			        echo $mensaje;
+				 ?>
+				</label>
+			</div>
+		</div>
+
 		<div class="form-group">
 		
 
