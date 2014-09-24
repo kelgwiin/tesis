@@ -22,10 +22,29 @@
 
 					</thead>	
 					<tbody>
-						 <tr>
+					    <tr>
 						  <td class="col-lg-4"><b>Imagen para Cat&#225;logo</b></td>
 						  <td class="col-lg-8 text-left"><img src="<?=base_url().$servicio->ruta_imagen?>" width='80' height='80'  class="img-thumbnail"></td>
 						</tr>
+
+						<tr>
+						  <td class="col-lg-4"><b>Fecha de Creaci&#243;n</b></td>
+						  <td class="col-lg-8 text-left"><?php 
+							                	 $date = date_create($servicio->fecha_creacion);
+							                	 echo date_format($date,"d/m/y"); ?> </td>
+						</tr>
+						<tr>
+						<td class="col-lg-4"><b>Estatus</b></td>
+						  <td class="col-lg-8 text-left">
+						  			<?php if($servicio->estatus == 'Activo') : ?>
+						  				<span class="label label-success"><?php echo $servicio->estatus; ?></span>
+
+						  			<?php else : ?>
+						  				<span class="label label-default"><?php echo $servicio->estatus; ?></span>
+						  			<?php endif ?>
+						  </td>
+						 </tr>
+					
 						 <tr>
 						  <td class="col-lg-4"><b>Descripci&#243;n</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->descripcion; ?></td>
@@ -34,12 +53,7 @@
 						  <td class="col-lg-4"><b>Caracter&#237;sticas</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio->caracteristicas; ?></td>
 						</tr>		
-						<tr>
-						  <td class="col-lg-4"><b>Fecha de Creaci&#243;n</b></td>
-						  <td class="col-lg-8 text-left"><?php 
-							                	 $date = date_create($servicio->fecha_creacion);
-							                	 echo date_format($date,"d/m/y"); ?> </td>
-						</tr>
+						
 
 					   <tr>
 						  <td class="col-lg-4"><b>Categoria</b></td>
@@ -63,8 +77,17 @@
 
 						<tr>
 						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
-						  <td class="col-lg-8 text-left"><?php echo $servicio->prioridad_servicio; ?></td>
-						</tr>
+						  <td class="col-lg-8 text-left">
+						  	<?php if($servicio->prioridad_servicio == 'Alta') : ?>
+						  				<span class="label label-danger"><?php echo $servicio->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						  	<?php if($servicio->prioridad_servicio == 'Media') : ?>
+						  				<span class="label label-warning"><?php echo $servicio->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						  	<?php if($servicio->prioridad_servicio == 'Baja') : ?>
+						  				<span class="label label-default"><?php echo $servicio->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						</tr>	
 
 						</tr>
 
@@ -93,7 +116,7 @@
 						</tr>	
 
 						 <tr>
-						  <td class="col-lg-4"><b>Contactos para el Soporte</b></td>
+						  <td class="col-lg-4"><b>Informaci&#243;n de Contactos</b></td>
 						  <td class="col-lg-8 text-left"><?php if($servicio->contacto != NULL) : ?>
 
 							                 	<?php echo $servicio->contacto; ?> 

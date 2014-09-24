@@ -11,10 +11,15 @@ $( document ).ready(function() {
        .removeClass('header headerSortDown headerSortUp');
 
     // Crea el Datatable
-    $('#dataTables-categorias').dataTable({
-      bFilter: false, 
-      "bSort" : false,
+   /* $('#dataTables-categorias').dataTable({
+     // bFilter: false, 
+      //"bSort" : false,
       //bInfo: false,
+      "lengthMenu": [ 10, 25, 50, 75, 100 ]
+    });*/
+
+
+       $('#dataTables-catalogo').dataTable({
       "lengthMenu": [ 10, 25, 50, 75, 100 ]
     });
  

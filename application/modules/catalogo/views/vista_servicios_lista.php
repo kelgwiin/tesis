@@ -5,21 +5,26 @@
 
 	<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-list"></i> 
-					Lista de Servicios pertenecientes a la Categoria de Servicio Seleccionada.</li>
+					 Catálogo que contiene todos los Servicios de TI existentes en el Sistema.</li>
 				</ol>
 
-	 
+
+
 	<div class="panel panel-primary" >
-	 <div class="panel-heading text-center" style="font-size:20px;"><b>Categoria: <span class="label label-info" style="font-size:20px;"><em><?php echo $categoria; ?></span></em></b></div>
+	 <div class="panel-heading text-center" style="font-size:20px;"><b><em>Cat&#225;logo de Servicios</em></b></div>
 	<div class="panel-body">
 		
 
-	<br>
 		<?php if(count($servicios) > 0) : ?>
 		
-		<div class="text-left">
-	    <a href="<?php echo base_url('index.php/catalogo/por_categorias');?>" type="button" class="btn btn-info"><b> <i class="fa fa-arrow-circle-left"></i> Cat&#225;logo por Categor&#237;as </b> </a><br><br><br>
+
+	    <div class='text-right col-lg-12'>
+	   
+	    <a href="<?php echo base_url('index.php/catalogo/vista_listado');?>" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Lista de Servicios"><i class="fa fa-list-ul fa-2x"></i></a> - 
+		<a href="<?php echo base_url('index.php/catalogo');?>"  type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Vista de Servicios por Filtros"><i class="fa fa-th fa-2x"></i></a>
+		 <hr>	<br>
 	    </div>
+		
 				<table id="dataTables-catalogo" class="table table-hover" >
 
 					<thead>

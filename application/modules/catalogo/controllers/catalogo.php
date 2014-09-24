@@ -205,6 +205,14 @@ class Catalogo extends MX_Controller
 		$this->utils->template($this->list_sidebar_catalogo(2),'catalogo/catalogo_categorias',$data_view,'Catalogo de Servicios','','two_level');
 	}
 
+	public function lista_servicios() 
+	{
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['proveedores'] = $this->general->get_table('servicio_proveedor');
+		
+		$this->utils->template($this->list_sidebar_catalogo(2),'catalogo/vista_servicios_lista',$data_view,'Catalogo de Servicios','','two_level');
+	}
+
 
 	public function listado_servicios($categoria = '') 
 	{
@@ -248,6 +256,9 @@ class Catalogo extends MX_Controller
 
 		$data_view['propietario'] = $this->general->get_row('personal',array('id_personal'=> $servicio->propietario_servicio));
 		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
+
+		$data_view['componentes_ti'] = $this->general->get_table('componente_ti'); 
+		$data_view['servicio_componentes'] = $this->general->get_result('servicio_infraestructura',array('servicio_id'=> $servicio_id)); 
 		
 		$this->utils->template($this->list_sidebar_catalogo(2),'catalogo/vista_tecnica',$data_view,'Catalogo de Servicios','','two_level');
 	}

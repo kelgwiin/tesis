@@ -47,7 +47,7 @@
 
 
 
-		<a class="btn btn-success" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/servicio_proveedores/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Proveedor de Servicio</a><br><br>
+		<a class="btn btn-info" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/servicio_proveedores/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Proveedor de Servicio</a><br><br>
 		
 		<div class="table-responsive">
                             <table class="table table-bordered table-striped table-hover" id="dataTables-tipos">

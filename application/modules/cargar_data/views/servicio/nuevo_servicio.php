@@ -323,7 +323,7 @@
 			<div class="col-md-5 ">
 
 					<div class="form-group">
-				        <div class="">
+				        <div class="required">
 							<label for="prioridad_servicio" class="col-md-4 control-label">Prioridad en el Negocio</label>		    
 						</div>
 
