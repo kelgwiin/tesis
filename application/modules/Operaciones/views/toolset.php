@@ -41,7 +41,14 @@ function poller(comms){
     });
     return output; 
 }
-
+/*
+ for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+ * */
 function construct_series(obj,parameter)
 {
     var series = [];
@@ -67,21 +74,20 @@ function construct_series(obj,parameter)
 
 function addplotpoints(obj,parameter)
 {
-    var series = [],a;
+    var series = [];
     $.each(obj,function( command, array_datetimes ) {
         series.push({
-            a = function(){
+            point: (function(){
                 var plot_points = [];
                 $.each(array_datetimes,function(date_time,line){
                     var datetime = new Date(date_time).getTime();
-                    console.log(datetime,line[parameter]);
                     plot_points.push({
                         x: datetime,
                         y: line[parameter]
                     });
                 })
-                return plot_points;
-            };
+                return plot_points[0];
+            })()
         });
     });
     return series;
@@ -92,7 +98,7 @@ $(function () {
         Highcharts.setOptions({
             global: { useUTC: false }
         });
-        var cmds = "apache,chrome";
+        var cmds = "chrome";
     	var chart;
     	$('#grafica-general').highcharts({
             chart: {
@@ -102,49 +108,30 @@ $(function () {
                 events: {
                     load: function() {    
                         // set up the updating of the chart each second
-                        var series = this.series, obj = poller(cmds);
-                        /*setInterval(function() {
-                            var obj = poller('chrome,apache');
-                            $.each(series,function( command, array_datetimes ) {)
-                            series1.addPoint([snmp1[0], snmp1[1]], true, true);
-                            series2.addPoint([snmp2[0], snmp2[1]], true, true);
-                        }, 000);*/
+                        var series = this.series;
                         setInterval(function() {
-                            var new_series = addplotpoints(obj,'tasa_cpu');
+                            var new_series = addplotpoints(poller(cmds),'tasa_cpu');
                             $.each(series,function(key,value){
-                                series[key].addPoint(new_series[key][0].x,new_series[key][0].y);
-                            });
-                            /*$.each(series,function(key,array_serie) {
-                                var command = obj[array_serie.name],
-                                poll = (function(){ 
-                                            for (var key in command) {
-                                                var date_time = new Date(key).getTime();
-                                                return {
-                                                    command : array_serie.name,
-                                                    time : date_time,
-                                                    data : command[key]['tasa_cpu']
-                                                }; 
-                                            }
-                                        })();
-                                console.log(poll);
-                                series[key].addPoint(poll.time,poll.data);
-                            });*/                            
-                        }, 1000);
+                                var points = new_series[key].point;
+                                //console.log(points.x,points.y);
+                                series[key].addPoint([points.x,points.y],true,true);
+                            });                            
+                        }, 2000);
                     }
                 }
             },
             title: { text: '' },
-            xAxis: { type: 'datetime', tickPixelInterval: 2000 },
-            yAxis: { title: { text: '%' }, plotLines: [{ value: 0, width: 1, color: '#808080' }] },
+            xAxis: { type: 'datetime' , tickPixelInterval: 150},
+            yAxis: { title: { text: '% CPU' }, plotLines: [{ value: 0, width: 1, color: '#808080' }] },
             tooltip: {
                 formatter: function() {
-                        return '<b>'+ this.series.name +'</b><br/>'+
-                        Highcharts.dateFormat('%d-%m-%Y %H:%M:%S', this.x) +'%<br/>'+ 
-                        Highcharts.numberFormat(this.y, 2)                        
+                        return '<b>'+ this.series.name +'</b><br/>'+/*
+                        Highcharts.dateFormat('%d-%m-%Y %H:%M:%S', this.x) +'<br/>'+ */
+                        Highcharts.numberFormat(this.y, 2) + "%"                       
                         ;
                 }
             },
-            legend: { enabled: false },
+            legend: { enabled: true },
             exporting: { enabled: false },
             series: construct_series(poller(cmds),'tasa_cpu')
         });
