@@ -79,7 +79,7 @@ class MY_Model extends CI_Model
         if (!$skip_validation && !$this->validate($data)) $success = FALSE;
         else
         {
-            $data = $this->observe('after_create', $data); var_dump($data);
+            $data = $this->observe('after_create', $data);
             if($batch) $success = $this->db->insert_batch($this->_table, $data);
             else $success = $this->db->insert($this->_table, $data);
         }
