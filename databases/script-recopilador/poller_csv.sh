@@ -16,7 +16,7 @@ function uninstall {
    exit 1
 }
 function get_pid {
-   IFS=' ' read -a pids <<< $(pidof python poller_csv.py)
+   IFS=' ' read -a pids <<< $(pidof python ./poller_csv.py)
 }
 
 function stop {
