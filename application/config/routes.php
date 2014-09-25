@@ -103,6 +103,7 @@ $route['Costos/procesar_costeo'] = "Costos/Costos/procesar_costeo";
 $route['catalogo'] = "catalogo/catalogo";
 $route['catalogo/por_categorias'] = "catalogo/catalogo_categorias";
 $route['catalogo/lista_servicios/(:any)'] = "catalogo/listado_servicios/$1";
+$route['catalogo/vista_listado'] = "catalogo/lista_servicios";
 $route['catalogo/vista_negocio/(:num)'] = "catalogo/vista_negocio/$1";
 $route['catalogo/vista_tecnica/(:num)'] = "catalogo/vista_tecnica/$1";
 $route['catalogo/vista_completa/(:num)'] = "catalogo/vista_completa/$1";

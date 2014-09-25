@@ -97,7 +97,22 @@
 
 	    </div>
 
+	    <br><br><br>
+
+	    <div class='text-left col-lg-2'>
+	    	<br>
+	    	Mostrando - <em><?php echo count($servicios); ?> Servicios</em> 
+	 
+	    </div>
+
+	    <div class='text-right col-lg-10'>
+	   
+	    <a href="<?php echo base_url('index.php/catalogo/vista_listado');?>" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Lista de Servicios"><i class="fa fa-list-ul fa-2x"></i></a> -
+		<a href="<?php echo base_url('index.php/catalogo');?>"  type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Vista de Servicios por Filtros"><i class="fa fa-th fa-2x"></i></a>
+			
+	    </div>
 	    <br><br>
+	    <hr>
 
 	</div>
 	 <?php echo form_close(); ?>
@@ -108,11 +123,12 @@
 	    
 	    <?php if(count($servicios) > 0) : ?>
 
+	    <br>
 
 	    <?php foreach($servicios as $servicio) : ?>
 
 	       <div class="col-lg-4">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
               <div class="panel-heading">
              	<em><b><?php echo $servicio->nombre; ?></b></em>
               </div>
@@ -171,14 +187,17 @@
             </div>
           </div>
 
-        <?php endforeach ?> 
+        <?php endforeach ?>
+
 
         <?php else : ?>
 			<div class="alert alert-info text-center col-md-8 col-md-offset-2" role="alert"><i class="fa fa-exclamation-circle"></i> ¡La busqueda no arrojo resultados!</div>
 		<?php endif ?>
 
+      
 
 	  </div>
+
 	</div>
 
 

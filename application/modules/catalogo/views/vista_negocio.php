@@ -28,11 +28,25 @@
 						  <td class="col-lg-8 text-left"><span class="label label-primary"><?php echo $servicio->nombre; ?></span></td>
 						</tr>
 
+
+
 					
 						  <td class="col-lg-4"><b>Fecha de Creaci&#243;n</b></td>
 						  <td class="col-lg-8 text-left"><?php 
 							                	 $date = date_create($servicio->fecha_creacion);
 							                	 echo date_format($date,"d/m/y"); ?> </td>
+						</tr>
+
+						<tr>
+						  <td class="col-lg-4"><b>Estatus</b></td>
+						  <td class="col-lg-8 text-left">
+						  			<?php if($servicio->estatus == 'Activo') : ?>
+						  				<span class="label label-success"><?php echo $servicio->estatus; ?></span>
+
+						  			<?php else : ?>
+						  				<span class="label label-default"><?php echo $servicio->estatus; ?></span>
+						  			<?php endif ?>
+						  </td>
 						</tr>
 
 					   <tr>
@@ -60,10 +74,6 @@
 						  <td class="col-lg-8 text-left"><?php echo $propietario->codigo_empleado.' - '.$propietario->nombre; ?></td>
 						</tr>
 
-						<tr>
-						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
-						  <td class="col-lg-8 text-left"><?php echo $servicio->prioridad_servicio; ?></td>
-						</tr>	
 
 						
 						<tr>
@@ -79,10 +89,10 @@
 											<?php if($proceso_negocio_soportado->proceso_id == $proceso_negocio->procesoneg_id) : ?>
 												 
 												 <?php if($proceso_negocio_soportado != $last) : ?>
-													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>">
+													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>" target="_blank">
 													<?php echo $proceso_negocio->nombre;?></a>  <?php echo ", ";?>
 												<?php else : ?>
-													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>">
+													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>" target="_blank">
 														<?php echo $proceso_negocio->nombre;?></a>
 												<?php endif ?>
 
@@ -98,6 +108,50 @@
 
 
 						<tr>
+						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
+						  <td class="col-lg-8 text-left">
+						  	<?php if($servicio->prioridad_servicio == 'Alta') : ?>
+						  				<span class="label label-danger"><?php echo $servicio->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						  	<?php if($servicio->prioridad_servicio == 'Media') : ?>
+						  				<span class="label label-warning"><?php echo $servicio->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						  	<?php if($servicio->prioridad_servicio == 'Baja') : ?>
+						  				<span class="label label-default"><?php echo $servicio->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						</tr>	
+
+						<tr>
+						  <td class="col-lg-4"><b>Impacto en el Negocio</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio->impacto != NULL) : ?>
+
+							                 	<?php echo $servicio->impacto; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?></td>
+						</tr>
+
+
+						<tr>
+						  <td class="col-lg-4"><b>Informaci&#243;n de Contactos</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio->contacto != NULL) : ?>
+
+							                 	<?php echo $servicio->contacto; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?>
+							</td>
+						</tr>	
+
+						<tr>
+						  <td class="col-lg-4"><b>Acuerdos de Niveles de Servicio</b></td>
+						  <td class="col-lg-8 text-left"><?php echo '"Una lista de los SLA operativos para los servicios de TI. Por lo general, es mejor proporcionar un vínculo 
+						                                            al documento con el SLA que abarca el servicio de TI."'; ?></td>
+						</tr>
+
+						<tr>
 						  <td class="col-lg-4"><b>Informes de Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo '"Una lista de los informes operativos disponibles para los servicios de TI."'; ?></td>
 						</tr>
@@ -109,8 +163,14 @@
 
 
 						<tr>
-						  <td class="col-lg-4"><b>Procedimiento de Solicitud</b></td>
-						  <td class="col-lg-8 text-left"><?php echo '"Describe cómo se debe solicitar el servicio."'; ?></td>
+						  <td class="col-lg-4"><b>Procedimientos de Solicitud</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio->procedimiento_solicitud != NULL) : ?>
+
+							                 	<?php echo $servicio->procedimiento_solicitud; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?></td>
 						</tr>
 
 

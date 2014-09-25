@@ -70,6 +70,18 @@
 						  <td class="col-lg-8 text-left"><?php echo $propietario->codigo_empleado.' - '.$propietario->nombre; ?></td>
 						</tr>
 
+						<tr>
+						  <td class="col-lg-4"><b>Acuerdos de Nivel de Operacional</b></td>
+						  <td class="col-lg-8 text-left"><?php echo '"Una lista de los OLA operativos para los servicios de TI. Por lo general, es mejor proporcionar un vínculo 
+						                                            al documento con el OLA que abarca el servicio de TI."'; ?></td>
+						</tr>
+
+							<tr>
+						  <td class="col-lg-4"><b>Contratos de Soporte</b></td>
+						  <td class="col-lg-8 text-left"><?php echo '"Una lista de los UC operativos para los servicios de TI. Por lo general, es mejor proporcionar un vínculo 
+						                                            al documento con el UC que abarca el servicio de TI."'; ?></td>
+						</tr>
+
 						
 						<tr>
 						  <td class="col-lg-4"><b>Servicios Soportados</b></td>
@@ -82,10 +94,10 @@
 										<?php if($servicio_soportado->servicio_soportado == $servicio->servicio_id) : ?>
 										   
 										    <?php if($servicio_soportado != $last) : ?>      
-												<a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soportado->servicio_soportado);?>">
+												<a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soportado->servicio_soportado);?>" target="_blank">
 													<?php echo $servicio->nombre;?> </a> <?php echo ", ";?> 
 											<?php else : ?>
-											<a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soportado->servicio_soportado);?>">
+											<a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soportado->servicio_soportado);?>" target="_blank">
 												<?php echo $servicio->nombre;?> </a>
 											<?php endif ?>	
 										
@@ -112,11 +124,39 @@
 										<?php if($servicio_soporte->servicio_soporte == $servicio->servicio_id) : ?>
 										   
 										    <?php if($servicio_soporte != $last) : ?>  
-										    <a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soporte->servicio_soporte);?>">    
+										    <a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soporte->servicio_soporte);?>" target="_blank">    
 												<?php echo $servicio->nombre;?> </a> <?php echo ", ";?>
 											<?php else : ?>
-											 <a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soporte->servicio_soporte);?>">  
+											 <a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soporte->servicio_soporte);?>" target="_blank">  
 												<?php echo $servicio->nombre;?></a> 
+											<?php endif ?>	
+										
+										<?php endif ?>
+									<?php endforeach ?>
+							    <?php endforeach ?>
+																				
+					    	<?php else : ?>
+								<em> No Posee </em>
+							<?php endif ?>
+
+						  </td>
+						</tr>
+
+
+						<tr>
+						  <td class="col-lg-4"><b>Infraestructura de Soporte</b></td>
+						  <td class="col-lg-8 text-left">
+						  	 <?php $last = end($servicio_componentes); ?>
+						  	<?php if(count($servicio_componentes) > 0) : ?>
+					    
+								<?php foreach ($servicio_componentes as $servicio_componente) : ?>
+									<?php foreach ($componentes_ti as $componente_ti) : ?>
+										<?php if($servicio_componente->componente_id == $componente_ti->componente_ti_id) : ?>
+										   
+										    <?php if($servicio_componente != $last) : ?>      
+												<?php echo $componente_ti->nombre.", ";?> 
+											<?php else : ?>
+												<?php echo $componente_ti->nombre;?>
 											<?php endif ?>	
 										
 										<?php endif ?>

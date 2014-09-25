@@ -524,7 +524,7 @@ class Cargar_Data extends MX_Controller
 		}	
 	}
 
-	/*function dropdown_prioridad()
+	function dropdown_prioridad()
 	{
 		if ($this->input->post('prioridad_servicio') === 'seleccione')
 		{
@@ -535,7 +535,7 @@ class Cargar_Data extends MX_Controller
 		{
 			return TRUE;
 		}	
-	}*/
+	}
 
 	function dropdown_proveedor()
 	{
@@ -574,7 +574,7 @@ class Cargar_Data extends MX_Controller
          $this->form_validation->set_rules('tipo_servicio', 'Tipos', 'callback_dropdown_tipo');
          $this->form_validation->set_rules('propietario_servicio', 'Propietario', 'callback_dropdown_propietario');
          $this->form_validation->set_rules('proveedor_servicio', 'Proveedor', 'callback_dropdown_proveedor');
-         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', '');
+         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', 'callback_dropdown_prioridad');
          $this->form_validation->set_rules('impacto', 'impacto', '');
          $this->form_validation->set_rules('procedimiento_solicitud', 'Procedimientos de Solicitud', '');
          $this->form_validation->set_rules('contacto', 'Informacion de Contactos', '');
@@ -594,14 +594,14 @@ class Cargar_Data extends MX_Controller
             {
 
 
-            	if( $this->input->post('prioridad_servicio'))
+            	/*if( $this->input->post('prioridad_servicio'))
 		            	{
 		            		$prioridad = $this->input->post('prioridad_servicio');
 		            	}
 		            	else
 		            	{
 		            		$prioridad = NULL;
-		            	}
+		            	}*/
 		        if( $this->input->post('impacto'))
 		            	{
 		            		$impacto = $this->input->post('impacto');
@@ -637,7 +637,7 @@ class Cargar_Data extends MX_Controller
                                 'propietario_servicio' => $this->input->post('propietario_servicio'),                               
                                 'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
                                 'fecha_creacion' => date('Y-m-d H:i:s'),  
-                                'prioridad_servicio' => $prioridad,
+                                'prioridad_servicio' => $this->input->post('prioridad_servicio'),
                                 'impacto' => $impacto,
                                 'procedimiento_solicitud' => $procedimiento,
                                 'contacto' => $contacto,
@@ -676,7 +676,7 @@ class Cargar_Data extends MX_Controller
                                 'propietario_servicio' => $this->input->post('propietario_servicio'),                               
                                 'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
                                 'fecha_creacion' => date('Y-m-d H:i:s'),  
-                                'prioridad_servicio' => $prioridad,
+                                'prioridad_servicio' => $this->input->post('prioridad_servicio'),
                                 'impacto' => $impacto,
                                 'procedimiento_solicitud' => $procedimiento,
                                 'contacto' => $contacto,
@@ -767,7 +767,7 @@ class Cargar_Data extends MX_Controller
          $this->form_validation->set_rules('tipo_servicio', 'Tipos', 'callback_dropdown_tipo');
          $this->form_validation->set_rules('propietario_servicio', 'Propietario', 'callback_dropdown_propietario');
          $this->form_validation->set_rules('proveedor_servicio', 'Proveedor', 'callback_dropdown_proveedor');
-         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', '');
+         $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', 'callback_dropdown_prioridad');
          $this->form_validation->set_rules('impacto', 'impacto', '');
          $this->form_validation->set_rules('procedimiento_solicitud', 'Procedimientos de Solicitud', '');
          $this->form_validation->set_rules('contacto', 'Informacion de Contactos', '');
@@ -797,14 +797,14 @@ class Cargar_Data extends MX_Controller
             {
 
 
-	            	if( $this->input->post('prioridad_servicio'))
+	            	/*if( $this->input->post('prioridad_servicio') != 'seleccione')
 		            	{
 		            		$prioridad = $this->input->post('prioridad_servicio');
 		            	}
 		            	else
 		            	{
 		            		$prioridad = NULL;
-		            	}
+		            	}*/
 		        if( $this->input->post('impacto'))
 		            	{
 		            		$impacto = $this->input->post('impacto');
@@ -840,7 +840,7 @@ class Cargar_Data extends MX_Controller
                                 'propietario_servicio' => $this->input->post('propietario_servicio'),                               
                                 'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
                                 'fecha_modificado' => date('Y-m-d H:i:s'),  
-                                'prioridad_servicio' => $prioridad,
+                                'prioridad_servicio' => $this->input->post('prioridad_servicio'),
                                 'impacto' => $impacto,
                                 'procedimiento_solicitud' => $procedimiento,
                                 'contacto' => $contacto,
@@ -879,7 +879,7 @@ class Cargar_Data extends MX_Controller
                                 'propietario_servicio' => $this->input->post('propietario_servicio'),                               
                                 'proveedor_servicio' => $this->input->post('proveedor_servicio'), 
                                 'fecha_modificado' => date('Y-m-d H:i:s'),  
-                                'prioridad_servicio' => $prioridad,
+                                'prioridad_servicio' => $this->input->post('prioridad_servicio'),
                                 'impacto' => $impacto,
                                 'procedimiento_solicitud' => $procedimiento,
                                 'contacto' => $contacto,

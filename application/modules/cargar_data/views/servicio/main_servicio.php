@@ -58,7 +58,7 @@
 
 	                    <a href="<?php echo base_url('index.php/cargar_datos/servicio_infraestructura');?>" type="button" class="btn btn-primary btn-xs"><b> <i class="fa fa-laptop"></i> Infraestructura de Servicios</b> </a>
 	    </div><hr>
-		<br><a class="btn btn-success" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/servicios/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Servicio</a><br><br>
+		<br><a class="btn btn-info" id="nuevo_proceso" href="<?php echo base_url().'index.php/cargar_datos/servicios/crear'?>"> <i class="fa fa-plus"></i>  Agregar Nuevo Servicio</a><br><br>
 		
 		<div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped" id="dataTables-servicio">
@@ -76,12 +76,13 @@
                                         <th width="10%">Nombre <i class="fa fa-sort"></i></th>
                                         <th width="10%"> Estatus <i class="fa fa-sort"></i></th>
                                         <th width="15%">Descripcion <i class="fa fa-sort"></i></th>
-                                        <th width="10%">Creado el <i class="fa fa-sort"></i></th>
+                                       
                                         <th width="10%">Proovedor <i class="fa fa-sort"></i></th>
                                         <th >Tipo <i class="fa fa-sort"></i></th>
                                         <th >Categoria <i class="fa fa-sort"></i></th>
                                         <th>Propietario <i class="fa fa-sort"></i></th> 
                                         <th width="10%">Prioridad <i class="fa fa-sort"></i></th> 
+                                         <th width="10%">Creado el <i class="fa fa-sort"></i></th>
                                         <th width="10%">Acciones <i class="fa fa-sort"></i></th>
                                     </tr>
                                 </thead>
@@ -101,7 +102,14 @@
 
 											echo form_checkbox($data); ?> </td>
 							                <td> <?php echo $servicio->nombre; ?>  </td>
-							                 <td> <?php echo $servicio->estatus; ?>  </td>	
+							                 <td> 
+							                 	<?php if($servicio->estatus == 'Activo') : ?>
+									  				<span class="label label-success"><?php echo $servicio->estatus; ?></span>
+
+									  			<?php else : ?>
+									  				<span class="label label-default"><?php echo $servicio->estatus; ?></span>
+									  			<?php endif ?>
+							                  </td>	
 							                <td> <?php 
                                                   if(strlen($servicio->descripcion)> 100)
                                                         {       
@@ -115,10 +123,7 @@
                                                         }     
 							                			//echo $proceso->descripcion; ?> </td>
 
-							                <td>  
-							                	<?php 
-							                	 $date = date_create($servicio->fecha_creacion);
-							                	 echo date_format($date,"d/m/y"); ?>  </td>
+							              
 							                <td> 
 							                 <?php foreach($proveedores as $proveedor)
 							                			{
@@ -139,7 +144,22 @@
 							                				}
 							                			}
 							                	   ?> </td>
-							               		<td> <?php echo $servicio->prioridad_servicio; ?>  </td>	
+							               		
+							               		<td> <?php if($servicio->prioridad_servicio == 'Alta') : ?>
+												  				<span class="label label-danger"><?php echo $servicio->prioridad_servicio; ?></span>
+												  	<?php endif ?>
+												  	<?php if($servicio->prioridad_servicio == 'Media') : ?>
+												  				<span class="label label-warning"><?php echo $servicio->prioridad_servicio; ?></span>
+												  	<?php endif ?>
+												  	<?php if($servicio->prioridad_servicio == 'Baja') : ?>
+												  				<span class="label label-default"><?php echo $servicio->prioridad_servicio; ?></span>
+												  	<?php endif ?> </td>	
+
+												   <td>  
+							                	<?php 
+							                	 $date = date_create($servicio->fecha_creacion);
+							                	 echo date_format($date,"d/m/y"); ?>  </td>
+							                
 							                <td class="text-center"> <a href="<?php echo base_url().'index.php/cargar_datos/servicios/ver/'.$servicio->servicio_id ?>" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fa fa-search"></i></a> 
 							                	 <a href="<?php echo base_url().'index.php/cargar_datos/servicios/modificar/'.$servicio->servicio_id ?>" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Actualizar"><i class="fa fa-pencil"></i></a>
 							                	 <a type="button" class="btn btn-danger btn-xs" onclick="deleteServicio(<?php echo $servicio->servicio_id; ?>);" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times"></i></a> </td>

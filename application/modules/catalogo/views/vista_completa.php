@@ -29,6 +29,25 @@
 						</tr>
 
 						<tr>
+						  <td class="col-lg-4"><b>Fecha de Creaci&#243;n</b></td>
+						  <td class="col-lg-8 text-left"><?php 
+							                	 $date = date_create($servicio_actual->fecha_creacion);
+							                	 echo date_format($date,"d/m/y"); ?> </td>
+						</tr>
+
+						<tr>
+						  <td class="col-lg-4"><b>Estatus</b></td>
+						  <td class="col-lg-8 text-left">
+						  			<?php if($servicio_actual->estatus == 'Activo') : ?>
+						  				<span class="label label-success"><?php echo $servicio_actual->estatus; ?></span>
+
+						  			<?php else : ?>
+						  				<span class="label label-default"><?php echo $servicio_actual->estatus; ?></span>
+						  			<?php endif ?>
+						  </td>
+						</tr>
+
+						<tr>
 						  <td class="col-lg-4"><b>Descripci&#243;n</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->descripcion; ?></td>
 						</tr>
@@ -39,11 +58,6 @@
 						</tr>
 
 					
-						  <td class="col-lg-4"><b>Fecha de Creaci&#243;n</b></td>
-						  <td class="col-lg-8 text-left"><?php 
-							                	 $date = date_create($servicio_actual->fecha_creacion);
-							                	 echo date_format($date,"d/m/y"); ?> </td>
-						</tr>
 
 					   <tr>
 						  <td class="col-lg-4"><b>Categoria</b></td>
@@ -70,11 +84,6 @@
 						  <td class="col-lg-8 text-left"><?php echo $propietario->codigo_empleado.' - '.$propietario->nombre; ?></td>
 						</tr>
 
-						<tr>
-						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
-						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->prioridad_servicio; ?></td>
-						</tr>	
-
 						
 						<tr>
 						  <td class="col-lg-4"><b>Procesos de Negocio que Soporta</b></td>
@@ -89,10 +98,10 @@
 											<?php if($proceso_negocio_soportado->proceso_id == $proceso_negocio->procesoneg_id) : ?>
 												 
 												 <?php if($proceso_negocio_soportado != $last) : ?>
-													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>">
+													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>" target="_blank">
 													<?php echo $proceso_negocio->nombre;?></a>  <?php echo ", ";?>
 												<?php else : ?>
-													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>">
+													<a href="<?php echo base_url('index.php/cargar_datos/procesos_de_negocio/ver/'.$proceso_negocio_soportado->proceso_id);?>" target="_blank">
 														<?php echo $proceso_negocio->nombre;?></a>
 												<?php endif ?>
 
@@ -104,6 +113,55 @@
 								<em> No Posee </em>
 							<?php endif ?>
 						  </td>
+						</tr>
+
+						<tr>
+						  <td class="col-lg-4"><b>Prioridad del Servicio</b></td>
+						  <td class="col-lg-8 text-left">
+						  	<?php if($servicio_actual->prioridad_servicio == 'Alta') : ?>
+						  				<span class="label label-danger"><?php echo $servicio_actual->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						  	<?php if($servicio_actual->prioridad_servicio == 'Media') : ?>
+						  				<span class="label label-warning"><?php echo $servicio_actual->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						  	<?php if($servicio_actual->prioridad_servicio == 'Baja') : ?>
+						  				<span class="label label-default"><?php echo $servicio_actual->prioridad_servicio; ?></span>
+						  	<?php endif ?>
+						</tr>	
+
+						<tr>
+						  <td class="col-lg-4"><b>Impacto en el Negocio</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio_actual->impacto != NULL) : ?>
+
+							                 	<?php echo $servicio_actual->impacto; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?></td>
+						</tr>
+
+
+						<tr>
+						  <td class="col-lg-4"><b>Informaci&#243;n de Contactos</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio_actual->contacto != NULL) : ?>
+
+							                 	<?php echo $servicio_actual->contacto; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?>
+							</td>
+						</tr>	
+
+						<tr>
+						  <td class="col-lg-4"><b>Procedimientos de Solicitud</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio_actual->procedimiento_solicitud != NULL) : ?>
+
+							                 	<?php echo $servicio_actual->procedimiento_solicitud; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?></td>
 						</tr>
 
 
@@ -118,10 +176,10 @@
 										<?php if($servicio_soportado->servicio_soportado == $servicio->servicio_id) : ?>
 										   
 										    <?php if($servicio_soportado != $last) : ?>      
-												<a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soportado->servicio_soportado);?>">
+												<a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soportado->servicio_soportado);?>" target="_blank">
 													<?php echo $servicio->nombre;?> </a> <?php echo ", ";?> 
 											<?php else : ?>
-											<a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soportado->servicio_soportado);?>">
+											<a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soportado->servicio_soportado);?>" target="_blank">
 												<?php echo $servicio->nombre;?> </a>
 											<?php endif ?>	
 										
@@ -148,10 +206,10 @@
 										<?php if($servicio_soporte->servicio_soporte == $servicio->servicio_id) : ?>
 										   
 										    <?php if($servicio_soporte != $last) : ?>  
-										    <a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soporte->servicio_soporte);?>">    
+										    <a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soporte->servicio_soporte);?>" target="_blank">    
 												<?php echo $servicio->nombre;?> </a> <?php echo ", ";?>
 											<?php else : ?>
-											 <a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$servicio_soporte->servicio_soporte);?>">  
+											 <a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio_soporte->servicio_soporte);?>" target="_blank">  
 												<?php echo $servicio->nombre;?></a> 
 											<?php endif ?>	
 										
@@ -175,12 +233,6 @@
 						<tr>
 						  <td class="col-lg-4"><b>Revisiones del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo '"La frecuencia de las reuniones de examen de nivel de servicio. Tambien la ultima reunion fijada"'; ?></td>
-						</tr>
-
-
-						<tr>
-						  <td class="col-lg-4"><b>Procedimiento de Solicitud</b></td>
-						  <td class="col-lg-8 text-left"><?php echo '"Describe cómo se debe solicitar el servicio."'; ?></td>
 						</tr>
 
 
