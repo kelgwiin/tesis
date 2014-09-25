@@ -1,0 +1,34 @@
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+CREATE TABLE IF NOT EXISTS `proceso_historial` (
+  `proceso_historial_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
+  `servicio_proceso_id` bigint(20) NOT NULL,
+  `mac_dir` varchar(100) NOT NULL,
+  `pagina_reclaim` int(11) NOT NULL,
+  `pagina_errores` int(11) NOT NULL,
+  `pagina_escritura` int(11) NOT NULL,
+  `pagina_lectura` int(11) NOT NULL,
+  `tasa_ram` int(11) NOT NULL,
+  `tasa_red_salida` int(11) NOT NULL,
+  `tasa_red_entrada` int(11) NOT NULL,
+  `tasa_cpu` int(11) NOT NULL COMMENT 'La tasa de CPU se basa en el',
+  `operaciones_lectura_dd` int(11) NOT NULL,
+  `operaciones_escritura_dd` int(11) NOT NULL,
+  `tasa_lectura_dd` int(11) NOT NULL,
+  `tasa_escritura_dd` int(11) NOT NULL,
+  `tasa_transferencia_dd` int(11) NOT NULL,
+  `num_bloqueos` int(11) NOT NULL,
+  `num_interrupciones_cpu` int(11) NOT NULL,
+  `tiempo_online` int(11) NOT NULL,
+  `tiempo_offline` int(11) NOT NULL,
+  `tiempo_reparacion` int(11) NOT NULL,
+  `cache_errores` int(11) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`proceso_historial_id`),
+  KEY `fk_proceso_historial_1_servicio_proceso_idx` (`servicio_proceso_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Guarda la información en detalle de cada uno de los procesos' AUTO_INCREMENT=1 ;
+
+
+ALTER TABLE `proceso_historial`
+  ADD CONSTRAINT `fk_proceso_historial_1_servicio_proceso` FOREIGN KEY (`servicio_proceso_id`) REFERENCES `servicio_proceso` (`servicio_proceso_id`) ON DELETE CASCADE ON UPDATE CASCADE;

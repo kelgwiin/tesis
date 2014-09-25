@@ -1,4 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+//require_once 'assets/poller_csv/MacAddress.php';
+//use BlakeGardner\MacAddress;
 class Data_model extends MY_Model
 {
     protected $_table = 'proceso_historial';
@@ -14,7 +16,7 @@ class Data_model extends MY_Model
         parent::__construct();
         date_default_timezone_set("America/Caracas" );
     } 
-    function readCSV_poller($csvFile){
+    function read_csv($csvFile){
         $file_handle = fopen($csvFile, 'r');
         while (!feof($file_handle) ) { $line_of_text[] = fgetcsv($file_handle, 1024); }
         fclose($file_handle);        
@@ -35,31 +37,51 @@ class Data_model extends MY_Model
         passthru("sudo /usr/bin/python {$cmd}");
         return ob_get_clean();
     }
-    function insertar_csv($archivo)
+    function list_stats($full_path = 1){
+        $cmd = "ls /home/poller_csv/stats/*.csv";
+        ob_start();
+        passthru($cmd);
+        $output = explode("\n",ob_get_clean());
+        array_pop($output);
+        if(!$full_path)
+        {            
+            foreach($output as $key => $filename)
+            {
+                $output[$key] = array_pop(explode("/",$filename));
+            }
+        }
+        return $output;
+    }
+    function insert_csv_db($filename)
     {
-        //preparar datos obtenidos de csv para posterior inserción en BD
-        $data = $this->parse_data($array);
-        $this->my_insert($data);
+        $array = $this->model->read_csv($filename);
+        $data = $this->parse_data($array); //preparar datos obtenidos de csv para posterior inserción en BD
+        return $this->my_insert($data,FALSE,FALSE,FALSE,TRUE);
     }
     function parse_data($array)
     {
+        ob_start();
+        passthru("sudo ifconfig wlan0 | grep 'HWaddr'");
+        $output = explode("     ",ob_get_clean()); $mac = explode(" ", $output[1]);
+        $mac = $mac[4];
+        array_pop($array);
         foreach ($array as $line)
         {
-            
             $data[] = array("thread" => $line[0],
                             "comando_ejecutable" => $line[1],
-                            "tasa_cpu" => $line[2],
-                            "tasa_memoria" => $line[3],
-                            "operaciones_lectura_dd" =>$line[4],
-                            "operaciones_escritura_dd" =>$line[5],
-                            "tasa_dd_lectura" =>$line[6],
-                            "tasa_dd_escritura" =>$line[7],
-                            "tasa_transferencia_dd" =>$line[8],
-                            "pagina_errores" =>$line[9],
-                            "tiempo_online" =>$line[10],
-                            "estado_proceso" =>$line[11],
+                            "tasa_cpu" => round($line[2],5),
+                            "tasa_ram" => round($line[3],5),
+                            "operaciones_lectura_dd" => round($line[4],0),
+                            "operaciones_escritura_dd" => round($line[5],0),
+                            "tasa_lectura_dd" => round($line[6],5),
+                            "tasa_escritura_dd" => round($line[7],5),
+                            "tasa_transferencia_dd" => round($line[8],5),
+                            "pagina_errores" => round($line[9],0),
+                            "tiempo_online" => $line[10],
+                            "estado_proceso" => $line[11],
                             "timestamp" => $line[12],
-                            "pid_lista" => $line[13]);
+                            "pid_lista" => $line[13],
+                            "mac_dir" => $mac);
         }
         return $data;
     }
@@ -127,7 +149,14 @@ class Data_model extends MY_Model
                             
             }            
         }
+        //foreach($plot_lines as $comando){ ksort($comando); }
         return $plot_lines;
+    }
+    function parse_filename($name)
+    {
+        $date = explode(".",$name); $data = $data[0]; $date = explode('_',$date); $date = $date[1];
+        $array = explode('-',$date);
+        return array( 'filename' => $name, 'year' => $array[0], 'month' => $array[1], 'day' => $array[2]);
     }
 }
 ?>

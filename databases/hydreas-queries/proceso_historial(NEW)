@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS `proceso_historial`;
+CREATE TABLE IF NOT EXISTS `proceso_historial` (
+  `proceso_historial_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
+  `thread` varchar(6) NOT NULL,
+  `comando_ejecutable` varchar(20) NOT NULL,
+  `mac_dir` varchar(100) NOT NULL,
+  `pagina_errores` int(11) NOT NULL,
+  `tasa_ram` int(11) NOT NULL,
+  `tasa_cpu` int(11) NOT NULL COMMENT 'La tasa de CPU se basa en el',
+  `operaciones_lectura_dd` int(11) NOT NULL,
+  `operaciones_escritura_dd` int(11) NOT NULL,
+  `tasa_lectura_dd` int(11) NOT NULL,
+  `tasa_escritura_dd` int(11) NOT NULL,
+  `tasa_transferencia_dd` int(11) NOT NULL,
+  `tiempo_online` int(11) NOT NULL,
+  `estado_proceso` varchar(1) NOT NULL,
+  `pid_lista` varchar(300) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`proceso_historial_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Guarda la información en detalle de cada uno de los procesos' AUTO_INCREMENT=1 ;

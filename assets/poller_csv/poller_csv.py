@@ -149,14 +149,13 @@ else:
             configParser = ConfigParser.RawConfigParser()
             configParser.read(r'config')
             tiempos = configParser.get('variables', 'logtime') is True
+            directorio = configParser.get('variables', 'storepath')
             if 'commands' not in globals():
                 commands = configParser.get('variables', 'commands').split(",")
             if 'interval' not in globals():
                 interval = float(configParser.get('variables', 'interval'))
             if 'use_ps_mem' not in globals():
-                use_ps_mem = configParser.get('variables', 'ps_mem') is True
-            if 'directorio' not in globals():
-                directorio = configParser.get('variables', 'storepath')
+                use_ps_mem = configParser.get('variables', 'ps_mem') is True           
             if 'process' not in globals():
                 process = not configParser.get('variables', 'per_threads')
             if 'directorio' in globals():
