@@ -180,3 +180,6 @@ join ma_categoria c on c.ma_categoria_id = eci.ma_categoria_id
 where estructura_costo_id = 558;
 
 select * from ma_categoria;
+
+select * from servicio_costo_detalle;
+select * from servicio_costo;
