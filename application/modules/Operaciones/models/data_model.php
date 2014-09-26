@@ -22,6 +22,14 @@ class Data_model extends MY_Model
         fclose($file_handle);        
         return $line_of_text;
     }
+    function find_local_mac($interface='eth0')
+    {
+        ob_start();
+        passthru("sudo ifconfig {$interface} | grep 'HWaddr'");
+        $output = explode("     ",ob_get_clean()); $mac = explode(" ", $output[1]);
+        $index = array_search('HWaddr', $mac) + 1;
+        return $mac[$index];
+    }
     function temporaryCSV_poller($data){
         $fd = fopen('php://temp/maxmemory:1048576', 'w');
         if($fd === FALSE) { die('Failed to open temporary file'); }
@@ -52,19 +60,40 @@ class Data_model extends MY_Model
         }
         return $output;
     }
-    function insert_csv_db($filename)
+    function insert_arrayfiles_db($array_files)
     {
-        $array = $this->model->read_csv($filename);
-        $data = $this->parse_data($array); //preparar datos obtenidos de csv para posterior inserción en BD
-        return $this->my_insert($data,FALSE,FALSE,FALSE,TRUE);
+        $this->db->query('SET @@global.local_infile=ON;');
+        foreach($array_files as $file)
+        {
+            $response[] = $this->model->insert_csv_db("{$file}");
+        }
+        $this->db->query('SET @@global.local_infile=OFF;');
+        return $response;
+    }
+    function insert_csv_db($filename, $infile_method=true)
+    {
+        if($infile_method)
+        {
+            $mac = $this->find_local_mac();
+            $sql="LOAD DATA LOCAL INFILE '".$filename."' INTO TABLE proceso_historial
+                FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n'
+                (`thread`,`comando_ejecutable`,`tasa_cpu`,`tasa_ram`,
+                `operaciones_lectura_dd`,`operaciones_lectura_dd`,`tasa_lectura_dd`,`tasa_escritura_dd`,
+                `tasa_transferencia_dd`,`pagina_errores`,`tiempo_online`,`estado_proceso`,`timestamp`,`pid_lista`)
+                SET `mac_dir` = '$mac'";
+            return $this->db->query($sql);
+        }
+        else
+        {        
+            $array = $this->model->read_csv($filename);
+            $data = $this->parse_data($array); //preparar datos obtenidos de csv para posterior inserción en BD
+            return $this->my_insert($data,FALSE,FALSE,FALSE,TRUE);
+        }        
     }
     function parse_data($array)
     {
-        ob_start();
-        passthru("sudo ifconfig wlan0 | grep 'HWaddr'");
-        $output = explode("     ",ob_get_clean()); $mac = explode(" ", $output[1]);
-        $mac = $mac[4];
         array_pop($array);
+        $mac = $this->find_local_mac('wlan0');
         foreach ($array as $line)
         {
             $data[] = array("thread" => $line[0],

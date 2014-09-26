@@ -37,7 +37,7 @@ function construct_series(obj,parameter)
                 var plot_points = [];
                 $.each(array_datetimes,function(date_time,line){
                     var datetime = new Date(date_time).getTime();
-                    console.log(datetime,line[parameter]);
+                    //console.log(datetime,line[parameter]);
                     plot_points.push({
                         x: datetime,
                         y: line[parameter]
