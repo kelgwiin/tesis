@@ -65,7 +65,10 @@ class Data_model extends MY_Model
         $this->db->query('SET @@global.local_infile=ON;');
         foreach($array_files as $file)
         {
-            $response[] = $this->model->insert_csv_db("{$file}");
+            $time_start = microtime(true);
+            $response[]["status"] = $this->model->insert_csv_db("{$file}");
+            $time_end = microtime(true);
+            $response[]["elapsed"] = $time_start - $time_end;
         }
         $this->db->query('SET @@global.local_infile=OFF;');
         return $response;

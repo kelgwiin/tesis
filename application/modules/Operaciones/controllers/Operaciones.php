@@ -29,9 +29,9 @@ class Operaciones extends MX_Controller
         $result = $this->model->insert_arrayfiles_db($array_files);
         foreach($array_files as $key => $value)
         {
-            if($result[$key]) $out = "OK!";
+            if($result[$key]["status"]) $out = "OK!";
             else $out = "ERROR!";
-            echo $value.' :'.$out;
+            echo $value.'     STATUS:'.$out.'    ELAPSED:'.$result[$key]["status"].' seconds.';
         }
     }
 }
