@@ -22,13 +22,16 @@ class Operaciones extends MX_Controller
         $plot_array = $this->model->parse_toplot($output);
         echo json_encode($plot_array);
     }
-    public function list_stats() { echo json_encode($this->csvmodel->list_stats()); }
+    public function list_stats() { echo json_encode($this->model->list_stats()); }
     public function load_stats()
     {
         $array_files =  $this->model->list_stats();
-        foreach($array_files as $file)
+        $result = $this->model->insert_arrayfiles_db($array_files);
+        foreach($array_files as $key => $value)
         {
-            $this->model->insert_csv_db("{$file}");
+            if($result[$key]["status"]) $out = "OK!";
+            else $out = "ERROR!";
+            echo $value.'     STATUS:'.$out.'    ELAPSED:'.$result[$key]["status"].' seconds.';
         }
     }
 }
