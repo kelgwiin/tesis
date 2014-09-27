@@ -107,8 +107,8 @@
 
 	    <div class='text-right col-lg-10'>
 	   
-	    <a href="<?php echo base_url('index.php/catalogo/vista_listado');?>" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Lista de Servicios"><i class="fa fa-list-ul fa-2x"></i></a> -
-		<a href="<?php echo base_url('index.php/catalogo');?>"  type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Vista de Servicios por Filtros"><i class="fa fa-th fa-2x"></i></a>
+	    <a href="<?php echo base_url('index.php/catalogo/vista_listado');?>" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Lista"><i class="fa fa-list-ul fa-2x"></i></a> -
+		<a href="<?php echo base_url('index.php/catalogo');?>"  type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Galeria"><i class="fa fa-th fa-2x"></i></a>
 			
 	    </div>
 	    <br><br>
