@@ -47,7 +47,7 @@
                     <i class="fa fa-bar-chart-o fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Gestión de Operaciones</p>
+                    <p class="announcement-text">Gesti&#243;n de Operaciones</p>
                   </div>
                 </div>
               </div>
@@ -74,7 +74,7 @@
                     <i class="fa fa-tasks fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Gestion de Capacidad</p>
+                    <p class="announcement-text">Gesti&#243;n de Capacidad</p>
                   </div>
                 </div>
               </div>
@@ -101,7 +101,7 @@
                     <i class="fa fa-retweet fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Gestion de Continuidad del Negocio</p>
+                    <p class="announcement-text">Gesti&#243;n de Continuidad del Negocio</p>
                   </div>
                 </div>
               </div>
@@ -128,7 +128,7 @@
                     <i class="fa fa-clipboard fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Gestion de Costos</p>
+                    <p class="announcement-text">Gesti&#243;n de Costos</p>
                   </div>
                 </div>
               </div>
@@ -155,7 +155,7 @@
                     <i class="fa fa-clock-o fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Gestion de Disponibilidad</p>
+                    <p class="announcement-text">Gesti&#243;n de Disponibilidad</p>
                   </div>
                 </div>
               </div>
@@ -182,11 +182,11 @@
                     <i class="fa fa-suitcase fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
-                    <p class="announcement-text">Acuerdos de Niveles de Servicios</p>
+                    <p class="announcement-text">Gesti&#243;n de Niveles de Servicio</p>
                   </div>
                 </div>
               </div>
-              <a href="#">
+              <a href="<?php echo site_url('index.php/niveles_de_servicio');?>">
                 <div class="panel-footer announcement-bottom">
                   <div class="row">
                     <div class="col-xs-6">

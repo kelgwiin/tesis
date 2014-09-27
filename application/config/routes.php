@@ -109,6 +109,12 @@ $route['catalogo/vista_tecnica/(:num)'] = "catalogo/vista_tecnica/$1";
 $route['catalogo/vista_completa/(:num)'] = "catalogo/vista_completa/$1";
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 
+/* Rutas del Modulo de Gestion de Niveles de Servicio*/
+$route['niveles_de_servicio'] = "niveles/niveles";
+$route['niveles_de_servicio/gestion_ANS'] = "niveles/acuerdos_de_NS";
+$route['niveles_de_servicio/gestion_ANS/crear_ANS'] = "niveles/crear_acuerdos_de_NS";
+/* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
+
 /* Rutas del Modulo de Operaciones*/
 $route['operaciones'] = "operaciones/toolset";
 $route['operaciones/'] = "operaciones/toolset";

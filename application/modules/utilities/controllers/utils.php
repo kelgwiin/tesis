@@ -103,9 +103,9 @@ class Utils extends MX_Controller
 
 		//Acuerdos de Niveles de Servicio
 		$l[] = array(
-			"chain" => "Acuerdos de Niveles de Servicio",
-			"href" => site_url(''),
-			"icon" => "fa fa-table"
+			"chain" => "Gesti&#243;n de Niveles de Servicio",
+			"href" => site_url('index.php/niveles_de_servicio'),
+			"icon" => "fa fa-suitcase"
 		);
 
 		//Gestión de Capacidad

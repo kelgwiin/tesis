@@ -17,7 +17,7 @@
 				<table class="table">	
 					<thead>
 						 <tr>
-						  <td><img src="<?=base_url()?>assets/imagenes/servicio/imagen.jpg" width='80' height='80'  class="img-thumbnail"></td>
+						  <td><img src="<?=base_url().$servicio->ruta_imagen?>" width='80' height='80'  class="img-thumbnail"></td>
 						<td></td>
 						</tr>
 					</thead>	
