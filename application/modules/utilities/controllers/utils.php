@@ -184,8 +184,18 @@ class Utils extends MX_Controller
 			),
 
 			array(
-				'chain'=>'item 3',
-				'href' => site_url('#')
+				'chain'=>'Modelo de Costos',
+				'href' => site_url('index.php/Costos/ModeloCostos')
+			),
+
+			array(
+				'chain'=>'Históricos',
+				'href' => site_url('index.php/Costos/Historicos')
+			),
+
+			array(
+				'chain'=>'Recomendaciones',
+				'href' => site_url('index.php/Costos/Recomendaciones')
 			)
 		);
 

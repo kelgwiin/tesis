@@ -116,8 +116,8 @@ $route['niveles_de_servicio/gestion_ANS/crear_ANS'] = "niveles/crear_acuerdos_de
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/
-$route['operaciones'] = "operaciones/toolset";
-$route['operaciones/'] = "operaciones/toolset";
+$route['Operaciones'] = "Operaciones/Operaciones/toolset";
+$route['Operaciones/extract_data'] = "Operaciones/Operaciones/extract_data";
 /* Rutas Para el Modulo de Gestión de La capacidad */
 $route['Capacidad/'] = "Capacidad/Capacidad";
 /* Modulo Componentes IT */

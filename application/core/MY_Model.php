@@ -71,7 +71,7 @@ class MY_Model extends CI_Model
         
         return $this;
     }
-    public function my_insert($data, $skip_validation = FALSE, $return_data = FALSE, $audit = TRUE)
+    public function my_insert($data, $skip_validation = FALSE, $return_data = FALSE, $audit = TRUE, $batch = FALSE)
     {
         if($audit) $data['fecha_creacion'] = $data['fecha_modificacion'] = date('Y-m-d H:i:s');
         $data = $this->observe('before_create', $data);
@@ -80,7 +80,8 @@ class MY_Model extends CI_Model
         else
         {
             $data = $this->observe('after_create', $data);
-            $success = $this->db->insert($this->_table, $data);
+            if($batch) $success = $this->db->insert_batch($this->_table, $data);
+            else $success = $this->db->insert($this->_table, $data);
         }
         return ($success) ? (($return_data) ? $data : $this->db->insert_id()) : FALSE;
     }
