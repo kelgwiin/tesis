@@ -1,16 +1,26 @@
 #!/bin/bash
 
-cd /var/www/tesis/databases/script-recopilador/
+### BEGIN INIT INFO
+# Provides:          poller_csv
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: poller_csv daemon
+# Description:       Enable service for polling processes and output results in csv.
+### END INIT INFO
 
 function install {
    echo -n "Installing poller_csv service..."
    cp poller_csv.sh /etc/init.d/
+   update-rc.d poller_csv.sh defaults
    echo "..Done"
    exit 1
 }
 
 function uninstall {
    echo -n "Uninstalling poller_csv service..."
+   update-rc.d -f  poller_csv.sh remove
    rm /etc/init.d/poller_csv.sh
    echo "..Done"
    exit 1
