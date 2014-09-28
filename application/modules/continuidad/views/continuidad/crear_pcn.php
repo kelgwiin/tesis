@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	
-	<a class="btn btn-primary" target="blank" href="<?php echo site_url('index.php/continuidad/crear_maqueta') ?>">PDF</a>
+	<!-- <a class="btn btn-primary" target="blank" href="<?php echo site_url('index.php/continuidad/crear_maqueta') ?>">PDF</a> -->
 	
 	<div class="row" style="margin-top: 25px">
 

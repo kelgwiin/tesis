@@ -119,4 +119,32 @@ class Gestionriesgos_model extends CI_Model
 		}
 		return FALSE;
 	}
+
+	public function get_allinvolucrados($id_pcn = '')
+	{
+		$this->db->select('id_empleado');
+		$responsable = $this->db->get_where('plan_continuidad',array('id_continuidad'=>$id_pcn))->row();
+		
+		$this->db->select('id_crisis,id_recuperacion,id_logistica,id_rrpp,id_pruebas');
+		$equipos = $this->db->get_where('plan_continuidad',array('id_continuidad'=>$id_pcn))->row();
+	
+		foreach($equipos as $key => $equipo)
+		{
+			$this->db->select('equipo');
+			$people_team[] = $this->db->get_where('equipo_pcn',array('id_equipo'=>$equipo))->row();
+		}
+		
+		$id_personal[] = $responsable->id_empleado;
+		foreach($people_team as $key => $id_people)
+		{
+			$team = explode(',', $id_people->equipo);
+			foreach($team as $k => $id)
+				$id_personal[] = $id;
+		}
+		$id_personal = array_unique($id_personal);
+		
+		$personal = $this->get_personal_normal(array(),$id_personal);
+		
+		return $personal;
+	}
 }

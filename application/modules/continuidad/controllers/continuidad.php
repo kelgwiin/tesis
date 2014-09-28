@@ -238,12 +238,23 @@ class Continuidad extends MX_Controller
 				$post['pdf'] = $ruta;
 				if(isset($post['id_continuidad']) && !empty($post['id_continuidad']))
 				{
+					// SI SE ESTA ACTUALIZANDO UN PCN EXISTENTE
 					$old_pdf = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$post['id_continuidad']),array('pdf'));
 					if(!empty($old_pdf->pdf) && file_exists($old_pdf->pdf)) unlink($old_pdf->pdf);
-					// SI SE ESTA ACTUALIZANDO UN PCN EXISTENTE
+					
 					if($this->general->update('plan_continuidad',$post,array('id_continuidad'=>$post['id_continuidad'])))
+					{
+						// if($_POST['id_estado'] == 1)
+						// {
+							// $pdf_file = $mpdf->Output($ruta,'S');
+							// $email = new stdClass();
+							// $email->subject = 'Activación de PCN';
+							// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$post['denominacion'].'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
+							// $email->pdf = $pdf_file;
+							// $this->mailing($template['involucrados'], $email, $valoracion);
+						// }
 						$this->session->set_flashdata('alert_success','Plan de Continuidad del Negocio <strong>'.$post['denominacion'].'</strong> modificado con éxito');
-					else
+					}else
 						$this->session->set_flashdata('alert_error','Hubo un error al intentar modificar el Plan de  Continuidad del Negocio <strong>'.$post['denominacion'].'</strong>, por favor intente de nuevo o contacte a su administrador');
 				}else
 				{
@@ -282,7 +293,7 @@ class Continuidad extends MX_Controller
 		$this->load->helper('text');
 		$view['valoracion'] = $valoracion;
 		
-		
+		$this->riesgos->get_allinvolucrados($id_continuidad);
 		
 		$where['id_continuidad'] = $id_continuidad;
 		if($this->general->exist('plan_continuidad',$where))
@@ -330,12 +341,21 @@ class Continuidad extends MX_Controller
 		$state = $this->input->post('state');
 		$return = $this->general->update('plan_continuidad',array('id_estado'=>$state),array('id_continuidad'=>$id_continuidad));
 		
-		
-		
+		// if($state == 1)
+		// {
+			// $involucrados = $this->riesgos->get_allinvolucrados($id_continuidad);
+			// $pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad));
+			// $pdf_file = (!empty($pcn)) ? $mpdf->Output($pcn->pdf,'S') : '';
+			// $email = new stdClass();
+			// $email->subject = 'Activación de PCN';
+			// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$pcn->denominacion.'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
+			// $email->pdf = $pdf_file;
+			// $this->mailing($involucrados, $email, $state);
+		// }
 		echo $return;
 	}
 
-	public function mailing()
+	public function mailing($involucrados,$email,$valoracion)
 	{
 		//Proceso de ENVIO DE CORREO ELECTRONICO
         $config['protocol']     = "smtp";
@@ -349,12 +369,19 @@ class Continuidad extends MX_Controller
         $this->load->library('email', $config);
         $this->email->initialize($config);
         $this->email->from('fernando.aragmedia@gmail.com','Fernando Aragmedia');
-        $this->email->to('f6rnando@gmail.com','Fernando Pinto');
-        $this->email->subject('Prueba');
-		$this->email->message('Testing the email class.');	
+		
+		foreach($involucrados as $key => $people)
+		{
+			$this->email->to($people->email_corporativo,$people->nombre);
+			$this->email->to($people->email_personal,$people->nombre);
+		}
+		
+        $this->email->subject($email->subject);
+		$this->email->message($email->message);
+		if(isset($email->pdf) && !empty($email->pdf)) $this->email->attach($email->pdf);
 		$this->email->send();
-		die_pre($this->email->print_debugger());
-		redirect(site_url('index.php/continuidad/listado_pcn/media-alta'));
+		// die_pre($this->email->print_debugger());
+		redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
 	}
 
 }

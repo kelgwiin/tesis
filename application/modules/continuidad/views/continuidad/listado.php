@@ -22,11 +22,11 @@
 		</div>
 	</div>
 	
-	<div class="row">
+	<!-- <div class="row">
 		<div class="col-lg-12">
 			<a href="<?php echo site_url('index.php/continuidad/continuidad/mailing') ?>" class="btn btn-primary">Email</a>
 		</div>
-	</div>
+	</div> -->
 	
 	<div class="row">
 		<div class="col-lg-9"></div>
