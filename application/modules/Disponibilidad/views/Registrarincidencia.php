@@ -56,11 +56,9 @@
 
 ?>
 
-<div class="form-group">
-	<label for=""></label>
-	
-			<div class="col-md-5">
-				<div class = "offset1 span5 well">
+	<label for=""></label>			
+			<div class="form-group">
+				<div class = "col-md-5 control-label">
 					<?php echo form_label('Servicio Afectado:','serv' ); ?>
 					<?php if($servicios!=false){
 						echo form_dropdown('servic', $servicios);
@@ -69,18 +67,15 @@
 					}
 					 ?>			
 				</div>
-
-				<div class ="offset1 span5 well">
-					<label for="impacto_mejoras">Codigo de la Incidencia:</label>
-   					<input type="text" class="input-group" name="codigo" value="<?php echo set_value('codigo'); ?>">
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="impacto_mejoras">Codigo de la Incidencia:</label>  
+					<div class ="col-md-1">
+   						<input type="text" class="input-group" name="codigo" value="<?php echo set_value('codigo'); ?>">
+					</div>
 				</div>
 			</div>
-</div><!-- /form-group -->
 
-
-  <br><br><br>
-  <br><br><br>
-    <br><br><br>
+<br><br><br>
     
 <?php echo form_error('descripcion'); ?>
 <form class="form-inline" role="form">

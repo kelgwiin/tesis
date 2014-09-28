@@ -73,7 +73,7 @@ class Catalogo extends MX_Controller
 				'href'=> site_url('index.php/cargar_datos/procesos_de_negocio_soportados')
 			),
 			array(
-				'chain' => 'Gestion de Servicios de Apoyo',
+				'chain' => 'Gesti&#243;n de Servicios de Apoyo',
 				'href'=> site_url('index.php/cargar_datos/servicio_soportados')
 			),
 		);

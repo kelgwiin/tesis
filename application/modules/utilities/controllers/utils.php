@@ -103,9 +103,9 @@ class Utils extends MX_Controller
 
 		//Acuerdos de Niveles de Servicio
 		$l[] = array(
-			"chain" => "Acuerdos de Niveles de Servicio",
-			"href" => site_url(''),
-			"icon" => "fa fa-table"
+			"chain" => "Gesti&#243;n de Niveles de Servicio",
+			"href" => site_url('index.php/niveles_de_servicio'),
+			"icon" => "fa fa-suitcase"
 		);
 
 		//Gestión de Capacidad
@@ -184,8 +184,18 @@ class Utils extends MX_Controller
 			),
 
 			array(
-				'chain'=>'item 3',
-				'href' => site_url('#')
+				'chain'=>'Modelo de Costos',
+				'href' => site_url('index.php/Costos/ModeloCostos')
+			),
+
+			array(
+				'chain'=>'Históricos',
+				'href' => site_url('index.php/Costos/Historicos')
+			),
+
+			array(
+				'chain'=>'Recomendaciones',
+				'href' => site_url('index.php/Costos/Recomendaciones')
 			)
 		);
 

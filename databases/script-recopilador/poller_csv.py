@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 __author__ = 'Harold Araujo'
 # Script para recopilar los datos necesarios de cada uno de los threads
 # de los procesos a monitorear

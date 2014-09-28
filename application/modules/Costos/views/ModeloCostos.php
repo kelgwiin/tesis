@@ -32,7 +32,6 @@
 						+"<td>" +it.nombre+"</td>" +
 						"<td>" +it.mes + "</td>" +
 						"<td>" + it.fecha_creacion+ "</td>"+
-						"<td>" +it.nivel_criticidad + "</td>"+
 						"<td>" + it.costo+ "</td> </tr>";
 					};
 					//Limpiando la información previamente cargada
@@ -70,7 +69,7 @@
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Se despliegan los costos financieros asociados a los servicios en función de la
-				tasa de utilización de los recursos. De igual forma se encuentran categorizados por departamento.
+				tasa de utilización de los recursos.
 				</div>
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
@@ -170,7 +169,6 @@
 									<th>Nombre <i class = "fa fa-sort"></i></th>
 									<th>Mes <i class = "fa fa-sort"></i></th>
 									<th>Fecha de creación <i class = "fa fa-sort"></i></th>
-									<th>Nivel de Criticidad <i class = "fa fa-sort"></i></th>
 									<th>Costo <i class = "fa fa-sort"></i></th>
 								</tr>
 							</thead>
