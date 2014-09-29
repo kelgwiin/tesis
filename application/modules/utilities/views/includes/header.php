@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="#">
     <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
-    <title><?php echo $title_name;?></title>
+    <title><?php echo (!empty($title_name)) ? $title_name.' | SIGITEC' : 'SIGITEC' ?></title>
     <!-- Bootstrap core CSS -->
     <link rel="icon" href="<?php echo site_url('assets/back/img/favicon.ico') ?>" type="image/x-icon" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/bootstrap.css" >
@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/font-awesome/css/font-awesome.min.css">
     
     <!-- Page Specific CSS -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/css/custom.config.css">    
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/css/custom.config.css">
+    
+    <link href="<?php echo base_url(); ?>assets/datepicker/css/datepicker.css" rel="stylesheet">
     
     <!-- JavaScript -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/jquery-1.10.2.js"></script>
@@ -44,6 +46,7 @@
 
     <!-- Editor de texto -->
     <script src="<?=base_url()?>assets/js/editor_texto/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datepicker/js/bootstrap-datepicker.js"></script>
    
     <!-- Modulo de Gestion de Niveles de Servicios-->
     <script type="text/javascript">

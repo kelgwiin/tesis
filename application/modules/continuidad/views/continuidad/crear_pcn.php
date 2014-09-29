@@ -118,6 +118,20 @@
 						</div>
 					</div>
 					
+					<!-- Select Basic -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="id_estado">Estrategias de recuperación</label>
+						<div class="col-md-4">
+							<select name="id_estrategia" class="form-control">
+								<?php foreach($estrategias as $key => $strat) : ?>
+									<option value="<?php echo $strat->id_estrategia ?>" <?php echo ((isset($plan_continuidad)) && ($strat->id_estrategia == $plan_continuidad->id_estrategia)) ? 'selected' : '' ?>>
+										<?php echo ucfirst($strat->denominacion) ?>
+									</option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
+					
 					<div class="form-group" style="margin-top: 25px">
 						<label class="col-md-4 control-label" ></label>
 						<div class="col-md-2 col-md-offset-1">

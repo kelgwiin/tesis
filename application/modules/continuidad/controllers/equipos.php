@@ -27,39 +27,34 @@ class Equipos extends MX_Controller
 			"href" => site_url(''),
 			"icon" => "fa fa-flag"
 		);
-		// $sublista = array
-		// (
-			// array
-			// (
-				// 'chain' => 'Categorías de riesgos y amenazas',
-				// 'href'=> site_url('index.php/continuidad/gestion_riesgos/categorias')
-			// ),
-			// array
-			// (
-				// 'chain' => 'Listado de riesgos y amenazas',
-				// 'href'=> site_url('index.php/continuidad/gestion_riesgos/riesgos')
-			// ),
-			// array
-			// (
-				// 'chain' => 'Vulnerabilidades',
-				// 'href'=> site_url('index.php/continuidad/gestion_riesgos/vulnerabilidades')
-			// )
-		// );
-		$l[] = array(
-			"chain" => "Gestión de Riesgos y Amenazas",
-			"href" => site_url('index.php/continuidad/gestion_riesgos'),
-			"icon" => "fa fa-fire-extinguisher",
-			// "list" => $sublista
-		);
-		$l[] = array(
-			"chain" => "Equipos de desarrollo",
-			"href" => site_url('index.php/continuidad/equipos'),
-			"icon" => "fa fa-user"
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'Gestión de riesgos y amenazas',
+				'href'=> site_url('index.php/continuidad/gestion_riesgos')
+			),
+			array
+			(
+				'chain' => 'Equipos de desarrollo',
+				'href'=> site_url('index.php/continuidad/equipos')
+			),
+			array
+			(
+				'chain' => 'Estrategias para la recuperación',
+				'href'=> site_url('index.php/continuidad/estrategias')
+			),
+			array
+			(
+				'chain' => 'Planes de continuidad del negocio',
+				'href'=> site_url('index.php/continuidad/seleccionar_listado')
+			)
 		);
 		$l[] = array(
 			"chain" => "Continuidad del Negocio",
 			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-retweet"
+			"icon" => "fa fa-retweet",
+			"list" => $sublista
 		);
 		return $l;
 	}

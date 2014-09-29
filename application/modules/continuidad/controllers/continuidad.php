@@ -26,44 +26,37 @@ class Continuidad extends MX_Controller
 			"href" => site_url(''),
 			"icon" => "fa fa-flag"
 		);
-		$l[] = array(
-			"chain" => "Continuidad del Negocio",
-			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-retweet"
-		);
-		return $l;
-	}
-	private function _list2()
-	{
-		$l =  array();
-
-		$l[] = array(
-			"chain" => "Volver a Módulos Principales",
-			"href" => site_url(''),
-			"icon" => "fa fa-flag"
-		);
-		$l[] = array(
-			"chain" => "Continuidad del Negocio",
-			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-retweet"
-		);
 		$sublista = array
 		(
 			array
 			(
-				'chain' => 'Listado de PCN',
-				'href'=> site_url('index.php/continuidad/listado_pcn')
+				'chain' => 'Gestión de riesgos y amenazas',
+				'href'=> site_url('index.php/continuidad/gestion_riesgos')
+			),
+			array
+			(
+				'chain' => 'Equipos de desarrollo',
+				'href'=> site_url('index.php/continuidad/equipos')
+			),
+			array
+			(
+				'chain' => 'Estrategias para la recuperación',
+				'href'=> site_url('index.php/continuidad/estrategias')
+			),
+			array
+			(
+				'chain' => 'Planes de continuidad del negocio',
+				'href'=> site_url('index.php/continuidad/seleccionar_listado')
 			)
 		);
 		$l[] = array(
-			"chain" => "Planes de Continuidad del Negocio",
+			"chain" => "Continuidad del Negocio",
 			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-tasks",
+			"icon" => "fa fa-retweet",
 			"list" => $sublista
 		);
 		return $l;
 	}
-	
 	
 	public function index()
 	{
@@ -94,7 +87,7 @@ class Continuidad extends MX_Controller
 			'#' => 'Equipos de acción'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_list(),'continuidad/formar_equipos',$view,$this->title,'','two_level');
+		$this->utils->template($this->_list1(),'continuidad/formar_equipos',$view,$this->title,'','two_level');
 	}
 	
 	public function chart()
@@ -135,7 +128,7 @@ class Continuidad extends MX_Controller
 			'Alta' => $this->percent($alta, $count_risk),
 		);
 		$view['piechart_js'] = $this->load->view('continuidad/continuidad/piechart_js',$js,TRUE);
-		$this->utils->template($this->_list2(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
+		$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
 	}
 	
 	public function listado($tipo_listado = '')
@@ -173,7 +166,7 @@ class Continuidad extends MX_Controller
 		$tipo_listado = str_replace(' ', '-', $tipo_listado);
 		$view['valoracion'] = $tipo_listado;
 		$view['listado_js'] = $this->load->view('continuidad/continuidad/listado_js','',TRUE);
-		$this->utils->template($this->_list2(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
+		$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
 	}
 	
 	public function crear($valoracion = '')
@@ -270,6 +263,7 @@ class Continuidad extends MX_Controller
 			}
 		}
 		
+		$view['estrategias'] = $this->general->get_table('estrategias_recuperacion');
 		$view['valoracion'] = $valoracion;
 		$view['crisis'] = $this->riesgos->get_allteams(array('e.id_tipo'=>1));
 		$view['recuperacion'] = $this->riesgos->get_allteams(array('e.id_tipo'=>2));
@@ -281,7 +275,7 @@ class Continuidad extends MX_Controller
 		$view['departamentos'] = $this->general->get_table('departamento');
 		$view['estados'] = $this->general->get_table('usuarios_estado');
 		$view['crearpcn_js'] = $this->load->view('continuidad/continuidad/crearpcn_js','',TRUE);
-		$this->utils->template($this->_list2(),'continuidad/continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
+		$this->utils->template($this->_list1(),'continuidad/continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
 	}
 
 	public function modificar_pcn($valoracion, $id_continuidad = '')
@@ -292,8 +286,6 @@ class Continuidad extends MX_Controller
 		$view['nivel'] = 15;
 		$this->load->helper('text');
 		$view['valoracion'] = $valoracion;
-		
-		$this->riesgos->get_allinvolucrados($id_continuidad);
 		
 		$where['id_continuidad'] = $id_continuidad;
 		if($this->general->exist('plan_continuidad',$where))
@@ -308,6 +300,7 @@ class Continuidad extends MX_Controller
 				base_url().'index.php/continuidad/listado_pcn/'.$valoracion => 'Listado de PCN',
 				'#' => $view['plan_continuidad']->codigo
 			);
+			$view['estrategias'] = $this->general->get_table('estrategias_recuperacion');
 			$view['crisis'] = $this->riesgos->get_allteams(array('e.id_tipo'=>1));
 			$view['recuperacion'] = $this->riesgos->get_allteams(array('e.id_tipo'=>2));
 			$view['logistica'] = $this->riesgos->get_allteams(array('e.id_tipo'=>3));
@@ -318,7 +311,7 @@ class Continuidad extends MX_Controller
 			$view['estados'] = $this->general->get_table('usuarios_estado');
 			$view['crearpcn_js'] = $this->load->view('continuidad/continuidad/crearpcn_js','',TRUE);
 			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-			$this->utils->template($this->_list2(),'continuidad/continuidad/'.$vista,$view,$this->title,'Modificar PCN','two_level');
+			$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Modificar PCN','two_level');
 		}else
 		{
 			$this->session->set_flashdata('alert_error','El Plan de Continuidad del Negocio que intenta modificar no se encuentra en la base de datos');

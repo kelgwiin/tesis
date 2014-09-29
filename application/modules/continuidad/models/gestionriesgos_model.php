@@ -147,4 +147,13 @@ class Gestionriesgos_model extends CI_Model
 		
 		return $personal;
 	}
+	
+	public function get_allestrategias($where = array())
+	{
+		$this->db->select('e.*, te.denominacion as tipoestrat_denom, te.parentesis as tipoestrat_parentesis');
+		if(!empty($where)) $this->db->where($where);
+		$this->db->join('tipo_estrategiasrecuperacion te','te.id_tipoestrategia = e.id_tipoestrategia');
+		$query = $this->db->get('estrategias_recuperacion e')->result();
+		return $query;
+	}
 }

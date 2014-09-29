@@ -166,6 +166,11 @@ $route['continuidad/gestion_riesgos/riesgos/eliminar/(:num)']				= "continuidad/
 $route['continuidad/equipos']												= "continuidad/equipos/listado_equipos";
 $route['continuidad/equipos/crear/(.*)']									= "continuidad/equipos/crear_equipo/$1";
 $route['continuidad/equipos/eliminar/(:num)']								= "continuidad/equipos/eliminar_equipo/$1";
+// ESTRATEGIAS DE RECUPERACION
+$route['continuidad/estrategias']											= "continuidad/estrategias";
+$route['continuidad/estrategias/crear']										= "continuidad/estrategias/crear_estrategia";
+$route['continuidad/estrategias/modificar/(:num)']							= "continuidad/estrategias/modificar_estrategia/$1";
+$route['continuidad/estrategias/eliminar/(:num)']							= "continuidad/estrategias/eliminar_estrategia/$1";
 
 
 // RUTAS DE USUARIOS
