@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	
-	<a class="btn btn-primary" target="blank" href="<?php echo site_url('index.php/continuidad/crear_maqueta') ?>">PDF</a>
+	<!-- <a class="btn btn-primary" target="blank" href="<?php echo site_url('index.php/continuidad/crear_maqueta') ?>">PDF</a> -->
 	
 	<div class="row" style="margin-top: 25px">
 
@@ -149,6 +149,7 @@
 						$desc_logistica = (isset($plan_continuidad->desc_logistica) && !empty($plan_continuidad->desc_logistica)) ? $plan_continuidad->desc_logistica : '';
 						$desc_rrpp = (isset($plan_continuidad->desc_rrpp ) && !empty($plan_continuidad->desc_rrpp )) ? $plan_continuidad->desc_rrpp  : '';
 						$desc_pruebas = (isset($plan_continuidad->desc_pruebas) && !empty($plan_continuidad->desc_pruebas)) ? $plan_continuidad->desc_pruebas : '';
+						$consideraciones = (isset($plan_continuidad->consideraciones) && !empty($plan_continuidad->consideraciones)) ? $plan_continuidad->consideraciones : '';
 					?>
 					<!-- Select Basic -->
 					<div class="form-group">
@@ -302,7 +303,7 @@
 			            </div>
 		            </div>
 		            
-		            <?php if(isset($plan_continuidad)) : ?>
+		            <?php if(isset($plan_continuidad) && !empty($plan_continuidad)) : ?>
 		            	<input type="hidden" name="id_continuidad" value="<?php echo $plan_continuidad->id_continuidad ?>" />
 		            <?php endif ?>
 		            
@@ -326,7 +327,7 @@
 						<label class="col-md-4 control-label">Otras consideraciones</label>
 						<div class="col-md-4">                     
 							<textarea class="form-control" rows="8" name="consideraciones"
-								placeholder="Otras consideraciones u observaciones importantes y necesarias para la correcta ejecución del presente PCN"></textarea>
+								placeholder="Otras consideraciones u observaciones importantes y necesarias para la correcta ejecución del presente PCN"><?php echo $consideraciones ?></textarea>
 						</div>
 					</div>
 					
@@ -342,6 +343,8 @@
 				            </div>
 			            </div>
 		            </div>
+		            
+		            
 		            
 					<!-- Buttons -->
 					<div class="form-group">

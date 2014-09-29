@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-4 col-lg-offset-2">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<div class="row">
@@ -63,7 +63,7 @@
 				</a>
 			</div>
 		</div>
-		<div class="col-lg-4">
+		<!-- <div class="col-lg-4">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<div class="row">
@@ -87,7 +87,7 @@
 						</div>
 					</div>
 				</a>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>

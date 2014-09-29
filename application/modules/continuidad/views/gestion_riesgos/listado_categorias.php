@@ -60,7 +60,9 @@
 										</div>
 										<div class="modal-body">
 											¿Está seguro que desea eliminar la categoría <strong><?php echo ucfirst($categoria->categoria) ?></strong>?<br />
-											Esto probablemente afecte a los riesgos que se encuentran dentro de esta categoría.
+											Esto probablemente afecte a los riesgos que se encuentran dentro de esta categoría.<br />
+											Al eliminar una categoría, se <strong>eliminarán</strong> los riesgos y amenazas y los Planes de Continuidad del Negocio ligados a la categoría en cuestión.<br />
+											Por favor proceda con cautela.
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>

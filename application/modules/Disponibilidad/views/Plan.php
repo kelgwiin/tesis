@@ -436,12 +436,20 @@ $(function () {
 </script>
 <div id="page-wrapper">
 	<div class="panel panel-info">
+		
+		
+		
       <div class="panel-heading">
-        <h3 class="panel-title">Plan de Disponibilidad</h3>        
-      </div> <br>
-      <button class="btn btn-default" onclick="location.href='tesis/index.php/Disponibilidad/'" type="button">Atras</button>
+        <h3 align="left" class="panel-title">Plan de Disponibilidad</h3>     
+        	<div class ="col-md-12" align="right">
+      			<button class="btn btn-danger" onclick="location.href='tesis/index.php/Disponibilidad/'" type="button">Atras</button>
+       		</div>   
+      </div><br>
+      
+       
+       
+       
 	 <br>
-      <br>
         <div class="col-lg-3">
             <div class="panel panel-info">
               <div class="panel-heading">

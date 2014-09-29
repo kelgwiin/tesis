@@ -18,8 +18,13 @@ class General_model extends CI_Model
 	// FUNCION QUE RETORNA UNA FILA DE UNA TABLA
 	// RECIBE EL NOMBRE DE LA TABLA -$table-, Y UN ARREGLO DE CONDICIONES -$where-
 	// @author f6rnando - FERNANDO PINTO
-	public function get_row($table,$where)
+	public function get_row($table,$where,$select='')
 	{
+		if(!empty($select))
+		{
+			foreach($select as $key => $value)
+				$this->db->select($value);
+		}
 		$query = $this->db->get_where($table,$where);
 		return $query->row();
 	}
@@ -85,6 +90,7 @@ class General_model extends CI_Model
 	// @author f6rnando - FERNANDO PINTO
 	public function update($table,$data,$where)
 	{
+		$new_data = '';
 		$query = $this->db->get_where($table,$where);
 		if($query->num_rows() != 0)
 		{
@@ -101,7 +107,7 @@ class General_model extends CI_Model
 	}
 
 
-		public function update2($table,$data,$where)
+	public function update2($table,$data,$where)
 	{
 		$query = $this->db->get_where($table,$where);
 		if($query->num_rows() != 0)
