@@ -186,14 +186,15 @@ class Disponibilidad extends MX_Controller
 	public function Recibirincidencia()
 	{
 		$this->load->library('form_validation');
+		$this->form_validation->set_rules('servic', 'Servicio Afectado', 'required|max_length[200]|xss_clean');
 		$this->form_validation->set_rules('codigo', 'Codigo de la Incidencia', 'required|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('descripcion', 'Descripcion de la Incidencia', 'required|min_length[5]|max_length[200]|xss_clean');
+		$this->form_validation->set_rules('descripcion', 'Descripcion de la Incidencia', 'required|max_length[200]|xss_clean');
 		$this->form_validation->set_rules('tiempo_caido', 'Tiempo de Paralizacion', 'xss_clean');
-		$this->form_validation->set_rules('pro_crit_afect', 'Numero de Procesos Criticos Afectados', 'xss_clean|numeric');
-		$this->form_validation->set_rules('tiempo_retraso', 'Tiempo de Retrasos de Trabajo', 'xss_clean');
-		$this->form_validation->set_rules('usuarios_afectados', 'Numero de Usuarios Afectados', 'xss_clean|numeric');
-		$this->form_validation->set_rules('confiabilidad_informacion', 'Porcentaje de Confiabilidad de Informacion', 'xss_clean');
-		$this->form_validation->set_rules('personal_recuperacion', 'Número de Recursos de Personal', 'xss_clean|numeric');
+		$this->form_validation->set_rules('tiempo_retraso', 'Tiempo de Retrasos de Trabajo', 'xss_clean');		
+		$this->form_validation->set_rules('pro_crit_afect', 'Procesos Criticos Afectados', 'xss_clean|numeric');
+		$this->form_validation->set_rules('usuarios_afectados', 'Usuarios Afectados', 'xss_clean|numeric');
+		$this->form_validation->set_rules('confiabilidad_informacion', 'Confiabilidad de Informacion', 'xss_clean|numeric');
+		$this->form_validation->set_rules('personal_recuperacion', 'Recursos de Personal', 'xss_clean|numeric');
 		
 		if($this->form_validation->run() === true){//Si se cumplen todas las reglas
 		$data = array(
@@ -211,7 +212,7 @@ class Disponibilidad extends MX_Controller
 		$this->disponibilidad_model->crearIncidencia($data);
 		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
 		$this->load->view('front/template',$data);
-	}
+		}
 		else {//Si no se cumplen			
 			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();						
 			$data['main_content'] = $this->load->view('Registrarincidencia',$data,TRUE);
@@ -228,11 +229,12 @@ class Disponibilidad extends MX_Controller
 	
 	public function Recibiropciones()
 	{
-		$this->load->library('form_validation');
+		$this->load->library('form_validation');		
+		$this->form_validation->set_rules('servic', 'Servicios', 'required|max_length[200]|xss_clean');
 		$this->form_validation->set_rules('costo_mejoras', 'Costo de la Mejora', 'required|numeric');
-		$this->form_validation->set_rules('descripcion_mejoras', 'Descripcion de la Mejora', 'required|min_length[5]|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('impacto_mejoras', 'Impacto de la Mejora', 'min_length[5]|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('beneficio_mejoras', 'Beneficio de la Mejora', 'min_length[5]|max_length[200]|xss_clean');
+		$this->form_validation->set_rules('descripcion_mejoras', 'Descripcion de la Mejora', 'required|max_length[200]|xss_clean');
+		$this->form_validation->set_rules('impacto_mejoras', 'Impacto de la Mejora', 'max_length[200]|xss_clean');
+		$this->form_validation->set_rules('beneficio_mejoras', 'Beneficios de la Mejora', 'max_length[200]|xss_clean');
 		
 		if($this->form_validation->run() === true){//Si se cumplen todas las reglas
 		$data = array(		
@@ -263,11 +265,12 @@ class Disponibilidad extends MX_Controller
 	
 	public function Recibirlogros()
 	{
-		$this->load->library('form_validation');
+		$this->load->library('form_validation');		
+		$this->form_validation->set_rules('servic', 'Servicio Afectado', 'required|max_length[200]|xss_clean');
 		$this->form_validation->set_rules('costo_logros', 'Costo de los Logros', 'required|numeric');
-		$this->form_validation->set_rules('descripcion_logros', 'Descripcion de los Logros', 'required|min_length[5]|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('impacto_logros', 'Impacto de los Logros', 'min_length[5]|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('beneficio_logros', 'Beneficios de los Logros', 'min_length[5]|max_length[200]|xss_clean');
+		$this->form_validation->set_rules('descripcion_logros', 'Descripcion de los Logros', 'required|max_length[200]|xss_clean');
+		$this->form_validation->set_rules('impacto_logros', 'Impacto de los Logros', 'max_length[200]|xss_clean');
+		$this->form_validation->set_rules('beneficio_logros', 'Beneficios de los Logros', 'max_length[200]|xss_clean');
 		
 		if($this->form_validation->run() === true){//Si se cumplen todas las reglas
 		$data = array(
@@ -299,10 +302,10 @@ class Disponibilidad extends MX_Controller
 	public function Recibiroportunidades()
 	{
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('area', 'Area/Sistema', 'min_length[5]|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|min_length[5]|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('potencial_beneficio', 'Potencial Beneficio de la Oportunidad Tecnologica', 'min_length[5]|max_length[200]|xss_clean');
-		$this->form_validation->set_rules('recursos_requeridos', 'Recursos Requeridos', 'min_length[5]|max_length[200]|xss_clean');
+		$this->form_validation->set_rules('area', 'Area/Sistema', 'max_length[200]|xss_clean');
+		$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|max_length[200]|xss_clean');
+		$this->form_validation->set_rules('potencial_beneficio', 'Potenciales Beneficios', 'max_length[200]|xss_clean');
+		$this->form_validation->set_rules('recursos_requeridos', 'Recursos Requeridos', 'max_length[200]|xss_clean');
 		
 		if($this->form_validation->run() === true){//Si se cumplen todas las reglas
 		$data = array(

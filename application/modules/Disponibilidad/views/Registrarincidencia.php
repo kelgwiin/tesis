@@ -1,10 +1,9 @@
-<br><center><h2>Formulario de Nueva Incidencia</h2></center>
+<br><div class="col-lg-12"> <h1>Formulario de Nueva Incidencia</h1> </div>
 
-
-<div class="alert alert-success alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      La sección de registrar incidencia proporciona informacion de lo ocurrido con una falla o la incidencia del proceso o servicio afectado. 
- </div>
+<ol class="breadcrumb">
+	<li class="active"><i class="fa fa-dashboard"></i> 
+	La sección de registrar incidencia proporciona informacion de lo ocurrido con una falla o la incidencia del proceso o servicio afectado.</li>
+</ol>
 
 <?php echo form_open("/index.php/Disponibilidad/Recibirincidencia/"); ?>
 <?php
@@ -31,7 +30,7 @@
 	$pro_crit_afect = array(
 	  'name' => 'pro_crit_afect',
 	   'size' => '40',
-	  'placeholder' => 'Numero de Procesos Criticos Afectados'  
+	  'placeholder' => 'Procesos Criticos Afectados'  
 	);
 	$tiempo_retraso = array(
 	  'name' => 'tiempo_retraso',
@@ -55,76 +54,84 @@
 	);
 
 ?>
-
-	<label for=""></label>			
+			<div id="page-wrapper">
+			<div class = "row">
+			<div class="row">
+			<div class = "col-md-12">
+			<div class="panel panel-default">
+			<div class="panel-body">
+			<div class = "col-md-10">
+				<fieldset>
+					<legend>Incidencia</legend>
 			<div class="form-group">
 				<div class = "col-md-5 control-label">
 					<?php echo form_label('Servicio Afectado:','serv' ); ?>
 					<?php if($servicios!=false){
-						echo form_dropdown('servic', $servicios);
-					}else{
-						echo "No hay Servicios Registrados";
-					}
-					 ?>			
+						echo form_dropdown('servic', $servicios); 	
+					}else{ ?>
+						<font color="red">No hay Servicios Registrados</font>
+					<?php  } ?>
+					 		
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" for="impacto_mejoras">Codigo de la Incidencia:</label>  
-					<div class ="col-md-1">
-   						<input type="text" class="input-group" name="codigo" value="<?php echo set_value('codigo'); ?>">
-					</div>
+					<label class="col-md-3 control-label" for="impacto_mejoras">Código de la Incidencia:</label>  
+   						<input type="text" class="input-group" name="codigo" value="<?php echo set_value('codigo'); ?>" class="form-control input-md" required="required">
 				</div>
 			</div>
-
-<br><br><br>
-    
-<?php echo form_error('descripcion'); ?>
-<form class="form-inline" role="form">
-  <div class="offset1 span5 well">
-    <label for="impacto_mejoras">Descripcion de la Incidencia:</label>
-    <textarea class="form-control" rows="3" name="descripcion" ></textarea>
-  </div> 
-<?php echo form_error('tiempo_caido'); ?>
-<form role="form">
-  <div class="offset1 span5 well">
-    <label for="impacto_mejoras">Tiempo de Paralizacion:</label>
-      <input type="text" class="form-control" name="tiempo_caido" value="<?php echo set_value('tiempo_caido'); ?>">
-  </div>
-<?php echo form_error('tiempo_retraso'); ?>
-<form role="form">
-  <div class="offset1 span5 well">
-    <label for="impacto_mejoras">Tiempo de Retrasos de Trabajo:</label>
-    <input type="text" class="form-control" name="tiempo_retraso" value="<?php echo set_value('tiempo_retraso'); ?>">
-  </div> 
-<?php echo form_error('pro_crit_afect'); ?>
-<form role="form">
-  <div class="offset1 span5 well">
-    <label for="impacto_mejoras">Numero de Procesos Criticos Afectados:</label>
-    <input type="text" class="form-control" name="pro_crit_afect" value="<?php echo set_value('pro_crit_afect'); ?>">
-  </div>       
- <?php echo form_error('usuarios_afectados'); ?> 
- <form role="form">
-  <div class="offset1 span5 well">
-    <label for="impacto_mejoras">Numero de Usuarios Afectados:</label>
-    <input type="text" class="form-control" name="usuarios_afectados" value="<?php echo set_value('usuarios_afectados'); ?>">
-  </div>
-  <?php echo form_error('personal_recuperacion'); ?>
-<form role="form">
-  <div class="offset1 span5 well">
-    <label for="impacto_mejoras">Número de Recursos de Personal:</label>
-    <input type="text" class="form-control" name="personal_recuperacion" value="<?php echo set_value('personal_recuperacion'); ?>">
-  </div>    
-  <?php echo form_error('confiabilidad_informacion'); ?>
-  <form role="form">
-  <div class="offset1 span5 well">
-    <label for="impacto_mejoras">Porcentaje de Confiabilidad de Informacion:</label>
-    <input type="text" class="form-control" name="confiabilidad_informacion" value="<?php echo set_value('confiabilidad_informacion'); ?>">
-  </div>
-     
-<br>
-
-<div class="form-group">
-	<label class="col-md-4 control-label" for=""></label>
-		<div class="col-md-6 col-xs-12">
+			<form class="form-inline" role="form">
+  				<div class="col-md-11 control-label">
+    				<label for="impacto_mejoras">Descripcion de la Incidencia:</label>
+   					 <textarea class="form-control" rows="3" name="descripcion" class="form-control input-md" required="required"></textarea>
+  				</div> 
+			<br><br><br><br><br><br>
+			
+			<font color="red"><?php echo form_error('tiempo_caido'); ?></font>
+			<form role="form">
+  			<div class="col-md-5 control-label">
+   				 <label for="impacto_mejoras">Tiempo de Paralizacion:</label>
+     			 <input type="text" class="form-control" name="tiempo_caido" value="<?php echo set_value('tiempo_caido'); ?>" data-toggle="tooltip" data-original-title="Ej: 3 min, 1 hora, 5 segundos" >
+  			</div>
+  			
+  			<font color="red"><?php echo form_error('tiempo_retraso'); ?></font>
+			<form role="form">
+ 			 <div class="col-md-5 control-label">
+   				 <label for="impacto_mejoras">Tiempo de Retrasos de Trabajo:</label>
+   				 <input type="text" class="form-control" name="tiempo_retraso" value="<?php echo set_value('tiempo_retraso'); ?>" data-toggle="tooltip" data-original-title="Ej: 3 min, 1 hora, 5 segundos" >
+ 			 </div> 
+ 			 <br><br><br><br>
+ 			 
+ 			 <font color="red"><?php echo form_error('pro_crit_afect'); ?></font>			
+			<form role="form">
+ 			 <div class="col-md-5 control-label">
+   				 <label for="impacto_mejoras">Procesos Criticos Afectados:</label>
+   				 <input type="text" class="form-control" name="pro_crit_afect" value="<?php echo set_value('pro_crit_afect'); ?>" data-toggle="tooltip" data-original-title="Número de Procesos Criticos Afectados">
+  			</div>       
+  			
+  			<font color="red"><?php echo form_error('usuarios_afectados'); ?></font> 			 
+ 			<form role="form">
+ 			 <div class="col-md-5 control-label">
+   				 <label for="impacto_mejoras">Usuarios Afectados:</label>
+   				 <input type="text" class="form-control" name="usuarios_afectados" value="<?php echo set_value('usuarios_afectados'); ?>" data-toggle="tooltip" data-original-title="Número de Usuarios Afectados">
+ 			 </div>
+ 			 <br><br><br><br>
+ 			 
+ 			 <font color="red"><?php echo form_error('personal_recuperacion'); ?></font>   			
+			<form role="form">
+ 			 <div class="col-md-5 control-label">
+   				 <label for="impacto_mejoras">Recursos de Personal:</label>
+   				 <input type="text" class="form-control" name="personal_recuperacion" value="<?php echo set_value('personal_recuperacion'); ?>" data-toggle="tooltip" data-original-title="Número de personas involucradas en la solución de la incidencia">
+ 			 </div>    
+ 			
+ 			 <font color="red"><?php echo form_error('confiabilidad_informacion'); ?></font>  			
+ 			 <form role="form">
+ 			 <div class="col-md-5 control-label">
+  				  <label for="impacto_mejoras">Confiabilidad de Informacion:</label>
+   				 <input type="text" class="form-control" name="confiabilidad_informacion" value="<?php echo set_value('confiabilidad_informacion'); ?>" data-toggle="tooltip" data-original-title="Ingrese el número de porcentaje de confiabilidad de la información">
+  			</div>
+  			 <br><br><br><br>
+  			<div class="form-group">
+			<label class="col-md-4 control-label" for=""></label>
+			<div class="col-md-6 col-xs-12">
 			<div class="row">
 				<div class = "col-md-3 col-xs-6">
 					<button id="" type = "submit" class="btn btn-primary">Guardar</button>
@@ -137,11 +144,19 @@
 				</a>	
 			</div>
 
-		<div class = "col-md-6"></div><!-- Vacío-->
-		</div>
-		</div><!-- /col-md-6-->
-</div><!-- /form-group -->
-
+			<div class = "col-md-6"></div><!-- Vacío-->
+			</div>
+			</div><!-- /col-md-6-->
+			</div><!-- /form-group -->
+			
+				</fieldset>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
 </body>
 </html>
 			

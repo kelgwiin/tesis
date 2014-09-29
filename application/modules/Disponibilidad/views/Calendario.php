@@ -1,6 +1,17 @@
 <br><center><h2>Calendario de Eventos</h2></center>
-<button class="btn btn-primary" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/NuevoEvento/'" type="button">Nuevo Evento</button>
-<button class="btn btn-default" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/'" type="button">Atras</button>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-md-10" style="left: 51px">
+					<a href="<?php echo base_url() ?>index.php/Disponibilidad/NuevoEvento/" class="btn btn-success">
+						<i class="fa fa-plus"></i> Nuevo Evento</a>
+			</div>
+				
+			<div class ="col-md-1">
+				<input type="button" class="btn btn-danger" value="Atras" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/Plan/'"/>				
+			</div>
+
+		</div>
+	</div><!-- /form-group -->
 		
 <!DOCTYPE html>
 <html lang="en">
