@@ -246,7 +246,11 @@ def escribir_archivo(array):
                 pagerr += array[pid][9]
                 if timealive < array[pid][10]:
                     timealive = array[pid][10]
-            status = "R"
+            tot = cpu + memoria + lectop + escriop + ddlect + ddescri + ddtotal + pagerr + timealive
+            if tot is 0:
+                status = "C"
+            else:
+                status = "R"
             timestamp = (time.strftime('%Y-%m-%d %H:%M:%S'))
             output[nombre] = ["P", nombre, cpu, memoria, lectop, escriop, ddlect, ddescri, ddtotal, pagerr,
                               timealive, status, timestamp, procesos]
@@ -356,7 +360,7 @@ def pid_stat(p, array):
         if tiempos:
             print "pid_stat: %f" % despues
     except KeyError or LookupError:
-        array[p] = ["", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""]
+        array[p] = ["C", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""]
     return array
 
 
