@@ -112,7 +112,7 @@ $(function (){
 	<div class="col-lg-12">
 		
     	<h1>Gestión de la Capacidad</h1>
-        
+
         <ol class="breadcrumb">
           <li class="active"><i class="fa fa-dashboard"></i> Descripción general de las métricas</li>
         </ol>

@@ -6,7 +6,8 @@
     <meta name="description" content="">
     <meta name="author" content="#">
     <base href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/'; ?>" />
-    <title>Tesis Suprema</title>
+    <title>Gestión de la Capacidad | SIGITEC</title>
+     <link rel="icon" href="<?php echo site_url('assets/back/img/favicon.ico') ?>" type="image/x-icon" />
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/bootstrap.css" >
     <!-- Add custom CSS here -->
@@ -22,7 +23,7 @@
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/tables.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/highcharts/highcharts.js"></script>
-	<script src="<?php echo base_url(); ?>assets/front/highcharts/exporting.js"></script>
+	 <script src="<?php echo base_url(); ?>assets/front/highcharts/exporting.js"></script>
     
   </head>
 
@@ -144,7 +145,7 @@
                 <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
                 <li><a href="#"><i class="fa fa-gear"></i> Preferencias</a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
+                <li><a href="<?php echo base_url() ?>index.php/usuarios/cerrar-sesion"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
               </ul>
             </li>
           </ul>
