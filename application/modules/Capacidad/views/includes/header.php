@@ -68,7 +68,6 @@
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/ComponentesIT/Procesador/">Procesador</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/ComponentesIT/Memoria/">Memoria</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/ComponentesIT/Almacenamiento/">Almacenamiento</a></li>
-                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/ComponentesIT/Redes/">Redes</a></li>
               </ul>
             </li>
             <!-- Modulo de Servicios -->
@@ -79,7 +78,6 @@
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Servicio/Servicio1/Procesador">Procesador</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Servicio/Servicio1/Memoria">Memoria</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Servicio/Servicio1/Almacenamiento">Almacenamiento</a></li>
-                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Servicio/Servicio1/Redes">Redes</a></li>
               </ul>
             </li>
             <!-- Modulo de Departamentos -->
@@ -90,7 +88,6 @@
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Departamentos/">Procesador</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Departamentos/">Memoria</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Departamentos/">Almacenamiento</a></li>
-                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Departamentos">Redes</a></li>
               </ul>
             </li>
             <!-- Modulo de Umbrales -->
@@ -101,7 +98,6 @@
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Umbrales/">Procesador</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Umbrales/">Memoria</a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Umbrales/">Almacenamiento</a></li>
-                <li><a href="<?php echo base_url(); ?>index.php/Capacidad/Umbrales">Redes</a></li>
               </ul>
             </li>
             <!-- Gestion de la Capacidad -->
