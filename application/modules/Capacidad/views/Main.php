@@ -112,7 +112,7 @@ $(function (){
 	<div class="col-lg-12">
 		
     	<h1>Gestión de la Capacidad</h1>
-        
+
         <ol class="breadcrumb">
           <li class="active"><i class="fa fa-dashboard"></i> Descripción general de las métricas</li>
         </ol>
@@ -275,7 +275,7 @@ $(function (){
 	                  </div>
 	                </div>
 	              </div>
-	              <a href="#">
+	              <a href="<?php echo base_url(); ?>">
 	                <div class="panel-footer announcement-bottom">
 	                  <div class="row">
 	                    <div class="col-xs-6">

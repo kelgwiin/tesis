@@ -41,9 +41,6 @@ $(function () {
         }, {
             name: 'Disco',
             data: [10.9, 30.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 49.0, 43.9, 11.0]
-        }, {
-            name: 'Red',
-            data: [31.9, 14.2, 15.7, 18.5, 21.9, 35.2, 19.0, 16.6, 14.2, 10.3, 16.6, 44.8]
         }]
     });
 });
@@ -59,7 +56,7 @@ $(function () {
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          En este apartado se muestran los distintos recursos de la Organización. Usted deberá seleccionar el que desee evaluar.
+          En este apartado se muestra el uso de los distintos recursos de la Organización. Usted deberá seleccionar el que desee evaluar.
         </div>
         
 	</div>
@@ -153,33 +150,6 @@ $(function () {
 	                </div>
 	              </div>
 	              <a href="<?php echo site_url('index.php/Capacidad/ComponentesIT/Almacenamiento');?>/">
-	                <div class="panel-footer announcement-bottom">
-	                  <div class="row">
-	                    <div class="col-xs-6">
-	                      Examinar
-	                    </div>
-	                    <div class="col-xs-6 text-right">
-	                      <i class="fa fa-arrow-circle-right"></i>
-	                    </div>
-	                  </div>
-	                </div>
-	              </a>
-	            </div>
-	          </div>
-	          
-	          <div class="col-lg-3">
-	            <div class="panel panel-info">
-	              <div class="panel-heading">
-	                <div class="row">
-	                  <div class="col-xs-6">
-	                  		<i class="fa fa-sitemap fa-5x"></i>
-	                  </div>
-	                  <div class="col-xs-6 text-center">
-	                    <p class="announcement-text">Tráfico de Red</p>
-	                  </div>
-	                </div>
-	              </div>
-	              <a href="<?php echo site_url('index.php/Capacidad/ComponentesIT/Redes');?>/">
 	                <div class="panel-footer announcement-bottom">
 	                  <div class="row">
 	                    <div class="col-xs-6">

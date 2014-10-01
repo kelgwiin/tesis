@@ -28,86 +28,34 @@ class Gestion_riesgos extends MX_Controller
 			"href" => site_url(''),
 			"icon" => "fa fa-flag"
 		);
-		$l[] = array(
-			"chain" => "Continuidad del Negocio",
-			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-retweet"
-		);
 		$sublista = array
 		(
 			array
 			(
-				'chain' => 'Categorías de riesgos y amenazas',
-				'href'=> site_url('index.php/continuidad/gestion_riesgos/categorias')
+				'chain' => 'Gestión de riesgos y amenazas',
+				'href'=> site_url('index.php/continuidad/gestion_riesgos')
 			),
 			array
 			(
-				'chain' => 'Listado de riesgos y amenazas',
-				'href'=> site_url('index.php/continuidad/gestion_riesgos/riesgos')
+				'chain' => 'Equipos de desarrollo',
+				'href'=> site_url('index.php/continuidad/equipos')
 			),
 			array
 			(
-				'chain' => 'Vulnerabilidades',
-				'href'=> site_url('index.php/continuidad/gestion_riesgos/vulnerabilidades')
+				'chain' => 'Estrategias para la recuperación',
+				'href'=> site_url('index.php/continuidad/estrategias')
+			),
+			array
+			(
+				'chain' => 'Planes de continuidad del negocio',
+				'href'=> site_url('index.php/continuidad/seleccionar_listado')
 			)
 		);
 		$l[] = array(
-			"chain" => "Gestión de Riesgos y Amenazas",
-			"href" => site_url('index.php/continuidad/gestion_riesgos'),
-			"icon" => "fa fa-fire-extinguisher",
+			"chain" => "Continuidad del Negocio",
+			"href" => site_url('index.php/continuidad'),
+			"icon" => "fa fa-retweet",
 			"list" => $sublista
-		);
-		return $l;
-	}
-	private function _categorias()
-	{
-		$l =  array();
-
-		$l[] = array(
-			"chain" => "Volver a Módulos Principales",
-			"href" => site_url(''),
-			"icon" => "fa fa-flag"
-		);
-		$l[] = array(
-			"chain" => "Continuidad del Negocio",
-			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-retweet"
-		);
-		$l[] = array(
-			"chain" => "Gestión de Riesgos y Amenazas",
-			"href" => site_url('index.php/continuidad/gestion_riesgos'),
-			"icon" => "fa fa-fire-extinguisher"
-		);
-		$l[] = array(
-			"chain" => "Categorías",
-			"href" => site_url('index.php/continuidad/gestion_riesgos/categorias'),
-			"icon" => "fa fa-fire"
-		);
-		return $l;
-	}
-	private function _riesgos()
-	{
-		$l =  array();
-
-		$l[] = array(
-			"chain" => "Volver a Módulos Principales",
-			"href" => site_url(''),
-			"icon" => "fa fa-flag"
-		);
-		$l[] = array(
-			"chain" => "Continuidad del Negocio",
-			"href" => site_url('index.php/continuidad'),
-			"icon" => "fa fa-retweet"
-		);
-		$l[] = array(
-			"chain" => "Gestión de Riesgos y Amenazas",
-			"href" => site_url('index.php/continuidad/gestion_riesgos'),
-			"icon" => "fa fa-fire-extinguisher"
-		);
-		$l[] = array(
-			"chain" => "Listado de Riesgos y Amenazas",
-			"href" => site_url('index.php/continuidad/gestion_riesgos/riesgos'),
-			"icon" => "fa fa-tasks"
 		);
 		return $l;
 	}
@@ -153,7 +101,7 @@ class Gestion_riesgos extends MX_Controller
 		
 		$view['categorias'] = $this->general->get_table('categorias_riesgos');
 		
-		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de categorías','two_level');
+		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de categorías','two_level');
 	}
 	
 	// SE CREAN CATEGORIAS NUEVAS PARA LOS RIESGOS Y AMENAZAS. 
@@ -217,7 +165,7 @@ class Gestion_riesgos extends MX_Controller
 			}
 		}
 		
-		$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Agregar nueva categoría','two_level');
+		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Agregar nueva categoría','two_level');
 	}
 	
 	// ESTA FUNCION LEVANTA LA VISTA crear_categoria PERO CON LA INFORMACION DE LA CATEGORIA SOLICITADA YA EN EL FORMULARIO A MANERA DE VER O ACTUALIZAR
@@ -241,7 +189,7 @@ class Gestion_riesgos extends MX_Controller
 				'#' => $view['categoria']->categoria
 			);
 			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar categoría','two_level');
+			$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar categoría','two_level');
 		}else
 		{
 			$this->session->set_flashdata('alert_error','La categoría que intenta modificar no se encuentra en la base de datos');
@@ -269,7 +217,7 @@ class Gestion_riesgos extends MX_Controller
 			$this->session->set_flashdata('alert_error','La categoría que intenta eliminar no se encuentra en la base de datos');
 			
 		if($vista == 'continuidad_sinpermiso')
-			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Eliminar categoría','two_level');
+			$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Eliminar categoría','two_level');
 			
 		redirect(site_url('index.php/continuidad/gestion_riesgos/categorias'));
 	}
@@ -298,7 +246,7 @@ class Gestion_riesgos extends MX_Controller
 			// $riesgo->valoracion = $this->valoracion_riesgo($riesgo);
 		
 		$view['riesgos'] = $riesgos;
-		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de riesgos','two_level');
+		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de riesgos','two_level');
 	}
 	
 	public function crear_riesgo()
@@ -356,7 +304,7 @@ class Gestion_riesgos extends MX_Controller
 			'#' => 'Crear riesgo'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Agregar nuevo riesgo','two_level');
+		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Agregar nuevo riesgo','two_level');
 	}
 
 	// ESTA FUNCION LEVANTA LA VISTA crear_categoria PERO CON LA INFORMACION DE LA CATEGORIA SOLICITADA YA EN EL FORMULARIO A MANERA DE VER O ACTUALIZAR
@@ -382,7 +330,7 @@ class Gestion_riesgos extends MX_Controller
 				'#' => $view['riesgo']->denominacion
 			);
 			$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-			$this->utils->template($this->_riesgos(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar riesgos','two_level');
+			$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Modificar riesgos','two_level');
 		}else
 		{
 			$this->session->set_flashdata('alert_error','La amenaza que intenta modificar no se encuentra en la base de datos');
@@ -409,7 +357,7 @@ class Gestion_riesgos extends MX_Controller
 			$this->session->set_flashdata('alert_error','La amenaza/riesgo que intenta eliminar no se encuentra en la base de datos');
 			
 		if($vista == 'continuidad_sinpermiso')
-			$this->utils->template($this->_categorias(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Eliminar riesgos','two_level');
+			$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Eliminar riesgos','two_level');
 			
 		redirect(site_url('index.php/continuidad/gestion_riesgos/riesgos'));
 	}

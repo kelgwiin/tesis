@@ -31,7 +31,7 @@ class Operaciones extends MX_Controller
         {
             if($result[$key]["status"]) $out = "OK!";
             else $out = "ERROR!";
-            echo $value.'     STATUS:'.$out.'    ELAPSED:'.$result[$key]["status"].' seconds.';
+            echo $value.'     STATUS:'.$out.'    ELAPSED:'.$result[$key]["status"].' seconds.<br>';
         }
     }
 }
