@@ -8,6 +8,7 @@
 		</div>
 	</div>
 
+	
 	<div class="panel panel-primary">
 		<div class="panel-heading"> <i class="fa fa-building-o"></i> Proceso de Negocio - Actualizar</div>
 		<br>

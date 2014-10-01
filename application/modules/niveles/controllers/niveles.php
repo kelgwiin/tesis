@@ -104,9 +104,12 @@ class Niveles extends MX_Controller
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/acuerdos_de_NS','','Niveles de Servicio','','two_level');
 	}
 
-		public function crear_acuerdos_de_NS()
+	public function crear_acuerdos_de_NS()
 	{
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/crear_acuerdo_de_NS','','Niveles de Servicio','','two_level');
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['personal'] = $this->general->get_table('personal');
+
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/crear_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
 	}
 
 

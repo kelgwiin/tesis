@@ -76,6 +76,10 @@ class Catalogo extends MX_Controller
 				'chain' => 'Gesti&#243;n de Servicios de Apoyo',
 				'href'=> site_url('index.php/cargar_datos/servicio_soportados')
 			),
+			array(
+				'chain' => 'Infraestructura de Servicios',
+				'href'=> site_url('index.php/cargar_datos/servicio_infraestructura')
+			),
 		);
 		$l[] = array(
 			"chain" => "Gesti&#243;n del Cat&#225;logo",
