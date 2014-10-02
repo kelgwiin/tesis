@@ -6,13 +6,25 @@ class Capacidad extends MX_Controller
     {
         parent::__construct();
         $this->load->module('utilities/utils');
+        $this->load->model('Capacity_planning_model','capacity');
     }
+
+    public function dateLastMonth($days = FALSE,$month = FALSE)
+	{
+		date_default_timezone_set("America/Caracas" );
+        $fecha_actual = date("Y-m-d",time());
+        $fecha_dia_anterior = $fecha_actual;
+        $fecha_mes_pasado = strtotime ( '-'.$month.'month' , strtotime ( $fecha_actual ) ) ;        
+        $dateArray['fecha_mes_pasado']  = date ( 'Y-m-j H-i-s', $fecha_mes_pasado );
+        $fecha_dia_anterior = strtotime ( '-'.$days.' day' , strtotime ( $fecha_dia_anterior ) ) ;
+        $dateArray['fecha_dia_anterior'] = date ( 'Y-m-j H-i-s', $fecha_dia_anterior );
+        return $dateArray;
+	}
 
 	public function index()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
 		$data['main_content'] = $this->load->view('Main','',TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
@@ -21,8 +33,9 @@ class Capacidad extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/ComponentesITGeneral','',TRUE);
+		$dateArray = $this->dateLastMonth(1,1);
+		$data['resourceUse'] = $this->capacity->resourceUse($dateArray,"proceso_historial_id,tasa_ram,tasa_cpu,comando_ejecutable,tasa_lectura_dd,tasa_escritura_dd,timestamp",FALSE);
+		$data['main_content'] = $this->load->view('ComponentesIT/ComponentesITGeneral',$data,TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
 	public function ProcesadorComponentesIT()
