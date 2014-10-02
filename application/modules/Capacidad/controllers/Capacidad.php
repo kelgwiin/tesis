@@ -8,7 +8,17 @@ class Capacidad extends MX_Controller
         $this->load->module('utilities/utils');
         $this->load->model('Capacity_planning_model','capacity');
     }
-
+    /*
+	 * Genera un rango de fecha en formato Y-m-j H-i-s
+	 * 
+	 * $days es el parametro de los dias a restar
+	 * $month es el parametro de los meses a restar
+	 * @return array
+	 * - Array (
+	 * 		fecha_mes_pasado => 
+	 * 		fecha_dia_anterior => 
+	 * )
+	 */
     public function dateLastMonth($days = FALSE,$month = FALSE)
 	{
 		date_default_timezone_set("America/Caracas" );
@@ -19,8 +29,7 @@ class Capacidad extends MX_Controller
         $fecha_dia_anterior = strtotime ( '-'.$days.' day' , strtotime ( $fecha_dia_anterior ) ) ;
         $dateArray['fecha_dia_anterior'] = date ( 'Y-m-j H-i-s', $fecha_dia_anterior );
         return $dateArray;
-	}
-
+	}//end of function: dateLastMonth
 	public function index()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
@@ -42,32 +51,27 @@ class Capacidad extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/ProcesosComponentesIT','',TRUE);
+		$dateArray = $this->dateLastMonth(1,1);
+		$data['cpuUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_cpu,comando_ejecutable,timestamp",FALSE);
+		$data['main_content'] = $this->load->view('ComponentesIT/ProcesosComponentesIT',$data,TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
 	public function MemoriaComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/MemoriaComponentesIT','',TRUE);
+		$dateArray = $this->dateLastMonth(1,1);
+		$data['ramUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_ram,comando_ejecutable,timestamp",FALSE);
+		$data['main_content'] = $this->load->view('ComponentesIT/MemoriaComponentesIT',$data,TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
 	public function AlmacenamientoComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/AlmacenamientoComponentesIT','',TRUE);
-		$this->load->view('Capacidad/template',$data);
-	}
-	public function RedesComponentesIT()
-	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/RedesComponentesIT','',TRUE);
+		$dateArray = $this->dateLastMonth(1,1);
+		$data['ddUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_lectura_dd,tasa_escritura_dd,comando_ejecutable,timestamp",FALSE);
+		$data['main_content'] = $this->load->view('ComponentesIT/AlmacenamientoComponentesIT',$data,TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
 	/* Inicio Módulo Servicios */
@@ -115,15 +119,6 @@ class Capacidad extends MX_Controller
 		$data['main_content'] = $this->load->view('Servicios/AlmacenamientoServicio',$datos,TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
-	public function RedesServicio()
-	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 10);
-
-		$datos['nombre_servicio'] = $this->uri->segment(3);
-		$data['main_content'] = $this->load->view('Servicios/RedesServicio',$datos,TRUE);
-		$this->load->view('Capacidad/template',$data);
-	}
 	/* Fin Módulo Servicios */
 	public function Departamentos()
 	{
@@ -133,7 +128,7 @@ class Capacidad extends MX_Controller
 		$data['main_content'] = $this->load->view('Departamentos','',TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
-	
+	/* Módulo Umbrales */
 	public function Umbrales()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');

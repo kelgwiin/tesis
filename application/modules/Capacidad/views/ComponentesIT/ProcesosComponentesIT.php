@@ -1,4 +1,19 @@
 <script>
+	var cpuArray= [];
+</script>
+<?php
+$resourceIndex = 0;
+foreach ($cpuUse as $resourceUseObject) 
+{
+?>
+	<script>
+	cpuArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_cpu'] ;?>;
+	</script>
+	<?php
+	$resourceIndex++;
+}
+?>
+<script>
 $(function () {
     $('#container').highcharts({
         title: {
