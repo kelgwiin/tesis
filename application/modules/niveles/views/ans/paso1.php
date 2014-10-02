@@ -1,6 +1,5 @@
 
-
- <h2> PASO 1</h2><hr><br><br>
+ <h3 class = "text-primary"> Selección del Servicio</h3> <hr><br>
 
   <div class="row">
 	<div class="col-md-5">
@@ -30,6 +29,8 @@
 	</div> 
   </div>
  <br><br>
+
+ <h3 class = "text-primary"> Partes interesadas</h3> <hr><br>
 
  <div class="row">
 	<div class="col-md-5">
@@ -83,46 +84,14 @@
 
 	</div>
   </div>
- <br>
-  <div class="row">
-  	<div class="col-md-5">
-    	<div class="form-group">
-			
-			<div class="required">
-				<label for="service_name" class="col-md-4 control-label">Fecha de Inicio</label> 
-			</div>
-
-		    <div class="col-md-7">
-
-		       <input type='text' class="form-control" id='datetimepicker6'/>
-		    </div>
-		</div>
-	</div> 	
-
-	  	<div class="col-md-7">
-    	<div class="form-group">
-			
-			<div class="required">
-				<label for="service_name" class="col-md-4 control-label">Fecha de Culminaci&#243;n</label> 
-			</div>
-
-		    <div class="col-md-7" >
-
-		       <input type='text' class="form-control" id='datetimepicker6'/>
-		    </div>
-		</div>
-	</div> 
-
-  </div>
 
 
 
-
- <br><br>
+ <br><br><hr>
 
  <div class='row tex'>
 	 <div class="col-md-2 col-md-offset-5">
-	 <button id="activate-step-2" class="btn btn-primary">Siguiente</button>
+	 <button id="activate-step-2" class="btn btn-primary btn-lg">Siguiente</button>
 	 </div>
  </div>
  <br>

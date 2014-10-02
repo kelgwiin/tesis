@@ -1,5 +1,22 @@
 $(document).ready(function() {
-    
+
+    //Editor de Texto
+        tinymce.init({
+           selector: "textarea",
+           plugins: [
+                       " advlist autolink autosave link image lists charmap print preview hr  anchor pagebreak spellchecker",
+                       "searchreplace wordcount visualblocks visualchars code insertdatetime media nonbreaking",
+                       "table contextmenu directionality smileys template textcolor paste textcolor colorpicker textpattern"
+                    ],
+           toolbar1: "bold italic underline strikethrough | bullist numlist outdent indent | fontsizeselect | cut copy paste | link",
+           menubar: false,
+           toolbar_items_size: 'small',
+           language : 'es',
+           entity_encoding : "raw"
+           });
+
+
+    // Pasos 
     var navListItems = $('ul.setup-panel li a'),
         allWells = $('.setup-content');
 
@@ -46,10 +63,35 @@ $(document).ready(function() {
         $('ul.setup-panel li a[href="#step-4"]').trigger('click');
         
     });   
-
+    // END Pasos 
 
     //DATEPICKER
 
-    $('#datetimepicker6').datepicker(); 
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+     
+    var checkin = $('#dpd1').datepicker({
+      onRender: function(date) {
+        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {
+      if (ev.date.valueOf() > checkout.date.valueOf()) {
+        var newDate = new Date(ev.date)
+        newDate.setDate(newDate.getDate() + 1);
+        checkout.setValue(newDate);
+      }
+      checkin.hide();
+      $('#dpd2')[0].focus();
+    }).data('datepicker');
+    var checkout = $('#dpd2').datepicker({
+      onRender: function(date) {
+        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {
+      checkout.hide();
+    }).data('datepicker');
+
+    //END DATEPICKER
+
 });
 
