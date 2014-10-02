@@ -8,6 +8,33 @@
 		?>
 	</div>
 	<div class="row">
+		<!-- <a href="<?php echo site_url('index.php/continuidad/backup') ?>">Respaldar Base de Datos</a> -->
+		<div class="col-lg-4 col-lg-offset-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<i class="fa fa-save fa-5x"></i>
+						</div>
+						<div class="col-xs-6 text-center">
+							<p class="announcement-text">Respaldar la Base de Datos del Sistema</p>
+						</div>
+					</div>
+				</div>
+				<a href="<?php echo site_url('index.php/continuidad/respaldos') ?>">
+					<div class="panel-footer announcement-bottom">
+						<div class="row">
+							<div class="col-xs-6">
+								Examinar
+							</div>
+							<div class="col-xs-6 text-right">
+								<i class="fa fa-arrow-circle-right"></i>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
 		<div class="col-lg-4 col-lg-offset-2">
 			<div class="panel panel-info">
 				<div class="panel-heading">

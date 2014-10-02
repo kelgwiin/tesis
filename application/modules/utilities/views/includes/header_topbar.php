@@ -167,9 +167,9 @@
                 <?php $nombre_usuario = !empty($this->session->userdata('user')->nombre) ? $this->session->userdata('user')->nombre : 'Usuario' ?>
                 <?php echo $nombre_usuario; ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
-                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
-                <li><a href="#"><i class="fa fa-gear"></i> Preferencias</a></li>
+                <li><a href="<?php echo site_url('index.php/usuarios/ficha/'.$this->session->userdata('user')->id_usuario) ?>"><i class="fa fa-user"></i> Perfil</a></li>
+                <!-- <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
+                <li><a href="#"><i class="fa fa-gear"></i> Preferencias</a></li> -->
                 <li class="divider"></li>
                 <li><a href="<?php echo base_url() ?>index.php/usuarios/cerrar-sesion"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
               </ul>
