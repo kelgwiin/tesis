@@ -91,10 +91,16 @@ class Costos extends MX_Controller
 			//Ajax: Evolución de los Componentes de TI
 			case 'evol_comp_ti':
 				$year = $this->input->post('anio_comp_ti');
+				$recalcular = $this->input->post('recalcular');// Indica si se recalcula la estructura de costos para el año dado
 
-				//Se calculan los costos de un año, si estos fueron previamente
-				//calculados no se vuelven a realizar los cálculos.
-				$info = $this->historicos_model->evol_comp_ti($year);
+				if(isset($recalcular) && $recalcular){
+					//Se calculan los costos de un año, si estos fueron previamente
+					//calculados no se vuelven a realizar los cálculos.
+					$info = $this->historicos_model->evol_comp_ti($year);	
+				}else{
+					//Se recalculan
+					$info = $this->historicos_model->evol_comp_ti($year,true);
+				}
 
 				if($info){
 					$data = array('data'=>$info, 'estatus'=>"ok");
