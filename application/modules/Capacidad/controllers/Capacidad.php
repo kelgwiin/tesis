@@ -7,7 +7,142 @@ class Capacidad extends MX_Controller
         parent::__construct();
         $this->load->module('utilities/utils');
         $this->load->model('Capacity_planning_model','capacity');
+		//Sidebar
+		$this->list_sidebar = $this->utils->list_sidebar_costos();
     }
+    private $title = 'Módulo de Gestión de Capacidad';
+    private function sideBarList()
+	{
+		$l =  array();
+
+		$l[] = array(
+			"chain" => "Volver a Módulos Principales",
+			"href" => site_url(''),
+			"icon" => "fa fa-flag"
+		);
+		$l[] = array(
+			"chain" => "Descripción",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-bar-chart-o"
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT/Procesador')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT/Memoria')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT/Almacenamiento')
+			)
+		);
+		$l[] = array(
+			"chain" => "Componentes IT",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/Servicios')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/Servicio/Servicio1/Procesador')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/Servicios/Servicio1/Memoria')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/Servicios/Servicio1/Almacenamiento')
+			)
+		);
+		$l[] = array(
+			"chain" => "Servicios",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			)
+		);
+		$l[] = array(
+			"chain" => "Departamentos",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			)
+		);
+		$l[] = array(
+			"chain" => "Umbrales",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		return $l;
+	}
     /*
 	 * Genera un rango de fecha en formato Y-m-j H-i-s
 	 * 
@@ -34,8 +169,9 @@ class Capacidad extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-		$data['main_content'] = $this->load->view('Main','',TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$vista = ($permiso) ? 'Main' : 'capacidadSinPermiso';
+		$view['nivel'] = 10;
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	/* Inicio Módulo Componentes */
 	public function ComponentesIT()
@@ -43,36 +179,37 @@ class Capacidad extends MX_Controller
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
-		$data['resourceUse'] = $this->capacity->resourceUse($dateArray,"proceso_historial_id,tasa_ram,tasa_cpu,comando_ejecutable,tasa_lectura_dd,tasa_escritura_dd,timestamp",FALSE);
-		$data['main_content'] = $this->load->view('ComponentesIT/ComponentesITGeneral',$data,TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$vista = ($permiso) ? 'ComponentesIT/ComponentesITGeneral' : 'capacidadSinPermiso';
+		$view['nivel'] = 10;
+		$view['resourceUse'] = $this->capacity->resourceUse($dateArray,"proceso_historial_id,tasa_ram,tasa_cpu,comando_ejecutable,tasa_lectura_dd,tasa_escritura_dd,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function ProcesadorComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
-		$data['cpuUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_cpu,comando_ejecutable,timestamp",FALSE);
-		$data['main_content'] = $this->load->view('ComponentesIT/ProcesosComponentesIT',$data,TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$vista = ($permiso) ? 'ComponentesIT/ProcesosComponentesIT' : 'capacidadSinPermiso';
+		$view['cpuUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_cpu,comando_ejecutable,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function MemoriaComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
-		$data['ramUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_ram,comando_ejecutable,timestamp",FALSE);
-		$data['main_content'] = $this->load->view('ComponentesIT/MemoriaComponentesIT',$data,TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$vista = ($permiso) ? 'ComponentesIT/MemoriaComponentesIT' : 'capacidadSinPermiso';
+		$view['ramUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_ram,comando_ejecutable,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function AlmacenamientoComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
-		$data['ddUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_lectura_dd,tasa_escritura_dd,comando_ejecutable,timestamp",FALSE);
-		$data['main_content'] = $this->load->view('ComponentesIT/AlmacenamientoComponentesIT',$data,TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$vista = ($permiso) ? 'ComponentesIT/AlmacenamientoComponentesIT' : 'capacidadSinPermiso';
+		$view['ddUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_lectura_dd,tasa_escritura_dd,comando_ejecutable,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	/* Inicio Módulo Servicios */
 	public function Servicios()
