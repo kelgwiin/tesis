@@ -1,4 +1,21 @@
 <script>
+	var cpuArray = [], ramArray = [], ddArray = [];
+</script>
+<?php
+$resourceIndex = 0;
+foreach ($resourceUse as $resourceUseObject) 
+{
+?>
+	<script>
+	cpuArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_cpu'] ;?>;
+	ramArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_ram'] ;?>;
+	ddArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_lectura_dd'] ;?>;
+	</script>
+	<?php
+	$resourceIndex++;
+}
+?>
+<script>
 $(function () {
     $('#container').highcharts({
         title: {
@@ -34,13 +51,13 @@ $(function () {
         },
         series: [{
             name: 'CPU',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 56.5, 23.3, 18.3, 13.9, 19.6]
+            data: cpuArray
         }, {
             name: 'RAM',
-            data: [40.2, 20.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 18.6, 12.5]
+            data: ramArray
         }, {
             name: 'Disco',
-            data: [10.9, 30.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 49.0, 43.9, 11.0]
+            data: ddArray
         }]
     });
 });
