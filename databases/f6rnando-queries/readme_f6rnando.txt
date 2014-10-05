@@ -1,0 +1,11 @@
+Tablas Agregadas
+
+categorias_riesgos
+equipo_pcn
+estrategias_recuperacion
+personal
+plan_continuidad
+respaldo_db
+riesgos_amenazas
+tipoequipos_pcn
+tipo_estrategiasrecuperacion
