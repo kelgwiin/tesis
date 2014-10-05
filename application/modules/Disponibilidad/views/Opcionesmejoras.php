@@ -94,13 +94,6 @@
 			<div class ="col-md-3 col-xs-6">
 				<input type="button" class="btn btn-danger" value="Cancelar" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/Plan/'"/>				
 			</div>
-			<!-- Ejemplo de tambien hacer URL-->
-			<a 	
-				href="<?php echo site_url('index.php/Disponibilidad/Plan/');?>" 
-				class="btn btn-danger">Cancelar2
-			</a>
-			
-			<div class = "col-md-6"></div><!-- Vacío-->
 			</div>
 			</div><!-- /col-md-6-->
 		</div><!-- /form-group -->

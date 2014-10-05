@@ -7,7 +7,7 @@
 			</div>
 				
 			<div class ="col-md-1">
-				<input type="button" class="btn btn-danger" value="Atras" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/Plan/'"/>				
+				<input type="button" class="btn btn-danger" value="Atras" onclick="location.href='<?php echo base_url(); ?>index.php/Disponibilidad/'"/>				
 			</div>
 
 		</div>

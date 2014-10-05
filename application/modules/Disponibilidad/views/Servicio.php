@@ -123,16 +123,17 @@ $(function () {
 
 	<div class="col-lg-12">
     	<h1>Servicio Analizado: <?php echo $nombre_servicio; ?></h1>
-	</div>
+	</div>	
 	
 	<div class="col-lg-12">
 		
 		<div class="panel panel-info">
 			
 			<div class="panel-heading">
-	       
 				<h3 class="panel-title">Monitoreo del Servicio</h3>
-	        	
+	        	<div class ="col-md-12" align="right">
+					<button class="btn btn-danger" onclick="location.href='tesis/index.php/Disponibilidad/'" type="button">Atras</button>
+				</div> 
 	      	</div>
 	      
 	      <div class="panel-body">
@@ -181,37 +182,9 @@ $(function () {
 	                
 	                </tbody>	                
 				</table>
-				</div>
-				
-			</div>
-			
-		</div>
-		
+				</div>				
+			</div>			
+		</div>		
 	</div>
-			<div class="col-lg-3">
-	            <div class="panel panel-info">
-	              <div class="panel-heading">
-	                <div class="row">
-	                  <div class="col-xs-6">
-	                    <i class="fa fa-flag fa-5x"></i>
-	                  </div>
-	                  <div class="col-xs-6 text-center">
-	                    <p class="announcement-text">Modulo de Disponibilidad</p>
-	                  </div>
-	                </div>
-	              </div>
-	               <a href="<?php echo base_url(); ?>index.php/Disponibilidad/">
-	                <div class="panel-footer announcement-bottom">
-	                  <div class="row">
-	                    <div class="col-xs-6">
-	                      Regresar
-	                    </div>
-	                    <div class="col-xs-6 text-right">
-	                      <i class="fa fa-arrow-circle-left"></i>
-	                    </div>
-	                  </div>
-	                </div>
-	              </a>
-	            </div>
-	          </div>	
+			
 </div>
