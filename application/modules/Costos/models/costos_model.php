@@ -456,23 +456,35 @@ class Costos_model extends CI_Model{
 	 * 
 	 * Creado: 14-Sep-2014
 	 * @param  Integer $year  Año
-	 * @param  Integer $month Mes
+	 * @param  Integer $month Mes, Por defecto está configurada la opción NA la cual
+	 * indica que se calculará el modelo para el año completo si existe data de
+	 * caracterización, de lo contrario 
+	 * será un número que indica el mes al cual se le va a calcular el Modelo.
 	 * @return 
 	 */
-	public function modelo_costos($year=2014, $month){
+	public function modelo_costos($year, $month="NA"){
+		$debug = false;
+		//Calculando la estructura de costos para el año seleccionado
+		//Internamente se agregan las fechas de caducidad a cada uno de los componentes de TI.
+		$this->costos_model->estructura_costos_by_year_all($year);
+
 		$sql = "SELECT servicio_id, total_uso_redes, total_uso_cpu,
 				total_uso_almacenamiento, total_uso_memoria,
 				YEAR(fecha) anio , MONTH(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
 				FROM caracterizacion AS c
 				JOIN estructura_costo ec ON year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
-				WHERE YEAR(c.fecha) = $year AND MONTH(c.fecha) = $month
+				WHERE YEAR(c.fecha) = $year
 		";
+		//Condición agregada el 04-Oct-2014
+		if($month != "NA"){//se agrega la condición para un mes en específico
+			$sql .= " AND MONTH(c.fecha) = $month ";
+		}
 		
 		$query = $this->db->query($sql);
 
 		if($query->num_rows() > 0 ){
 			$rs = $query->result_array();
-			//Buscando los costos asociados a cada categoría y ya fueron obtenidos
+			//Buscando los costos asociados a cada categoría y si ya fueron obtenidos
 			//no se buscan de nuevo
 			$ec = array();// estructura de costos
 			$sql_eci = "SELECT  eci.*, c.nombre AS nom_categ
@@ -492,7 +504,9 @@ class Costos_model extends CI_Model{
 			//info de caracterización
 			foreach ($rs as $row) {
 				$ec_id = $row['estructura_costo_id'];
-				echo " ec_id $ec_id <br>";
+				if($debug){
+					echo " ec_id $ec_id <br>";
+				}
 				if( !isset($ec[$ec_id]) ){
 					$q_eci = $this->db->query($sql_eci, array($ec_id) );
 					
@@ -523,7 +537,9 @@ class Costos_model extends CI_Model{
 				);
 				
 			}//end of: foreach outter
-			echo_pre($costos_by_servicio);	//prueba
+			if($debug){
+				echo_pre($costos_by_servicio);	//prueba
+			}
 
 			//Inserción en la BD.
 			foreach ($costos_by_servicio as $servicio_id => $row) {

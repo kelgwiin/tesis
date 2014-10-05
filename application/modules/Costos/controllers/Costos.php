@@ -140,8 +140,17 @@ class Costos extends MX_Controller
 	}
 
 	public function procesar_costeo(){
+		$params = $this->input->post();
 		$this->load->model('modelo_costos_model','mcm');
-		$result = $this->mcm->costos_by_servicio($this->input->post());
+		
+		//Modelo de Costos
+		if($params['esquema_tiempo'] == "AA"){//¿Procesasr Modelo de Costo por mes o por año?
+			$this->costos_model->modelo_costos($params['anio']);//todo el año
+		}else{
+			$this->costos_model->modelo_costos($params['anio'],$params['mes']);
+		}
+		
+		$result = $this->mcm->costos_by_servicio($params);
 		
 		if($result !== null){
 			$r = array ('estatus' => "ok", 'info' => $result);
