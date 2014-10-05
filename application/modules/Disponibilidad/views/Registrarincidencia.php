@@ -4,7 +4,6 @@
 	<li class="active"><i class="fa fa-dashboard"></i> 
 	La sección de registrar incidencia proporciona informacion de lo ocurrido con una falla o la incidencia del proceso o servicio afectado.</li>
 </ol>
-
 <?php echo form_open("/index.php/Disponibilidad/Recibirincidencia/"); ?>
 <?php
 	$codigo = array(

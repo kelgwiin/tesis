@@ -47,6 +47,7 @@
 	            </div>
 	          </div>
 	          
+	          
 	          <div class="col-lg-3">
 	            <div class="panel panel-info">
 	              <div class="panel-heading">
