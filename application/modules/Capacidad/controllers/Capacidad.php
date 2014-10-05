@@ -7,8 +7,8 @@ class Capacidad extends MX_Controller
         parent::__construct();
         $this->load->module('utilities/utils');
         $this->load->model('Capacity_planning_model','capacity');
-		//Sidebar
-		$this->list_sidebar = $this->utils->list_sidebar_costos();
+		//Libraries 
+		$this->load->library('Kmeans');
     }
     private $title = 'Módulo de Gestión de Capacidad';
     private function sideBarList()
@@ -153,7 +153,7 @@ class Capacidad extends MX_Controller
 	 * 		fecha_mes_pasado => 
 	 * 		fecha_dia_anterior => 
 	 * )
-	 */
+	 */	
     public function dateLastMonth($days = FALSE,$month = FALSE)
 	{
 		date_default_timezone_set("America/Caracas" );
@@ -165,6 +165,9 @@ class Capacidad extends MX_Controller
         $dateArray['fecha_dia_anterior'] = date ( 'Y-m-j H-i-s', $fecha_dia_anterior );
         return $dateArray;
 	}//end of function: dateLastMonth
+    public function KmeansData()
+    {
+	}
 	public function index()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
