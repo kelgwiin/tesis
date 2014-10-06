@@ -167,10 +167,10 @@ class Disponibilidad extends MX_Controller
 	public function Servicio()
 	{
 		$datos['ids'] = $this->uri->segment(3);
-		$data['longitud'] =$this->disponibilidad_model->obtenerlongitudFechasServiciosHistorial($datos);	
+		$data['longitud'] =$this->disponibilidad_model->obtenerlongitudFechasServiciosHistorial($datos);		
+		$data['fechas'] =$this->disponibilidad_model->obtenerFechas($datos);	
 		$data['activo'] =$this->disponibilidad_model->obtenerMonitoreoActivo($datos);		
 		$data['inactivo'] =$this->disponibilidad_model->obtenerMonitoreoInactivo($datos);
-		$data['fechas'] =$this->disponibilidad_model->obtenerFechas($datos);
 		$data['nombre_servicio'] =$this->disponibilidad_model->obtenerNombre($datos);
 		//LINEAS ANTES DEL LOGO
 		//$data['main_content'] = $this->load->view('Servicio',$data,TRUE);
@@ -360,7 +360,7 @@ class Disponibilidad extends MX_Controller
 		//$data['main_content'] = $this->load->view('Oportunidadestecnologicas','',TRUE);
 		//$this->load->view('front/template',$data);
 		$l = $this->utils->list_sidebar();
-		$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas','','Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
+		$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas',$data,'Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
 		'two_level');
 	}
 	
@@ -391,7 +391,7 @@ class Disponibilidad extends MX_Controller
 			//$data['main_content'] = $this->load->view('Oportunidadestecnologicas','',TRUE);
 			//$this->load->view('front/template',$data);
 			$l = $this->utils->list_sidebar();
-			$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas','','Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
+			$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas',$data,'Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
 			'two_level');
 		}
 	}
