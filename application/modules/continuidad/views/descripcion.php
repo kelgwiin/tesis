@@ -66,14 +66,14 @@
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-xs-6">
-							<i class="fa fa-user fa-5x"></i>
+							<i class="fa fa-cloud-upload fa-5x"></i>
 						</div>
 						<div class="col-xs-6 text-center">
-							<p class="announcement-text">Creación de equipos para el desarrollo de los PCN</p>
+							<p class="announcement-text">Estrategias de recuperación</p>
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url('index.php/continuidad/equipos') ?>">
+				<a href="<?php echo site_url('index.php/continuidad/estrategias') ?>">
 					<div class="panel-footer announcement-bottom">
 						<div class="row">
 							<div class="col-xs-6">
@@ -92,14 +92,14 @@
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-xs-6">
-							<i class="fa fa-cloud-upload fa-5x"></i>
+							<i class="fa fa-users fa-5x"></i>
 						</div>
 						<div class="col-xs-6 text-center">
-							<p class="announcement-text">Creación de estrategias de recuperación</p>
+							<p class="announcement-text">Equipos para el desarrollo de los PCN</p>
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url('index.php/continuidad/estrategias') ?>">
+				<a href="<?php echo site_url('index.php/continuidad/equipos') ?>">
 					<div class="panel-footer announcement-bottom">
 						<div class="row">
 							<div class="col-xs-6">
@@ -121,7 +121,7 @@
 							<i class="fa fa-th-list fa-5x"></i>
 						</div>
 						<div class="col-xs-6 text-center">
-							<p class="announcement-text">Listado de Planes de Continuidad del Negocio</p>
+							<p class="announcement-text">Planes de Continuidad del Negocio</p>
 						</div>
 					</div>
 				</div>
