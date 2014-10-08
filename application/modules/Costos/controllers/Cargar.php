@@ -197,9 +197,31 @@ class Cargar extends MX_Controller
 
 	public function testKmeans(){
 
+		//echo 'Inicio de kmeans<br>';
+		//$this->kmeans->test();
+		//echo 'Fin de kmeans<br>';
+
 		echo 'Inicio de kmeans<br>';
-		$this->kmeans->test();
-		echo 'Fin de kmeans<br>';
+		
+		//1.- Obtencion de la data
+		$data = $this->utilities_model->proceso_historial();
+		//echo_pre($data);
+		$num_clusters = 6;
+		
+		//2.- Correr el kmeans
+		$resultado = $this->kmeans->kmeans($data,$num_clusters);
+		//echo_pre($resultado);// muestra todos los grupos y sus centroides
+		//pero se puede escoger un representadnte de cada grupo
+
+		//3.- Montrando los resultados definitivos escogiendo un representante de cada grupo
+		$rep = array();
+		foreach ($resultado['clusters'] as $cluster) {
+			$rep[] = $cluster[0]['coordenadas'];
+		}
+		echo_pre($rep);
+
+		//4.- Con estos resultados se puede promediar.
+		echo 'Fin de kmeans<br>';		
 
 	}
 

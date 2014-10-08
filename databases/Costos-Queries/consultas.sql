@@ -215,4 +215,14 @@ where estructura_costo_id = 558;
 
 select * from ma_categoria;
 
+
+--  Lectura de Proceso Historial
+select proceso_historial_id, tasa_cpu,tasa_ram,tasa_transferencia_dd
+from proceso_historial;
+
+
+
+
+
+
  

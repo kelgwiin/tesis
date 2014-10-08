@@ -242,6 +242,20 @@ class Utilities_model extends CI_Model {
         return $this->db->count_all($table_name);
     }
 
+    //Queries for Characterization
+    public function proceso_historial(){
+        $sql = "SELECT tasa_cpu,tasa_ram,tasa_transferencia_dd
+                FROM proceso_historial ;";
+        $q = $this->db->query($sql);
+
+        //Formateando los resultados
+        $rs = array();
+        foreach ($q->result_array() as $row) {
+            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_transferencia_dd']);
+        }
+        return $rs;
+    } 
+
 
 } // /class Utilities_model.php
 //Location: ./modules/utilities/models/utilities_model.php
