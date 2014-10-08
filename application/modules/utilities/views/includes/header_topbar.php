@@ -130,11 +130,11 @@
             <li class="divider"></li>
             <!-- end of button of Apps Menu -->
 
-            <li class="dropdown messages-dropdown">
+            <!-- <li class="dropdown messages-dropdown">
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               	<i class="fa fa-envelope"></i> Mensajes 
-              		<span class="badge"><?php echo $num_msg; ?></span> <b class="caret"></b> <!-- Hacer una función que pregunte constantemente por mensajes para sistema -->
+              		<span class="badge"><?php echo $num_msg; ?></span> <b class="caret"></b> 
               </a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header"><?php echo $num_msg; ?> Mensajes Nuevos</li>
@@ -151,7 +151,7 @@
                 <?php } ?>                
                 <li><a href="#">Ver Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
               </ul>
-            </li>
+            </li> -->
             <li class="dropdown alerts-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> Alertas <span class="badge"><?php echo $num_ale; ?></span> <b class="caret"></b></a>
               <ul class="dropdown-menu">

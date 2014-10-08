@@ -355,14 +355,14 @@ class Continuidad extends MX_Controller
         $config['protocol']     = "smtp";
 		$config['smtp_host']     = "ssl://smtp.googlemail.com";
         $config['smtp_port']     = 465;
-		$config['smtp_user']    = "fernando.aragmedia@gmail.com";
-        $config['smtp_pass']    = 'Fernando2090';
+		$config['smtp_user']    = "sigitec.facyt@gmail.com";
+        $config['smtp_pass']    = 'trabajo.grado.sigitec';
         $config['mailtype']     = "html";
         $config['charset']        ='utf-8';
         $config['newline']        ="\r\n";
         $this->load->library('email', $config);
         $this->email->initialize($config);
-        $this->email->from('fernando.aragmedia@gmail.com','Fernando Aragmedia');
+        $this->email->from('sigitec.facyt@gmail.com','SIGITEC | Gestión de Continuidad del Negocio');
 		
 		foreach($involucrados as $key => $people)
 		{
