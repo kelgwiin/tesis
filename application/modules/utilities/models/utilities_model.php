@@ -258,13 +258,24 @@ class Utilities_model extends CI_Model {
     }
 
     public function nom_proc_historial(){
-        $sql = "SELECT DISTINCT comando_ejecutable as p FROM proceso_historial;";
+        $sql = "SELECT distinct sp.nombre p
+                FROM servicio s
+                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id;";
         $q = $this->db->query($sql);
         $nombres = array();
         foreach ($q->result_array() as $row) {
             $nombres[] = $row['p'];
         }
         return $nombres;
+    }
+
+    public function procesos_servicio(){
+        $sql = "SELECT  sp.nombre p, s.servicio_id
+                FROM servicio s
+                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id ;";
+        $q = $this->db->query($sql);
+        return $q->result_array();
+
     }
 
 

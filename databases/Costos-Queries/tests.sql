@@ -187,4 +187,6 @@ select * from servicio_costo;
 select * from servicio_proceso;
 
 
+
 select * from proceso_historial;
+

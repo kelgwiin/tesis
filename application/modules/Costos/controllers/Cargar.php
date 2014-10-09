@@ -210,16 +210,34 @@ class Cargar extends MX_Controller
 			$resultados[$key] = $this->procesar_caso($d,6,3);
 		}
 		//$resultados['nautilus'] = $this->procesar_caso($data['nautilus'],6,3);
+		
+		$servicios_proc = $this->utilities_model->procesos_servicio();
+		$sum_por_serv = array();
+		foreach ($servicios_proc as $row) {
+			if(isset($sum_por_serv[$row['servicio_id']]) ){
+				for ($i=0; $i < 3; $i++) { 
+					$sum_por_serv[$row['servicio_id']][$i] += $resultados[$row['p']][$i];
+				}
+			}else{
+				for ($i=0; $i < 3; $i++) { 
+					$sum_por_serv[$row['servicio_id']][$i] = $resultados[$row['p']][$i];
+				}
+			}
+			
+		}
+
+		echo_pre($sum_por_serv);
+
 		echo_pre($resultados);
 
 	}
 
 	public function procesar_caso($data,$num_clusters, $num_params){
-		$debug = true;
+		$debug = false;
 		$resultado = $this->kmeans->kmeans($data,$num_clusters);
 
 		if($debug){
-			//echo_pre($resultado);
+			echo_pre($resultado);
 		}
 
 		$rep = array();

@@ -220,7 +220,10 @@ select * from ma_categoria;
 select proceso_historial_id, tasa_cpu,tasa_ram,tasa_transferencia_dd, timestamp
 from proceso_historial;
 
-
+-- Procesos por servicio
+SELECT distinct sp.nombre proceso
+FROM servicio s
+JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id;
 
 
 
