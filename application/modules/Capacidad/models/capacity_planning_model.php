@@ -57,9 +57,10 @@ class Capacity_planning_model extends CI_Model
 	                    ->get()
 						->result_array();
 		$arreglo = FALSE;
+		$flushWhere = $where;
 		foreach ($names as $comando_ejecutable)
 		{
-			$where = $where." AND comando_ejecutable = '".$comando_ejecutable['comando_ejecutable']."'";
+			$where = $flushWhere." AND comando_ejecutable = '".$comando_ejecutable['comando_ejecutable']."'";
 			$arreglo[$comando_ejecutable['comando_ejecutable']] = $this->db->select("{$dbIndex}")
                 ->where("{$where}")
                 ->from('proceso_historial')
