@@ -1,5 +1,10 @@
 
- <h3 class = "text-primary"> Selección del Servicio</h3> <hr><br>
+
+ <!--<h3> <b>Selección del Servicio</b><small><a type="button" class="btn btn-xs" data-container="body" data-toggle="popover" data-placement="right" 
+ 		data-content="<?php $ayuda_servicio;?>" data-original-title="" title="">(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3>  <hr><br>-->
+
+ <h3> <b>Selección del Servicio</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_servicio">
+ 	(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3>  <hr><br>
 
   <div class="row">
 	<div class="col-md-5">
@@ -23,14 +28,31 @@
 
 		?>
 
-		 <?php echo form_dropdown('servicios', $options,set_value('servicios',@$servicio_proceso_id),'class="form-control" id="dropdown_servicio_procesos" '); ?>	
+		 <?php echo form_dropdown('servicio', $options,set_value('servicio'),'class="form-control" id="dropdown_servicio" '); ?>	
 	 	</div>
-	 </div>	    
+	 </div>	 
+
+
+	<div class="form-group">
+	     <div class="control-label col-md-5">
+	      </div>
+	      	<div class="col-md-7">
+			    <label style="color:red;">
+			   	<?php 
+			        echo form_error('servicio');
+				 ?>
+				</label>
+			</div>
+	</div>
+
 	</div> 
   </div>
- <br><br>
 
- <h3 class = "text-primary"> Partes interesadas</h3> <hr><br>
+  
+ <br>
+
+ <h3> <b>Partes interesadas</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_partes_interesadas">
+ 	(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3> <hr><br>      
 
  <div class="row">
 	<div class="col-md-5">
@@ -56,9 +78,22 @@
 
 		        ?>
 
-		      	 <?php echo form_dropdown('propietario_servicio', $options,set_value('propietario_servicio'),'class="form-control" id="dropdown_propietario" '); ?>	
+		      	 <?php echo form_dropdown('gestor', $options,set_value('gestor'),'class="form-control" id="dropdown_gestor" '); ?>	
 		    </div>
 		</div>
+
+
+		<div class="form-group">
+		     <div class="control-label col-md-5">
+		      </div>
+		      	<div class="col-md-7">
+				    <label style="color:red;">
+				   	<?php 
+				        echo form_error('gestor');
+					 ?>
+			 </label>
+		</div>
+	</div>
 
 	</div>
 
@@ -67,7 +102,7 @@
 	  <div class="form-group">
 
 			<div class="required">
-				<label for="tipo_servicio" class="col-md-2 control-label">Clientes</label>		    
+				<label for="tipo_servicio" class="col-md-2 control-label">Cliente(s)</label>		    
 			</div>
 
 			<div class="col-md-9">
@@ -82,6 +117,19 @@
 			 </div>
 	</div>
 
+
+	<div class="form-group">
+	     <div class="control-label col-md-2">
+	      </div>
+	      	<div class="col-md-9">
+			    <label style="color:red;">
+			   	<?php 
+			        echo form_error('clientes');
+				 ?>
+				</label>
+			</div>
+	</div>
+
 	</div>
   </div>
 
@@ -90,8 +138,14 @@
  <br><br><hr>
 
  <div class='row tex'>
-	 <div class="col-md-2 col-md-offset-5">
-	 <button id="activate-step-2" class="btn btn-primary btn-lg">Siguiente</button>
+	 <div class="col-md-1 col-md-offset-2">
+	 <a id="activate-step-1" class="btn btn-default" disabled="disabled">Volver</a>
+	 </div>
+	<div class="col-md-1">
+	 <a id="activate-step-2" class="btn btn-primary">Siguiente</a>
+	 </div>
+
+	 <div class="col-md-1 col-md-offset-4">
+	 <a class="btn btn-danger" data-toggle="modal" data-target="#salir_modal">Cancelar</a>
 	 </div>
  </div>
- <br>

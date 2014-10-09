@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/css/sb-admin.css" >
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/sb-admin/font-awesome/css/font-awesome.min.css">
     
+    <link href="<?php echo base_url(); ?>assets/timepicker/bootstrap-datetimepicker.css" rel="stylesheet">
+    
     <!-- Page Specific CSS -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/css/custom.config.css">
     
@@ -23,16 +25,21 @@
     <!-- JavaScript -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/jquery-1.10.2.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+     <script src="<?php echo base_url(); ?>assets/timepicker/moment.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/bootstrap.js"></script>
     
+    <script src="<?php echo base_url(); ?>assets/timepicker/bootstrap-datetimepicker.js"></script>
+
     <script src="<?php echo base_url() ?>assets/js/dataTables/jquery.dataTables.js"></script>
 	<script src="<?php echo base_url() ?>assets/js/dataTables/dataTables.bootstrap.js"></script>
+
 	<script>
 	    $(document).ready(function() {
 	        $('#dataTables-example').dataTable();
 	    });
 	</script>
-    
+
+
     <!-- Page Specific Plugins -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/raphael-min.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/tablesorter/jquery.tablesorter.js"></script>

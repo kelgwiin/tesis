@@ -24,7 +24,7 @@
 
 	  	<div class="panel-body">
 		 	
-		 	 <?php
+		 <?php
 		    // Apertura de Formulario
 		    $attributes = array('role' => 'form', 'id'=> 'new_service_form','class'=>'form-horizontal');
 			echo form_open_multipart(base_url().'index.php/cargar_datos/servicios/crear',$attributes); 
