@@ -15,6 +15,10 @@ class Historicos_model extends CI_Model{
 	 * de ti.
 	 * 
 	 * Se visualiza lo ocurrido en un año escogido.
+	 * @param $year Año
+	 * @param $recalcular Indica si se recalcula o no la estructura de costos,
+	 * cuando se agrega un componente de ti o algún item de Costos Indirectos 
+	 * es ideal seleccionar la opción de recalcular la estructura de costos.
 	 * 
 	 * @return array
 	 * - Array (
@@ -22,9 +26,15 @@ class Historicos_model extends CI_Model{
 	 *   	"monto" => Double
 	 * )
 	 */
-	public function evol_comp_ti($year){
-		//Se calcula la estructura del año para cada mes del año.
-		$this->costos_model->estructura_costos_by_year($year);
+	public function evol_comp_ti($year,$recalcular = false){
+		if ($recalcular) {
+			//Se calcula la estructura del año para cada mes del año. Si ya fue
+			//calculado no se recalcula
+			$this->costos_model->estructura_costos_by_year($year);	
+		}else{
+			//Se recalcula todo para el presente año
+			$this->costos_model->estructura_costos_by_year_all($year);	
+		}
 
 		$sql = "SELECT estructura_costo_id, mes
 				FROM estructura_costo

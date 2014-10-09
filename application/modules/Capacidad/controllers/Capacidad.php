@@ -6,56 +6,213 @@ class Capacidad extends MX_Controller
     {
         parent::__construct();
         $this->load->module('utilities/utils');
+        $this->load->model('Capacity_planning_model','capacity');
+		//Libraries 
+		$this->load->library('Kmeans');
     }
+    private $title = 'Módulo de Gestión de Capacidad';
+    private function sideBarList()
+	{
+		$l =  array();
 
+		$l[] = array(
+			"chain" => "Volver a Módulos Principales",
+			"href" => site_url(''),
+			"icon" => "fa fa-flag"
+		);
+		$l[] = array(
+			"chain" => "Descripción",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-bar-chart-o"
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT/Procesador')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT/Memoria')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/ComponentesIT/Almacenamiento')
+			)
+		);
+		$l[] = array(
+			"chain" => "Componentes IT",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/Servicios')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/Servicio/Servicio1/Procesador')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/Servicios/Servicio1/Memoria')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/Servicios/Servicio1/Almacenamiento')
+			)
+		);
+		$l[] = array(
+			"chain" => "Servicios",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/Departamentos')
+			)
+		);
+		$l[] = array(
+			"chain" => "Departamentos",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		$sublista = array
+		(
+			array
+			(
+				'chain' => 'General',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			),
+			array
+			(
+				'chain' => 'Procesador',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			),
+			array
+			(
+				'chain' => 'Memoria',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			),
+			array
+			(
+				'chain' => 'Almacenamiento',
+				'href'=> site_url('index.php/Capacidad/Umbrales')
+			)
+		);
+		$l[] = array(
+			"chain" => "Umbrales",
+			"href" => site_url('index.php/Capacidad'),
+			"icon" => "fa fa-caret-square-o-down",
+			"list" => $sublista
+		);
+		return $l;
+	}
+    /*
+	 * Genera un rango de fecha en formato Y-m-j H-i-s
+	 * 
+	 * $days es el parametro de los dias a restar
+	 * $month es el parametro de los meses a restar
+	 * @return array
+	 * - Array (
+	 * 		fecha_mes_pasado => 
+	 * 		fecha_dia_anterior => 
+	 * )
+	 */	
+    public function dateLastMonth($days = FALSE,$month = FALSE)
+	{
+		date_default_timezone_set("America/Caracas" );
+        $fecha_actual = date("Y-m-d",time());
+        $fecha_dia_anterior = $fecha_actual;
+        $fecha_mes_pasado = strtotime ( '-'.$month.'month' , strtotime ( $fecha_actual ) ) ;        
+        $dateArray['fecha_mes_pasado']  = date ( 'Y-m-j H-i-s', $fecha_mes_pasado );
+        $fecha_dia_anterior = strtotime ( '-'.$days.' day' , strtotime ( $fecha_dia_anterior ) ) ;
+        $dateArray['fecha_dia_anterior'] = date ( 'Y-m-j H-i-s', $fecha_dia_anterior );
+        return $dateArray;
+	}//end of function: dateLastMonth
+    public function KmeansData()
+    {
+	}
 	public function index()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('Main','',TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$vista = ($permiso) ? 'Main' : 'capacidadSinPermiso';
+		$view['nivel'] = 10;
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	/* Inicio Módulo Componentes */
 	public function ComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/ComponentesITGeneral','',TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$dateArray = $this->dateLastMonth(1,1);
+		$vista = ($permiso) ? 'ComponentesIT/ComponentesITGeneral' : 'capacidadSinPermiso';
+		$view['nivel'] = 10;
+		$view['resourceUse'] = $this->capacity->resourceUse($dateArray,"proceso_historial_id,tasa_ram,tasa_cpu,comando_ejecutable,tasa_lectura_dd,tasa_escritura_dd,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function ProcesadorComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/ProcesosComponentesIT','',TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$dateArray = $this->dateLastMonth(1,1);
+		$vista = ($permiso) ? 'ComponentesIT/ProcesosComponentesIT' : 'capacidadSinPermiso';
+		$view['cpuUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_cpu,comando_ejecutable,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function MemoriaComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/MemoriaComponentesIT','',TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$dateArray = $this->dateLastMonth(1,1);
+		$vista = ($permiso) ? 'ComponentesIT/MemoriaComponentesIT' : 'capacidadSinPermiso';
+		$view['ramUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_ram,comando_ejecutable,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function AlmacenamientoComponentesIT()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/AlmacenamientoComponentesIT','',TRUE);
-		$this->load->view('Capacidad/template',$data);
-	}
-	public function RedesComponentesIT()
-	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 10);
-
-		$data['main_content'] = $this->load->view('ComponentesIT/RedesComponentesIT','',TRUE);
-		$this->load->view('Capacidad/template',$data);
+		$dateArray = $this->dateLastMonth(1,1);
+		$vista = ($permiso) ? 'ComponentesIT/AlmacenamientoComponentesIT' : 'capacidadSinPermiso';
+		$view['ddUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_lectura_dd,tasa_escritura_dd,comando_ejecutable,timestamp",FALSE);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	/* Inicio Módulo Servicios */
 	public function Servicios()
@@ -102,15 +259,6 @@ class Capacidad extends MX_Controller
 		$data['main_content'] = $this->load->view('Servicios/AlmacenamientoServicio',$datos,TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
-	public function RedesServicio()
-	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 10);
-
-		$datos['nombre_servicio'] = $this->uri->segment(3);
-		$data['main_content'] = $this->load->view('Servicios/RedesServicio',$datos,TRUE);
-		$this->load->view('Capacidad/template',$data);
-	}
 	/* Fin Módulo Servicios */
 	public function Departamentos()
 	{
@@ -120,7 +268,7 @@ class Capacidad extends MX_Controller
 		$data['main_content'] = $this->load->view('Departamentos','',TRUE);
 		$this->load->view('Capacidad/template',$data);
 	}
-	
+	/* Módulo Umbrales */
 	public function Umbrales()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
@@ -128,5 +276,43 @@ class Capacidad extends MX_Controller
 
 		$data['main_content'] = $this->load->view('Umbrales','',TRUE);
 		$this->load->view('Capacidad/template',$data);
+	}
+	public function testKmeans()
+	{
+		echo 'Inicio de kmeans<br>';
+		//1.- Obtencion de la data Solo Procesador
+		$dateArray = $this->dateLastMonth(1,1);
+		$dataBeforeKmeans = $this->capacity->resourceUseByComponent($dateArray,"tasa_cpu,comando_ejecutable,timestamp",FALSE);
+		$num_clusters = 6;
+		foreach ($dataBeforeKmeans as $beforekmeans) 
+		{
+			$kmeansArrayCounter=0;
+			foreach ($beforekmeans as $key => $kmeans) 
+			{
+				$beforekmeans[$kmeansArrayCounter][0]=$kmeans['tasa_cpu'];
+				$beforekmeans[$kmeansArrayCounter][1]=$kmeans['comando_ejecutable'];
+				$beforekmeans[$kmeansArrayCounter][2]=$kmeans['timestamp'];
+				unset($beforekmeans[$kmeansArrayCounter]['tasa_cpu']);
+				unset($beforekmeans[$kmeansArrayCounter]['comando_ejecutable']);
+				unset($beforekmeans[$kmeansArrayCounter]['timestamp']);	
+				$kmeansArrayCounter++;
+
+			}
+			//2.- Correr el kmeans
+			$resultado = $this->kmeans->kmeans($beforekmeans,$num_clusters);
+			//echo_pre($beforekmeans);
+			echo_pre($resultado);// muestra todos los grupos y sus centroides
+			//pero se puede escoger un representadnte de cada grupo
+		}
+		//3.- Montrando los resultados definitivos escogiendo un representante de cada grupo
+		$rep = array();
+		foreach ($resultado['clusters'] as $cluster) {
+			$rep[] = $cluster[0]['coordenadas'];
+		}
+		//echo_pre($rep);
+
+		//4.- Con estos resultados se puede promediar.
+		echo 'Fin de kmeans<br>';		
+
 	}
 }

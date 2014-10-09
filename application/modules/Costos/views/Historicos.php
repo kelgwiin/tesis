@@ -181,15 +181,15 @@
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
-				Permite apreciar la evolución histórica de los <strong>modelos de costos</strong> y las
-				<strong>inversiones</strong> componentes de TI.
+				Permite apreciar la evolución histórica del <strong>Modelo de Costos</strong> y de las
+				<strong>Inversiones</strong> en Componentes de TI.
 				</li>
 				</ol>
 
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					Permite la visualización gráfica de la evolución histórica de los modelos de costos asociados a 
-					los servicios y a las inversiones hechas en tecnología de información (TI).
+					Permite la visualización gráfica de la evolución histórica del Modelo de Costos asociado a 
+					los servicios y de las Inversiones hechas en tecnología de información (TI).
 				</div>
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
@@ -198,6 +198,13 @@
 	<h2>Evolución del Modelo de Costos General</h2>
 	<div class = "row">
 		<div class = "col-md-12">
+			<div class="alert alert-success alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				Para poder ver la evolución del Modelo de Costos debe haber 
+				generado al menos una vez el <a href="<?php echo site_url('index.php/Costos/ModeloCostos');?>">Modelo de Costos</a>
+
+			</div>
+
 			<form id = "fr_evol_modelo_costo" role = "form" 
 				method = "post" action = "<?php echo site_url('index.php/Costos/Historicos/evol_modelo_costo');?>">
 				<fieldset>
@@ -269,6 +276,18 @@
 								class="form-control input-md" required="required">
 						</div>
 
+						<div class = "col-md-3">
+							<div class="checkbox"
+							data-toggle = "tooltip"
+							data-placement = 'bottom'
+							data-original-title= "Calcular la Estructura de Costos asociada a los Componentes de TI">
+								<label>
+									<input name= "recalcular" type="checkbox" value="true">
+									¿Recalcular Estructura de Costos?
+								</label>
+							</div>
+						</div>
+
 						<div class = "col-md-6">
 							<button 
 									type = "submit"
@@ -281,7 +300,6 @@
 							</button>
 						</div>
 
-						<div class = "col-md-3"></div><!-- Vacío-->
 					</div>
 				</fieldset>
 			</form>		

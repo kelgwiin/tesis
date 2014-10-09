@@ -194,13 +194,113 @@ class Cargar extends MX_Controller
 		echo json_encode($resp);
 	}
 
+	//Métodos para caracterización
+	public function caracterizar(){
+		//Recopilando la información
+		$nom_procesos = $this->utilities_model->nom_proc_historial();
+		$data = array();
+		
+		foreach ($nom_procesos as $nom) {
+			$data[$nom] = $this->utilities_model->proceso_historial($nom);
+		}
+		
+		//resultados
+		$resultados = array();
+		foreach ($data as $key => $d) {
+			$resultados[$key] = $this->procesar_caso($d,6,3);
+		}
+		//$resultados['nautilus'] = $this->procesar_caso($data['nautilus'],6,3);
+		echo_pre($resultados);
+
+	}
+
+	public function procesar_caso($data,$num_clusters, $num_params){
+		$debug = true;
+		$resultado = $this->kmeans->kmeans($data,$num_clusters);
+
+		if($debug){
+			//echo_pre($resultado);
+		}
+
+		$rep = array();
+		$prom = array();//para guardar los promedios de cada uno de los grupos generados
+		for ($i=0; $i < $num_params; $i++) { 
+			$prom[$i] = 0;
+		}
+		$counter = 0;
+		foreach ($resultado['clusters'] as $cluster) {
+			$temp = $cluster[0]['coordenadas'];
+			$rep[] = $temp;
+
+			//sumando cada ítem de la categoría
+			for ($i=0; $i < $num_params; $i++) { 
+				$prom[$i] += $temp[$i];
+			}
+			$counter+=1;
+		}
+		if($debug){
+			echo_pre($rep);
+		}
+		//promedio
+		for ($i=0; $i < $num_params; $i++) { 
+			$prom[$i] /= $counter;
+		}
+		return $prom;
+	}
 
 	public function testKmeans(){
+		$this->caracterizar();
+	}
+
+	public function bk_test_kmeans(){
+
+		//echo 'Inicio de kmeans<br>';
+		//$this->kmeans->test();
+		//echo 'Fin de kmeans<br>';
 
 		echo 'Inicio de kmeans<br>';
-		$this->kmeans->test();
+		
+		//1.- Obtencion de la data
+		$data = $this->utilities_model->proceso_historial();
+		//echo_pre($data);
+		$num_clusters = 6;
+		
+		//2.- Correr el kmeans
+		$resultado = $this->kmeans->kmeans($data,$num_clusters);
+		//echo_pre($resultado);// muestra todos los grupos y sus centroides
+		//pero se puede escoger un representadnte de cada grupo
+
+		//3.- Mostrando los resultados definitivos escogiendo un representante de cada grupo
+		$rep = array();
+		$num_params = 3;
+		$prom = array();//para guardar los promedios de cada uno de los grupos generados
+		for ($i=0; $i < $num_params; $i++) { 
+			$prom[$i] = 0;
+		}
+		$counter = 0;
+		foreach ($resultado['clusters'] as $cluster) {
+			$temp = $cluster[0]['coordenadas'];
+			$rep[] = $temp;
+
+			//sumando cada ítem de la categoría
+			for ($i=0; $i < $num_params; $i++) { 
+				$prom[$i] += $temp[$i];
+			}
+			$counter+=1;
+		}
+
+		//promedio
+		for ($i=0; $i < $num_params; $i++) { 
+			$prom[$i] /= $counter;
+		}
+
+		echo_pre($rep);
+		echo_pre($prom);
+
+		//4.- Con estos resultados se puede promediar.
 		echo 'Fin de kmeans<br>';
 
+		return $rep;
 	}
 
 	

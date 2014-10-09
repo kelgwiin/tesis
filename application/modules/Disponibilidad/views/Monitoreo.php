@@ -5,6 +5,10 @@
 			<div class="col-lg-6">
 				
 				<h2>Listado de Servicios del Sistema</h2>
+				
+			        	<div class ="col-md-12" align="right">
+			      			<button class="btn btn-danger" onclick="location.href='tesis/index.php/Disponibilidad/'" type="button">Atras</button>
+			     		 </div> 
 				<div class="table-responsive">
 				
 				<table class="table table-bordered table-hover table-striped tablesorter">
@@ -43,30 +47,5 @@
 		</div>
 		
 	</div>
-			<div class="col-lg-3">
-	            <div class="panel panel-info">
-	              <div class="panel-heading">
-	                <div class="row">
-	                  <div class="col-xs-6">
-	                    <i class="fa fa-flag fa-5x"></i>
-	                  </div>
-	                  <div class="col-xs-6 text-center">
-	                    <p class="announcement-text">Modulo de Disponibilidad</p>
-	                  </div>
-	                </div>
-	              </div>
-	               <a href="<?php echo base_url(); ?>index.php/Disponibilidad/">
-	                <div class="panel-footer announcement-bottom">
-	                  <div class="row">
-	                    <div class="col-xs-6">
-	                      Regresar
-	                    </div>
-	                    <div class="col-xs-6 text-right">
-	                      <i class="fa fa-arrow-circle-left"></i>
-	                    </div>
-	                  </div>
-	                </div>
-	              </a>
-	            </div>
-	          </div>	
+			
 </div>

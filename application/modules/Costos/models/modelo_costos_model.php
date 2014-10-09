@@ -8,20 +8,20 @@ class Modelo_costos_model extends CI_Model{
 	    parent::__construct();
 	    $this->load->database();
 	    $this->load->model('utilities/utilities_model');
+	    $this->load->model('costos_model');
 	}
 
 	/**
-	 * Obtiene los costos por servicio
+	 * Obtiene los costos por servicio.
 	 * @param  array $data Data
 	 * @return array
 	 */
 	public function costos_by_servicio($data){
-		
 		if($data['esquema_tiempo'] == "AA"){//by year
 			$sql = "SELECT s.nombre, c.costo, c.fecha_creacion, nivel_criticidad, mes
 					FROM servicio_costo as c join servicio as s ON (c.servicio_id = s.servicio_id)
 					WHERE c.borrado = FALSE AND anio = '".$data['anio']."';";
-		}else{//by year
+		}else{//by month
 			$sql = "SELECT s.nombre, c.costo, c.fecha_creacion, nivel_criticidad, mes
 					FROM servicio_costo as c join servicio as s ON (c.servicio_id = s.servicio_id)
 					WHERE c.borrado = FALSE AND anio = '".$data['anio']."' AND mes = '".$data['mes']."';";

@@ -20,7 +20,7 @@ class Disponibilidad extends MX_Controller
 		//Cargando la lista de menus del sidebar genérica (se puede puede personalizar, ver ejemplo
 		//en el controlador de modules/utilities/utils.php) 
 		$l = $this->utils->list_sidebar();
-		$this->utils->template($l,'Disponibilidad/Main','','Gestión de Disponibilidad',' Title Tab',
+		$this->utils->template($l,'Disponibilidad/Main','','Módulo de Gestión de Disponibilidad','',
 			'two_level');
 	}
 	
@@ -42,11 +42,15 @@ class Disponibilidad extends MX_Controller
 			'head'		=>	$files_head,
 			'footer'	=>	$files_footer
 			);
-
-		//$this->load->view('welcome_message',$files);	
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('Calendario',$files,TRUE);
+		//$this->load->view('front/template',$data);
 		
-		$data['main_content'] = $this->load->view('Calendario',$files,TRUE);
-		$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Calendario',$files,'Módulo Gestión de Disponibilidad','Calendario',
+		'two_level');
+		
+		
 	}
 	//Funcion llamada desde el mycalendar.js que esta en asset/js
 	public function json()
@@ -104,8 +108,10 @@ class Disponibilidad extends MX_Controller
 			'footer'	=>	$files_footer
 			);
 		
-		$data['main_content'] = $this->load->view('NuevoEvento',$files,TRUE);
-		$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/NuevoEvento',$files,'Módulo Gestión de Disponibilidad','Nuevo Evento',
+		'two_level');
+		
 	}
 	
 	public function tocalendar()
@@ -140,26 +146,40 @@ class Disponibilidad extends MX_Controller
 		
 	public function Monitoreo()
 	{
-		$data['main_content'] = $this->load->view('Monitoreo','',TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('Monitoreo','',TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Monitoreo','','Módulo Gestión de Disponibilidad','Monitoreo',
+		'two_level');
 	}
 	
 	public function ReportesIncidencias()
 	{
-		$data['main_content'] = $this->load->view('ReportesIncidencias','',TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('ReportesIncidencias','',TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/ReportesIncidencias','','Módulo Gestión de Disponibilidad','ReportesIncidencias',
+		'two_level');
 	}
 	
 	public function Servicio()
 	{
 		$datos['ids'] = $this->uri->segment(3);
-		$data['longitud'] =$this->disponibilidad_model->obtenerlongitudFechasServiciosHistorial($datos);	
+		$data['longitud'] =$this->disponibilidad_model->obtenerlongitudFechasServiciosHistorial($datos);		
+		$data['fechas'] =$this->disponibilidad_model->obtenerFechas($datos);	
 		$data['activo'] =$this->disponibilidad_model->obtenerMonitoreoActivo($datos);		
 		$data['inactivo'] =$this->disponibilidad_model->obtenerMonitoreoInactivo($datos);
-		$data['fechas'] =$this->disponibilidad_model->obtenerFechas($datos);
 		$data['nombre_servicio'] =$this->disponibilidad_model->obtenerNombre($datos);
-		$data['main_content'] = $this->load->view('Servicio',$data,TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('Servicio',$data,TRUE);
+		//$this->load->view('front/template',$data);
+		
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Servicio',$data,'Módulo Gestión de Disponibilidad','Servicio',
+		'two_level');
+		
 	}
 	
 	public function Plan()
@@ -172,15 +192,24 @@ class Disponibilidad extends MX_Controller
 		$data['fiabilidad_real'] =$this->disponibilidad_model->obtenerHoraFiabilidadReal();
 		$data['confiabilidad_acordado'] =$this->disponibilidad_model->obtenerHoraConfiabilidadAcordado();
 		$data['confiabilidad_real'] =$this->disponibilidad_model->obtenerHoraConfiabilidadReal();
-		$data['main_content'] = $this->load->view('Plan',$data,TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('Plan',$data,TRUE);
+		//$this->load->view('front/template',$data);		
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Plan',$data,'Módulo Gestión de Disponibilidad','Plan',
+		'two_level');
+		
 	}
 
 	public function Registrarincidencia()
 	{
 		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
-		$data['main_content'] = $this->load->view('Registrarincidencia',$data,TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('Registrarincidencia',$data,TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Registrarincidencia',$data,'Módulo Gestión de Disponibilidad','Registrarincidencia',
+		'two_level');
 	}
 	
 	public function Recibirincidencia()
@@ -210,21 +239,35 @@ class Disponibilidad extends MX_Controller
 		$data['servicio_id'] = $_POST['servic'];//Se trae el id del Servicio
 		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
 		$this->disponibilidad_model->crearIncidencia($data);
-		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
+		//$this->load->view('front/template',$data);
+		
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/CargadoExitoso',$data,'Módulo Gestión de Disponibilidad','CargadoExitoso',
+		'two_level');
 		}
 		else {//Si no se cumplen			
 			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();						
-			$data['main_content'] = $this->load->view('Registrarincidencia',$data,TRUE);
-			$this->load->view('front/template',$data);
+			//LINEAS ANTES DEL LOGO
+			//$data['main_content'] = $this->load->view('Registrarincidencia',$data,TRUE);
+			//$this->load->view('front/template',$data);			
+			$l = $this->utils->list_sidebar();
+			$this->utils->template($l,'Disponibilidad/Registrarincidencia',$data,'Módulo Gestión de Disponibilidad','Registrarincidencia',
+			'two_level');
+			
 		}
 	}
 	
 	public function Opcionesmejoras()
 	{			
 		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
-		$data['main_content'] = $this->load->view('Opcionesmejoras',$data,TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('Opcionesmejoras',$data,TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Opcionesmejoras',$data,'Módulo Gestión de Disponibilidad','Opcionesmejoras',
+		'two_level');
 	}
 	
 	public function Recibiropciones()
@@ -246,21 +289,33 @@ class Disponibilidad extends MX_Controller
 		$data['servicio_id'] = $_POST['servic'];//Se trae el id del Servicio
 		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
 		$this->disponibilidad_model->crearOpciones($data);
-		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/CargadoExitoso',$data,'Módulo Gestión de Disponibilidad','CargadoExitoso',
+		'two_level');
 	}
 		else {//Si no se cumplen			
-			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();						
-			$data['main_content'] = $this->load->view('Opcionesmejoras',$data,TRUE);
-			$this->load->view('front/template',$data);
+			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();		
+			//LINEAS ANTES DEL LOGO			
+			//$data['main_content'] = $this->load->view('Opcionesmejoras',$data,TRUE);
+			//$this->load->view('front/template',$data);
+			$l = $this->utils->list_sidebar();
+			$this->utils->template($l,'Disponibilidad/Opcionesmejoras',$data,'Módulo Gestión de Disponibilidad','Opcionesmejoras',
+			'two_level');
 		}
 	}
 		
 	public function Logrosrendimiento()
 	{
 		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
-		$data['main_content'] = $this->load->view('Logrosrendimiento',$data,TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS ANTES DEL LOGO
+		//$data['main_content'] = $this->load->view('Logrosrendimiento',$data,TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Logrosrendimiento',$data,'Módulo Gestión de Disponibilidad','Logrosrendimiento',
+		'two_level');
 	}
 	
 	public function Recibirlogros()
@@ -283,20 +338,30 @@ class Disponibilidad extends MX_Controller
 		$data['servicio_id'] = $_POST['servic'];//Se trae el id del Servicio
 		$data['servicios'] = $this->disponibilidad_model->obtenerNameService();
 		$this->disponibilidad_model->crearLogros($data);
-		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
-		$this->load->view('front/template',$data);
+		//$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/CargadoExitoso',$data,'Módulo Gestión de Disponibilidad','CargadoExitoso',
+		'two_level');
 		}
 		else {//Si no se cumplen			
 			$data['servicios'] = $this->disponibilidad_model->obtenerNameService();						
-			$data['main_content'] = $this->load->view('Logrosrendimiento',$data,TRUE);
-			$this->load->view('front/template',$data);
+			//$data['main_content'] = $this->load->view('Logrosrendimiento',$data,TRUE);
+			//$this->load->view('front/template',$data);
+			$l = $this->utils->list_sidebar();
+			$this->utils->template($l,'Disponibilidad/Logrosrendimiento',$data,'Módulo Gestión de Disponibilidad','Logrosrendimiento',
+			'two_level');
 		}
 	}
 	
 	public function Oportunidadestecnologicas()
 	{
-		$data['main_content'] = $this->load->view('Oportunidadestecnologicas','',TRUE);
-		$this->load->view('front/template',$data);
+		//LINEAS DEL LOGO
+		//$data['main_content'] = $this->load->view('Oportunidadestecnologicas','',TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas',$data,'Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
+		'two_level');
 	}
 	
 	public function Recibiroportunidades()
@@ -316,12 +381,18 @@ class Disponibilidad extends MX_Controller
 		);
 		
 		$this->disponibilidad_model->crearOportunidad($data);
-		$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
-		$this->load->view('front/template',$data);
+		//$data['main_content'] = $this->load->view('CargadoExitoso','',TRUE);
+		//$this->load->view('front/template',$data);
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/CargadoExitoso',$data,'Módulo Gestión de Disponibilidad','CargadoExitoso',
+		'two_level');
 	}
 	else {//Si no se cumplen			
-			$data['main_content'] = $this->load->view('Oportunidadestecnologicas','',TRUE);
-			$this->load->view('front/template',$data);
+			//$data['main_content'] = $this->load->view('Oportunidadestecnologicas','',TRUE);
+			//$this->load->view('front/template',$data);
+			$l = $this->utils->list_sidebar();
+			$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas',$data,'Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
+			'two_level');
 		}
 	}
 	

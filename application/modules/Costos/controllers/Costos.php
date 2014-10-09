@@ -91,10 +91,16 @@ class Costos extends MX_Controller
 			//Ajax: Evolución de los Componentes de TI
 			case 'evol_comp_ti':
 				$year = $this->input->post('anio_comp_ti');
+				$recalcular = $this->input->post('recalcular');// Indica si se recalcula la estructura de costos para el año dado
 
-				//Se calculan los costos de un año, si estos fueron previamente
-				//calculados no se vuelven a realizar los cálculos.
-				$info = $this->historicos_model->evol_comp_ti($year);
+				if(isset($recalcular) && $recalcular){
+					//Se calculan los costos de un año, si estos fueron previamente
+					//calculados no se vuelven a realizar los cálculos.
+					$info = $this->historicos_model->evol_comp_ti($year);	
+				}else{
+					//Se recalculan
+					$info = $this->historicos_model->evol_comp_ti($year,true);
+				}
 
 				if($info){
 					$data = array('data'=>$info, 'estatus'=>"ok");
@@ -134,8 +140,17 @@ class Costos extends MX_Controller
 	}
 
 	public function procesar_costeo(){
+		$params = $this->input->post();
 		$this->load->model('modelo_costos_model','mcm');
-		$result = $this->mcm->costos_by_servicio($this->input->post());
+		
+		//Modelo de Costos
+		if($params['esquema_tiempo'] == "AA"){//¿Procesasr Modelo de Costo por mes o por año?
+			$this->costos_model->modelo_costos($params['anio']);//todo el año
+		}else{
+			$this->costos_model->modelo_costos($params['anio'],$params['mes']);
+		}
+		
+		$result = $this->mcm->costos_by_servicio($params);
 		
 		if($result !== null){
 			$r = array ('estatus' => "ok", 'info' => $result);
