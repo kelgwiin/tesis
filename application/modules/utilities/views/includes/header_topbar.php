@@ -152,16 +152,16 @@
                 <li><a href="#">Ver Inbox <span class="badge"><?php echo $num_msg; ?></span></a></li>
               </ul>
             </li> -->
+            <?php if(isset($alertas) && !empty($alertas)) : ?>
             <li class="dropdown alerts-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> Alertas <span class="badge"><?php echo $num_ale; ?></span> <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> Alertas <span class="badge" style="background: red"><?php echo $num_ale; ?></span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
               	<?php foreach($alertas as $a){ ?>
-                <li><a href="#"><?php echo $a['desc']; ?> <span class="label label-<?php echo strtolower($a['prioridad']); ?>"><?php echo $a['categoria']; ?></span></a></li>
-                <li class="divider"></li>
+                <li><a href="<?php echo $a->href; ?>"><?php echo $a->descripcion ?> <span class="label label-<?php echo strtolower($a->prioridad); ?>"><?php echo $a->categoria ?></span></a></li>
                 <?php } ?>
-                <li><a href="#">Ver Todas</a></li> <!-- Enlace a alertas -->
               </ul>
             </li>
+            <?php endif ?>
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
                 <?php $nombre_usuario = !empty($this->session->userdata('user')->nombre) ? $this->session->userdata('user')->nombre : 'Usuario' ?>

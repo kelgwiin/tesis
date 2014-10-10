@@ -105,6 +105,31 @@ class General_model extends CI_Model
 		}
 		return FALSE;
 	}
+	
+	public function fija($table,$where)
+	{
+		$query = $this->db->get_where($table,$where);
+		if($query->num_rows() > 0)
+		{
+			$query = $query->row();
+			if($query->fija)
+				return TRUE;
+		}
+		return FALSE;
+	}
+	
+	public function set_alert($data,$where=array())
+	{
+		$query = $this->db->get_where('system_alerts',$where);
+		if($query->num_rows() > 0)
+		{
+			$this->update('system_alerts', $data, $where);
+		}else
+		{
+			$data['timestamp'] = date('Y-m-d H:i:s');
+			$id_alert = $this->insert('system_alerts', $data);
+		}
+	}
 
 
 	public function update2($table,$data,$where)

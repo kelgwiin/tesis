@@ -47,7 +47,7 @@ class Utils extends MX_Controller
 	 * @return void -
 	 */
 	public function template($list_sidebar, $path_main_content, $params_mc,
-		$module_name, $title_name,$list_level_side_bar = "one_level"){
+		$module_name, $title_name,$list_level_side_bar = "one_level",$alerts=array()){
 		$data['main_content'] = $this->load->view($path_main_content,$params_mc,TRUE);
 
 		//Sidebar content
@@ -58,6 +58,9 @@ class Utils extends MX_Controller
 		$data['sidebar_content'] = $this->load->view('includes/header_sidebar',$params,TRUE);
 		
 		$data['title_name'] = (strlen($title_name) > 0?$title_name . ' - ' .$module_name:$module_name);//Título de la ventana
+		
+		$data['alertas'] = $this->general->get_result('system_alerts',array('activa'=>1));
+		$data['num_ale'] = count($data['alertas']);
 
 		$this->load->view('template',$data);//Cargando la plantilla con las configuraciones.
 	}

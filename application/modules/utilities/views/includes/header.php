@@ -104,11 +104,11 @@
 								'mensaje' => "Hey, Te quería preguntar algo...Prueba Interna Mensaje. :)",
 								'hora' => "4:34 PM" );
 	      $num_msg = count($mensajes);
-		  $alertas[] = array('alerta_id' => 1,
-		  					 'prioridad' => 'Danger',
-		  					 'categoria' => "Operaciones",
-							 'desc' => "Alerta máxima (Prueba)");
-		  $num_ale = count($alertas);
+		  // $alertas[] = array('alerta_id' => 1,
+		  					 // 'prioridad' => 'Danger',
+		  					 // 'categoria' => "Operaciones",
+							 // 'desc' => "Alerta máxima (Prueba)");
+		  // $num_ale = count($alertas);
 		  $nombre_usuario = "John Smith";
     ?>
 

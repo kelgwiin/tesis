@@ -71,6 +71,12 @@ class Data_model extends MY_Model
             $response[]["elapsed"] = $time_start - $time_end;
         }
         $this->db->query('SET @@global.local_infile=OFF;');
+        //Captura de eventos
+        $num_eventos = 0;
+        foreach($array_files as $file)
+        {
+            
+        }
         return $response;
     }
     function insert_csv_db($filename, $infile_method=true)
@@ -93,10 +99,18 @@ class Data_model extends MY_Model
             return $this->my_insert($data,FALSE,FALSE,FALSE,TRUE);
         }        
     }
+    function insert_events_db($filename)
+    {
+        $data = $this->read_csv($filename);
+        foreach($data as $linea)
+        {
+            
+        }
+    }
     function parse_data($array)
     {
         array_pop($array);
-        $mac = $this->find_local_mac('wlan0');
+        $mac = $this->find_local_mac('eth0');
         foreach ($array as $line)
         {
             $data[] = array("thread" => $line[0],
