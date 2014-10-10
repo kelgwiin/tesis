@@ -107,7 +107,7 @@
 													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
-														<a href="<?php echo base_url().'index.php/continuidad/listado_pcn/eliminar/'.$plan->id_continuidad ?>"
+														<a href="<?php echo base_url().'index.php/continuidad/listado_pcn/eliminar/'.$val.'/'.$plan->id_continuidad ?>"
 															type="button" class="btn btn-danger">
 															Eliminar
 														</a>
