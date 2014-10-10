@@ -59,7 +59,7 @@
 					<select name="id_rol" class="col-md-5" style="text-align: center" title="El rol Administrador tiene todos los privilegios">
 						<?php foreach($roles as $key => $rol) : ?>
 							<option value="<?php echo $rol->id_rol ?>" <?php echo (isset($user->id_rol) && ($user->id_rol==$rol->id_rol)) ? 'selected' : ''; ?>>
-								<?php echo lang('rol_'.$rol->id_rol) ?>
+								<?php echo ucwords($rol->rol) ?>
 							</option>
 						<?php endforeach; ?>
 					</select>

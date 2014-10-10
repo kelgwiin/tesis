@@ -53,6 +53,22 @@
 							</div>
 						</div>
 						
+						<?php if(isset($procesos) && !empty($procesos)) : ?>
+							<div class="form-group" id="procesos">
+								<label class="col-md-4 control-label" for="id_servicioproceso">Proceso</label>
+								<div class="col-md-6">
+									<select name="id_servicioproceso" class="form-control">
+										<?php foreach($procesos as $key => $proceso) : ?>
+											<option value="<?php echo $proceso->servicio_proceso_id ?>"
+												<?php echo (isset($riesgo->id_servicioproceso) && ($proceso->servicio_proceso_id == $riesgo->id_servicioproceso)) ? 'selected' : '' ?>>
+												<?php echo $proceso->nombre ?>
+											</option>
+										<?php endforeach ?>
+									</select>
+								</div>
+							</div>
+						<?php endif ?>
+						
 						<!-- Select Basic -->
 						<div class="form-group">
 							<label class="col-md-4 control-label" for="probabilidad">Probabilidad</label>
@@ -171,3 +187,20 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(function()
+	{
+		$('#procesos').hide();
+		$('select[name=id_categoria]').change(function()
+		{
+			var val = $(this).val();
+			if(val == 7)
+				$('#procesos').fadeIn();
+			else
+				$('#procesos').fadeOut();
+		});
+		<?php if(isset($riesgo) && ($riesgo->id_categoria == 7)) : ?>
+			$('#procesos').show();
+		<?php endif ?>
+	});
+</script>

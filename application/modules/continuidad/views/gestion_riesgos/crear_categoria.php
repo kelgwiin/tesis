@@ -36,7 +36,7 @@
 							<label class="col-md-4 control-label" for="categoria">Tipo de amenaza</label>  
 							<div class="col-md-4">
 								<input name="categoria" type="text" placeholder="Denominación del tipo de amenaza" class="form-control input-md"
-									value="<?php echo set_value('categoria',@$categoria->categoria) ?>" required="" />
+									value="<?php echo set_value('categoria',@$categoria->categoria) ?>" required="" <?php echo ((isset($categoria) && !empty($categoria)) && $categoria->fija) ? 'readonly' : '' ?> />
 							</div>
 						</div>
 						

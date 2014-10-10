@@ -8,12 +8,12 @@
 	</div>
 	
 	<div id="container" style="margin-top: 20px"></div>
-	<div class="row">
+	<!-- <div class="row">
 		<div class="col-lg-11">
 			&raquo;&nbsp;&nbsp;
 			<a href="<?php echo site_url('index.php/continuidad/listado_pcn') ?>">Mostrar todos los listados con todos los niveles de riesgos</a>
 		</div>
-	</div>
+	</div> -->
 	
 </div>
 <?php echo $piechart_js ?>

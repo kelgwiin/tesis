@@ -156,4 +156,12 @@ class Gestionriesgos_model extends CI_Model
 		$query = $this->db->get('estrategias_recuperacion e')->result();
 		return $query;
 	}
+	
+	public function get_procesos()
+	{
+		$this->db->select('sp.*, s.nombre as nombre_servicio');
+		$this->db->join('servicio s','s.servicio_id = sp.servicio_id');
+		$query = $this->db->get('servicio_proceso sp')->result();
+		return $query;
+	}
 }

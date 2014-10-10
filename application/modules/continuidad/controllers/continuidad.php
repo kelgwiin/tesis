@@ -71,6 +71,7 @@ class Continuidad extends MX_Controller
 			'#' => 'Continuidad del Negocio'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		
 		$this->utils->template($this->_list1(),'continuidad/'.$vista,$view,$this->title,'','two_level');
 	}
 	
@@ -139,6 +140,16 @@ class Continuidad extends MX_Controller
 		$view['nivel'] = 11;
 		$this->load->helper('text');
 		
+		// if($this->session->userdata('alertas_off'))
+		// {
+			// $alerts = $this->session->userdata('alertas');
+			// unset($alerts[$this->session->userdata('alertas_off')]);
+			// $this->session->unset_userdata('alertas');
+			// $this->session->unset_userdata('alertas_off');
+			// $this->session->set_userdata('alertas',$alerts);
+// 			
+		// }
+		
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
@@ -166,6 +177,7 @@ class Continuidad extends MX_Controller
 		$tipo_listado = str_replace(' ', '-', $tipo_listado);
 		$view['valoracion'] = $tipo_listado;
 		$view['listado_js'] = $this->load->view('continuidad/continuidad/listado_js','',TRUE);
+		// $alertas = ($this->session->userdata('alertas')) ? $this->session->userdata('alertas') : '';
 		$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
 	}
 	
@@ -238,15 +250,20 @@ class Continuidad extends MX_Controller
 					
 					if($this->general->update('plan_continuidad',$post,array('id_continuidad'=>$post['id_continuidad'])))
 					{
-						// if($_POST['id_estado'] == 1)
-						// {
+						if($_POST['id_estado'] == 1)
+						{
+							$this->activar_alerta($post['id_continuidad'], $valoracion, 1);
+							
 							// $pdf_file = $mpdf->Output($ruta,'S');
 							// $email = new stdClass();
 							// $email->subject = 'Activación de PCN';
 							// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$post['denominacion'].'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
 							// $email->pdf = $pdf_file;
 							// $this->mailing($template['involucrados'], $email, $valoracion);
-						// }
+						}else
+						{
+							$this->activar_alerta($post['id_continuidad'], $valoracion, 0);
+						}
 						$this->session->set_flashdata('alert_success','Plan de Continuidad del Negocio <strong>'.$post['denominacion'].'</strong> modificado con éxito');
 					}else
 						$this->session->set_flashdata('alert_error','Hubo un error al intentar modificar el Plan de  Continuidad del Negocio <strong>'.$post['denominacion'].'</strong>, por favor intente de nuevo o contacte a su administrador');
@@ -277,6 +294,20 @@ class Continuidad extends MX_Controller
 		$view['estados'] = $this->general->get_table('usuarios_estado');
 		$view['crearpcn_js'] = $this->load->view('continuidad/continuidad/crearpcn_js','',TRUE);
 		$this->utils->template($this->_list1(),'continuidad/continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
+	}
+
+	public function activar_alerta($id,$valoracion,$status)
+	{
+		$alertas = array
+		(
+			'id_module' => $id,
+			'prioridad' => 'Danger',
+			'categoria' => "Continuidad",
+			'descripcion' => "Se ha activado un Plan de Continuidad del Negocio",
+			'href' => site_url('index.php/continuidad/listado_pcn/'.$valoracion),
+			'activa' => $status
+		);
+		$this->general->set_alert($alertas,array('categoria'=>"Continuidad",'id_module'=>$id));
 	}
 
 	public function modificar_pcn($valoracion, $id_continuidad = '')
@@ -316,8 +347,34 @@ class Continuidad extends MX_Controller
 		}else
 		{
 			$this->session->set_flashdata('alert_error','El Plan de Continuidad del Negocio que intenta modificar no se encuentra en la base de datos');
-			redirect(site_url('index.php/continuidad/listado_pcn'));
+			redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
 		}
+	}
+
+	public function eliminar_pcn($id_pcn = '')
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 15);
+		$vista = ($permiso) ? 'crear_pcn' : 'continuidad_sinpermiso';
+		$view['nivel'] = 15;
+		
+		$where['id_continuidad'] = $id_pcn;
+		if(!empty($id_pcn) && $this->general->exist('plan_continuidad',$where))
+		{
+			if($this->general->delete('plan_continuidad',$where))
+			{
+				$where_2['categoria'] = 'Continuidad';
+				$where_2['id_module'] = $id_pcn;
+				if($this->general->exist('systema_alerts',$where_2))
+					$this->general->delete('system_alerts',$where_2);
+				
+				$this->session->set_flashdata('alert_success','Plan de Continuidad del Negocio eliminado con éxito');
+			}else
+				$this->session->set_flashdata('alert_error','Ocurrió un problema intentando eliminar el Plan de Continuidad deseado. Por favor intente de nuevo o comuníquese con su administrador');
+		}else
+			$this->session->set_flashdata('alert_error','El Plan de Continuidad del Negocio que intenta eliminar no se encuentra en la base de datos');
+		
+		redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
 	}
 
 	private function percent($item, $count)
@@ -333,10 +390,12 @@ class Continuidad extends MX_Controller
 	{
 		$id_continuidad = $this->input->post('id_continuidad');
 		$state = $this->input->post('state');
+		$valoracion = $this->input->post('level');
 		$return = $this->general->update('plan_continuidad',array('id_estado'=>$state),array('id_continuidad'=>$id_continuidad));
 		
-		// if($state == 1)
-		// {
+		if($state == 1)
+		{
+			$this->activar_alerta($id_continuidad, $valoracion, 1);
 			// $involucrados = $this->riesgos->get_allinvolucrados($id_continuidad);
 			// $pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad));
 			// $pdf_file = (!empty($pcn)) ? $mpdf->Output($pcn->pdf,'S') : '';
@@ -345,7 +404,10 @@ class Continuidad extends MX_Controller
 			// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$pcn->denominacion.'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
 			// $email->pdf = $pdf_file;
 			// $this->mailing($involucrados, $email, $state);
-		// }
+		}else
+		{
+			$this->activar_alerta($id_continuidad, $valoracion, 0);
+		}
 		echo $return;
 	}
 

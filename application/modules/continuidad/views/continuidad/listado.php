@@ -40,7 +40,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h3 class="panel-title">Planes de continuidad del negocio con valoración <?php echo $valoracion ?></h3>
+					<h3 class="panel-title">Planes de continuidad del negocio para riesgos con valoración <?php echo $valoracion ?></h3>
 				</div>
 				<div class="panel-body">
 					<?php if(!isset($planes_continuidad) OR empty($planes_continuidad)) : ?>
@@ -78,7 +78,7 @@
 				                					<?php echo $plan->codigo ?>
 				                				</a>
 				                			</td>
-				                			<td><?php echo character_limiter($plan->denominacion,20) ?></td>
+				                			<td><span data-toggle="tooltip" title="<?php echo $plan->denominacion ?>"><?php echo character_limiter($plan->denominacion,20) ?></span></td>
 				                			<!-- <td><?php echo ucfirst($plan->dpto_nombre) ?></td> -->
 				                			<td><?php echo $plan->nombre_empleado ?></td>
 				                			<td><?php echo ucfirst($plan->tipo_plan) ?></td>
