@@ -351,7 +351,7 @@ class Continuidad extends MX_Controller
 		}
 	}
 
-	public function eliminar_pcn($id_pcn = '')
+	public function eliminar_pcn($valoracion,$id_pcn = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 15);
@@ -365,7 +365,7 @@ class Continuidad extends MX_Controller
 			{
 				$where_2['categoria'] = 'Continuidad';
 				$where_2['id_module'] = $id_pcn;
-				if($this->general->exist('systema_alerts',$where_2))
+				if($this->general->exist('system_alerts',$where_2))
 					$this->general->delete('system_alerts',$where_2);
 				
 				$this->session->set_flashdata('alert_success','Plan de Continuidad del Negocio eliminado con éxito');

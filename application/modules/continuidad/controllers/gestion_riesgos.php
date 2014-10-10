@@ -81,6 +81,29 @@ class Gestion_riesgos extends MX_Controller
 		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Gestión de riesgos','two_level');
 	}
 	
+	// LISTADO DE VULNERABILIDADES
+	// SE LISTAN TODAS LAS VULNERABILIDADES QUE SE ENCUENTRAN EN BASE DE DATOS
+	public function listado_vulnerabilidades()
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 13);
+		$vista = ($permiso) ? 'vulnerabilidades' : 'continuidad_sinpermiso';
+		$view['nivel'] = 13;
+		
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+			base_url().'index.php/continuidad/gestion_riesgos' => 'Gestión de riesgos',
+			'#' => 'Vulnerabilidades'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		
+		$view['vulnerabilidades'] = $this->general->get_table('vulnerabilidades');
+		
+		$this->utils->template($this->_list1(),'continuidad/gestion_riesgos/'.$vista,$view,$this->title,'Listado de vulnerabilidades','two_level');
+	}
+	
 	// LISTADO DE CATEGORIAS
 	// SE LISTAN TODAS LAS CATEGORIAS QUE SE ENCUENTRAN EN BASE DE DATOS
 	public function categorias()

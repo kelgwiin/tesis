@@ -11,7 +11,33 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-4 col-lg-offset-2">
+		<div class="col-lg-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<i class="fa fa-flash fa-5x"></i>
+						</div>
+						<div class="col-xs-6 text-center">
+							<p class="announcement-text">Listado de vulnerabilidades</p>
+						</div>
+					</div>
+				</div>
+				<a href="<?php echo site_url('index.php/continuidad/gestion_riesgos/vulnerabilidades');?>">
+					<div class="panel-footer announcement-bottom">
+						<div class="row">
+							<div class="col-xs-6">
+								Examinar
+							</div>
+							<div class="col-xs-6 text-right">
+								<i class="fa fa-arrow-circle-right"></i>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-4">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<div class="row">
@@ -62,32 +88,6 @@
 					</div>
 				</a>
 			</div>
-		</div>
-		<!-- <div class="col-lg-4">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-6">
-							<i class="fa fa-flash fa-5x"></i>
-						</div>
-						<div class="col-xs-6 text-center">
-							<p class="announcement-text">Listado de vulnerabilidades</p>
-						</div>
-					</div>
-				</div>
-				<a href="<?php echo site_url('index.php/continuidad/gestion_riesgos/vulnerabilidades');?>">
-					<div class="panel-footer announcement-bottom">
-						<div class="row">
-							<div class="col-xs-6">
-								Examinar
-							</div>
-							<div class="col-xs-6 text-right">
-								<i class="fa fa-arrow-circle-right"></i>
-							</div>
-						</div>
-					</div>
-				</a>
-			</div> -->
 		</div>
 	</div>
 </div>
