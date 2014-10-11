@@ -190,3 +190,6 @@ select * from servicio_proceso;
 
 select * from proceso_historial;
 
+SELECT  sp.nombre proceso, s.servicio_id
+                FROM servicio s
+                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id ;
