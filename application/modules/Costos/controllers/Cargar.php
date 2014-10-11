@@ -206,11 +206,16 @@ class Cargar extends MX_Controller
 			$data[$nom] = $this->utilities_model->proceso_historial($nom);
 		}
 		
-		//Procesando el caso aplicando el kmeans
-		//
+		
+		//numero de registros por comando
+		$reg_por_com = $this->utilities_model->num_procesos();
+		
+		//procesosando el caso aplicando el kmeans
 		$resultados = array();
 		foreach ($data as $key => $d) {
-			$resultados[$key] = $this->procesar_caso($d,6,3);
+			$tmp = $this->procesar_caso($d,6,3);
+			$tmp[2] *= $reg_por_com[$key]*60*24;//repeticiones * minutos * horas, wired
+			$resultados[$key] = $tmp;
 		}
 		
 		$servicios_proc = $this->utilities_model->procesos_servicio();

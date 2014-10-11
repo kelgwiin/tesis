@@ -225,7 +225,13 @@ SELECT distinct sp.nombre proceso
 FROM servicio s
 JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id;
 
+-- Número de transacciones asociados a un conjunto de procesos
+select comando_ejecutable, count(*) num
+from proceso_historial
+group by comando_ejecutable;
 
+select count(*)
+from proceso_historial;
 
 
  

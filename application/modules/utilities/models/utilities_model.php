@@ -244,7 +244,7 @@ class Utilities_model extends CI_Model {
 
     //Queries for Characterization
     public function proceso_historial($name){
-        $sql = "SELECT tasa_cpu,tasa_ram,tasa_transferencia_dd
+        $sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
                 FROM proceso_historial 
                 WHERE comando_ejecutable = '$name';";
         $q = $this->db->query($sql);
@@ -252,7 +252,7 @@ class Utilities_model extends CI_Model {
         //Formateando los resultados
         $rs = array();
         foreach ($q->result_array() as $row) {
-            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_transferencia_dd']);
+            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_escritura_dd']);
         }
         return $rs;
     }
@@ -275,7 +275,19 @@ class Utilities_model extends CI_Model {
                 JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id ;";
         $q = $this->db->query($sql);
         return $q->result_array();
+    }
 
+    // Número de procesos por comando ejecutable
+    public function num_procesos(){
+        $sql = "SELECT comando_ejecutable, COUNT(*) num
+                FROM proceso_historial
+                GROUP BY comando_ejecutable;";
+        $q = $this->db->query($sql);
+        $r = array();
+        foreach ($q->result_array() as $row) {
+            $r[$row['comando_ejecutable']] = $row['num'];
+        }
+        return $r;
     }
 
 
