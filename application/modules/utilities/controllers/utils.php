@@ -13,6 +13,7 @@ class Utils extends MX_Controller
 	 */
 	public function __construct(){
 		parent::__construct();
+		$this->load->model('general/general_model','general');
 	}
 
 	/**
@@ -47,7 +48,7 @@ class Utils extends MX_Controller
 	 * @return void -
 	 */
 	public function template($list_sidebar, $path_main_content, $params_mc,
-		$module_name, $title_name,$list_level_side_bar = "one_level",$alerts=array()){
+		$module_name, $title_name,$list_level_side_bar = "one_level"){
 		$data['main_content'] = $this->load->view($path_main_content,$params_mc,TRUE);
 
 		//Sidebar content
