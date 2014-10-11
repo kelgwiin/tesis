@@ -15,7 +15,7 @@
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					Como cada componente de TI posee una vida útil estipulada se debe monitorear
 					cuándo está cercana la fecha de caducidad del mismo. En función de ello se
-					emite un listado de todos esos componentes que deben ser reemplazados.
+					emite un listado de todos esos componentes que deberían ser reemplazados.
 				</div>
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
@@ -39,8 +39,8 @@
 								<tr>
 									<th>#</th>
 									<th>Nombre <i class = "fa fa-sort"></i></th>
-									<th>Fecha de creción <i class = "fa fa-sort"></i></th>
-									<th>Fecha de caducidad <i class = "fa fa-sort"></i></th>
+									<th>Fecha de Creación <i class = "fa fa-sort"></i></th>
+									<th>Fecha de Caducidad <i class = "fa fa-sort"></i></th>
 									<th>Categoría <i class = "fa fa-sort"></i></th>
 									<th>Cantidad <i class = "fa fa-sort"></i></th>
 								</tr>

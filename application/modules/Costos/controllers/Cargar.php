@@ -193,23 +193,25 @@ class Cargar extends MX_Controller
 		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
 		echo json_encode($resp);
 	}
-
-	//Métodos para caracterización
+	//------------------------------
+	// Métodos para caracterización |
+	//------------------------------
 	public function caracterizar(){
-		//Recopilando la información
+		//Recopilando nombre de los procesos que se encuentran asociados a los Servicios
 		$nom_procesos = $this->utilities_model->nom_proc_historial();
 		$data = array();
 		
+		//Obteniendo la data asociada a los procesos recopilados
 		foreach ($nom_procesos as $nom) {
 			$data[$nom] = $this->utilities_model->proceso_historial($nom);
 		}
 		
-		//resultados
+		//Procesando el caso aplicando el kmeans
+		//
 		$resultados = array();
 		foreach ($data as $key => $d) {
 			$resultados[$key] = $this->procesar_caso($d,6,3);
 		}
-		//$resultados['nautilus'] = $this->procesar_caso($data['nautilus'],6,3);
 		
 		$servicios_proc = $this->utilities_model->procesos_servicio();
 		$sum_por_serv = array();
