@@ -70,6 +70,17 @@ $lang['perm.hijo_18']							= "Crear riesgos";
 $lang['perm.hijo_19']							= "Modificar riesgos";
 $lang['perm.hijo_20']							= "Eliminar riesgos";
 
+$lang['perm.hijo_21']							= "Crear PCN";
+$lang['perm.hijo_22']							= "Modificar PCN";
+$lang['perm.hijo_23']							= "Eliminar PCN";
+$lang['perm.hijo_24']							= "Listado de respaldos de la base de datos";
+$lang['perm.hijo_25']							= "Crear respaldo de la base de datos";
+$lang['perm.hijo_26']							= "Eliminar categoria de riesgos";
+$lang['perm.hijo_27']							= "Listado de riesgos";
+$lang['perm.hijo_28']							= "Crear riesgos";
+$lang['perm.hijo_29']							= "Modificar riesgos";
+$lang['perm.hijo_30']							= "Eliminar riesgos";
+
 //TIPOS DE COMITE DE PLAN DE CONTINUIDAD DEL NEGOCIO
 $lang['comite.crisis']							= "El <strong>Comité de Crisis</strong> se encarga de realizar un análisis situacional y de acuerdo a los resultados debe tomar la decisión de activación del Plan de Continuidad del negocio.";
 $lang['comite.recuperacion']					= "El <strong>Equipo de Recuperación</strong> debe reestablecer la infraestructura caida o procesos en estado de alerta, lo cual comprende levantamiento de servidores, clientes, comunicaciones en general, entre otros.";

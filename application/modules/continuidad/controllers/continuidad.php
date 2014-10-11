@@ -140,16 +140,6 @@ class Continuidad extends MX_Controller
 		$view['nivel'] = 11;
 		$this->load->helper('text');
 		
-		// if($this->session->userdata('alertas_off'))
-		// {
-			// $alerts = $this->session->userdata('alertas');
-			// unset($alerts[$this->session->userdata('alertas_off')]);
-			// $this->session->unset_userdata('alertas');
-			// $this->session->unset_userdata('alertas_off');
-			// $this->session->set_userdata('alertas',$alerts);
-// 			
-		// }
-		
 		$breadcrumbs = array
 		(
 			base_url() => 'Inicio',
@@ -158,18 +148,6 @@ class Continuidad extends MX_Controller
 			'#' => 'Listado de PCN'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
-		
-		
-		// $riesgos = modules::run('continuidad/gestion_riesgos/get_risks');
-		// if(!empty($tipo_listado))
-		// {
-			// foreach($riesgos as $key => $riesgo)
-			// {
-				// if($riesgo->valoracion != $tipo_listado)
-					// unset($riesgos[$key]);
-			// }
-		// }
-		// $view['riesgos'] = $riesgos;
 		
 		$view['planes_continuidad'] = (empty($tipo_listado)) ? $this->riesgos->get_allpcn() : $this->riesgos->get_allpcn(array('ra.valoracion' => $tipo_listado));
 		$tipo_listado = str_replace('-', ' ', $tipo_listado);
@@ -184,9 +162,9 @@ class Continuidad extends MX_Controller
 	public function crear($valoracion = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 21);
+		$vista = ($permiso) ? 'crear_pcn' : 'usuario_sinpermiso';
+		$view['nivel'] = 21;
 		$this->load->helper('text');
 		
 		$breadcrumbs = array
@@ -293,7 +271,7 @@ class Continuidad extends MX_Controller
 		$view['departamentos'] = $this->general->get_table('departamento');
 		$view['estados'] = $this->general->get_table('usuarios_estado');
 		$view['crearpcn_js'] = $this->load->view('continuidad/continuidad/crearpcn_js','',TRUE);
-		$this->utils->template($this->_list1(),'continuidad/continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
+		$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Crear nuevo PCN','two_level');
 	}
 
 	public function activar_alerta($id,$valoracion,$status)
@@ -313,9 +291,9 @@ class Continuidad extends MX_Controller
 	public function modificar_pcn($valoracion, $id_continuidad = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 15);
+		$permiso = modules::run('general/have_permission', 22);
 		$vista = ($permiso) ? 'crear_pcn' : 'continuidad_sinpermiso';
-		$view['nivel'] = 15;
+		$view['nivel'] = 22;
 		$this->load->helper('text');
 		$view['valoracion'] = $valoracion;
 		
@@ -354,12 +332,12 @@ class Continuidad extends MX_Controller
 	public function eliminar_pcn($valoracion,$id_pcn = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 15);
-		$vista = ($permiso) ? 'crear_pcn' : 'continuidad_sinpermiso';
-		$view['nivel'] = 15;
+		$permiso = modules::run('general/have_permission', 23);
+		$vista = ($permiso) ? 'eliminar' : 'continuidad_sinpermiso';
+		$view['nivel'] = 23;
 		
 		$where['id_continuidad'] = $id_pcn;
-		if(!empty($id_pcn) && $this->general->exist('plan_continuidad',$where))
+		if(!empty($id_pcn) && $this->general->exist('plan_continuidad',$where) && ($vista == 'eliminar'))
 		{
 			if($this->general->delete('plan_continuidad',$where))
 			{
@@ -374,7 +352,10 @@ class Continuidad extends MX_Controller
 		}else
 			$this->session->set_flashdata('alert_error','El Plan de Continuidad del Negocio que intenta eliminar no se encuentra en la base de datos');
 		
-		redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
+		if($vista == 'eliminar')
+			redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
+		else
+			$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Eliminar PCN','two_level');
 	}
 
 	private function percent($item, $count)
@@ -443,9 +424,9 @@ class Continuidad extends MX_Controller
 	public function listado_backup()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 15);
+		$permiso = modules::run('general/have_permission', 24);
 		$vista = ($permiso) ? 'listado_backup' : 'continuidad_sinpermiso';
-		$view['nivel'] = 15;
+		$view['nivel'] = 24;
 		$this->load->helper('text');
 		
 		$breadcrumbs = array
@@ -463,9 +444,9 @@ class Continuidad extends MX_Controller
 	public function crea_backup()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 15);
+		$permiso = modules::run('general/have_permission', 25);
 		$vista = ($permiso) ? 'listado_backup' : 'continuidad_sinpermiso';
-		$view['nivel'] = 15;
+		$view['nivel'] = 25;
 		
 		if($_POST)
 		{
