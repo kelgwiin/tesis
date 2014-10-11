@@ -242,54 +242,5 @@ class Utilities_model extends CI_Model {
         return $this->db->count_all($table_name);
     }
 
-    //Queries for Characterization
-    public function proceso_historial($name){
-        $sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
-                FROM proceso_historial 
-                WHERE comando_ejecutable = '$name';";
-        $q = $this->db->query($sql);
-
-        //Formateando los resultados
-        $rs = array();
-        foreach ($q->result_array() as $row) {
-            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_escritura_dd']);
-        }
-        return $rs;
-    }
-
-    public function nom_proc_historial(){
-        $sql = "SELECT distinct sp.nombre p
-                FROM servicio s
-                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id;";
-        $q = $this->db->query($sql);
-        $nombres = array();
-        foreach ($q->result_array() as $row) {
-            $nombres[] = $row['p'];
-        }
-        return $nombres;
-    }
-
-    public function procesos_servicio(){
-        $sql = "SELECT  sp.nombre p, s.servicio_id
-                FROM servicio s
-                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id ;";
-        $q = $this->db->query($sql);
-        return $q->result_array();
-    }
-
-    // Número de procesos por comando ejecutable
-    public function num_procesos(){
-        $sql = "SELECT comando_ejecutable, COUNT(*) num
-                FROM proceso_historial
-                GROUP BY comando_ejecutable;";
-        $q = $this->db->query($sql);
-        $r = array();
-        foreach ($q->result_array() as $row) {
-            $r[$row['comando_ejecutable']] = $row['num'];
-        }
-        return $r;
-    }
-
-
 } // /class Utilities_model.php
 //Location: ./modules/utilities/models/utilities_model.php

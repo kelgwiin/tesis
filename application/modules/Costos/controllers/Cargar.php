@@ -15,6 +15,7 @@ class Cargar extends MX_Controller
 		parent::__construct();
 		//Models
 		$this->load->model('utilities/utilities_model');
+		$this->load->model('caracterizacion_model','carac_model');
 		$this->load->model('cargar_costos_indirectos_model','cargar_ci_model');
 
 		//Helpers
@@ -193,22 +194,23 @@ class Cargar extends MX_Controller
 		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
 		echo json_encode($resp);
 	}
+	
 	//------------------------------
 	// Métodos para caracterización |
 	//------------------------------
 	public function caracterizar(){
 		//Recopilando nombre de los procesos que se encuentran asociados a los Servicios
-		$nom_procesos = $this->utilities_model->nom_proc_historial();
+		$nom_procesos = $this->carac_model->nom_proc_historial();
 		$data = array();
 		
 		//Obteniendo la data asociada a los procesos recopilados
 		foreach ($nom_procesos as $nom) {
-			$data[$nom] = $this->utilities_model->proceso_historial($nom);
+			$data[$nom] = $this->carac_model->proceso_historial($nom);
 		}
 		
 		
 		//numero de registros por comando
-		$reg_por_com = $this->utilities_model->num_procesos();
+		$reg_por_com = $this->carac_model->num_procesos();
 		
 		//procesosando el caso aplicando el kmeans
 		$resultados = array();
@@ -218,7 +220,7 @@ class Cargar extends MX_Controller
 			$resultados[$key] = $tmp;
 		}
 		
-		$servicios_proc = $this->utilities_model->procesos_servicio();
+		$servicios_proc = $this->carac_model->procesos_servicio();
 		$sum_por_serv = array();
 		foreach ($servicios_proc as $row) {
 			if(isset($sum_por_serv[$row['servicio_id']]) ){
@@ -286,7 +288,7 @@ class Cargar extends MX_Controller
 		echo 'Inicio de kmeans<br>';
 		
 		//1.- Obtencion de la data
-		$data = $this->utilities_model->proceso_historial();
+		$data = $this->carac_model->proceso_historial();
 		//echo_pre($data);
 		$num_clusters = 6;
 		
