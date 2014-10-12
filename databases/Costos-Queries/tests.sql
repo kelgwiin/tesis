@@ -205,3 +205,9 @@ select * from proceso_historial;
 delete 
 from proceso_historial 
 where proceso_historial_id > 0;
+
+select * from servicio;
+
+update servicio
+set nombre = 'Servicio 1 - c2'
+where servicio_id = 1;
