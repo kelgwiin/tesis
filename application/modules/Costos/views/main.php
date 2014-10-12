@@ -84,7 +84,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-6">
-										<i class="fa fa-signal fa-5x"></i>
+										<i class="fa fa-line-chart fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
 										<p class="announcement-text">Históricos</p>

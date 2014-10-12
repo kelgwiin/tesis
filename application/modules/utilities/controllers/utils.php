@@ -353,7 +353,7 @@ class Utils extends MX_Controller
 		$l[] = array(
 			"chain" => "Históricos",
 			"href" => site_url('index.php/Costos/Historicos'),
-			"icon" => "fa fa-signal"
+			"icon" => "fa fa-line-chart"
 		
 		);
 
