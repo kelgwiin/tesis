@@ -366,6 +366,9 @@ class Utils extends MX_Controller
 		return $l;
 	}//end of function: list_sidebar_costos
 
+	public function is_logged(){
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+	}
 
 }
 // Location: ./modules/utilities/controller/utils.php

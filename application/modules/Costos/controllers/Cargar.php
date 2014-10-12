@@ -41,6 +41,7 @@ class Cargar extends MX_Controller
 	 * también las links para la creación de ellos.
 	 */
 	public function CostosIndirectos(){
+		$this->utils->is_logged();
 		$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
 		$this->utils->template($this->list_sidebar,'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
@@ -48,6 +49,7 @@ class Cargar extends MX_Controller
 
 	//Conjunto de Formularios de Costos Indirectos
 	public function Arrendamiento($id_actualizar=NULL){
+		$this->utils->is_logged();
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -58,6 +60,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function Mantenimiento($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -70,6 +74,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function Formacion($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -80,6 +86,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function HonorariosProf($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -89,6 +97,8 @@ class Cargar extends MX_Controller
 	}
 	
 	public function Utileria($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -98,6 +108,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function Guardar($table_name){
+		$this->utils->is_logged();
+
 		$p = $this->input->post();
 		
 		$table_name = strtolower($table_name);
@@ -161,6 +173,8 @@ class Cargar extends MX_Controller
 	 * @param Integer $id
 	 */
 	public function GuardarAct($table_name, $id){
+		$this->utils->is_logged();
+		
 		$table_name = strtolower($table_name);
 		$p = $this->input->post();
 

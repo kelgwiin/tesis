@@ -48,6 +48,7 @@ class Cargar_Data extends MX_Controller
 		switch ($action) {
 			//Formulario de datos básicos
 			case 'form':
+				$this->utils->is_logged();
 				//Obteniendo los datos básicos que ya fueron cargados (si los hay)
 				$row = $this->utilities_model->first_row('organizacion','organizacion_id');
 				$info['org'] = NULL;
@@ -110,6 +111,7 @@ class Cargar_Data extends MX_Controller
 		switch ($action) {
 			//Listando los componentes de ti
 			case 'list':
+				$this->utils->is_logged();
 				$params_main_content = $this->_config_comp_ti($this->per_page,
 					false,$cur_page,array('accion' => 'all' ),NULL);
 				$this->utils->template($this->_list(3),'cargar_data/componentes_ti_view',
@@ -118,6 +120,7 @@ class Cargar_Data extends MX_Controller
 
 			//Muestra el mensaje de guardado exitoso
 			case 'guardado': 
+				$this->utils->is_logged();
 				$params_main_content = $this->_config_comp_ti($this->per_page,
 					true,1,array('accion' => 'all' ),NULL);
 				$this->utils->template($this->_list(3),'cargar_data/componentes_ti_view',
@@ -126,6 +129,7 @@ class Cargar_Data extends MX_Controller
 
 			//Formulario de nuevo componente de ti
 			case 'nuevo':
+				$this->utils->is_logged();
 				//Consultando el maestro de Categoria
 				$info['categorias'] = $this->utilities_model->all('ma_categoria');
 
@@ -174,6 +178,7 @@ class Cargar_Data extends MX_Controller
 
 			//Filtrando el contenido de los componentes de ti
 			case 'filtrar':
+				$this->utils->is_logged();
 				$op = $this->input->get('filtro-componente-ti');
 				
 				$p_get = get_encode($this->input->get());
@@ -223,6 +228,7 @@ class Cargar_Data extends MX_Controller
 					break;
 			//Actualizando el componente de TI muestra el formulario con la data actual
 			case 'actualizar':
+				$this->utils->is_logged();
 				$id_comp_ti = $this->uri->segment(4);
 
 				//consultando componente de ti actual
@@ -280,6 +286,7 @@ class Cargar_Data extends MX_Controller
 				}
 				break;
 			case 'actualizado':
+				$this->utils->is_logged();
 				$params_main_content = $this->_config_comp_ti($this->per_page,
 					false,1,array('accion' => 'all' ),NULL,true);
 				$this->utils->template($this->_list(3),'cargar_data/componentes_ti_view',
@@ -303,6 +310,7 @@ class Cargar_Data extends MX_Controller
 		switch ($action) {
 			//Listando todos los departamentos
 			case 'list':
+				$this->utils->is_logged();
 				$params_main_content = $this->_config_dpto(false,false,false,$cur_page,
 					$this->per_page, array('accion' => 'todos'));
 				$this->utils->template($this->_list(4),'cargar_data/departamentos',
@@ -311,6 +319,7 @@ class Cargar_Data extends MX_Controller
 			
 			//Formulario de nuevo Departamento de ti
 			case 'filtrar':
+				$this->utils->is_logged();
 				$op = $this->input->get('filtro-dpto');
 				$p_get = get_encode($this->input->get());
 				$cur_page = $this->uri->segment(5);
@@ -332,6 +341,7 @@ class Cargar_Data extends MX_Controller
 
 				break;
 			case 'nuevo':
+				$this->utils->is_logged();
 				//Info de los Departamentos en el sistema
 				$params_main_content['list_comp_ti'] = $this->basico_model->ids_nombres_comp_ti();
 				$params_main_content['actualizar'] = false;
@@ -350,6 +360,7 @@ class Cargar_Data extends MX_Controller
 				break;
 			//Desplegando msj de guardado
 			case 'guardado':
+				$this->utils->is_logged();
 				$params_main_content = $this->_config_dpto(false,true,false,1,
 					$this->per_page,array('accion'=>'todos'));
 				$this->utils->template($this->_list(4),'cargar_data/departamentos',
@@ -357,6 +368,7 @@ class Cargar_Data extends MX_Controller
 				break;
 			//Desplegando formulario lleno para su edición
 			case 'actualizar':
+				$this->utils->is_logged();
 				$dpto_id = $this->uri->segment(4);
 				
 				//Obteniendo la información del dpto
@@ -388,6 +400,7 @@ class Cargar_Data extends MX_Controller
 				break;
 			//Desplegando msj de actualizado
 			case 'actualizado':
+				$this->utils->is_logged();
 				$params_main_content = $this->_config_dpto(true,false,false,1,
 					$this->per_page,array('accion'=>'todos'));
 				$this->utils->template($this->_list(4),'cargar_data/departamentos',

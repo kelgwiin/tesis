@@ -45,8 +45,7 @@ class Costos extends MX_Controller
 	
 
 	public function index(){
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		
+		$this->utils->is_logged();
 		$this->utils->template($this->list_sidebar,'Costos/main','','Módulo de Gestión de Costos','',
 			'two_level');
 	}
@@ -78,6 +77,7 @@ class Costos extends MX_Controller
 	}
 
 	public function ModeloCostos(){
+		$this->utils->is_logged();
 		$this->utils->template($this->list_sidebar,'Costos/ModeloCostos','','Módulo de Gestión de Costos','Modelo de Costos',
 			'two_level');
 	}	
@@ -85,6 +85,7 @@ class Costos extends MX_Controller
 	public function Historicos($action = "index"){
 		switch ($action) {
 			case 'index':
+				$this->utils->is_logged();
 				$params['org'] = $this->org;//Datos de la organización
 				$this->utils->template($this->list_sidebar,'Costos/Historicos',$params,'Módulo de Gestión de Costos','Históricos',
 					'two_level');
@@ -129,6 +130,7 @@ class Costos extends MX_Controller
 	}	
 	
 	public function Recomendaciones(){
+		$this->utils->is_logged();
 		//Calculando y agregando la fecha de caducidad de los componentes de ti
 		$this->costos_model->add_fecha_hasta_comp();
 		$tmp = $this->recomendaciones_model->get();
