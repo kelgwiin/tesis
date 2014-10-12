@@ -22,6 +22,8 @@
 			//Obteniendo la data del form
 			var dataToSend = bk_this.serialize();
 
+			//Agregando efecto de movimiento
+			$('i#fa-procesar-comp-ti').addClass('fa-spin');
 			fo_proccess = function(data){
 				if(data.estatus == "ok"){
 					$('div#msj-vacio').removeClass('show').addClass('hidden');//escondiendo el msj, si estaba
@@ -43,6 +45,8 @@
 					$('tbody#info > tr').remove();
 					$('div#msj-vacio').removeClass('hidden').addClass('show');//mostrando el msj de error
 				}
+				//Deteniendo movimiento
+				$('i#fa-procesar-comp-ti').removeClass('fa-spin');
 
 			}
 
@@ -129,7 +133,7 @@
 									data-original-title="Procesar consulta del Modelo de Costo"
 									data-placement = "right"
 									id = "btn-procesar-comp-ti">
-								<i class = "fa fa-cog" ></i> Procesar
+								<i class = "fa fa-lg fa-cog" id = "fa-procesar-comp-ti" ></i> Procesar
 							</button>
 						</div>
 
