@@ -1,5 +1,5 @@
 
-function deleteProcesoServicio(id_proceso) {
+function deleteProcesoServicio(id_proceso,id_servicio) {
 
           $("#eliminar").modal('show');
 
@@ -12,7 +12,8 @@ function deleteProcesoServicio(id_proceso) {
                             url: config.base+'index.php/cargar_data/cargar_data/eliminar_servicio_proceso',
                             type: 'POST',
                             data: {                         
-                                    proceso_id : id_proceso,                                            
+                                    proceso_id : id_proceso, 
+                                    servicio_id : id_servicio,                                            
                                   },
                             //dataType: 'json',
                             cache : false,  
@@ -20,7 +21,7 @@ function deleteProcesoServicio(id_proceso) {
                              success: function(data){
                                                
                               $("#eliminar").modal('hide');
-                              window.location.href = config.base+'index.php/cargar_data/cargar_data/servicio_proceso';
+                              window.location.href = config.base+'index.php/cargar_data/cargar_data/servicio_proceso/'+id_servicio;
                                        
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -88,7 +89,7 @@ $( document ).ready(function() {
 
               success: function(data){
              
-                 window.location.href = config.base+'index.php/cargar_data/cargar_data/servicio_proceso';
+                 window.location.href = config.base+'index.php/cargar_data/cargar_data/servicio_proceso/'+$("#dropdown_servicio_procesos").val();
                                           
               },
              error: function(xhr, ajaxOptions, thrownError){
@@ -155,32 +156,6 @@ $( document ).ready(function() {
 
     // Crea el Datatable
     $('#dataTables-procesos').dataTable();
-
-     //:: btn add Componente al dpto ::
-    $('button#add_proceso_servicio_soportado').on('click',function(){
-        options = $('select#lista_procesos_servicio :selected'); 
-        options.each(     
-                function(){
-                    op = $(this);
-                    $('select#procesos_servicio_soporte').append(op);
-                }
-            );
-    });
-
-    //:: btn rm Componente al dpto ::
-    //remueve los procesos seleccionados
-    $('button#rm_proceso_servicio_soportado').on('click',function(){
-        options = $('select#procesos_servicio_soporte :selected');
-        lon = options.length;
-        vals = "";
-        options.each(     
-                function(){
-                    op = $(this);
-                    $('select#lista_procesos_servicio').append(op);
-                }
-            );
-    });
- 
  
 
 

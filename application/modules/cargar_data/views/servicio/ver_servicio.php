@@ -86,7 +86,7 @@
 						  	<?php endif ?>
 						  	<?php if($servicio->prioridad_servicio == 'Baja') : ?>
 						  				<span class="label label-default"><?php echo $servicio->prioridad_servicio; ?></span>
-						  	<?php endif ?>
+						  	<?php endif ?></td>
 						</tr>	
 
 						</tr>
