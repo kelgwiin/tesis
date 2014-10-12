@@ -193,3 +193,15 @@ select * from proceso_historial;
 SELECT  sp.nombre proceso, s.servicio_id
                 FROM servicio s
                 JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id ;
+
+select *, rand()*90 as ale
+from caracterizacion;
+
+update proceso_historial
+set tasa_escritura_dd= rand()*4096;
+
+select * from proceso_historial;
+
+delete 
+from proceso_historial 
+where proceso_historial_id > 0;

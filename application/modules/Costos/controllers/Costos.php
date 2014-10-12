@@ -17,6 +17,7 @@ class Costos extends MX_Controller
 		$this->load->model('costos_model');
 		$this->load->model('historicos_model');
 		$this->load->model('recomendaciones_model');
+		$this->load->model('caracterizacion_model','carac_model');
 
 		//Helpers
 		$this->load->helper('date');
@@ -76,11 +77,19 @@ class Costos extends MX_Controller
 			//Casos de Prueba
 			//----------------
 			case 'caso':
-				echo "<strong>Caso de prueba $anio </strong><br>";
+				$dsc = array(
+					"1"=>"Data de la DIUC",
+					"2"=>"Servidor Virtual"
+				);
+				$d = $dsc[$anio];
+				echo "<strong>Caso de prueba $anio - $d</strong><br>";
+				$this->carac_model->reset_proc_hist();
+				echo "1.-Tabla <code>proceso_historial</code> vaciada <br>";
+
 				$caso1 = read_file("./databases/Costos-Queries/casos-prueba/$action-$anio.in");
-				echo $caso1;
-				$rs = $this->utilities_model->run_query($caso1);
-				echo_pre($rs);
+				$this->utilities_model->run_query($caso1);
+				echo "2.-Inserción de nuevos registros<br>";
+				
 				break;
 			//end of: Casos de Prueba 
 		}

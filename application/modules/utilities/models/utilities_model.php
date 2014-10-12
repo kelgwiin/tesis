@@ -244,7 +244,6 @@ class Utilities_model extends CI_Model {
 
     public function run_query($sql){
         $q = $this->db->query($sql);
-        return $q->result_array();
     }
 
 } // /class Utilities_model.php

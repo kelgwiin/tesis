@@ -86,4 +86,10 @@ class Caracterizacion_model extends CI_Model{
             $this->db->insert('caracterizacion',$info);
         }
     }
+
+    public function reset_proc_hist(){
+        $sql = "DELETE 
+                FROM proceso_historial ;";
+        $this->db->query($sql);
+    }
 }
