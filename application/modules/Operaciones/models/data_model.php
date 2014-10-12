@@ -107,7 +107,7 @@ class Data_model extends MY_Model
         $data = $this->read_csv($filename);
         $data = $this->parse_toplot($data);
         $datos["mac_dir"] = $this->find_local_mac("eth0");
-        //OBTENER NIVELES DE SERVICIO POR PROCESO
+        //TODO:OBTENER NIVELES DE SERVICIO POR PROCESO
         $last = $intc = 0;
         foreach($data as $linea)
         {
