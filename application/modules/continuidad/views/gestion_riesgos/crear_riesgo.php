@@ -61,7 +61,7 @@
 										<?php foreach($procesos as $key => $proceso) : ?>
 											<option value="<?php echo $proceso->servicio_proceso_id ?>"
 												<?php echo (isset($riesgo->id_servicioproceso) && ($proceso->servicio_proceso_id == $riesgo->id_servicioproceso)) ? 'selected' : '' ?>>
-												<?php echo $proceso->nombre ?>
+												<?php echo $proceso->nombre.' ('.$proceso->tipo.')' ?>
 											</option>
 										<?php endforeach ?>
 									</select>
