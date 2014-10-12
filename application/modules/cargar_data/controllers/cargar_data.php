@@ -1274,46 +1274,10 @@ class Cargar_Data extends MX_Controller
 	public function servicio_proceso($servicio_proceso_id = ''){
 		
 		$this->load->model('general/general_model','general');
-		$this->load->library('form_validation');
 
-		$id = '';
-		if(!empty($servicio_proceso_id)) $id = $servicio_proceso_id;
-		if(isset($_POST['servicios'])) $id = $_POST['servicios'];
-		if(!empty($id))
-		{
-			$data_view['servicio_proceso_id'] = $id;
-			$data_view['servicio_actual'] = $this->general->get_row('servicio',array('servicio_id'=>$id));
-			
-		}
-
-         if($this->general->exist('servicio_proceso',array('servicio_id'=> $id )))
-            {
-            	$data_view['procesos'] = true;
-            	//$data_view['procesos_servicio'] = $this->general->get_table('servicio_proceso');
-            	$data_view['procesos_servicio'] = $this->general->get_result('servicio_proceso',array('servicio_id'=>$id)); 
-            }
-          else
-          {
-            	$data_view['procesos'] = false;
-          }
-          if($this->input->post('servicios') == 'seleccione')
-            {
-            	unset($data_view['servicio_proceso_id']);
-            }
-
-		$data_view['servicios'] = $this->general->get_table('servicio');
-		
-
-		$this->form_validation->set_rules('servicios', 'Servicios', 'callback_dropdown_servicio');
-
-	    if ($this->form_validation->run($this) == FALSE)
-          {
-             	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/main_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');             
-          }
-        else
-          {
-            	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/main_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
-          }          
+		$data_view['procesos_servicio'] = $this->general->get_table('servicio_proceso');
+      	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/main_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
+                
 	}
 
 	function servicio_proceso_check()
@@ -1329,28 +1293,37 @@ class Cargar_Data extends MX_Controller
 		}
 	}
 
+	function dropdown_tipo_proceso()
+	{
+		if ($this->input->post('tipo_proceso_servicio') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_tipo_proceso', 'Por favor seleccione una Categor&#237;a');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
 
-	public function nuevo_servicio_proceso($servicio_id = ''){
+
+	public function nuevo_servicio_proceso(){
 		 
     	
 		$this->load->model('general/general_model','general');
-		$data_view['servicio'] = $this->general->get_row('servicio',array('servicio_id'=>$servicio_id));
 
-
-		if(!empty($servicio_id))
-		{
 				 $this->load->library('form_validation');
 				 $this->load->helper(array('form', 'url'));
 		         $this->form_validation->set_rules('servicio_proceso_name', 'Nombre del Proceso', 'required|min_length[3]|max_length[150]|trim|callback_servicio_proceso_check');
 		         $this->form_validation->set_rules('descripcion', 'Descripción', '');
-		         $this->form_validation->set_rules('tipo_proceso_servicio', 'Tipo de Proceso', '');
+		         $this->form_validation->set_rules('tipo_proceso_servicio', 'Tipo de Proceso', 'callback_dropdown_tipo_proceso');
 
 		         $this->form_validation->set_message('required','El campo %s es obligatorio');
 		         
 		         if ($this->form_validation->run($this) == FALSE)
 		            {
 
-		                $this->utils->template($this->_list(7),'cargar_data/servicio_procesos/nuevo_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
+		                $this->utils->template($this->_list(7),'cargar_data/servicio_procesos/nuevo_servicio_procesos','','Cargar Infraestructura','Procesos de Servicio');
 		            }
 		            else
 		            {
@@ -1362,21 +1335,11 @@ class Cargar_Data extends MX_Controller
 		            	{
 		            		$descripcion = NULL;
 		            	}
-
-		            	if( $this->input->post('tipo_proceso_servicio'))
-		            	{
-		            		$tipo_proceso = $this->input->post('tipo_proceso_servicio');
-		            	}
-		            	else
-		            	{
-		            		$tipo_proceso = NULL;
-		            	}
 		            	
 		                $proceso_servicio = array(
 		                                'nombre' => $this->input->post('servicio_proceso_name'),
 		                                'descripcion' => $descripcion,
-		                                'tipo' => $tipo_proceso,
-		                                'servicio_id' => $servicio_id,         
+		                                'tipo' => $this->input->post('tipo_proceso_servicio'),
 		                                );
 
 		            	$proceso_servicio = $this->general->insert('servicio_proceso',$proceso_servicio,'');
@@ -1393,8 +1356,7 @@ class Cargar_Data extends MX_Controller
 			            	}
 		               
 		            }	    
-        }
-
+        
 	}
 
 	public function ver_servicio_proceso($servicio_proceso_id = ''){
@@ -1402,6 +1364,7 @@ class Cargar_Data extends MX_Controller
 		$this->load->model('general/general_model','general');	
 		
 		$data_view['servicio_proceso'] =$this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$servicio_proceso_id));
+		$data_view['procesos_servicio_soporte'] =$this->general->get_result('proceso_soporta_servicio',array('servicio_proceso_id'=>$servicio_proceso_id));
 		$data_view['servicios'] = $this->general->get_table('servicio');
 		
 		$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/ver_servicio_procesos',$data_view,'Cargar Infraestructura','Procesos de Servicio');
@@ -1416,15 +1379,14 @@ class Cargar_Data extends MX_Controller
 		$this->load->model('general/general_model','general');
 		 
 		$data_view['servicio_proceso'] =$this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$servicio_proceso_id));
-		$data_view['servicios'] = $this->general->get_table('servicio');
-
+		
 		 $this->load->library('form_validation');
 		 $this->load->helper(array('form', 'url'));
 
 		 $this->form_validation->set_rules('servicio_proceso_name', 'Nombre del Proceso', 'required|min_length[3]|max_length[150]|trim|callback_servicio_proceso_check');
 		 $this->form_validation->set_rules('descripcion', 'Descripción', '');
-		 $this->form_validation->set_rules('tipo_proceso_servicio', 'Tipo de Proceso', '');
-		  $this->form_validation->set_rules('servicio_name', 'Nombre del Servicio', '');
+		 $this->form_validation->set_rules('tipo_proceso_servicio', 'Tipo de Proceso', 'callback_dropdown_tipo_proceso');
+		
 
 		 $servicio_proceso = $this->general->get_row('servicio_proceso',array('servicio_proceso_id' => $servicio_proceso_id));
 
@@ -1454,20 +1416,11 @@ class Cargar_Data extends MX_Controller
 		            	{
 		            		$descripcion = NULL;
 		            	}
-
-		            	if( $this->input->post('tipo_proceso_servicio'))
-		            	{
-		            		$tipo_proceso = $this->input->post('tipo_proceso_servicio');
-		            	}
-		            	else
-		            	{
-		            		$tipo_proceso = NULL;
-		            	}
 		            	
 		                $proceso_servicio = array(
 		                                'nombre' => $this->input->post('servicio_proceso_name'),
 		                                'descripcion' => $descripcion,
-		                                'tipo' => $tipo_proceso,        
+		                                'tipo' => $this->input->post('tipo_proceso_servicio'),        
 		                                );
 
             	$proceso_id = $this->general->update2('servicio_proceso',$proceso_servicio,array('servicio_proceso_id'=>$servicio_proceso_id));
@@ -1494,7 +1447,6 @@ class Cargar_Data extends MX_Controller
 
 		$this->load->model('general/general_model','general');
 		$id_proceso = $this->input->post('proceso_id');
-		$id_servicio = $this->input->post('servicio_id');
 		$delete = $this->general->delete('servicio_proceso',array('servicio_proceso_id'=>$id_proceso));
 		if($delete)
 	        {
@@ -1506,7 +1458,7 @@ class Cargar_Data extends MX_Controller
 			}
 		if($this->input->post('delete_ver'))
 			{
-				redirect(site_url('index.php/cargar_datos/servicio_procesos/'.$id_servicio));
+				redirect(site_url('index.php/cargar_datos/servicio_procesos'));
 			}	
 	}
 
@@ -1529,6 +1481,122 @@ class Cargar_Data extends MX_Controller
 			}
 
 			
+	}
+
+	public function procesos_por_servicio($servicio_id = ''){
+
+		$this->load->model('general/general_model','general');
+		$data_view['servicios'] = $this->general->get_table('servicio');
+		$data_view['procesos_servicio'] = $this->general->get_table('servicio_proceso');
+
+		if(!empty($servicio_id)) { 
+		 $data_view['servicio_id'] = $servicio_id;
+		 $data_view['servicio_actual'] = $servicio_id;
+
+				$data_view['procesos_soporte'] = array();
+
+				if($this->general->exist('proceso_soporta_servicio',array('servicio_id'=> $servicio_id)))
+		            {
+		            	$data_view['procesos_soporte'] = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=> $servicio_id)); 
+		            }
+		}
+
+
+		if($this->input->post('servicios'))
+			{
+				$data_view['servicio_actual'] = $this->input->post('servicios');
+
+				$data_view['procesos_soporte'] = array();
+
+				if($this->general->exist('proceso_soporta_servicio',array('servicio_id'=> $this->input->post('servicios'))))
+		            {
+		            	$data_view['procesos_soporte'] = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=> $this->input->post('servicios'))); 
+		            }
+			}
+
+   		if($this->input->post('servicios') == 'seleccione')
+            {
+            	unset($data_view['servicio_actual']);
+            }
+
+
+        $this->form_validation->set_rules('servicios', 'Servicios', 'callback_dropdown_servicio');
+
+	    if ($this->form_validation->run($this) == FALSE)
+          {
+             	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/procesos_por_servicio',$data_view,'Cargar Infraestructura','Servicio');             
+          }
+        else
+          {
+            	$this->utils->template($this->_list(7),'cargar_data/servicio_procesos/procesos_por_servicio',$data_view,'Cargar Infraestructura','Servicio');
+          } 
+
+
+
+       if ($this->input->post('procesos_servicio_soporte'))
+        {
+	       	foreach ($this->input->post('procesos_servicio_soporte') as $key => $proceso_servicio_soporte)
+	       	{
+	       		
+	       		$soporte = false;
+	       		if( !($this->general->exist('proceso_soporta_servicio',array('servicio_proceso_id'=> $proceso_servicio_soporte,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       		  $proceso_servicio = array(
+	                                'servicio_id' => $this->input->post('servicios'),
+	                                'servicio_proceso_id' => $proceso_servicio_soporte,  
+	                                );
+
+	            	$this->general->insert('proceso_soporta_servicio',$proceso_servicio,'');
+	            }
+	             if(($this->general->exist('proceso_soporta_servicio',array('servicio_proceso_id'=> $proceso_servicio_soporte,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Procesos de Servicio Seleccionados han sido Agregados con Éxito');
+					redirect(site_url('index.php/cargar_datos/servicio_procesos/procesos_por_servicio/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Agregar los Procesos de Servicio Seleccionados');
+					redirect(site_url('index.php/cargar_datos/servicio_procesos/procesos_por_servicio/'.$this->input->post('servicios')));
+				}
+       }
+
+        if ($this->input->post('lista_procesos_servicio'))
+        {
+	       	foreach ($this->input->post('lista_procesos_servicio') as $key => $lista_proceso)
+	       	{
+	       		
+	       		$soporte = false;
+	       		if(($this->general->exist('proceso_soporta_servicio',array('servicio_proceso_id'=> $lista_proceso,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+
+	            	$this->general->delete('proceso_soporta_servicio',array('servicio_proceso_id'=> $lista_proceso,'servicio_id'=> $this->input->post('servicios')));
+	            }
+	             if(!($this->general->exist('proceso_soporta_servicio',array('servicio_proceso_id'=> $lista_proceso,'servicio_id'=> $this->input->post('servicios')))) )
+	       		{
+	       			$soporte = true;
+	       		}
+	       	}
+
+	       
+
+	       		if($soporte)
+		        {
+					$this->session->set_flashdata('Success', 'Los Procesos de Servicio Seleccionados han sido Removidos con Éxito');
+					redirect(site_url('index.php/cargar_datos/servicio_procesos/procesos_por_servicio/'.$this->input->post('servicios')));
+				}
+				else
+				{
+					$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Remover los Procesos de Servicio Seleccionados');
+					redirect(site_url('index.php/cargar_datos/servicio_procesos/procesos_por_servicio/'.$this->input->post('servicios')));
+				}
+       }
+		  
 	}
 
 

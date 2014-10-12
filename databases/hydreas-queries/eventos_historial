@@ -1,0 +1,12 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+DROP TABLE IF EXISTS `eventos_historial`;
+CREATE TABLE IF NOT EXISTS `eventos_historial` (
+  `evento_historial_id` int(11) NOT NULL AUTO_INCREMENT,
+  `prioridad` varchar(20) NOT NULL,
+  `categoria` varchar(20) NOT NULL,
+  `info` varchar(9000) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`evento_historial_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

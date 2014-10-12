@@ -15,27 +15,35 @@
 				<table class="table">	
 					<thead>
 						 <tr>
-						  <td class="col-lg-4"><b>Nombre del Proceso</b></td>
-						  <td class="col-lg-8 text-left"><?php echo $servicio_proceso->nombre; ?></td>
+						  <td class="col-lg-4"><b>Nombre del Servicio</b></td>
+						  <td class="col-lg-8 text-left">  <?php foreach($servicios as $servicio)
+							                			{
+							                				if($servicio->servicio_id == $servicio_proceso->servicio_id)
+							                				{
+							                					?> 
+							                				
+							                					<span class="label label-info "  style=" font-size:14px;" > <?php echo $servicio->nombre; ?> </span> 
+							                				 
+							                				 <?php 
+							                				}
+							                			}
+							                	   ?></td>
 						</tr>
 					</thead>	
 					<tbody>
-						
 						 <tr>
-						  <td class="col-lg-4"><b>Tipo de Prioridad</b></td>
-						  <td class="col-lg-8 text-left">
-						  		<?php if($servicio_proceso->tipo == 'Critica') : ?>
-									  				<span class="label label-danger"><?php echo $servicio_proceso->tipo; ?></span>
-												  	<?php endif ?>
-							                 		<?php if($servicio_proceso->tipo == 'Alta') : ?>
-									  				<span class="label" style="background-color:#FF6600;" ><?php echo $servicio_proceso->tipo; ?></span>
-												  	<?php endif ?>
-												  	<?php if($servicio_proceso->tipo == 'Media') : ?>
-												  				<span class="label" style="background-color:#FFCC66;"><?php echo $servicio_proceso->tipo; ?></span>
-												  	<?php endif ?>
-												  	<?php if($servicio_proceso->tipo == 'Baja') : ?>
-												  				<span class="label label-default"><?php echo $servicio_proceso->tipo; ?></span>
-												  	<?php endif ?>
+						  <td class="col-lg-4"><b>Nombre del Proceso</b></td>
+						  <td class="col-lg-8 text-left"><?php echo $servicio_proceso->nombre; ?></td>
+						</tr>
+						 <tr>
+						  <td class="col-lg-4"><b>Tipo de Proceso</b></td>
+						  <td class="col-lg-8 text-left"><?php if($servicio_proceso->tipo != NULL) : ?>
+
+							                 	<?php echo $servicio_proceso->tipo; ?> 
+
+							                 	<?php else : ?>
+							                 		<em>No posee</em>
+							                 	<?php endif ?>
 							</td>
 						</tr>
 						 <tr>
@@ -59,32 +67,6 @@
 							                 	<?php endif ?></td>
 						</tr>	
 
-						 <tr>
-						  <td class="col-lg-4"><b>Servicios que Soporta</b></td>
-						  <td class="col-lg-8 text-left">
-					      <?php $last = end($procesos_servicio_soporte); ?>
-						  <?php if(count($procesos_servicio_soporte) > 0) : ?>
-							  <?php foreach ($procesos_servicio_soporte as $proceso_servicio_soporte) : ?>
-																		
-									<?php foreach ($servicios as $servicio) : ?>
-
-											<?php if($proceso_servicio_soporte->servicio_id == $servicio->servicio_id) : ?>
-												 
-												 <?php if($proceso_servicio_soporte != $last) : ?>
-													<?php echo $servicio->nombre.", ";?>
-												<?php else : ?>
-													<?php echo $servicio->nombre;?>
-												<?php endif ?>
-
-											<?php endif ?>
-									<?php endforeach ?>
-							   <?php endforeach ?>	
-							   		
-							<?php else : ?>
-								<em> No Posee </em>
-							<?php endif ?></td>
-						</tr>
-
 					</tbody>
 				</table>
 			</div>
@@ -98,6 +80,7 @@
 
 				<div style="display: none;">				
 				<?php echo form_input('proceso_id', $servicio_proceso->servicio_proceso_id);
+					  echo form_input('servicio_id', $servicio_proceso->servicio_id);
 					  echo form_input('delete_ver', true);
 
 			
@@ -106,7 +89,7 @@
 			
 
 			<div class="panel-footer text-right">
-				<a href="<?php echo base_url('index.php/cargar_datos/servicio_procesos');?>" type="button" class="btn btn-default" id="cancelar">Volver</a>
+				<a href="<?php echo base_url('index.php/cargar_datos/servicio_procesos/'.$servicio_proceso->servicio_id);?>" type="button" class="btn btn-default" id="cancelar">Volver</a>
 	                <a href="<?php echo base_url().'index.php/cargar_datos/servicio_procesos/modificar/'.$servicio_proceso->servicio_proceso_id ?>"  data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Actualizar</a>
 	                <a  data-original-title="Eliminar" data-target="#eliminar" data-toggle="modal" type="button" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Eliminar</a>
 
