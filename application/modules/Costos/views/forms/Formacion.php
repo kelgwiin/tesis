@@ -34,7 +34,7 @@
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					En este apartado se ingresan los montos invertidos en <strong>Formación de Personal</strong>, ya sea que vayan a ser
-					usuarios o formen parte del grupo central de del Departamento TI.
+					usuarios o formen parte del grupo central de TI.
 				</div>
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->

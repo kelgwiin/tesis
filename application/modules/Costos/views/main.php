@@ -13,8 +13,7 @@
 
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					Este módulo permite la gestión de los Costos Indirectos, la generación del Modelo de Costos por
-					servicio, la visualización del Impacto de un cambio en los costos,...
+					Este módulo permite la Gestión de los <strong>Costos Indirectos</strong>, la generación del <strong>Modelo de Costos</strong> asociado a los servicios y despliega unas gráficas que permiten ver el comportamiento tanto del Modelo de Costos como de las Inversiones en Componentes de TI.
 				</div>
 			</div><!-- end of col-12-->
 		</div><!-- end of row Cabecera-->
