@@ -242,5 +242,10 @@ class Utilities_model extends CI_Model {
         return $this->db->count_all($table_name);
     }
 
+    public function run_query($sql){
+        $q = $this->db->query($sql);
+        return $q->result_array();
+    }
+
 } // /class Utilities_model.php
 //Location: ./modules/utilities/models/utilities_model.php

@@ -51,7 +51,7 @@ class Costos extends MX_Controller
 	}
 
 	public function testCostos($action = "default",$anio="null"){
-		
+		$this->load->helper('file');
 		switch ($action) {
 			case 'default':
 				echo "Inicio de la prueba de Costos<br>";
@@ -72,6 +72,17 @@ class Costos extends MX_Controller
 				echo "Calculando el modelo de Costos para el año de: <code>$anio</code> <br>";
 				$this->costos_model->modelo_costos($anio,6);
 				break;
+			//----------------
+			//Casos de Prueba
+			//----------------
+			case 'caso':
+				echo "<strong>Caso de prueba $anio </strong><br>";
+				$caso1 = read_file("./databases/Costos-Queries/casos-prueba/$action-$anio.in");
+				echo $caso1;
+				$rs = $this->utilities_model->run_query($caso1);
+				echo_pre($rs);
+				break;
+			//end of: Casos de Prueba 
 		}
 		
 	}
