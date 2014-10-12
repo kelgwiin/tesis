@@ -34,11 +34,12 @@ $route['cargar_datos/servicio_infraestructura/(:num)'] = "cargar_data/cargar_dat
 
 
 $route['cargar_datos/servicio_procesos'] = "cargar_data/cargar_data/servicio_proceso";
-$route['cargar_datos/servicio_procesos/(:num)'] = "cargar_data/cargar_data/servicio_proceso/$1";
-$route['cargar_datos/servicio_procesos/crear/(:any)'] = "cargar_data/cargar_data/nuevo_servicio_proceso/$1";
+$route['cargar_datos/servicio_procesos/crear'] = "cargar_data/cargar_data/nuevo_servicio_proceso";
 $route['cargar_datos/servicio_procesos/ver/(:any)'] = "cargar_data/cargar_data/ver_servicio_proceso/$1";
 $route['cargar_datos/servicio_procesos/modificar/(:any)'] = "cargar_data/cargar_data/modificar_servicio_proceso/$1";
 $route['cargar_datos/servicio_procesos/eliminar'] = "cargar_data/cargar_data/eliminar_servicio_proceso";
+$route['cargar_datos/servicio_procesos/procesos_por_servicio'] = "cargar_data/cargar_data/procesos_por_servicio";
+$route['cargar_datos/servicio_procesos/procesos_por_servicio/(:num)'] = "cargar_data/cargar_data/procesos_por_servicio/$1";
 
 $route['cargar_datos/servicio_categorias'] = "cargar_data/cargar_data/servicio_categorias";
 $route['cargar_datos/servicio_categorias/crear'] = "cargar_data/cargar_data/nuevo_servicio_categoria";
