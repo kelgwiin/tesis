@@ -62,10 +62,9 @@ class Estrategias extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$this->load->helper('text');
-		// $permiso = modules::run('general/have_permission', 10);
-		// $vista = ($permiso) ? 'descripcion' : 'continuidad_sinpermiso';
-		// $view['nivel'] = 10;
-		$vista = 'listado_estrategias';
+		$permiso = modules::run('general/have_permission', 29);
+		$vista = ($permiso) ? 'listado_estrategias' : 'continuidad_sinpermiso';
+		$view['nivel'] = 29;
 		
 		$breadcrumbs = array
 		(
@@ -81,10 +80,9 @@ class Estrategias extends MX_Controller
 	public function crear_estrategia()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 10);
-		// $vista = ($permiso) ? 'descripcion' : 'continuidad_sinpermiso';
-		// $view['nivel'] = 10;
-		$vista = 'crear_estrategia';
+		$permiso = modules::run('general/have_permission', 30);
+		$vista = ($permiso) ? 'crear_estrategia' : 'continuidad_sinpermiso';
+		$view['nivel'] = 30;
 		
 		if($_POST)
 		{
@@ -149,10 +147,9 @@ class Estrategias extends MX_Controller
 	public function modificar_estrategia($id_estrategia = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 15);
-		// $vista = ($permiso) ? 'crear_estrategia' : 'continuidad_sinpermiso';
-		// $view['nivel'] = 15;
-		$vista = 'crear_estrategia';
+		$permiso = modules::run('general/have_permission', 31);
+		$vista = ($permiso) ? 'crear_estrategia' : 'continuidad_sinpermiso';
+		$view['nivel'] = 31;
 		
 		$where['id_estrategia'] = $id_estrategia;
 		if($this->general->exist('estrategias_recuperacion',$where))
@@ -178,10 +175,9 @@ class Estrategias extends MX_Controller
 	public function eliminar_estrategia($id_estrategia = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 16);
-		// $vista = ($permiso) ? 'eliminar' : 'continuidad_sinpermiso';
-		// $view['nivel'] = 16;
-		$vista = 'eliminar';
+		$permiso = modules::run('general/have_permission', 32);
+		$vista = ($permiso) ? 'eliminar' : 'continuidad_sinpermiso';
+		$view['nivel'] = 32;
 		
 		$where['id_estrategia'] = $id_estrategia;
 		if(($vista == 'eliminar') && $this->general->exist('estrategias_recuperacion',$where))

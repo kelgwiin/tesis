@@ -159,9 +159,19 @@ class Gestionriesgos_model extends CI_Model
 	
 	public function get_procesos()
 	{
-		$this->db->select('sp.*, s.nombre as nombre_servicio');
-		$this->db->join('servicio s','s.servicio_id = sp.servicio_id');
+		$this->db->select('sp.*');
 		$query = $this->db->get('servicio_proceso sp')->result();
 		return $query;
+	}
+	
+	public function get_servicios_fromproceso($id_servicioproceso)
+	{
+		$this->db->select('s.servicio_id, s.nombre');
+		$this->db->join('proceso_soporta_servicio pss','pss.servicio_id = s.servicio_id');
+		
+		$this->db->where('pss.servicio_proceso_id',$id_servicioproceso);
+		$query = $this->db->get('servicio s');
+		// die_pre($this->db->last_query());
+		return $query->result();
 	}
 }
