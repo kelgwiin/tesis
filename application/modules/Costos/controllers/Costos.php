@@ -45,6 +45,8 @@ class Costos extends MX_Controller
 	
 
 	public function index(){
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		
 		$this->utils->template($this->list_sidebar,'Costos/main','','Módulo de Gestión de Costos','',
 			'two_level');
 	}
@@ -140,6 +142,8 @@ class Costos extends MX_Controller
 	}
 
 	public function procesar_costeo(){
+		modules::run('Costos/Cargar/caracterizar');
+
 		$params = $this->input->post();
 		$this->load->model('modelo_costos_model','mcm');
 		

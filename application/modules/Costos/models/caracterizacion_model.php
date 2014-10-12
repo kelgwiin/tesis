@@ -65,9 +65,15 @@ class Caracterizacion_model extends CI_Model{
      * @param  Array $data Información Caracterizada
      */
     public function guardar_caracterizacion($data){
-        //Para borrar el valor si ya estaba previamente calculado
-        /*$sql = 
+        $sql_update = "UPDATE caracterizacion
+						SET borrado = 1
+						WHERE YEAR(fecha) = YEAR(CURDATE()) AND MONTH(fecha) = MONTH(CURDATE())
+						AND servicio_id = ? ";
+
         foreach ($data as $key => $row) {
+            //Marcar como borrado el valor si ya estaba previamente calculado
+        	$this->db->query($sql_update, array($key));
+
             $f = date('Y-m-d H:i:s',now());
             $info = array(
                 'servicio_id'=>$key,
@@ -77,7 +83,7 @@ class Caracterizacion_model extends CI_Model{
                 'total_uso_redes'=> 0, //wired
                 'fecha'=>$f
             );
-            $this->db->insert('caracterizacion',$data);
-        }*/
+            $this->db->insert('caracterizacion',$info);
+        }
     }
 }

@@ -194,11 +194,12 @@ class Cargar extends MX_Controller
 		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
 		echo json_encode($resp);
 	}
-	
+
 	//------------------------------
 	// Métodos para caracterización |
 	//------------------------------
 	public function caracterizar(){
+		$debug = false;
 		//Recopilando nombre de los procesos que se encuentran asociados a los Servicios
 		$nom_procesos = $this->carac_model->nom_proc_historial();
 		$data = array();
@@ -235,9 +236,14 @@ class Cargar extends MX_Controller
 			
 		}
 
-		echo_pre($sum_por_serv);
-
-		echo_pre($resultados);
+		//Guardando en la BD
+		$this->carac_model->guardar_caracterizacion($sum_por_serv);
+		if($debug){
+			echo "<code>Sumatoria con id's servicio <br></code>";
+			echo_pre($sum_por_serv);
+			echo "<code>Resultados en crudo <br></code>";
+			echo_pre($resultados);
+		}
 
 	}
 
