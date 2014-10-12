@@ -79,7 +79,8 @@ class Costos extends MX_Controller
 			case 'caso':
 				$dsc = array(
 					"1"=>"Data de la DIUC",
-					"2"=>"Servidor Virtual"
+					"2"=>"Servidor Virtual",
+					"3"=>"Data Generada Aleatoria"
 				);
 				$d = $dsc[$anio];
 				echo "<strong>Caso de prueba $anio - $d</strong><br>";
@@ -164,13 +165,18 @@ class Costos extends MX_Controller
 	}
 
 	public function procesar_costeo(){
-		modules::run('Costos/Cargar/caracterizar');
-
+		// Indica si se recalcula la caracterización, método de alto costo
+		// computacional
+		$recalcular = $this->input->post('recalcular');
+		if(isset($recalcular) && $recalcular){
+			modules::run('Costos/Cargar/caracterizar');
+		}
+		
 		$params = $this->input->post();
 		$this->load->model('modelo_costos_model','mcm');
 		
 		//Modelo de Costos
-		if($params['esquema_tiempo'] == "AA"){//¿Procesasr Modelo de Costo por mes o por año?
+		if($params['esquema_tiempo'] == "AA"){//¿Procesar Modelo de Costo por mes o por año?
 			$this->costos_model->modelo_costos($params['anio']);//todo el año
 		}else{
 			$this->costos_model->modelo_costos($params['anio'],$params['mes']);

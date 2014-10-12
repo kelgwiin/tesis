@@ -447,7 +447,9 @@
 												}
 											?>
 										>
-										<span class = "help-block">La capacidad es por cada ítem,  no la sumatoria</span>
+										<span class = "help-block">La capacidad es por cada ítem,  no la sumatoria. 
+										En el caso de procesadores multi-core debe ingresar la capacidad multiplicada por
+										el número de nucleos, Ej.: Un doble núcleo de 2.5 GHZ = 5 GHZ </span>
 									</div><!-- /col-5: input-->
 
 									<div class = "col-md-1 hidden" data-id = "icon-capacidad-componente-ti">

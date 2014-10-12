@@ -15,7 +15,10 @@ class Caracterizacion_model extends CI_Model{
                 FROM proceso_historial 
                 WHERE comando_ejecutable = '$name';";
         $q = $this->db->query($sql);
-
+        if($q->num_rows() <= 0){
+            return false;
+        }
+        
         //Formateando los resultados
         $rs = array();
         foreach ($q->result_array() as $row) {

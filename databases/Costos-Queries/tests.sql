@@ -211,3 +211,9 @@ select * from servicio;
 update servicio
 set nombre = 'Servicio 1 - c2'
 where servicio_id = 1;
+
+select * from estructura_costo;
+
+select * from caracterizacion;
+
+select * from servicio_costo;

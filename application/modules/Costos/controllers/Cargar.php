@@ -220,7 +220,10 @@ class Cargar extends MX_Controller
 		
 		//Obteniendo la data asociada a los procesos recopilados
 		foreach ($nom_procesos as $nom) {
-			$data[$nom] = $this->carac_model->proceso_historial($nom);
+			$data_tmp = $this->carac_model->proceso_historial($nom);
+			if(isset($data_tmp) && $data_tmp !== false){
+				$data[$nom] = $data_tmp;
+			}
 		}
 		
 		
@@ -240,11 +243,20 @@ class Cargar extends MX_Controller
 		foreach ($servicios_proc as $row) {
 			if(isset($sum_por_serv[$row['servicio_id']]) ){
 				for ($i=0; $i < 3; $i++) { 
-					$sum_por_serv[$row['servicio_id']][$i] += $resultados[$row['p']][$i];
+					//Se verifica que exista data de rendimiento
+					//para el proceso asociado al servicio
+					if(isset($resultados[$row['p']])){
+						$sum_por_serv[$row['servicio_id']][$i] += $resultados[$row['p']][$i];
+					}
 				}
 			}else{
-				for ($i=0; $i < 3; $i++) { 
-					$sum_por_serv[$row['servicio_id']][$i] = $resultados[$row['p']][$i];
+				for ($i=0; $i < 3; $i++) {
+					if(isset($resultados[$row['p']])){
+						$sum_por_serv[$row['servicio_id']][$i] = $resultados[$row['p']][$i];
+					}else{
+						$sum_por_serv[$row['servicio_id']][$i] = 0;
+					}
+					
 				}
 			}
 			
@@ -290,7 +302,9 @@ class Cargar extends MX_Controller
 		}
 		//promedio
 		for ($i=0; $i < $num_params; $i++) { 
-			$prom[$i] /= $counter;
+			if($counter != 0){
+				$prom[$i] /= $counter;
+			}
 		}
 		return $prom;
 	}
