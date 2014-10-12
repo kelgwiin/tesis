@@ -32,7 +32,7 @@
 						+"<td>" +it.nombre+"</td>" +
 						"<td>" +it.mes + "</td>" +
 						"<td>" + it.fecha_creacion+ "</td>"+
-						"<td>" + it.costo+ "</td> </tr>";
+						"<td>" + parseFloat(it.costo).toFixed(2)+ "</td> </tr>";
 					};
 					//Limpiando la información previamente cargada
 					$('tbody#info > tr').remove();

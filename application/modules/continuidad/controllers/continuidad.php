@@ -71,6 +71,7 @@ class Continuidad extends MX_Controller
 			'#' => 'Continuidad del Negocio'
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		
 		$this->utils->template($this->_list1(),'continuidad/'.$vista,$view,$this->title,'','two_level');
 	}
 	
@@ -148,33 +149,22 @@ class Continuidad extends MX_Controller
 		);
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		
-		
-		// $riesgos = modules::run('continuidad/gestion_riesgos/get_risks');
-		// if(!empty($tipo_listado))
-		// {
-			// foreach($riesgos as $key => $riesgo)
-			// {
-				// if($riesgo->valoracion != $tipo_listado)
-					// unset($riesgos[$key]);
-			// }
-		// }
-		// $view['riesgos'] = $riesgos;
-		
 		$view['planes_continuidad'] = (empty($tipo_listado)) ? $this->riesgos->get_allpcn() : $this->riesgos->get_allpcn(array('ra.valoracion' => $tipo_listado));
 		$tipo_listado = str_replace('-', ' ', $tipo_listado);
 		$tipo_listado = ucwords($tipo_listado);
 		$tipo_listado = str_replace(' ', '-', $tipo_listado);
 		$view['valoracion'] = $tipo_listado;
 		$view['listado_js'] = $this->load->view('continuidad/continuidad/listado_js','',TRUE);
+		// $alertas = ($this->session->userdata('alertas')) ? $this->session->userdata('alertas') : '';
 		$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Listado de PCN','two_level');
 	}
 	
 	public function crear($valoracion = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		// $permiso = modules::run('general/have_permission', 1);
-		// $vista = ($permiso) ? 'usuario_ver' : 'usuario_sinpermiso';
-		// $view['nivel'] = 1;
+		$permiso = modules::run('general/have_permission', 21);
+		$vista = ($permiso) ? 'crear_pcn' : 'usuario_sinpermiso';
+		$view['nivel'] = 21;
 		$this->load->helper('text');
 		
 		$breadcrumbs = array
@@ -238,15 +228,20 @@ class Continuidad extends MX_Controller
 					
 					if($this->general->update('plan_continuidad',$post,array('id_continuidad'=>$post['id_continuidad'])))
 					{
-						// if($_POST['id_estado'] == 1)
-						// {
+						if($_POST['id_estado'] == 1)
+						{
+							$this->activar_alerta($post['id_continuidad'], $valoracion, 1);
+							
 							// $pdf_file = $mpdf->Output($ruta,'S');
 							// $email = new stdClass();
 							// $email->subject = 'Activación de PCN';
 							// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$post['denominacion'].'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
 							// $email->pdf = $pdf_file;
 							// $this->mailing($template['involucrados'], $email, $valoracion);
-						// }
+						}else
+						{
+							$this->activar_alerta($post['id_continuidad'], $valoracion, 0);
+						}
 						$this->session->set_flashdata('alert_success','Plan de Continuidad del Negocio <strong>'.$post['denominacion'].'</strong> modificado con éxito');
 					}else
 						$this->session->set_flashdata('alert_error','Hubo un error al intentar modificar el Plan de  Continuidad del Negocio <strong>'.$post['denominacion'].'</strong>, por favor intente de nuevo o contacte a su administrador');
@@ -276,15 +271,29 @@ class Continuidad extends MX_Controller
 		$view['departamentos'] = $this->general->get_table('departamento');
 		$view['estados'] = $this->general->get_table('usuarios_estado');
 		$view['crearpcn_js'] = $this->load->view('continuidad/continuidad/crearpcn_js','',TRUE);
-		$this->utils->template($this->_list1(),'continuidad/continuidad/crear_pcn',$view,$this->title,'Crear nuevo PCN','two_level');
+		$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Crear nuevo PCN','two_level');
+	}
+
+	public function activar_alerta($id,$valoracion,$status)
+	{
+		$alertas = array
+		(
+			'id_module' => $id,
+			'prioridad' => 'Danger',
+			'categoria' => "Continuidad",
+			'descripcion' => "Se ha activado un Plan de Continuidad del Negocio",
+			'href' => site_url('index.php/continuidad/listado_pcn/'.$valoracion),
+			'activa' => $status
+		);
+		$this->general->set_alert($alertas,array('categoria'=>"Continuidad",'id_module'=>$id));
 	}
 
 	public function modificar_pcn($valoracion, $id_continuidad = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 15);
+		$permiso = modules::run('general/have_permission', 22);
 		$vista = ($permiso) ? 'crear_pcn' : 'continuidad_sinpermiso';
-		$view['nivel'] = 15;
+		$view['nivel'] = 22;
 		$this->load->helper('text');
 		$view['valoracion'] = $valoracion;
 		
@@ -316,8 +325,37 @@ class Continuidad extends MX_Controller
 		}else
 		{
 			$this->session->set_flashdata('alert_error','El Plan de Continuidad del Negocio que intenta modificar no se encuentra en la base de datos');
-			redirect(site_url('index.php/continuidad/listado_pcn'));
+			redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
 		}
+	}
+
+	public function eliminar_pcn($valoracion,$id_pcn = '')
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$permiso = modules::run('general/have_permission', 23);
+		$vista = ($permiso) ? 'eliminar' : 'continuidad_sinpermiso';
+		$view['nivel'] = 23;
+		
+		$where['id_continuidad'] = $id_pcn;
+		if(!empty($id_pcn) && $this->general->exist('plan_continuidad',$where) && ($vista == 'eliminar'))
+		{
+			if($this->general->delete('plan_continuidad',$where))
+			{
+				$where_2['categoria'] = 'Continuidad';
+				$where_2['id_module'] = $id_pcn;
+				if($this->general->exist('system_alerts',$where_2))
+					$this->general->delete('system_alerts',$where_2);
+				
+				$this->session->set_flashdata('alert_success','Plan de Continuidad del Negocio eliminado con éxito');
+			}else
+				$this->session->set_flashdata('alert_error','Ocurrió un problema intentando eliminar el Plan de Continuidad deseado. Por favor intente de nuevo o comuníquese con su administrador');
+		}else
+			$this->session->set_flashdata('alert_error','El Plan de Continuidad del Negocio que intenta eliminar no se encuentra en la base de datos');
+		
+		if($vista == 'eliminar')
+			redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
+		else
+			$this->utils->template($this->_list1(),'continuidad/continuidad/'.$vista,$view,$this->title,'Eliminar PCN','two_level');
 	}
 
 	private function percent($item, $count)
@@ -333,10 +371,12 @@ class Continuidad extends MX_Controller
 	{
 		$id_continuidad = $this->input->post('id_continuidad');
 		$state = $this->input->post('state');
+		$valoracion = $this->input->post('level');
 		$return = $this->general->update('plan_continuidad',array('id_estado'=>$state),array('id_continuidad'=>$id_continuidad));
 		
-		// if($state == 1)
-		// {
+		if($state == 1)
+		{
+			$this->activar_alerta($id_continuidad, $valoracion, 1);
 			// $involucrados = $this->riesgos->get_allinvolucrados($id_continuidad);
 			// $pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad));
 			// $pdf_file = (!empty($pcn)) ? $mpdf->Output($pcn->pdf,'S') : '';
@@ -345,7 +385,10 @@ class Continuidad extends MX_Controller
 			// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$pcn->denominacion.'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
 			// $email->pdf = $pdf_file;
 			// $this->mailing($involucrados, $email, $state);
-		// }
+		}else
+		{
+			$this->activar_alerta($id_continuidad, $valoracion, 0);
+		}
 		echo $return;
 	}
 
@@ -381,9 +424,9 @@ class Continuidad extends MX_Controller
 	public function listado_backup()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 15);
+		$permiso = modules::run('general/have_permission', 24);
 		$vista = ($permiso) ? 'listado_backup' : 'continuidad_sinpermiso';
-		$view['nivel'] = 15;
+		$view['nivel'] = 24;
 		$this->load->helper('text');
 		
 		$breadcrumbs = array
@@ -401,9 +444,9 @@ class Continuidad extends MX_Controller
 	public function crea_backup()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$permiso = modules::run('general/have_permission', 15);
+		$permiso = modules::run('general/have_permission', 25);
 		$vista = ($permiso) ? 'listado_backup' : 'continuidad_sinpermiso';
-		$view['nivel'] = 15;
+		$view['nivel'] = 25;
 		
 		if($_POST)
 		{

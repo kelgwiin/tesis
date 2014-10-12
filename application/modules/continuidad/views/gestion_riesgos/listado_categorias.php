@@ -24,6 +24,8 @@
 		</div>
 	</div>
 	
+	<?php //echo_pre($categorias) ?>
+	
 	<div class="row" style="margin-top: 25px">
 		<div class="col-lg-12">
 			<div class="table-responsive">
@@ -46,34 +48,40 @@
 		                		</td>
 		                		<td><?php echo character_limiter($categoria->descripcion,80) ?></td>
 		                		<td>
-		                			<a data-toggle="modal" data-target="#delete<?php echo $categoria->id_categoria ?>">
-		                				<span class="label label-danger">X</span>
-		                			</a>
+		                			<?php if(!$categoria->fija) : ?>
+			                			<a data-toggle="modal" data-target="#delete<?php echo $categoria->id_categoria ?>">
+			                				<span class="label label-danger">X</span>
+			                			</a>
+			                		<?php else : ?>
+			                			<span class="label label-default" data-toggle="tooltip" title="Imposible de eliminar esta categoría ya que pertenece al conjunto de categorías mínimas del sistema">X</span>
+		                			<?php endif ?>
 		                		</td>
 		                	</tr>
-		                	<div class="modal fade" id="delete<?php echo $categoria->id_categoria ?>" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
-								<div class="modal-dialog modal-sm">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-											<h4 class="modal-title" id="myModalLabel">Eliminar categoría</h4>
-										</div>
-										<div class="modal-body">
-											¿Está seguro que desea eliminar la categoría <strong><?php echo ucfirst($categoria->categoria) ?></strong>?<br />
-											Esto probablemente afecte a los riesgos que se encuentran dentro de esta categoría.<br />
-											Al eliminar una categoría, se <strong>eliminarán</strong> los riesgos y amenazas y los Planes de Continuidad del Negocio ligados a la categoría en cuestión.<br />
-											Por favor proceda con cautela.
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
-											<a href="<?php echo base_url().'index.php/continuidad/gestion_riesgos/categorias/eliminar/'.$categoria->id_categoria ?>"
-												type="button" class="btn btn-danger">
-												Eliminar
-											</a>
+		                	<?php if(!$categoria->fija) : ?>
+			                	<div class="modal fade" id="delete<?php echo $categoria->id_categoria ?>" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+									<div class="modal-dialog modal-sm">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+												<h4 class="modal-title" id="myModalLabel">Eliminar categoría</h4>
+											</div>
+											<div class="modal-body">
+												¿Está seguro que desea eliminar la categoría <strong><?php echo ucfirst($categoria->categoria) ?></strong>?<br />
+												Esto probablemente afecte a los riesgos que se encuentran dentro de esta categoría.<br />
+												Al eliminar una categoría, se <strong>eliminarán</strong> los riesgos y amenazas y los Planes de Continuidad del Negocio ligados a la categoría en cuestión.<br />
+												Por favor proceda con cautela.
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>
+												<a href="<?php echo base_url().'index.php/continuidad/gestion_riesgos/categorias/eliminar/'.$categoria->id_categoria ?>"
+													type="button" class="btn btn-danger">
+													Eliminar
+												</a>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							<?php endif ?>
 	                	<?php endforeach; ?>
 	                </tbody>
 				</table>
