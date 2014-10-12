@@ -75,7 +75,10 @@ class Data_model extends MY_Model
         $num_eventos = 0;
         foreach($array_files as $file)
         {
-            
+            //$time_start = microtime(true);
+            //$response[]["status_events"] = $this->model->insert_events_db("{$file}");
+            //$time_end = microtime(true);
+            //$response[]["elapsed_events"] = $time_start - $time_end;
         }
         return $response;
     }
@@ -95,25 +98,42 @@ class Data_model extends MY_Model
         else
         {        
             $array = $this->model->read_csv($filename);
-            $data = $this->parse_data($array); //preparar datos obtenidos de csv para posterior inserción en BD
+            $data = $this->parse_data($array);
             return $this->my_insert($data,FALSE,FALSE,FALSE,TRUE);
         }        
     }
     function insert_events_db($filename)
     {
         $data = $this->read_csv($filename);
+        $data = $this->parse_toplot($data);
+        $datos["mac_dir"] = $this->find_local_mac("eth0");
+        //OBTENER NIVELES DE SERVICIO POR PROCESO
+        $last = $intc = 0;
         foreach($data as $linea)
         {
-            
+            if($last !== $linea["tiempo_online"])
+            {
+                $last = $linea["tiempo_online"];
+                $datos["timestamp"] = $linea["timestamp"];
+                $datos["prioridad"] = "info";
+                $datos["categoria"] = "status";
+                if($linea["tiempo_online"] > 0) $data["info"] = "started";                    
+                else $data["info"] = "closed";
+                $stchange[] = $datos;
+            }                      
         }
+        $this->_table = 'eventos_historial';
+        $this->_id= 'evento_historial_id';
+        $this->my_insert($stchange,FALSE,FALSE,FALSE,TRUE);
+        $this->_table = 'proceso_historial';
+        $this->_id= 'proceso_historial_id';
     }
-    function parse_data($array)
+    function parse_data($array,$interface='eth0')
     {
         array_pop($array);
-        $mac = $this->find_local_mac('eth0');
         foreach ($array as $line)
         {
-            $data[] = array("thread" => $line[0],
+            $temp = array("thread" => $line[0],
                             "comando_ejecutable" => $line[1],
                             "tasa_cpu" => round($line[2],5),
                             "tasa_ram" => round($line[3],5),
@@ -126,12 +146,13 @@ class Data_model extends MY_Model
                             "tiempo_online" => $line[10],
                             "estado_proceso" => $line[11],
                             "timestamp" => $line[12],
-                            "pid_lista" => $line[13],
-                            "mac_dir" => $mac);
+                            "pid_lista" => $line[13]);
+            if(isset($interface)) $temp['mac_dir'] = $this->find_local_mac($interface);
+            $data[] = $temp;
         }
         return $data;
     }
-    function parse_toplot($array)
+    function parse_toplot($array,$plot=TRUE)
     {
         $time = "0";
         $command = "";
