@@ -72,14 +72,14 @@ class Data_model extends MY_Model
         }
         $this->db->query('SET @@global.local_infile=OFF;');
         //Captura de eventos
-        $num_eventos = 0;
-        foreach($array_files as $file)
-        {
+        //$num_eventos = 0;
+        //foreach($array_files as $file)
+        //{
             //$time_start = microtime(true);
             //$response[]["status_events"] = $this->model->insert_events_db("{$file}");
             //$time_end = microtime(true);
             //$response[]["elapsed_events"] = $time_start - $time_end;
-        }
+        //}
         return $response;
     }
     function insert_csv_db($filename, $infile_method=true)
