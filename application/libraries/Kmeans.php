@@ -139,7 +139,7 @@ class Kmeans{
 	 * @return array            Un array  con las coordenas de los centroides
 	 * y los clusters generados.
 	 */
-	function kmeans($data, $k, $max_iter = 1000000) {
+	function kmeans($data, $k, $max_iter = 1000) {
 		//Normalizando la data de entrada para que sea 
 		//más consistente
 		$data_original = $data;//Haciendo el respaldo de la data

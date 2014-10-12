@@ -20,11 +20,11 @@ class Modelo_costos_model extends CI_Model{
 		if($data['esquema_tiempo'] == "AA"){//by year
 			$sql = "SELECT s.nombre, c.costo, c.fecha_creacion, nivel_criticidad, mes
 					FROM servicio_costo as c join servicio as s ON (c.servicio_id = s.servicio_id)
-					WHERE c.borrado = FALSE AND anio = '".$data['anio']."';";
+					WHERE c.borrado = FALSE AND anio = '".$data['anio']."' AND c.costo > 0;";
 		}else{//by month
 			$sql = "SELECT s.nombre, c.costo, c.fecha_creacion, nivel_criticidad, mes
 					FROM servicio_costo as c join servicio as s ON (c.servicio_id = s.servicio_id)
-					WHERE c.borrado = FALSE AND anio = '".$data['anio']."' AND mes = '".$data['mes']."';";
+					WHERE c.borrado = FALSE AND anio = '".$data['anio']."' AND mes = '".$data['mes']."' AND c.costo > 0;";
 
 		}
 		$q = $this->db->query($sql);
