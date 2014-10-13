@@ -1,13 +1,25 @@
 <script>
-	var cpuArray = [], ramArray = [], ddArray = [];
+	var cpuArray = [], ramArray = [], ddArray = [], categorias = [];
 </script>
 <?php
 $resourceIndex = 0;
-
+foreach ($resourceUse as $resource)
+{
+?>
+<script>
+	var cpuArray = [], ramArray = [], ddArray = [], categorias = [];
+	var variablejs = "<?php echo $variablephp; ?>" ;
+</script>
+<?php
+$resourceIndex++;
+}
 ?>
 <script>
 $(function () {
     $('#container').highcharts({
+    	chart: {
+            zoomType: 'x'
+        },
         title: {
             text: 'Tasa de Uso de Recursos',
             x: -20 //center
@@ -17,8 +29,12 @@ $(function () {
             x: -20
         },
         xAxis: {
-            categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                'Julio', 'Agosto', 'Septiembre', 'Oct', 'Nov', 'Dec']
+           categories: [
+                    'Tokyo',
+                    'New York',
+                    'London',
+                    'Berlin'
+                ]
         },
         yAxis: {
             title: {
@@ -40,15 +56,23 @@ $(function () {
             borderWidth: 0
         },
         series: [{
-            name: 'CPU',
-            data: cpuArray
-        }, {
-            name: 'RAM',
-            data: ramArray
-        }, {
-            name: 'Disco',
-            data: ddArray
-        }]
+                name: 'Tokyo',
+                data: [49.9,null,null,null]
+
+            }, {
+                name: 'New York',
+                data: [null,83.6,null,null],
+
+
+            }, {
+                name: 'London',
+                data: [null,null,48.9,null]
+
+            }, {
+                name: 'Berlin',
+                data: [null,null,null,42.4]
+
+            }]
     });
 });
 </script>

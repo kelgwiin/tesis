@@ -88,35 +88,6 @@ class Capacidad extends MX_Controller
 			array
 			(
 				'chain' => 'General',
-				'href'=> site_url('index.php/Capacidad/Departamentos')
-			),
-			array
-			(
-				'chain' => 'Procesador',
-				'href'=> site_url('index.php/Capacidad/Departamentos')
-			),
-			array
-			(
-				'chain' => 'Memoria',
-				'href'=> site_url('index.php/Capacidad/Departamentos')
-			),
-			array
-			(
-				'chain' => 'Almacenamiento',
-				'href'=> site_url('index.php/Capacidad/Departamentos')
-			)
-		);
-		$l[] = array(
-			"chain" => "Departamentos",
-			"href" => site_url('index.php/Capacidad'),
-			"icon" => "fa fa-caret-square-o-down",
-			"list" => $sublista
-		);
-		$sublista = array
-		(
-			array
-			(
-				'chain' => 'General',
 				'href'=> site_url('index.php/Capacidad/Umbrales')
 			),
 			array
@@ -184,8 +155,8 @@ class Capacidad extends MX_Controller
 		$vista = ($permiso) ? 'ComponentesIT/ComponentesITGeneral' : 'capacidadSinPermiso';
 		$view['nivel'] = 10;
 		$dateArray = $this->dateLastMonth(0,1);
-		$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_cpu,tasa_ram,tasa_transferencia_dd,timestamp",FALSE);
-		//$view['resourceUse'] = $this->capacity->resourceUse($dateArray,"proceso_historial_id,tasa_ram,tasa_cpu,comando_ejecutable,tasa_lectura_dd,tasa_escritura_dd,timestamp",FALSE);
+		$view['resourceUse'] = $this->capacity->generalResourceUseByComponentPerHour($dateArray,"tasa_cpu,tasa_ram,tasa_transferencia_dd,timestamp",FALSE);
+		//$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_cpu,tasa_ram,tasa_transferencia_dd,timestamp",FALSE);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function ProcesadorComponentesIT()

@@ -188,16 +188,71 @@ class Capacity_planning_model extends CI_Model
 				        {
 				            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_escritura_dd']);
 				        }
-				        $dataPerHour[$arrayIndex] = $this->makeKmeans($rs,6,3)
-;					}
+				        $date=$hoursPerDayArray[$arrayIndex][0];
+			        	$date = substr($date, 0, -9);
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$date]['comando_ejecutable'] = $comando_ejecutable['comando_ejecutable'];
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$date][$hoursPerDayArray[$arrayIndex][$innerArrayIndex]] = $this->makeKmeans($rs,6,3);
+					}
 					$innerArrayIndex++;
 				}
-				$arrayIndex++;
+				$arrayIndex = $arrayIndex+1;
 			}
 		}
-		return $beforekmeans;
+		return $dataPerHour;
 	}//end of function: resourceUseByComponent
+	/*
+	 * Permite calcular la tasa de uso de cuaqluier componente 
+	 * 
+	 * Se visualiza lo ocurrido en el rango de fecha que se pase por $dateIndex.
+	 * Cuando es usado por un servicio podemos pedir los nombres de los porcesos 
+	 * que componen al servicio $processName
+	 * @return array
+	 * - Array (
+	 * 		contiene los parametros que se soliciten por $dbIndex
+	 * )
+	 */
+	public function generalResourceUseByComponentPerHour($dateIndex, $dbIndex, $processName = FALSE )
+	{
+		$hoursPerDayArray = $this->hoursPerMonth(0);
+		//Se calcula la estructura del año para cada mes del año.
+		$where = "timestamp BETWEEN '".$dateIndex['fecha_mes_pasado']."' AND '".$dateIndex['fecha_dia_anterior']."' ";
 
+		$where = "timestamp BETWEEN '2014-09-12 00-00-00' AND '2014-10-12 23-00-00'" ; //Quitar
+		$arrayIndex = 0;
+		while ($arrayIndex < sizeof($hoursPerDayArray))
+		{
+			$innerArrayIndex = 0;
+			$byHour = 0;
+			while($innerArrayIndex < 11)
+			{
+				unset($whereAux);
+				$whereAux = "timestamp BETWEEN '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex]."' AND '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex+1]."' ";
+				
+				$sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
+       			FROM proceso_historial 
+        		WHERE comando_ejecutable = 'chrome' AND ".$whereAux.";";
+		        $q = $this->db->query($sql);
+		        //Formateando los resultados
+		        $rs = array();
+				if($q->num_rows() > 0)
+			    {
+			       	foreach ($q->result_array() as $row) 
+			        {
+			            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_escritura_dd']);
+			        }
+			        $date=$hoursPerDayArray[$arrayIndex][0];
+			        $date = substr($date, 0, -9);
+					$dataPerHour[$date]['fecha'] = $date;
+					$dataPerHour[$date][$byHour] = $this->makeKmeans($rs,6,3);
+			        $dataPerHour[$date][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
+			        $byHour++;
+				}
+				$innerArrayIndex++;
+			}
+			$arrayIndex = $arrayIndex+1;
+		}
+		return $dataPerHour;
+	}//end of function: resourceUseByComponent
 	public function makeKmeans($data,$num_clusters, $num_params)
 	{
 		$resultado = $this->kmeans->kmeans($data,$num_clusters);
