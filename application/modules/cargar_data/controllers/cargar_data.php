@@ -883,7 +883,7 @@ class Cargar_Data extends MX_Controller
 			        	$file_info = $this->upload->data();
 			        	//$ruta_imagen = $file_info['file_name'];
 			        	$ruta_imagen = 'assets/imagenes/servicio/'.$file_info['file_name'];
-			        	 $servicio = array(
+			        	$servicio = array(
                                 'nombre' => $this->input->post('service_name'),
                                 'descripcion' => $this->input->post('descripcion'),
                                 'caracteristicas' => $this->input->post('caracteristicas_servicio'),
@@ -996,6 +996,8 @@ class Cargar_Data extends MX_Controller
 
 		$this->load->model('general/general_model','general');
 		$data_view['servicios'] = $this->general->get_table('servicio');
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
 
 		if(!empty($servicio_proceso_id)) { 
 		 $data_view['servicio_proceso_id'] = $servicio_proceso_id;
@@ -1126,6 +1128,8 @@ class Cargar_Data extends MX_Controller
 	public function servicio_infraestructura($servicio_id = ''){
 
 		$this->load->model('general/general_model','general');
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
 		$data_view['servicios'] = $this->general->get_table('servicio');
 		$data_view['componentes_ti'] = $this->general->get_table('componente_ti');
 
@@ -1252,10 +1256,99 @@ class Cargar_Data extends MX_Controller
 	 *
 	 */
 
-	public function servicio_umbral(){
+	public function servicio_umbral($servicio_id = ''){
+
 		$this->load->model('general/general_model','general');
-		$data_view['servicio_categorias'] = $this->general->get_table('servicio_categoria');
-		$this->utils->template($this->_list(6),'cargar_data/umbral/main_servicio_umbrales',$data_view,'Cargar Infraestructura','Servicio');
+		$this->load->library('form_validation');
+		$this->load->helper(array('form', 'url'));
+
+		$data_view['servicios'] = $this->general->get_table('servicio');
+
+		if(!empty($servicio_id)) { 
+		 $data_view['servicio_id'] = $servicio_id;
+		 $data_view['servicio_actual'] = $servicio_id;
+		 $data_view['servicio_seleccionado'] = $this->general->get_row('servicio',array('servicio_id'=> $servicio_id));
+		}
+
+
+		if($this->input->post('servicios'))
+			{
+				$data_view['servicio_actual'] = $this->input->post('servicios');
+				$data_view['servicio_seleccionado'] = $this->general->get_row('servicio',array('servicio_id'=> $this->input->post('servicios')));
+			}
+
+   		if($this->input->post('servicios') == 'seleccione')
+            {
+            	unset($data_view['servicio_actual']);
+            }
+
+         $this->form_validation->set_rules('servicios', 'Servicios', 'callback_dropdown_servicio');
+
+	    if ($this->form_validation->run($this) == FALSE)
+          {
+             	$this->utils->template($this->_list(9),'cargar_data/umbral/main_servicio_umbrales',$data_view,'Cargar Infraestructura','Servicio');           
+          }
+        else
+          {
+            	$this->utils->template($this->_list(9),'cargar_data/umbral/main_servicio_umbrales',$data_view,'Cargar Infraestructura','Servicio');
+          } 
+	}
+
+
+	public function servicio_umbral_crear($servicio_id = ''){
+
+         $data_view['servicio_actual'] = $this->general->get_row('servicio',array('servicio_id'=> $servicio_id));
+
+         $this->form_validation->set_rules('degradacion_disco', 'Umbral de Degradación de Disco', 'required|trim|integer|greater_than[0]|less_than[101]');
+         $this->form_validation->set_rules('fallo_disco', 'Umbral de Fallo de Disco', 'required|trim|integer|greater_than[0]|less_than[101]');
+
+         $this->form_validation->set_rules('degradacion_cpu', 'Umbral de Degradación de CPU', 'required|trim|integer|greater_than[0]|less_than[101]');
+         $this->form_validation->set_rules('fallo_cpu', 'Umbral de Fallo de CPU', 'required|trim|integer|greater_than[0]|less_than[101]');
+
+         $this->form_validation->set_rules('degradacion_memoria', 'Umbral de Degradación de Memoria', 'required|trim|integer|greater_than[0]|less_than[101]');
+         $this->form_validation->set_rules('fallo_memoria', 'Umbral de Fallo de Memoria', 'required|trim|integer|greater_than[0]|less_than[101]');
+
+         $this->form_validation->set_rules('degradacion_red', 'Umbral de Degradación de Red', 'required|trim|integer|greater_than[0]|less_than[101]');
+         $this->form_validation->set_rules('fallo_red', 'Umbral de Fallo de Red', 'required|trim|integer|greater_than[0]|less_than[101]');
+
+         $this->form_validation->set_message('less_than', 'El porcentaje debe ser Menor o Igual a Cien');
+         $this->form_validation->set_message('greater_than', 'El porcentaje debe ser Mayor a Cero');
+
+	    if ($this->form_validation->run($this) == FALSE)
+          {
+             	$this->utils->template($this->_list(9),'cargar_data/umbral/servicio_umbrales',$data_view,'Cargar Infraestructura','Servicio');           
+          }
+        else
+          {
+            	$servicio = array(
+            					'degradacion_disco' => $this->input->post('degradacion_disco'),
+            					 'fallo_disco' => $this->input->post('fallo_disco'), 
+
+                                'degradacion_cpu' => $this->input->post('degradacion_cpu'),
+                                'fallo_cpu' => $this->input->post('fallo_cpu'),
+
+                                'degradacion_red' => $this->input->post('degradacion_red'),
+                                'fallo_red' => $this->input->post('fallo_red'),
+
+                                'degradacion_memoria' => $this->input->post('degradacion_memoria'),
+                                 'fallo_memoria' => $this->input->post('fallo_memoria'), 
+                               );
+			        	
+
+			     $id_servicio = $this->general->update2('servicio',$servicio,array('servicio_id'=>$servicio_id));
+
+		            	if($id_servicio)
+			            	{
+			            		$this->session->set_flashdata('Success', 'Los Umbrales han sido Actualizados con Éxito');
+			            		redirect(site_url('index.php/cargar_datos/umbrales/'.$servicio_id));
+			            	}
+			               else
+			            	{
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar Los Umbrales');
+			            		redirect(site_url('index.php/cargar_datos/umbrales/'.$servicio_id));
+			            	}
+          } 
+
 	}
 
 
@@ -2893,6 +2986,14 @@ class Cargar_Data extends MX_Controller
 			"active" => false,
 			"href" => site_url("index.php/cargar_datos/personal"),
 			"icon" => "fa fa-user"
+		);
+
+
+		$l[] = array(
+			"chain" => "Umbrales de Servicio",
+			"active" => false,
+			"href" => site_url("index.php/cargar_datos/umbrales"),
+			"icon" => "fa fa-arrows-v"
 		);
 
 
