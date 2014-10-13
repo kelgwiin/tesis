@@ -181,10 +181,11 @@ class Capacidad extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-		$dateArray = $this->dateLastMonth(1,1);
 		$vista = ($permiso) ? 'ComponentesIT/ComponentesITGeneral' : 'capacidadSinPermiso';
 		$view['nivel'] = 10;
-		$view['resourceUse'] = $this->capacity->resourceUse($dateArray,"proceso_historial_id,tasa_ram,tasa_cpu,comando_ejecutable,tasa_lectura_dd,tasa_escritura_dd,timestamp",FALSE);
+		$dateArray = $this->dateLastMonth(0,1);
+		$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_cpu,tasa_ram,tasa_transferencia_dd,timestamp",FALSE);
+		//$view['resourceUse'] = $this->capacity->resourceUse($dateArray,"proceso_historial_id,tasa_ram,tasa_cpu,comando_ejecutable,tasa_lectura_dd,tasa_escritura_dd,timestamp",FALSE);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function ProcesadorComponentesIT()
@@ -281,7 +282,7 @@ class Capacidad extends MX_Controller
 	{
 		echo 'Inicio de kmeans<br>';
 		//1.- Obtencion de la data Solo Procesador
-		$dateArray = $this->dateLastMonth(1,1);
+		$dateArray = $this->dateLastMonth(0,1);
 		$dataBeforeKmeans = $this->capacity->resourceUseByComponent($dateArray,"tasa_cpu,comando_ejecutable,timestamp",FALSE);
 		$num_clusters = 6;
 		foreach ($dataBeforeKmeans as $beforekmeans) 
@@ -300,8 +301,8 @@ class Capacidad extends MX_Controller
 			}
 			//2.- Correr el kmeans
 			$resultado = $this->kmeans->kmeans($beforekmeans,$num_clusters);
-			//echo_pre($beforekmeans);
-			echo_pre($resultado);// muestra todos los grupos y sus centroides
+			echo_pre($beforekmeans);
+			//echo_pre($resultado);// muestra todos los grupos y sus centroides
 			//pero se puede escoger un representadnte de cada grupo
 		}
 		//3.- Montrando los resultados definitivos escogiendo un representante de cada grupo
