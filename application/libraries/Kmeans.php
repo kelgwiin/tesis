@@ -265,9 +265,13 @@ class Kmeans{
 	 * @param  array $total sqrt(ai + ... + a_i+1 + ... + a_n)
 	 * @return array $vector El vector de la data normalizado.
 	 */
-	function normalizar_data(array $vector, $total) {
+	function normalizar_data($vector, $total) {
 		foreach($vector as &$value) {
-			$value = $value/$total;
+			if($total > 0){
+				$value = $value/$total;
+			}else{
+				$value = $value/1;
+			}
 		}
 		return $vector;
 	}

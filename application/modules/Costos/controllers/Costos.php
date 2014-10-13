@@ -80,7 +80,8 @@ class Costos extends MX_Controller
 				$dsc = array(
 					"1"=>"Data de la DIUC",
 					"2"=>"Servidor Virtual",
-					"3"=>"Data Generada Aleatoria"
+					"3"=>"Data Generada Aleatoria",
+					"4"=>" De 7 procesos "
 				);
 				$d = $dsc[$anio];
 				echo "<strong>Caso de prueba $anio - $d</strong><br>";
@@ -90,6 +91,11 @@ class Costos extends MX_Controller
 				$caso1 = read_file("./databases/Costos-Queries/casos-prueba/$action-$anio.in");
 				$this->utilities_model->run_query($caso1);
 				echo "2.-Inserción de nuevos registros<br>";
+
+				//Es el caso 4
+				if($anio == 4){
+					$this->carac_model->config_servicio_proc_c4();
+				}
 				
 				break;
 			//end of: Casos de Prueba 

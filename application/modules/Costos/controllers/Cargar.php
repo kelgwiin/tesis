@@ -217,7 +217,6 @@ class Cargar extends MX_Controller
 		//Recopilando nombre de los procesos que se encuentran asociados a los Servicios
 		$nom_procesos = $this->carac_model->nom_proc_historial();
 		$data = array();
-		
 		//Obteniendo la data asociada a los procesos recopilados
 		foreach ($nom_procesos as $nom) {
 			$data_tmp = $this->carac_model->proceso_historial($nom);
@@ -226,13 +225,12 @@ class Cargar extends MX_Controller
 			}
 		}
 		
-		
 		//numero de registros por comando
 		$reg_por_com = $this->carac_model->num_procesos();
 		
 		//procesosando el caso aplicando el kmeans
 		$resultados = array();
-		foreach ($data as $key => $d) {
+		foreach ($data as $key => &$d) {
 			$tmp = $this->procesar_caso($d,6,3);
 			$tmp[2] *= $reg_por_com[$key]*60*24;//repeticiones * minutos * horas, wired
 			$resultados[$key] = $tmp;
@@ -240,6 +238,7 @@ class Cargar extends MX_Controller
 		
 		$servicios_proc = $this->carac_model->procesos_servicio();
 		$sum_por_serv = array();
+		
 		foreach ($servicios_proc as $row) {
 			if(isset($sum_por_serv[$row['servicio_id']]) ){
 				for ($i=0; $i < 3; $i++) { 
@@ -261,7 +260,7 @@ class Cargar extends MX_Controller
 			}
 			
 		}
-
+		
 		//Guardando en la BD
 		$this->carac_model->guardar_caracterizacion($sum_por_serv);
 		if($debug){
@@ -276,7 +275,6 @@ class Cargar extends MX_Controller
 	public function procesar_caso($data,$num_clusters, $num_params){
 		$debug = false;
 		$resultado = $this->kmeans->kmeans($data,$num_clusters);
-
 		if($debug){
 			echo_pre($resultado);
 		}

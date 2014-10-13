@@ -91,8 +91,26 @@ class Caracterizacion_model extends CI_Model{
     }
 
     public function reset_proc_hist(){
+        $sql_1 = "DELETE FROM servicio_proceso where servicio_proceso_id >= 10 ;";
+        $this->db->query($sql_1);
+
         $sql = "DELETE 
                 FROM proceso_historial ;";
+        $this->db->query($sql);
+    }
+
+    public function config_servicio_proc_c4(){
+        $sql_1 = "DELETE FROM servicio_proceso where servicio_proceso_id >= 10 ;";
+        $this->db->query($sql_1);
+
+        $sql = "INSERT INTO `servicio_proceso` (`servicio_proceso_id`, `servicio_id`, `nombre`, `tipo`, `descripcion`, `borrado`) VALUES
+                (10, 5, 'java', NULL, NULL, 0),
+                (11, 5, 'chrome', NULL, NULL, 0),
+                (12, 5, 'firefox-bin', NULL, NULL, 0),
+                (13, 5, 'sublime_text', NULL, NULL, 0),
+                (14, 6, 'gnome-terminal', NULL, NULL, 0),
+                (15, 6, 'vlc', NULL, NULL, 0),
+                (16, 6, 'apache2', NULL, NULL, 0);";
         $this->db->query($sql);
     }
 }

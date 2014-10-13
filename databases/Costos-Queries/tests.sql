@@ -184,7 +184,7 @@ select * from ma_categoria;
 select * from servicio_costo_detalle;
 select * from servicio_costo;
 
-select * from servicio_proceso;
+
 
 
 
@@ -217,3 +217,6 @@ select * from estructura_costo;
 select * from caracterizacion;
 
 select * from servicio_costo;
+
+select * from servicio_proceso;
+select * from servicio;
