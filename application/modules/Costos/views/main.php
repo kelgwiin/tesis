@@ -152,7 +152,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('index.php/Costos/documentacion');?>/">
+							<a href="<?php echo site_url('assets/manuales/manual-usuario-costos.pdf');?>">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">
