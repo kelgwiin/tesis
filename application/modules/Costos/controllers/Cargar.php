@@ -15,6 +15,7 @@ class Cargar extends MX_Controller
 		parent::__construct();
 		//Models
 		$this->load->model('utilities/utilities_model');
+		$this->load->model('caracterizacion_model','carac_model');
 		$this->load->model('cargar_costos_indirectos_model','cargar_ci_model');
 
 		//Helpers
@@ -40,6 +41,7 @@ class Cargar extends MX_Controller
 	 * también las links para la creación de ellos.
 	 */
 	public function CostosIndirectos(){
+		$this->utils->is_logged();
 		$params['costos_indirectos'] = $this->cargar_ci_model->all_costos_indirectos(); 
 		$this->utils->template($this->list_sidebar,'Costos/fr_costos_indirectos',$params,'Módulo de Gestión de Costos','Costos Indirectos',
 			'two_level');
@@ -47,6 +49,7 @@ class Cargar extends MX_Controller
 
 	//Conjunto de Formularios de Costos Indirectos
 	public function Arrendamiento($id_actualizar=NULL){
+		$this->utils->is_logged();
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -57,6 +60,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function Mantenimiento($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -69,6 +74,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function Formacion($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -79,6 +86,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function HonorariosProf($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -88,6 +97,8 @@ class Cargar extends MX_Controller
 	}
 	
 	public function Utileria($id_actualizar=NULL){
+		$this->utils->is_logged();
+
 		if(isset($id_actualizar) && $id_actualizar != NULL){
 			$params['id_actualizar'] = $id_actualizar;
 		}
@@ -97,6 +108,8 @@ class Cargar extends MX_Controller
 	}
 
 	public function Guardar($table_name){
+		$this->utils->is_logged();
+
 		$p = $this->input->post();
 		
 		$table_name = strtolower($table_name);
@@ -160,6 +173,8 @@ class Cargar extends MX_Controller
 	 * @param Integer $id
 	 */
 	public function GuardarAct($table_name, $id){
+		$this->utils->is_logged();
+		
 		$table_name = strtolower($table_name);
 		$p = $this->input->post();
 
@@ -193,22 +208,24 @@ class Cargar extends MX_Controller
 		$resp = $this->cargar_ci_model->detalles_ci($p['table_name'], $p['id']);
 		echo json_encode($resp);
 	}
+
 	//------------------------------
 	// Métodos para caracterización |
 	//------------------------------
 	public function caracterizar(){
+		$debug = false;
 		//Recopilando nombre de los procesos que se encuentran asociados a los Servicios
-		$nom_procesos = $this->utilities_model->nom_proc_historial();
+		$nom_procesos = $this->carac_model->nom_proc_historial();
 		$data = array();
 		
 		//Obteniendo la data asociada a los procesos recopilados
 		foreach ($nom_procesos as $nom) {
-			$data[$nom] = $this->utilities_model->proceso_historial($nom);
+			$data[$nom] = $this->carac_model->proceso_historial($nom);
 		}
 		
 		
 		//numero de registros por comando
-		$reg_por_com = $this->utilities_model->num_procesos();
+		$reg_por_com = $this->carac_model->num_procesos();
 		
 		//procesosando el caso aplicando el kmeans
 		$resultados = array();
@@ -218,7 +235,7 @@ class Cargar extends MX_Controller
 			$resultados[$key] = $tmp;
 		}
 		
-		$servicios_proc = $this->utilities_model->procesos_servicio();
+		$servicios_proc = $this->carac_model->procesos_servicio();
 		$sum_por_serv = array();
 		foreach ($servicios_proc as $row) {
 			if(isset($sum_por_serv[$row['servicio_id']]) ){
@@ -233,9 +250,14 @@ class Cargar extends MX_Controller
 			
 		}
 
-		echo_pre($sum_por_serv);
-
-		echo_pre($resultados);
+		//Guardando en la BD
+		$this->carac_model->guardar_caracterizacion($sum_por_serv);
+		if($debug){
+			echo "<code>Sumatoria con id's servicio <br></code>";
+			echo_pre($sum_por_serv);
+			echo "<code>Resultados en crudo <br></code>";
+			echo_pre($resultados);
+		}
 
 	}
 
@@ -286,7 +308,7 @@ class Cargar extends MX_Controller
 		echo 'Inicio de kmeans<br>';
 		
 		//1.- Obtencion de la data
-		$data = $this->utilities_model->proceso_historial();
+		$data = $this->carac_model->proceso_historial();
 		//echo_pre($data);
 		$num_clusters = 6;
 		

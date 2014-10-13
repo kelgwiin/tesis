@@ -473,7 +473,7 @@ class Costos_model extends CI_Model{
 				YEAR(fecha) anio , MONTH(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
 				FROM caracterizacion AS c
 				JOIN estructura_costo ec ON year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
-				WHERE YEAR(c.fecha) = $year
+				WHERE YEAR(c.fecha) = $year AND c.borrado = false
 		";
 		//Condición agregada el 04-Oct-2014
 		if($month != "NA"){//se agrega la condición para un mes en específico

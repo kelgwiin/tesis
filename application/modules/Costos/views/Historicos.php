@@ -12,7 +12,7 @@
 		        
 		    //Obteniendo la data del form
 		    var dataToSend = bk_this.serialize();
-
+		    $('i#i-fa-procesar-comp-ti').addClass('fa-spin');
 		    fo_proccess = function(data){
 		    	if(data.estatus == "ok"){
 		    		$('div#msj_comp_ti').attr('class','alert alert-danger alert-dismissable hidden');
@@ -72,6 +72,8 @@
 		    	}else{
 		    		$('div#msj_comp_ti').attr('class','alert alert-danger alert-dismissable show');
 		    	}
+		    	//Deteniendo movimiento
+				$('i#i-fa-procesar-comp-ti').removeClass('fa-spin');
 		    }
 		    //Haciendo la llamada post desde ajax
 	        $.post( url, dataToSend, fo_proccess,'json');
@@ -85,10 +87,9 @@
 
 		    // grab the url from the form element
 		    var url = bk_this.attr('action');
-		        
+		    $('i#i-fa-procesar-mc').addClass('fa-spin');
 		    //Obteniendo la data del form
 		    var dataToSend = bk_this.serialize();
-
 		    fo_proccess = function(data_inf){
 		    	if(data_inf.estatus == "ok"){
 		    		$('div#msj_modelo_costo').attr('class','alert alert-danger alert-dismissable hidden');
@@ -159,6 +160,9 @@
 		    	}else{
 		    		$('div#msj_modelo_costo').attr('class','alert alert-danger alert-dismissable show');
 		    	}
+		    	//Deteniendo movimiento
+		    	$('i#i-fa-procesar-mc').removeClass('fa-spin');
+		    	
 		    }//end of function: fo_proccess
 
 		    //Haciendo la llamada post desde ajax
@@ -227,8 +231,8 @@
 									data-toggle="tooltip"
 									data-original-title="Procesar consulta"
 									data-placement = "right"
-									id = "btn-procesar-comp-ti">
-								<i class = "fa fa-cog" ></i> Procesar
+									id = "btn-procesar-mc">
+								<i class = "fa fa-lg fa-cog" id = "i-fa-procesar-mc"></i> Procesar
 							</button>
 						</div>
 
@@ -296,7 +300,7 @@
 									data-original-title="Procesar consulta"
 									data-placement = "right"
 									id = "btn-procesar-comp-ti">
-								<i class = "fa fa-cog" ></i> Procesar
+								<i class = "fa fa-lg fa-cog" id = "i-fa-procesar-comp-ti"></i> Procesar
 							</button>
 						</div>
 

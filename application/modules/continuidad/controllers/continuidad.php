@@ -185,7 +185,7 @@ class Continuidad extends MX_Controller
 			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 			
 			// REGLAS DEL FORM VALIDATION
-			if($_POST['id_continuidad'])
+			if(array_key_exists('id_continuidad',$_POST))
 				$this->form_validation->set_rules('codigo','<strong>Código</strong>','required|xss_clean');
 			else
 				$this->form_validation->set_rules('codigo','<strong>Código</strong>','required|xss_clean|is_unique[plan_continuidad.codigo]');
@@ -211,6 +211,17 @@ class Continuidad extends MX_Controller
 				$id_involucrados = array_unique($id_involucrados);
 				$template['involucrados'] = $this->riesgos->get_personal_normal('',$id_involucrados);
 				$template['estrategia'] = $this->riesgos->get_allestrategias(array('id_estrategia'=>$_POST['id_estrategia']));
+				$template['estrategia'] = $template['estrategia'][0];
+				
+				if($template['amenaza']->id_categoria == 7)
+				{
+					$id_servicioproceso = $this->general->get_row('proceso_riesgo',array('id_riesgo'=>$template['amenaza']->id_riesgo))->id_servicioproceso;
+					$template['proceso'] = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$id_servicioproceso));
+					echo_pre($id_servicioproceso);$template['servicios'] = $this->riesgos->get_servicios_fromproceso($id_servicioproceso);
+					
+				}
+				
+				// die_pre($template);
 				$this->load->library('mpdf');
 				$pdf = $this->load->view('continuidad/continuidad/pdf_template.php',$template,TRUE);
 				$mpdf = new mPDF();
@@ -232,12 +243,12 @@ class Continuidad extends MX_Controller
 						{
 							$this->activar_alerta($post['id_continuidad'], $valoracion, 1);
 							
-							// $pdf_file = $mpdf->Output($ruta,'S');
-							// $email = new stdClass();
-							// $email->subject = 'Activación de PCN';
-							// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$post['denominacion'].'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
-							// $email->pdf = $pdf_file;
-							// $this->mailing($template['involucrados'], $email, $valoracion);
+							$pdf_file = $mpdf->Output($ruta,'S');
+							$email = new stdClass();
+							$email->subject = 'Activación de PCN';
+							$email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$post['denominacion'].'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
+							$email->pdf = $pdf_file;
+							$this->mailing($template['involucrados'], $email, $valoracion);
 						}else
 						{
 							$this->activar_alerta($post['id_continuidad'], $valoracion, 0);
@@ -377,14 +388,14 @@ class Continuidad extends MX_Controller
 		if($state == 1)
 		{
 			$this->activar_alerta($id_continuidad, $valoracion, 1);
-			// $involucrados = $this->riesgos->get_allinvolucrados($id_continuidad);
-			// $pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad));
-			// $pdf_file = (!empty($pcn)) ? $mpdf->Output($pcn->pdf,'S') : '';
-			// $email = new stdClass();
-			// $email->subject = 'Activación de PCN';
-			// $email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$pcn->denominacion.'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
-			// $email->pdf = $pdf_file;
-			// $this->mailing($involucrados, $email, $state);
+			$involucrados = $this->riesgos->get_allinvolucrados($id_continuidad);
+			$pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad));
+			$pdf_file = (!empty($pcn)) ? $mpdf->Output($pcn->pdf,'S') : '';
+			$email = new stdClass();
+			$email->subject = 'Activación de PCN';
+			$email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$pcn->denominacion.'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
+			$email->pdf = $pdf_file;
+			$this->mailing($involucrados, $email, $state);
 		}else
 		{
 			$this->activar_alerta($id_continuidad, $valoracion, 0);
@@ -395,14 +406,14 @@ class Continuidad extends MX_Controller
 	public function mailing($involucrados,$email,$valoracion)
 	{
 		//Proceso de ENVIO DE CORREO ELECTRONICO
-        $config['protocol']     = "smtp";
-		$config['smtp_host']     = "ssl://smtp.googlemail.com";
-        $config['smtp_port']     = 465;
-		$config['smtp_user']    = "sigitec.facyt@gmail.com";
-        $config['smtp_pass']    = 'trabajo.grado.sigitec';
-        $config['mailtype']     = "html";
-        $config['charset']        ='utf-8';
-        $config['newline']        ="\r\n";
+        $config['protocol']		= "smtp";
+		$config['smtp_host']	= "ssl://smtp.googlemail.com";
+        $config['smtp_port']	= 465;
+		$config['smtp_user']	= "sigitec.facyt@gmail.com";
+        $config['smtp_pass']	= 'trabajo.grado.sigitec';
+        $config['mailtype']		= "html";
+        $config['charset']		='utf-8';
+        $config['newline']		="\r\n";
         $this->load->library('email', $config);
         $this->email->initialize($config);
         $this->email->from('sigitec.facyt@gmail.com','SIGITEC | Gestión de Continuidad del Negocio');

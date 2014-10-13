@@ -201,7 +201,7 @@ total_uso_almacenamiento, total_uso_memoria,
 year(fecha) anio , month(fecha) mes, ec.estructura_costo_id, ec.fecha_creacion as fecha_ec
 from caracterizacion as c
 join estructura_costo ec on year(c.fecha) = ec.anio and month(c.fecha) = ec.mes
-where  year(c.fecha) = 2014 
+where  year(c.fecha) = 2014 and c.borrado = FALSE
 ;
 -- Procesador, Memoria, Redes, Almacenamiento
 
@@ -234,4 +234,9 @@ select count(*)
 from proceso_historial;
 
 
- 
+update caracterizacion
+set borrado = 0
+where year(fecha) = year(curdate()) and month(fecha) = month(curdate())
+and servicio_id = 1;
+
+

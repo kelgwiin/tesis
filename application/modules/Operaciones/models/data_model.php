@@ -105,9 +105,9 @@ class Data_model extends MY_Model
     function insert_events_db($filename)
     {
         $data = $this->read_csv($filename);
-        $data = $this->parse_toplot($data);
+        $data = $this->parse_data($data);
         $datos["mac_dir"] = $this->find_local_mac("eth0");
-        //OBTENER NIVELES DE SERVICIO POR PROCESO
+        //TODO:OBTENER NIVELES DE SERVICIO POR PROCESO
         $last = $intc = 0;
         foreach($data as $linea)
         {
@@ -117,8 +117,9 @@ class Data_model extends MY_Model
                 $datos["timestamp"] = $linea["timestamp"];
                 $datos["prioridad"] = "info";
                 $datos["categoria"] = "status";
-                if($linea["tiempo_online"] > 0) $data["info"] = "started";                    
-                else $data["info"] = "closed";
+                if($linea["tiempo_online"] > 0) 
+                    $data["info"] = "{$linea["comando"]}-started({$linea["estado_proceso"]})";                    
+                else $data["info"] = "{$linea["comando"]}-closed";
                 $stchange[] = $datos;
             }                      
         }
