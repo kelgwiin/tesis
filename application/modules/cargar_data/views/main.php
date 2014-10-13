@@ -210,7 +210,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo site_url('index.php/cargar_datos/documentacion');?>/">
+							<a href="<?php echo site_url('index.php/cargar_datos/umbrales');?>/">
 								<div class="panel-footer announcement-bottom">
 									<div class="row">
 										<div class="col-xs-6">

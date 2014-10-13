@@ -15,7 +15,8 @@ $route['cargar_datos/departamentos'] = "cargar_data/cargar_data/departamentos";
 $route['cargar_datos/departamentos/(:any)'] = "cargar_data/cargar_data/departamentos/$1";
 
 $route['cargar_datos/umbrales'] = "cargar_data/cargar_data/servicio_umbral";
-$route['cargar_datos/umbrales/(:any)'] = "cargar_data/cargar_data/servicio_umbral/$1";
+$route['cargar_datos/umbrales/(:num)'] = "cargar_data/cargar_data/servicio_umbral/$1";
+$route['cargar_datos/umbrales/crear/(:num)'] = "cargar_data/cargar_data/servicio_umbral_crear/$1";
 
 $route['cargar_datos/servicios'] = "cargar_data/cargar_data/servicios";
 $route['cargar_datos/servicios/crear'] = "cargar_data/cargar_data/nuevo_servicio";
