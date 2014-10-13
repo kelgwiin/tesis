@@ -387,6 +387,8 @@ class Continuidad extends MX_Controller
 		
 		if($state == 1)
 		{
+			$this->load->library('mpdf');
+			$mpdf = new mPDF();
 			$this->activar_alerta($id_continuidad, $valoracion, 1);
 			$involucrados = $this->riesgos->get_allinvolucrados($id_continuidad);
 			$pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad));
