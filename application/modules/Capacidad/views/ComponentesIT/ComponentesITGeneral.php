@@ -3,17 +3,7 @@
 </script>
 <?php
 $resourceIndex = 0;
-foreach ($resourceUse as $resourceUseObject) 
-{
-?>
-	<script>
-	cpuArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_cpu'] ;?>;
-	ramArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_ram'] ;?>;
-	ddArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_lectura_dd'] ;?>;
-	</script>
-	<?php
-	$resourceIndex++;
-}
+
 ?>
 <script>
 $(function () {
