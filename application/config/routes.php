@@ -146,6 +146,7 @@ $route['continuidad']														= "continuidad/continuidad";
 $route['continuidad/descripcion']											= "continuidad/continuidad";
 $route['continuidad/equipos_accion']										= "continuidad/continuidad/formar_equipos";
 $route['continuidad/seleccionar_listado']									= "continuidad/continuidad/chart";
+$route['continuidad/descargar_pdf/(.*)/(:num)']								= "continuidad/continuidad/descargar_pdf/$1/$2";
 $route['continuidad/listado_pcn/modificar/(.*)/(:num)']						= "continuidad/continuidad/modificar_pcn/$1/$2";
 $route['continuidad/listado_pcn/eliminar/(.*)/(:num)']						= "continuidad/continuidad/eliminar_pcn/$1/$2";
 $route['continuidad/listado_pcn/(.*)']										= "continuidad/continuidad/listado/$1";

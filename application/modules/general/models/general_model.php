@@ -123,7 +123,7 @@ class General_model extends CI_Model
 		$query = $this->db->get_where('system_alerts',$where);
 		if($query->num_rows() > 0)
 		{
-			$this->update('system_alerts', $data, $where);
+			$this->update2('system_alerts', $data, $where);
 		}else
 		{
 			$data['timestamp'] = date('Y-m-d H:i:s');
@@ -137,12 +137,7 @@ class General_model extends CI_Model
 		$query = $this->db->get_where($table,$where);
 		if($query->num_rows() != 0)
 		{
-			$query = (array)$query->row();
-			foreach($data as $key => $value)
-			{
-				$new_data[$key] = $value;
-			}
-			$this->db->update($table,$new_data,$where);
+			$this->db->update($table,$data,$where);
 			return TRUE;
 		}
 		return FALSE;
