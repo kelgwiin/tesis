@@ -179,7 +179,7 @@ class Capacity_planning_model extends CI_Model
 					
 					$sql = "SELECT {$dbIndex}
            			FROM proceso_historial 
-            		WHERE comando_ejecutable = 'chrome' AND ".$whereAux.";";
+            		WHERE  ".$whereAux.";";
 			        $q = $this->db->query($sql);
 			        //Formateando los resultados
 			        $rs = array();
@@ -193,7 +193,7 @@ class Capacity_planning_model extends CI_Model
 			        	$date = substr($date, 0, -9);
 
 				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex]['comando_ejecutable'] = $comando_ejecutable['comando_ejecutable'];
-				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour] = $this->makeKmeans($rs,6,1);
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour] = $this->makeKmeans($rs,3,1);
 				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['fecha'] = $date;
 				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
 				        $byHour++;
@@ -235,7 +235,7 @@ class Capacity_planning_model extends CI_Model
 				
 				$sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
        			FROM proceso_historial 
-        		WHERE comando_ejecutable = 'chrome' AND ".$whereAux.";";
+        		WHERE  ".$whereAux.";";
 		        $q = $this->db->query($sql);
 		        //Formateando los resultados
 		        $rs = array();
