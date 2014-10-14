@@ -1,19 +1,61 @@
 <script>
-	var cpuArray= [];
+	var resourceUse = [], categorias = [], cpu = [];
+	var resourceIndex = 0;
+	var resourceAux = 0;
+	var hourIndex = 0;
 </script>
 <?php
 $resourceIndex = 0;
-foreach ($cpuUse as $resourceUseObject) 
+foreach ($resourceUse as $resource)
 {
-?>
+	$dataIndex = 1;
+	$biggerDate = 0;	
+	?>
 	<script>
-	cpuArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_cpu'] ;?>;
+	resourceUse[resourceIndex] = new Array();
+	var dataIndex = 0;
+	</script>
+	<?php
+	while ($dataIndex <= sizeof($resource))
+	{
+		$hourIndex = 0;
+		if($biggerDate < sizeof($resource[$dataIndex]) )
+		{
+			$biggerDate = sizeof($resource[$dataIndex]);
+			echo "es mayor ".$biggerDate."<br>";
+			?>
+			<script>
+				
+			</script>
+			<?php
+		}
+		while ($hourIndex < sizeof($resource[$dataIndex])-1)
+		{
+			//echo "dataIndex ".$dataIndex." Hora ".$hourIndex." ".$resource[$dataIndex][$hourIndex]['hora']."<br>";
+			
+			?>
+			<script>
+				categorias[resourceAux] = "<?php echo $resource[$dataIndex][$hourIndex]['hora']; ?>";
+				resourceUse[resourceIndex][hourIndex] = parseInt("<?php echo $resource[$dataIndex][$hourIndex][0]; ?>");
+				hourIndex++;
+				dataIndex++;
+				resourceAux++;
+			</script>
+			<?php
+			$hourIndex++;
+		}		
+		$dataIndex++; 
+	}
+	?>
+	<script>
+		resourceIndex++;
 	</script>
 	<?php
 	$resourceIndex++;
 }
 ?>
 <script>
+console.log(categorias);
 $(function () {
     $('#container').highcharts({
         title: {

@@ -1,17 +1,39 @@
 <script>
-	var cpuArray = [], ramArray = [], ddArray = [], categorias = [];
+	var resourceUse = [], categorias = [], cpu = [], ram = [], hd = [];
+	var resourceIndex = 0;
+	var resourceAux = 0;
 </script>
 <?php
 $resourceIndex = 0;
 foreach ($resourceUse as $resource)
 {
-?>
-<script>
-	var cpuArray = [], ramArray = [], ddArray = [], categorias = [];
-	var variablejs = "<?php echo $variablephp; ?>" ;
-</script>
-<?php
-$resourceIndex++;
+	$dataIndex = 0;
+	?>
+	<script>
+	resourceUse[resourceIndex] = new Array();
+	var dataIndex = 0;
+	</script>
+	<?php
+	while ($dataIndex < sizeof($resource)-1)
+	{
+	?>
+	<script>
+		categorias[resourceAux] = "<?php echo $resource[$dataIndex]['hora']; ?>";
+		cpu[resourceAux] = parseInt("<?php echo $resource[$dataIndex][0]; ?>");
+		ram[resourceAux] = parseInt("<?php echo $resource[$dataIndex][1]; ?>");
+		hd[resourceAux] = parseInt("<?php echo $resource[$dataIndex][2]; ?>");
+		dataIndex++;
+		resourceAux++;
+	</script>
+	<?php
+	$dataIndex++; 
+	}
+	?>
+	<script>
+		resourceIndex++;
+	</script>
+	<?php
+	$resourceIndex++;
 }
 ?>
 <script>
@@ -29,12 +51,7 @@ $(function () {
             x: -20
         },
         xAxis: {
-           categories: [
-                    'Tokyo',
-                    'New York',
-                    'London',
-                    'Berlin'
-                ]
+           categories: categorias
         },
         yAxis: {
             title: {
@@ -56,21 +73,18 @@ $(function () {
             borderWidth: 0
         },
         series: [{
-                name: 'Tokyo',
-                data: [49.9,null,null,null]
+                name: 'Uso CPU',
+                data: cpu
 
             }, {
-                name: 'New York',
-                data: [null,83.6,null,null],
+                name: 'Uso Ram',
+                data: ram
 
 
             }, {
-                name: 'London',
-                data: [null,null,48.9,null]
+                name: 'Uso Discos',
+                data: hd
 
-            }, {
-                name: 'Berlin',
-                data: [null,null,null,42.4]
 
             }]
     });

@@ -156,7 +156,6 @@ class Capacidad extends MX_Controller
 		$view['nivel'] = 10;
 		$dateArray = $this->dateLastMonth(0,1);
 		$view['resourceUse'] = $this->capacity->generalResourceUseByComponentPerHour($dateArray,"tasa_cpu,tasa_ram,tasa_transferencia_dd,timestamp",FALSE);
-		//$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_cpu,tasa_ram,tasa_transferencia_dd,timestamp",FALSE);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function ProcesadorComponentesIT()
@@ -165,7 +164,9 @@ class Capacidad extends MX_Controller
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
 		$vista = ($permiso) ? 'ComponentesIT/ProcesosComponentesIT' : 'capacidadSinPermiso';
-		$view['cpuUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_cpu,comando_ejecutable,timestamp",FALSE);
+		//$view['cpuUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_cpu,comando_ejecutable,timestamp",FALSE);
+		$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_cpu r, timestamp",FALSE);
+		//echo_pre($view['resourceUse']);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function MemoriaComponentesIT()

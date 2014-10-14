@@ -171,12 +171,13 @@ class Capacity_planning_model extends CI_Model
 			while ($arrayIndex < sizeof($hoursPerDayArray))
 			{
 				$innerArrayIndex = 0;
+				$byHour = 0;
 				while($innerArrayIndex < 11)
 				{
 					unset($whereAux);
 					$whereAux = "timestamp BETWEEN '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex]."' AND '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex+1]."' ";
 					
-					$sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
+					$sql = "SELECT {$dbIndex}
            			FROM proceso_historial 
             		WHERE comando_ejecutable = 'chrome' AND ".$whereAux.";";
 			        $q = $this->db->query($sql);
@@ -186,16 +187,20 @@ class Capacity_planning_model extends CI_Model
 				    {
 				       	foreach ($q->result_array() as $row) 
 				        {
-				            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_escritura_dd']);
+				            $rs[] = array($row['r']);
 				        }
 				        $date=$hoursPerDayArray[$arrayIndex][0];
 			        	$date = substr($date, 0, -9);
-				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$date]['comando_ejecutable'] = $comando_ejecutable['comando_ejecutable'];
-				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$date][$hoursPerDayArray[$arrayIndex][$innerArrayIndex]] = $this->makeKmeans($rs,6,3);
+
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex]['comando_ejecutable'] = $comando_ejecutable['comando_ejecutable'];
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour] = $this->makeKmeans($rs,6,1);
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['fecha'] = $date;
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
+				        $byHour++;
 					}
 					$innerArrayIndex++;
 				}
-				$arrayIndex = $arrayIndex+1;
+				$arrayIndex ++;
 			}
 		}
 		return $dataPerHour;
