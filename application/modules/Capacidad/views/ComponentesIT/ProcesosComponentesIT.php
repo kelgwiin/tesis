@@ -1,5 +1,5 @@
 <script>
-	var resourceUse = [], categorias = [], cpu = [];
+	var resourceUse = [], categoriasAux = [], categorias = [], cpu = [];
 	var resourceIndex = 0;
 	var resourceAux = 0;
 	var hourIndex = 0;
@@ -14,28 +14,25 @@ foreach ($resourceUse as $resource)
 	<script>
 	resourceUse[resourceIndex] = new Array();
 	var dataIndex = 0;
+	if(categorias.length < categoriasAux.length )
+	{
+		categorias = new Array();
+		categorias = categoriasAux;
+		resourceAux = categorias.length;
+	}
+	categoriasAux = new Array();
+		
 	</script>
 	<?php
 	while ($dataIndex <= sizeof($resource))
 	{
 		$hourIndex = 0;
-		if($biggerDate < sizeof($resource[$dataIndex]) )
-		{
-			$biggerDate = sizeof($resource[$dataIndex]);
-			echo "es mayor ".$biggerDate."<br>";
-			?>
-			<script>
-				
-			</script>
-			<?php
-		}
 		while ($hourIndex < sizeof($resource[$dataIndex])-1)
 		{
-			//echo "dataIndex ".$dataIndex." Hora ".$hourIndex." ".$resource[$dataIndex][$hourIndex]['hora']."<br>";
-			
+					
 			?>
 			<script>
-				categorias[resourceAux] = "<?php echo $resource[$dataIndex][$hourIndex]['hora']; ?>";
+				categoriasAux[resourceAux] = "<?php echo $resource[$dataIndex][$hourIndex]['hora']; ?>";
 				resourceUse[resourceIndex][hourIndex] = parseInt("<?php echo $resource[$dataIndex][$hourIndex][0]; ?>");
 				hourIndex++;
 				dataIndex++;
