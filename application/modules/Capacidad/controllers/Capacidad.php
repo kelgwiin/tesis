@@ -136,9 +136,6 @@ class Capacidad extends MX_Controller
         $dateArray['fecha_dia_anterior'] = date ( 'Y-m-j H-i-s', $fecha_dia_anterior );
         return $dateArray;
 	}//end of function: dateLastMonth
-    public function KmeansData()
-    {
-	}
 	public function index()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
@@ -164,10 +161,8 @@ class Capacidad extends MX_Controller
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
 		$vista = ($permiso) ? 'ComponentesIT/ProcesosComponentesIT' : 'capacidadSinPermiso';
-		//$view['cpuUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_cpu,comando_ejecutable,timestamp",FALSE);
 		$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_cpu r, timestamp",FALSE);
-		echo_pre($view['resourceUse']);
-		//$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function MemoriaComponentesIT()
 	{
@@ -175,7 +170,7 @@ class Capacidad extends MX_Controller
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
 		$vista = ($permiso) ? 'ComponentesIT/MemoriaComponentesIT' : 'capacidadSinPermiso';
-		$view['ramUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_ram,comando_ejecutable,timestamp",FALSE);
+		$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_ram r, timestamp",FALSE);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function AlmacenamientoComponentesIT()
@@ -184,7 +179,8 @@ class Capacidad extends MX_Controller
 		$permiso = modules::run('general/have_permission', 10);
 		$dateArray = $this->dateLastMonth(1,1);
 		$vista = ($permiso) ? 'ComponentesIT/AlmacenamientoComponentesIT' : 'capacidadSinPermiso';
-		$view['ddUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_lectura_dd,tasa_escritura_dd,comando_ejecutable,timestamp",FALSE);
+		$view['resourceUse'] = $this->capacity->resourceUseByComponentPerHour($dateArray,"tasa_transferencia_dd r, timestamp",FALSE);
+		//$view['ddUse'] = $this->capacity->resourceUseByComponent($dateArray,"proceso_historial_id,tasa_lectura_dd,tasa_escritura_dd,comando_ejecutable,timestamp",FALSE);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	/* Inicio Módulo Servicios */

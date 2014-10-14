@@ -103,7 +103,7 @@ $(function () {
         },
         yAxis: {
             title: {
-                text: 'Porcentaje'
+                text: 'Porcentaje de Uso'
             },
             plotLines: [{
                 value: 0,
@@ -180,7 +180,7 @@ $(function () {
 	                <tbody>
 	                	<tr class="active">
 		                	<td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio1">Proceso1</a> 
+		                    	Proceso1
 		                    </td>
 		                    <td>1265</td>
 		                    <td>32.3%</td>
@@ -189,7 +189,7 @@ $(function () {
 	                  
 						<tr class="success">
 							<td>
-								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio2">Proceso2</a>
+								Proceso2
 							</td>
 							<td>261</td>
 							<td>33.3%</td>
@@ -198,7 +198,7 @@ $(function () {
 	                  
 	                 	<tr class="warning">
 	                    	<td>
-								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio3">Proceso3</a>
+								Proceso3
 							</td>
 	                   		<td>665</td>
 	                    	<td>21.3%</td>
@@ -207,7 +207,7 @@ $(function () {
 	                  
 	                  	<tr class="danger">
 	                    	<td>
-	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio4">Proceso4</a>
+	                    		Proceso4
 	                    	</td>
 	                    	<td>9516</td>
 	                    	<td>89.3%</td>
@@ -216,7 +216,7 @@ $(function () {
 	                  
 	                  	<tr>
 	                   		<td>
-	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio5">Proceso5</a>
+	                    		Proceso5
 		                    </td>
 		                    <td>23</td>
 		                    <td>34.3%</td>
@@ -225,7 +225,7 @@ $(function () {
 	                  
 	                  	<tr>
 		                    <td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio6">Proceso6</a>
+		                    	Proceso6
 		                    </td>
 		                    <td>421</td>
 		                    <td>60.3%</td>
@@ -234,7 +234,7 @@ $(function () {
 	                  
 	                  	<tr>
 		                    <td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio7">Proceso7</a>
+		                    	Proceso7
 		                    </td>
 		                    <td>1233</td>
 		                    <td>93.2%</td>
