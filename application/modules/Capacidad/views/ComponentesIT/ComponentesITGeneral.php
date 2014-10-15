@@ -5,7 +5,6 @@
 </script>
 <?php
 $resourceIndex = 0;
-echo_pre($resourceUse);
 foreach ($resourceUse as $resource)
 {
 	$dataIndex = 0;
