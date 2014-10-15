@@ -5,37 +5,48 @@
 	var hourIndex = 0;
 	var catIndex = 0;
 	resourceUse = new Array();
+
+	Array.prototype.unique=function(a){
+	  return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+	});
 </script>
 <?php
 $serviceId = 0;
 $finalIndex = 0;
+$contador = 0;
 foreach ($resourceUse as $resource)
 {
-	$contadorComandos = 0;
-	$bandera = true;
-	while($contadorComandos < sizeof($resource[0])-1)
+	$fechaIndex = 0;
+	foreach ($resource as $fecha)
 	{
-		$contadorHoras = 0;
-		$hasta = sizeof($resource[0][$contadorComandos]);
-	
-		$beforeGraficArray[0][$contadorComandos][$finalIndex] = $resource[0][$contadorComandos][0];
-		$beforeGraficArray[1][$contadorComandos][$finalIndex] = $resource[0][$contadorComandos][1];
-		$beforeGraficArray[2][$contadorComandos][$finalIndex] = $resource[0][$contadorComandos][2];
-
-		$finalIndex++;
-		$contadorComandos++;
+		foreach ($fecha as $dia)
+		{
+			if(isset($dia[0]) && is_numeric($dia[0]))
+			{
+				$beforeGraficArray[0][$fechaIndex][$finalIndex] = $dia[0];
+				$beforeGraficArray[1][$fechaIndex][$finalIndex] = $dia[1];
+				$beforeGraficArray[2][$fechaIndex][$finalIndex] = $dia[2];
+				$finalIndex++;
+				$fechaIndex++;
+				?>
+				<script>
+				categorias[catIndex] = "<?php echo $dia['hora']; ?>";
+				catIndex++;
+				categoriasAux= categorias.unique();
+				categorias= categoriasAux;
+				</script>
+				<?php
+			}
+		}
+		$fechaIndex++;
 	}
-	?>
-	<script>
-	categorias[catIndex] = "<?php echo $resource[0][$contadorComandos-1]['hora']; ?>";
-	catIndex++;
-	</script>
-	<?php	
-	$serviceId ++;
 }
 $resourceIndex = 0;
+
+		echo_pre($beforeGraficArray);
 foreach ($beforeGraficArray as $beforeGrafic)
-{?>
+{
+	?>
 	<script>
 	resourceUse[serviceIndex] = new Array();
 	</script>
@@ -58,29 +69,6 @@ foreach ($beforeGraficArray as $beforeGrafic)
 }
 ?>
 <script>
-	graficIndex=0;
-	beforeGrafic=[];
-	while(graficIndex<resourceUse.length)
-	{
-		aux = [];
-		cleanIndex = 0;
-		resourIndex = 0;
-		while(resourIndex<resourceUse[graficIndex].length)
-		{
-			if(resourceUse[graficIndex][resourIndex]>-1)
-			{
-				aux[cleanIndex] = resourceUse[graficIndex][resourIndex];
-				cleanIndex++;
-			}
-			resourIndex++;
-		}
-		beforeGrafic[graficIndex] =
-		{
-	            name: "CPU",
-	            data: aux
-	    };
-		graficIndex++;
-	}
 	graficIndex = 0;
 	categoriasIndex = 0;
 	graficCategories = [];
@@ -93,7 +81,6 @@ foreach ($beforeGraficArray as $beforeGrafic)
 		}
 		categoriasIndex++;
 	}
-		console.log(resourceUse);
 $(function () {
     $('#container').highcharts({
         title: {
