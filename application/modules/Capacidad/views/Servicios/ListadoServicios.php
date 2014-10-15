@@ -24,10 +24,9 @@
 $serviceId = 0;
 $finalIndex = 0;
 $contador = 0;
-foreach ($resourceUse as $resource)
+foreach ($resourceUse['resourceUse'] as $resource)
 {
 	$fechaIndex = 0;
-		echo_pre($resource);
 	foreach ($resource as $fecha)
 	{
 		foreach ($fecha as $dia)
@@ -187,42 +186,41 @@ $(function () {
 				<table class="table table-bordered table-hover table-striped tablesorter">
 	                 <thead>
 	                  <tr>
-	                    <th class="header">Nombre del Proceso <i class="fa fa-sort"></i> </th>
-	                    <th class="header" style="text-align:center;" >% De Uso Promedio<i class="fa fa-sort"></i></th>
-	                    <th class="header" style="text-align:center;" >Fecha de ejecución<i class="fa fa-sort"></i></th>
+	                    <th class="header">Nombre del Servicio <i class="fa fa-sort"></i> </th>
+	                    <th class="header" style="text-align:center;" >Cantidad de Procesos<i class="fa fa-sort"></i></th>
+	                    <th class="header" style="text-align:center;" >Nombre de Procesos Asociados<i class="fa fa-sort"></i></th>
 	                  </tr>
 	                </thead>
 	                
 	                <tbody>
 	                <?php
-	                foreach ($resourceUse as $processRow)
+	                foreach ($resourceUse['servicios'] as $processRow)
 	                {
-	                	$use = 0;
-	                	$usoIndex = 0;
-	                	foreach ($processRow as $dataRow)
-	                	{
-	                		$name = $dataRow['comando_ejecutable'];
-	                		foreach ($dataRow as $datos)
-	                		{
-	                			if(isset($datos['hora']))
-	                			{
-			                		$dateAndHour = $datos['hora'];
-			                		$use = $use + $datos[0];
-			                		$usoIndex++;
-	                			}
-	                		}
-	                	}
-		                ?>
+	                	$servicio_id = $processRow['servicio_id'];
+	                	$procesosCorriendo = sizeof($processRow)-2;
+	                	?>
 		                <tr class="active">
 		                	<td>
-		                    	<?php echo $name; ?>
+		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/<?php echo $processRow['servicio_id']; ?>">
+		                    		<?php echo $processRow['nombre']; ?>
+		                    	</a>
 		                    </td>
-		                    <td style="text-align:center;" ><?php echo $use/$usoIndex; ?></td>
 		                    <td style="text-align:center;" >
-		                    	<?php echo $dateAndHour; ?>
+		                    	<?php echo $procesosCorriendo; ?>
 		                	</td>
-						</tr>
+							<td style="text-align:center;" >
 	                	<?php
+	                	$i = 0;
+	                	while($i< sizeof($processRow)-2)
+	                	{
+		                	echo $processRow[$i]." ";
+		                	$i++;
+	                	}
+	                	?>
+	                		</td>
+	                	</tr>
+	                	<?php
+		               
 	                }
 	                ?>
 	                

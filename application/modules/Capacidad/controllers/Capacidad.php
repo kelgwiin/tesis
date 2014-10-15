@@ -54,34 +54,11 @@ class Capacidad extends MX_Controller
 			"icon" => "fa fa-caret-square-o-down",
 			"list" => $sublista
 		);
-		$sublista = array
-		(
-			array
-			(
-				'chain' => 'General',
-				'href'=> site_url('index.php/Capacidad/Servicios')
-			),
-			array
-			(
-				'chain' => 'Procesador',
-				'href'=> site_url('index.php/Capacidad/Servicio/Servicio1/Procesador')
-			),
-			array
-			(
-				'chain' => 'Memoria',
-				'href'=> site_url('index.php/Capacidad/Servicios/Servicio1/Memoria')
-			),
-			array
-			(
-				'chain' => 'Almacenamiento',
-				'href'=> site_url('index.php/Capacidad/Servicios/Servicio1/Almacenamiento')
-			)
-		);
+		
 		$l[] = array(
 			"chain" => "Servicios",
-			"href" => site_url('index.php/Capacidad'),
-			"icon" => "fa fa-caret-square-o-down",
-			"list" => $sublista
+			"href" => site_url('index.php/Capacidad/Servicios'),
+			"icon" => "fa fa-flag",
 		);
 		$sublista = array
 		(
@@ -189,9 +166,7 @@ class Capacidad extends MX_Controller
 		$permiso = modules::run('general/have_permission', 10);
 		$vista = ($permiso) ? 'Servicios/ListadoServicios' : 'capacidadSinPermiso';
 		$dateArray = $this->dateLastMonth(1,1);
-		//$view['resourceUse'] = $this->capacity->generalServiceUseByComponentPerHour($dateArray);
 		$view['resourceUse'] = $this->capacity->generalServiceByComponentPerHour($dateArray);
-		//echo_pre($view['resourceUse']);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function Servicio()
@@ -238,7 +213,7 @@ class Capacidad extends MX_Controller
 		$vista = ($permiso) ? 'Umbrales/UmbralesGeneral' : 'capacidadSinPermiso';
 		$view['nivel'] = 10;
 		$dateArray = $this->dateLastMonth(0,1);
-		$view['resourceUse'] = $this->capacity->generalResourceUseByComponentPerHour($dateArray,"tasa_cpu,tasa_ram,tasa_transferencia_dd,timestamp",FALSE);
+		$view['resourceUse'] = $this->capacity->generalServiceByComponentPerHour($dateArray);
 		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function testKmeans()

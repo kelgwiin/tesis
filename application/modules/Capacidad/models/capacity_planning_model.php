@@ -464,7 +464,10 @@ class Capacity_planning_model extends CI_Model
 			}
 		}
 		// Ahora se prepara el arreglo con los procesos por servicio.
-		return $dataPerHour;
+		unset($processByService);
+		$dataResultArray['servicios'] = $this->processByService();
+		$dataResultArray['resourceUse'] = $dataPerHour;
+		return $dataResultArray;
 	}//end of function: generalResourceUseByComponentPerHour
 
 
