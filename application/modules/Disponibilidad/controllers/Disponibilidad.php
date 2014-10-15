@@ -1157,10 +1157,6 @@ class Disponibilidad extends MX_Controller
 		
 		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen33.png',15,50,185,150,'');
 		
-		
-		
-		
-		
 		$this->pdf->Output("Manual de Usuario.pdf", 'I');
 	}
 
