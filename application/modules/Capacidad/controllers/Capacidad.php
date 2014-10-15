@@ -173,10 +173,11 @@ class Capacidad extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$permiso = modules::run('general/have_permission', 10);
-
-		$datos['nombre_servicio'] = $this->uri->segment(3);
-		$data['main_content'] = $this->load->view('Servicios/Servicio',$datos,TRUE);
-		////$this->load->view('Capacidad/template',$data);
+		$vista = ($permiso) ? 'Servicios/ServicioDetalle' : 'capacidadSinPermiso';
+		$id = $this->uri->segment(3);
+		$dateArray = $this->dateLastMonth(1,1);
+		$view['resourceUse'] = $this->capacity->generalServiceUseByComponentPerHour($dateArray, $id);
+		$this->utils->template($this->sideBarList(),'Capacidad/'.$vista,$view,$this->title,'Capacidad','two_level');
 	}
 	public function ProcesadorServicio()
 	{

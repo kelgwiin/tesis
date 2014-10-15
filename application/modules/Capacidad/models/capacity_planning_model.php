@@ -78,6 +78,20 @@ class Capacity_planning_model extends CI_Model
         $q = $this->db->query($sql);
         return $q->result_array();
     }
+    public function Servicios_por_id($id)
+    {
+    	$sql = "SELECT distinct nombre p
+                FROM servicio_proceso 
+                WHERE  servicio_id= '".$id."' ;";
+        $q = $this->db->query($sql);
+        $nombres = array();
+        foreach ($q->result_array() as $row)
+        {
+            $nombres[] = $row['p'];
+        }
+        return $nombres;
+
+    }
      public function processByService()
     {
         $sql = "SELECT  sp.nombre p, s.servicio_id, s.nombre n
@@ -338,7 +352,7 @@ class Capacity_planning_model extends CI_Model
 	 * 		contiene los parametros que se soliciten por $dbIndex
 	 * )
 	 */
-	public function generalServiceUseByComponentPerHour($dateIndex)
+	public function generalServiceUseByComponentPerHour($dateIndex,$id)
 	{
 		$hoursPerDayArray = $this->hoursPerMonth(0);
 		//Se calcula la estructura del año para cada mes del año.
@@ -347,7 +361,7 @@ class Capacity_planning_model extends CI_Model
 		$where = "timestamp BETWEEN '2014-09-12 00-00-00' AND '2014-10-12 23-00-00'" ; //Quitar
 		$arrayIndex = 0;
 		
-		$processByService = $this->nom_proc_historial();
+		$processByService = $this->Servicios_por_id($id);
 		foreach ($processByService as $comando_ejecutable)
 		{
 			$arrayIndex = 0;
@@ -392,22 +406,7 @@ class Capacity_planning_model extends CI_Model
 				$arrayIndex ++;
 			}
 		}
-		// Ahora se prepara el arreglo con los procesos por servicio.
-		unset($processByService);
-		$services = $this->processByService();
-		$seviceIndex = 0;
-		foreach ($services as $service)
-		{
-			$processIndex = 0;
-			$dataPerService[$seviceIndex]['servicio_id'] = $service['servicio_id'];
-			while(sizeof($service)-2 > $processIndex) 
-			{
-				$dataPerService[$seviceIndex][$processIndex] = $this->findArray($dataPerHour,$service[$processIndex]);
-				$processIndex++;
-			}
-			$seviceIndex++;
-		}
-		return $dataPerService;
+		return $dataPerHour;
 	}//end of function: generalServiceByComponentPerHour
 	public function generalServiceByComponentPerHour($dateIndex)
 	{

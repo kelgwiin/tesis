@@ -201,7 +201,7 @@ $(function () {
 	                	?>
 		                <tr class="active">
 		                	<td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/<?php echo $processRow['servicio_id']; ?>">
+		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicio/<?php echo $processRow['servicio_id']; ?>">
 		                    		<?php echo $processRow['nombre']; ?>
 		                    	</a>
 		                    </td>
