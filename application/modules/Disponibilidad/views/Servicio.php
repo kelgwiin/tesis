@@ -132,7 +132,7 @@ $(function () {
 			<div class="panel-heading">
 				<h3 class="panel-title">Monitoreo del Servicio</h3>
 	        	<div class ="col-md-12" align="right">
-					<button class="btn btn-danger" onclick="location.href='tesis/index.php/Disponibilidad/'" type="button">Atras</button>
+					<button class="btn btn-danger" onclick="location.href='tesis/index.php/Disponibilidad/Monitoreo'" type="button">Atras</button>
 				</div> 
 	      	</div>
 	      
