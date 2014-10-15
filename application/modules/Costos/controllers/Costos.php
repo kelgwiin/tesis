@@ -175,7 +175,7 @@ class Costos extends MX_Controller
 		// computacional
 		$recalcular = $this->input->post('recalcular');
 		if(isset($recalcular) && $recalcular){
-			modules::run('Costos/Cargar/caracterizar');
+			$this->carac_model->caracterizar();
 		}
 		
 		$params = $this->input->post();
