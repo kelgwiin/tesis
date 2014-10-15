@@ -4,10 +4,17 @@
  * @author Kelwin Gamez <kelgwiin@gmail.com>
  */
 class Caracterizacion_model extends CI_Model{
-	public function __construct(){
+	private $debug;
+    private $day_left;
+    public function __construct(){
 	    parent::__construct();
 	    $this->load->database();
-	    $this->load->model('utilities/utilities_model');
+        //Models
+        $this->load->model('utilities/utilities_model');
+
+        //Libraries 
+        $this->load->library('Kmeans');
+
 	}
 
     public function proceso_historial($name){
@@ -99,6 +106,10 @@ class Caracterizacion_model extends CI_Model{
         $this->db->query($sql);
     }
 
+    /**
+     * Esto se llama cuando se prueba un caso temporal, del resto no
+     * se usa
+     */
     public function config_servicio_proc_c4(){
         $sql_1 = "DELETE FROM servicio_proceso where servicio_proceso_id >= 10 ;";
         $this->db->query($sql_1);
@@ -113,4 +124,255 @@ class Caracterizacion_model extends CI_Model{
                 (16, 6, 'apache2', NULL, NULL, 0);";
         $this->db->query($sql);
     }
+
+    /**-----------------------------------------------------
+     * Métodos principales de la Caracterización de la data
+     *------------------------------------------------------*/
+
+   /**
+    * Aplica la caracterización a toda la data guardada en la BD en la 
+    * tabla proceso_historial
+    */
+    public function caracterizar(){
+        //$this->debug = true;
+        $date = modules::run('Capacidad/dateLastMonth',0,1);
+
+        //Recopilando nombre de los procesos que se encuentran asociados a los Servicios
+        $nom_procesos = $this->nom_proc_historial();
+        $data = array();
+        
+        //Obteniendo la data asociada a los procesos recopilados
+        foreach ($nom_procesos as $nom) {
+            unset($data_tmp);
+            
+            //aplicando el kmeans a todos los registros con ese nombre
+            $data_tmp = $this->proc_hist_por_hora_mensual($date,$nom,3);
+            if(isset($data_tmp) && $data_tmp !== false){
+                $data[$nom] = $data_tmp;
+            }
+        }
+        
+        //numero de registros por comando
+        $reg_por_com = $this->num_procesos();
+        
+        
+        $resultados = array();
+        foreach ($data as $key => &$val) {
+            $val[2] *= $reg_por_com[$key]*60*24;//repeticiones * minutos * horas, wired
+            $resultados[$key] = $val;
+        }
+        
+        $servicios_proc = $this->procesos_servicio();
+        $sum_por_serv = array();
+        
+        foreach ($servicios_proc as $row) {
+            if(isset($sum_por_serv[$row['servicio_id']]) ){
+                for ($i=0; $i < 3; $i++) { 
+                    //Se verifica que exista data de rendimiento
+                    //para el proceso asociado al servicio
+                    if(isset($resultados[$row['p']])){
+                        $sum_por_serv[$row['servicio_id']][$i] += $resultados[$row['p']][$i];
+                    }
+                }
+            }else{
+                for ($i=0; $i < 3; $i++) {
+                    if(isset($resultados[$row['p']])){
+                        $sum_por_serv[$row['servicio_id']][$i] = $resultados[$row['p']][$i];
+                    }else{
+                        $sum_por_serv[$row['servicio_id']][$i] = 0;
+                    }
+                    
+                }
+            }
+            
+        }
+        
+        //Guardando en la BD
+        $this->guardar_caracterizacion($sum_por_serv);
+        if($this->debug){
+            echo "<code>Sumatoria con id's servicio <br></code>";
+            echo_pre($sum_por_serv);
+            echo "<code>Resultados en crudo <br></code>";
+            echo_pre($resultados);
+        }
+
+    }
+
+
+    /**
+     * Procesa el caso aplicando el kmeans para un proceso determinado
+     * @param  array $data         Información leída de proceso historial
+     * @param  integer $num_clusters Número de clusters iniciales
+     * @param  integer $num_params   Número de parámetros a medir
+     * @return array  Promedios de uso de cada parametro estudiado.               
+     */
+    public function procesar_caso($data,$num_clusters, $num_params){
+        $resultado = $this->kmeans->kmeans($data,$num_clusters);
+        if($this->debug){
+            echo_pre($resultado);
+        }
+
+        $rep = array();
+        $prom = array();//para guardar los promedios de cada uno de los grupos generados
+        for ($i=0; $i < $num_params; $i++) { 
+            $prom[$i] = 0;
+        }
+        $counter = 0;
+        foreach ($resultado['clusters'] as $cluster) {
+            $temp = $cluster[0]['coordenadas'];
+            $rep[] = $temp;
+
+            //sumando cada ítem de la categoría
+            for ($i=0; $i < $num_params; $i++) { 
+                $prom[$i] += $temp[$i];
+            }
+            $counter+=1;
+        }
+        if($this->debug){
+            echo_pre($rep);
+        }
+        //promedio
+        for ($i=0; $i < $num_params; $i++) { 
+            if($counter != 0){
+                $prom[$i] /= $counter;
+            }
+        }
+        return $prom;
+    }
+
+
+    /**
+     * Obtiene el historial de procesos filtrado por cada dos horas y por nombre de proceso y
+     * aplica el kmens
+     * @param  [type]  $dateIndex   Inicio y fin de fecha
+     * @param  String $processName [description]
+     * @return [type]               [description]
+     */
+    public function proc_hist_por_hora_mensual($dateIndex, $processName, $num_params )
+    {
+        $hoursPerDayArray = $this->hoursPerMonth(0);
+        //Se calcula la estructura del año para cada mes del año.
+        //Temporalmente la sentencia de esta línea no se usa ya que tiene alto
+        //costo computacional traerse toda la información de una vez.
+        $where = "timestamp BETWEEN '".$dateIndex['fecha_mes_pasado']."' AND '".$dateIndex['fecha_dia_anterior']."' ";
+
+
+        $acums = array();//acumulados
+        for ($i=0; $i < $num_params; $i++) { 
+            $acums[$i] = 0;
+        }
+        $counter=0;
+
+
+        $arrayIndex = 0;
+        while ($arrayIndex < sizeof($hoursPerDayArray))
+        {
+            $innerArrayIndex = 0;
+            $byHour = 0;
+            while($innerArrayIndex < 11)
+            {
+                unset($whereAux);
+                $whereAux = "timestamp BETWEEN '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex]."' AND '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex+1]."' 
+                AND comando_ejecutable = '$processName' ";
+                
+                $sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
+                        FROM proceso_historial 
+                        WHERE  ".$whereAux.";";
+                //echo $sql;
+                $q = $this->db->query($sql);
+                //Formateando los resultados
+                $rs = array();
+                if($q->num_rows() > 0)
+                {
+                    foreach ($q->result_array() as $row) 
+                    {
+                        $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_escritura_dd']);
+                    }
+                    $date=$hoursPerDayArray[$arrayIndex][0];
+                    $date = substr($date, 0, -9);
+                    //$dataPerHour[$date][$byHour] = $this->procesar_caso($rs,6,3);
+
+                    $tmp_prom = $this->procesar_caso($rs,6,3);
+                    echo_pre($tmp_prom);
+                    //acumulando promedios
+                    for ($i=0; $i < $num_params; $i++) { 
+                        $acums[$i] += $tmp_prom[$i];
+                        $counter++;
+                    }
+
+
+                    $byHour++;
+                }
+                $innerArrayIndex++;
+            }
+            $arrayIndex = $arrayIndex+1;
+        }
+
+        //sacando el promedio general
+        for ($i=0; $i < $num_params; $i++) { 
+            if($counter > 0){
+             $acums[$i] /= $counter;
+            }
+        }
+
+        return $counter>0?$acums:NULL;
+    }//end of function
+
+    /*
+     * Genera un rango de fecha en formato Y-m-j H-i-s
+     * 
+     * $month es el parametro de los meses a restar
+     * calcula todos los días pasados de este mes
+     * y luego las horas en bloques de 2 en 2 horas
+     * @author Gustavo
+     * @return array
+     * - Array (
+     *      
+     * )
+     */
+    public function hoursPerMonth($month = FALSE)
+    {
+        date_default_timezone_set("America/Caracas" );
+        $fecha_actual = date("Y-m-d",time());
+        $newDate = date("Y-m-d",time());
+        $fecha_dia_anterior = $fecha_actual;
+        $lastMonthDate = strtotime ( '-'.$month.'month' , strtotime ( $fecha_actual ) ) ;
+        $daysLeft = $fecha_actual[8].$fecha_actual[9];
+        $daysLeft = (int)$daysLeft;
+        $this->day_left = $daysLeft;// for global uses
+        $band = 1;
+        while ($band<=$daysLeft)
+        {
+            $band2=$band-1;//Cambiar
+            unset($temporalDay);
+            $temporalDay = strtotime ( '-'.$band2.' day' , strtotime ( $newDate ) ) ;
+            $temporalDay = date ( 'Y-m-j', $temporalDay );
+            $temporalDay = new DateTime($temporalDay);
+            $hours = 0;
+            $hoursIndex = 0;
+            while($hours<24)
+            {
+                unset($dayAux);
+                $dayAux = $temporalDay;
+                $dayAux->setTime($hours, 00);
+                $dateArrayPerHour[$band-1][$hoursIndex] = date_format($dayAux, 'Y-m-d H:i:s');
+                $hours=$hours+2;
+                $hoursIndex = $hoursIndex+1;
+            }
+            $band ++;
+        }
+
+        return $dateArrayPerHour;
+    }//end of function: hoursPerMonth
+
+    public function test(){
+        $date = modules::run('Capacidad/dateLastMonth',0,1);
+        $nom_procesos = $this->nom_proc_historial();
+        echo_pre($nom_procesos);
+        echo $nom_procesos[4] . "<br>";
+
+       $r =  $this->proc_hist_por_hora_mensual($date,$nom_procesos[5],3);
+       echo_pre($r);
+    }
+    
 }

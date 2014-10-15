@@ -220,3 +220,8 @@ select * from servicio_costo;
 
 select * from servicio_proceso;
 select * from servicio;
+
+
+
+select * from ma_motivo;
+

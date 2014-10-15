@@ -40,7 +40,7 @@ class Costos extends MX_Controller
 		 * o por lo menos del año en curso. Esta data se usa para la gestión de los
 		 * históricos. MODELO: "$this->costos_model->estructura_costos_by_year_all($year)""
 		 * 
-		 * 2.- Cálculo de las fechas de caducidd: "$this->costos_model->add_fecha_hasta_comp_all()"
+		 * 2.- Cálculo de las fechas de caducidad: "$this->costos_model->add_fecha_hasta_comp_all()"
 		 */
 	}
 	

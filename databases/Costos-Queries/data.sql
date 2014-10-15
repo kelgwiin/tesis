@@ -5,15 +5,15 @@ insert into ma_categoria (nombre, icono_fa,valor_base) values
 ('Redes','fa-globe',1000),
 ('Almacenamiento','fa-hdd-o',1024),
 ('Licencia','fa-file-text-o',-1),
-('Otros','fa-suitcase',-1);
+('Periféricos','fa-suitcase',-1);
 
 #Insertando las Unidades de Medidas según la Categoría
 insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) values
 	#de Procesador
-	(1,'Kiloherzs','KH', 1),
-	(1,'Megaherzs','MH', 2),
-	(1,'Gigaherz','GH', 3),
-	(1,'Teraherz','TH', 4),
+	(1,'Kiloherzs','KHZ', 1),
+	(1,'Megaherzs','MHZ', 2),
+	(1,'Gigaherzs','GHZ', 3),
+	(1,'Teraherzs','THZ', 4),
 	
 	#de Memoria
 	(2,'Kilobytes','KB', 1),
@@ -22,10 +22,10 @@ insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) 
 	(2,'Terabytes','TB', 4),
 	
 	#de redes
-	(3,'Kilobits','Kb',1),
-	(3,'Megabits','Mb',2),
-	(3,'Kilobits','Kb',3),
-	(3,'Terabits','Tb',4),
+	(3,'Kilobits','Kbps',1),
+	(3,'Megabits','Mbps',2),
+	(3,'Gigabits','Gbps',3),
+	(3,'Terabits','Tbps',4),
 
 	#de almacenamiento
 	(4,'Kilobytes','KB', 1),
@@ -41,7 +41,7 @@ insert into ma_unidad_medida(ma_categoria_id,nombre, abrev_nombre, valor_nivel) 
 #Motivos de Arrendamiento
 insert into ma_motivo (seccion, nombre) values 
 	('arrendamiento','Servicio de Luz'),
-	('arrendamiento','Servicio de IPS'),
+	('arrendamiento','Servicio de ISP'),
 	('arrendamiento','Llamadas telefónicas'),
 	('arrendamiento','Alquiler de equipos de TI'),
 	('arrendamiento','Otros'),

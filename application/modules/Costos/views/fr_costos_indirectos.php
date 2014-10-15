@@ -205,7 +205,7 @@
 						Formación de Personal.</a></li>
 
 						<li><i class = "fa fa-angle-double-right"></i>  <a href= "<?php echo site_url('index.php/Costos/CargarCostosIndirectos/HonorariosProf');?>">
-							Honorarios de Profesionales en el área de TI.</a></li>
+							Sueldos, Salarios y Honorarios Profesionales.</a></li>
 
 							<li><i class = "fa fa-angle-double-right"></i>  <a href="<?php echo site_url('index.php/Costos/CargarCostosIndirectos/Utileria');?>">
 								Utilería.</a></li>
