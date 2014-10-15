@@ -179,7 +179,7 @@ class Capacity_planning_model extends CI_Model
 					
 					$sql = "SELECT {$dbIndex}
            			FROM proceso_historial 
-            		WHERE  ".$whereAux.";";
+            		WHERE  comando_ejecutable ='".$comando_ejecutable['comando_ejecutable']."' AND ".$whereAux.";";
 			        $q = $this->db->query($sql);
 			        //Formateando los resultados
 			        $rs = array();
@@ -281,8 +281,11 @@ class Capacity_planning_model extends CI_Model
 		}
 		//promedio
 		for ($i=0; $i < $num_params; $i++)
-		{ 
-			$prom[$i] /= $counter;
+		{
+			if($counter!=0)
+			{
+				$prom[$i] /= $counter;
+			}
 		}
 		return $prom;
 	}

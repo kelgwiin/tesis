@@ -310,7 +310,7 @@
 									</div>
 
 								<div class="control-label col-md-2">
-							      </div>
+							      </div> 
 							      	<div class="col-md-3">
 									    <label style="color:red;">
 									   	<?php 
