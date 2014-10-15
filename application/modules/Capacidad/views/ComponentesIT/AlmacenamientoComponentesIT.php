@@ -171,76 +171,44 @@ $(function () {
 				<table class="table table-bordered table-hover table-striped tablesorter">
 	                <thead>
 	                  <tr>
-	                    <th class="header">Nombre <i class="fa fa-sort"></i> </th>
-	                    <th class="header">Lectura <i class="fa fa-sort"></i></th>
-	                    <th class="header">Escritura <i class="fa fa-sort"></i></th>
-	                    <th class="header">% De Uso <i class="fa fa-sort"></i></th>
+	                    <th class="header">Nombre del Proceso <i class="fa fa-sort"></i> </th>
+	                    <th class="header" style="text-align:center;" >% De Uso Promedio<i class="fa fa-sort"></i></th>
+	                    <th class="header" style="text-align:center;" >Fecha de ejecución<i class="fa fa-sort"></i></th>
 	                  </tr>
 	                </thead>
 	                
 	                <tbody>
-	                	<tr class="active">
+	                <?php
+	                foreach ($resourceUse as $processRow)
+	                {
+	                	$use = 0;
+	                	$usoIndex = 0;
+	                	foreach ($processRow as $dataRow)
+	                	{
+	                		$name = $dataRow['comando_ejecutable'];
+	                		foreach ($dataRow as $datos)
+	                		{
+	                			if(isset($datos['hora']))
+	                			{
+			                		$dateAndHour = $datos['hora'];
+			                		$use = $use + $datos[0];
+			                		$usoIndex++;
+	                			}
+	                		}
+	                	}
+		                ?>
+		                <tr class="active">
 		                	<td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio1">Proceso1</a> 
+		                    	<?php echo $name; ?>
 		                    </td>
-		                    <td>1265</td>
-		                    <td>32.3%</td>
-		                    <td>$321.33</td>
+		                    <td style="text-align:center;" ><?php echo $use/$usoIndex; ?></td>
+		                    <td style="text-align:center;" >
+		                    	<?php echo $dateAndHour; ?>
+		                	</td>
 						</tr>
-	                  
-						<tr class="success">
-							<td>
-								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio2">Proceso2</a>
-							</td>
-							<td>261</td>
-							<td>33.3%</td>
-							<td>$234.12</td>
-						</tr>
-	                  
-	                 	<tr class="warning">
-	                    	<td>
-								<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio3">Proceso3</a>
-							</td>
-	                   		<td>665</td>
-	                    	<td>21.3%</td>
-	                    	<td>$16.34</td>
-	                  	</tr>
-	                  
-	                  	<tr class="danger">
-	                    	<td>
-	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio4">Proceso4</a>
-	                    	</td>
-	                    	<td>9516</td>
-	                    	<td>89.3%</td>
-	                    	<td>$1644.43</td>
-	                  	</tr>
-	                  
-	                  	<tr>
-	                   		<td>
-	                    		<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio5">Proceso5</a>
-		                    </td>
-		                    <td>23</td>
-		                    <td>34.3%</td>
-		                    <td>$23.52</td>
-	                  	</tr>
-	                  
-	                  	<tr>
-		                    <td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio6">Proceso6</a>
-		                    </td>
-		                    <td>421</td>
-		                    <td>60.3%</td>
-		                    <td>$724.32</td>
-	                  	</tr>
-	                  
-	                  	<tr>
-		                    <td>
-		                    	<a href="<?php echo base_url(); ?>index.php/Capacidad/Servicios/Servicio7">Proceso7</a>
-		                    </td>
-		                    <td>1233</td>
-		                    <td>93.2%</td>
-		                    <td>$126.34</td>
-	                  	</tr>	                  
+	                	<?php
+	                }
+	                ?>
 	                
 	                </tbody>
 	                
