@@ -3,6 +3,38 @@
  <!--<h3> <b>Selección del Servicio</b><small><a type="button" class="btn btn-xs" data-container="body" data-toggle="popover" data-placement="right" 
  		data-content="<?php $ayuda_servicio;?>" data-original-title="" title="">(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3>  <hr><br>-->
 
+ <h3> <b>Nombre del Acuerdo</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_servicio">
+ 	(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3>  <hr><br>
+
+  <div class="row">
+	<div class="col-md-9">
+		 <div class="form-group">
+				
+				<div class="required text-right">
+					<label for="service_name" class="col-md-3 control-label">Nombre del Acuerdo</label> 
+				</div>
+
+			    <div class="col-md-8">
+			       <input type='text' name="nombre_acuerdo" class="form-control" id='nombre_acuerdo' value="<?php echo set_value('nombre_acuerdo'); ?>"/>
+			     
+
+			    </div>
+			</div>
+			<div class="form-group">
+		     <div class="control-label col-md-3">
+		      </div>
+		      	<div class="col-md-8">
+				    <label style="color:red;">
+				   	<?php 
+				        echo form_error('nombre_acuerdo');
+					 ?>
+					</label>
+				</div>
+			</div>
+	 </div>
+</div>
+		<br>		
+
  <h3> <b>Selección del Servicio</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_servicio">
  	(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3>  <hr><br>
 

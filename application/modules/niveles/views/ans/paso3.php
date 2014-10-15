@@ -486,13 +486,13 @@
 							¿El mantenimiento del Servicio es realizado durante las horas de Funcionamiento del mismo?
 								<div class="radio">
 						  <label>
-						    <input type="radio" name="options_pregunta" id="options_pregunta_1">
+						    <input value="true" type="radio" name="options_pregunta" id="options_pregunta_1">
 						   	 Si
 							  </label>
 						</div>
 					 	<div class="radio">
 						  <label>
-						    <input type="radio" name="options_pregunta" id="options_pregunta_2" >
+						    <input value="false" type="radio" name="options_pregunta" id="options_pregunta_2" >
 						    No
 						  </label>
 						</div>
