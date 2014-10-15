@@ -1,4 +1,131 @@
 <script>
+	var resourceUse = [], categoriasAux = [], categorias = [], cpu = [], nombres_comandos = [];
+	var resourceIndex = 0;
+	var resourceAux = 0;
+	var hourIndex = 0;
+</script>
+<?php
+$serviceId = 0;
+foreach ($resourceUse as $resource)
+{
+	$contadorComandos = 0;
+	$bandera = true;
+	while($contadorComandos < sizeof($resource)-1)
+	{
+		$contadorHoras = 0;
+		$hasta = sizeof($resource[$contadorComandos][$contadorHoras]) -1;
+		while($contadorHoras < $hasta)
+		{
+			if( $contadorComandos>0)
+			{
+				$bandera = false;
+			}
+			if($bandera==true && !isset($beforeGraficArray[0][$contadorHoras]) )
+			{
+				$beforeGraficArray[0][$contadorHoras] = 0;
+				$beforeGraficArray[1][$contadorHoras] = 0;
+				$beforeGraficArray[2][$contadorHoras] = 0;
+				
+				echo "entre<br>";
+			}
+			echo "Para ".$contadorComandos." ".$contadorHoras." Sumo ".$beforeGraficArray[0][$contadorHoras]." + ".$resource[$contadorComandos][$contadorHoras][0]."<br>";
+			
+			$aux = $beforeGraficArray[0][$contadorHoras] + $resource[$contadorComandos][$contadorHoras][0];
+			$beforeGraficArray[0][$contadorHoras] = $aux;			
+			echo "Resultado = ".$beforeGraficArray[0][$contadorHoras]."<br>";
+			$beforeGraficArray[1][$contadorHoras] = $beforeGraficArray[1][$contadorHoras] + $resource[$contadorComandos][$contadorHoras][1];
+			$beforeGraficArray[2][$contadorHoras] = $beforeGraficArray[2][$contadorHoras] + $resource[$contadorComandos][$contadorHoras][2];
+			$contadorHoras++;
+		}
+		$contadorComandos++;
+	}
+	$serviceId ++;
+}
+echo_pre($beforeGraficArray);
+$resourceIndex = 0;
+foreach ($resourceUse as $resource)
+{
+	$biggerDate = 0;	
+	?>
+	<script>
+	resourceUse[resourceIndex] = new Array();
+	var dataIndex = 0;
+	if(categorias.length < categoriasAux.length )
+	{
+		categorias = new Array();
+		categorias = categoriasAux;
+		resourceAux = categorias.length;
+	}
+	categoriasAux = new Array();
+		
+	</script>
+	<?php
+	$dataIndex = 0;
+	$resourceSize = sizeof($resource)-1;
+	while ($dataIndex <= $resourceSize)
+	{
+		$hourIndex = 0;
+		$resourceSizeB = sizeof($resource[$dataIndex])-1;
+		while ($hourIndex < $resourceSizeB)
+		{
+			?>
+			<script>
+				categoriasAux[resourceAux] = "<?php echo $resource[$dataIndex][$hourIndex]['hora']; ?>";
+				resourceUse[resourceIndex][hourIndex] = parseInt("<?php echo $resource[$dataIndex][$hourIndex][0]; ?>");
+				hourIndex++;
+				dataIndex++;
+				resourceAux++;
+			</script>
+			<?php
+			$hourIndex++;
+		}		
+		$dataIndex++; 
+	}
+	?>
+	<script>
+		nombres_comandos[resourceIndex]="<?php echo $resource[0]['comando_ejecutable']; ?>";;
+		resourceIndex++;
+	</script>
+	<?php
+	$resourceIndex++;
+}
+?>
+<script>
+	graficIndex=0;
+	beforeGrafic=[];
+	while(graficIndex<nombres_comandos.length)
+	{
+		aux = [];
+		cleanIndex = 0;
+		resourIndex = 0;
+		while(resourIndex<resourceUse[graficIndex].length)
+		{
+			if(resourceUse[graficIndex][resourIndex]>-1)
+			{
+				aux[cleanIndex] = resourceUse[graficIndex][resourIndex];
+				cleanIndex++;
+			}
+			resourIndex++;
+		}
+		beforeGrafic[graficIndex] =
+		{
+	            name: nombres_comandos[graficIndex],
+	            data: aux
+	    };
+		graficIndex++;
+	}
+	graficIndex = 0;
+	categoriasIndex = 0;
+	graficCategories = [];
+	while(categoriasIndex<categorias.length)
+	{
+		if(categorias[categoriasIndex])
+		{
+			graficCategories[graficIndex] = categorias[categoriasIndex];
+			graficIndex++;
+		}
+		categoriasIndex++;
+	}
 $(function () {
     $('#container').highcharts({
         title: {

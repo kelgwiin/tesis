@@ -1,4 +1,99 @@
 <script>
+	var resourceUse = [], categoriasAux = [], categorias = [], cpu = [], nombres_comandos = [];
+	var serviceIndex = 0;
+	var dayServiceIndex = 0;
+	var hourIndex = 0;
+	var catIndex = 0;
+	resourceUse = new Array();
+</script>
+<?php
+$serviceId = 0;
+$finalIndex = 0;
+foreach ($resourceUse as $resource)
+{
+	$contadorComandos = 0;
+	$bandera = true;
+	while($contadorComandos < sizeof($resource[0])-1)
+	{
+		$contadorHoras = 0;
+		$hasta = sizeof($resource[0][$contadorComandos]);
+	
+		$beforeGraficArray[0][$contadorComandos][$finalIndex] = $resource[0][$contadorComandos][0];
+		$beforeGraficArray[1][$contadorComandos][$finalIndex] = $resource[0][$contadorComandos][1];
+		$beforeGraficArray[2][$contadorComandos][$finalIndex] = $resource[0][$contadorComandos][2];
+
+		$finalIndex++;
+		$contadorComandos++;
+	}
+	?>
+	<script>
+	categorias[catIndex] = "<?php echo $resource[0][$contadorComandos-1]['hora']; ?>";
+	catIndex++;
+	</script>
+	<?php	
+	$serviceId ++;
+}
+$resourceIndex = 0;
+foreach ($beforeGraficArray as $beforeGrafic)
+{?>
+	<script>
+	resourceUse[serviceIndex] = new Array();
+	</script>
+	<?php
+	foreach($beforeGrafic as $dia)
+	{
+		$resultado = array_sum($dia);
+		?>
+		<script>
+		resourceUse[serviceIndex][dayServiceIndex] = "<?php echo $resultado; ?>";
+		dayServiceIndex++;
+		</script>
+		<?php
+	}
+	?>
+	<script>
+	serviceIndex++;
+	</script>
+	<?php
+}
+?>
+<script>
+	graficIndex=0;
+	beforeGrafic=[];
+	while(graficIndex<resourceUse.length)
+	{
+		aux = [];
+		cleanIndex = 0;
+		resourIndex = 0;
+		while(resourIndex<resourceUse[graficIndex].length)
+		{
+			if(resourceUse[graficIndex][resourIndex]>-1)
+			{
+				aux[cleanIndex] = resourceUse[graficIndex][resourIndex];
+				cleanIndex++;
+			}
+			resourIndex++;
+		}
+		beforeGrafic[graficIndex] =
+		{
+	            name: "CPU",
+	            data: aux
+	    };
+		graficIndex++;
+	}
+	graficIndex = 0;
+	categoriasIndex = 0;
+	graficCategories = [];
+	while(categoriasIndex<categorias.length)
+	{
+		if(categorias[categoriasIndex])
+		{
+			graficCategories[graficIndex] = categorias[categoriasIndex];
+			graficIndex++;
+		}
+		categoriasIndex++;
+	}
+		console.log(resourceUse);
 $(function () {
     $('#container').highcharts({
         title: {
@@ -10,12 +105,11 @@ $(function () {
             x: -20
         },
         xAxis: {
-            categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                'Julio', 'Agosto', 'Septiembre', 'Oct', 'Nov', 'Dec']
+            categories: graficCategories
         },
         yAxis: {
             title: {
-                text: 'Porcentaje'
+                text: 'Porcentaje de Uso'
             },
             plotLines: [{
                 value: 0,
@@ -34,13 +128,13 @@ $(function () {
         },
         series: [{
             name: 'CPU',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 56.5, 23.3, 18.3, 13.9, 19.6]
+            data: resourceUse[0]
         }, {
             name: 'RAM',
-            data: [40.2, 20.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 18.6, 12.5]
-        }, {
-            name: 'Disco',
-            data: [10.9, 30.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 49.0, 43.9, 11.0]
+            data: resourceUse[1]
+        },{
+            name: 'Almacenamiento',
+            data: resourceUse[2]
         }]
     });
 });

@@ -56,7 +56,59 @@ class Capacity_planning_model extends CI_Model
         }
         return $dateArrayPerHour;
 	}//end of function: hoursPerMonth
+	public function nom_proc_historial()
+	{
+        $sql = "SELECT distinct sp.nombre p
+                FROM servicio s
+                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id;";
+        $q = $this->db->query($sql);
+        $nombres = array();
+        foreach ($q->result_array() as $row)
+        {
+            $nombres[] = $row['p'];
+        }
+        return $nombres;
+    }
 
+    public function procesos_servicio()
+    {
+        $sql = "SELECT  sp.nombre p, s.servicio_id
+                FROM servicio s
+                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id ;";
+        $q = $this->db->query($sql);
+        return $q->result_array();
+    }
+     public function processByService()
+    {
+        $sql = "SELECT  sp.nombre p, s.servicio_id, s.nombre n
+                FROM servicio s
+                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id 
+                ORDER BY s.servicio_id ASC;";
+        $q = $this->db->query($sql);
+        
+        $serviceAux = 0;
+        $lastService = -1;
+        foreach ($q->result_array() as $row) 
+        {
+        	if($lastService==-1)
+        	{
+        		$lastService=$row['servicio_id'];
+        	}
+        	else
+        	{
+				if($lastService!=$row['servicio_id'])
+	        	{
+	        		$lastService=$row['servicio_id'];
+	        		$serviceAux=0;
+	        	}   	
+        	}    	
+        	$rs[$row['servicio_id']-1]['nombre'] = $row['n'];
+        	$rs[$row['servicio_id']-1]['servicio_id'] = $row['servicio_id'];
+        	$rs[$row['servicio_id']-1][$serviceAux] = $row['p'];
+        	$serviceAux++;
+        }
+        return $rs;
+    }
     public function percentUsage($resourceUse)
 	{
 		foreach ($resourceUse as $resourceUseObject)
@@ -168,6 +220,8 @@ class Capacity_planning_model extends CI_Model
 		foreach ($names as $comando_ejecutable)
 		{
 			$arrayIndex = 0;
+			$cleanArrayIndex = 0;
+			$band = false;
 			while ($arrayIndex < sizeof($hoursPerDayArray))
 			{
 				$innerArrayIndex = 0;
@@ -191,20 +245,24 @@ class Capacity_planning_model extends CI_Model
 				        }
 				        $date=$hoursPerDayArray[$arrayIndex][0];
 			        	$date = substr($date, 0, -9);
-
-				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex]['comando_ejecutable'] = $comando_ejecutable['comando_ejecutable'];
-				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour] = $this->makeKmeans($rs,3,1);
-				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['fecha'] = $date;
-				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
+			        	$band=true;
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$cleanArrayIndex]['comando_ejecutable'] = $comando_ejecutable['comando_ejecutable'];
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$cleanArrayIndex][$byHour] = $this->makeKmeans($rs,3,1);
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$cleanArrayIndex][$byHour]['fecha'] = $date;
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$cleanArrayIndex][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
 				        $byHour++;
 					}
 					$innerArrayIndex++;
+				}
+				if($band==true)
+				{
+					$cleanArrayIndex++;
 				}
 				$arrayIndex ++;
 			}
 		}
 		return $dataPerHour;
-	}//end of function: resourceUseByComponent
+	}//end of function: resourceUseByComponentPerHour
 	/*
 	 * Permite calcular la tasa de uso de cuaqluier componente 
 	 * 
@@ -257,7 +315,159 @@ class Capacity_planning_model extends CI_Model
 			$arrayIndex = $arrayIndex+1;
 		}
 		return $dataPerHour;
-	}//end of function: resourceUseByComponent
+	}//end of function: generalResourceUseByComponentPerHour
+	public function findArray($dataArray, $find)
+	{
+
+		foreach ($dataArray as $data)
+		{
+			if($data[0]['comando_ejecutable']==$find)
+			{
+				return $data[0];
+			}
+		}
+	}
+	/*
+	 * Permite calcular la tasa de uso de cuaqluier componente 
+	 * 
+	 * Se visualiza lo ocurrido en el rango de fecha que se pase por $dateIndex.
+	 * Cuando es usado por un servicio podemos pedir los nombres de los porcesos 
+	 * que componen al servicio $processName
+	 * @return array
+	 * - Array (
+	 * 		contiene los parametros que se soliciten por $dbIndex
+	 * )
+	 */
+	public function generalServiceUseByComponentPerHour($dateIndex)
+	{
+		$hoursPerDayArray = $this->hoursPerMonth(0);
+		//Se calcula la estructura del año para cada mes del año.
+		$where = "timestamp BETWEEN '".$dateIndex['fecha_mes_pasado']."' AND '".$dateIndex['fecha_dia_anterior']."' ";
+
+		$where = "timestamp BETWEEN '2014-09-12 00-00-00' AND '2014-10-12 23-00-00'" ; //Quitar
+		$arrayIndex = 0;
+		
+		$processByService = $this->nom_proc_historial();
+		foreach ($processByService as $comando_ejecutable)
+		{
+			$arrayIndex = 0;
+			$cleanArrayIndex = 0;
+			$band = false;
+			while ($arrayIndex < sizeof($hoursPerDayArray))
+			{
+				$innerArrayIndex = 0;
+				$byHour = 0;
+				while($innerArrayIndex < 11)
+				{
+					unset($whereAux);
+					$whereAux = "timestamp BETWEEN '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex]."' AND '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex+1]."' ";
+					
+					$sql = "SELECT tasa_cpu,tasa_ram,tasa_transferencia_dd
+           			FROM proceso_historial 
+            		WHERE  comando_ejecutable ='".$comando_ejecutable."' AND ".$whereAux.";";
+			        $q = $this->db->query($sql);
+			        //Formateando los resultados
+			        $rs = array();
+					if($q->num_rows() > 0)
+				    {
+				       	foreach ($q->result_array() as $row) 
+				        {
+				            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_transferencia_dd']);
+				        }
+				        $date=$hoursPerDayArray[$arrayIndex][0];
+			        	$date = substr($date, 0, -9);
+			        	$band=true;
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex]['comando_ejecutable'] = $comando_ejecutable;
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex][$byHour] = $this->makeKmeans($rs,3,3);
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex][$byHour]['fecha'] = $date;
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
+				        $byHour++;
+					}
+					$innerArrayIndex++;
+				}
+				if($band==true)
+				{
+					$cleanArrayIndex++;
+				}
+				$arrayIndex ++;
+			}
+		}
+		// Ahora se prepara el arreglo con los procesos por servicio.
+		unset($processByService);
+		$services = $this->processByService();
+		$seviceIndex = 0;
+		foreach ($services as $service)
+		{
+			$processIndex = 0;
+			$dataPerService[$seviceIndex]['servicio_id'] = $service['servicio_id'];
+			while(sizeof($service)-2 > $processIndex) 
+			{
+				$dataPerService[$seviceIndex][$processIndex] = $this->findArray($dataPerHour,$service[$processIndex]);
+				$processIndex++;
+			}
+			$seviceIndex++;
+		}
+		return $dataPerService;
+	}//end of function: generalServiceByComponentPerHour
+	public function generalServiceByComponentPerHour($dateIndex)
+	{
+		$hoursPerDayArray = $this->hoursPerMonth(0);
+		//Se calcula la estructura del año para cada mes del año.
+		$where = "timestamp BETWEEN '".$dateIndex['fecha_mes_pasado']."' AND '".$dateIndex['fecha_dia_anterior']."' ";
+
+		$where = "timestamp BETWEEN '2014-09-12 00-00-00' AND '2014-10-12 23-00-00'" ; //Quitar
+		$arrayIndex = 0;
+		
+		$processByService = $this->nom_proc_historial();
+		foreach ($processByService as $comando_ejecutable)
+		{
+			$arrayIndex = 0;
+			$cleanArrayIndex = 0;
+			$band = false;
+			while ($arrayIndex < sizeof($hoursPerDayArray))
+			{
+				$innerArrayIndex = 0;
+				$byHour = 0;
+				while($innerArrayIndex < 11)
+				{
+					unset($whereAux);
+					$whereAux = "timestamp BETWEEN '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex]."' AND '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex+1]."' ";
+					
+					$sql = "SELECT tasa_cpu,tasa_ram,tasa_transferencia_dd
+           			FROM proceso_historial 
+            		WHERE  comando_ejecutable ='".$comando_ejecutable."' AND ".$whereAux.";";
+			        $q = $this->db->query($sql);
+			        //Formateando los resultados
+			        $rs = array();
+					if($q->num_rows() > 0)
+				    {
+				       	foreach ($q->result_array() as $row) 
+				        {
+				            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_transferencia_dd']);
+				        }
+				        $date=$hoursPerDayArray[$arrayIndex][0];
+			        	$date = substr($date, 0, -9);
+			        	$band=true;
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex]['comando_ejecutable'] = $comando_ejecutable;
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex][$byHour] = $this->makeKmeans($rs,3,3);
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex][$byHour]['fecha'] = $date;
+				        $dataPerHour[$comando_ejecutable][$cleanArrayIndex][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
+				        $byHour++;
+					}
+					$innerArrayIndex++;
+				}
+				if($band==true)
+				{
+					$cleanArrayIndex++;
+				}
+				$arrayIndex ++;
+			}
+		}
+		// Ahora se prepara el arreglo con los procesos por servicio.
+		return $dataPerHour;
+	}//end of function: generalResourceUseByComponentPerHour
+
+
 	public function makeKmeans($data,$num_clusters, $num_params)
 	{
 		$resultado = $this->kmeans->kmeans($data,$num_clusters);

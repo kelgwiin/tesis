@@ -8,7 +8,6 @@
 $resourceIndex = 0;
 foreach ($resourceUse as $resource)
 {
-	$dataIndex = 1;
 	$biggerDate = 0;	
 	?>
 	<script>
@@ -24,12 +23,14 @@ foreach ($resourceUse as $resource)
 		
 	</script>
 	<?php
-	while ($dataIndex <= sizeof($resource))
+	$dataIndex = 0;
+	$resourceSize = sizeof($resource)-1;
+	while ($dataIndex <= $resourceSize)
 	{
 		$hourIndex = 0;
-		while ($hourIndex < sizeof($resource[$dataIndex])-1)
+		$resourceSizeB = sizeof($resource[$dataIndex])-1;
+		while ($hourIndex < $resourceSizeB)
 		{
-					
 			?>
 			<script>
 				categoriasAux[resourceAux] = "<?php echo $resource[$dataIndex][$hourIndex]['hora']; ?>";
@@ -45,7 +46,7 @@ foreach ($resourceUse as $resource)
 	}
 	?>
 	<script>
-		nombres_comandos[resourceIndex]="<?php echo $resource[1]['comando_ejecutable']; ?>";;
+		nombres_comandos[resourceIndex]="<?php echo $resource[0]['comando_ejecutable']; ?>";;
 		resourceIndex++;
 	</script>
 	<?php
