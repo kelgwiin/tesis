@@ -1,5 +1,5 @@
 <div class="col-lg-12">
-	<br><center><h2>Se ha cargado exitosamente el Formulario</h2></center><br>		
+	<br><center><h2>Se ha guardado exitosamente el Formulario</h2></center><br>		
 	</div>
 		<div class="col-lg-3">
 	            <div class="panel panel-info">

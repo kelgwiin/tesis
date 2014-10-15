@@ -10,8 +10,7 @@
         
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          El objetivo primordial de la Gestión de la Disponibilidad es asegurar que los servicios TI estén disponibles y funcionen correctamente
-          siempre que los clientes y usuarios deseen hacer uso de ellos en el marco de los SLAs en vigor.
+          El objetivo primordial de la Gestión de la Disponibilidad es el seguimiento, medición y análisis relacionados con la disponibilidad de los servicios de tecnología de información.
         </div>
         
 	</div>
@@ -169,7 +168,7 @@
 	                  </div>
 	                </div>
 	              </div>
-	              <a href="<?php echo base_url(); ?>index.php/Capacidad/Documentacion/">
+	              <a href="<?php echo base_url(); ?>index.php/Disponibilidad/ImprimirManualUsuario">
 	                <div class="panel-footer announcement-bottom">
 	                  <div class="row">
 	                    <div class="col-xs-6">

@@ -360,7 +360,7 @@ class Disponibilidad extends MX_Controller
 		//$data['main_content'] = $this->load->view('Oportunidadestecnologicas','',TRUE);
 		//$this->load->view('front/template',$data);
 		$l = $this->utils->list_sidebar();
-		$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas',$data,'Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
+		$this->utils->template($l,'Disponibilidad/Oportunidadestecnologicas','','Módulo Gestión de Disponibilidad','Oportunidadestecnologicas',
 		'two_level');
 	}
 	
@@ -697,4 +697,473 @@ class Disponibilidad extends MX_Controller
 				
 		$this->pdf->Output("Plan de Disponibilidad.pdf", 'I');
 	}
+
+	public function ImprimirManualUsuario()
+	{
+		 ob_end_clean();
+        $this->load->library('Pdf_Disponibilidad'); 
+		$this->pdf = new Pdf_Disponibilidad();
+		$this->pdf->AddPage();
+		$this->pdf->AliasNbPages();
+        $this->pdf->SetTitle("Manual de Usuario");
+        $this->pdf->SetLeftMargin(15);
+        $this->pdf->SetRightMargin(15);
+        $this->pdf->SetFillColor(200,200,200);
+		$this->pdf->SetFont('Arial', 'B', 17);
+		//Primera Pagina
+		$this->pdf->Ln(80);
+		$this->pdf->SetTextColor(70,100,250); 
+		$this->pdf->Text(28, 40, "MANUAL DE USUARIO DE LA");
+		$this->pdf->Ln(15);	
+		$this->pdf->Text(28, 50, "GESTION DE DISPONIBILIDAD");
+		$this->pdf->SetTextColor(0); 
+		$this->pdf->SetFont('Arial', 'B', 12);
+		$this->pdf->Text(165, 103, "(v 1.1)");
+		$this->pdf->Rect(16, 30, 178, 85);		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen.png',150,35,30,25,'');
+		
+		$this->pdf->Ln(5);
+		$this->pdf->SetFont('Arial', 'B', 12);
+		$this->pdf->SetTextColor(70,20,250);
+		$this->pdf->Write(15,utf8_decode('Historial de Aprobaciones'));
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'B', 9);
+		$this->pdf->Ln(15);		
+        $this->pdf->Cell(60,7,'NOMBRE',1,0,'C','1');
+        $this->pdf->Cell(60,7,'FIRMA',1,0,'C','1');
+        $this->pdf->Cell(60,7,'FECHA',1,0,'C','1');
+		
+		for($i=1;$i<=5;$i++){
+			$this->pdf->Ln(7);		
+			$this->pdf->Cell(60,7,' ',1,0,'C','0');
+			$this->pdf->Cell(60,7,' ',1,0,'C','0');
+			$this->pdf->Cell(60,7,' ',1,0,'C','0');
+		}
+		$this->pdf->Ln(13);
+		//Indice
+		$this->pdf->SetFont('Arial', 'B', 12);
+		$this->pdf->SetTextColor(70,20,250);
+		$this->pdf->Write(15,utf8_decode('Contenido'));
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		$this->pdf->Ln(10);
+		$this->pdf->Write(10,utf8_decode('1. Ingresar al Modulo Gestión de Disponibilidad'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('2. Registrar Incidencias'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('3. Ver Reportes de Incidencias'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('4. Registrar Eventos en el Calendario'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('5. Observar Monitoreo de un Servicio TI'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('6. Plan de Disponibilidad'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('7. Cargar Opciones de Mejoras'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('8. Cargar Logros en el Rendimiento'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('9. Cargar Oportunidades Tecnológicas'));
+		$this->pdf->Ln(7);
+		$this->pdf->Write(10,utf8_decode('10. Ver Plan de Disponibilidad'));
+		//Segunda Pagina
+		//Comparando Niveles de Servicios Real con lo establecido en los SLAs
+		$this->pdf->AddPage();
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('1. Ingresar al Modulo Gestión de Disponibilidad.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Para ingresar al sistema SIGITEC se coloca el correo electrónico y la contraseña, para este ejemplo se uso el usuario de administrador'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen1.png',15,65,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono Gestión de Disponibilidad enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen2.png',10,45,185,150,'');
+						
+		$this->pdf->AddPage();
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('2. Registrar Incidencias.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Registrar Incidencia" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(40);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen3.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se muestra la siguiente ventana en la que colocamos los datos solicitados, como campos obligatorios esta el código de la incidencia y la descripción, al finalizar presionamos el botón "Guardar".'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen4.png',10,65,185,150,'');
+		
+		$this->pdf->AddPage();		
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Si se realizo correctamente se abrirá la siguiente ventana indicado que se ha guardado exitosamente el formulario.'));
+		$this->pdf->Ln(40);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen5.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('3.  Ver Reportes de Incidencias.'));	
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Reportes de Incidencias" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen6.png',10,55,185,150,'');
+		
+		$this->pdf->AddPage();		
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se muestra la siguiente ventana en la que se selecciona el servicio en la que queremos observar las incidencias que le han ocurrido.'));
+		$this->pdf->Ln(40);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen7.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+	
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Al seleccionar uno de los servicios se abre el reporte con el formato de plantilla que se muestra a continuación:'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen8.png',10,55,185,150,'');
+		
+				
+		$this->pdf->AddPage();
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('4. Registrar Eventos en el Calendario.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Registrar Eventos en Calendario" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen9.png',15,65,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se abre la siguiente calendario en el que podemos guardar los futuros eventos que van ocurrir, por ejemplo anticipar un mantenimiento a un servicio ti. Para ello damos click en el botón "Nuevo Evento" de color verde.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen10.png',10,65,185,150,'');
+		
+		
+		$this->pdf->AddPage();		
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se muestra la siguiente ventana en la que colocamos los datos solicitados, como campos obligatorios esta la Fecha Inicio, Fecha Fin y la descripción, al finalizar presionamos el botón "Guardar".'));
+		$this->pdf->Ln(40);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen11.png',15,65,185,150,'');
+		
+		$this->pdf->AddPage();
+	
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Al presionar el botón "Guardar" se abre el calendario con el nuevo evento creado.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen12.png',10,45,185,150,'');
+		
+		
+		$this->pdf->AddPage();
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('5. Observar Monitoreo de un Servicio TI.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Monitoreo de los Servicios" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen13.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se muestra la siguiente ventana en la que se selecciona el servicio en la que queremos analizar el tiempo que estuvo activo e inactivo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen14.png',10,55,185,150,'');
+		
+		
+		$this->pdf->AddPage();		
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('A continuación se presenta la gráfica en la que se indica el tiempo en que se encontró activo e inactivo el servicio analizado durante la semana.'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen15.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('6. Plan de Disponibilidad.'));
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Plan de Disponibilidad" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen16.png',10,55,185,150,'');
+		
+		
+		
+		$this->pdf->AddPage();		
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('A continuación se muestran los 3 gráficos en el que se puede comparar los niveles reales de disponibilidad, fiabilidad y confiabilidad respectivamente con los acordados en los acuerdos de niveles de servicios.'));
+		$this->pdf->Ln(40);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen17.png',15,65,185,150,'');
+		
+		$this->pdf->AddPage();
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen18.png',10,45,185,150,'');
+		
+		
+		$this->pdf->AddPage();
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen19.png',10,45,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('7. Cargar Opciones de Mejoras.'));
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Opciones de Mejora" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen20.png',10,55,185,150,'');
+		
+		
+		$this->pdf->AddPage();		
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se muestra la siguiente ventana en la que colocamos los datos solicitados, como campos obligatorios esta el Costo y la descripción, al finalizar presionamos el botón "Guardar".'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen21.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+				
+		$this->pdf->Write(10,utf8_decode('Si se realizo correctamente se abrirá la siguiente ventana indicado que se ha guardado exitosamente el formulario.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen22.png',10,55,185,150,'');
+		
+		
+		
+		$this->pdf->AddPage();
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('8. Cargar Logros en el Rendimiento.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Logros en el Rendimiento" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen23.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se muestra la siguiente ventana en la que colocamos los datos solicitados, como campos obligatorios esta el Costo y la descripción, al finalizar presionamos el botón "Guardar".'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen24.png',10,55,185,150,'');
+						
+		
+		$this->pdf->AddPage();
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Si se realizo correctamente se abrirá la siguiente ventana indicado que se ha guardado exitosamente el formulario.'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen25.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('9. Cargar Oportunidades Tecnológicas.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Oportunidades Tecnológicas" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen26.png',10,55,185,150,'');
+						
+		
+		$this->pdf->AddPage();
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se muestra la siguiente ventana en la que colocamos los datos solicitados, como campos obligatorios esta el área/sistema y la descripción, al finalizar presionamos el botón "Guardar".'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen27.png',15,55,185,150,'');
+		
+		$this->pdf->AddPage();
+		//Texto
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Si se realizo correctamente se abrirá la siguiente ventana indicado que se ha guardado exitosamente el formulario.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen29.png',10,55,185,150,'');
+						
+		
+		$this->pdf->AddPage();
+		//Texto
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('10. Ver Plan de Disponibilidad.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Imprimir Plan de Disponibilidad" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen30.png',10,55,185,150,'');
+						
+		
+		$this->pdf->AddPage();
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Al dar click se abre el reporte con el formato de plantilla que se muestra a continuación:'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen31.png',15,50,185,150,'');
+		
+		
+		
+		
+		$this->pdf->AddPage();
+		//Texto
+		//Titulo
+		$this->pdf->SetFont('Arial', 'B', 12);		
+		$this->pdf->SetTextColor(70,20,250);		
+		$this->pdf->Write(15,utf8_decode('11. Ver Manual de Usuario.'));
+		//Texto
+		$this->pdf->Ln(10);
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Se selecciona el icono "Manual de Usuario" enmarcado en el recuadro de color rojo.'));
+		$this->pdf->Ln(50);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen32.png',10,55,185,150,'');
+						
+		
+		$this->pdf->AddPage();
+		
+		$this->pdf->SetTextColor(0);
+		$this->pdf->SetFont('Arial', 'I', 12);
+		
+		$this->pdf->Write(10,utf8_decode('Al dar click se abre el reporte con el formato de plantilla que se muestra a continuación:'));
+		$this->pdf->Ln(60);
+		
+		$this->pdf->Image('application/modules/Disponibilidad/views/images/imagen33.png',15,50,185,150,'');
+		
+		
+		
+		
+		
+		$this->pdf->Output("Manual de Usuario.pdf", 'I');
+	}
+
+
+
 }
