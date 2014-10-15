@@ -158,7 +158,7 @@ class Caracterizacion_model extends CI_Model{
         
         $resultados = array();
         foreach ($data as $key => &$val) {
-            $val[2] *= $reg_por_com[$key]*60*24;//repeticiones * minutos * horas, wired
+            $val[2] *= $reg_por_com[$key]*60*24;//repeticiones * minutos * horas
             $resultados[$key] = $val;
         }
         
