@@ -9,6 +9,16 @@
 	Array.prototype.unique=function(a){
 	  return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 	});
+
+	Array.prototype.clean = function(deleteValue) {
+	  for (var i = 0; i < this.length; i++) {
+	    if (this[i] == deleteValue) {         
+	      this.splice(i, 1);
+	      i--;
+	    }
+	  }
+	  return this;
+	};
 </script>
 <?php
 $serviceId = 0;
@@ -42,8 +52,6 @@ foreach ($resourceUse as $resource)
 	}
 }
 $resourceIndex = 0;
-
-		echo_pre($beforeGraficArray);
 foreach ($beforeGraficArray as $beforeGrafic)
 {
 	?>
@@ -56,7 +64,7 @@ foreach ($beforeGraficArray as $beforeGrafic)
 		$resultado = array_sum($dia);
 		?>
 		<script>
-		resourceUse[serviceIndex][dayServiceIndex] = "<?php echo $resultado; ?>";
+		resourceUse[serviceIndex][dayServiceIndex] = parseFloat("<?php echo $resultado; ?>");
 		dayServiceIndex++;
 		</script>
 		<?php
@@ -81,6 +89,12 @@ foreach ($beforeGraficArray as $beforeGrafic)
 		}
 		categoriasIndex++;
 	}
+
+
+	resourceUse[0].clean(undefined);
+	resourceUse[1].clean(undefined);
+	resourceUse[2].clean(undefined);
+
 $(function () {
     $('#container').highcharts({
         title: {
