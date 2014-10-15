@@ -278,7 +278,7 @@ class Caracterizacion_model extends CI_Model{
                 $sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
                         FROM proceso_historial 
                         WHERE  ".$whereAux.";";
-                //echo $sql;
+                
                 $q = $this->db->query($sql);
                 //Formateando los resultados
                 $rs = array();
@@ -293,7 +293,7 @@ class Caracterizacion_model extends CI_Model{
                     //$dataPerHour[$date][$byHour] = $this->procesar_caso($rs,6,3);
 
                     $tmp_prom = $this->procesar_caso($rs,6,3);
-                    echo_pre($tmp_prom);
+                    
                     //acumulando promedios
                     for ($i=0; $i < $num_params; $i++) { 
                         $acums[$i] += $tmp_prom[$i];
