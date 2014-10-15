@@ -14,6 +14,7 @@ class Caracterizacion_model extends CI_Model{
 
         //Libraries 
         $this->load->library('Kmeans');
+        $this->debug = false;
 
 	}
 
@@ -125,6 +126,18 @@ class Caracterizacion_model extends CI_Model{
         $this->db->query($sql);
     }
 
+    public function dateLastMonth($days = FALSE,$month = FALSE)
+    {
+        date_default_timezone_set("America/Caracas" );
+        $fecha_actual = date("Y-m-d",time());
+        $fecha_dia_anterior = $fecha_actual;
+        $fecha_mes_pasado = strtotime ( '-'.$month.'month' , strtotime ( $fecha_actual ) ) ;        
+        $dateArray['fecha_mes_pasado']  = date ( 'Y-m-j H-i-s', $fecha_mes_pasado );
+        $fecha_dia_anterior = strtotime ( '-'.$days.' day' , strtotime ( $fecha_dia_anterior ) ) ;
+        $dateArray['fecha_dia_anterior'] = date ( 'Y-m-j H-i-s', $fecha_dia_anterior );
+        return $dateArray;
+    }//end of function: dateLastMonth
+
     /**-----------------------------------------------------
      * Métodos principales de la Caracterización de la data
      *------------------------------------------------------*/
@@ -134,13 +147,12 @@ class Caracterizacion_model extends CI_Model{
     * tabla proceso_historial
     */
     public function caracterizar(){
-        //$this->debug = true;
-        $date = modules::run('Capacidad/dateLastMonth',0,1);
+        $this->debug = false;
+        $date = $this->dateLastMonth();
 
         //Recopilando nombre de los procesos que se encuentran asociados a los Servicios
         $nom_procesos = $this->nom_proc_historial();
         $data = array();
-        
         //Obteniendo la data asociada a los procesos recopilados
         foreach ($nom_procesos as $nom) {
             unset($data_tmp);
@@ -151,7 +163,6 @@ class Caracterizacion_model extends CI_Model{
                 $data[$nom] = $data_tmp;
             }
         }
-        
         //numero de registros por comando
         $reg_por_com = $this->num_procesos();
         
@@ -186,7 +197,6 @@ class Caracterizacion_model extends CI_Model{
             }
             
         }
-        
         //Guardando en la BD
         $this->guardar_caracterizacion($sum_por_serv);
         if($this->debug){

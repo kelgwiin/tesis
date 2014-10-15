@@ -15,7 +15,7 @@
 			event.preventDefault();
 			// store reference to the form
 			var bk_this = $(this);
-
+			
 			// grab the url from the form element
 			var url = bk_this.attr('action');
 			    
@@ -25,6 +25,7 @@
 			//Agregando efecto de movimiento
 			$('i#fa-procesar-comp-ti').addClass('fa-spin');
 			fo_proccess = function(data){
+
 				if(data.estatus == "ok"){
 					$('div#msj-vacio').removeClass('show').addClass('hidden');//escondiendo el msj, si estaba
 					info = "";
