@@ -1,3 +1,16 @@
+<style>
+#loading
+{
+	background:#FFF url(<?php echo '/assets/back/continuidad_uploads/gif/720.GIF'; ?>) no-repeat center center;
+	height: 100px;
+	width: 100px;
+	position: fixed;
+	z-index: 1000;
+	left: 55%;
+	top: 50%;
+	margin: -25px 0 0 -25px;
+}
+</style>
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
@@ -37,7 +50,12 @@
 	</div>
 	
 	<div class="row" style="margin-top: 25px">
-		<div class="col-lg-12">
+		<?php if(isset($planes_continuidad) && !empty($planes_continuidad)) : ?>
+			<div class="col-lg-12">
+				&raquo; <a href="<?php echo site_url('index.php/continuidad/validar_pcn/'.$val) ?>">Validar Planes de Continuidad del Negocio</a>
+			</div>
+		<?php endif ?>
+		<div class="col-lg-12" style="margin-top: 25px">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">Planes de continuidad del negocio para riesgos con valoración <?php echo $valoracion ?></h3>
@@ -46,6 +64,7 @@
 					<?php if(!isset($planes_continuidad) OR empty($planes_continuidad)) : ?>
 						<?php print_alert('<strong>No existe ningún Plan de Continuidad del Negocio para riesgos con valoración '.$valoracion.'. Puede crear uno dando click al botón de arriba.</strong>','danger') ?>
 					<?php else : ?>
+						<div id="loading"></div>
 						<div class="table-responsive">
 				            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 				                <thead>
@@ -54,9 +73,10 @@
 				                        <th>Denominación <i class="fa fa-sort"></i></th>
 				                        <!-- <th>Departamento <i class="fa fa-sort"></i></th> -->
 				                        <th>Responsable <i class="fa fa-sort"></i></th>
-				                        <th>Tipo de PCN <i class="fa fa-sort"></i></th>
 				                        <th>Estado del PCN <i class="fa fa-sort"></i></th>
 				                        <th>Fecha de creación <i class="fa fa-sort"></i></th>
+			                        	<th><span data-toggle="tooltip" title="Indica si el PCN fue verificado por la gerencia">Validado</span></th>
+			                        	<th><span data-toggle="tooltip" title="Click para descargar PDF">PDF</span></th>
 			                        	<th>Activar</th>
 			                        	<th>Eliminar</th>
 				                    </tr>
@@ -81,9 +101,27 @@
 				                			<td><span data-toggle="tooltip" title="<?php echo $plan->denominacion ?>"><?php echo character_limiter($plan->denominacion,20) ?></span></td>
 				                			<!-- <td><?php echo ucfirst($plan->dpto_nombre) ?></td> -->
 				                			<td><?php echo $plan->nombre_empleado ?></td>
-				                			<td><?php echo ucfirst($plan->tipo_plan) ?></td>
 				                			<td style="color: <?php echo $color ?>"><?php echo ucfirst($plan->estado) ?></td>
 				                			<td><?php echo date('d-m-Y h:i A', strtotime($plan->fecha_creacion)) ?></td>
+				                			<td style="text-align: center">
+				                				<?php if($plan->validado) : ?>
+				                					<i class="fa fa-check" style="color: green"></i>
+				                				<?php else : ?>
+				                					<i class="fa fa-times" style="color: red"></i>
+				                				<?php endif ?>
+				                			</td>
+				                			<td>
+				                				<?php if(isset($plan->pdf) && !empty($plan->pdf) && file_exists($plan->pdf)) : ?>
+				                					<a href="<?php echo site_url('index.php/continuidad/descargar_pdf/'.$val.'/'.$plan->id_continuidad) ?>" data-toggle="tooltip" title="Click para descargar el PDF de este PCN">
+				                						<i class="fa fa-file"></i>
+				                					</a>
+				                				<?php else : ?>
+				                					<span data-toggle="tooltip" title="PELIGRO: Este PCN no presenta PDF asociado">
+				                						<i class="fa fa-file"></i>
+			                						</span>
+				                				<?php endif ?>
+				                				
+				                			</td>
 				                			<td>
 				                				<input type="checkbox" <?php echo ($plan->id_estado == 1) ? 'checked' : '' ?>
 				                					data-toggle="modal" data-target="#activar<?php echo $plan->id_continuidad ?>" />

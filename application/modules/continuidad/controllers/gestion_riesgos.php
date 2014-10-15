@@ -154,7 +154,7 @@ class Gestion_riesgos extends MX_Controller
 			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 			
 			// REGLAS DEL FORM VALIDATION
-			if($_POST['id_categoria']) $this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean');
+			if(array_key_exists('id_categoria',$_POST)) $this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean');
 			else
 			{
 				$this->form_validation->set_rules('categoria','<strong>Tipo de amenaza</strong>','required|xss_clean|is_unique[categorias_riesgos.categoria]');
@@ -165,7 +165,7 @@ class Gestion_riesgos extends MX_Controller
 			if($this->form_validation->run($this))
 			{
 				$_POST['categoria'] = ucfirst(strtolower($_POST['categoria']));
-				if($_POST['id_categoria'])
+				if(array_key_exists('id_categoria',$_POST))
 				{
 					// SI EXISTE $_POST['id_categoria'] QUIERE DECIR QUE YA LA CATEGORIA ESTA CREADA Y SE QUIERE ACTUALIZAR SU INFORMACION
 					$where['id_categoria'] = $_POST['id_categoria'];
@@ -281,13 +281,13 @@ class Gestion_riesgos extends MX_Controller
 		
 		if($_POST)
 		{
-			// die_pre($_POST);
+			// echo_pre($_POST);
 			// DELIMITADOR DE ERROR DEL FORM VALIDATION
 			$this->form_validation->set_error_delimiters('<div class="alert alert-danger">',
 			'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 			
 			// REGLAS DEL FORM VALIDATION
-			if($_POST['id_riesgo']) $this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean');
+			if(array_key_exists('id_riesgo',$_POST)) $this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean');
 			else
 			{
 				$this->form_validation->set_rules('denominacion','<strong>Denominación</strong>','required|xss_clean|is_unique[riesgos_amenazas.denominacion]');
@@ -298,14 +298,15 @@ class Gestion_riesgos extends MX_Controller
 			{
 				$_POST['valoracion'] = $this->valoracion_riesgo($_POST);
 				$full_post = $half_post = $_POST;
-				
+				unset($half_post['id_servicioproceso']);
+				// die_pre($half_post);
 				if($_POST['id_categoria'] == 7)
 				{
 					unset($_POST['id_servicioproceso']);
 					$half_post = $_POST;
 				}
 				
-				if($_POST['id_riesgo'])
+				if(array_key_exists('id_riesgo',$_POST))
 				{
 					// SI EXISTE $_POST['id_riesgo'] QUIERE DECIR QUE YA LA AMENAZA ESTA CREADA Y SE QUIERE ACTUALIZAR SU INFORMACION
 					$where['id_riesgo'] = $_POST['id_riesgo'];

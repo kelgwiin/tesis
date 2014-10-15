@@ -139,7 +139,7 @@ class Kmeans{
 	 * @return array            Un array  con las coordenas de los centroides
 	 * y los clusters generados.
 	 */
-	function kmeans($data, $k, $max_iter = 1000000) {
+	function kmeans($data, $k, $max_iter = 1000) {
 		//Normalizando la data de entrada para que sea 
 		//más consistente
 		$data_original = $data;//Haciendo el respaldo de la data
@@ -265,9 +265,13 @@ class Kmeans{
 	 * @param  array $total sqrt(ai + ... + a_i+1 + ... + a_n)
 	 * @return array $vector El vector de la data normalizado.
 	 */
-	function normalizar_data(array $vector, $total) {
+	function normalizar_data($vector, $total) {
 		foreach($vector as &$value) {
-			$value = $value/$total;
+			if($total > 0){
+				$value = $value/$total;
+			}else{
+				$value = $value/1;
+			}
 		}
 		return $vector;
 	}

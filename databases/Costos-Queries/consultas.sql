@@ -235,8 +235,12 @@ from proceso_historial;
 
 
 update caracterizacion
-set borrado = 0
+set total_uso_memoria = total_uso_memoria+1
 where year(fecha) = year(curdate()) and month(fecha) = month(curdate())
 and servicio_id = 1;
 
+select count(*) from proceso_historial where comando_ejecutable = 'chrome';
+
+select distinct comando_ejecutable
+from proceso_historial;
 

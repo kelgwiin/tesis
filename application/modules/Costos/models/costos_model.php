@@ -525,7 +525,15 @@ class Costos_model extends CI_Model{
 				$rs_eci = $ec[$ec_id];//info de costos por unidad
 				$alm = $row['total_uso_almacenamiento'] * $rs_eci['Almacenamiento']['dinero_por_uni'];//está en bytes
 				$mem = ($row['total_uso_memoria'] * $rs_eci['Memoria']['total_capacidad_porc']) * $rs_eci['Memoria']['dinero_por_uni'];//está en %
-				$red = $row['total_uso_redes'] * $rs_eci['Redes']['dinero_por_uni'];// NA
+				
+				//Temporalmente no se toma en cuenta el campo de redes
+				if(isset($rs_eci['Redes'])){
+					$red = $row['total_uso_redes'] * $rs_eci['Redes']['dinero_por_uni'];// NA
+				}else{
+					$red = 0;
+				}
+				//Fin de campo de redes
+				
 				$proc = ($row['total_uso_cpu'] * $rs_eci['Procesador']['total_capacidad_porc']) * $rs_eci['Procesador']['dinero_por_uni'];//está en %
 				
 				$costos_by_servicio[$row['servicio_id']] = array(

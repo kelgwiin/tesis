@@ -1,15 +1,36 @@
 <script>
-	var cpuArray = [], ramArray = [], ddArray = [];
+	var resourceUse = [], categorias = [], cpu = [], ram = [], hd = [];
+	var resourceIndex = 0;
+	var resourceAux = 0;
 </script>
 <?php
 $resourceIndex = 0;
-foreach ($resourceUse as $resourceUseObject) 
+foreach ($resourceUse as $resource)
 {
-?>
+	$dataIndex = 0;
+	?>
 	<script>
-	cpuArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_cpu'] ;?>;
-	ramArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_ram'] ;?>;
-	ddArray[<?php echo $resourceIndex ?>] = <?php echo $resourceUseObject['tasa_lectura_dd'] ;?>;
+	resourceUse[resourceIndex] = new Array();
+	var dataIndex = 0;
+	</script>
+	<?php
+	while ($dataIndex < sizeof($resource)-1)
+	{
+	?>
+	<script>
+		categorias[resourceAux] = "<?php echo $resource[$dataIndex]['hora']; ?>";
+		cpu[resourceAux] = parseInt("<?php echo $resource[$dataIndex][0]; ?>");
+		ram[resourceAux] = parseInt("<?php echo $resource[$dataIndex][1]; ?>");
+		hd[resourceAux] = parseInt("<?php echo $resource[$dataIndex][2]; ?>");
+		dataIndex++;
+		resourceAux++;
+	</script>
+	<?php
+	$dataIndex++; 
+	}
+	?>
+	<script>
+		resourceIndex++;
 	</script>
 	<?php
 	$resourceIndex++;
@@ -18,6 +39,9 @@ foreach ($resourceUse as $resourceUseObject)
 <script>
 $(function () {
     $('#container').highcharts({
+    	chart: {
+            zoomType: 'x'
+        },
         title: {
             text: 'Tasa de Uso de Recursos',
             x: -20 //center
@@ -27,8 +51,7 @@ $(function () {
             x: -20
         },
         xAxis: {
-            categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                'Julio', 'Agosto', 'Septiembre', 'Oct', 'Nov', 'Dec']
+           categories: categorias
         },
         yAxis: {
             title: {
@@ -50,15 +73,20 @@ $(function () {
             borderWidth: 0
         },
         series: [{
-            name: 'CPU',
-            data: cpuArray
-        }, {
-            name: 'RAM',
-            data: ramArray
-        }, {
-            name: 'Disco',
-            data: ddArray
-        }]
+                name: 'Uso CPU',
+                data: cpu
+
+            }, {
+                name: 'Uso Ram',
+                data: ram
+
+
+            }, {
+                name: 'Uso Discos',
+                data: hd
+
+
+            }]
     });
 });
 </script>

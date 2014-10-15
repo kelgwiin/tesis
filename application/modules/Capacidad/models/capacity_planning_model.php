@@ -10,18 +10,53 @@ class Capacity_planning_model extends CI_Model
 	    parent::__construct();
 	    $this->load->database();
 	    $this->load->model('utilities/utilities_model');
+	    //Libraries 
+		$this->load->library('Kmeans');
 	}
 	/*
 	 * Genera un rango de fecha en formato Y-m-j H-i-s
 	 * 
-	 * $days es el parametro de los dias a restar
 	 * $month es el parametro de los meses a restar
+	 * calcula todos los días pasados de este mes
+	 * y luego las horas en bloques de 2 en 2 horas
 	 * @return array
 	 * - Array (
-	 * 		fecha_mes_pasado => 
-	 * 		fecha_dia_anterior => 
+	 * 		
 	 * )
 	 */
+	public function hoursPerMonth($month = FALSE)
+	{
+		date_default_timezone_set("America/Caracas" );
+        $fecha_actual = date("Y-m-d",time());
+        $newDate = date("Y-m-d",time());
+        $fecha_dia_anterior = $fecha_actual;
+        $lastMonthDate = strtotime ( '-'.$month.'month' , strtotime ( $fecha_actual ) ) ;
+        $daysLeft = $fecha_actual[8].$fecha_actual[9];
+        $daysLeft = (int)$daysLeft-1;
+        $band = 1;
+        while ($band<=$daysLeft)
+        {
+        	$band2=$band-1;//Cambiar
+        	unset($temporalDay);
+			$temporalDay = strtotime ( '-'.$band2.' day' , strtotime ( $newDate ) ) ;
+			$temporalDay = date ( 'Y-m-j', $temporalDay );
+			$temporalDay = new DateTime($temporalDay);
+			$hours = 0;
+			$hoursIndex = 0;
+			while($hours<24)
+			{
+				unset($dayAux);
+				$dayAux = $temporalDay;
+				$dayAux->setTime($hours, 00);
+				$dateArrayPerHour[$band-1][$hoursIndex] = date_format($dayAux, 'Y-m-d H:i:s');
+				$hours=$hours+2;
+				$hoursIndex = $hoursIndex+1;
+			}
+        	$band ++;
+        }
+        return $dateArrayPerHour;
+	}//end of function: hoursPerMonth
+
     public function percentUsage($resourceUse)
 	{
 		foreach ($resourceUse as $resourceUseObject)
@@ -45,6 +80,7 @@ class Capacity_planning_model extends CI_Model
 	{
 		//Se calcula la estructura del año para cada mes del año.
 		$where = "timestamp BETWEEN '".$dateIndex['fecha_mes_pasado']."' AND '".$dateIndex['fecha_dia_anterior']."' ";
+		$where = "timestamp BETWEEN '2014-09-12 00-00-00' AND '2014-10-12 23-00-00'" ; //Quitar
 		if($processName!== FALSE)
 		{
 			$where=$where." AND ".$processName;
@@ -97,4 +133,161 @@ class Capacity_planning_model extends CI_Model
 	    
 		return $arreglo;
 	}//end of function: resourceUse
+	/*
+	 * Permite calcular la tasa de uso de cuaqluier componente 
+	 * 
+	 * Se visualiza lo ocurrido en el rango de fecha que se pase por $dateIndex.
+	 * Cuando es usado por un servicio podemos pedir los nombres de los porcesos 
+	 * que componen al servicio $processName
+	 * @return array
+	 * - Array (
+	 * 		contiene los parametros que se soliciten por $dbIndex
+	 * )
+	 */
+	public function resourceUseByComponentPerHour($dateIndex, $dbIndex, $processName = FALSE )
+	{
+		$hoursPerDayArray = $this->hoursPerMonth(0);
+		//Se calcula la estructura del año para cada mes del año.
+		$where = "timestamp BETWEEN '".$dateIndex['fecha_mes_pasado']."' AND '".$dateIndex['fecha_dia_anterior']."' ";
+
+		$where = "timestamp BETWEEN '2014-09-12 00-00-00' AND '2014-10-12 23-00-00'" ; //Quitar
+		if($processName!== FALSE)
+		{
+			$where=$where." AND ".$processName;
+		}
+		$names = FALSE;
+		$names = $this->db->select("comando_ejecutable")
+	                    ->where("{$where}")
+	                    ->from('proceso_historial')
+						->distinct()
+	                    ->get()
+						->result_array();
+		$arreglo = FALSE;
+
+
+		foreach ($names as $comando_ejecutable)
+		{
+			$arrayIndex = 0;
+			while ($arrayIndex < sizeof($hoursPerDayArray))
+			{
+				$innerArrayIndex = 0;
+				$byHour = 0;
+				while($innerArrayIndex < 11)
+				{
+					unset($whereAux);
+					$whereAux = "timestamp BETWEEN '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex]."' AND '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex+1]."' ";
+					
+					$sql = "SELECT {$dbIndex}
+           			FROM proceso_historial 
+            		WHERE  comando_ejecutable ='".$comando_ejecutable['comando_ejecutable']."' AND ".$whereAux.";";
+			        $q = $this->db->query($sql);
+			        //Formateando los resultados
+			        $rs = array();
+					if($q->num_rows() > 0)
+				    {
+				       	foreach ($q->result_array() as $row) 
+				        {
+				            $rs[] = array($row['r']);
+				        }
+				        $date=$hoursPerDayArray[$arrayIndex][0];
+			        	$date = substr($date, 0, -9);
+
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex]['comando_ejecutable'] = $comando_ejecutable['comando_ejecutable'];
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour] = $this->makeKmeans($rs,3,1);
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['fecha'] = $date;
+				        $dataPerHour[$comando_ejecutable['comando_ejecutable']][$arrayIndex][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
+				        $byHour++;
+					}
+					$innerArrayIndex++;
+				}
+				$arrayIndex ++;
+			}
+		}
+		return $dataPerHour;
+	}//end of function: resourceUseByComponent
+	/*
+	 * Permite calcular la tasa de uso de cuaqluier componente 
+	 * 
+	 * Se visualiza lo ocurrido en el rango de fecha que se pase por $dateIndex.
+	 * Cuando es usado por un servicio podemos pedir los nombres de los porcesos 
+	 * que componen al servicio $processName
+	 * @return array
+	 * - Array (
+	 * 		contiene los parametros que se soliciten por $dbIndex
+	 * )
+	 */
+	public function generalResourceUseByComponentPerHour($dateIndex, $dbIndex, $processName = FALSE )
+	{
+		$hoursPerDayArray = $this->hoursPerMonth(0);
+		//Se calcula la estructura del año para cada mes del año.
+		$where = "timestamp BETWEEN '".$dateIndex['fecha_mes_pasado']."' AND '".$dateIndex['fecha_dia_anterior']."' ";
+
+		$where = "timestamp BETWEEN '2014-09-12 00-00-00' AND '2014-10-12 23-00-00'" ; //Quitar
+		$arrayIndex = 0;
+		while ($arrayIndex < sizeof($hoursPerDayArray))
+		{
+			$innerArrayIndex = 0;
+			$byHour = 0;
+			while($innerArrayIndex < 11)
+			{
+				unset($whereAux);
+				$whereAux = "timestamp BETWEEN '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex]."' AND '".$hoursPerDayArray[$arrayIndex][$innerArrayIndex+1]."' ";
+				
+				$sql = "SELECT tasa_cpu,tasa_ram,tasa_escritura_dd
+       			FROM proceso_historial 
+        		WHERE  ".$whereAux.";";
+		        $q = $this->db->query($sql);
+		        //Formateando los resultados
+		        $rs = array();
+				if($q->num_rows() > 0)
+			    {
+			       	foreach ($q->result_array() as $row) 
+			        {
+			            $rs[] = array($row['tasa_cpu'], $row['tasa_ram'], $row['tasa_escritura_dd']);
+			        }
+			        $date=$hoursPerDayArray[$arrayIndex][0];
+			        $date = substr($date, 0, -9);
+					$dataPerHour[$date]['fecha'] = $date;
+					$dataPerHour[$date][$byHour] = $this->makeKmeans($rs,6,3);
+			        $dataPerHour[$date][$byHour]['hora']=$hoursPerDayArray[$arrayIndex][$innerArrayIndex];
+			        $byHour++;
+				}
+				$innerArrayIndex++;
+			}
+			$arrayIndex = $arrayIndex+1;
+		}
+		return $dataPerHour;
+	}//end of function: resourceUseByComponent
+	public function makeKmeans($data,$num_clusters, $num_params)
+	{
+		$resultado = $this->kmeans->kmeans($data,$num_clusters);
+		$rep = array();
+		$prom = array();//para guardar los promedios de cada uno de los grupos generados
+		for ($i=0; $i < $num_params; $i++) 
+		{ 
+			$prom[$i] = 0;
+		}
+		$counter = 0;
+		foreach ($resultado['clusters'] as $cluster)
+		{
+			$temp = $cluster[0]['coordenadas'];
+			$rep[] = $temp;
+			//sumando cada ítem de la categoría
+			for ($i=0; $i < $num_params; $i++)
+			{ 
+				$prom[$i] += $temp[$i];
+			}
+			$counter+=1;
+		}
+		//promedio
+		for ($i=0; $i < $num_params; $i++)
+		{
+			if($counter!=0)
+			{
+				$prom[$i] /= $counter;
+			}
+		}
+		return $prom;
+	}
+
 }

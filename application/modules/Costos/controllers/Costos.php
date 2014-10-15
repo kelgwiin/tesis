@@ -17,6 +17,7 @@ class Costos extends MX_Controller
 		$this->load->model('costos_model');
 		$this->load->model('historicos_model');
 		$this->load->model('recomendaciones_model');
+		$this->load->model('caracterizacion_model','carac_model');
 
 		//Helpers
 		$this->load->helper('date');
@@ -51,7 +52,7 @@ class Costos extends MX_Controller
 	}
 
 	public function testCostos($action = "default",$anio="null"){
-		
+		$this->load->helper('file');
 		switch ($action) {
 			case 'default':
 				echo "Inicio de la prueba de Costos<br>";
@@ -72,6 +73,32 @@ class Costos extends MX_Controller
 				echo "Calculando el modelo de Costos para el año de: <code>$anio</code> <br>";
 				$this->costos_model->modelo_costos($anio,6);
 				break;
+			//----------------
+			//Casos de Prueba
+			//----------------
+			case 'caso':
+				$dsc = array(
+					"1"=>"Data de la DIUC",
+					"2"=>"Servidor Virtual",
+					"3"=>"Data Generada Aleatoria",
+					"4"=>" De 7 procesos "
+				);
+				$d = $dsc[$anio];
+				echo "<strong>Caso de prueba $anio - $d</strong><br>";
+				$this->carac_model->reset_proc_hist();
+				echo "1.-Tabla <code>proceso_historial</code> vaciada <br>";
+
+				$caso1 = read_file("./databases/Costos-Queries/casos-prueba/$action-$anio.in");
+				$this->utilities_model->run_query($caso1);
+				echo "2.-Inserción de nuevos registros<br>";
+
+				//Es el caso 4
+				if($anio == 4){
+					$this->carac_model->config_servicio_proc_c4();
+				}
+				
+				break;
+			//end of: Casos de Prueba 
 		}
 		
 	}
@@ -144,13 +171,18 @@ class Costos extends MX_Controller
 	}
 
 	public function procesar_costeo(){
-		modules::run('Costos/Cargar/caracterizar');
-
+		// Indica si se recalcula la caracterización, método de alto costo
+		// computacional
+		$recalcular = $this->input->post('recalcular');
+		if(isset($recalcular) && $recalcular){
+			modules::run('Costos/Cargar/caracterizar');
+		}
+		
 		$params = $this->input->post();
 		$this->load->model('modelo_costos_model','mcm');
 		
 		//Modelo de Costos
-		if($params['esquema_tiempo'] == "AA"){//¿Procesasr Modelo de Costo por mes o por año?
+		if($params['esquema_tiempo'] == "AA"){//¿Procesar Modelo de Costo por mes o por año?
 			$this->costos_model->modelo_costos($params['anio']);//todo el año
 		}else{
 			$this->costos_model->modelo_costos($params['anio'],$params['mes']);

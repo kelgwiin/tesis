@@ -150,6 +150,15 @@ class Continuidad extends MX_Controller
 		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
 		
 		$view['planes_continuidad'] = (empty($tipo_listado)) ? $this->riesgos->get_allpcn() : $this->riesgos->get_allpcn(array('ra.valoracion' => $tipo_listado));
+		
+		foreach($view['planes_continuidad'] as $key => $pcn)
+		{
+			if($this->general->exist('validacion_pcn',array('id_continuidad'=>$pcn->id_continuidad)))
+				$pcn->validado = TRUE;
+			else
+				$pcn->validado = FALSE;
+		}
+		
 		$tipo_listado = str_replace('-', ' ', $tipo_listado);
 		$tipo_listado = ucwords($tipo_listado);
 		$tipo_listado = str_replace(' ', '-', $tipo_listado);
@@ -217,7 +226,7 @@ class Continuidad extends MX_Controller
 				{
 					$id_servicioproceso = $this->general->get_row('proceso_riesgo',array('id_riesgo'=>$template['amenaza']->id_riesgo))->id_servicioproceso;
 					$template['proceso'] = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$id_servicioproceso));
-					echo_pre($id_servicioproceso);$template['servicios'] = $this->riesgos->get_servicios_fromproceso($id_servicioproceso);
+					$template['servicios'] = $this->riesgos->get_servicios_fromproceso($id_servicioproceso);
 					
 				}
 				
@@ -229,15 +238,17 @@ class Continuidad extends MX_Controller
 				$name = reset_string($post['denominacion']);
 				$ruta = $_SERVER['DOCUMENT_ROOT'].'/assets/back/continuidad_uploads/'.$name.'.pdf';
 				if(file_exists($ruta)) unlink($ruta);
-				$content = $mpdf->Output($ruta,'F');
+				
 				$post['pdf'] = $ruta;
+				$mpdf->Output($ruta,'F');
 				if(isset($post['id_continuidad']) && !empty($post['id_continuidad']))
 				{
 					// SI SE ESTA ACTUALIZANDO UN PCN EXISTENTE
 					$old_pdf = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$post['id_continuidad']),array('pdf'));
-					if(!empty($old_pdf->pdf) && file_exists($old_pdf->pdf)) unlink($old_pdf->pdf);
-					
-					if($this->general->update('plan_continuidad',$post,array('id_continuidad'=>$post['id_continuidad'])))
+					$old_name = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$post['id_continuidad']),array('denominacion'));
+					if(!empty($old_pdf->pdf) && file_exists($old_pdf->pdf) && ($old_name->denominacion != $post['denominacion'])) unlink($old_pdf->pdf);
+					// echo_pre($post);
+					if($this->general->update2('plan_continuidad',$post,array('id_continuidad'=>$post['id_continuidad'])))
 					{
 						if($_POST['id_estado'] == 1)
 						{
@@ -248,6 +259,7 @@ class Continuidad extends MX_Controller
 							$email->subject = 'Activación de PCN';
 							$email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$post['denominacion'].'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
 							$email->pdf = $pdf_file;
+							$email->pdf_path = $ruta;
 							$this->mailing($template['involucrados'], $email, $valoracion);
 						}else
 						{
@@ -390,11 +402,11 @@ class Continuidad extends MX_Controller
 			$this->activar_alerta($id_continuidad, $valoracion, 1);
 			$involucrados = $this->riesgos->get_allinvolucrados($id_continuidad);
 			$pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad));
-			$pdf_file = (!empty($pcn)) ? $mpdf->Output($pcn->pdf,'S') : '';
 			$email = new stdClass();
 			$email->subject = 'Activación de PCN';
-			$email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$pcn->denominacion.'<br />Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del PCN';
-			$email->pdf = $pdf_file;
+			$email->message = 'Se ha activado el Plan de Continuidad del Negocio '.$pcn->denominacion.'<br />
+								Se ha adjuntado un archivo PDF con los lineamientos para la ejecución del Plan de Continuidad del Negocio';
+			$email->pdf_path = $pcn->pdf;
 			$this->mailing($involucrados, $email, $state);
 		}else
 		{
@@ -405,6 +417,16 @@ class Continuidad extends MX_Controller
 
 	public function mailing($involucrados,$email,$valoracion)
 	{
+		// $ppl1 = new stdClass();
+		// $ppl1->email_personal = 'f6rnando@outlook.com';
+		// $ppl1->nombre = 'Fernando Pinto';
+		// $ppl2 = new stdClass();
+		// $ppl2->email_personal = 'f6rnando@gmail.com';
+		// $ppl2->nombre = 'Fernando Pinto';
+// 		
+		// $involucrados = array();
+		// $involucrados = array($ppl1,$ppl2);
+		// echo_pre($email);
 		//Proceso de ENVIO DE CORREO ELECTRONICO
         $config['protocol']		= "smtp";
 		$config['smtp_host']	= "ssl://smtp.googlemail.com";
@@ -417,16 +439,19 @@ class Continuidad extends MX_Controller
         $this->load->library('email', $config);
         $this->email->initialize($config);
         $this->email->from('sigitec.facyt@gmail.com','SIGITEC | Gestión de Continuidad del Negocio');
-		
-		foreach($involucrados as $key => $people)
-		{
-			$this->email->to($people->email_corporativo,$people->nombre);
-			$this->email->to($people->email_personal,$people->nombre);
-		}
-		
         $this->email->subject($email->subject);
 		$this->email->message($email->message);
-		if(isset($email->pdf) && !empty($email->pdf)) $this->email->attach($email->pdf);
+		if(isset($email->pdf_path) && !empty($email->pdf_path) && file_exists($email->pdf_path))
+			$this->email->attach($email->pdf_path);
+			
+		foreach($involucrados as $key => $people)
+		{
+			// $this->email->to($people->email_corporativo,$people->nombre);
+			// $this->email->to($people->email_personal);
+			$emails_tosend[] = $people->email_personal;
+		}
+		$emails_str = implode(', ', $emails_tosend);
+		$this->email->to($emails_str);
 		$this->email->send();
 		// die_pre($this->email->print_debugger());
 		redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
@@ -461,9 +486,32 @@ class Continuidad extends MX_Controller
 		
 		if($_POST)
 		{
-			$post = $_POST;
-			$post['fecha_creacion'] = date('Y-m-d H:i:s');
-			$this->backup_db($post);
+			$insert = $_POST;
+			$insert['fecha_creacion'] = date('Y-m-d H:i:s');
+			// $this->backup_db($post);
+			$config = array
+			(
+				'tables'      => array(),  			// Array of tables to backup.
+				'ignore'      => array(),           // List of tables to omit from the backup
+				'format'      => 'sql',             // gzip, zip, txt
+				//'filename'    => 'backup_'.date('YmdHis').'.sql',    // File name - NEEDED ONLY WITH ZIP FILES
+				'add_drop'    => TRUE,              // Whether to add DROP TABLE statements to backup file
+				'add_insert'  => TRUE,              // Whether to add INSERT data to backup file
+				'newline'     => "\n"               // Newline character used in backup file
+			);
+			
+			$this->load->dbutil();
+			$backup =& $this->dbutil->backup($config);
+			$this->load->helper('file');
+			$filename = 'backup_'.date('YmdHis').'.sql';
+			$ruta = $_SERVER['DOCUMENT_ROOT'].'/assets/back/continuidad_uploads/dump_db/'.$filename;
+			write_file($ruta, $backup);
+			$insert['ruta'] = $ruta;
+			
+			// $this->session->set_flashdata('filename',$filename);
+			// $this->session->set_flashdata('backup',$backup);
+			
+			$this->general->insert('respaldo_db',$insert);
 		}
 		redirect(site_url('index.php/continuidad/respaldos'));
 	}
@@ -489,15 +537,15 @@ class Continuidad extends MX_Controller
 		write_file($ruta, $backup);
 		$insert['ruta'] = $ruta;
 		
-		$this->session->set_flashdata('filename',$filename);
-		$this->session->set_flashdata('backup',$backup);
+		// $this->session->set_flashdata('filename',$filename);
+		// $this->session->set_flashdata('backup',$backup);
 		
-		if($this->general->insert('respaldo_db',$insert))
-			$this->session->set_flashdata('alert_success','Base de datos respaldada con éxito');
-		else
-			$this->session->set_flashdata('alert_error','Hubo un error al intentar respaldar la Base de Datos');
+		$this->general->insert('respaldo_db',$insert);
+			// $this->session->set_flashdata('alert_success','Base de datos respaldada con éxito');
+		// else
+			// $this->session->set_flashdata('alert_error','Hubo un error al intentar respaldar la Base de Datos');
 		
-		redirect(site_url('index.php/continuidad/respaldos'));
+		// redirect(site_url('index.php/continuidad/respaldos'));
 	}
 	
 	public function download_backup($id_respaldo = '')
@@ -513,5 +561,85 @@ class Continuidad extends MX_Controller
 			$this->session->set_flashdata('alert_error','No es posible descargar esta base de datos');
 		
 		redirect(site_url('index.php/continuidad/respaldos'));
+	}
+	
+	public function descargar_pdf($valoracion,$id_continuidad = '')
+	{
+		if(!empty($id_continuidad))
+		{
+			$ruta = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$id_continuidad),array('pdf'));
+			$file = end(explode('/',$ruta->pdf));
+			$this->load->helper('download');
+			$data = file_get_contents($ruta->pdf);
+			force_download($file, $data);
+		}else
+			$this->session->set_flashdata('alert_error','No es posible descargar el PDF de este Plan de Continuidad del Negocio');
+		
+		redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
+	}
+	
+	public function validar_planes($valoracion)
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$this->load->helper('text');
+		
+		$view['valoracion'] = $valoracion;
+		$val = str_replace('-', ' ', $valoracion);
+		$val = ucwords($val);
+		$val = str_replace(' ', '-', $val);
+		$where = array('ra.valoracion' => $val);
+		$view['plan_continuidad'] = $this->riesgos->get_allpcn($where);
+		$view['dptos'] = $this->general->get_table('departamento');
+		
+		if($_POST)
+		{
+			$this->load->library('mpdf');
+			$post = $where = $_POST;
+			$pcn = $this->general->get_row('plan_continuidad',array('id_continuidad'=>$post['id_continuidad']),array('denominacion,pdf'));
+			$dpto = $this->general->get_row('departamento',array('departamento_id'=>$post['departamento_id']),array('nombre'));
+			$personal = $this->general->get_row('personal',array('id_personal'=>$post['id_personal']),array('nombre,cargo'));
+			$post['denominacion_pcn'] = $pcn->denominacion;
+			$post['nombre_dpto'] = $dpto->nombre;
+			$post['nombre_personal'] = $personal->cargo.': '.$personal->nombre;
+			$post['fecha_creacion'] = date('Y-m-d H:i:s');
+			
+			if($this->general->insert('validacion_pcn',$post,$where))
+			{
+				$validacion = $this->general->get_result('validacion_pcn',array('id_continuidad'=>$post['id_continuidad']));
+				foreach($validacion as $key => $valid)
+					$ppl[] = '<li>'.$valid->nombre_personal.', el día '.date('d-m-Y',strtotime($valid->fecha_creacion)).'</li>';
+				
+				$ppl_str = '<ul>'.implode('', $ppl).'</ul>';
+		
+				$mpdf = new mPDF();
+				$mpdf->WriteHTML('<h1>Plan de Continuidad del Negocio VALIDADO</h1><p>El presente PCN fué revisado y validado por:<p>'.$ppl_str);
+				$mpdf->SetImportUse(); 
+				$pagecount = $mpdf->SetSourceFile($pcn->pdf);
+				for($i=1;$i<=$pagecount;$i++)
+				{
+					$mpdf->AddPage();
+					$tplId = $mpdf->ImportPage($i);
+					$mpdf->UseTemplate($tplId); 
+				}
+				unlink($pcn->pdf);
+				$mpdf->Output($pcn->pdf,'F');
+				$this->session->set_flashdata('alert_success','Plan de Continuidad del Negocio validado con éxito');
+			}else
+				$this->session->set_flashdata('alert_error','Hubo un error validando el PCN. O ya está validado por '.$personal->nombre);
+			
+			redirect(site_url('index.php/continuidad/listado_pcn/'.$valoracion));
+		}
+		
+		$breadcrumbs = array
+		(
+			base_url() => 'Inicio',
+			base_url().'index.php/continuidad' => 'Continuidad del Negocio',
+			base_url().'index.php/continuidad/seleccionar_listado' => 'Seleccionar Listado',
+			base_url().'index.php/continuidad/listado_pcn/'.$valoracion => 'Listado de PCN',
+			'#' => 'Validar PCN'
+		);
+		$view['breadcrumbs'] = breadcrumbs($breadcrumbs);
+		
+		$this->utils->template($this->_list1(),'continuidad/continuidad/validar_pdf',$view,$this->title,'Validar PCN','two_level');
 	}
 }

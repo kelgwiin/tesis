@@ -124,6 +124,17 @@
 							</select>
 						</div>
 
+						<div class = "col-md-3">
+							<div class="checkbox"
+							data-toggle = "tooltip"
+							data-placement = 'bottom'
+							data-original-title= "Procesa la información de rendimiento. A mayor volúmen de datos mayor es el tiempo de procesamiento">
+								<label>
+									<input name= "recalcular" type="checkbox" value="true">
+									¿Recalcular la caracterización?
+								</label>
+							</div>
+						</div>
 
 						<div class = "col-md-3">
 							<button 
@@ -136,8 +147,7 @@
 								<i class = "fa fa-lg fa-cog" id = "fa-procesar-comp-ti" ></i> Procesar
 							</button>
 						</div>
-
-						<div class = "col-md-3"></div><!-- Vacío-->
+						
 					</div>
 				</fieldset>
 			</form>		
