@@ -1159,7 +1159,18 @@ class Disponibilidad extends MX_Controller
 		
 		$this->pdf->Output("Manual de Usuario.pdf", 'I');
 	}
-
-
+	
+	public function procesar()
+	{
+		
+	
+		//$this->disponibilidad_model->guardar_disponibilidad($data);
+		
+		//Cargando la lista de menus del sidebar genérica (se puede puede personalizar, ver ejemplo
+		//en el controlador de modules/utilities/utils.php) 
+		$l = $this->utils->list_sidebar();
+		$this->utils->template($l,'Disponibilidad/ProcesarAhora','','Módulo de Gestión de Disponibilidad','',
+			'two_level');
+	}
 
 }

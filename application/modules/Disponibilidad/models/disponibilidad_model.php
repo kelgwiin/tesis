@@ -518,5 +518,184 @@ class disponibilidad_model extends CI_Model
 		return $this->db->last_query();
 	}
 	//Fin de metodos del calendario
+	public function guardar_disponibilidad($data){
+		
+		 //$this->debug = true;
+        $date = modules::run('Disponibilidad/dateLastMonth',0,1);
+
+        //Recopilando nombre de los procesos que se encuentran asociados a los Servicios
+        $nom_procesos = $this->nom_proc_historial();
+        $data = array();
+        
+        //Obteniendo la data asociada a los procesos recopilados
+        foreach ($nom_procesos as $nom) {
+            unset($data_tmp);
+            
+           
+            $data_tmp = $this->proc_hist_por_hora_mensual($date,$nom,3);
+            if(isset($data_tmp) && $data_tmp !== false){
+                $data[$nom] = $data_tmp;
+            }
+        }
+        
+        //numero de registros por comando
+        $reg_por_com = $this->num_procesos();
+        
+        
+        $resultados = array();
+        foreach ($data as $key => &$val) {
+            $val[2] *= $reg_por_com[$key]*60*24;//repeticiones * minutos * horas
+            $resultados[$key] = $val;
+        }
+        
+        $servicios_proc = $this->procesos_servicio();
+        $sum_por_serv = array();
+        
+        foreach ($servicios_proc as $row) {
+            if(isset($sum_por_serv[$row['servicio_id']]) ){
+                for ($i=0; $i < 3; $i++) { 
+                    //Se verifica que exista data de rendimiento
+                    //para el proceso asociado al servicio
+                    if(isset($resultados[$row['p']])){
+                        $sum_por_serv[$row['servicio_id']][$i] += $resultados[$row['p']][$i];
+                    }
+                }
+            }else{
+                for ($i=0; $i < 3; $i++) {
+                    if(isset($resultados[$row['p']])){
+                        $sum_por_serv[$row['servicio_id']][$i] = $resultados[$row['p']][$i];
+                    }else{
+                        $sum_por_serv[$row['servicio_id']][$i] = 0;
+                    }
+                    
+                }
+            }
+            
+        }
+        
+       
+		
+		
+		//Calculo Porcentaje de disponibilidad 
+             $sql = "SELECT porcentaje_disponibilidad, horas_fiabilidad, horas_confiabilidad, horas_disponibilidad
+                        FROM acuerdos_servicios 
+                        WHERE  ".$whereAux.";";
+                
+                $q = $this->db->query($sql);
+                $rs = array();
+                if($q->num_rows() > 0)
+                {
+                    foreach ($q->result_array() as $row) 
+                    {
+                        $rs[] = array($row['porcentaje_disponibilidad'], $row['horas_fiabilidad'],  $row['horas_confiabilidad'], $row['horas_disponibilidad']);
+						
+                    }
+                    $date=$hoursPerDayArray[$arrayIndex][0];
+                    $date = substr($date, 0, -9);
+
+                    $tmp_prom = $this->procesar_caso($rs,6,3);
+                    
+                    for ($i=0; $i < $num_params; $i++) { 
+                        $acums[$i] += $tmp_prom[$i];
+                        $counter++;
+                    }
+
+
+                    $byHour++;
+                }
+                
+                $sql = "SELECT tiempo_online
+                        FROM proceso_historial 
+                        WHERE  ".$whereAux.";";
+                
+                $q = $this->db->query($sql);
+                $rs = array();
+                if($q->num_rows() > 0)
+                {
+                    foreach ($q->result_array() as $row) 
+                    {
+                    	//Se transforma a horas
+                        $rs2[] = array($row['tiempo_online'] / 3600);
+						
+                    }
+                    $date=$hoursPerDayArray[$arrayIndex][0];
+                    $date = substr($date, 0, -9);
+
+                    $tmp_prom = $this->procesar_caso($rs,6,3);
+                    
+                    for ($i=0; $i < $num_params; $i++) { 
+                        $acums[$i] += $tmp_prom[$i];
+                        $counter++;
+                    }
+
+
+                    $byHour++;
+                }
+                
+				$sql = "SELECT tiempo_ejecucion_total, tiempo_inactividad, num_caidas
+                        FROM servicio_historial 
+                        WHERE  ".$whereAux.";";
+                
+                $q = $this->db->query($sql);
+                $rs = array();
+                if($q->num_rows() > 0)
+                {
+                    foreach ($q->result_array() as $row) 
+                    {
+                    	//Se transforma a horas
+                        $rs3[] = array($row['tiempo_ejecucion_total'] / 3600);
+						$rs3[] = array($row['tiempo_inactividad'] / 3600);
+						$rs3[] = array($row['num_caidas']);
+                    }
+                    $date=$hoursPerDayArray[$arrayIndex][0];
+                    $date = substr($date, 0, -9);
+
+                    $tmp_prom = $this->procesar_caso($rs,6,3);
+                    
+                    for ($i=0; $i < $num_params; $i++) { 
+                        $acums[$i] += $tmp_prom[$i];
+                        $counter++;
+                    }
+
+
+                    $byHour++;
+                }
+				
+				
+              //Guardando resutaldos  
+			$porcentaje_dispo=(($rs['horas_disponibilidad'] - $rs2['tiempo_online']) / $rs['horas_disponibilidad'] ) * 100;
+			$fiabilidad = $rs['horas_disponibilidad'] / $rs3['num_caidas'];
+			$confiabilidad = (($rs['horas_disponibilidad'] - $rs3['tiempo_inactividad']) / $rs3['num_caidas']);
+			
+		
+		
+		
+		//Se guarda el calculo en disponibilidad
+        $sql_update = "UPDATE disponibilidad
+						SET borrado = 1
+						WHERE YEAR(fecha) = YEAR(CURDATE()) AND MONTH(fecha) = MONTH(CURDATE())
+						AND servicio_id = ? ";
+
+        foreach ($data as $key => $row) {
+            //Marcar como borrado el valor si ya estaba previamente calculado
+        	$this->db->query($sql_update, array($key));
+
+            $f = date('Y-m-d H:i:s',now());
+            $info = array(
+                'disponibilidad_id'=>$key,
+                'servicio_id'=>$key,
+                'servicio_historial_id'=>$key,
+                'descripcion'=>$row[0],
+                'tiempo_medio_fallos'=>$row[1],
+                'calculo_disponibilidad'=>$porcentaje_dispo,
+                'calculo_fiabilidad'=> $fiabilidad, //wired
+                'calculo_confiabilidad'=> $confiabilidad
+            );
+            $this->db->insert('disponibilidad',$info);
+        }
+    }
+	
+	
+	
 }
 ?>
