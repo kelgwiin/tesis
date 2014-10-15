@@ -36,10 +36,10 @@
 								<label>Personal de la organización</label>
 								<select id="personal" class="form-control" size="10" style="margin-top: 25px">
 									<?php foreach($personal as $key => $person) : ?>
-										<optgroup label="<?php echo strtoupper($key) ?>">
+										<optgroup label="<?php echo ucwords($key) ?>">
 											<?php foreach($person as $k => $per) : ?>
 												<option value="<?php echo $per->id_personal ?>" data-nombre="<?php echo $per->nombre ?>"
-													data-dpto="<?php echo strtoupper($key) ?>">
+													data-dpto="<?php echo ucwords($key) ?>">
 													<?php echo $per->nombre ?>
 												</option>
 											<?php endforeach ?>

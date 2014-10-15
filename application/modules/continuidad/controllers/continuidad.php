@@ -486,9 +486,32 @@ class Continuidad extends MX_Controller
 		
 		if($_POST)
 		{
-			$post = $_POST;
-			$post['fecha_creacion'] = date('Y-m-d H:i:s');
-			$this->backup_db($post);
+			$insert = $_POST;
+			$insert['fecha_creacion'] = date('Y-m-d H:i:s');
+			// $this->backup_db($post);
+			$config = array
+			(
+				'tables'      => array(),  			// Array of tables to backup.
+				'ignore'      => array(),           // List of tables to omit from the backup
+				'format'      => 'sql',             // gzip, zip, txt
+				//'filename'    => 'backup_'.date('YmdHis').'.sql',    // File name - NEEDED ONLY WITH ZIP FILES
+				'add_drop'    => TRUE,              // Whether to add DROP TABLE statements to backup file
+				'add_insert'  => TRUE,              // Whether to add INSERT data to backup file
+				'newline'     => "\n"               // Newline character used in backup file
+			);
+			
+			$this->load->dbutil();
+			$backup =& $this->dbutil->backup($config);
+			$this->load->helper('file');
+			$filename = 'backup_'.date('YmdHis').'.sql';
+			$ruta = $_SERVER['DOCUMENT_ROOT'].'/assets/back/continuidad_uploads/dump_db/'.$filename;
+			write_file($ruta, $backup);
+			$insert['ruta'] = $ruta;
+			
+			// $this->session->set_flashdata('filename',$filename);
+			// $this->session->set_flashdata('backup',$backup);
+			
+			$this->general->insert('respaldo_db',$insert);
 		}
 		redirect(site_url('index.php/continuidad/respaldos'));
 	}
@@ -514,15 +537,15 @@ class Continuidad extends MX_Controller
 		write_file($ruta, $backup);
 		$insert['ruta'] = $ruta;
 		
-		$this->session->set_flashdata('filename',$filename);
-		$this->session->set_flashdata('backup',$backup);
+		// $this->session->set_flashdata('filename',$filename);
+		// $this->session->set_flashdata('backup',$backup);
 		
-		if($this->general->insert('respaldo_db',$insert))
-			$this->session->set_flashdata('alert_success','Base de datos respaldada con éxito');
-		else
-			$this->session->set_flashdata('alert_error','Hubo un error al intentar respaldar la Base de Datos');
+		$this->general->insert('respaldo_db',$insert);
+			// $this->session->set_flashdata('alert_success','Base de datos respaldada con éxito');
+		// else
+			// $this->session->set_flashdata('alert_error','Hubo un error al intentar respaldar la Base de Datos');
 		
-		redirect(site_url('index.php/continuidad/respaldos'));
+		// redirect(site_url('index.php/continuidad/respaldos'));
 	}
 	
 	public function download_backup($id_respaldo = '')
