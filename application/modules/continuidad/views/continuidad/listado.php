@@ -50,7 +50,12 @@
 	</div>
 	
 	<div class="row" style="margin-top: 25px">
-		<div class="col-lg-12">
+		<?php if(isset($planes_continuidad) && !empty($planes_continuidad)) : ?>
+			<div class="col-lg-12">
+				&raquo; <a href="<?php echo site_url('index.php/continuidad/validar_pcn/'.$val) ?>">Validar Planes de Continuidad del Negocio</a>
+			</div>
+		<?php endif ?>
+		<div class="col-lg-12" style="margin-top: 25px">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">Planes de continuidad del negocio para riesgos con valoración <?php echo $valoracion ?></h3>
@@ -68,9 +73,9 @@
 				                        <th>Denominación <i class="fa fa-sort"></i></th>
 				                        <!-- <th>Departamento <i class="fa fa-sort"></i></th> -->
 				                        <th>Responsable <i class="fa fa-sort"></i></th>
-				                        <th>Tipo de PCN <i class="fa fa-sort"></i></th>
 				                        <th>Estado del PCN <i class="fa fa-sort"></i></th>
 				                        <th>Fecha de creación <i class="fa fa-sort"></i></th>
+			                        	<th><span data-toggle="tooltip" title="Indica si el PCN fue verificado por la gerencia">Validado</span></th>
 			                        	<th><span data-toggle="tooltip" title="Click para descargar PDF">PDF</span></th>
 			                        	<th>Activar</th>
 			                        	<th>Eliminar</th>
@@ -96,9 +101,15 @@
 				                			<td><span data-toggle="tooltip" title="<?php echo $plan->denominacion ?>"><?php echo character_limiter($plan->denominacion,20) ?></span></td>
 				                			<!-- <td><?php echo ucfirst($plan->dpto_nombre) ?></td> -->
 				                			<td><?php echo $plan->nombre_empleado ?></td>
-				                			<td><?php echo ucfirst($plan->tipo_plan) ?></td>
 				                			<td style="color: <?php echo $color ?>"><?php echo ucfirst($plan->estado) ?></td>
 				                			<td><?php echo date('d-m-Y h:i A', strtotime($plan->fecha_creacion)) ?></td>
+				                			<td style="text-align: center">
+				                				<?php if($plan->validado) : ?>
+				                					<i class="fa fa-check" style="color: green"></i>
+				                				<?php else : ?>
+				                					<i class="fa fa-times" style="color: red"></i>
+				                				<?php endif ?>
+				                			</td>
 				                			<td>
 				                				<?php if(isset($plan->pdf) && !empty($plan->pdf) && file_exists($plan->pdf)) : ?>
 				                					<a href="<?php echo site_url('index.php/continuidad/descargar_pdf/'.$val.'/'.$plan->id_continuidad) ?>" data-toggle="tooltip" title="Click para descargar el PDF de este PCN">

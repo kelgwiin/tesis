@@ -26,7 +26,7 @@
 	<!-- Cabecera de la descripción-->
 	<div class = "row">
 		<div class="col-lg-12">
-			<h1>Gestión de Costos Indirectos <small>Honorarios de Profesionales de TI</small></h1>
+			<h1>Gestión de Costos Indirectos <small>Sueldos y Salarios</small></h1>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-dashboard"></i> 
@@ -52,7 +52,7 @@
 									<fieldset>
 
 										<!-- Form Name -->
-										<legend>Honorarios Profesionales</legend>
+										<legend>Sueldos, Salarios y Honorarios Profesionales</legend>
 
 										<!-- Text input - Nombre-->
 										<div class="form-group">

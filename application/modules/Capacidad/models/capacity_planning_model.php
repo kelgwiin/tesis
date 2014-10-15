@@ -281,8 +281,11 @@ class Capacity_planning_model extends CI_Model
 		}
 		//promedio
 		for ($i=0; $i < $num_params; $i++)
-		{ 
-			$prom[$i] /= $counter;
+		{
+			if($counter!=0)
+			{
+				$prom[$i] /= $counter;
+			}
 		}
 		return $prom;
 	}
