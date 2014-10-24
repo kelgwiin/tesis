@@ -543,7 +543,7 @@
 			       		<?php
 					       	$options = array(
 					       	  'seleccione' => 'Seleccione',
-					       	  'dia' => 'Día',
+					       	  'día' => 'Día',
 					       	  'mes' => 'Mes',
 					       	  'año' => 'Año',
 			                );

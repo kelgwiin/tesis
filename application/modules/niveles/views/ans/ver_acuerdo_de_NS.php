@@ -390,7 +390,7 @@
 										    </table>
 
 										    <br>
-										    <div><b>Total de Horas de Disponibilidad:</b></div><br> 
+										    <div><b><u>Total de Horas de Disponibilidad</u>:</b></div><br> 
 										    	<table class="table table-bordered" style="background-color:white;" id="tabla_horas">
 											    <thead class="text-center">
 											    	<tr style="background-color:grey; color:#FFFFFF;">
@@ -481,6 +481,34 @@
 
 					                        </div>
 					                        <div class="tab-pane fade" id="horario_mantenimiento">
+
+					                        <br>
+										    <div> <b><i><u>Intervalo de Mantenimiento</u></i>:</b> 
+										     
+										    <?php if($acuerdo->modalidad_mantenimiento == '1') : ?>
+
+									        <?php echo 'Una semana al mes'; ?> 
+
+											<?php endif ?>
+
+											<?php if($acuerdo->modalidad_mantenimiento == '2') : ?>
+
+									        <?php echo 'Dos semanas al mes'; ?> 
+
+											<?php endif ?>
+
+											<?php if($acuerdo->modalidad_mantenimiento == '3') : ?>
+
+									        <?php echo 'Tres semanas al mes'; ?> 
+
+											<?php endif ?>
+
+											<?php if($acuerdo->modalidad_mantenimiento == '4') : ?>
+
+									        <?php echo 'Todo el mes (4 Semanas)'; ?> 
+
+											<?php endif ?></div><br> 
+
 
 											<table class="table table-bordered" style="background-color:white;" id="tabla_mantenimiento">
 											    <thead class="text-center">
@@ -724,7 +752,7 @@
 										    </table>
 
 										     <br>
-										    <div><b>Total de Horas de Mantenimiento:</b></div><br> 
+										    <div><b><u>Total de Horas de Mantenimiento</u>:</b></div><br> 
 										    	<table class="table table-bordered" style="background-color:white;" id="tabla_horas">
 											    <thead class="text-center">
 											    	<tr style="background-color:grey; color:#FFFFFF;">
@@ -817,7 +845,186 @@
 					                </div>
 					         </div>	
 
-							</td>
+
+
+						 <br><h4><b>Confiabilidad</b></h4><br>
+						
+
+						 <div class='row col-md-5'>
+
+
+						 <b><i>Numero de Caídas (Por <?php echo $acuerdo->unidad_num_caidas; ?>):</i></b><br><br>
+
+						
+							<div class="progress">
+							  <div class="progress-bar progress-bar-success" style="width: 33%">
+							    	<div class='text-center'><b>Normal</b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-warning" style="width: 33%">
+							      <div class='text-center'><b> Alerta </b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-danger" style="width: 34%">
+							       <div class='text-center'><b>Incumplimiento</b> </div>
+							  </div>
+							</div>
+							<div class="progress-meter">
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">0 Caídas</span></div>
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">
+																												<?php if($acuerdo->minimo_num_caidas > 1) : ?>
+																							                 	<?php echo  $acuerdo->minimo_num_caidas.' caídas'; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php echo  $acuerdo->minimo_num_caidas.' caída'; ?>
+																							                 	<?php endif ?>
+																												</span></div>
+				    			<div class="meter meter-left" style="width: 34%;"><span class="meter-text">
+				    																							<?php if($acuerdo->maximo_num_caidas > 1) : ?>
+																							                 	<?php echo  $acuerdo->maximo_num_caidas.' caídas'; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php echo  $acuerdo->maximo_num_caidas.' caída'; ?>
+																							                 	<?php endif ?>
+				    																							</span></div>
+
+							</div>
+					    </div>
+
+
+						 <div class='row col-md-5 col-md-offset-1'>
+
+
+						 <b><i>Duración de las Caídas:</i></b><br><br>
+
+						
+							<div class="progress">
+							  <div class="progress-bar progress-bar-success" style="width: 33%">
+							    	<div class='text-center'><b>Normal</b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-warning" style="width: 33%">
+							      <div class='text-center'><b> Alerta </b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-danger" style="width: 34%">
+							       <div class='text-center'><b>Incumplimiento</b> </div>
+							  </div>
+							</div>
+							<div class="progress-meter">
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">0  <?php echo $acuerdo->unidad_duracion_caidas; ?></span></div>
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">
+																												<?php if($acuerdo->minimo_duracion_caidas > 1) : ?>
+																							                 	<?php echo  $acuerdo->minimo_duracion_caidas.' '.$acuerdo->unidad_duracion_caidas; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php 
+																							                 	$string = $acuerdo->unidad_duracion_caidas;
+																												$string = substr ($string, 0, - 1);
+																							                 	echo  $acuerdo->minimo_duracion_caidas.' '.$string; ?>
+																							                 	<?php endif ?>
+																												</span></div>
+				    			<div class="meter meter-left" style="width: 34%;"><span class="meter-text">
+				    																							<?php if($acuerdo->maximo_duracion_caidas > 1) : ?>
+																							                 	<?php echo  $acuerdo->maximo_duracion_caidas.' '.$acuerdo->unidad_duracion_caidas; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php 
+																							                 	$string = $acuerdo->unidad_duracion_caidas;
+																												$string = substr ($string, 0, - 1);
+																							                 	echo  $acuerdo->maximo_duracion_caidas.' '.$string; ?>
+																							                 	<?php endif ?>
+				    																							</span></div>
+
+							</div>
+					    </div>
+					    <br><br><br><br><br><br><br><br>
+
+					    <div class='row col-md-5'>
+
+					     <b><i>Tiempo de Respuesta del Servicio:</i></b><br><br>
+
+						
+							<div class="progress">
+							  <div class="progress-bar progress-bar-success" style="width: 33%">
+							    	<div class='text-center'><b>Normal</b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-warning" style="width: 33%">
+							      <div class='text-center'><b> Alerta </b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-danger" style="width: 34%">
+							       <div class='text-center'><b>Incumplimiento</b> </div>
+							  </div>
+							</div>
+							<div class="progress-meter">
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">0  <?php echo $acuerdo->unidad_tiempo_respuesta; ?></span></div>
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">
+																												<?php if($acuerdo->minimo_tiempo_respuesta > 1) : ?>
+																							                 	<?php echo  $acuerdo->minimo_tiempo_respuesta.' '.$acuerdo->unidad_tiempo_respuesta; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php 
+																							                 	$string = $acuerdo->unidad_tiempo_respuesta;
+																												$string = substr ($string, 0, - 1);
+																							                 	echo  $acuerdo->minimo_tiempo_respuesta.' '.$string; ?>
+																							                 	<?php endif ?>
+																												</span></div>
+				    			<div class="meter meter-left" style="width: 34%;"><span class="meter-text">
+				    																							<?php if($acuerdo->maximo_tiempo_respuesta > 1) : ?>
+																							                 	<?php echo  $acuerdo->maximo_tiempo_respuesta.' '.$acuerdo->unidad_tiempo_respuesta; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php 
+																							                 	$string = $acuerdo->unidad_tiempo_respuesta;
+																												$string = substr ($string, 0, - 1);
+																							                 	echo  $acuerdo->maximo_tiempo_respuesta.' '.$string; ?>
+																							                 	<?php endif ?>
+				    																							</span></div>
+
+							</div>
+						</div>
+						<br><br><br><br><br><br><br><br>
+
+						<br><h4><b>Sustentabilidad</b></h4><br>
+						
+
+						 <div class='row col-md-5'>
+
+
+						 <b><i>Tiempo para la Restauración del Servicio:</i></b><br><br>
+
+						
+							<div class="progress">
+							  <div class="progress-bar progress-bar-success" style="width: 33%">
+							    	<div class='text-center'><b>Normal</b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-warning" style="width: 33%">
+							      <div class='text-center'><b> Alerta </b></div>
+							  </div>
+							  <div class="progress-bar progress-bar-danger" style="width: 34%">
+							       <div class='text-center'><b>Incumplimiento</b> </div>
+							  </div>
+							</div>
+							<div class="progress-meter">
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">0  <?php echo $acuerdo->unidad_tiempo_restauracion; ?></span></div>
+								<div class="meter meter-left" style="width: 33%;"><span class="meter-text">
+																												<?php if($acuerdo->minimo_tiempo_restauracion > 1) : ?>
+																							                 	<?php echo  $acuerdo->minimo_tiempo_restauracion.' '.$acuerdo->unidad_tiempo_restauracion; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php 
+																							                 	$string = $acuerdo->unidad_tiempo_restauracion;
+																												$string = substr ($string, 0, - 1);
+																							                 	echo  $acuerdo->minimo_tiempo_restauracion.' '.$string; ?>
+																							                 	<?php endif ?>
+																												</span></div>
+				    			<div class="meter meter-left" style="width: 34%;"><span class="meter-text">
+				    																							<?php if($acuerdo->maximo_tiempo_restauracion > 1) : ?>
+																							                 	<?php echo  $acuerdo->maximo_tiempo_restauracion.' '.$acuerdo->unidad_tiempo_restauracion; ?> 
+																							                 	<?php else : ?>
+																							                 	<?php 
+																							                 	$string = $acuerdo->unidad_tiempo_restauracion;
+																												$string = substr ($string, 0, - 1);
+																							                 	echo  $acuerdo->maximo_tiempo_restauracion.' '.$string; ?>
+																							                 	<?php endif ?>
+				    																							</span></div>
+
+							</div>
+					    </div>
+
+						
+
+						</td>
+					</tr>
 					
 					
 					</tbody>
