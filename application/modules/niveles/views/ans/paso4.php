@@ -399,7 +399,7 @@
 
   <div class='row tex'>
 	 <div class="col-md-1 col-md-offset-2">
-	 <a id="activate-step-3" class="btn btn-default">Volver</a>
+	 <a id="back-step-3" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
 	 <a id="activate-step-5" class="btn btn-primary">Siguiente</a>

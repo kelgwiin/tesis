@@ -3,8 +3,8 @@
  <!--<h3> <b>Selección del Servicio</b><small><a type="button" class="btn btn-xs" data-container="body" data-toggle="popover" data-placement="right" 
  		data-content="<?php $ayuda_servicio;?>" data-original-title="" title="">(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3>  <hr><br>-->
 
- <h3> <b>Nombre del Acuerdo</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_servicio">
- 	(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3>  <hr><br>
+
+ <h3> <b>Nombre del Acuerdo</b></h3> <hr><br>
 
   <div class="row">
 	<div class="col-md-9">

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/operaciones.js"></script>
+
 <?php include('ayudas.php'); ?>
 
 <div id="page-wrapper">
@@ -24,19 +24,19 @@
 			                    <p class="list-group-item-text">Servicio y Partes Interesadas</p>
 			                </a></li>
 			                <!--<li class="disabled"><a href="#step-2">-->
-			                <li class=""><a href="#step-2">
+			                <li class="disabled"><a href="#step-2">
 			                    <h4 class="list-group-item-heading">Paso 2</h4>
 			                    <p class="list-group-item-text">Detalles del Acuerdo</p>
 			                </a></li>
-			                <li class=""><a href="#step-3">
+			                <li class="disabled"><a href="#step-3">
 			                    <h4 class="list-group-item-heading">Paso 3</h4>
 			                    <p class="list-group-item-text">Niveles de Servicio</p>
 			                </a></li>
-			                  <li class=""><a href="#step-4">
+			                  <li class="disabled"><a href="#step-4">
 			                    <h4 class="list-group-item-heading">Paso 4</h4>
 			                    <p class="list-group-item-text">Tiempos de Respuesta y de Resolución de Problemas</p>
 			                </a></li>
-			                 <li class=""><a href="#step-5">
+			                 <li class="disabled"><a href="#step-5">
 			                    <h4 class="list-group-item-heading">Paso 5</h4>
 			                    <p class="list-group-item-text">Disposiciones Finales</p>
 			                </a></li>

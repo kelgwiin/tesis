@@ -113,8 +113,13 @@ $route['catalogo/vista_completa/(:num)'] = "catalogo/vista_completa/$1";
 
 /* Rutas del Modulo de Gestion de Niveles de Servicio*/
 $route['niveles_de_servicio'] = "niveles/niveles";
-$route['niveles_de_servicio/gestion_ANS'] = "niveles/acuerdos_de_NS";
-$route['niveles_de_servicio/gestion_ANS/crear_ANS'] = "niveles/crear_acuerdos_de_NS";
+
+$route['niveles_de_servicio/gestion_ANS'] = "niveles/acuerdos_ns/acuerdos_de_NS";
+$route['niveles_de_servicio/gestion_ANS/crear_ANS'] = "niveles/acuerdos_ns/crear_acuerdos_de_NS";
+$route['niveles_de_servicio/gestion_ANS/ver_ANS/(:num)'] = "niveles/acuerdos_ns/ver_acuerdo_de_NS/$1";
+//$route['niveles_de_servicio/gestion_ANS/modificar_ANS/(:num)'] = "cargar_data/cargar_data/modificar_servicio_categoria/$1";
+//$route['niveles_de_servicio/gestion_ANS/eliminar_ANS'] = "cargar_data/cargar_data/eliminar_servicio_categoria";
+
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/

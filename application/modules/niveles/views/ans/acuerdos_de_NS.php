@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/js/operaciones_ajax.js"></script>
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/operaciones_ajax.js"></script>
 
 <div id="page-wrapper">
 	<!-- Cabecera de la descripción-->
@@ -61,7 +61,7 @@
                                         <th width="10%">Fecha Inicio <i class="fa fa-sort"></i></th>
                                         <th >Fecha Culminación <i class="fa fa-sort"></i></th>
                                         <th >Gestor <i class="fa fa-sort"></i></th>
-                                        <th>Clientes <i class="fa fa-sort"></i></th> 
+                                        <th>Cliente(s)<i class="fa fa-sort"></i></th> 
                                         <th width="10%">Disponibilidad <i class="fa fa-sort"></i></th> 
                                          <th width="10%">Creado el <i class="fa fa-sort"></i></th>
                                         <th width="10%">Acciones <i class="fa fa-sort"></i></th>
@@ -101,20 +101,35 @@
 							                			} ?> </td>
 
 							              
-							                <td> <?php echo $acuerdo->fecha_inicio; ?></td>
-							                 <td> <?php echo $acuerdo->fecha_final; ?></td>
-							                <td> <?php echo $acuerdo->gestor_servicio; ?></td>
+							                <td> 
+							                	<?php
+							                	 $date = date_create($acuerdo->fecha_inicio);
+							                	 echo date_format($date,"d/m/Y"); ?></td>
+							                 <td> <?php 
+							                 $date = date_create($acuerdo->fecha_final);
+							                	 echo date_format($date,"d/m/Y"); ?></td>
+							                <td> 
+							                	 <?php foreach($empleados as $empleado)
+							                			{
+							                				if($empleado->id_personal == $acuerdo->gestor_servicio)
+							                				{
+							                					echo $empleado->codigo_empleado.' - '.$empleado->nombre; 
+							                				}
+							                			}
+							                	   ?></td>
 							                <td> <?php echo $acuerdo->cliente; ?> </td>
-							               	<td> <?php echo $acuerdo->porcentaje_disp; ?>% </td>	
+							               	<td class='text-center'><b> <?php echo $acuerdo->porcentaje_disp; ?>% </b></td>	
 
 												   <td>  
 							                	<?php 
 							                	 $date = date_create($acuerdo->fecha_creacion_acuerdo);
-							                	 echo date_format($date,"d/m/y"); ?>  </td>
+							                	 echo date_format($date,"d/m/Y"); ?>  </td>
 							                
-							                <td class="text-center"> <a href="<?php echo base_url().'index.php/cargar_datos/servicios/ver/'.$servicio->servicio_id ?>" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fa fa-search"></i></a> 
+							                <td class="text-center"> 
+							                	 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'.$acuerdo->acuerdo_nivel_id ?>" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fa fa-search"></i></a> 
 							                	 <a href="<?php echo base_url().'index.php/cargar_datos/servicios/modificar/'.$servicio->servicio_id ?>" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Actualizar"><i class="fa fa-pencil"></i></a>
-							                	 <a type="button" class="btn btn-danger btn-xs" onclick="deleteServicio(<?php echo $servicio->servicio_id; ?>);" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times"></i></a> </td>
+							                	 <a type="button" class="btn btn-danger btn-xs" onclick="deleteServicio(<?php echo $servicio->servicio_id; ?>);" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times"></i></a>
+							                </td>
 							            </tr>
 							         <?php } ?>    
                                 </tbody>

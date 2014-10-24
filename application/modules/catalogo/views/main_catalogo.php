@@ -176,10 +176,10 @@
 	            </table>
               </div>
 
-              <div class="panel-footer text-right">
+              <div class="panel-footer text-left">
 				<a href="<?php echo base_url('index.php/catalogo/vista_negocio/'.$servicio->servicio_id);?>" type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista de Negocio del Servicio"><i class="fa fa-users"></i> Vista de Negocio</a> |
 
-				<a href="<?php echo base_url('index.php/catalogo/vista_tecnica/'.$servicio->servicio_id);?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista T&#233;cnica del Servicio"><i class="fa fa-wrench"></i> Vista T&#233;cnica</a> |
+				<a href="<?php echo base_url('index.php/catalogo/vista_tecnica/'.$servicio->servicio_id);?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista T&#233;cnica del Servicio"><i class="fa fa-wrench"></i> Vista Técnica</a> |
 
 				<a href="<?php echo base_url('index.php/catalogo/vista_completa/'.$servicio->servicio_id);?>"  type="button" id="cancelar" data-toggle="tooltip" data-placement="top" title="Vista Completa del Servicio"><i class="fa fa-bars"></i> Vista Completa</a>
        		 </div>

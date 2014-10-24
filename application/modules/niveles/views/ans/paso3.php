@@ -210,7 +210,7 @@
     <div class="form-group" id="error1">
 	     <div class="control-label">
 	      </div>
-	      	<div class="col-md-9">
+	      	<div class="col-md-12">
 			    <label style="color:red;" id="error_disponibilidad">
 			   	
 				</label>
@@ -428,7 +428,7 @@
      <div class="form-group">
 	     <div class="control-label">
 	      </div>
-	      	<div class="col-md-9">
+	      	<div class="col-md-12">
 			    <label style="color:red;" id="error_mantenimiento">
 			   	
 				</label>
@@ -449,8 +449,8 @@
 					       	$options = array(
 					       	  'seleccione' => 'Seleccione una Modalidad',
 					       	  '1' => 'Una semana al mes',
-					       	  '2' => 'Dos semana al mes',
-					       	  '3' => 'Tres semana al mes',
+					       	  '2' => 'Dos semanas al mes',
+					       	  '3' => 'Tres semanas al mes',
 					       	  '4' => 'Todo el mes',
 			                );
 					        ?>
@@ -486,13 +486,13 @@
 							¿El mantenimiento del Servicio es realizado durante las horas de Funcionamiento del mismo?
 								<div class="radio">
 						  <label>
-						    <input value="true" type="radio" name="options_pregunta" id="options_pregunta_1">
+						    <input value="si" type="radio" name="options_pregunta" id="options_pregunta_1">
 						   	 Si
 							  </label>
 						</div>
 					 	<div class="radio">
 						  <label>
-						    <input value="false" type="radio" name="options_pregunta" id="options_pregunta_2" >
+						    <input value="no" type="radio" name="options_pregunta" id="options_pregunta_2" >
 						    No
 						  </label>
 						</div>
@@ -854,91 +854,6 @@
 	</div><br>
 
 
-	 <div class="row">
-		<div class="col-md-12">
-		   	<div class="form-group">
-				
-				<div class="">
-					<label for="service_name" class="col-md-4 control-label"><h4><b><i><u>Minutos de Confiabilidad y de Fiabilidad</u></i>: </b></h4></label> 
-				</div>
-			</div>
-
-
-		</div>
-	</div><br>
-
-
-
-	<div class="row">
-
-		<div class="col-md-7">
-		   	<div class="form-group">
-				
-
-			    <div class="required">
-					<label  class="col-md-3 control-label">Minutos de Confiabilidad</label> 
-				</div>
-
-			    <div class="col-md-2">
-			       <div class="input-group">
-			       		<input type='text' class="form-control" id='minutos_confiabilidad' name='minutos_confiabilidad' value="<?php echo set_value('minutos_confiabilidad');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
-			       
-			   	   </div>
-
-			    </div>
-			</div>
-
-			<div class="form-group">
-		     <div class="control-label col-md-3">
-		      </div>
-		      	<div class="col-md-7">
-				    <label style="color:red;">
-				   	<?php 
-				        echo form_error('minutos_confiabilidad');
-					 ?>
-					</label>
-				</div>
-			</div>
-
-		</div>
-
-	</div><br>
-
-	<div class="row">
-
-		<div class="col-md-7">
-		   	<div class="form-group">
-				
-
-			    <div class="required">
-					<label  class="col-md-3 control-label">Minutos de Fiabilidad</label> 
-				</div>
-
-			    <div class="col-md-2">
-			       <div class="input-group">
-			       		<input type='text' class="form-control" id='minutos_fiabilidad' name='minutos_fiabilidad' value="<?php echo set_value('minutos_fiabilidad');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
-			       
-			   	   </div>
-
-			    </div>
-			</div>
-
-			<div class="form-group">
-		     <div class="control-label col-md-3">
-		      </div>
-		      	<div class="col-md-7">
-				    <label style="color:red;">
-				   	<?php 
-				        echo form_error('minutos_fiabilidad');
-					 ?>
-					</label>
-				</div>
-			</div>
-		</div>
-
-	</div><br><br>
-
-
 	  <h3 > <b> Sustentabilidad</b></h3> <hr><br><br>
 
 
@@ -1057,7 +972,7 @@
 
   <div class='row tex'>
 	 <div class="col-md-1 col-md-offset-2">
-	 <a id="activate-step-2" class="btn btn-default">Volver</a>
+	 <a id="back-step-2" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
 	 <a id="activate-step-4" class="btn btn-primary">Siguiente</a>

@@ -1,4 +1,4 @@
-
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/operaciones.js"></script>
 
   <h3 > <b> Duración del Acuerdo</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_duracion_acuerdo">
  	(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3> <hr><br><br>
@@ -44,7 +44,6 @@
 			       	  'Trimestral' => 'Trimestral',
 			       	  'Semestral' => 'Semestral',
 			       	  'Anual' => 'Anual',
-			       	  'Bienal' => 'Bienal',
 	                );
 			        ?>
 		            <?php echo form_dropdown('intervalo_revision', $options,set_value('intervalo_revision'),'class="form-control" id="dropdown_intervalo_revision"'); ?>
@@ -244,7 +243,7 @@
 
   <div class='row tex'>
 	 <div class="col-md-1 col-md-offset-2">
-	 <a id="activate-step-1" class="btn btn-default">Volver</a>
+	 <a id="back-step-1" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
 	 <a id="activate-step-3" class="btn btn-primary">Siguiente</a>

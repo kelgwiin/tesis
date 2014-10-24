@@ -49,6 +49,35 @@ $(document).ready(function() {
     });
     
     $('ul.setup-panel li.active a').trigger('click');
+
+    $('#back-step-1').on('click', function(e) {
+        
+        $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
+        $('ul.setup-panel li a[href="#step-1"]').trigger('click');
+      
+    });
+
+     $('#back-step-2').on('click', function(e) {
+        
+        $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
+        $('ul.setup-panel li a[href="#step-2"]').trigger('click');
+      
+    });
+
+    $('#back-step-3').on('click', function(e) {
+        
+        $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
+        $('ul.setup-panel li a[href="#step-3"]').trigger('click');
+      
+    });
+
+
+    $('#back-step-4').on('click', function(e) {
+        
+        $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
+        $('ul.setup-panel li a[href="#step-4"]').trigger('click');
+      
+    });
     
     
     $('#activate-step-1').on('click', function(e) {
@@ -100,7 +129,97 @@ $(document).ready(function() {
               $("#error_disponibilidad").append('No debe dejar campos de Hora vacio.');
               $("html, body").scrollTop($('#tabla_disponibilidad').offset().top);
 
-            }            
+            }
+            else{
+
+                bandera4 = 0;
+                if ($("#checkbox_lunes").is(":checked"))
+                    {
+                        var inicio = $('#inicio_lunes').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_lunes').data("DateTimePicker").getDate();
+                         if( $('#inicio_lunes').val() ==  $('#fin_lunes').val())
+                            {
+                                if(($('#inicio_lunes').val() != "12:00 AM") && ($('#fin_lunes').val() != "12:00 AM"))
+                                bandera4 = 1;
+                            }
+                       
+                    } 
+                if ($("#checkbox_martes").is(":checked"))
+                    {
+                        var inicio = $('#inicio_martes').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_martes').data("DateTimePicker").getDate();
+                         if( $('#inicio_martes').val() ==  $('#fin_martes').val())
+                            {
+                                if(($('#inicio_martes').val() != "12:00 AM") && ($('#fin_martes').val() != "12:00 AM"))
+                                bandera4 = 1;
+                            }
+                       
+                    } 
+                  if ($("#checkbox_miercoles").is(":checked"))
+                    {
+                        var inicio = $('#inicio_miercoles').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_miercoles').data("DateTimePicker").getDate();
+                         if( $('#inicio_miercoles').val() ==  $('#fin_miercoles').val())
+                            {
+                                if(($('#inicio_miercoles').val() != "12:00 AM") && ($('#fin_miercoles').val() != "12:00 AM"))
+                                bandera4 = 1;
+                            }
+                       
+                    }
+                  if ($("#checkbox_jueves").is(":checked"))
+                    {
+                        var inicio = $('#inicio_jueves').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_jueves').data("DateTimePicker").getDate();
+                         if( $('#inicio_jueves').val() ==  $('#fin_jueves').val())
+                            {
+                                if(($('#inicio_jueves').val() != "12:00 AM") && ($('#fin_jueves').val() != "12:00 AM"))
+                                bandera4 = 1;
+                            }
+                       
+                    }
+                    if ($("#checkbox_viernes").is(":checked"))
+                    {
+                        var inicio = $('#inicio_viernes').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_viernes').data("DateTimePicker").getDate();
+                         if( $('#inicio_viernes').val() ==  $('#fin_viernes').val())
+                            {
+                                if(($('#inicio_viernes').val() != "12:00 AM") && ($('#fin_viernes').val() != "12:00 AM"))
+                                bandera4 = 1;
+                            }
+                       
+                    }
+                    if ($("#checkbox_sabado").is(":checked"))
+                    {
+                        var inicio = $('#inicio_sabado').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_sabado').data("DateTimePicker").getDate();
+                         if( $('#inicio_sabado').val() ==  $('#fin_sabado').val())
+                            {
+                                if(($('#inicio_sabado').val() != "12:00 AM") && ($('#fin_sabado').val() != "12:00 AM"))
+                                bandera4 = 1;
+                            }
+                       
+                    }
+                    if ($("#checkbox_domingo").is(":checked"))
+                    {
+                        var inicio = $('#inicio_domingo').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_domingo').data("DateTimePicker").getDate();
+                         if( $('#inicio_domingo').val() ==  $('#fin_domingo').val())
+                            {
+                                if(($('#inicio_domingo').val() != "12:00 AM") && ($('#fin_domingo').val() != "12:00 AM"))
+                                bandera4 = 1;
+                            }
+                       
+                    }
+             
+                 if(bandera4 == 1)
+                {
+                  $("#error_disponibilidad").append('Revise los Campos del Horario. No pueden existir campos de un mismo día con la misma hora. La Hora de Inicio debe ser menor a la de Fin');
+                  $("html, body").scrollTop($('#tabla_disponibilidad').offset().top);
+
+                }   
+
+            }  
+
          }
 
         if($('.checkbox_dias_mantenimiento:checkbox:checked').length < 1)
@@ -130,7 +249,94 @@ $(document).ready(function() {
                {
                    $("html, body").scrollTop($('#tabla_mantenimiento').offset().top);
                }
-            }            
+            }  
+            else{
+                 bandera5 = 0;
+                if ($("#checkbox_lunes_mantenimiento").is(":checked"))
+                    {
+                        var inicio = $('#inicio_lunes_mantenimiento').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_lunes_mantenimiento').data("DateTimePicker").getDate();
+                         if( $('#inicio_lunes_mantenimiento').val() ==  $('#fin_lunes_mantenimiento').val())
+                            {
+                                if(($('#inicio_lunes_mantenimiento').val() != "12:00 AM") && ($('#fin_lunes_mantenimiento').val() != "12:00 AM"))
+                                bandera5 = 1;
+                            }
+                       
+                    } 
+                if ($("#checkbox_martes_mantenimiento").is(":checked"))
+                    {
+                        var inicio = $('#inicio_martes_mantenimiento').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_martes_mantenimiento').data("DateTimePicker").getDate();
+                         if( $('#inicio_martes_mantenimiento').val() ==  $('#fin_martes_mantenimiento').val())
+                            {
+                                if(($('#inicio_martes_mantenimiento').val() != "12:00 AM") && ($('#fin_martes_mantenimiento').val() != "12:00 AM"))
+                                bandera5 = 1;
+                            }
+                       
+                    } 
+                  if ($("#checkbox_miercoles_mantenimiento").is(":checked"))
+                    {
+                        var inicio = $('#inicio_miercoles_mantenimiento').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_miercoles_mantenimiento').data("DateTimePicker").getDate();
+                         if( $('#inicio_miercoles_mantenimiento').val() ==  $('#fin_miercoles_mantenimiento').val())
+                            {
+                                if(($('#inicio_miercoles_mantenimiento').val() != "12:00 AM") && ($('#fin_miercoles_mantenimiento').val() != "12:00 AM"))
+                                bandera5 = 1;
+                            }
+                       
+                    }
+                  if ($("#checkbox_jueves_mantenimiento").is(":checked"))
+                    {
+                        var inicio = $('#inicio_jueves_mantenimiento').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_jueves_mantenimiento').data("DateTimePicker").getDate();
+                         if( $('#inicio_jueves_mantenimiento').val() ==  $('#fin_jueves_mantenimiento').val())
+                            {
+                                if(($('#inicio_jueves_mantenimiento').val() != "12:00 AM") && ($('#fin_jueves_mantenimiento').val() != "12:00 AM"))
+                                bandera5 = 1;
+                            }
+                       
+                    }
+                    if ($("#checkbox_viernes_mantenimiento").is(":checked"))
+                    {
+                        var inicio = $('#inicio_viernes_mantenimiento').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_viernes_mantenimiento').data("DateTimePicker").getDate();
+                         if( $('#inicio_viernes_mantenimiento').val() ==  $('#fin_viernes_mantenimiento').val())
+                            {
+                                if(($('#inicio_viernes_mantenimiento').val() != "12:00 AM") && ($('#fin_viernes_mantenimiento').val() != "12:00 AM"))
+                                bandera5 = 1;
+                            }
+                       
+                    }
+                    if ($("#checkbox_sabado_mantenimiento").is(":checked"))
+                    {
+                        var inicio = $('#inicio_sabado_mantenimiento').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_sabado_mantenimiento').data("DateTimePicker").getDate();
+                         if( $('#inicio_sabado_mantenimiento').val() ==  $('#fin_sabado_mantenimiento').val())
+                            {
+                                if(($('#inicio_sabado_mantenimiento').val() != "12:00 AM") && ($('#fin_sabado_mantenimiento').val() != "12:00 AM"))
+                                bandera5 = 1;
+                            }
+                       
+                    }
+                    if ($("#checkbox_domingo_mantenimiento").is(":checked"))
+                    {
+                        var inicio = $('#inicio_domingo_mantenimiento').data("DateTimePicker").getDate() ;
+                        var fin = $('#fin_domingo_mantenimiento').data("DateTimePicker").getDate();
+                         if( $('#inicio_domingo_mantenimiento').val() ==  $('#fin_domingo_mantenimiento').val())
+                            {
+                                if(($('#inicio_domingo_mantenimiento').val() != "12:00 AM") && ($('#fin_domingo_mantenimiento').val() != "12:00 AM"))
+                                bandera5 = 1;
+                            }
+                       
+                    }
+             
+                 if(bandera5 == 1)
+                {
+                  $("#error_mantenimiento").append('Revise los Campos del Horario. No pueden existir campos de un mismo día con la misma hora. La Hora de Inicio debe ser menor a la de Fin');
+                  $("html, body").scrollTop($('#tabla_mantenimiento').offset().top);
+
+                }  
+            }          
          }
 
         if($('input[name=options_pregunta]:radio:checked').length < 1)
@@ -150,7 +356,7 @@ $(document).ready(function() {
           }
 
 
-         if((bandera == 0) && (bandera2 == 0) && (bandera3 == 0))
+         if((bandera == 0) && (bandera2 == 0) && (bandera3 == 0) && (bandera4 == 0) && (bandera5 == 0))
          {
 
               $("#error_disponibilidad").empty();
@@ -221,6 +427,20 @@ $(document).ready(function() {
                 }
                 });
 
+     $("#inicio_trabajo").on("dp.change",function (e) {
+               $('#fin_trabajo').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_trabajo").on("dp.change",function (e) {
+              $('#inicio_trabajo').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_trabajo').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_trabajo").click(function () {
+
+       $('#fin_trabajo').data("DateTimePicker").setDate($('#inicio_trabajo').data("DateTimePicker").getDate());
+                  
+    });  
+
      $('#inicio_lunes').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -240,6 +460,21 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+
+    $("#inicio_lunes").on("dp.change",function (e) {
+               $('#fin_lunes').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_lunes").on("dp.change",function (e) {
+              $('#inicio_lunes').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_lunes').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_lunes").click(function () {
+
+       $('#fin_lunes').data("DateTimePicker").setDate($('#inicio_lunes').data("DateTimePicker").getDate());
+                  
+    });  
+
 
      $('#inicio_martes').datetimepicker({
                     pickDate: false,
@@ -261,6 +496,20 @@ $(document).ready(function() {
                 }
                 });
 
+    $("#inicio_martes").on("dp.change",function (e) {
+               $('#fin_martes').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_martes").on("dp.change",function (e) {
+              $('#inicio_martes').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_martes').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_martes").click(function () {
+
+       $('#fin_martes').data("DateTimePicker").setDate($('#inicio_martes').data("DateTimePicker").getDate());
+                  
+    }); 
+
      $('#inicio_miercoles').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -280,6 +529,20 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+    $("#inicio_miercoles").on("dp.change",function (e) {
+               $('#fin_miercoles').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_miercoles").on("dp.change",function (e) {
+              $('#inicio_miercoles').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_miercoles').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_miercoles").click(function () {
+
+       $('#fin_miercoles').data("DateTimePicker").setDate($('#inicio_miercoles').data("DateTimePicker").getDate());
+                  
+    }); 
+
        $('#inicio_jueves').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -300,6 +563,20 @@ $(document).ready(function() {
                 }
                 });
 
+       $("#inicio_jueves").on("dp.change",function (e) {
+               $('#fin_jueves').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_jueves").on("dp.change",function (e) {
+              $('#inicio_jueves').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_jueves').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+        $("#fin_jueves").click(function () {
+
+           $('#fin_jueves').data("DateTimePicker").setDate($('#inicio_jueves').data("DateTimePicker").getDate());
+                      
+        }); 
+
       $('#inicio_viernes').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -319,6 +596,19 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+          $("#inicio_viernes").on("dp.change",function (e) {
+                   $('#fin_viernes').data("DateTimePicker").setMinDate(e.date);
+                });
+                $("#fin_viernes").on("dp.change",function (e) {
+                  $('#inicio_viernes').data("DateTimePicker").setMaxDate(e.date);
+                  $('#fin_viernes').data("DateTimePicker").setMaxDate(e.date);
+                });
+
+        $("#fin_viernes").click(function () {
+
+           $('#fin_viernes').data("DateTimePicker").setDate($('#inicio_viernes').data("DateTimePicker").getDate());
+                      
+        }); 
 
         $('#inicio_sabado').datetimepicker({
                     pickDate: false,
@@ -340,6 +630,20 @@ $(document).ready(function() {
                 }
                 });
 
+     $("#inicio_sabado").on("dp.change",function (e) {
+               $('#fin_sabado').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_sabado").on("dp.change",function (e) {
+              $('#inicio_sabado').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_sabado').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_sabado").click(function () {
+
+       $('#fin_sabado').data("DateTimePicker").setDate($('#inicio_sabado').data("DateTimePicker").getDate());
+                  
+    }); 
+
       $('#inicio_domingo').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -360,9 +664,24 @@ $(document).ready(function() {
                 }
                 });
 
+     $("#inicio_domingo").on("dp.change",function (e) {
+               $('#fin_domingo').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_domingo").on("dp.change",function (e) {
+              $('#inicio_domingo').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_domingo').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_domingo").click(function () {
+
+       $('#fin_domingo').data("DateTimePicker").setDate($('#inicio_domingo').data("DateTimePicker").getDate());
+                  
+    }); 
+
     // Desactivar todos los timepicker por defecto  
     $("#inicio_trabajo").prop('disabled', true); 
     $("#fin_trabajo").prop('disabled', true);
+
 
     $("#inicio_lunes").prop('disabled', true); 
     $("#fin_lunes").prop('disabled', true); 
@@ -714,6 +1033,20 @@ $(document).ready(function() {
                 }
                 });
 
+    $("#inicio_mantenimiento").on("dp.change",function (e) {
+               $('#fin_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_mantenimiento").click(function () {
+
+       $('#fin_mantenimiento').data("DateTimePicker").setDate($('#inicio_mantenimiento').data("DateTimePicker").getDate());
+                  
+    });  
+
      $('#inicio_lunes_mantenimiento').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -733,6 +1066,22 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+
+
+    $("#inicio_lunes_mantenimiento").on("dp.change",function (e) {
+               $('#fin_lunes_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_lunes_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_lunes_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_lunes_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_lunes_mantenimiento").click(function () {
+
+       $('#fin_lunes_mantenimiento').data("DateTimePicker").setDate($('#inicio_lunes_mantenimiento').data("DateTimePicker").getDate());
+                  
+    });
+
 
      $('#inicio_martes_mantenimiento').datetimepicker({
                     pickDate: false,
@@ -754,6 +1103,20 @@ $(document).ready(function() {
                 }
                 });
 
+     $("#inicio_martes_mantenimiento").on("dp.change",function (e) {
+               $('#fin_martes_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_martes_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_martes_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_martes_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_martes_mantenimiento").click(function () {
+
+       $('#fin_martes_mantenimiento').data("DateTimePicker").setDate($('#inicio_martes_mantenimiento').data("DateTimePicker").getDate());
+                  
+    });
+
      $('#inicio_miercoles_mantenimiento').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -773,6 +1136,20 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+       $("#inicio_miercoles_mantenimiento").on("dp.change",function (e) {
+               $('#fin_miercoles_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_miercoles_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_miercoles_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_miercoles_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_miercoles_mantenimiento").click(function () {
+
+       $('#fin_miercoles_mantenimiento').data("DateTimePicker").setDate($('#inicio_miercoles_mantenimiento').data("DateTimePicker").getDate());
+                  
+    });
+
        $('#inicio_jueves_mantenimiento').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -792,6 +1169,19 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+     $("#inicio_jueves_mantenimiento").on("dp.change",function (e) {
+               $('#fin_jueves_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_jueves_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_jueves_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_jueves_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+    $("#fin_jueves_mantenimiento").click(function () {
+
+       $('#fin_jueves_mantenimiento').data("DateTimePicker").setDate($('#inicio_jueves_mantenimiento').data("DateTimePicker").getDate());
+                  
+    });
 
       $('#inicio_viernes_mantenimiento').datetimepicker({
                     pickDate: false,
@@ -813,6 +1203,20 @@ $(document).ready(function() {
                 }
                 });
 
+        $("#inicio_viernes_mantenimiento").on("dp.change",function (e) {
+               $('#fin_viernes_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_viernes_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_viernes_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_viernes_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+        $("#fin_viernes_mantenimiento").click(function () {
+
+           $('#fin_viernes_mantenimiento').data("DateTimePicker").setDate($('#inicio_viernes_mantenimiento').data("DateTimePicker").getDate());
+                      
+        });
+
         $('#inicio_sabado_mantenimiento').datetimepicker({
                     pickDate: false,
                      icons: {
@@ -832,6 +1236,19 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+      $("#inicio_sabado_mantenimiento").on("dp.change",function (e) {
+               $('#fin_sabado_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_sabado_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_sabado_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_sabado_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+        $("#fin_sabado_mantenimiento").click(function () {
+
+           $('#fin_sabado_mantenimiento').data("DateTimePicker").setDate($('#inicio_sabado_mantenimiento').data("DateTimePicker").getDate());
+                      
+        });
 
       $('#inicio_domingo_mantenimiento').datetimepicker({
                     pickDate: false,
@@ -852,6 +1269,19 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
+    $("#inicio_domingo_mantenimiento").on("dp.change",function (e) {
+               $('#fin_domingo_mantenimiento').data("DateTimePicker").setMinDate(e.date);
+            });
+            $("#fin_domingo_mantenimiento").on("dp.change",function (e) {
+              $('#inicio_domingo_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+              $('#fin_domingo_mantenimiento').data("DateTimePicker").setMaxDate(e.date);
+            });
+
+        $("#fin_domingo_mantenimiento").click(function () {
+
+           $('#fin_domingo_mantenimiento').data("DateTimePicker").setDate($('#inicio_domingo_mantenimiento').data("DateTimePicker").getDate());
+                      
+        });
 
         // Desactivar todos los timepicker por defecto  
     $("#inicio_mantenimiento").prop('disabled', true); 
