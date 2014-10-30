@@ -88,6 +88,45 @@ $(function () {
 
             }]
     });
+	$('#disco').highcharts({
+    	chart: {
+            zoomType: 'x'
+        },
+        title: {
+            text: 'Tasa de Transferencia',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Basado en métricas de medición',
+            x: -20
+        },
+        xAxis: {
+           categories: categorias
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentaje'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: 'kb'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+                name: 'Uso Discos',
+                data: hd
+            }]
+    });
 });
 </script>
 <div id="page-wrapper">
@@ -119,7 +158,14 @@ $(function () {
 	      <div class="panel-body">
 	    	  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 	      </div>
-	      
+	      <div class="panel-heading">
+	       
+				<h3 class="panel-title">Uso de Disco</h3>
+	        	
+	      	</div>
+	      <div class="panel-body">
+	    	  <div id="disco" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	      </div>
 	    </div>
 	
 	</div>

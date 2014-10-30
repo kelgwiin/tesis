@@ -113,7 +113,7 @@ $(function () {
             }]
         },
         tooltip: {
-            valueSuffix: '%'
+            valueSuffix: 'kb'
         },
         legend: {
             layout: 'vertical',
