@@ -81,11 +81,6 @@ $(function () {
                 data: ram
 
 
-            }, {
-                name: 'Uso Discos',
-                data: hd
-
-
             }]
     });
 	$('#disco').highcharts({

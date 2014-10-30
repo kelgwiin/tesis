@@ -133,7 +133,40 @@ $(function () {
         }, {
             name: 'RAM',
             data: resourceUse[1]
-        },{
+        }]
+    });
+    $('#discos').highcharts({
+        title: {
+            text: 'Tasa de Transferencia',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Basado en métricas de medición',
+            x: -20
+        },
+        xAxis: {
+            categories: graficCategories
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentaje de Uso'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: 'kb'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
             name: 'Almacenamiento',
             data: resourceUse[2]
         }]
@@ -168,6 +201,16 @@ $(function () {
 	      
 	      <div class="panel-body">
 	    	  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	      </div>
+
+	      <div class="panel-heading">
+	       
+				<h3 class="panel-title">Consumo General de Disco para los Servicios</h3>
+	        	
+	      	</div>
+	      
+	      <div class="panel-body">
+	    	  <div id="discos" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 	      </div>
 	      
 	    </div>
