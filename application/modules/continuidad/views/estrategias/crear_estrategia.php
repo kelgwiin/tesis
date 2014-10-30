@@ -15,6 +15,7 @@
 			<h1>Gestión de Continuidad del Negocio</h1>
 			<?php echo $breadcrumbs ?>
 			<h3><?php echo $h3 ?></h3>
+			<span class="text-muted">Al dejar el ratón sobre los títulos del formulario, obtendrá mayor información</span>
 		</div>
 	</div>
 	
@@ -26,7 +27,9 @@
 						
 						<!-- Text input-->
 						<div class="form-group">
-							<label class="col-md-4 control-label" for="denominacion">Denominación</label>  
+							<label class="col-md-4 control-label" for="denominacion" data-toggle="tooltip" title="Nombre o título que lleva la estrategia de recuperación. Ej: Exploración por virus en el sistema">
+								Denominación
+							</label>  
 							<div class="col-md-7">
 								<input id="denominacion" name="denominacion" type="text" placeholder="Título de la estrategia" class="form-control input-md"
 									value="<?php echo set_value('denominacion',@$estrategia->denominacion) ?>" required="">
@@ -49,7 +52,9 @@
 						
 						<!-- Prepended text-->
 						<div class="form-group">
-							<label class="col-md-4 control-label" for="costo">Costo</label>
+							<label class="col-md-4 control-label" for="costo" data-toggle="tooltip" title="Ingrese sólamente el valor numérico del costo de la estrategia. Si no tiene costo puede colocar 0">
+								Costo
+							</label>
 							<div class="col-md-7">
 								<div class="input-group">
 									<span class="input-group-addon">Bsf.</span>
@@ -61,7 +66,9 @@
 						
 						<!-- Text input-->
 						<div class="form-group">
-						<label class="col-md-4 control-label" for="hardware">Hardware</label>  
+							<label class="col-md-4 control-label" for="hardware" data-toggle="tooltip" title="Herramientas de hardware necesarias para llevar a cabo la estrategia">
+								Hardware
+							</label>  
 							<div class="col-md-7">
 								<input name="hardware" type="text" placeholder="Servidores, monitores, UPS..." class="form-control input-md"
 									value="<?php echo set_value('hardware',@$estrategia->hardware) ?>" required="">
@@ -70,7 +77,9 @@
 						
 						<!-- Text input-->
 						<div class="form-group">
-							<label class="col-md-4 control-label" for="telecom">Telecomunicaciones</label>  
+							<label class="col-md-4 control-label" for="telecom" data-toggle="tooltip" title="Herramientas de telecomunicaciones necesarias para llevar a cabo la estrategia">
+								Telecomunicaciones
+							</label>  
 							<div class="col-md-7">
 								<input name="telecom" type="text" placeholder="Routers, Modems..." class="form-control input-md"
 									value="<?php echo set_value('telecom',@$estrategia->telecom) ?>" required="">
@@ -84,7 +93,9 @@
 						
 						<!-- Text input-->
 						<div class="form-group">
-							<label class="col-md-4 control-label" for="tiempo">Tiempo</label>  
+							<label class="col-md-4 control-label" for="tiempo" data-toggle="tooltip" title="Tiempo de vigencia o de contrato del tipo de estrategia seleccionado del cuadro de leyenda">
+								Tiempo
+							</label>  
 							<div class="col-md-3">
 								<input name="fecha_inicio" type="text" placeholder="dd/mm/aaaa" class="form-control input-md" data-date-format="dd-mm-yyyy"
 									value="<?php echo set_value('fecha_inicio',$fecha_inicio) ?>" required="" readonly />
@@ -98,7 +109,9 @@
 						
 						<!-- Text input-->
 						<div class="form-group">
-							<label class="col-md-4 control-label" for="localizacion">Localización</label>  
+							<label class="col-md-4 control-label" for="localizacion" data-toggle="tooltip" title="Dirección del sitio en donde se llevará a cabo la estrategia de recuperación. Ej: Calle Páez Edificio A, oficina 1-12 Valencia Carabobo - Frente al C.C Los Robles">
+								Localización
+							</label>  
 							<div class="col-md-7">
 								<input name="localizacion" type="text" placeholder="Localización del sitio" class="form-control input-md"
 									value="<?php echo set_value('localizacion',@$estrategia->localizacion) ?>" required="">

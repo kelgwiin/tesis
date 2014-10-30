@@ -105,7 +105,7 @@
 				                			<td><?php echo date('d-m-Y h:i A', strtotime($plan->fecha_creacion)) ?></td>
 				                			<td style="text-align: center">
 				                				<?php if($plan->validado) : ?>
-				                					<i class="fa fa-check" style="color: green"></i>
+				                					<i class="fa fa-check" style="color: green" data-toggle="tooltip" title="Fecha de validación: <?php echo $plan->fecha_validacion ?>"></i>
 				                				<?php else : ?>
 				                					<i class="fa fa-times" style="color: red"></i>
 				                				<?php endif ?>

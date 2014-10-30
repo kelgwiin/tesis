@@ -211,7 +211,21 @@
 								<label class="col-md-5 control-label" for="fechaingreso_empresa">Fecha de ingreso</label>  
 								<div class="col-md-4">
 									<input name="fechaingreso_empresa" type="text" placeholder="12/05/2013" class="form-control input-md"
-										data-date-format="dd/mm/yyyy" value="<?php echo set_value('fechaingreso_empresa',$fecha) ?>" required readonly />
+										data-date-format="dd-mm-yyyy" value="<?php echo set_value('fechaingreso_empresa',$fecha) ?>" required readonly />
+								</div>
+							</div>
+							
+							<!-- CARGO EN LA EMPRESA-->
+							<div class="row">
+								<div class="col-md-5"></div>
+								<div class="col-md-4">
+									<?php echo form_error('despacho') ?>
+								</div>
+							</div>
+							<div class="form-group <?php echo (form_error('despacho')) ? 'has-error' : '' ?>">
+								<label class="col-md-5 control-label" for="despacho">Despacho u oficina</label>  
+								<div class="col-md-4">
+									<textarea class="form-control input-md" name="despacho" placeholder="Dirección de despacho u oficina del empleado"><?php echo set_value('despacho',@$empleado->despacho) ?></textarea>
 								</div>
 							</div>
 							

@@ -154,8 +154,11 @@ class Continuidad extends MX_Controller
 		foreach($view['planes_continuidad'] as $key => $pcn)
 		{
 			if($this->general->exist('validacion_pcn',array('id_continuidad'=>$pcn->id_continuidad)))
+			{
+				$valido = $this->general->get_row('validacion_pcn',array('id_continuidad'=>$pcn->id_continuidad),array('fecha_creacion'));
 				$pcn->validado = TRUE;
-			else
+				$pcn->fecha_validacion = date('d-m-Y',strtotime($valido->fecha_creacion));
+			}else
 				$pcn->validado = FALSE;
 		}
 		
