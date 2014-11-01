@@ -57,9 +57,13 @@
 	                        	</div>
 	                        	<?php if(isset($crisis) && !empty($crisis)) : ?>
 		                        	<ul>
-		                        		<?php foreach($crisis as $key => $cri) : ?>
+		                        		<?php foreach($crisis as $key => $cri) : //die_pre($cri); ?>
 			                        		<li style="font-size: 12px">
-			                        			<strong><?php echo ucfirst($cri->nombre_equipo) ?>:&nbsp;&nbsp;</strong>
+			                        			<a data-toggle="modal" data-target="#info_team1<?php echo $cri->id_equipo ?>">
+			                        				<strong data-toggle="tooltip" title="Click para ver la información completa del equipo <?php echo ucfirst($cri->nombre_equipo) ?>">
+			                        					<?php echo ucfirst($cri->nombre_equipo) ?>:&nbsp;&nbsp;
+			                        				</strong>
+			                        			</a>
 			                        			<?php foreach($cri->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
@@ -91,6 +95,32 @@
 																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$cri->id_equipo) ?>">
 																Eliminar
 															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="modal fade" id="info_team1<?php echo $cri->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Información de contacto del equipo <?php echo ucfirst($cri->nombre_equipo) ?></h4>
+														</div>
+														<div class="modal-body">
+															<?php foreach($cri->equipo as $k => $team) : ?>
+						                        				<strong><?php echo strtoupper($team->cargo).': '.$team->nombre.' - '.$team->codigo_empleado ?></strong>
+						                        				<ul>
+						                        					<li><strong>Emails: </strong> <?php echo $team->email_corporativo.' | '.$team->email_personal ?></li>
+						                        					<li><strong>Teléfonos: </strong> <?php echo $team->tlfn_corporativo.' | '.$team->tlfn_personal ?></li>
+						                        					<li><strong>Oficina/Despacho: </strong> <?php echo $team->despacho ?></li>
+						                        				</ul><br />
+						                        			<?php endforeach ?>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 														</div>
 													</div>
 												</div>
@@ -148,7 +178,11 @@
 		                        	<ul>
 		                        		<?php foreach($recuperacion as $key => $recup) : ?>
 			                        		<li style="font-size: 12px">
-			                        			<strong><?php echo ucfirst($recup->nombre_equipo) ?>:&nbsp;&nbsp;</strong>
+			                        			<a data-toggle="modal" data-target="#info_team2<?php echo $recup->id_equipo ?>">
+			                        				<strong data-toggle="tooltip" title="Click para ver la información completa del equipo <?php echo ucfirst($recup->nombre_equipo) ?>">
+			                        					<?php echo ucfirst($recup->nombre_equipo) ?>:&nbsp;&nbsp;
+			                        				</strong>
+			                        			</a>
 			                        			<?php foreach($recup->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
@@ -180,6 +214,32 @@
 																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$recup->id_equipo) ?>">
 																Eliminar
 															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="modal fade" id="info_team2<?php echo $recup->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Información de contacto del equipo <?php echo ucfirst($recup->nombre_equipo) ?></h4>
+														</div>
+														<div class="modal-body">
+															<?php foreach($recup->equipo as $k => $team) : ?>
+						                        				<strong><?php echo strtoupper($team->cargo).': '.$team->nombre.' - '.$team->codigo_empleado ?></strong>
+						                        				<ul>
+						                        					<li><strong>Emails: </strong> <?php echo $team->email_corporativo.' | '.$team->email_personal ?></li>
+						                        					<li><strong>Teléfonos: </strong> <?php echo $team->tlfn_corporativo.' | '.$team->tlfn_personal ?></li>
+						                        					<li><strong>Oficina/Despacho: </strong> <?php echo $team->despacho ?></li>
+						                        				</ul><br />
+						                        			<?php endforeach ?>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 														</div>
 													</div>
 												</div>
@@ -237,7 +297,11 @@
 		                        	<ul>
 		                        		<?php foreach($logistica as $key => $log) : ?>
 			                        		<li style="font-size: 12px">
-			                        			<strong><?php echo ucfirst($log->nombre_equipo) ?>:&nbsp;&nbsp;</strong>
+			                        			<a data-toggle="modal" data-target="#info_team3<?php echo $log->id_equipo ?>">
+			                        				<strong data-toggle="tooltip" title="Click para ver la información completa del equipo <?php echo ucfirst($log->nombre_equipo) ?>">
+			                        					<?php echo ucfirst($log->nombre_equipo) ?>:&nbsp;&nbsp;
+			                        				</strong>
+			                        			</a>
 			                        			<?php foreach($log->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
@@ -273,6 +337,32 @@
 													</div>
 												</div>
 											</div>
+											<div class="modal fade" id="info_team3<?php echo $log->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Información de contacto del equipo <?php echo ucfirst($log->nombre_equipo) ?></h4>
+														</div>
+														<div class="modal-body">
+															<?php foreach($log->equipo as $k => $team) : ?>
+						                        				<strong><?php echo strtoupper($team->cargo).': '.$team->nombre.' - '.$team->codigo_empleado ?></strong>
+						                        				<ul>
+						                        					<li><strong>Emails: </strong> <?php echo $team->email_corporativo.' | '.$team->email_personal ?></li>
+						                        					<li><strong>Teléfonos: </strong> <?php echo $team->tlfn_corporativo.' | '.$team->tlfn_personal ?></li>
+						                        					<li><strong>Oficina/Despacho: </strong> <?php echo $team->despacho ?></li>
+						                        				</ul><br />
+						                        			<?php endforeach ?>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+														</div>
+													</div>
+												</div>
+											</div>
 	                        			<?php endforeach ?>
 		                        	</ul>
 		                        <?php else : ?>
@@ -294,7 +384,7 @@
 	                    <div class="panel-heading">
 	                        <div class="row">
 	                            <div class="col-xs-3">
-	                                <i class="fa fa-user fa-5x"></i>
+	                                <i class="fa fa-users fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
 	                            	<div>Equipos de</div>
@@ -326,7 +416,11 @@
 		                        	<ul>
 		                        		<?php foreach($rrpp as $key => $rp) : ?>
 			                        		<li style="font-size: 12px">
-			                        			<strong><?php echo ucfirst($rp->nombre_equipo) ?>:&nbsp;&nbsp;</strong>
+			                        			<a data-toggle="modal" data-target="#info_team4<?php echo $rp->id_equipo ?>">
+			                        				<strong data-toggle="tooltip" title="Click para ver la información completa del equipo <?php echo ucfirst($rp->nombre_equipo) ?>">
+			                        					<?php echo ucfirst($rp->nombre_equipo) ?>:&nbsp;&nbsp;
+			                        				</strong>
+			                        			</a>
 			                        			<?php foreach($rp->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
@@ -358,6 +452,32 @@
 																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$rp->id_equipo) ?>">
 																Eliminar
 															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="modal fade" id="info_team4<?php echo $rp->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Información de contacto del equipo <?php echo ucfirst($rp->nombre_equipo) ?></h4>
+														</div>
+														<div class="modal-body">
+															<?php foreach($rp->equipo as $k => $team) : ?>
+						                        				<strong><?php echo strtoupper($team->cargo).': '.$team->nombre.' - '.$team->codigo_empleado ?></strong>
+						                        				<ul>
+						                        					<li><strong>Emails: </strong> <?php echo $team->email_corporativo.' | '.$team->email_personal ?></li>
+						                        					<li><strong>Teléfonos: </strong> <?php echo $team->tlfn_corporativo.' | '.$team->tlfn_personal ?></li>
+						                        					<li><strong>Oficina/Despacho: </strong> <?php echo $team->despacho ?></li>
+						                        				</ul><br />
+						                        			<?php endforeach ?>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 														</div>
 													</div>
 												</div>
@@ -415,7 +535,11 @@
 		                        	<ul>
 		                        		<?php foreach($pruebas as $key => $prueba) : ?>
 			                        		<li style="font-size: 12px">
-			                        			<strong><?php echo ucfirst($prueba->nombre_equipo) ?>:&nbsp;&nbsp;</strong>
+			                        			<a data-toggle="modal" data-target="#info_team5<?php echo $prueba->id_equipo ?>">
+			                        				<strong data-toggle="tooltip" title="Click para ver la información completa del equipo <?php echo ucfirst($prueba->nombre_equipo) ?>">
+			                        					<?php echo ucfirst($prueba->nombre_equipo) ?>:&nbsp;&nbsp;
+			                        				</strong>
+			                        			</a>
 			                        			<?php foreach($prueba->equipo as $k => $team) : ?>
 			                        				<?php echo ($k == 0) ? $team->nombre : '- '.$team->nombre ?>
 			                        			<?php endforeach ?>
@@ -448,6 +572,32 @@
 																href="<?php echo site_url('index.php/continuidad/equipos/eliminar/'.$prueba->id_equipo) ?>">
 																Eliminar
 															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="modal fade" id="info_team5<?php echo $prueba->id_equipo ?>"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">
+																<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+															</button>
+															<h4 class="modal-title" id="myModalLabel">Información de contacto del equipo <?php echo ucfirst($cri->nombre_equipo) ?></h4>
+														</div>
+														<div class="modal-body">
+															<?php foreach($prueba->equipo as $k => $team) : ?>
+						                        				<strong><?php echo strtoupper($team->cargo).': '.$team->nombre.' - '.$team->codigo_empleado ?></strong>
+						                        				<ul>
+						                        					<li><strong>Emails: </strong> <?php echo $team->email_corporativo.' | '.$team->email_personal ?></li>
+						                        					<li><strong>Teléfonos: </strong> <?php echo $team->tlfn_corporativo.' | '.$team->tlfn_personal ?></li>
+						                        					<li><strong>Oficina/Despacho: </strong> <?php echo $team->despacho ?></li>
+						                        				</ul><br />
+						                        			<?php endforeach ?>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 														</div>
 													</div>
 												</div>

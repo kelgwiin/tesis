@@ -155,7 +155,7 @@ class Continuidad extends MX_Controller
 		{
 			if($this->general->exist('validacion_pcn',array('id_continuidad'=>$pcn->id_continuidad)))
 			{
-				$valido = $this->general->get_row('validacion_pcn',array('id_continuidad'=>$pcn->id_continuidad),array('fecha_creacion'));
+				$valido = $this->general->get_row('validacion_pcn',array('id_continuidad'=>$pcn->id_continuidad),array('fecha_creacion'),'fecha_creacion');
 				$pcn->validado = TRUE;
 				$pcn->fecha_validacion = date('d-m-Y',strtotime($valido->fecha_creacion));
 			}else

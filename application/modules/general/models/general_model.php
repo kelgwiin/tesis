@@ -18,14 +18,21 @@ class General_model extends CI_Model
 	// FUNCION QUE RETORNA UNA FILA DE UNA TABLA
 	// RECIBE EL NOMBRE DE LA TABLA -$table-, Y UN ARREGLO DE CONDICIONES -$where-
 	// @author f6rnando - FERNANDO PINTO
-	public function get_row($table,$where,$select='')
+	public function get_row($table,$where,$select='',$order='')
 	{
 		if(!empty($select))
 		{
 			foreach($select as $key => $value)
 				$this->db->select($value);
 		}
-		$query = $this->db->get_where($table,$where);
+		if(!empty($order))
+		{
+			$this->db->where($where);
+			$this->db->order_by($order,'desc');
+			$query = $this->db->get($table);
+		}else
+			$query = $this->db->get_where($table,$where);
+		
 		return $query->row();
 	}
 	
