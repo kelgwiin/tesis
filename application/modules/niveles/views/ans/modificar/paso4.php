@@ -12,7 +12,7 @@
 
 			        <div class="col-md-8">
 			            <?php $data = array(
-			            		'value' => set_value('soporte'),
+			            		'value' => set_value('soporte',@$acuerdo->soporte_tecnico),
 		                        'name'        => 'soporte',
 		                        'id'          => 'soporte', 
 		                        'class'          => 'form-control boxsizingBorder',
@@ -104,7 +104,7 @@
 		    		<td><b>Tiempo de Respuesta</b></td>
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_respuesta_critico' name='tiempo_respuesta_critico' value="<?php echo set_value('tiempo_respuesta_critico');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_respuesta_critico' name='tiempo_respuesta_critico' value="<?php echo set_value('tiempo_respuesta_critico',@$acuerdo->tiempo_respuesta_critico);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -113,10 +113,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_respuesta_critico', $options,set_value('unidad_respuesta_critico'),'class="form-control" id="dropdown_unidad_respuesta_critico"'); ?>
+				            <?php echo form_dropdown('unidad_respuesta_critico', $options,set_value('unidad_respuesta_critico',@$acuerdo->unidad_respuesta_critico),'class="form-control" id="dropdown_unidad_respuesta_critico"'); ?>
 			      		 </div>
 			      		 <div class="form-group">
 						     <div class="col-md-4 text-right">
@@ -139,7 +139,7 @@
 
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_respuesta_severo' name='tiempo_respuesta_severo' value="<?php echo set_value('tiempo_respuesta_severo');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_respuesta_severo' name='tiempo_respuesta_severo' value="<?php echo set_value('tiempo_respuesta_severo',@$acuerdo->tiempo_respuesta_severo);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -148,10 +148,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_respuesta_severo', $options,set_value('unidad_respuesta_severo'),'class="form-control" id="dropdown_unidad_respuesta_severo"'); ?>
+				            <?php echo form_dropdown('unidad_respuesta_severo', $options,set_value('unidad_respuesta_severo',@$acuerdo->unidad_respuesta_severo),'class="form-control" id="dropdown_unidad_respuesta_severo"'); ?>
 			      		 </div>
 
 			      		 <div class="form-group">
@@ -175,7 +175,7 @@
 
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_respuesta_medio' name='tiempo_respuesta_medio' value="<?php echo set_value('tiempo_respuesta_medio');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_respuesta_medio' name='tiempo_respuesta_medio' value="<?php echo set_value('tiempo_respuesta_medio',@$acuerdo->tiempo_respuesta_medio);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -184,10 +184,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_respuesta_medio', $options,set_value('unidad_respuesta_medio'),'class="form-control" id="dropdown_unidad_respuesta_medio"'); ?>
+				            <?php echo form_dropdown('unidad_respuesta_medio', $options,set_value('unidad_respuesta_medio',@$acuerdo->unidad_respuesta_medio),'class="form-control" id="dropdown_unidad_respuesta_medio"'); ?>
 			      		 </div>
 			      		 <div class="form-group">
 						     <div class="col-md-4 text-right">
@@ -210,7 +210,7 @@
 
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_respuesta_menor' name='tiempo_respuesta_menor' value="<?php echo set_value('tiempo_respuesta_menor');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_respuesta_menor' name='tiempo_respuesta_menor' value="<?php echo set_value('tiempo_respuesta_menor',@$acuerdo->tiempo_respuesta_menor);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -219,10 +219,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_respuesta_menor', $options,set_value('unidad_respuesta_menor'),'class="form-control" id="dropdown_unidad_respuesta_menor"'); ?>
+				            <?php echo form_dropdown('unidad_respuesta_menor', $options,set_value('unidad_respuesta_menor',@$acuerdo->unidad_respuesta_menor),'class="form-control" id="dropdown_unidad_respuesta_menor"'); ?>
 			      		 </div>
 			      		 <div class="form-group">
 						     <div class="col-md-4 text-right">
@@ -247,7 +247,7 @@
 		    		<td><b>Tiempo de Resolución</b></td>
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_resolucion_critico' name='tiempo_resolucion_critico' value="<?php echo set_value('tiempo_resolucion_critico');?>"  data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_resolucion_critico' name='tiempo_resolucion_critico' value="<?php echo set_value('tiempo_resolucion_critico',@$acuerdo->tiempo_resolucion_critico);?>"  data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -256,10 +256,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_resolucion_critico', $options,set_value('unidad_resolucion_critico'),'class="form-control" id="dropdown_unidad_resolucion_critico"'); ?>
+				            <?php echo form_dropdown('unidad_resolucion_critico', $options,set_value('unidad_resolucion_critico',@$acuerdo->unidad_resolucion_critico),'class="form-control" id="dropdown_unidad_resolucion_critico"'); ?>
 			      		 </div>
 			      		 <div class="form-group">
 						     <div class="col-md-4 text-right">
@@ -282,7 +282,7 @@
 
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_resolucion_severo' name='tiempo_resolucion_severo' value="<?php echo set_value('tiempo_resolucion_severo');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_resolucion_severo' name='tiempo_resolucion_severo' value="<?php echo set_value('tiempo_resolucion_severo',@$acuerdo->tiempo_resolucion_severo);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -291,10 +291,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_resolucion_severo', $options,set_value('unidad_resolucion_severo'),'class="form-control" id="dropdown_unidad_resolucion_severo"'); ?>
+				            <?php echo form_dropdown('unidad_resolucion_severo', $options,set_value('unidad_resolucion_severo',@$acuerdo->unidad_resolucion_severo),'class="form-control" id="dropdown_unidad_resolucion_severo"'); ?>
 			      		 </div>
 			      		  <div class="form-group">
 						     <div class="col-md-4 text-right">
@@ -317,7 +317,7 @@
 
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_resolucion_medio' name='tiempo_resolucion_medio' value="<?php echo set_value('tiempo_resolucion_medio');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_resolucion_medio' name='tiempo_resolucion_medio' value="<?php echo set_value('tiempo_resolucion_medio',@$acuerdo->tiempo_resolucion_medio);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -326,10 +326,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_resolucion_medio', $options,set_value('unidad_resolucion_medio'),'class="form-control" id="dropdown_unidad_resolucion_medio"'); ?>
+				            <?php echo form_dropdown('unidad_resolucion_medio', $options,set_value('unidad_resolucion_medio',@$acuerdo->unidad_resolucion_medio),'class="form-control" id="dropdown_unidad_resolucion_medio"'); ?>
 			      		 </div>
 			      		  <div class="form-group">
 						     <div class="col-md-4 text-right">
@@ -352,7 +352,7 @@
 
 		    		<td>
 		    		    <div class="col-md-4">
-		    			 <input type='text' class="form-control" id='tiempo_resolucion_menor' name='tiempo_resolucion_menor' value="<?php echo set_value('tiempo_resolucion_menor');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+		    			 <input type='text' class="form-control" id='tiempo_resolucion_menor' name='tiempo_resolucion_menor' value="<?php echo set_value('tiempo_resolucion_menor',@$acuerdo->tiempo_resolucion_menor);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 		    			</div>
 		    			<div class="col-md-7">
 		    			<?php
@@ -361,10 +361,10 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'días' => 'Días'
+					       	  'dias' => 'Días'
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_resolucion_menor', $options,set_value('unidad_resolucion_menor'),'class="form-control" id="dropdown_unidad_resolucion_menor"'); ?>
+				            <?php echo form_dropdown('unidad_resolucion_menor', $options,set_value('unidad_resolucion_menor',@$acuerdo->unidad_resolucion_menor),'class="form-control" id="dropdown_unidad_resolucion_menor"'); ?>
 			      		 </div>
 			      		  <div class="form-group">
 						     <div class="col-md-4 text-right">

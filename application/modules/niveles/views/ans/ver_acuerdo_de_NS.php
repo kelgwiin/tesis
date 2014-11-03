@@ -1,6 +1,12 @@
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/js/operaciones_ajax.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>application/modules/niveles/views/ans/css/ans.css">
 
+ <style type="text/css">
+        p {
+        text-align : justify;
+        }
+ </style>
+
 <?php 
           // Arreglos para mostrar las fechas en español.
          $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
@@ -16,39 +22,65 @@
 
 
 	<div class="col-lg-10 col-lg-offset-1">
-		<div class="panel panel-primary">
-			<div class="panel-heading"> <i class="fa fa-file-o"></i> Acuerdo de Niveles de Servicio - Vista Completa</div>
+		<div class="panel panel-default">
+			<div class="panel-heading"> 
+
+				<div class='col-md-2 text-left'>
+				<a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS');?>" type="button" class="btn btn-default" id="cancelar">Volver a la Gesti&#243;n de ANS</a>
+				</div>
+
+				<div class='col-md-10 text-right'>
+			    <a type="button" target="_blank" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/Nuevo_ANS_base/'.$acuerdo->acuerdo_nivel_id.'/nuevo_ans_base' ?>" class="btn btn-default"  data-toggle="tooltip" data-placement="top" title="Crear Nuevo ANS en base a este Acuerdo"><i class="fa fa-file-text"></i> Nuevo ANS base</a>
+                <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/modificar_ANS/'.$acuerdo->acuerdo_nivel_id.'/actualizar'?>"  data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Actualizar</a>
+               
+                <a  data-original-title="Eliminar" data-target="#eliminar" data-toggle="modal" type="button" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Eliminar</a>
+                 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/generar_pdf_ANS/'.$acuerdo->acuerdo_nivel_id?>"  data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> generar</a>
+				</div>
+				<br><br>
+
+			</div> 
 			<div class="panel-body">
 				<div class="table-responsive">
 				<table class="table">	
 					<thead>
-						<tr style="background-color:#E0E0D1;">
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
 							<td colspan="2"> <h4><b>Nombre del Acuerdo</b></h4></td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<div class="col-md-10">
-								<h4><i><?php echo $acuerdo->nombre_acuerdo; ?></i></h4>
-								</div>
-
-								<div class="col-md-2">
-								<h5><i><u><b>Estatus</b></u>: </i>
-								<i><?php if($acuerdo->fecha_final > date('Y-m-d')) : ?>
-									<span class="label label-success"><?php echo 'Activo'; ?></span>
-
-									<?php else : ?>
-									<span class="label label-danger"><?php echo 'Vencido'; ?></span>
-								<?php endif ?> </i> </h5> <br>
-								</div>
-
+								<div class='col-md-12'>
+									<h4><i><?php echo $acuerdo->nombre_acuerdo; ?></i></h4><br>
+							    </div>
 							</td>
 						
+						</tr>
+						<tr>
+						  <td colspan="2">
+							  <div class='col-md-1'>
+							  	<h5><b><i>Estatus:</i></b></h5>
+							  </div>
+							  <div class='col-md-2'>
+								  <h5><i><?php if($acuerdo->fecha_final > date('Y-m-d')) : ?>
+											<span class="label label-success"><?php echo 'Activo'; ?></span>
+
+											<?php else : ?>
+											<span class="label label-danger"><?php echo 'Vencido'; ?></span>
+										<?php endif ?> </i></h5>
+							  </div>
+
+							    <div class='col-md-4 col-md-offset-5'>
+								  <h5><b><a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$acuerdo->acuerdo_nivel_id);?>" target="_blank"  type="button" data-toggle="tooltip" data-placement="top" title="Establecer la estructura para el Documento PDF contendor del ANS">
+								  	<i class="fa fa-file-pdf-o"></i> <i><u>Estructura para el Documento PDF</u></i></a></b></h5>
+							  </div>
+						  </td>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td style="background-color:#E0E0D1;" colspan="2"> <h4><b> Alcance </b></h4> </td>
+							<td style="background-color:#678DA0; color:#FFFFFF;" colspan="2"> <h4><b> Alcance </b></h4> </td>
 						</tr>
+						
+
 						 <tr>
 						  <td width="30%"><h5><b><i>Servicio Cubierto:</i></b></h5></td>
 						  <td><h5><i><span class="label label-primary"><?php echo $servicio->nombre; ?></span></i></h5></td>
@@ -107,7 +139,7 @@
 						</tr>
 
 						<?php if($acuerdo->condiciones_terminacion != NULL) : ?>
-						<tr style="background-color:#E0E0D1;">
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
 							<td colspan="2"> <h4><b>Condiciones para la Terminación del Acuerdo</b></h4></td>
 						</tr>
 						<tr>
@@ -118,7 +150,7 @@
 
 
 						<?php if($acuerdo->procedimiento_actualizacion != NULL) : ?>
-						<tr style="background-color:#E0E0D1;">
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
 							<td colspan="2"> <h4><b>Procedimientos para Modificación del Acuerdo</b></h4></td>
 						</tr>
 						<tr>
@@ -127,7 +159,7 @@
 						</tr>
 						<?php endif ?>
 
-						<tr style="background-color:#E0E0D1;">
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
 							<td colspan="2"> <h4><b>Niveles de Servicio</b></h4></td>
 						</tr>
 
@@ -1019,12 +1051,208 @@
 				    																							</span></div>
 
 							</div>
+							<br><br><br><br>
 					    </div>
-
-						
-
 						</td>
 					</tr>
+
+
+					<tr style="background-color:#678DA0; color:#FFFFFF;">
+							<td colspan="2"> <h4><b>Atención y Soporte al Cliente</b></h4></td>
+						</tr>
+						<tr>
+							<td colspan="2"><?php echo $acuerdo->soporte_tecnico; ?><br><br>
+
+								<h4><b>Tiempos de Respuesta y de Resolución de Problemas</b></h4>
+							    <br>
+
+							    <div class="col-md-8">
+									<table class="table table-bordered" style="background-color:white;">
+								    <thead class="text-center">
+								    	<tr style="background-color:grey; color:#FFFFFF;">
+								    		<td><b>Nivel de Prioridad</b></td>
+								    		<td><b>Definición</b></td>
+								    	</tr>
+								    </thead>
+								    <tbody>
+								    	<tr >
+								    		<td class="text-center"><span class="label label-danger"><b>Cr&#237;tico</b></span></td>
+								    		<td>Degradación completa - Todos los usuarios y funciones críticas afectadas. Servicio completamente sin disponibilidad.</td>
+								    	</tr>
+								    	<tr >
+								    		<td class="text-center"><span class="label" style="background-color:#FF6600;" ><b>Severo</b> </span></td>
+								    		<td>Degradación significativa - Gran número de usuarios o funciones críticas afectadas.</td>
+								    	</tr>
+								    	<tr >
+								    		<td class="text-center"><span class="label" style="background-color:#FFCC66;"><b>Medio</b> </span></td>
+								    		<td>Degradación limitada - Un limitado número de usuarios o funciones afectadas. Los Procesos de Negocio pueden continuar. </td>
+								    	</tr>
+								    	<tr >
+								    		<td class="text-center"><span class="label label-default"><b>Menor</b> </span></td>
+								    		<td>Degradación Pequeña  - Pocos usuarios o un usuario afectado. Los Procesos de Negocio pueden continuar.</td>
+								    	</tr>
+								    </tbody>
+								   </table>
+
+							    </div><br>
+
+
+
+							  <div class="col-md-8">
+							    <table class="table table-bordered" style="background-color:white;">
+								    <thead class="text-center" width="10%">
+								    	<tr style="background-color:grey; color:#FFFFFF;">
+
+								    		<td><b>Medida</b></td>
+								    		<td><b>Cr&#237;tico</b></td>
+								    		<td><b>Severo</b></td>
+								    		<td><b>Medio</b></td>
+								    		<td><b>Menor</b></td>
+								    	</tr>
+								    </thead>
+								    <tbody class="text-center">
+								    	<tr >
+								    		<td><b>Tiempo de Respuesta</b></td>
+								    		<td>
+												<?php if($acuerdo->tiempo_respuesta_critico > 1) : ?>
+												<?php echo  $acuerdo->tiempo_respuesta_critico.' '.$acuerdo->unidad_respuesta_critico; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_respuesta_critico;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_respuesta_critico.' '.$string; ?>
+												<?php endif ?>							    		   									      		
+								    		</td>
+
+								    		<td>
+								    		    <?php if($acuerdo->tiempo_respuesta_severo > 1) : ?>
+												<?php echo  $acuerdo->tiempo_respuesta_severo.' '.$acuerdo->unidad_respuesta_severo; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_respuesta_severo;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_respuesta_severo.' '.$string; ?>
+												<?php endif ?>								      		
+
+								    		</td>
+
+								    		<td>
+								    		    <?php if($acuerdo->tiempo_respuesta_medio > 1) : ?>
+												<?php echo  $acuerdo->tiempo_respuesta_medio.' '.$acuerdo->unidad_respuesta_medio; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_respuesta_medio;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_respuesta_medio.' '.$string; ?>
+												<?php endif ?>	
+									      		
+								    		</td>
+
+								    		<td>
+								    		   <?php if($acuerdo->tiempo_respuesta_menor > 1) : ?>
+												<?php echo  $acuerdo->tiempo_respuesta_menor.' '.$acuerdo->unidad_respuesta_menor; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_respuesta_menor;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_respuesta_menor.' '.$string; ?>
+												<?php endif ?>	
+									      		
+								    		</td>
+								    	</tr>
+								    	<tr >
+								    		<td><b>Tiempo de Resolución</b></td>
+								    		<td>
+								    		   <?php if($acuerdo->tiempo_resolucion_critico > 1) : ?>
+												<?php echo  $acuerdo->tiempo_resolucion_critico.' '.$acuerdo->unidad_resolucion_critico; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_resolucion_critico;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_resolucion_critico.' '.$string; ?>
+												<?php endif ?>	
+								    		</td>
+
+								    		<td>
+								    		   <?php if($acuerdo->tiempo_resolucion_severo > 1) : ?>
+												<?php echo  $acuerdo->tiempo_resolucion_severo.' '.$acuerdo->unidad_resolucion_severo; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_resolucion_severo;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_resolucion_severo.' '.$string; ?>
+												<?php endif ?>	
+								    		</td>
+
+								    		<td>
+								    		   <?php if($acuerdo->tiempo_resolucion_medio > 1) : ?>
+												<?php echo  $acuerdo->tiempo_resolucion_medio.' '.$acuerdo->unidad_resolucion_medio; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_resolucion_medio;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_resolucion_medio.' '.$string; ?>
+												<?php endif ?>	
+								    		</td>
+
+								    		<td>
+								    		   <?php if($acuerdo->tiempo_resolucion_menor > 1) : ?>
+												<?php echo  $acuerdo->tiempo_resolucion_menor.' '.$acuerdo->unidad_resolucion_menor; ?> 
+												<?php else : ?>
+												<?php 
+													$string = $acuerdo->unidad_resolucion_menor;
+													$string = substr ($string, 0, - 1);
+													echo  $acuerdo->tiempo_resolucion_menor.' '.$string; ?>
+												<?php endif ?>	
+								    		</td>
+								    	</tr>
+								     </tbody>
+								</table>
+								<br><br>
+							</div>
+
+
+							</td>
+						
+					    </tr>
+
+
+
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
+							<td colspan="2"> <h4><b>Responsabilidades</b></h4></td>
+						</tr>
+						<tr>
+							<td colspan="2"><?php echo $acuerdo->responsabilidades; ?><br><br><br></td>
+						
+						</tr>
+
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
+							<td colspan="2"> <h4><b>Información de Contacto</b></h4></td>
+						</tr>
+						<tr>
+							<td colspan="2"><?php echo $acuerdo->contactos; ?><br><br><br></td>
+						
+						</tr>
+
+						<?php if($acuerdo->cobros != NULL) : ?>
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
+							<td colspan="2"> <h4><b>Costos y Penalidades</b></h4></td>
+						</tr>
+						<tr>
+							<td colspan="2"><?php echo $acuerdo->cobros; ?><br><br><br></td>
+						
+						</tr>
+						<?php endif ?>
+
+						<?php if($acuerdo->glosario != NULL) : ?>
+						<tr style="background-color:#678DA0; color:#FFFFFF;">
+							<td colspan="2"> <h4><b>Glosario</b></h4></td>
+						</tr>
+						<tr>
+							<td colspan="2"><?php echo $acuerdo->glosario; ?><br><br><br></td>
+						
+						</tr>
+						<?php endif ?> 
 					
 					
 					</tbody>
@@ -1036,11 +1264,11 @@
 			 <?php
 				 // Apertura de Formulario
 				$attributes = array('role' => 'form', 'id'=> 'form_process','class'=>'form-horizontal');
-				echo form_open(base_url().'index.php/cargar_datos/servicios/eliminar',$attributes); 
+				echo form_open(base_url().'index.php/niveles_de_servicio/gestion_ANS/eliminar_ANS',$attributes); 
 				?>
 
 				<div style="display: none;">				
-				<?php echo form_input('servicio_id', $servicio->servicio_id);
+				<?php echo form_input('acuerdo_id', $acuerdo->acuerdo_nivel_id);
 				      echo form_input('delete_ver', true);
 			
 				?>
@@ -1048,8 +1276,20 @@
 			
 
 			<div class="panel-footer text-right">
-		
-       		 </div>
+
+				<div class='col-md-2 text-left'>
+				<a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS');?>" type="button" class="btn btn-default" id="cancelar">Volver a la Gesti&#243;n de ANS</a>
+				</div>
+
+				<div class='col-md-10 text-right'>
+			    <a type="button" target="_blank" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/Nuevo_ANS_base/'.$acuerdo->acuerdo_nivel_id.'/nuevo_ans_base' ?>" class="btn btn-default"  data-toggle="tooltip" data-placement="top" title="Crear Nuevo ANS en base a este Acuerdo"><i class="fa fa-file-text"></i> Nuevo ANS base</a>
+                <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/modificar_ANS/'.$acuerdo->acuerdo_nivel_id.'/actualizar'?>"  data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Actualizar</a>
+               
+                <a  data-original-title="Eliminar" data-target="#eliminar" data-toggle="modal" type="button" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Eliminar</a>
+				</div>
+				<br><br>
+       		</div>
+
 		</div>
 
 		<div class="modal fade" id="eliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1060,7 +1300,7 @@
 		      
 		      </div>
 		      <div class="modal-body text-center">
-		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Eliminar</b> este Servicio?</div></p>
+		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Eliminar</b> este  Acuerdo de Niveles de Servicio?</div></p>
 		      </div>
 		      <div class="modal-footer">
 		      	<button type="submit" id="eliminar_confirm" class="btn btn-danger">Eliminar</button>

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/operaciones_ajax.js"></script>
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/operaciones.js"></script>
 
 <div id="page-wrapper">
 	<!-- Cabecera de la descripción-->
@@ -39,7 +39,7 @@
 	  	<div class="panel-body">
 
 
-		<br><a class="btn btn-info" id="nuevo_proceso" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>"> <i class="fa fa-plus"></i>  Crear ANS</a><br><br>
+		<br><a class="btn btn-info" id="nuevo_proceso" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>"> <i class="fa fa-plus"></i>  Crear Nuevo ANS</a><br><br>
 		
 		<div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped" id="dataTables-acuerdos">
@@ -127,8 +127,9 @@
 							                
 							                <td class="text-center"> 
 							                	 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'.$acuerdo->acuerdo_nivel_id ?>" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fa fa-search"></i></a> 
-							                	 <a href="<?php echo base_url().'index.php/cargar_datos/servicios/modificar/'.$servicio->servicio_id ?>" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Actualizar"><i class="fa fa-pencil"></i></a>
-							                	 <a type="button" class="btn btn-danger btn-xs" onclick="deleteServicio(<?php echo $servicio->servicio_id; ?>);" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times"></i></a>
+							                	 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/modificar_ANS/'.$acuerdo->acuerdo_nivel_id.'/actualizar' ?>" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Actualizar"><i class="fa fa-pencil"></i></a>
+							                	 <a type="button" class="btn btn-danger btn-xs" onclick="deleteAcuerdo(<?php echo $acuerdo->acuerdo_nivel_id; ?>);" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times"></i></a><br><br>
+							                	 <a type="button" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/Nuevo_ANS_base/'.$acuerdo->acuerdo_nivel_id.'/nuevo_ans_base' ?>" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo ANS en base a este Acuerdo"><i class="fa fa-file-text"></i> Nuevo ANS base</a>
 							                </td>
 							            </tr>
 							         <?php } ?>    
@@ -136,4 +137,42 @@
                             </table>
                         </div>
 		  	</div><!-- Panel body  -->
+
+     
 	</div>
+
+	<div class="modal fade" id="eliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Eliminar</b> este Acuerdo de Niveles de Servicio?</div></p>
+		      </div>
+		      <div class="modal-footer">
+		      	<button type="submit" id="eliminar_confirm" class="btn btn-danger">Eliminar</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>      
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+	<div class="modal fade" id="eliminar_todos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Eliminar TODOS</b> los Acuerdos de Niveles de Servicio Seleccionados?</div></p>
+		      </div>
+		      <div class="modal-footer">
+		      	<button  id="eliminarselect_confirm" class="btn btn-danger">Eliminar</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>      
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->

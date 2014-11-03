@@ -117,8 +117,11 @@ $route['niveles_de_servicio'] = "niveles/niveles";
 $route['niveles_de_servicio/gestion_ANS'] = "niveles/acuerdos_ns/acuerdos_de_NS";
 $route['niveles_de_servicio/gestion_ANS/crear_ANS'] = "niveles/acuerdos_ns/crear_acuerdos_de_NS";
 $route['niveles_de_servicio/gestion_ANS/ver_ANS/(:num)'] = "niveles/acuerdos_ns/ver_acuerdo_de_NS/$1";
-//$route['niveles_de_servicio/gestion_ANS/modificar_ANS/(:num)'] = "cargar_data/cargar_data/modificar_servicio_categoria/$1";
-//$route['niveles_de_servicio/gestion_ANS/eliminar_ANS'] = "cargar_data/cargar_data/eliminar_servicio_categoria";
+$route['niveles_de_servicio/gestion_ANS/modificar_ANS/(:num)/(:any)'] = "niveles/acuerdos_ns/modificar_acuerdo_de_NS/$1/$2";
+$route['niveles_de_servicio/gestion_ANS/Nuevo_ANS_base/(:num)/(:any)'] = "niveles/acuerdos_ns/modificar_acuerdo_de_NS/$1/$2";
+$route['niveles_de_servicio/gestion_ANS/eliminar_ANS'] = "niveles/acuerdos_ns/eliminar_acuerdo";
+$route['niveles_de_servicio/gestion_ANS/estructura_ANS/(:num)'] = "niveles/acuerdos_ns/estructura_acuerdo/$1";
+$route['niveles_de_servicio/gestion_ANS/generar_pdf_ANS/(:num)'] = "niveles/acuerdos_ns/generar_pdf_acuerdo/$1";
 
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 

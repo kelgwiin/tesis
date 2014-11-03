@@ -10,7 +10,7 @@
 
 			        <div class="col-md-8">
 			            <?php $data = array(
-			            		'value' => set_value('responsabilidades'),
+			            		'value' => set_value('responsabilidades',@$acuerdo->responsabilidades),
 		                        'name'        => 'responsabilidades',
 		                        'id'          => 'responsabilidades', 
 		                        'class'          => 'form-control boxsizingBorder',
@@ -46,7 +46,7 @@
 
 			        <div class="col-md-8">
 			            <?php $data = array(
-			            		'value' => set_value('contactos'),
+			            		'value' => set_value('contactos',@$acuerdo->contactos),
 		                        'name'        => 'contactos',
 		                        'id'          => 'contactos', 
 		                        'class'          => 'form-control boxsizingBorder',
@@ -80,7 +80,7 @@
 
 			        <div class="col-md-8">
 			            <?php $data = array(
-			            		'value' => set_value('costos'),
+			            		'value' => set_value('costos',@$acuerdo->cobros),
 		                        'name'        => 'costos',
 		                        'id'          => 'costos', 
 		                        'class'          => 'form-control boxsizingBorder',
@@ -115,7 +115,7 @@
 
 			        <div class="col-md-8">
 			            <?php $data = array(
-			            		'value' => set_value('glosario'),
+			            		'value' => set_value('glosario',@$acuerdo->glosario),
 		                        'name'        => 'glosario',
 		                        'id'          => 'glosario', 
 		                        'class'          => 'form-control boxsizingBorder',
@@ -150,10 +150,34 @@
 	 <a id="back-step-4" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
-	 <button id="activate-step-5" type="submit" class="btn btn-success"><i class="fa fa-file-text"></i>Crear Acuerdo</button>
+
+      <?php if($operacion == 'actualizar') : ?>
+		<button data-toggle="modal" data-target="#modificar" class="btn btn-warning">Actualizar Acuerdo</button>
+	  <?php else : ?>
+	  <button type="submit" class="btn btn-success"><i class="fa fa-file-text"></i> Crear Acuerdo</button>
+	 <?php endif ?>
+	 
 	 </div>
 
 	 <div class="col-md-1 col-md-offset-4">
 	 <a class="btn btn-danger" data-toggle="modal" data-target="#salir_modal">Cancelar</a>
 	 </div>
  </div><br>
+
+  <div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Actualizar</b> este Acuerdo de Niveles de Servicio?</div></p>
+		      </div>
+		      <div class="modal-footer">
+		      	<button type="submit" class="btn btn-warning">Actualizar</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>      
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
