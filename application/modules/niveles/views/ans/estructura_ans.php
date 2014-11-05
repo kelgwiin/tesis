@@ -9,6 +9,59 @@
 
   <script> 
 
+  var waitingDialog = (function ($) {
+
+    // Creating modal dialog's DOM
+    var $dialog = $(
+        '<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+        '<div class="modal-dialog modal-m">' +
+        '<div class="modal-content">' +
+            '<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+            '<div class="modal-body">' +
+                '<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
+            '</div>' +
+        '</div></div></div>');
+
+    return {
+        /**
+         * Opens our dialog
+         * @param message Custom message
+         * @param options Custom options:
+         *                options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
+         *                options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
+         */
+        show: function (message, options) {
+            // Assigning defaults
+            var settings = $.extend({
+                dialogSize: 'm',
+                progressType: ''
+            }, options);
+            if (typeof message === 'undefined') {
+                message = 'Loading';
+            }
+            if (typeof options === 'undefined') {
+                options = {};
+            }
+            // Configuring dialog
+            $dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
+            $dialog.find('.progress-bar').attr('class', 'progress-bar');
+            if (settings.progressType) {
+                $dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
+            }
+            $dialog.find('h3').text(message);
+            // Opening dialog
+            $dialog.modal();
+        },
+        /**
+         * Closes dialog
+         */
+        hide: function () {
+            $dialog.modal('hide');
+        }
+    }
+
+})(jQuery);
+
 
   $(document).on('click', '.panel-heading span.clickable', function (e) {
     var $this = $(this);
@@ -58,12 +111,43 @@ $(document).ready(function() {
         var acuerdo_id = <?php echo $acuerdo->acuerdo_nivel_id; ?>
 
         //alert( posiciones[1]);
+         waitingDialog.show('Cargando');
 
           $.ajax({
                 url: config.base+'index.php/niveles/acuerdos_ns/modificar_estructura_acuerdo',
                 type: 'POST', 
                 data: {                         
                                     posiciones_estructura : posiciones,
+                                    id_acuerdo : acuerdo_id,
+
+                      },
+                cache : false,  
+                success: function(data){
+           
+                  window.location.href = config.base+'index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'+acuerdo_id;
+
+                },
+                error: function(xhr, ajaxOptions, thrownError){
+                    
+                    alert(xhr.status+" "+thrownError);
+                    }
+            });
+
+   });
+
+    
+
+   $("#predeterminado").click(function(){ 
+
+        var acuerdo_id = <?php echo $acuerdo->acuerdo_nivel_id; ?>
+
+       // $("#modal_cargando").modal('show');
+      waitingDialog.show('Cargando');
+    
+          $.ajax({
+                url: config.base+'index.php/niveles/acuerdos_ns/estructura_predeterminada',
+                type: 'POST', 
+                data: {                         
                                     id_acuerdo : acuerdo_id,
 
                       },
@@ -136,10 +220,17 @@ $(document).ready(function() {
         <div class="col-lg-12">
 
         <div class="row">
-            <div class="col-lg-4 col-lg-offset-9">
-                <a type="button" class="btn btn-info btn-xs" id="mostrar_todos"><i class="fa fa-plus"></i> Mostrar TODOS</a>
+             <div class='col-lg-12'>
+                    <div class='col-lg-2 text-left'>
+                        <a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS');?>" type="button" class="btn btn-default btn-xs" id="cancelar"><i class="fa fa-arrow-circle-left"></i> Volver a la Gesti&#243;n de ANS</a>
+                    </div>
+                    <div class="col-lg-10 text-right">
+                         <a type="button" class="btn btn-info btn-xs" id="predeterminado"><i class="fa fa-list-alt"></i> Restablecer Estructura Predeterminada</a>
 
-                 <a type="button" class="btn btn-info btn-xs" id="ocultar_todos"><i class="fa fa-minus"></i> Ocultar TODOS</a>
+                        <a type="button" class="btn btn-info btn-xs" id="mostrar_todos"><i class="fa fa-plus"></i> Mostrar TODOS</a>
+
+                         <a type="button" class="btn btn-info btn-xs" id="ocultar_todos"><i class="fa fa-minus"></i> Ocultar TODOS</a>
+                    </div>
             </div>
         </div>
 

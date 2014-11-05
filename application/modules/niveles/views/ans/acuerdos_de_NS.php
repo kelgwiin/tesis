@@ -82,7 +82,7 @@
 											    );
 
 											echo form_checkbox($data); ?> </td>
-							                <td> <?php echo $acuerdo->nombre_acuerdo; ?>  </td>
+							                <td> <?php echo $acuerdo->nombre_acuerdo; ?></td>
 							                 <td> 
 							                 	<?php if($acuerdo->fecha_final > date('Y-m-d')) : ?>
 									  				<span class="label label-success"><?php echo 'Activo'; ?></span>
@@ -126,7 +126,9 @@
 							                	 echo date_format($date,"d/m/Y"); ?>  </td>
 							                
 							                <td class="text-center"> 
-							                	 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'.$acuerdo->acuerdo_nivel_id ?>" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fa fa-search"></i></a> 
+							                				                	 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'.$acuerdo->acuerdo_nivel_id ?>" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fa fa-search"></i></a> 
+							                	<a href="<?php echo base_url().$acuerdo->ruta_pdf;?>"  target="_blank" type="button" class="btn btn-xs" data-toggle="tooltip" data-placement="top" title="Documento PDF del ANS" style="background-color:#A3A375; color: white;"><b><i class="fa fa-file-pdf-o"></i></b></a> 
+				
 							                	 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/modificar_ANS/'.$acuerdo->acuerdo_nivel_id.'/actualizar' ?>" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Actualizar"><i class="fa fa-pencil"></i></a>
 							                	 <a type="button" class="btn btn-danger btn-xs" onclick="deleteAcuerdo(<?php echo $acuerdo->acuerdo_nivel_id; ?>);" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times"></i></a><br><br>
 							                	 <a type="button" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/Nuevo_ANS_base/'.$acuerdo->acuerdo_nivel_id.'/nuevo_ans_base' ?>" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo ANS en base a este Acuerdo"><i class="fa fa-file-text"></i> Nuevo ANS base</a>

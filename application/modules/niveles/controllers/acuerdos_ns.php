@@ -1361,6 +1361,14 @@ class Acuerdos_ns extends MX_Controller
 
 	            	if($id_acuerdo)
 		            	{
+		            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+
+								$acuerdo = array(
+                                'ruta_pdf' => $ruta,
+
+                                );
+                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+
 		            		$this->session->set_flashdata('Success', 'El Nuevo Acuerdo de Niveles de Servicio ha sido Creado con Éxito');
 		            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
 		            	}
@@ -2534,6 +2542,14 @@ class Acuerdos_ns extends MX_Controller
 
 		            	if($resultado_acuerdo)
 			            	{
+			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+
+								$acuerdo = array(
+                                'ruta_pdf' => $ruta,
+
+                                );
+                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+
 			            		$this->session->set_flashdata('Success', 'El Acuerdo de Niveles de Servicio ha sido Actualizado con Éxito');
 			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
 			            	}
@@ -2550,6 +2566,14 @@ class Acuerdos_ns extends MX_Controller
 
 		            	if($resultado_acuerdo)
 			            	{
+			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+
+								$acuerdo = array(
+                                'ruta_pdf' => $ruta,
+
+                                );
+                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+
 			            		$this->session->set_flashdata('Success', 'El Acuerdo de Niveles de Servicio ha sido Creado con Éxito en base al ANS seleccionado');
 			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
 			            	}
@@ -2690,6 +2714,8 @@ class Acuerdos_ns extends MX_Controller
                           }
 		}
 
+
+
 		$acuerdo = array(
                 				'posicion_terminacion'=>$posicion_terminacion,
                                 'posicion_modificacion' => $posicion_modificacion,
@@ -2699,13 +2725,64 @@ class Acuerdos_ns extends MX_Controller
                                 'posicion_contacto' => $posicion_contacto,
                                 'posicion_costos' => $posicion_costos,
                                 'posicion_glosario' => $posicion_glosario,
-
                                 );
+
 
 		$resultado_acuerdo = $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
 
 		            	if($resultado_acuerdo)
 			            	{
+			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+
+								$acuerdo = array(
+                                'ruta_pdf' => $ruta,
+
+                                );
+                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+
+			            		$this->session->set_flashdata('Success', 'Los cambios en la Estructura del Acuerdo de Niveles de Servicio han sido almacenados con Éxito');
+			            		//redirect(site_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$id_acuerdo));
+			            	}
+			            else
+			            	{
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al almacenar los cambios de la Estructura del Acuerdo de Niveles de Servicio');
+			            		//redirect(site_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$id_acuerdo));
+			            	}
+
+	     
+			
+	}
+
+
+	public function estructura_predeterminada(){
+
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		$id_acuerdo = $this->input->post('id_acuerdo');
+
+		$acuerdo = array(
+                				'posicion_terminacion'=>1,
+                                'posicion_modificacion' => 2,
+                                'posicion_niveles' => 3,
+                                'posicion_soporte' => 4,
+                                'posicion_responsabilidades' =>5,
+                                'posicion_contacto' => 6,
+                                'posicion_costos' => 7,
+                                'posicion_glosario' => 8,
+                                );
+
+
+		$resultado_acuerdo = $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+
+		            	if($resultado_acuerdo)
+			            	{
+			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+
+								$acuerdo = array(
+                                'ruta_pdf' => $ruta,
+
+                                );
+                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+
 			            		$this->session->set_flashdata('Success', 'Los cambios en la Estructura del Acuerdo de Niveles de Servicio han sido almacenados con Éxito');
 			            		//redirect(site_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$id_acuerdo));
 			            	}
@@ -2735,25 +2812,39 @@ class Acuerdos_ns extends MX_Controller
 
 		$data_view['acuerdo'] = $acuerdo;
 
-  	// die_pre($template);
+
+		$posiciones = array();     
+
+		$posiciones[$acuerdo->posicion_terminacion] = 'terminacion';
+		$posiciones[$acuerdo->posicion_modificacion] = 'modificacion';
+		$posiciones[$acuerdo->posicion_niveles] = 'niveles';
+		$posiciones[$acuerdo->posicion_soporte] = 'soporte';
+		$posiciones[$acuerdo->posicion_responsabilidades] = 'responsabilidades' ;
+		$posiciones[$acuerdo->posicion_contacto] = 'contacto' ;
+		$posiciones[$acuerdo->posicion_costos] = 'costos';
+		$posiciones[$acuerdo->posicion_glosario] = 'glosario';
+		ksort($posiciones);
+
+		$data_view['posiciones'] = $posiciones ;
+
+  	
 		$this->load->library('mpdf');
 		$pdf = $this->load->view('niveles/ans/plantilla_ans.php',$data_view,TRUE);
 
 		$mpdf = new mPDF();
 		$mpdf->WriteHTML($pdf);
-		//$name = reset_string($post['denominacion']);
-		$name = 'prueba';
+		$name = $id_acuerdo;
 		$ruta = './assets/documentacion_GNS/ANS/'.$name.'.pdf';
-		if(file_exists($ruta)) unlink($ruta);				
-		$post['pdf'] = $ruta;
+		if(file_exists($ruta)) 
+		{unlink($ruta);}
 		$mpdf->Output($ruta,'F');
+		//$mpdf->Output($ruta,'I');
 
 
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/plantilla_ans',$data_view,'Niveles de Servicio','','two_level');
+		return $ruta;
 
 
-
-
+		//$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/plantilla_ans',$data_view,'Niveles de Servicio','','two_level');
   }
 
 

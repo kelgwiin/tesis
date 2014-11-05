@@ -26,15 +26,15 @@
 			<div class="panel-heading"> 
 
 				<div class='col-md-2 text-left'>
-				<a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS');?>" type="button" class="btn btn-default" id="cancelar">Volver a la Gesti&#243;n de ANS</a>
+				<a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS');?>" type="button" class="btn btn-default" id="cancelar"><i class="fa fa-arrow-circle-left"></i> Volver a la Gesti&#243;n de ANS</a>
 				</div>
 
 				<div class='col-md-10 text-right'>
 			    <a type="button" target="_blank" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/Nuevo_ANS_base/'.$acuerdo->acuerdo_nivel_id.'/nuevo_ans_base' ?>" class="btn btn-default"  data-toggle="tooltip" data-placement="top" title="Crear Nuevo ANS en base a este Acuerdo"><i class="fa fa-file-text"></i> Nuevo ANS base</a>
+
                 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/modificar_ANS/'.$acuerdo->acuerdo_nivel_id.'/actualizar'?>"  data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Actualizar</a>
                
                 <a  data-original-title="Eliminar" data-target="#eliminar" data-toggle="modal" type="button" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Eliminar</a>
-                 <a href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/generar_pdf_ANS/'.$acuerdo->acuerdo_nivel_id?>"  data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> generar</a>
 				</div>
 				<br><br>
 
@@ -69,8 +69,8 @@
 							  </div>
 
 							    <div class='col-md-4 col-md-offset-5'>
-								  <h5><b><a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$acuerdo->acuerdo_nivel_id);?>" target="_blank"  type="button" data-toggle="tooltip" data-placement="top" title="Establecer la estructura para el Documento PDF contendor del ANS">
-								  	<i class="fa fa-file-pdf-o"></i> <i><u>Estructura para el Documento PDF</u></i></a></b></h5>
+								      <a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$acuerdo->acuerdo_nivel_id);?>" target="_blank" class="btn btn-info" type="button" data-toggle="tooltip" data-placement="top" title="Establecer la estructura para el Documento PDF contendor del ANS">
+								  	<i class="fa fa-file-pdf-o"></i> Estructura para el Documento PDF</a>
 							  </div>
 						  </td>
 						</tr>
@@ -1278,7 +1278,7 @@
 			<div class="panel-footer text-right">
 
 				<div class='col-md-2 text-left'>
-				<a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS');?>" type="button" class="btn btn-default" id="cancelar">Volver a la Gesti&#243;n de ANS</a>
+				<a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS');?>" type="button" class="btn btn-default" id="cancelar"><i class="fa fa-arrow-circle-left"></i> Volver a la Gesti&#243;n de ANS</a>
 				</div>
 
 				<div class='col-md-10 text-right'>
