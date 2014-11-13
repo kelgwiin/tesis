@@ -221,9 +221,17 @@ select proceso_historial_id, tasa_cpu,tasa_ram,tasa_transferencia_dd, timestamp
 from proceso_historial;
 
 -- Procesos por servicio
-SELECT distinct sp.nombre proceso
-FROM servicio s
-JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id;
+select sp.nombre as p, s.servicio_id
+from servicio s
+join proceso_soporta_servicio psp on s.servicio_id = psp.servicio_id
+join servicio_proceso sp on psp.servicio_proceso_id = sp.servicio_proceso_id;
+
+-- Nombres de Procesos asociados a algun servicio
+select distinct sp.nombre as proceso
+from servicio s
+join proceso_soporta_servicio psp on s.servicio_id = psp.servicio_id
+join servicio_proceso sp on psp.servicio_proceso_id = sp.servicio_proceso_id;
+
 
 -- Número de transacciones asociados a un conjunto de procesos
 select comando_ejecutable, count(*) num

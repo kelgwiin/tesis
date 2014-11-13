@@ -36,9 +36,10 @@ class Caracterizacion_model extends CI_Model{
     }
 
     public function nom_proc_historial(){
-        $sql = "SELECT distinct sp.nombre p
+        $sql = "SELECT DISTINCT sp.nombre AS p
                 FROM servicio s
-                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id;";
+                JOIN proceso_soporta_servicio psp ON s.servicio_id = psp.servicio_id
+                JOIN servicio_proceso sp ON psp.servicio_proceso_id = sp.servicio_proceso_id ;";
         $q = $this->db->query($sql);
         $nombres = array();
         foreach ($q->result_array() as $row) {
@@ -48,9 +49,11 @@ class Caracterizacion_model extends CI_Model{
     }
 
     public function procesos_servicio(){
-        $sql = "SELECT  sp.nombre p, s.servicio_id
+        $sql = "SELECT sp.nombre as p, s.servicio_id
                 FROM servicio s
-                JOIN servicio_proceso sp on s.servicio_id = sp.servicio_id ;";
+                JOIN proceso_soporta_servicio psp ON s.servicio_id = psp.servicio_id
+                JOIN servicio_proceso sp ON psp.servicio_proceso_id = sp.servicio_proceso_id ;";
+                
         $q = $this->db->query($sql);
         return $q->result_array();
     }
