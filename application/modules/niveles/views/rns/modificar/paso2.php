@@ -100,16 +100,79 @@
 		</div>
 	</div>
 
+	<?php if($requisito->lunes_disp_ini != NULL) : ?>
+		<?php $check_lunes = 1;
+			  $lunes_inicio = date("g:i A",strtotime($requisito->lunes_disp_ini));
+			  $lunes_final = date("g:i A",strtotime($requisito->lunes_disp_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_lunes = 0; ?>  
+	<?php endif ?>
+
+	<?php if($requisito->martes_disp_ini != NULL) : ?>
+		<?php $check_martes = 2;
+			  $martes_inicio = date("g:i A",strtotime($requisito->lunes_disp_ini));
+			  $martes_final = date("g:i A",strtotime($requisito->lunes_disp_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_martes = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->miercoles_disp_ini != NULL) : ?>
+		<?php $check_miercoles = 3;
+              $miercoles_inicio = date("g:i A",strtotime($requisito->lunes_disp_ini));
+			  $miercoles_final = date("g:i A",strtotime($requisito->lunes_disp_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_miercoles = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->jueves_disp_ini != NULL) : ?>
+		<?php $check_jueves = 4;
+			  $jueves_inicio = date("g:i A",strtotime($requisito->lunes_disp_ini));
+			  $jueves_final = date("g:i A",strtotime($requisito->lunes_disp_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_jueves = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->viernes_disp_ini != NULL) : ?>
+		<?php $check_viernes = 5;
+			  $viernes_inicio = date("g:i A",strtotime($requisito->lunes_disp_ini));
+			  $viernes_final = date("g:i A",strtotime($requisito->lunes_disp_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_viernes = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->sabado_disp_ini != NULL) : ?>
+		<?php $check_sabado = 6;
+			  $sabado_inicio = date("g:i A",strtotime($requisito->lunes_disp_ini));
+			  $sabado_final = date("g:i A",strtotime($requisito->lunes_disp_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_sabado = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->domingo_disp_ini != NULL) : ?>
+		<?php $check_domingo = 7;
+		      $domingo_inicio = date("g:i A",strtotime($requisito->lunes_disp_ini));
+			  $domingo_final = date("g:i A",strtotime($requisito->lunes_disp_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_domingo = 0;?>  
+	<?php endif ?>
+
  	<table class="table table-bordered" style="background-color:white;" id='tabla_disponibilidad'>
 	    <thead class="text-center">
 	    	<tr style="background-color:grey; color:#FFFFFF;">
-	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_lunes' name='checkbox_lunes' value="1" <?php echo set_value('checkbox_lunes') == 1 ? "checked" : ""; ?>> <b>Lunes</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_martes' name='checkbox_martes'value="2" <?php echo set_value('checkbox_martes') == 2 ? "checked" : ""; ?>> <b>Martes</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_miercoles' name='checkbox_miercoles'value="3" <?php echo set_value('checkbox_miercoles') == 3 ? "checked" : ""; ?>> <b>Mi&#233;rcoles</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_jueves' name='checkbox_jueves'value="4" <?php echo set_value('checkbox_jueves') == 4 ? "checked" : ""; ?>> <b>Jueves</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_viernes' name='checkbox_viernes'value="5" <?php echo set_value('checkbox_viernes') == 5 ? "checked" : ""; ?>> <b>Viernes</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_sabado' name='checkbox_sabado'value="6" <?php echo set_value('checkbox_sabado') == 6 ? "checked" : ""; ?>> <b>S&#225;bado</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_domingo' name='checkbox_domingo'value="7" <?php echo set_value('checkbox_domingo') == 7 ? "checked" : ""; ?>> <b>Domingo</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_lunes' name='checkbox_lunes' value="1" <?php echo set_value('checkbox_lunes',@ $check_lunes) == 1 ? "checked" : ""; ?>> <b>Lunes</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_martes' name='checkbox_martes'value="2" <?php echo set_value('checkbox_martes',@ $check_martes) == 2 ? "checked" : ""; ?>> <b>Martes</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_miercoles' name='checkbox_miercoles'value="3" <?php echo set_value('checkbox_miercoles',$check_miercoles) == 3 ? "checked" : ""; ?>> <b>Mi&#233;rcoles</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_jueves' name='checkbox_jueves'value="4" <?php echo set_value('checkbox_jueves',@ $check_jueves) == 4 ? "checked" : ""; ?>> <b>Jueves</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_viernes' name='checkbox_viernes'value="5" <?php echo set_value('checkbox_viernes',@ $check_viernes) == 5 ? "checked" : ""; ?>> <b>Viernes</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_sabado' name='checkbox_sabado'value="6" <?php echo set_value('checkbox_sabado',@ $check_sabado) == 6 ? "checked" : ""; ?>> <b>S&#225;bado</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias" id='checkbox_domingo' name='checkbox_domingo'value="7" <?php echo set_value('checkbox_domingo',@ $check_domingo) == 7 ? "checked" : ""; ?>> <b>Domingo</b></td>
 	    	</tr>
 	    </thead>
 	    <tbody>
@@ -118,12 +181,12 @@
 			    	 <label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span  class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_lunes' name="inicio_lunes" value="<?php echo set_value('inicio_lunes');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_lunes' name="inicio_lunes" value="<?php echo set_value('inicio_lunes',@$lunes_inicio);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_lunes' name="fin_lunes" value="<?php echo set_value('fin_lunes');?>" />
+						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_lunes' name="fin_lunes" value="<?php echo set_value('fin_lunes',@$lunes_final);?>" />
 					 </div>
 			    </td>
 
@@ -131,12 +194,12 @@
 	    		     <label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_martes'  name="inicio_martes" value="<?php echo set_value('inicio_martes');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_martes'  name="inicio_martes" value="<?php echo set_value('inicio_martes',@$martes_inicio);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_martes' name="fin_martes" value="<?php echo set_value('fin_martes');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_martes' name="fin_martes" value="<?php echo set_value('fin_martes',@$martes_final);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -144,12 +207,12 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_miercoles' name="inicio_miercoles" value="<?php echo set_value('inicio_miercoles');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_miercoles' name="inicio_miercoles" value="<?php echo set_value('inicio_miercoles',@$miercoles_inicio);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_miercoles' name="fin_miercoles" value="<?php echo set_value('fin_miercoles');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_miercoles' name="fin_miercoles" value="<?php echo set_value('fin_miercoles',@$miercoles_final);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -157,12 +220,12 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_jueves' name="inicio_jueves" value="<?php echo set_value('inicio_jueves');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_jueves' name="inicio_jueves" value="<?php echo set_value('inicio_jueves',@$jueves_inicio);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_jueves' name="fin_jueves" value="<?php echo set_value('fin_jueves');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_jueves' name="fin_jueves" value="<?php echo set_value('fin_jueves',@$jueves_final);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -170,12 +233,12 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_viernes' name="inicio_viernes" value="<?php echo set_value('inicio_viernes');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_viernes' name="inicio_viernes" value="<?php echo set_value('inicio_viernes',@$viernes_inicio);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_viernes' name="fin_viernes" value="<?php echo set_value('fin_viernes');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_viernes' name="fin_viernes" value="<?php echo set_value('fin_viernes',@$viernes_final);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -183,24 +246,24 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_sabado' name="inicio_sabado" value="<?php echo set_value('inicio_sabado');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_sabado' name="inicio_sabado" value="<?php echo set_value('inicio_sabado',@$sabado_inicio);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_sabado' name="fin_sabado" value="<?php echo set_value('fin_sabado');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_sabado' name="fin_sabado" value="<?php echo set_value('fin_sabado',@$sabado_final);?>"/>
 					 </div>
 	    		</td>
 	    		<td>
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_domingo' name="inicio_domingo" value="<?php echo set_value('inicio_domingo');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_inicio" id='inicio_domingo' name="inicio_domingo" value="<?php echo set_value('inicio_domingo',@$domingo_inicio);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_domingo' name="fin_domingo" value="<?php echo set_value('fin_domingo');?>"/>
+						 <input type='text' class="form-control hora_disponibilidad hora_fin" id='fin_domingo' name="fin_domingo" value="<?php echo set_value('fin_domingo',@$domingo_final);?>"/>
 					 </div>
 	    		</td>
 	    	</tr>
@@ -229,7 +292,7 @@
 
 			    <div class="col-md-4">
 			       <div class="input-group">
-			       <input type='text' class="form-control" id='porcentaje_disponibilidad' name="porcentaje_disponibilidad" value="<?php echo set_value('porcentaje_disponibilidad');?>"  data-toggle="tooltip" data-placement="top" title="Valores permitidos de 0 a 100 % (Solo numeros)"/>
+			       <input type='text' class="form-control" id='' name="porcentaje_disponibilidad" value="<?php echo set_value('porcentaje_disponibilidad',@$requisito->porcentaje_disp);?>"  data-toggle="tooltip" data-placement="top" title="Valores permitidos de 0 a 100 % (Solo numeros)"/>
 			       <span class="input-group-addon"><b>%</b></i></span>
 			   	   </div>
 
@@ -318,16 +381,80 @@
 		</div>
 	</div>
 
+
+		<?php if($requisito->lunes_mant_ini != NULL) : ?>
+		<?php $check_lunes_mantenimiento = 1;
+			  $lunes_inicio_mantenimiento = date("g:i A",strtotime($requisito->lunes_mant_ini));
+			  $lunes_final_mantenimiento = date("g:i A",strtotime($requisito->lunes_mant_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_lunes = 0; ?>  
+	<?php endif ?>
+
+	<?php if($requisito->martes_mant_ini != NULL) : ?>
+		<?php $check_martes_mantenimiento = 2;
+			  $martes_inicio_mantenimiento = date("g:i A",strtotime($requisito->martes_mant_ini));
+			  $martes_final_mantenimiento = date("g:i A",strtotime($requisito->martes_mant_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_martes = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->miercoles_mant_ini != NULL) : ?>
+		<?php $check_miercoles_mantenimiento = 3;
+              $miercoles_inicio_mantenimiento = date("g:i A",strtotime($requisito->miercoles_mant_ini));
+			  $miercoles_final_mantenimiento = date("g:i A",strtotime($requisito->miercoles_mant_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_miercoles = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->jueves_mant_ini != NULL) : ?>
+		<?php $check_jueves_mantenimiento = 4;
+			  $jueves_inicio_mantenimiento = date("g:i A",strtotime($requisito->jueves_mant_ini));
+			  $jueves_final_mantenimiento = date("g:i A",strtotime($requisito->jueves_mant_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_jueves = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->viernes_mant_ini != NULL) : ?>
+		<?php $check_viernes_mantenimiento = 5;
+			  $viernes_inicio_mantenimiento = date("g:i A",strtotime($requisito->viernes_mant_ini));
+			  $viernes_final_mantenimiento = date("g:i A",strtotime($requisito->viernes_mant_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_viernes = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->sabado_mant_ini != NULL) : ?>
+		<?php $check_sabado_mantenimiento = 6;
+			  $sabado_inicio_mantenimiento = date("g:i A",strtotime($requisito->sabado_mant_ini));
+			  $sabado_final_mantenimiento = date("g:i A",strtotime($requisito->sabado_mant_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_sabado = 0;?>  
+	<?php endif ?>
+
+	<?php if($requisito->domingo_mant_ini != NULL) : ?>
+		<?php $check_domingo_mantenimiento = 7;
+		      $domingo_inicio_mantenimiento = date("g:i A",strtotime($requisito->domingo_mant_ini));
+			  $domingo_final_mantenimiento = date("g:i A",strtotime($requisito->domingo_mant_fin));
+		?> 
+	<?php else : ?>
+	  <?php $check_domingo = 0;?>  
+	<?php endif ?>
+
      	<table class="table table-bordered" style="background-color:white;" id="tabla_mantenimiento">
 	    <thead class="text-center">
 	    	<tr style="background-color:grey; color:#FFFFFF;">
-	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_lunes_mantenimiento' name='checkbox_lunes_mantenimiento' value="1" <?php echo set_value('checkbox_lunes_mantenimiento') == 1 ? "checked" : ""; ?> > <b>Lunes</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_martes_mantenimiento' name='checkbox_martes_mantenimiento' value="2" <?php echo set_value('checkbox_martes_mantenimiento') == 2 ? "checked" : ""; ?> > <b>Martes</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_miercoles_mantenimiento' name='checkbox_miercoles_mantenimiento' value="3" <?php echo set_value('checkbox_miercoles_mantenimiento') == 3 ? "checked" : ""; ?>> <b>Mi&#233;rcoles</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_jueves_mantenimiento' name='checkbox_jueves_mantenimiento' value="4" <?php echo set_value('checkbox_jueves_mantenimiento') == 4 ? "checked" : ""; ?>> <b>Jueves</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_viernes_mantenimiento' name='checkbox_viernes_mantenimiento' value="5" <?php echo set_value('checkbox_viernes_mantenimiento') == 5 ? "checked" : ""; ?>> <b>Viernes</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_sabado_mantenimiento' name='checkbox_sabado_mantenimiento' value="6" <?php echo set_value('checkbox_sabado_mantenimiento') == 6 ? "checked" : ""; ?>> <b>S&#225;bado</b></td>
-	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_domingo_mantenimiento' name='checkbox_domingo_mantenimiento' value="7" <?php echo set_value('checkbox_domingo_mantenimiento') == 7 ? "checked" : ""; ?>> <b>Domingo</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_lunes_mantenimiento' name='checkbox_lunes_mantenimiento' value="1" <?php echo set_value('checkbox_lunes_mantenimiento',@ $check_lunes_mantenimiento) == 1 ? "checked" : ""; ?> > <b>Lunes</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_martes_mantenimiento' name='checkbox_martes_mantenimiento' value="2" <?php echo set_value('checkbox_martes_mantenimiento',@ $check_martes_mantenimiento) == 2 ? "checked" : ""; ?> > <b>Martes</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_miercoles_mantenimiento' name='checkbox_miercoles_mantenimiento' value="3" <?php echo set_value('checkbox_miercoles_mantenimiento',@ $check_miercoles_mantenimiento) == 3 ? "checked" : ""; ?>> <b>Mi&#233;rcoles</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_jueves_mantenimiento' name='checkbox_jueves_mantenimiento' value="4" <?php echo set_value('checkbox_jueves_mantenimiento',@ $check_jueves_mantenimiento) == 4 ? "checked" : ""; ?>> <b>Jueves</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_viernes_mantenimiento' name='checkbox_viernes_mantenimiento' value="5" <?php echo set_value('checkbox_viernes_mantenimiento',@ $check_viernes_mantenimiento) == 5 ? "checked" : ""; ?>> <b>Viernes</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_sabado_mantenimiento' name='checkbox_sabado_mantenimiento' value="6" <?php echo set_value('checkbox_sabado_mantenimiento',@ $check_sabado_mantenimiento) == 6 ? "checked" : ""; ?>> <b>S&#225;bado</b></td>
+	    		<td><input type="checkbox" class="checkbox_dias_mantenimiento" id='checkbox_domingo_mantenimiento' name='checkbox_domingo_mantenimiento' value="7" <?php echo set_value('checkbox_domingo_mantenimiento',@ $check_domingo_mantenimiento) == 7 ? "checked" : ""; ?>> <b>Domingo</b></td>
 	    	</tr>
 	    </thead>
 	    <tbody>
@@ -336,12 +463,12 @@
 			    	 <label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span  class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_lunes_mantenimiento' name='inicio_lunes_mantenimiento' value="<?php echo set_value('inicio_lunes_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_lunes_mantenimiento' name='inicio_lunes_mantenimiento' value="<?php echo set_value('inicio_lunes_mantenimiento',@$lunes_inicio_mantenimiento);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_lunes_mantenimiento'  name='fin_lunes_mantenimiento' value="<?php echo set_value('fin_lunes_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_lunes_mantenimiento'  name='fin_lunes_mantenimiento' value="<?php echo set_value('fin_lunes_mantenimiento',@$lunes_final_mantenimiento);?>"/>
 					 </div>
 			    </td>
 
@@ -349,12 +476,12 @@
 	    		     <label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_martes_mantenimiento' name='inicio_martes_mantenimiento'  value="<?php echo set_value('inicio_martes_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_martes_mantenimiento' name='inicio_martes_mantenimiento'  value="<?php echo set_value('inicio_martes_mantenimiento',@$martes_inicio_mantenimiento);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_martes_mantenimiento' name='fin_martes_mantenimiento' value="<?php echo set_value('fin_martes_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_martes_mantenimiento' name='fin_martes_mantenimiento' value="<?php echo set_value('fin_martes_mantenimiento',@$martes_final_mantenimiento);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -362,12 +489,12 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_miercoles_mantenimiento' name='inicio_miercoles_mantenimiento' value="<?php echo set_value('inicio_miercoles_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_miercoles_mantenimiento' name='inicio_miercoles_mantenimiento' value="<?php echo set_value('inicio_miercoles_mantenimiento',@$miercoles_inicio_mantenimiento);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_miercoles_mantenimiento' name='fin_miercoles_mantenimiento' value="<?php echo set_value('fin_miercoles_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_miercoles_mantenimiento' name='fin_miercoles_mantenimiento' value="<?php echo set_value('fin_miercoles_mantenimiento',@$miercoles_final_mantenimiento);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -375,12 +502,12 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_jueves_mantenimiento' name='inicio_jueves_mantenimiento' value="<?php echo set_value('inicio_jueves_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_jueves_mantenimiento' name='inicio_jueves_mantenimiento' value="<?php echo set_value('inicio_jueves_mantenimiento',@$jueves_inicio_mantenimiento);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_jueves_mantenimiento' name='fin_jueves_mantenimiento' value="<?php echo set_value('fin_jueves_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_jueves_mantenimiento' name='fin_jueves_mantenimiento' value="<?php echo set_value('fin_jueves_mantenimiento',@$jueves_final_mantenimiento);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -388,12 +515,12 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_viernes_mantenimiento' name='inicio_viernes_mantenimiento' value="<?php echo set_value('inicio_viernes_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_viernes_mantenimiento' name='inicio_viernes_mantenimiento' value="<?php echo set_value('inicio_viernes_mantenimiento',@$viernes_inicio_mantenimiento);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_viernes_mantenimiento' name='fin_viernes_mantenimiento' value="<?php echo set_value('fin_viernes_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_viernes_mantenimiento' name='fin_viernes_mantenimiento' value="<?php echo set_value('fin_viernes_mantenimiento',@$viernes_final_mantenimiento);?>"/>
 					 </div>
 	    		</td>
 	    		
@@ -401,24 +528,24 @@
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_sabado_mantenimiento' name='inicio_sabado_mantenimiento' value="<?php echo set_value('inicio_sabado_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_sabado_mantenimiento' name='inicio_sabado_mantenimiento' value="<?php echo set_value('inicio_sabado_mantenimiento',@$sabado_inicio_mantenimiento);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_sabado_mantenimiento' name='fin_sabado_mantenimiento' value="<?php echo set_value('fin_sabado_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_sabado_mantenimiento' name='fin_sabado_mantenimiento' value="<?php echo set_value('fin_sabado_mantenimiento',@$sabado_final_mantenimiento);?>"/>
 					 </div>
 	    		</td>
 	    		<td>
 	    		 	<label  class="control-label">Inicio</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_domingo_mantenimiento' name='inicio_domingo_mantenimiento' value="<?php echo set_value('inicio_domingo_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_inicio_mantenimiento" id='inicio_domingo_mantenimiento' name='inicio_domingo_mantenimiento' value="<?php echo set_value('inicio_domingo_mantenimiento',@$domingo_inicio_mantenimiento);?>"/>
 					 </div><br>
 					  <label  class="control-label">Fin</label><br> 
 					 <div class="input-group text-left">
 		 				 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_domingo_mantenimiento' name='fin_domingo_mantenimiento' value="<?php echo set_value('fin_domingo_mantenimiento');?>"/>
+						 <input type='text' class="form-control hora_mantenimiento hora_fin_mantenimiento" id='fin_domingo_mantenimiento' name='fin_domingo_mantenimiento' value="<?php echo set_value('fin_domingo_mantenimiento',@$domingo_final_mantenimiento);?>"/>
 					 </div>
 	    		</td>
 	    	</tr>
@@ -454,7 +581,7 @@
 					       	  '4' => 'Todo el mes',
 			                );
 					        ?>
-				            <?php echo form_dropdown('intervalo_mantenimiento', $options,set_value('intervalo_mantenimiento'),'class="form-control" id="dropdown_intervalo_mantenimiento"'); ?>
+				            <?php echo form_dropdown('intervalo_mantenimiento', $options,set_value('intervalo_mantenimiento',@$requisito->modalidad_mantenimiento),'class="form-control" id="dropdown_intervalo_mantenimiento"'); ?>
 			        </div>
 				</div>
 
@@ -486,13 +613,13 @@
 							¿El mantenimiento del Servicio es realizado durante las horas de Funcionamiento del mismo?
 								<div class="radio">
 						  <label>
-						    <input value="si" <?php echo set_value('options_pregunta') == 'si' ? "checked" : ""; ?> type="radio" name="options_pregunta" id="options_pregunta_1">
+						    <input value="si" <?php echo set_value('options_pregunta',@ $requisito->pregunta_mant) == 'si' ? "checked" : ""; ?> type="radio" name="options_pregunta" id="options_pregunta_1">
 						   	 Si
 							  </label>
 						</div>
 					 	<div class="radio">
 						  <label>
-						    <input value="no"  <?php echo set_value('options_pregunta') == 'no' ? "checked" : ""; ?> type="radio" name="options_pregunta" id="options_pregunta_2" >
+						    <input value="no" <?php echo set_value('options_pregunta',@ $requisito->pregunta_mant) == 'no' ? "checked" : ""; ?> type="radio" name="options_pregunta" id="options_pregunta_2" >
 						    No
 						  </label>
 						</div>
@@ -548,7 +675,7 @@
 					       	  'año' => 'Año',
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_medida', $options,set_value('unidad_medida'),'class="form-control" id="dropdown_unidad_medida"'); ?>
+				            <?php echo form_dropdown('unidad_medida', $options,set_value('unidad_medida',@$requisito->unidad_num_caidas),'class="form-control" id="dropdown_unidad_medida"'); ?>
 			       
 			   	   </div>
 
@@ -582,7 +709,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='minimo_caida' name='minimo_caida' value="<?php echo set_value('minimo_caida');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='minimo_caida' name='minimo_caida' value="<?php echo set_value('minimo_caida',@$requisito->minimo_num_caidas);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -595,7 +722,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='maximo_caida' name='maximo_caida' value="<?php echo set_value('maximo_caida');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='maximo_caida' name='maximo_caida' value="<?php echo set_value('maximo_caida',@$requisito->maximo_num_caidas);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -661,7 +788,7 @@
 					       	  'horas' => 'Horas',
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_tiempo1', $options,set_value('unidad_tiempo1'),'class="form-control" id="dropdown_unidad_tiempo"'); ?>
+				            <?php echo form_dropdown('unidad_tiempo1', $options,set_value('unidad_tiempo1',@$requisito->unidad_duracion_caidas),'class="form-control" id="dropdown_unidad_tiempo"'); ?>
 			       
 			   	   </div>
 
@@ -695,7 +822,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='minimo_duracion_caida' name='minimo_duracion_caida' value="<?php echo set_value('minimo_duracion_caida');?>"  data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='minimo_duracion_caida' name='minimo_duracion_caida' value="<?php echo set_value('minimo_duracion_caida',@$requisito->minimo_duracion_caidas);?>"  data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -708,7 +835,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='maximo_duracion_caida' name='maximo_duracion_caida' value="<?php echo set_value('maximo_duracion_caida');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='maximo_duracion_caida' name='maximo_duracion_caida' value="<?php echo set_value('maximo_duracion_caida',@$requisito->maximo_duracion_caidas);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -772,7 +899,7 @@
 					       	  'minutos' => 'Minutos',
 			                );
 					        ?>
-				            <?php echo form_dropdown('unidad_tiempo2', $options,set_value('unidad_tiempo2'),'class="form-control" id="dropdown_tiempo_respuesta"'); ?>
+				            <?php echo form_dropdown('unidad_tiempo2', $options,set_value('unidad_tiempo2',@$requisito->unidad_tiempo_respuesta),'class="form-control" id="dropdown_tiempo_respuesta"'); ?>
 			       
 			   	   </div>
 
@@ -806,7 +933,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='minimo_duracion_respuesta' name='minimo_duracion_respuesta' value="<?php echo set_value('minimo_duracion_respuesta');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='minimo_duracion_respuesta' name='minimo_duracion_respuesta' value="<?php echo set_value('minimo_duracion_respuesta',@$requisito->minimo_tiempo_respuesta);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -819,7 +946,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='maximo_duracion_respuesta' name='maximo_duracion_respuesta' value="<?php echo set_value('maximo_duracion_respuesta');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='maximo_duracion_respuesta' name='maximo_duracion_respuesta' value="<?php echo set_value('maximo_duracion_respuesta',@$requisito->maximo_tiempo_respuesta);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -888,7 +1015,7 @@
 					       	  'horas' => 'Horas',
 			                );
 					        ?>
-				            <?php echo form_dropdown('tiempo_restauracion1', $options,set_value('tiempo_restauracion1'),'class="form-control" id="dropdown_unidad_tiempo_restauracion"'); ?>
+				            <?php echo form_dropdown('tiempo_restauracion1', $options,set_value('tiempo_restauracion1',@$requisito->unidad_tiempo_restauracion),'class="form-control" id="dropdown_unidad_tiempo_restauracion"'); ?>
 			       
 			   	   </div>
 
@@ -920,7 +1047,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='minimo_duracion_restauracion' name='minimo_duracion_restauracion' value="<?php echo set_value('minimo_duracion_restauracion');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='minimo_duracion_restauracion' name='minimo_duracion_restauracion' value="<?php echo set_value('minimo_duracion_restauracion',@$requisito->minimo_tiempo_restauracion);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -933,7 +1060,7 @@
 
 			    <div class="col-md-2">
 			       <div class="input-group">
-			       		<input type='text' class="form-control" id='maximo_duracion_restauracion' name='maximo_duracion_restauracion' value="<?php echo set_value('maximo_duracion_restauracion');?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
+			       		<input type='text' class="form-control" id='maximo_duracion_restauracion' name='maximo_duracion_restauracion' value="<?php echo set_value('maximo_duracion_restauracion',@$requisito->maximo_tiempo_restauracion);?>" data-toggle="tooltip" data-placement="bottom" title="Solo numeros enteros"/>
 			       
 			   	   </div>
 
@@ -972,7 +1099,7 @@
 
   <div class='row tex'>
 	 <div class="col-md-1 col-md-offset-2">
-	 <a id="back-step-2" class="btn btn-default">Volver</a>
+	 <a id="back-step-1" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
 	 <a id="activate-step-4" class="btn btn-primary">Siguiente</a>

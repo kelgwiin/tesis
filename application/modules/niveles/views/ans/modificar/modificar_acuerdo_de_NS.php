@@ -1,4 +1,7 @@
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/operaciones.js"></script>
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/cargar_requisitos.js"></script>
+<link rel="stylesheet" href="<?php echo base_url(); ?>application/modules/niveles/views/ans/css/estructura.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>application/modules/niveles/views/ans/css/ans.css">
 
 <?php include('ayudas.php'); ?>
 
@@ -92,6 +95,69 @@
 			    </div>
 			    <div class="row setup-content" id="step-3">
 			        <div class="col-md-12">
+
+			        	  <div class="panel panel_estructura panel-primary">
+		                    <div class="panel-heading clickable2" >
+		                        <h2 class="panel-title text-center" style="color:#FFFFFF;">
+		                            <b>Selección de Requisito de Niveles de Servicio</b></h2>
+		                        <span class="pull-right clickable"><i class="fa fa-minus"></i></span>
+		                    </div>
+		                    <div class="panel-body">
+		                       
+									<ol class="breadcrumb">
+									<li class="active"><i class="fa fa-list-alt"></i> 
+										Esta Secci&#243;n brinda las opción de Cargar el contenido de un Requisito de Niveles de Servicio en los campos de Niveles de Servicio,
+										Tiempos de Respuesta y de Resolución de Problemas del ANS que se esta creando.</li>
+									</ol>
+
+									<div class="form-group">
+			
+											<div class="required text-right">
+												<label for="service_name" class="col-md-4  control-label">Requisito de Niveles de Servicio</label> 
+											</div>
+
+										    <div class="col-md-5">
+
+										         <?php
+										        	$options = array(
+										        		'seleccione' => 'Seleccione un Requisito',		        	  
+									                );
+
+													foreach($requisitos as $requisito)
+										            { 
+										              $options[$requisito->requisito_id] = $requisito->nombre;
+										            }
+
+
+										        ?>
+
+										      	 <?php echo form_dropdown('requisitos', $options,set_value('requisitos'),'class="form-control" id="dropdown_requisitos" '); ?>	
+										    </div>
+
+										    <a id="cargar_requisito" class="btn btn-primary col-lg-1">Cargar</a>	 
+										</div>
+
+
+										<div class="form-group">
+										     <div class="control-label col-md-4">
+										      </div>
+										      	<div class="col-md-7">
+												    <label style="color:red;" id="error_requisitos">
+												   	
+											        </label>
+										</div>
+									    </div>
+
+									    <div class="alert alert-success text-center col-lg-5 col-lg-offset-4" style="display:none;" role="alert" id="exito_requisitos">
+											
+										</div>
+		                       
+		                    </div>
+		                </div>
+
+
+
+
 			            <div class="col-md-12 well">
 			                <?php $this->load->view('niveles/ans/modificar/paso3'); ?>
 			            </div>
@@ -128,7 +194,7 @@
 		      
 		      </div>
 		      <div class="modal-body text-center">
-		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Salir de la Sección de Creación de ANS</b>?<br>
+		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Salir de la Sección de Creación/Actualización  de ANS</b>?<br>
 		        Sera redirigido a la Sección Principal de Gestión de Acuerdos de Niveles de Servicio y <b>Todos</b> los datos ingresados en este formulario se perderán
 		        </div></p>
 		      </div>

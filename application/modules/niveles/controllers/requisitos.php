@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Acuerdos_ns extends MX_Controller
+class Requisitos extends MX_Controller
 {
 	function __construct()
 	{
@@ -20,7 +20,7 @@ class Acuerdos_ns extends MX_Controller
 		$this->load->module('utilities/utils');
     }
 	
-	private $title = 'Niveles de Servicio';
+	private $title = 'Requisitos de Niveles de Servicio';
 
 	private function list_sidebar_niveles($index_active){
 		$l =  array();
@@ -37,13 +37,12 @@ class Acuerdos_ns extends MX_Controller
 			"icon" => "fa fa-file-text"
 		);
 
+
 		$l[] = array(
 			"chain" => "Gestión de ANS",
 			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
 			"icon" => "fa fa-suitcase"
 		);
-
-
 
 		/*$l[] = array(
 			"chain" => "Gestión de ANS",
@@ -74,13 +73,12 @@ class Acuerdos_ns extends MX_Controller
 		return $l;
 	}
 
-	public function acuerdos_de_NS()
+	public function requisitos_de_NS()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$data_view['servicios'] = $this->general->get_table('servicio');
-		$data_view['acuerdos'] = $this->general->get_table('acuerdo_nivel_servicio');		
-		$data_view['empleados'] = $this->general->get_table('personal');
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/acuerdos_de_NS',$data_view,'Niveles de Servicio','','two_level');
+		$data_view['servicios'] = $this->general->get_table('servicio');	
+		$data_view['requisitos'] = $this->general->get_table('requisito_nivel_servicio');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/rns/requisitos_de_NS',$data_view,'Niveles de Servicio','','two_level');
 	}
 
 
@@ -295,11 +293,11 @@ class Acuerdos_ns extends MX_Controller
 		}	
 	}
 
-	function acuerdo_check()
+		function requisito_check()
 	{
-		if (($this->general->exist('acuerdo_nivel_servicio',array('nombre_acuerdo' => $this->input->post('nombre_acuerdo')))))
+		if (($this->general->exist('requisito_nivel_servicio',array('nombre' => $this->input->post('nombre_requisito')))))
 		{
-			$this->form_validation->set_message('acuerdo_check', 'Este Nombre de Acuerdo ya existe en el Sistema');
+			$this->form_validation->set_message('requisito_check', 'Este Nombre de Documento de Requisitos ya existe en el Sistema');
 			return FALSE;
 		}
 		else
@@ -313,32 +311,21 @@ class Acuerdos_ns extends MX_Controller
 	* Comienzo de la Creacion de Acuerdos de Niveles de Servicio.
     */
 
-	public function crear_acuerdos_de_NS()
+	public function crear_requisito_de_NS()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$data_view['servicios'] = $this->general->get_table('servicio');
 		$data_view['personal'] = $this->general->get_table('personal');
-		$data_view['requisitos'] = $this->general->get_table('requisito_nivel_servicio');
 
 	
 		 $this->load->library('form_validation');
 		 $this->load->helper(array('form', 'url'));
 
-		 $this->form_validation->set_rules('nombre_acuerdo', 'Nombre del Acuerdo', 'required|trim|max_length[255]|callback_acuerdo_check');
+		 $this->form_validation->set_rules('nombre_requisito', 'Nombre del Documento de Requisitos', 'required|trim|max_length[255]|callback_requisito_check');
          $this->form_validation->set_rules('servicio', 'Nombre del Servicio', 'callback_dropdown_servicio');
-         $this->form_validation->set_rules('gestor', 'Gestor de Niveles del Servicio', 'callback_dropdown_gestor');
          $this->form_validation->set_rules('clientes', 'Cliente(s)', 'required|trim|max_length[500]');
-
-         $this->form_validation->set_rules('fecha_inicio', 'Fecha de Inicio', 'required|trim');
-         $this->form_validation->set_rules('fecha_culminacion', 'Fecha de Culminación', 'required|trim');
-         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision');
-         $this->form_validation->set_rules('objetivos_acuerdo', 'Objetivos del Acuerdo', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('alcance', 'Alcance y Exclusiones del Acuerdo', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('condiciones_terminacion', 'Condiciones de Terminación del Acuerdo', 'max_length[65535]');
-         $this->form_validation->set_rules('modificacion', 'Procedimientos para Actualizar/Modificar el Acuerdo', 'max_length[65535]');
-
          
-         $this->form_validation->set_rules('options_pregunta', '', 'trim');
+          $this->form_validation->set_rules('options_pregunta', '', 'trim');
          $this->form_validation->set_rules('options_dias', '', 'trim');
          $this->form_validation->set_rules('options_horas', '', 'trim');
          $this->form_validation->set_rules('options_dias_mantenimiento', '', 'trim');
@@ -449,11 +436,7 @@ class Acuerdos_ns extends MX_Controller
          $this->form_validation->set_rules('tiempo_resolucion_medio', ' ', 'required|trim|integer');
          $this->form_validation->set_rules('tiempo_resolucion_menor', ' ', 'required|trim|integer');
 
-         $this->form_validation->set_rules('responsabilidades', 'Responsabilidades', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('contactos', 'Información de Contacto', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('costos', 'Costos y Penalidades', 'max_length[65535]');
-         $this->form_validation->set_rules('glosario', 'Glosario', 'max_length[65535]');
-
+      
          $this->form_validation->set_message('less_than', 'El porcentaje debe ser Menor o Igual a Cien');
          $this->form_validation->set_message('greater_than', 'El porcentaje debe ser Mayor a Cero');
 
@@ -464,65 +447,13 @@ class Acuerdos_ns extends MX_Controller
 		if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/crear_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
+                $this->utils->template($this->list_sidebar_niveles(1),'niveles/rns/crear_requisito_de_NS',$data_view,'Requisitos de Niveles de Servicio','','two_level');
             }
   		else
             {
-		        if( $this->input->post('condiciones_terminacion'))
-		            	{
-		            		$condiciones_terminacion = $this->input->post('condiciones_terminacion');
-		            	}
-		            	else
-		            	{
-		            		$condiciones_terminacion = NULL;
-		            	}
-
-		         if( $this->input->post('modificacion'))
-		            	{
-		            		$modificacion = $this->input->post('modificacion');
-		            	}
-		            	else
-		            	{
-		            		$modificacion = NULL;
-		            	}
-
-
-		        // Establecer fecha de revisión de acuerdo
-
-		           if( $this->input->post('intervalo_revision') == 'Mensual' )
-		            	{
-		            		$date = date('Y-m-j');
-							$newdate = strtotime ( '+1 month' , strtotime ( $date ) ) ;
-							$fecha_revision = date ( 'Y-m-j' , $newdate );
-		            		
-		            	}
-
-		           if( $this->input->post('intervalo_revision') == 'Trimestral' )
-		            	{
-		            		$date = date('Y-m-j');
-							$newdate = strtotime ( '+3 month' , strtotime ( $date ) ) ;
-							$fecha_revision = date ( 'Y-m-j' , $newdate );
-		            		
-		            	}
-
-		           if( $this->input->post('intervalo_revision') == 'Semestral' )
-		            	{
-		            			$date = date('Y-m-j');
-								$newdate = strtotime ( '+6 month' , strtotime ( $date ) ) ;
-								$fecha_revision = date ( 'Y-m-j' , $newdate );
-		            		
-		            	}
-
-		           if( $this->input->post('intervalo_revision') == 'Anual' )
-		            	{
-		            		$date = date('Y-m-j');
-							$newdate = strtotime ( '+1 year' , strtotime ( $date ) ) ;
-							$fecha_revision = date ( 'Y-m-j' , $newdate );	            		
-		            	}	        
 		       
 
-
-		       //Calculo de minutos de disponibilidad 
+		        //Calculo de minutos de disponibilidad 
 
 		        if( $this->input->post('inicio_lunes') &&  $this->input->post('fin_lunes') )
 		            	{
@@ -1244,52 +1175,20 @@ class Acuerdos_ns extends MX_Controller
 
 
 
-
-		        if( $this->input->post('costos'))
-		            	{
-		            		$costos = $this->input->post('costos');
-		            	}
-		            	else
-		            	{
-		            		$costos = NULL;
-		            	}
-
-		         if( $this->input->post('glosario'))
-		            	{
-		            		$glosario = $this->input->post('glosario');
-		            	}
-		            	else
-		            	{
-		            		$glosario = NULL;
-		            	}
-
 		         $fecha_inicio = strtotime($this->input->post('fecha_inicio')); 
 		         $fecha_inicio = date("Y-m-d", $fecha_inicio); 
 
 		         $fecha_culminacion = strtotime($this->input->post('fecha_culminacion'));
 		          $fecha_culminacion = date("Y-m-d", $fecha_culminacion); 
             	
-                $acuerdo = array(
-                				'nombre_acuerdo'=>$this->input->post('nombre_acuerdo'),
+                $requisito = array(
+                				
+                				'nombre'=>$this->input->post('nombre_requisito'),
                                 'id_servicio' => $this->input->post('servicio'),
-                                'gestor_servicio' => $this->input->post('gestor'),
                                 'cliente' => $this->input->post('clientes'),
 
-                                'fecha_inicio' =>  $fecha_inicio,
-                                'fecha_final' =>  $fecha_culminacion,
-                                'modo_revision' => $this->input->post('intervalo_revision'),
-
-                                'objetivos_acuerdo' => $this->input->post('objetivos_acuerdo'), 
-                                'alcance' =>  $this->input->post('alcance'), 
-                                
-                                'condiciones_terminacion' => $condiciones_terminacion,
-                                'procedimiento_actualizacion' => $modificacion,
-
-                              
-
-                                'fecha_creacion_acuerdo' => date('Y-m-d H:i:s'),
-
-                                'fecha_revision' => $fecha_revision,
+                             
+                                'fecha_creacion_requisito' => date('Y-m-d H:i:s'),
 
                                 'lunes_disp_ini' => $inicio_lunes,
 								'lunes_disp_fin' => $fin_lunes ,
@@ -1371,33 +1270,29 @@ class Acuerdos_ns extends MX_Controller
 								'tiempo_resolucion_menor' => $this->input->post('tiempo_resolucion_menor'),
 								'unidad_resolucion_menor' => $this->input->post('unidad_resolucion_menor'),
 
-								'responsabilidades' => $this->input->post('responsabilidades'),
-								'contactos' => $this->input->post('contactos'),
-								'cobros' => $cobros,
-								'glosario' => $glosario,
-
+						
                                 );
 
             	
-			       	$id_acuerdo = $this->general->insert('acuerdo_nivel_servicio',$acuerdo,'');
+			       	$id_requisito = $this->general->insert('requisito_nivel_servicio',$requisito,'');
 
-	            	if($id_acuerdo)
+	            	if($id_requisito)
 		            	{
-		            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+		            		$ruta = $this->generar_pdf_acuerdo($id_requisito);
 
-								$acuerdo = array(
+								$requisito = array(
                                 'ruta_pdf' => $ruta,
 
                                 );
-                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+                               $this->general->update2('requisito_nivel_servicio',$requisito,array('requisito_id'=>$id_requisito));
 
-		            		$this->session->set_flashdata('Success', 'El Nuevo Acuerdo de Niveles de Servicio ha sido Creado con Éxito');
-		            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
+		            		$this->session->set_flashdata('Success', 'El Nuevo Requisito de Niveles de Servicio ha sido Creado con Éxito');
+		            		redirect(site_url('index.php/requisito_niveles_servicio/gestion_RNS'));
 		            	}
 		            else
 		            	{
-		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Nuevo Acuerdo de Niveles de Servicio');
-		            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
+		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Nuevo Requisito de Niveles de Servicio');
+		            		redirect(site_url('index.php/requisito_niveles_servicio/gestion_RNS'));
 		            	}
 
 		       
@@ -1413,17 +1308,16 @@ class Acuerdos_ns extends MX_Controller
  	/*
 	* Inicio: Mostrar Acuerdos de Niveles de Servicio.
     */
-    public function ver_acuerdo_de_NS($id_acuerdo = '')
+    public function ver_requisito_de_NS($id_requisito = '')
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$id_acuerdo));
+		$requisito = $this->general->get_row('requisito_nivel_servicio',array('requisito_id'=>$id_requisito));
 
-		$data_view['acuerdo'] = $acuerdo;
+		$data_view['requisito'] = $requisito;
 		
-		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));		
-		$data_view['gestor'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->gestor_servicio));
+		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$requisito->id_servicio));	
 		
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/ver_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/rns/ver_requisito_de_NS',$data_view,'Requisitos de Niveles de Servicio','','two_level');
 	}
 	/*
 	* FIN: Mostrar Acuerdos de Niveles de Servicio.
@@ -1435,62 +1329,41 @@ class Acuerdos_ns extends MX_Controller
 	* Inicio: Modificar Acuerdos de Niveles de Servicio.
     */
 
+	
 
-
-
-	 public function modificar_acuerdo_de_NS($id_acuerdo = '', $operacion = '')
+	 public function modificar_requisito_de_NS($id_requisito = '')
 	{
 
 
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$this->load->model('general/general_model','general');	
 
-		$data_view['operacion'] = $operacion;
+		$data_view['requisito_id'] = $id_requisito;
+		$requisito = $this->general->get_row('requisito_nivel_servicio',array('requisito_id'=>$id_requisito));
 
-		$data_view['acuerdo_id'] = $id_acuerdo;
-		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$id_acuerdo));
-
-		$data_view['acuerdo'] = $acuerdo;
+		$data_view['requisito'] = $requisito;
 
 		$data_view['servicios'] = $this->general->get_table('servicio');
-		$data_view['personal'] = $this->general->get_table('personal');
-		
-		$data_view['requisitos'] = $this->general->get_table('requisito_nivel_servicio');
 
 	
 		 $this->load->library('form_validation');
 		 $this->load->helper(array('form', 'url'));
 
 
-		 if($operacion == 'actualizar')
-			 {
-				 if(($this->input->post('nombre_acuerdo')) != ($acuerdo->nombre_acuerdo))
+
+				 if(($this->input->post('nombre_requisito')) != ($requisito->nombre))
 				 	{
-		         		$this->form_validation->set_rules('nombre_acuerdo', 'Nombre del Acuerdo', 'required|trim|max_length[255]|callback_acuerdo_check');
+		         		 $this->form_validation->set_rules('nombre_requisito', 'Nombre del Documento de Requisitos', 'required|trim|max_length[255]|callback_requisito_check');
 				 	}
 				 else
 				 	{
-				 		$this->form_validation->set_rules('nombre_acuerdo', 'Nombre del Acuerdo', 'required|trim|max_length[255]');
+				 		 $this->form_validation->set_rules('nombre_requisito', 'Nombre del Documento de Requisitos', 'required|trim|max_length[255]');
 				 	}
-			 }
-		  else
-		  	{
-		  		$this->form_validation->set_rules('nombre_acuerdo', 'Nombre del Acuerdo', 'required|trim|max_length[255]|callback_acuerdo_check');
-		  	}
          
          $this->form_validation->set_rules('servicio', 'Nombre del Servicio', 'callback_dropdown_servicio');
-         $this->form_validation->set_rules('gestor', 'Gestor de Niveles del Servicio', 'callback_dropdown_gestor');
          $this->form_validation->set_rules('clientes', 'Cliente(s)', 'required|trim|max_length[500]');
 
-         $this->form_validation->set_rules('fecha_inicio', 'Fecha de Inicio', 'required|trim');
-         $this->form_validation->set_rules('fecha_culminacion', 'Fecha de Culminación', 'required|trim');
-         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision');
-         $this->form_validation->set_rules('objetivos_acuerdo', 'Objetivos del Acuerdo', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('alcance', 'Alcance y Exclusiones del Acuerdo', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('condiciones_terminacion', 'Condiciones de Terminación del Acuerdo', 'max_length[65535]');
-         $this->form_validation->set_rules('modificacion', 'Procedimientos para Actualizar/Modificar el Acuerdo', 'max_length[65535]');
-
-         
+               
          $this->form_validation->set_rules('options_pregunta', '', 'trim');
          $this->form_validation->set_rules('options_dias', '', 'trim');
          $this->form_validation->set_rules('options_horas', '', 'trim');
@@ -1602,11 +1475,7 @@ class Acuerdos_ns extends MX_Controller
          $this->form_validation->set_rules('tiempo_resolucion_medio', ' ', 'required|trim|integer');
          $this->form_validation->set_rules('tiempo_resolucion_menor', ' ', 'required|trim|integer');
 
-         $this->form_validation->set_rules('responsabilidades', 'Responsabilidades', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('contactos', 'Información de Contacto', 'required|trim|max_length[65535]');
-         $this->form_validation->set_rules('costos', 'Costos y Penalidades', 'max_length[65535]');
-         $this->form_validation->set_rules('glosario', 'Glosario', 'max_length[65535]');
-
+       
          $this->form_validation->set_message('less_than', 'El porcentaje debe ser Menor o Igual a Cien');
          $this->form_validation->set_message('greater_than', 'El porcentaje debe ser Mayor a Cero');
 
@@ -1617,63 +1486,12 @@ class Acuerdos_ns extends MX_Controller
 		if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/modificar/modificar_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
+                $this->utils->template($this->list_sidebar_niveles(1),'niveles/rns/modificar/modificar_requisito_de_NS',$data_view,'Requisitos de Niveles de Servicio','','two_level');
             }
   		else
             {
-		        if( $this->input->post('condiciones_terminacion'))
-		            	{
-		            		$condiciones_terminacion = $this->input->post('condiciones_terminacion');
-		            	}
-		            	else
-		            	{
-		            		$condiciones_terminacion = NULL;
-		            	}
 
-		         if( $this->input->post('modificacion'))
-		            	{
-		            		$modificacion = $this->input->post('modificacion');
-		            	}
-		            	else
-		            	{
-		            		$modificacion = NULL;
-		            	}
-
-
-		        // Establecer fecha de revisión de acuerdo
-
-		           if( $this->input->post('intervalo_revision') == 'Mensual' )
-		            	{
-		            		$date = date('Y-m-j');
-							$newdate = strtotime ( '+1 month' , strtotime ( $date ) ) ;
-							$fecha_revision = date ( 'Y-m-j' , $newdate );
-		            		
-		            	}
-
-		           if( $this->input->post('intervalo_revision') == 'Trimestral' )
-		            	{
-		            		$date = date('Y-m-j');
-							$newdate = strtotime ( '+3 month' , strtotime ( $date ) ) ;
-							$fecha_revision = date ( 'Y-m-j' , $newdate );
-		            		
-		            	}
-
-		           if( $this->input->post('intervalo_revision') == 'Semestral' )
-		            	{
-		            			$date = date('Y-m-j');
-								$newdate = strtotime ( '+6 month' , strtotime ( $date ) ) ;
-								$fecha_revision = date ( 'Y-m-j' , $newdate );
-		            		
-		            	}
-
-		           if( $this->input->post('intervalo_revision') == 'Anual' )
-		            	{
-		            		$date = date('Y-m-j');
-							$newdate = strtotime ( '+1 year' , strtotime ( $date ) ) ;
-							$fecha_revision = date ( 'Y-m-j' , $newdate );	            		
-		            	}	        
 		       
-
 
 		       //Calculo de minutos de disponibilidad 
 
@@ -2398,69 +2216,16 @@ class Acuerdos_ns extends MX_Controller
 
 
 
-		        if( $this->input->post('costos'))
-		            	{
-		            		$costos = $this->input->post('costos');
-		            	}
-		            	else
-		            	{
-		            		$costos = NULL;
-		            	}
+		       
+           	
+                $requisito = array(
 
-		         if( $this->input->post('glosario'))
-		            	{
-		            		$glosario = $this->input->post('glosario');
-		            	}
-		            	else
-		            	{
-		            		$glosario = NULL;
-		            	}
-
-		         $fecha_inicio = strtotime($this->input->post('fecha_inicio')); 
-		         $fecha_inicio = date("Y-m-d", $fecha_inicio); 
-
-		         $fecha_culminacion = strtotime($this->input->post('fecha_culminacion'));
-		          $fecha_culminacion = date("Y-m-d", $fecha_culminacion); 
-
-
-		          if($operacion == 'actualizar')
-						{
-							$fecha_creacion_acuerdo = $acuerdo->fecha_creacion_acuerdo ;
-								 
-						 }
-				   else
-				   		{
-				   			$fecha_creacion_acuerdo = date('Y-m-d H:i:s');
-				  		 }
-
-
-            	
-                $acuerdo = array(
-                				'nombre_acuerdo'=>$this->input->post('nombre_acuerdo'),
+                				'nombre'=>$this->input->post('nombre_requisito'),
                                 'id_servicio' => $this->input->post('servicio'),
-                                'gestor_servicio' => $this->input->post('gestor'),
                                 'cliente' => $this->input->post('clientes'),
 
-                                'fecha_inicio' =>  $fecha_inicio,
-                                'fecha_final' =>  $fecha_culminacion,
-                                'modo_revision' => $this->input->post('intervalo_revision'),
-
-                                'objetivos_acuerdo' => $this->input->post('objetivos_acuerdo'), 
-                                'alcance' =>  $this->input->post('alcance'), 
-                                
-                                'condiciones_terminacion' => $condiciones_terminacion,
-                                'procedimiento_actualizacion' => $modificacion,
-
-
-
-                              
-		
-                                'fecha_creacion_acuerdo' => $fecha_creacion_acuerdo,
-                              
-
-                                'fecha_modificacion_acuerdo' => date('Y-m-d H:i:s'),
-
-                                'fecha_revision' => $fecha_revision,
+                             
+                                'fecha_modificacion_requisito' => date('Y-m-d H:i:s'),
 
                                 'lunes_disp_ini' => $inicio_lunes,
 								'lunes_disp_fin' => $fin_lunes ,
@@ -2542,64 +2307,31 @@ class Acuerdos_ns extends MX_Controller
 								'tiempo_resolucion_menor' => $this->input->post('tiempo_resolucion_menor'),
 								'unidad_resolucion_menor' => $this->input->post('unidad_resolucion_menor'),
 
-								'responsabilidades' => $this->input->post('responsabilidades'),
-								'contactos' => $this->input->post('contactos'),
-								'cobros' => $cobros,
-								'glosario' => $glosario,
 
                                 );
+            	
+				       	$resultado_requisito = $this->general->update2('requisito_nivel_servicio',$requisito,array('requisito_id'=>$id_requisito));
 
-            	if($operacion == 'actualizar')
-					 {
-				       	$resultado_acuerdo = $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
-
-		            	if($resultado_acuerdo)
+		            	if($resultado_requisito)
 			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+			            		$ruta = $this->generar_pdf_acuerdo($id_requisito);
 
-								$acuerdo = array(
+								$requisito = array(
                                 'ruta_pdf' => $ruta,
 
                                 );
-                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+                               $this->general->update2('requisito_nivel_servicio',$requisito,array('requisito_id'=>$id_requisito));
 
-			            		$this->session->set_flashdata('Success', 'El Acuerdo de Niveles de Servicio ha sido Actualizado con Éxito');
-			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
+			            		$this->session->set_flashdata('Success', 'El Requisito de Niveles de Servicio ha sido Actualizado con Éxito');
+			            		redirect(site_url('index.php/requisito_niveles_servicio/gestion_RNS'));
 			            	}
 			            else
 			            	{
-			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar el Acuerdo de Niveles de Servicio');
-			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
+			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Actualizar el Requisito de Niveles de Servicio');
+			            		redirect(site_url('index.php/requisito_niveles_servicio/gestion_RNS'));
 			            	}
-			          }
-			     else
-			     	{
-
-			     		$resultado_acuerdo = $this->general->insert('acuerdo_nivel_servicio',$acuerdo,'');
-
-		            	if($resultado_acuerdo)
-			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
-
-								$acuerdo = array(
-                                'ruta_pdf' => $ruta,
-
-                                );
-                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
-
-			            		$this->session->set_flashdata('Success', 'El Acuerdo de Niveles de Servicio ha sido Creado con Éxito en base al ANS seleccionado');
-			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
-			            	}
-			            else
-			            	{
-			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Acuerdo de Niveles de Servicio en base al ANS seleccionado');
-			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
-			            	}
-
-
-			     	}
-
-		       
+			          
+			       
 
             }
 
@@ -2614,240 +2346,74 @@ class Acuerdos_ns extends MX_Controller
 
 
 
-	public function eliminar_acuerdo(){
+	public function eliminar_requisito(){
 
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$this->load->model('general/general_model','general');
-		$id_acuerdo = $this->input->post('acuerdo_id');
-		$delete = $this->general->delete('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$id_acuerdo));
+		
+		$id_requisito = $this->input->post('requisito_id');
+		$delete = $this->general->delete('requisito_nivel_servicio',array('requisito_id'=>$id_requisito));
+		
 		if($delete)
 	        {
-				$this->session->set_flashdata('Success', 'El Acuerdo de Niveles de Servicio ha sido Eliminado con Éxito');
+				$this->session->set_flashdata('Success', 'El Requisito de Niveles de Servicio ha sido Eliminado con Éxito');
 			}
 		else
 			{
-				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar el Acuerdo de Niveles de Servicio');
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar el Requisito de Niveles de Servicio');
 			}
 		if($this->input->post('delete_ver'))
 			{
-				redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
+				redirect(site_url('index.php/requisito_niveles_servicio/gestion_RNS'));
 			}	
 	}
 
 
-	public function eliminar_acuerdos(){
+	public function eliminar_requisitos(){
 
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$this->load->model('general/general_model','general');
-		$acuerdos_id = $this->input->post('acuerdo_id');
-		foreach ($acuerdos_id as $acuerdo) {		    
+
+		$requisitos_id = $this->input->post('requisito_id');
+		
+		foreach ($requisitos_id as $requisito) {		    
 			    
-			 $delete = $this->general->delete('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$acuerdo));
+			 $delete = $this->general->delete('requisito_nivel_servicio',array('requisito_id'=>$requisito));
 			}
+		
 		if($delete)
 	        {
-				$this->session->set_flashdata('Success', 'Los Acuerdos de Niveles de Servicio han sido Eliminados con Éxito');
+				$this->session->set_flashdata('Success', 'Los Requisitos de Niveles de Servicio han sido Eliminados con Éxito');
 			}
 		else
 			{
-				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar Los Acuerdos de Niveles de Servicio Seleccionados');
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar Los Requisitos de Niveles de Servicio Seleccionados');
 			}
 
 			
 	}
 
 
-	public function estructura_acuerdo($id_acuerdo = ''){
 
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$id_acuerdo));
-
-		$data_view['acuerdo'] = $acuerdo;
-
-		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));		
-		$data_view['gestor'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->gestor_servicio));
-
-		$posiciones = array();     
-
-		$posiciones[$acuerdo->posicion_terminacion] = 'terminacion';
-		$posiciones[$acuerdo->posicion_modificacion] = 'modificacion';
-		$posiciones[$acuerdo->posicion_niveles] = 'niveles';
-		$posiciones[$acuerdo->posicion_soporte] = 'soporte';
-		$posiciones[$acuerdo->posicion_responsabilidades] = 'responsabilidades' ;
-		$posiciones[$acuerdo->posicion_contacto] = 'contacto' ;
-		$posiciones[$acuerdo->posicion_costos] = 'costos';
-		$posiciones[$acuerdo->posicion_glosario] = 'glosario';
-		ksort($posiciones);
-
-		$data_view['posiciones'] = $posiciones ;
-
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/estructura_ans',$data_view,'Niveles de Servicio','','two_level');
-			
-	}
-
-	public function modificar_estructura_acuerdo(){
-
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$id_acuerdo = $this->input->post('id_acuerdo');
-		$posiciones = $this->input->post('posiciones_estructura');
-
-		for ($i=0; $i <= 7 ; $i++) { 
-			
- 						if($posiciones[$i] == 'terminacion')
-                            {
-                                $posicion_terminacion = ($i+1);
-                            }
-                        if($posiciones[$i] == 'modificacion')
-                            {
-                               $posicion_modificacion = ($i+1);
-                            }
-                        if($posiciones[$i] == 'niveles')
-                            {
-                                $posicion_niveles = ($i+1);
-                            }
-                        if($posiciones[$i] == 'soporte')
-                            {
-                                $posicion_soporte = ($i+1);
-                            }
-                        if($posiciones[$i] == 'responsabilidades')
-                            {
-                                $posicion_responsabilidades = ($i+1);
-                            }
-                        if($posiciones[$i] == 'contacto')
-                            {
-                                $posicion_contacto = ($i+1);
-                            }
-                        if($posiciones[$i] == 'costos')
-                            {
-                                $posicion_costos = ($i+1);
-                            }
-                        if($posiciones[$i] == 'glosario')
-                            {
-                               $posicion_glosario = ($i+1);
-                          }
-		}
-
-
-
-		$acuerdo = array(
-                				'posicion_terminacion'=>$posicion_terminacion,
-                                'posicion_modificacion' => $posicion_modificacion,
-                                'posicion_niveles' => $posicion_niveles,
-                                'posicion_soporte' => $posicion_soporte,
-                                'posicion_responsabilidades' => $posicion_responsabilidades,
-                                'posicion_contacto' => $posicion_contacto,
-                                'posicion_costos' => $posicion_costos,
-                                'posicion_glosario' => $posicion_glosario,
-                                );
-
-
-		$resultado_acuerdo = $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
-
-		            	if($resultado_acuerdo)
-			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
-
-								$acuerdo = array(
-                                'ruta_pdf' => $ruta,
-
-                                );
-                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
-
-			            		$this->session->set_flashdata('Success', 'Los cambios en la Estructura del Acuerdo de Niveles de Servicio han sido almacenados con Éxito');
-			            		//redirect(site_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$id_acuerdo));
-			            	}
-			            else
-			            	{
-			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al almacenar los cambios de la Estructura del Acuerdo de Niveles de Servicio');
-			            		//redirect(site_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$id_acuerdo));
-			            	}
-
-	     
-			
-	}
-
-
-	public function estructura_predeterminada(){
-
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
-		$id_acuerdo = $this->input->post('id_acuerdo');
-
-		$acuerdo = array(
-                				'posicion_terminacion'=>1,
-                                'posicion_modificacion' => 2,
-                                'posicion_niveles' => 3,
-                                'posicion_soporte' => 4,
-                                'posicion_responsabilidades' =>5,
-                                'posicion_contacto' => 6,
-                                'posicion_costos' => 7,
-                                'posicion_glosario' => 8,
-                                );
-
-
-		$resultado_acuerdo = $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
-
-		            	if($resultado_acuerdo)
-			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
-
-								$acuerdo = array(
-                                'ruta_pdf' => $ruta,
-
-                                );
-                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
-
-			            		$this->session->set_flashdata('Success', 'Los cambios en la Estructura del Acuerdo de Niveles de Servicio han sido almacenados con Éxito');
-			            		//redirect(site_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$id_acuerdo));
-			            	}
-			            else
-			            	{
-			            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al almacenar los cambios de la Estructura del Acuerdo de Niveles de Servicio');
-			            		//redirect(site_url('index.php/niveles_de_servicio/gestion_ANS/estructura_ANS/'.$id_acuerdo));
-			            	}
-
-	     
-			
-	}
-
-
-  public function generar_pdf_acuerdo($id_acuerdo = ''){
+  public function generar_pdf_acuerdo($id_requisito = ''){
 
   		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
-  		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$id_acuerdo));
+  		$requisito = $this->general->get_row('requisito_nivel_servicio',array('requisito_id'=>$id_requisito));
+
+		$data_view['requisito'] = $requisito;
 
 
-  		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));		
-		$data_view['gestor'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->gestor_servicio));
+  		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$requisito->id_servicio));		
 
-		$servicio =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));
-		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));
-
-		$data_view['acuerdo'] = $acuerdo;
-
-
-		$posiciones = array();     
-
-		$posiciones[$acuerdo->posicion_terminacion] = 'terminacion';
-		$posiciones[$acuerdo->posicion_modificacion] = 'modificacion';
-		$posiciones[$acuerdo->posicion_niveles] = 'niveles';
-		$posiciones[$acuerdo->posicion_soporte] = 'soporte';
-		$posiciones[$acuerdo->posicion_responsabilidades] = 'responsabilidades' ;
-		$posiciones[$acuerdo->posicion_contacto] = 'contacto' ;
-		$posiciones[$acuerdo->posicion_costos] = 'costos';
-		$posiciones[$acuerdo->posicion_glosario] = 'glosario';
-		ksort($posiciones);
-
-		$data_view['posiciones'] = $posiciones ;
-
-  	
+		  	
 		$this->load->library('mpdf');
-		$pdf = $this->load->view('niveles/ans/plantilla_ans.php',$data_view,TRUE);
+		$pdf = $this->load->view('niveles/rns/plantilla_rns.php',$data_view,TRUE);
 
 		$mpdf = new mPDF();
 		$mpdf->WriteHTML($pdf);
-		$name = $id_acuerdo;
-		$ruta = './assets/documentacion_GNS/ANS/'.$name.'.pdf';
+		$name = $id_requisito;
+		$ruta = './assets/documentacion_GNS/RNS/'.$name.'.pdf';
 		if(file_exists($ruta)) 
 		{unlink($ruta);}
 		$mpdf->Output($ruta,'F');
@@ -2857,100 +2423,10 @@ class Acuerdos_ns extends MX_Controller
 		return $ruta;
 
 
-		//$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/plantilla_ans',$data_view,'Niveles de Servicio','','two_level');
+		//$this->utils->template($this->list_sidebar_niveles(1),'niveles/rns/plantilla_rns',$data_view,'Niveles de Servicio','','two_level');
   }
 
 
-   public function datos_requisitos(){
-
-
-     	$id_requisito = $this->input->post('requisito_id');
-
-   	    $requisito = $this->general->get_row('requisito_nivel_servicio',array('requisito_id'=>$id_requisito));
-
-	
-   	    //Conversión de formato de horas de disponibilidad 
-		if($requisito->lunes_disp_ini != NULL) 
-			{
-			   $requisito->lunes_disp_ini = date("g:i A",strtotime($requisito->lunes_disp_ini));
-			   $requisito->lunes_disp_fin = date("g:i A",strtotime($requisito->lunes_disp_fin));
-			}
-
-		if($requisito->martes_disp_ini != NULL) 
-			{
-			   $requisito->martes_disp_ini = date("g:i A",strtotime($requisito->martes_disp_ini));
-			   $requisito->martes_disp_fin = date("g:i A",strtotime($requisito->martes_disp_fin));
-			}
-
-		if($requisito->miercoles_disp_ini != NULL) 
-			{
-			   $requisito->miercoles_disp_ini = date("g:i A",strtotime($requisito->miercoles_disp_ini));
-			   $requisito->miercoles_disp_fin = date("g:i A",strtotime($requisito->miercoles_disp_fin));
-			}
-	    if($requisito->jueves_disp_ini != NULL) 
-			{
-			   $requisito->jueves_disp_ini = date("g:i A",strtotime($requisito->jueves_disp_ini));
-			   $requisito->jueves_disp_fin = date("g:i A",strtotime($requisito->jueves_disp_fin));
-			}
-	  if($requisito->viernes_disp_ini != NULL) 
-			{
-			   $requisito->viernes_disp_ini = date("g:i A",strtotime($requisito->viernes_disp_ini));
-			   $requisito->viernes_disp_fin = date("g:i A",strtotime($requisito->viernes_disp_fin));
-			}
-	   if($requisito->sabado_disp_ini != NULL) 
-			{
-			   $requisito->sabado_disp_ini = date("g:i A",strtotime($requisito->sabado_disp_ini));
-			   $requisito->sabado_disp_fin = date("g:i A",strtotime($requisito->sabado_disp_fin));
-			}
-		if($requisito->domingo_disp_ini != NULL) 
-			{
-			   $requisito->domingo_disp_ini = date("g:i A",strtotime($requisito->domingo_disp_ini));
-			   $requisito->domingo_disp_fin = date("g:i A",strtotime($requisito->domingo_disp_fin));
-			}
-
-		//Conversión de formato de horas de mantenimiento
-		if($requisito->lunes_mant_ini != NULL) 
-			{
-			   $requisito->lunes_mant_ini = date("g:i A",strtotime($requisito->lunes_mant_ini));
-			   $requisito->lunes_mant_fin = date("g:i A",strtotime($requisito->lunes_mant_fin));
-			}
-
-		if($requisito->martes_mant_ini != NULL) 
-			{
-			   $requisito->martes_mant_ini = date("g:i A",strtotime($requisito->martes_mant_ini));
-			   $requisito->martes_mant_fin = date("g:i A",strtotime($requisito->martes_mant_fin));
-			}
-
-		if($requisito->miercoles_mant_ini != NULL) 
-			{
-			   $requisito->miercoles_mant_ini = date("g:i A",strtotime($requisito->miercoles_mant_ini));
-			   $requisito->miercoles_mant_fin = date("g:i A",strtotime($requisito->miercoles_mant_fin));
-			}
-	    if($requisito->jueves_mant_ini != NULL) 
-			{
-			   $requisito->jueves_mant_ini = date("g:i A",strtotime($requisito->jueves_mant_ini));
-			   $requisito->jueves_mant_fin = date("g:i A",strtotime($requisito->jueves_mant_fin));
-			}
-	  if($requisito->viernes_mant_ini != NULL) 
-			{
-			   $requisito->viernes_mant_ini = date("g:i A",strtotime($requisito->viernes_mant_ini));
-			   $requisito->viernes_mant_fin = date("g:i A",strtotime($requisito->viernes_mant_fin));
-			}
-	   if($requisito->sabado_mant_ini != NULL) 
-			{
-			   $requisito->sabado_mant_ini = date("g:i A",strtotime($requisito->sabado_mant_ini));
-			   $requisito->sabado_mant_fin = date("g:i A",strtotime($requisito->sabado_mant_fin));
-			}
-		if($requisito->domingo_mant_ini != NULL) 
-			{
-			   $requisito->domingo_mant_ini = date("g:i A",strtotime($requisito->domingo_mant_ini));
-			   $requisito->domingo_mant_fin = date("g:i A",strtotime($requisito->domingo_mant_fin));
-			}
-
-		echo json_encode($requisito);
-
-
-   }
 
 
 

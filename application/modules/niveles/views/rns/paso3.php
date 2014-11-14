@@ -113,7 +113,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_respuesta_critico', $options,set_value('unidad_respuesta_critico'),'class="form-control" id="dropdown_unidad_respuesta_critico"'); ?>
@@ -148,7 +148,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_respuesta_severo', $options,set_value('unidad_respuesta_severo'),'class="form-control" id="dropdown_unidad_respuesta_severo"'); ?>
@@ -184,7 +184,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_respuesta_medio', $options,set_value('unidad_respuesta_medio'),'class="form-control" id="dropdown_unidad_respuesta_medio"'); ?>
@@ -219,7 +219,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_respuesta_menor', $options,set_value('unidad_respuesta_menor'),'class="form-control" id="dropdown_unidad_respuesta_menor"'); ?>
@@ -256,7 +256,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_resolucion_critico', $options,set_value('unidad_resolucion_critico'),'class="form-control" id="dropdown_unidad_resolucion_critico"'); ?>
@@ -291,7 +291,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_resolucion_severo', $options,set_value('unidad_resolucion_severo'),'class="form-control" id="dropdown_unidad_resolucion_severo"'); ?>
@@ -326,7 +326,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_resolucion_medio', $options,set_value('unidad_resolucion_medio'),'class="form-control" id="dropdown_unidad_resolucion_medio"'); ?>
@@ -361,7 +361,7 @@
 					       	  'segundos' => 'Segundos',
 					       	  'minutos' => 'Minutos',
 					       	  'horas' => 'Horas',
-					       	  'dias' => 'Días'
+					       	  'días' => 'Días'
 			                );
 					        ?>
 				            <?php echo form_dropdown('unidad_resolucion_menor', $options,set_value('unidad_resolucion_menor'),'class="form-control" id="dropdown_unidad_resolucion_menor"'); ?>
@@ -402,7 +402,7 @@
 	 <a id="back-step-3" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
-	 <a id="activate-step-5" class="btn btn-primary">Siguiente</a>
+	 	  <button id="crear_rns" type="submit" class="btn btn-success"> <i class="fa fa-file-text"></i> Crear Requisto de Niveles de Servicio</button>
 	 </div>
 
 	 <div class="col-md-1 col-md-offset-4">

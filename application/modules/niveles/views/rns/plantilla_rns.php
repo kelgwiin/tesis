@@ -36,62 +36,26 @@
         <table width="100%">
             <tr style="background-color: #3a87ad;">
                 <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Nombre del Acuerdo</b></h3>
+                    <h3><b>Nombre del Documento de RNS</b></h3>
                 </td>
             </tr>
         </table>
         <br />
 
-        <h4><i><?php echo $acuerdo->nombre_acuerdo; ?></i></h4><br><br>
-
-       <table width="100%">
-            <tr style="background-color: #3a87ad;">
-                <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Información General</b></h3>
-                </td>
-            </tr>
-        </table>
-        <br />
-
-        <tr style="background-color: #3a87ad;">
-                <td>
-                   <p>
-                    Este Documento representa un Acuerdo de Niveles de Servicio ("ANS" o "Acuerdo") entre 
-                    el Proveedor y el Cliente(s) para el 
-                    aprovisionamiento <br> del Servicio de TI: <b><i><?php echo $servicio->nombre; ?></i></b>. 
-                    El ANS contiene las áreas claves de desempeño del Servicios a ser provisto: Definición del Servicio,
-                    términos y condiciones relativos a la entrega del servicio, criterios y métricas de
-                    desempeño de los factores claves, penalidades a ser aplicadas ante las desviaciones, gestión de cambios actualizaciones del ANS y los criterios de
-                    renovación y terminación.<br><br>
-
-                    <b>Proveedor del Servicio:</b> <i><?php echo $proveedor->nombre; ?></i>
-                    <table width="100%">
-                        <tr>
-                            <td width="10%">
-                               <b>Cliente(s):</b>
-                            </td>
-                            <td>
-                               <i><?php echo $acuerdo->cliente; ?></i>
-                            </td>
-                        </tr>
-                    </table>
-
-                   </p><br>
-                </td>
-         </tr>
+        <h4><i><?php echo $requisito->nombre; ?></i></h4><br><br>
 
 
         <table width="100%">
             <tr style="background-color: #3a87ad;">
                 <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Proposito y Objetivos del Acuerdo</b></h3>
+                    <h3><b>Cliente(s)</b></h3>
                 </td>
             </tr>
         </table>
         <br />
 
         <tr>
-            <td><?php echo $acuerdo->objetivos_acuerdo; ?><br><br></td>
+            <td><?php echo $requisito->cliente; ?><br><br></td>
         </tr>
 
 
@@ -107,147 +71,14 @@
 
         <tr>
          <td>
-         <h5> <b>Servicio Cubierto:</b> <i><?php echo $servicio->nombre; ?></i> </h5><br>
+         <h5> <b>Servicio:</b> <i><?php echo $servicio->nombre; ?></i> </h5><br>
           <?php echo $servicio->descripcion; ?><br><br>
          </td>
         </tr>
 
 
-        
+   <?php echo "<pagebreak />";  ?>
 
-
-        <table width="100%">
-            <tr style="background-color: #3a87ad;">
-                <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Revisión Periódica</b></h3>
-                </td>
-            </tr>
-        </table>
-        <br />
-
-        <tr>
-             <td colspan="2" style="text-align:justify;">
-                <p>
-                    Este acuerdo es válido a partir desde el 
-                            <b><?php 
-                                $date = date_create($acuerdo->fecha_inicio);
-                                echo date_format($date,'d')." de ".$meses[date_format($date,'n')-1]. " del ".date_format($date,'Y');
-                            ?></b>
-                            hasta el 
-                            <b><?php 
-                                $date = date_create($acuerdo->fecha_final);
-                                echo date_format($date,'d')." de ".$meses[date_format($date,'n')-1]. " del ".date_format($date,'Y');
-                            ?></b>
-
-                    y debe ser revisado como mínimo una vez   
-
-                    <?php if($acuerdo->modo_revision == 'Mensual') : ?>
-                           al  <b> Mes</b>.
-                        <?php endif ?>
-                        
-                        <?php if($acuerdo->modo_revision == 'Trimestral') : ?>
-                           <b> cada  <b>3 Meses</b>.
-                        <?php endif ?>
-
-                        <?php if($acuerdo->modo_revision == 'Semestral') : ?>
-                         <b>  cada 6 Meses</b>.
-                        <?php endif ?>
-
-                        <?php if($acuerdo->modo_revision == 'Anual') : ?>
-                             al  <b> Año</b>.
-                        <?php endif ?>
-
-                        Sin embargo, bajo la ausencia o falta de cualquier revisión en cualquier período,
-                        este acuerdo deberá permanecer vigente. <br><br>
-
-                    El <b>Gestor de Niveles de Servicio</b> es responsable de facilitar las revisiones periódicas de este documento y de velar porque los 
-                    Niveles de Servicio establecidos en este Acuerdo se cumplan. <br><br>
-
-
-
-                    <b>Gestor de Niveles de Servicio:</b> <?php echo $gestor->codigo_empleado.' - '.$gestor->nombre; ?><br>
-
-                    <b>Período de Revisión:</b>  <?php echo $acuerdo->modo_revision; ?> <br>
-
-                                               
-                    
-                    <b>Ultima Fecha de Revisión:</b>  <?php if($acuerdo->ultima_revision == NULL) : ?>
-                                                      <i>  No posee </i>
-                                                     <?php else : ?>
-                                                         <?php 
-                                                            $date = date_create($acuerdo->ultima_revision);
-                                                            echo date_format($date,'d')." de ".$meses[date_format($date,'n')-1]. " del ".date_format($date,'Y');
-                                                            ?> 
-                                                     <?php endif ?><br>
-
-                    <b>Siguiente Fecha de Revisión:</b>     <?php 
-                                                        $date = date_create($acuerdo->fecha_revision);
-                                                        echo date_format($date,'d')." de ".$meses[date_format($date,'n')-1]. " del ".date_format($date,'Y');
-                                                        ?> <br>
-                </p>
-
-            <br><br></td>
-        </tr>
-
-        <table width="100%">
-            <tr style="background-color: #3a87ad;">
-                <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Alcance y Exclusiones</b></h3>
-                </td>
-            </tr>
-        </table>
-        <br />
-
-        <tr>
-            <td><?php echo $acuerdo->alcance; ?> <br><br></td>
-        </tr>
-
-
- 
-   <?php foreach ($posiciones as $key => $val) : ?>
-
-         <?php if($val == 'terminacion') : ?>
-                  <?php if($acuerdo->condiciones_terminacion != NULL) : ?>
-                               <table width="100%">
-                    <tr style="background-color: #3a87ad;">
-                        <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                            <h3><b>Condiciones para la Terminación del Acuerdo</b></h3>
-                        </td>
-                    </tr>
-                
-                </table>
-                    <tr>
-                                    <td colspan="2" style="text-align:justify;"> <br><?php echo $acuerdo->condiciones_terminacion; ?></td>
-                            
-                    </tr>
-                <br />
-                                <?php endif ?>
-                <br><br>
-        <?php endif ?> 
-
-    
-
-      <?php if($val == 'modificacion') : ?>
-            <?php if($acuerdo->procedimiento_actualizacion != NULL) : ?>
-                <table width="100%">
-                    <tr style="background-color: #3a87ad;">
-                        <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                            <h3><b>Procedimientos para Modificación del Acuerdo</b></h3>
-                        </td>
-                    </tr>
-                 
-                </table>
-                   <tr>
-                     <td colspan="2" style="text-align:justify;"> <br><?php echo $acuerdo->procedimiento_actualizacion; ?></td>
-                   </tr>
-                <br/>
-           <?php endif ?>
-           <br><br>
-      <?php endif ?>
-
-
-    <?php if($val == 'niveles') : ?>
-     <?php echo "<pagebreak />";  ?>
      <table width="100%">
             <tr style="background-color: #3a87ad;">
                 <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
@@ -257,7 +88,7 @@
         </table>
         <br />
 
-
+  
     <tr>
          <td colspan="2"> <br><h4><b>Disponibilidad</b></h4>
          <br>
@@ -279,16 +110,16 @@
                                                     <tr style="border: 1px solid; padding: 2px;">
                                                         <td width="14%">    
 
-                                                            <?php if($acuerdo->lunes_disp_ini == '00:00:00' && $acuerdo->lunes_disp_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->lunes_disp_ini == '00:00:00' && $requisito->lunes_disp_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->lunes_disp_ini != NULL) : ?>
+                                                                    <?php if($requisito->lunes_disp_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->lunes_disp_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->lunes_disp_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -299,9 +130,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->lunes_disp_fin != NULL) : ?>
+                                                                    <?php if($requisito->lunes_disp_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->lunes_disp_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->lunes_disp_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -311,16 +142,16 @@
                                                         </td>
 
                                                         <td>
-                                                          <?php if($acuerdo->martes_disp_ini == '00:00:00' && $acuerdo->martes_disp_fin == '00:00:00') : ?>
+                                                          <?php if($requisito->martes_disp_ini == '00:00:00' && $requisito->martes_disp_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->martes_disp_ini != NULL) : ?>
+                                                                    <?php if($requisito->martes_disp_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->martes_disp_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->martes_disp_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -331,41 +162,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->martes_disp_fin != NULL) : ?>
+                                                                    <?php if($requisito->martes_disp_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->martes_disp_fin)); ?> 
-
-                                                                    <?php else : ?>
-                                                                        -
-                                                                    <?php endif ?>
-                                                                <?php endif ?>
-                                                             </div>
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            <?php if($acuerdo->miercoles_disp_ini == '00:00:00' && $acuerdo->miercoles_disp_fin == '00:00:00') : ?>
-                                                                    <div class="text-center"><?php echo "Todo el Día"; ?></div>
-                                                                
-                                                             <?php else : ?>
-                                                             <label  class="control-label"><b>Inicio:</b></label><br> 
-                                                             <div class="input-group text-left">
-                                                                
-                                                                    <?php if($acuerdo->miercoles_disp_ini != NULL) : ?>
-
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->miercoles_disp_ini)); ?> 
-
-                                                                    <?php else : ?>
-                                                                        -
-                                                                    <?php endif ?>
-
-                                                                
-                                                                
-                                                             </div><br>
-                                                              <label  class="control-label"><b>Fin:</b></label><br> 
-                                                             <div class="input-group text-left">
-                                                                    <?php if($acuerdo->miercoles_disp_fin != NULL) : ?>
-
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->miercoles_disp_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->martes_disp_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -375,16 +174,16 @@
                                                         </td>
                                                         
                                                         <td>
-                                                            <?php if($acuerdo->jueves_disp_ini == '00:00:00' && $acuerdo->jueves_disp_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->miercoles_disp_ini == '00:00:00' && $requisito->miercoles_disp_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->jueves_disp_ini != NULL) : ?>
+                                                                    <?php if($requisito->miercoles_disp_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->jueves_disp_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->miercoles_disp_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -395,9 +194,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->jueves_disp_fin != NULL) : ?>
+                                                                    <?php if($requisito->miercoles_disp_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->jueves_disp_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->miercoles_disp_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -407,16 +206,16 @@
                                                         </td>
                                                         
                                                         <td>
-                                                            <?php if($acuerdo->viernes_disp_ini == '00:00:00' && $acuerdo->viernes_disp_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->jueves_disp_ini == '00:00:00' && $requisito->jueves_disp_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->viernes_disp_ini != NULL) : ?>
+                                                                    <?php if($requisito->jueves_disp_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->viernes_disp_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->jueves_disp_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -427,9 +226,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->viernes_disp_fin != NULL) : ?>
+                                                                    <?php if($requisito->jueves_disp_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->viernes_disp_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->jueves_disp_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -439,16 +238,16 @@
                                                         </td>
                                                         
                                                         <td>
-                                                            <?php if($acuerdo->sabado_disp_ini == '00:00:00' && $acuerdo->sabado_disp_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->viernes_disp_ini == '00:00:00' && $requisito->viernes_disp_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->sabado_disp_ini != NULL) : ?>
+                                                                    <?php if($requisito->viernes_disp_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->sabado_disp_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->viernes_disp_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -459,9 +258,41 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->sabado_disp_fin != NULL) : ?>
+                                                                    <?php if($requisito->viernes_disp_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->sabado_disp_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->viernes_disp_fin)); ?> 
+
+                                                                    <?php else : ?>
+                                                                        -
+                                                                    <?php endif ?>
+                                                                <?php endif ?>
+                                                             </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <?php if($requisito->sabado_disp_ini == '00:00:00' && $requisito->sabado_disp_fin == '00:00:00') : ?>
+                                                                    <div class="text-center"><?php echo "Todo el Día"; ?></div>
+                                                                
+                                                             <?php else : ?>
+                                                             <label  class="control-label"><b>Inicio:</b></label><br> 
+                                                             <div class="input-group text-left">
+                                                                
+                                                                    <?php if($requisito->sabado_disp_ini != NULL) : ?>
+
+                                                                    <?php echo date("g:i a",strtotime($requisito->sabado_disp_ini)); ?> 
+
+                                                                    <?php else : ?>
+                                                                        -
+                                                                    <?php endif ?>
+
+                                                                
+                                                                
+                                                             </div><br>
+                                                              <label  class="control-label"><b>Fin:</b></label><br> 
+                                                             <div class="input-group text-left">
+                                                                    <?php if($requisito->sabado_disp_fin != NULL) : ?>
+
+                                                                    <?php echo date("g:i a",strtotime($requisito->sabado_disp_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -470,16 +301,16 @@
                                                              </div>
                                                         </td>
                                                         <td>
-                                                            <?php if($acuerdo->domingo_disp_ini == '00:00:00' && $acuerdo->domingo_disp_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->domingo_disp_ini == '00:00:00' && $requisito->domingo_disp_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->domingo_disp_ini != NULL) : ?>
+                                                                    <?php if($requisito->domingo_disp_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->domingo_disp_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->domingo_disp_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -490,9 +321,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->domingo_disp_fin != NULL) : ?>
+                                                                    <?php if($requisito->domingo_disp_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->domingo_disp_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->domingo_disp_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -521,7 +352,7 @@
                                                     <td class="text-center">
                                                          <?php 
 
-                                                            $horas_disponibilidad = $acuerdo->minutos_disp_semanal / 60;
+                                                            $horas_disponibilidad = $requisito->minutos_disp_semanal / 60;
 
                                                             if(is_int($horas_disponibilidad))
                                                             {
@@ -546,7 +377,7 @@
                                                         <td class="text-center">
                                                             <?php 
 
-                                                            $horas_disponibilidad = $acuerdo->minutos_disp_mensual / 60;
+                                                            $horas_disponibilidad = $requisito->minutos_disp_mensual / 60;
 
                                                             if(is_int($horas_disponibilidad))
                                                             {
@@ -570,7 +401,7 @@
                                                         <td class="text-center">
                                                             <?php 
 
-                                                            $horas_disponibilidad = $acuerdo->minutos_disp_anual / 60;
+                                                            $horas_disponibilidad = $requisito->minutos_disp_anual / 60;
 
                                                             if(is_int($horas_disponibilidad))
                                                             {
@@ -600,25 +431,25 @@
 
                                             <div> <b><i><b>Intervalo de Mantenimiento</b></i>:</b> 
                                              
-                                            <?php if($acuerdo->modalidad_mantenimiento == '1') : ?>
+                                            <?php if($requisito->modalidad_mantenimiento == '1') : ?>
 
                                             <?php echo 'Una Semana al Mes'; ?> 
 
                                             <?php endif ?>
 
-                                            <?php if($acuerdo->modalidad_mantenimiento == '2') : ?>
+                                            <?php if($requisito->modalidad_mantenimiento == '2') : ?>
 
                                             <?php echo 'Dos Semanas al Mes'; ?> 
 
                                             <?php endif ?>
 
-                                            <?php if($acuerdo->modalidad_mantenimiento == '3') : ?>
+                                            <?php if($requisito->modalidad_mantenimiento == '3') : ?>
 
                                             <?php echo 'Tres Semanas al Mes'; ?> 
 
                                             <?php endif ?>
 
-                                            <?php if($acuerdo->modalidad_mantenimiento == '4') : ?>
+                                            <?php if($requisito->modalidad_mantenimiento == '4') : ?>
 
                                             <?php echo 'Todo el Mes (4 Semanas)'; ?> 
 
@@ -642,16 +473,16 @@
                                                     <tr>
                                                         <td width="14%">    
 
-                                                            <?php if($acuerdo->lunes_mant_ini == '00:00:00' && $acuerdo->lunes_mant_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->lunes_mant_ini == '00:00:00' && $requisito->lunes_mant_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->lunes_mant_ini != NULL) : ?>
+                                                                    <?php if($requisito->lunes_mant_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->lunes_mant_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->lunes_mant_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -662,9 +493,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->lunes_mant_fin != NULL) : ?>
+                                                                    <?php if($requisito->lunes_mant_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->lunes_mant_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->lunes_mant_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -674,16 +505,16 @@
                                                         </td>
 
                                                         <td>
-                                                          <?php if($acuerdo->martes_mant_ini == '00:00:00' && $acuerdo->martes_mant_fin == '00:00:00') : ?>
+                                                          <?php if($requisito->martes_mant_ini == '00:00:00' && $requisito->martes_mant_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->martes_mant_ini != NULL) : ?>
+                                                                    <?php if($requisito->martes_mant_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->martes_mant_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->martes_mant_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -694,41 +525,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->martes_mant_fin != NULL) : ?>
+                                                                    <?php if($requisito->martes_mant_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->martes_mant_fin)); ?> 
-
-                                                                    <?php else : ?>
-                                                                        -
-                                                                    <?php endif ?>
-                                                                <?php endif ?>
-                                                             </div>
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            <?php if($acuerdo->miercoles_mant_ini == '00:00:00' && $acuerdo->miercoles_mant_fin == '00:00:00') : ?>
-                                                                    <div class="text-center"><?php echo "Todo el Día"; ?></div>
-                                                                
-                                                             <?php else : ?>
-                                                             <label  class="control-label"><b>Inicio:</b></label><br> 
-                                                             <div class="input-group text-left">
-                                                                
-                                                                    <?php if($acuerdo->miercoles_mant_ini != NULL) : ?>
-
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->miercoles_mant_ini)); ?> 
-
-                                                                    <?php else : ?>
-                                                                        -
-                                                                    <?php endif ?>
-
-                                                                
-                                                                
-                                                             </div><br>
-                                                              <label  class="control-label"><b>Fin:</b></label><br> 
-                                                             <div class="input-group text-left">
-                                                                    <?php if($acuerdo->miercoles_mant_fin != NULL) : ?>
-
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->miercoles_mant_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->martes_mant_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -738,16 +537,16 @@
                                                         </td>
                                                         
                                                         <td>
-                                                            <?php if($acuerdo->jueves_mant_ini == '00:00:00' && $acuerdo->jueves_mant_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->miercoles_mant_ini == '00:00:00' && $requisito->miercoles_mant_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->jueves_mant_ini != NULL) : ?>
+                                                                    <?php if($requisito->miercoles_mant_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->jueves_mant_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->miercoles_mant_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -758,9 +557,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->jueves_mant_fin != NULL) : ?>
+                                                                    <?php if($requisito->miercoles_mant_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->jueves_mant_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->miercoles_mant_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -770,16 +569,16 @@
                                                         </td>
                                                         
                                                         <td>
-                                                            <?php if($acuerdo->viernes_mant_ini == '00:00:00' && $acuerdo->viernes_mant_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->jueves_mant_ini == '00:00:00' && $requisito->jueves_mant_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->viernes_mant_ini != NULL) : ?>
+                                                                    <?php if($requisito->jueves_mant_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->viernes_mant_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->jueves_mant_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -790,9 +589,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->viernes_mant_fin != NULL) : ?>
+                                                                    <?php if($requisito->jueves_mant_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->viernes_mant_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->jueves_mant_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -802,16 +601,16 @@
                                                         </td>
                                                         
                                                         <td>
-                                                            <?php if($acuerdo->sabado_mant_ini == '00:00:00' && $acuerdo->sabado_mant_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->viernes_mant_ini == '00:00:00' && $requisito->viernes_mant_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->sabado_mant_ini != NULL) : ?>
+                                                                    <?php if($requisito->viernes_mant_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->sabado_mant_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->viernes_mant_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -822,9 +621,41 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->sabado_mant_fin != NULL) : ?>
+                                                                    <?php if($requisito->viernes_mant_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->sabado_mant_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->viernes_mant_fin)); ?> 
+
+                                                                    <?php else : ?>
+                                                                        -
+                                                                    <?php endif ?>
+                                                                <?php endif ?>
+                                                             </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <?php if($requisito->sabado_mant_ini == '00:00:00' && $requisito->sabado_mant_fin == '00:00:00') : ?>
+                                                                    <div class="text-center"><?php echo "Todo el Día"; ?></div>
+                                                                
+                                                             <?php else : ?>
+                                                             <label  class="control-label"><b>Inicio:</b></label><br> 
+                                                             <div class="input-group text-left">
+                                                                
+                                                                    <?php if($requisito->sabado_mant_ini != NULL) : ?>
+
+                                                                    <?php echo date("g:i a",strtotime($requisito->sabado_mant_ini)); ?> 
+
+                                                                    <?php else : ?>
+                                                                        -
+                                                                    <?php endif ?>
+
+                                                                
+                                                                
+                                                             </div><br>
+                                                              <label  class="control-label"><b>Fin:</b></label><br> 
+                                                             <div class="input-group text-left">
+                                                                    <?php if($requisito->sabado_mant_fin != NULL) : ?>
+
+                                                                    <?php echo date("g:i a",strtotime($requisito->sabado_mant_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -833,16 +664,16 @@
                                                              </div>
                                                         </td>
                                                         <td>
-                                                            <?php if($acuerdo->domingo_mant_ini == '00:00:00' && $acuerdo->domingo_mant_fin == '00:00:00') : ?>
+                                                            <?php if($requisito->domingo_mant_ini == '00:00:00' && $requisito->domingo_mant_fin == '00:00:00') : ?>
                                                                     <div class="text-center"><?php echo "Todo el Día"; ?></div>
                                                                 
                                                              <?php else : ?>
                                                              <label  class="control-label"><b>Inicio:</b></label><br> 
                                                              <div class="input-group text-left">
                                                                 
-                                                                    <?php if($acuerdo->domingo_mant_ini != NULL) : ?>
+                                                                    <?php if($requisito->domingo_mant_ini != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->domingo_mant_ini)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->domingo_mant_ini)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -853,9 +684,9 @@
                                                              </div><br>
                                                               <label  class="control-label"><b>Fin:</b></label><br> 
                                                              <div class="input-group text-left">
-                                                                    <?php if($acuerdo->domingo_mant_fin != NULL) : ?>
+                                                                    <?php if($requisito->domingo_mant_fin != NULL) : ?>
 
-                                                                    <?php echo date("g:i a",strtotime($acuerdo->domingo_mant_fin)); ?> 
+                                                                    <?php echo date("g:i a",strtotime($requisito->domingo_mant_fin)); ?> 
 
                                                                     <?php else : ?>
                                                                         -
@@ -882,7 +713,7 @@
                                                     <td class="text-center">
                                                          <?php 
 
-                                                            $horas_disponibilidad = $acuerdo->minutos_mant_semanal / 60;
+                                                            $horas_disponibilidad = $requisito->minutos_mant_semanal / 60;
 
                                                             if(is_int($horas_disponibilidad))
                                                             {
@@ -906,7 +737,7 @@
                                                         <td class="text-center">
                                                             <?php 
 
-                                                            $horas_disponibilidad = $acuerdo->minutos_mant_mensual / 60;
+                                                            $horas_disponibilidad = $requisito->minutos_mant_mensual / 60;
 
                                                             if(is_int($horas_disponibilidad))
                                                             {
@@ -930,7 +761,7 @@
                                                         <td class="text-center">
                                                             <?php 
 
-                                                            $horas_disponibilidad = $acuerdo->minutos_mant_anual / 60;
+                                                            $horas_disponibilidad = $requisito->minutos_mant_anual / 60;
 
                                                             if(is_int($horas_disponibilidad))
                                                             {
@@ -962,7 +793,7 @@
                          
 
 
-                         <b><i>Numero de Caídas (Por <?php echo $acuerdo->unidad_num_caidas; ?>):</i></b><br><br>
+                         <b><i>Numero de Caídas (Por <?php echo $requisito->unidad_num_caidas; ?>):</i></b><br><br>
 
                         
                         
@@ -1005,17 +836,17 @@
                                                     </td>
                                                       
                                                      <td class="text-left">
-                                                        <?php if($acuerdo->minimo_num_caidas > 1) : ?>
-                                                        <?php echo  $acuerdo->minimo_num_caidas.' caídas'; ?> 
+                                                        <?php if($requisito->minimo_num_caidas > 1) : ?>
+                                                        <?php echo  $requisito->minimo_num_caidas.' caídas'; ?> 
                                                         <?php else : ?>
-                                                        <?php echo  $acuerdo->minimo_num_caidas.' caída'; ?>
+                                                        <?php echo  $requisito->minimo_num_caidas.' caída'; ?>
                                                          <?php endif ?>
                                                     </td>
                                                      <td class="text-left">
-                                                          <?php if($acuerdo->maximo_num_caidas > 1) : ?>
-                                                        <?php echo  $acuerdo->maximo_num_caidas.' caídas'; ?> 
+                                                          <?php if($requisito->maximo_num_caidas > 1) : ?>
+                                                        <?php echo  $requisito->maximo_num_caidas.' caídas'; ?> 
                                                         <?php else : ?>
-                                                        <?php echo  $acuerdo->maximo_num_caidas.' caída'; ?>
+                                                        <?php echo  $requisito->maximo_num_caidas.' caída'; ?>
                                                          <?php endif ?>
                                                     </td>
                                                 </tr>
@@ -1061,27 +892,27 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-left">
-                                                        0  <?php echo $acuerdo->unidad_duracion_caidas; ?>
+                                                        0  <?php echo $requisito->unidad_duracion_caidas; ?>
                                                     </td>
                                                       
                                                      <td class="text-left">
-                                                       <?php if($acuerdo->minimo_duracion_caidas > 1) : ?>
-                                                                                                                <?php echo  $acuerdo->minimo_duracion_caidas.' '.$acuerdo->unidad_duracion_caidas; ?> 
+                                                       <?php if($requisito->minimo_duracion_caidas > 1) : ?>
+                                                                                                                <?php echo  $requisito->minimo_duracion_caidas.' '.$requisito->unidad_duracion_caidas; ?> 
                                                                                                                 <?php else : ?>
                                                                                                                 <?php 
-                                                                                                                $string = $acuerdo->unidad_duracion_caidas;
+                                                                                                                $string = $requisito->unidad_duracion_caidas;
                                                                                                                 $string = substr ($string, 0, - 1);
-                                                                                                                echo  $acuerdo->minimo_duracion_caidas.' '.$string; ?>
+                                                                                                                echo  $requisito->minimo_duracion_caidas.' '.$string; ?>
                                                                                                                 <?php endif ?>
                                                     </td>
                                                      <td class="text-left">
-                                                       <?php if($acuerdo->maximo_duracion_caidas > 1) : ?>
-                                                                                                                <?php echo  $acuerdo->maximo_duracion_caidas.' '.$acuerdo->unidad_duracion_caidas; ?> 
+                                                       <?php if($requisito->maximo_duracion_caidas > 1) : ?>
+                                                                                                                <?php echo  $requisito->maximo_duracion_caidas.' '.$requisito->unidad_duracion_caidas; ?> 
                                                                                                                 <?php else : ?>
                                                                                                                 <?php 
-                                                                                                                $string = $acuerdo->unidad_duracion_caidas;
+                                                                                                                $string = $requisito->unidad_duracion_caidas;
                                                                                                                 $string = substr ($string, 0, - 1);
-                                                                                                                echo  $acuerdo->maximo_duracion_caidas.' '.$string; ?>
+                                                                                                                echo  $requisito->maximo_duracion_caidas.' '.$string; ?>
                                                                                                                 <?php endif ?>
                                                     </td>
                                                 </tr>
@@ -1127,27 +958,27 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-left">
-                                                       0  <?php echo $acuerdo->unidad_tiempo_respuesta; ?>
+                                                       0  <?php echo $requisito->unidad_tiempo_respuesta; ?>
                                                     </td>
                                                       
                                                      <td class="text-left">
-                                                     <?php if($acuerdo->minimo_tiempo_respuesta > 1) : ?>
-                                                                                                                <?php echo  $acuerdo->minimo_tiempo_respuesta.' '.$acuerdo->unidad_tiempo_respuesta; ?> 
+                                                     <?php if($requisito->minimo_tiempo_respuesta > 1) : ?>
+                                                                                                                <?php echo  $requisito->minimo_tiempo_respuesta.' '.$requisito->unidad_tiempo_respuesta; ?> 
                                                                                                                 <?php else : ?>
                                                                                                                 <?php 
-                                                                                                                $string = $acuerdo->unidad_tiempo_respuesta;
+                                                                                                                $string = $requisito->unidad_tiempo_respuesta;
                                                                                                                 $string = substr ($string, 0, - 1);
-                                                                                                                echo  $acuerdo->minimo_tiempo_respuesta.' '.$string; ?>
+                                                                                                                echo  $requisito->minimo_tiempo_respuesta.' '.$string; ?>
                                                                                                                 <?php endif ?>
                                                     </td>
                                                      <td class="text-left">
-                                                      <?php if($acuerdo->maximo_tiempo_respuesta > 1) : ?>
-                                                                                                                <?php echo  $acuerdo->maximo_tiempo_respuesta.' '.$acuerdo->unidad_tiempo_respuesta; ?> 
+                                                      <?php if($requisito->maximo_tiempo_respuesta > 1) : ?>
+                                                                                                                <?php echo  $requisito->maximo_tiempo_respuesta.' '.$requisito->unidad_tiempo_respuesta; ?> 
                                                                                                                 <?php else : ?>
                                                                                                                 <?php 
-                                                                                                                $string = $acuerdo->unidad_tiempo_respuesta;
+                                                                                                                $string = $requisito->unidad_tiempo_respuesta;
                                                                                                                 $string = substr ($string, 0, - 1);
-                                                                                                                echo  $acuerdo->maximo_tiempo_respuesta.' '.$string; ?>
+                                                                                                                echo  $requisito->maximo_tiempo_respuesta.' '.$string; ?>
                                                                                                                 <?php endif ?>
                                                     </td>
                                                 </tr>
@@ -1198,27 +1029,27 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="text-left">
-                                                       0  <?php echo $acuerdo->unidad_tiempo_restauracion; ?>
+                                                       0  <?php echo $requisito->unidad_tiempo_restauracion; ?>
                                                     </td>
                                                       
                                                      <td class="text-left">
-                                                     <?php if($acuerdo->minimo_tiempo_restauracion > 1) : ?>
-                                                                                                                <?php echo  $acuerdo->minimo_tiempo_restauracion.' '.$acuerdo->unidad_tiempo_restauracion; ?> 
+                                                     <?php if($requisito->minimo_tiempo_restauracion > 1) : ?>
+                                                                                                                <?php echo  $requisito->minimo_tiempo_restauracion.' '.$requisito->unidad_tiempo_restauracion; ?> 
                                                                                                                 <?php else : ?>
                                                                                                                 <?php 
-                                                                                                                $string = $acuerdo->unidad_tiempo_restauracion;
+                                                                                                                $string = $requisito->unidad_tiempo_restauracion;
                                                                                                                 $string = substr ($string, 0, - 1);
-                                                                                                                echo  $acuerdo->minimo_tiempo_restauracion.' '.$string; ?>
+                                                                                                                echo  $requisito->minimo_tiempo_restauracion.' '.$string; ?>
                                                                                                                 <?php endif ?>
                                                     </td>
                                                      <td class="text-left">
-                                                        <?php if($acuerdo->maximo_tiempo_restauracion > 1) : ?>
-                                                                                                                <?php echo  $acuerdo->maximo_tiempo_restauracion.' '.$acuerdo->unidad_tiempo_restauracion; ?> 
+                                                        <?php if($requisito->maximo_tiempo_restauracion > 1) : ?>
+                                                                                                                <?php echo  $requisito->maximo_tiempo_restauracion.' '.$requisito->unidad_tiempo_restauracion; ?> 
                                                                                                                 <?php else : ?>
                                                                                                                 <?php 
-                                                                                                                $string = $acuerdo->unidad_tiempo_restauracion;
+                                                                                                                $string = $requisito->unidad_tiempo_restauracion;
                                                                                                                 $string = substr ($string, 0, - 1);
-                                                                                                                echo  $acuerdo->maximo_tiempo_restauracion.' '.$string; ?>
+                                                                                                                echo  $requisito->maximo_tiempo_restauracion.' '.$string; ?>
                                                                                                                 <?php endif ?>
                                                     </td>
                                                 </tr>
@@ -1228,10 +1059,9 @@
         </td>
     </tr>
     <br><br><br>
-    <?php endif ?>
 
-     <?php if($val == 'soporte') : ?>
-      <?php echo "<pagebreak />";  ?>
+
+    <?php echo "<pagebreak />";  ?>
       <table width="100%">
             <tr style="background-color: #3a87ad;">
                 <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
@@ -1241,7 +1071,7 @@
         </table>
         <br />
       <tr>
-            <td><?php echo $acuerdo->soporte_tecnico; ?><br></td>
+            <td><?php echo $requisito->soporte_tecnico; ?><br></td>
         </tr>
 
         <tr>
@@ -1295,48 +1125,48 @@
                                         <tr >
                                             <td><b>Tiempo de Respuesta</b></td>
                                             <td>
-                                                <?php if($acuerdo->tiempo_respuesta_critico > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_respuesta_critico.' '.$acuerdo->unidad_respuesta_critico; ?> 
+                                                <?php if($requisito->tiempo_respuesta_critico > 1) : ?>
+                                                <?php echo  $requisito->tiempo_respuesta_critico.' '.$requisito->unidad_respuesta_critico; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_respuesta_critico;
+                                                    $string = $requisito->unidad_respuesta_critico;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_respuesta_critico.' '.$string; ?>
+                                                    echo  $requisito->tiempo_respuesta_critico.' '.$string; ?>
                                                 <?php endif ?>                                                                                      
                                             </td>
 
                                             <td>
-                                                <?php if($acuerdo->tiempo_respuesta_severo > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_respuesta_severo.' '.$acuerdo->unidad_respuesta_severo; ?> 
+                                                <?php if($requisito->tiempo_respuesta_severo > 1) : ?>
+                                                <?php echo  $requisito->tiempo_respuesta_severo.' '.$requisito->unidad_respuesta_severo; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_respuesta_severo;
+                                                    $string = $requisito->unidad_respuesta_severo;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_respuesta_severo.' '.$string; ?>
+                                                    echo  $requisito->tiempo_respuesta_severo.' '.$string; ?>
                                                 <?php endif ?>                                          
 
                                             </td>
 
                                             <td>
-                                                <?php if($acuerdo->tiempo_respuesta_medio > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_respuesta_medio.' '.$acuerdo->unidad_respuesta_medio; ?> 
+                                                <?php if($requisito->tiempo_respuesta_medio > 1) : ?>
+                                                <?php echo  $requisito->tiempo_respuesta_medio.' '.$requisito->unidad_respuesta_medio; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_respuesta_medio;
+                                                    $string = $requisito->unidad_respuesta_medio;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_respuesta_medio.' '.$string; ?>
+                                                    echo  $requisito->tiempo_respuesta_medio.' '.$string; ?>
                                                 <?php endif ?>  
                                                 
                                             </td>
 
                                             <td>
-                                               <?php if($acuerdo->tiempo_respuesta_menor > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_respuesta_menor.' '.$acuerdo->unidad_respuesta_menor; ?> 
+                                               <?php if($requisito->tiempo_respuesta_menor > 1) : ?>
+                                                <?php echo  $requisito->tiempo_respuesta_menor.' '.$requisito->unidad_respuesta_menor; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_respuesta_menor;
+                                                    $string = $requisito->unidad_respuesta_menor;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_respuesta_menor.' '.$string; ?>
+                                                    echo  $requisito->tiempo_respuesta_menor.' '.$string; ?>
                                                 <?php endif ?>  
                                                 
                                             </td>
@@ -1344,205 +1174,52 @@
                                         <tr >
                                             <td><b>Tiempo de Resolución</b></td>
                                             <td>
-                                               <?php if($acuerdo->tiempo_resolucion_critico > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_resolucion_critico.' '.$acuerdo->unidad_resolucion_critico; ?> 
+                                               <?php if($requisito->tiempo_resolucion_critico > 1) : ?>
+                                                <?php echo  $requisito->tiempo_resolucion_critico.' '.$requisito->unidad_resolucion_critico; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_resolucion_critico;
+                                                    $string = $requisito->unidad_resolucion_critico;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_resolucion_critico.' '.$string; ?>
+                                                    echo  $requisito->tiempo_resolucion_critico.' '.$string; ?>
                                                 <?php endif ?>  
                                             </td>
 
                                             <td>
-                                               <?php if($acuerdo->tiempo_resolucion_severo > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_resolucion_severo.' '.$acuerdo->unidad_resolucion_severo; ?> 
+                                               <?php if($requisito->tiempo_resolucion_severo > 1) : ?>
+                                                <?php echo  $requisito->tiempo_resolucion_severo.' '.$requisito->unidad_resolucion_severo; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_resolucion_severo;
+                                                    $string = $requisito->unidad_resolucion_severo;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_resolucion_severo.' '.$string; ?>
+                                                    echo  $requisito->tiempo_resolucion_severo.' '.$string; ?>
                                                 <?php endif ?>  
                                             </td>
 
                                             <td>
-                                               <?php if($acuerdo->tiempo_resolucion_medio > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_resolucion_medio.' '.$acuerdo->unidad_resolucion_medio; ?> 
+                                               <?php if($requisito->tiempo_resolucion_medio > 1) : ?>
+                                                <?php echo  $requisito->tiempo_resolucion_medio.' '.$requisito->unidad_resolucion_medio; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_resolucion_medio;
+                                                    $string = $requisito->unidad_resolucion_medio;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_resolucion_medio.' '.$string; ?>
+                                                    echo  $requisito->tiempo_resolucion_medio.' '.$string; ?>
                                                 <?php endif ?>  
                                             </td>
 
                                             <td>
-                                               <?php if($acuerdo->tiempo_resolucion_menor > 1) : ?>
-                                                <?php echo  $acuerdo->tiempo_resolucion_menor.' '.$acuerdo->unidad_resolucion_menor; ?> 
+                                               <?php if($requisito->tiempo_resolucion_menor > 1) : ?>
+                                                <?php echo  $requisito->tiempo_resolucion_menor.' '.$requisito->unidad_resolucion_menor; ?> 
                                                 <?php else : ?>
                                                 <?php 
-                                                    $string = $acuerdo->unidad_resolucion_menor;
+                                                    $string = $requisito->unidad_resolucion_menor;
                                                     $string = substr ($string, 0, - 1);
-                                                    echo  $acuerdo->tiempo_resolucion_menor.' '.$string; ?>
+                                                    echo  $requisito->tiempo_resolucion_menor.' '.$string; ?>
                                                 <?php endif ?>  
                                             </td>
                                         </tr>
                                      </tbody>
                                 </table>
-        <br><br><br><br>
-        <?php endif ?>
-
-        <?php if($val == 'responsabilidades') : ?>
-         <table width="100%">
-            <tr style="background-color: #3a87ad;">
-                <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Responsabilidades</b></h3>
-                </td>
-            </tr>
-        </table>
-        <br />
-
-        <tr>
-            <td><?php echo $acuerdo->responsabilidades; ?><br><br></td>
-        </tr>
-        <?php endif ?> 
-
-        <?php  if($val == 'contacto') : ?>
-         <table width="100%">
-            <tr style="background-color: #3a87ad;">
-                <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Información de Contacto</b></h3>
-                </td>
-            </tr>
-        </table>
-        <br />
-
-        <tr>
-            <td><?php echo $acuerdo->contactos; ?><br><br></td>
-        </tr>
-        <?php endif ?>
-
-        <?php  if($val == 'costos') : ?>
-                <?php if($acuerdo->cobros != NULL) : ?>
-                               <table width="100%">
-                    <tr style="background-color: #3a87ad;">
-                        <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                            <h3><b>Costos y Penalidades</b></h3>
-                        </td>
-                    </tr>
-                
-                </table>
-                    <tr>
-                                    <td colspan="2" style="text-align:justify;"> <br><?php echo $acuerdo->cobros; ?></td>
-                            
-                    </tr>
-                <br />
-                <?php endif ?>
-                <br><br>
-        <?php endif ?>
-
-
-        <?php  if($val == 'glosario') : ?>
-            <?php if($acuerdo->glosario != NULL) : ?>
-                           <table width="100%">
-                <tr style="background-color: #3a87ad;">
-                    <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                        <h3><b>Glosario</b></h3>
-                    </td>
-                </tr>
-            
-            </table>
-                <tr>
-                                <td colspan="2" style="text-align:justify;"> <br><?php echo $acuerdo->glosario; ?></td>
-                        
-                </tr>
-            <br />
-            <?php endif ?>
-            <br><br>
-         <?php endif ?>
-
-    <?php endforeach ?>
-
-        
-        <table width="100%">
-            <tr style="background-color: #3a87ad;">
-                <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
-                    <h3><b>Aprobación de Acuerdo</b></h3>
-                </td>
-            </tr>
-        </table>
-        <br />
-        
-
-        Los abajo firmantes están de acuerdo con todas las secciones establecidas previamente en este documento. Especialmente con los Niveles de Servicio fijados.<br><br>
-
-
-        <br><br>
-        <div style="margin-left: 50px;">
-          <table width="90%" cellpadding="1">
-                                                
-                                                <tr >
-                                                    <td class="text-left" style=" border: 1px; solid; border-bottom-style: solid;" width="60%">
-                                                        <br>
-                                                    </td>
-                                                      
-                                                     <td>
-                                                        <br>
-                                                    </td>
-                                                     <td class="text-left" style="border: 1px; solid; border-bottom-style: solid;">
-                                                        <br>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class='text-center'>
-                                                        <b>Representante del Proveedor de Servicio de TI </b><br><br>
-                                                    </td>
-                                                      
-                                                     <td>
-                                                        <br><br><br>
-                                                    </td>
-                                                        
-                                                     <td  class='text-center'>
-                                                        <b>Fecha</b> <br><br>
-                                                        
-                                                    </td>
-                                                </tr>
-
-                                                <tr >
-                                                    <td class="text-left" style=" border: 1px; solid; border-bottom-style: solid; padding-top: 30px;" width="40%" >
-                                                        <br>
-                                                    </td>
-                                                      
-                                                     <td style=" padding-top: 30px;">
-                                                        <br>
-                                                    </td>
-                                                     <td class="text-left" style="border: 1px; solid; border-bottom-style: solid; padding-top: 30px;" >
-                                                        <br>
-                                                    </td>
-                                                </tr>
-
-
-                                                <tr>
-                                                    <td  class='text-center'>
-                                                       <b> Representante del Cliente(s) </b>
-                                                    </td>
-                                                      
-                                                     <td>
-                                                        <br>
-                                                    </td>
-                                                     <td  class='text-center'>
-                                                        <b> Fecha </b>
-                                                    </td>
-                                                </tr>
-
-
-                                                
-                                    
-                        </table>
-       </div>
-
-
-          
+        <br><br><br><br>    
 
 
     </div>

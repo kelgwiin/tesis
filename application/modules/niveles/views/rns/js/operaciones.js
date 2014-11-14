@@ -1,4 +1,4 @@
-function deleteAcuerdo(id_acuerdo) {
+function deleteRequisito(id_requisito) {
 
           $("#eliminar").modal('show');
 
@@ -8,10 +8,10 @@ function deleteAcuerdo(id_acuerdo) {
                  $.ajax({
                  
                             
-                            url: config.base+'index.php/niveles/acuerdos_ns/eliminar_acuerdo',
+                            url: config.base+'index.php/niveles/requisitos/eliminar_requisito',
                             type: 'POST',
                             data: {                         
-                                    acuerdo_id : id_acuerdo,                                             
+                                    requisito_id : id_requisito,                                             
                                   },
                             //dataType: 'json',
                             cache : false,  
@@ -19,7 +19,7 @@ function deleteAcuerdo(id_acuerdo) {
                              success: function(data){
                                                
                               $("#eliminar").modal('hide');
-                              window.location.href = config.base+'index.php/niveles/acuerdos_ns/acuerdos_de_NS';
+                              window.location.href = config.base+'index.php/niveles/requisitos/requisitos_de_NS';
                                        
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -33,7 +33,6 @@ function deleteAcuerdo(id_acuerdo) {
 
 
     }
-
 
 var waitingDialog = (function ($) {
 
@@ -88,32 +87,6 @@ var waitingDialog = (function ($) {
 
 })(jQuery);
 
-
- $(document).on('click', '.panel-heading span.clickable', function (e) {
-    var $this = $(this);
-    if (!$this.hasClass('panel-collapsed')) {
-        $this.parents('.panel_estructura').find('.panel-body').slideUp();
-        $this.addClass('panel-collapsed');
-        $this.find('i').removeClass('fa-minus').addClass('fa-plus');
-    } else {
-        $this.parents('.panel_estructura').find('.panel-body').slideDown();
-        $this.removeClass('panel-collapsed');
-        $this.find('i').removeClass('fa-plus').addClass('fa-minus');
-    }
-});
-$(document).on('click', '.panel_estructura div.clickable', function (e) {
-    var $this = $(this);
-    if (!$this.hasClass('panel-collapsed')) {
-        $this.parents('.panel_estructura').find('.panel-body').slideUp();
-        $this.addClass('panel-collapsed');
-        $this.find('i').removeClass('fa-minus').addClass('fa-plus');
-    } else {
-        $this.parents('.panel_estructura').find('.panel-body').slideDown();
-        $this.removeClass('panel-collapsed');
-        $this.find('i').removeClass('fa-plus').addClass('fa-minus');
-    }
-});
-
 $(document).ready(function() {
 
     //Editor de Texto
@@ -131,35 +104,24 @@ $(document).ready(function() {
            entity_encoding : "raw"
            });
 
-   $('.panel-heading span.clickable').click();
-   $('.panel_estructura div.clickable').click();
-
     setTimeout(function() {
         $("#message").fadeOut(1500);
     },10000);
 
 
-    $("#actualizar_confirm").click(function(){ 
+     $("#actualizar_confirm").click(function(){ 
 
           $("#modificar").modal('hide');
            waitingDialog.show('Actualizando, Por Favor Espere.');
 
      });
 
-    $("#crear_ans").click(function(){ 
+    $("#crear_rns").click(function(){ 
 
            
-           waitingDialog.show('Creando ANS, Por Favor Espere.');
+           waitingDialog.show('Creando RNS, Por Favor Espere.');
 
      });
-
-   $("#crear_ans_base").click(function(){ 
-
-           
-           waitingDialog.show('Creando ANS, Por Favor Espere.');
-
-     });
-
 
        // Mostrar Advertencia para Eliminar los elementos seleccionados
    $("#delete_checkbox").click(function(){ 
@@ -173,27 +135,27 @@ $(document).ready(function() {
 
       $("#eliminar_todos").modal('hide');
       var i=0;
-      var acuerdos_id = [];
+      var requisitos_id = [];
       $(".checkbox").each(function(){
           if(this.checked)
             {
-              acuerdos_id[i] = $(this).val();
+              requisitos_id[i] = $(this).val();
               i++;
             }
       })
       $.ajax({
                  
-              url: config.base+'index.php/niveles/acuerdos_ns/eliminar_acuerdos',
+              url: config.base+'index.php/niveles/requisitos/eliminar_requisitos',
               type: 'POST',
               data: {                         
-                      acuerdo_id : acuerdos_id,                                             
+                      requisito_id : requisitos_id,                                             
                    },
               //dataType: 'json',
               cache : false,  
 
               success: function(data){
              
-                 window.location.href = config.base+'index.php/niveles/acuerdos_ns/acuerdos_de_NS';
+                 window.location.href = config.base+'index.php/niveles/requisitos/requisitos_de_NS';
                                           
               },
              error: function(xhr, ajaxOptions, thrownError){
@@ -247,14 +209,14 @@ $(document).ready(function() {
     });
 
      // Desactiva el tablesorter.
-     $('#dataTables-acuerdos').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+     $('#dataTables-requisito').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
        .removeClass('tablesorter')
        .find('thead th')
        .unbind('click mousedown')
        .removeClass('header headerSortDown headerSortUp');
 
     // Crea el Datatable
-    $('#dataTables-acuerdos').dataTable();
+    $('#dataTables-requisito').dataTable();
 
     //ToolTIP
     $('[data-toggle="popover"]').popover();
@@ -298,13 +260,6 @@ $(document).ready(function() {
       
     });
 
-     $('#back-step-2').on('click', function(e) {
-        
-        $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
-        $('ul.setup-panel li a[href="#step-2"]').trigger('click');
-      
-    });
-
     $('#back-step-3').on('click', function(e) {
         
         $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
@@ -313,33 +268,25 @@ $(document).ready(function() {
     });
 
 
-    $('#back-step-4').on('click', function(e) {
+    /*$('#back-step-4').on('click', function(e) {
         
         $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
         $('ul.setup-panel li a[href="#step-4"]').trigger('click');
       
-    });
+    });*/
     
     
     $('#activate-step-1').on('click', function(e) {
-        $('ul.setup-panel li:eq(1)').removeClass('disabled');
+        $('ul.setup-panel li:eq(0)').removeClass('disabled');
         
          $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
-        $('ul.setup-panel li a[href="#step-1"]').trigger('click');
+        $('ul.setup-panel li a[href="#step-3"]').trigger('click');
       
     });
 
-    $('#activate-step-2').on('click', function(e) {
-
-        $('ul.setup-panel li:eq(1)').removeClass('disabled');
-        $('ul.setup-panel li a[href="#step-2"]').trigger('click');
-         $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
-      
-    }) ; 
-
     
     $('#activate-step-3').on('click', function(e) {
-        $('ul.setup-panel li:eq(2)').removeClass('disabled');
+        $('ul.setup-panel li:eq(1)').removeClass('disabled');
         $('ul.setup-panel li a[href="#step-3"]').trigger('click');
          $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
       
@@ -603,19 +550,19 @@ $(document).ready(function() {
               $("#error_disponibilidad").empty();
               $("#error_mantenimiento").empty();
               $("#error_pregunta").empty();
-              $('ul.setup-panel li:eq(3)').removeClass('disabled');
+              $('ul.setup-panel li:eq(2)').removeClass('disabled');
               $('ul.setup-panel li a[href="#step-4"]').trigger('click');
               $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
          }
         
     }); 
 
-    $('#activate-step-5').on('click', function(e) {
+    /*$('#activate-step-5').on('click', function(e) {
         $('ul.setup-panel li:eq(4)').removeClass('disabled');
         $('ul.setup-panel li a[href="#step-5"]').trigger('click');
          $("html, body").scrollTop($('#menu_pasos_ans').offset().top);
         
-    });   
+    });*/   
     // END Pasos 
 
     //DATEPICKER

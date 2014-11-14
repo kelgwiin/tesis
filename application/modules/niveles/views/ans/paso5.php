@@ -150,7 +150,7 @@
 	 <a id="back-step-4" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
-	 <button id="activate-step-5" type="submit" class="btn btn-success"><i class="fa fa-file-text"></i>Crear Acuerdo</button>
+	 <button id="crear_ans"  type="submit" class="btn btn-success"><i class="fa fa-file-text"></i> Crear Acuerdo</button>
 	 </div>
 
 	 <div class="col-md-1 col-md-offset-4">

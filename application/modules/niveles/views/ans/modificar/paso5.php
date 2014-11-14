@@ -154,7 +154,7 @@
       <?php if($operacion == 'actualizar') : ?>
 		<button data-toggle="modal" data-target="#modificar" class="btn btn-warning">Actualizar Acuerdo</button>
 	  <?php else : ?>
-	  <button type="submit" class="btn btn-success"><i class="fa fa-file-text"></i> Crear Acuerdo</button>
+	  <button type="submit" id="crear_ans_base" class="btn btn-success"><i class="fa fa-file-text"></i> Crear Acuerdo</button>
 	 <?php endif ?>
 	 
 	 </div>
@@ -175,7 +175,7 @@
 		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Actualizar</b> este Acuerdo de Niveles de Servicio?</div></p>
 		      </div>
 		      <div class="modal-footer">
-		      	<button type="submit" class="btn btn-warning">Actualizar</button>
+		      	<button type="submit" id="actualizar_confirm" class="btn btn-warning">Actualizar</button>
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>      
 		      </div>
 		    </div><!-- /.modal-content -->

@@ -1,4 +1,3 @@
-<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/ans/js/operaciones.js"></script>
 
   <h3 > <b> Duración del Acuerdo</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_duracion_acuerdo">
  	(<i class="fa fa-info-circle"></i> <u>Ayuda</u>)</a></small></h3> <hr><br><br>

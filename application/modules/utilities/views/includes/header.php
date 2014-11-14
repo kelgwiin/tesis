@@ -21,13 +21,14 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/front/css/custom.config.css">
     
     <link href="<?php echo base_url(); ?>assets/datepicker/css/datepicker.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/fullcalendar/fullcalendar2.1.css" rel="stylesheet">
     
     <!-- JavaScript -->
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/jquery-1.10.2.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/jquery-ui-1.9.2.custom.min.js"></script>
      <script src="<?php echo base_url(); ?>assets/timepicker/moment.js"></script>
     <script src="<?php echo base_url(); ?>assets/front/sb-admin/js/bootstrap.js"></script>
-    
+    <script src="<?php echo base_url(); ?>assets/fullcalendar/fullcalendar2.1.js"></script>
     <script src="<?php echo base_url(); ?>assets/timepicker/bootstrap-datetimepicker.js"></script>
 
     <script src="<?php echo base_url() ?>assets/js/dataTables/jquery.dataTables.js"></script>

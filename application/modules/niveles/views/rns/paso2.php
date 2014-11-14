@@ -229,7 +229,7 @@
 
 			    <div class="col-md-4">
 			       <div class="input-group">
-			       <input type='text' class="form-control" id='porcentaje_disponibilidad' name="porcentaje_disponibilidad" value="<?php echo set_value('porcentaje_disponibilidad');?>"  data-toggle="tooltip" data-placement="top" title="Valores permitidos de 0 a 100 % (Solo numeros)"/>
+			       <input type='text' class="form-control" id='' name="porcentaje_disponibilidad" value="<?php echo set_value('porcentaje_disponibilidad');?>"  data-toggle="tooltip" data-placement="top" title="Valores permitidos de 0 a 100 % (Solo numeros)"/>
 			       <span class="input-group-addon"><b>%</b></i></span>
 			   	   </div>
 
@@ -492,7 +492,7 @@
 						</div>
 					 	<div class="radio">
 						  <label>
-						    <input value="no"  <?php echo set_value('options_pregunta') == 'no' ? "checked" : ""; ?> type="radio" name="options_pregunta" id="options_pregunta_2" >
+						    <input value="no" <?php echo set_value('options_pregunta') == 'no' ? "checked" : ""; ?> type="radio" name="options_pregunta" id="options_pregunta_2" >
 						    No
 						  </label>
 						</div>
@@ -972,7 +972,7 @@
 
   <div class='row tex'>
 	 <div class="col-md-1 col-md-offset-2">
-	 <a id="back-step-2" class="btn btn-default">Volver</a>
+	 <a id="back-step-1" class="btn btn-default">Volver</a>
 	 </div>
 	<div class="col-md-1">
 	 <a id="activate-step-4" class="btn btn-primary">Siguiente</a>
