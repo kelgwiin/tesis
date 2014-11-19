@@ -1,0 +1,23 @@
+
+.fc-unthemed th {
+
+	background-color: #B1B1B1;
+	color:#ffffff;
+	height: 30px;
+	font-size: 20px;
+	cursor: default;
+} 
+
+
+.fc-day-number {
+	font-weight: bold;
+}
+
+.fc-day:hover{
+
+cursor: pointer;
+background:#F8F8F8;}
+
+.fc-event:hover{
+	cursor: pointer;
+}

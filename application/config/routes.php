@@ -130,6 +130,11 @@ $route['requisito_niveles_servicio/gestion_RNS/modificar_RNS/(:num)'] = "niveles
 $route['requisito_niveles_servicio/gestion_RNS/eliminar_RNS'] = "niveles/requisitos/eliminar_requisito";
 $route['requisito_niveles_servicio/gestion_RNS/generar_pdf_RNS/(:num)'] = "niveles/requisitos/generar_pdf_acuerdo/$1";
 
+
+$route['niveles_de_servicio/gestion_Revisiones'] = "niveles/revisiones/revisiones";
+$route['niveles_de_servicio/gestion_Revisiones/nuevo_evento'] = "niveles/revisiones/nuevo_evento";
+$route['niveles_de_servicio/gestion_Revisiones/obtener_eventos'] = "niveles/revisiones/obtener_eventos";
+
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/
