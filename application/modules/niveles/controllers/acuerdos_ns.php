@@ -111,6 +111,20 @@ class Acuerdos_ns extends MX_Controller
 		}	
 	}
 
+
+		function dropdown_representante_cliente()
+	{
+		if ($this->input->post('representante_cliente') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_representante_cliente', 'Por favor seleccione al Representante del Cliente');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
 	function dropdown_intervalo_revision()
 	{
 		if ($this->input->post('intervalo_revision') === 'seleccione')
@@ -309,6 +323,131 @@ class Acuerdos_ns extends MX_Controller
 	}
 
 
+	function numero_caidas_check()
+	{
+		if ($this->input->post('minimo_caida') && $this->input->post('maximo_caida'))
+		{
+			if ($this->input->post('minimo_caida') >= $this->input->post('maximo_caida'))
+			{
+				$this->form_validation->set_message('numero_caidas_check', 'El numero de Caídas Máximas No puede ser Menor o Igual al de Caídas Mínimas');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+
+	function tiempo_respuesta_check()
+	{
+		if ($this->input->post('minimo_duracion_respuesta') && $this->input->post('maximo_duracion_respuesta'))
+		{
+			if ($this->input->post('minimo_duracion_respuesta') >= $this->input->post('maximo_duracion_respuesta'))
+			{
+				$this->form_validation->set_message('tiempo_respuesta_check', 'El numero de Tiempo Máximo No puede ser Menor o Igual al del Tiempo Mínimo');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+
+	function duracion_caidas_check()
+	{
+		if ($this->input->post('minimo_duracion_caida') && $this->input->post('maximo_duracion_caida'))
+		{
+			if ($this->input->post('minimo_duracion_caida') >= $this->input->post('maximo_duracion_caida'))
+			{
+				$this->form_validation->set_message('duracion_caidas_check', 'El numero de Tiempo Máximo No puede ser Menor o Igual al del Tiempo Mínimo');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+
+	function tiempo_restauracion_check()
+	{
+		if ($this->input->post('minimo_duracion_restauracion') && $this->input->post('maximo_duracion_restauracion'))
+		{
+			if ($this->input->post('minimo_duracion_restauracion') >= $this->input->post('maximo_duracion_restauracion'))
+			{
+				$this->form_validation->set_message('tiempo_restauracion_check', 'El numero de Tiempo Máximo No puede ser Menor o Igual al del Tiempo Mínimo');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+	function intervalos_revision_check()
+	{
+		if ($this->input->post('fecha_inicio') && $this->input->post('fecha_culminacion'))
+		{
+
+		     $fecha_inicio = $this->input->post('fecha_inicio'); 
+		     $inicio = date_create($fecha_inicio);
+		     $fecha_inicio = date_format($inicio,"Y-m-d");
+
+		     $fecha_culminacion = $this->input->post('fecha_culminacion'); 
+		      $fin = date_create($fecha_culminacion);
+		     $fecha_culminacion = date_format($fin,"Y-m-d"); 
+
+
+		     $fecha1 = new DateTime($fecha_inicio);
+			 $fecha2 = new DateTime($fecha_culminacion);
+			 $fecha = $fecha1->diff($fecha2);
+
+
+			if ( ($this->input->post('intervalo_revision') == 'Mensual') && ((int)$fecha->m < 1) )
+			{
+				$this->form_validation->set_message('intervalos_revision_check', 'La duración del Acuerdo es Menor a Un Mes. Por Favor modifique la Duración del Acuerdo.');
+				return FALSE;
+			}
+
+
+			else if ( ($this->input->post('intervalo_revision') == 'Trimestral') && ($fecha->m < 3) )
+			{
+				$this->form_validation->set_message('intervalos_revision_check', 'La duración del Acuerdo es Menor a Tres Meses. Por Favor modifique la Duración del Acuerdo o Elija un Intervalo de Revisión Menor.');
+				return FALSE;
+			}
+
+			else if ( ($this->input->post('intervalo_revision') == 'Semestral') && ($fecha->m < 6) )
+			{
+				$this->form_validation->set_message('intervalos_revision_check', 'La duración del Acuerdo es Menor a Seis Meses. Por Favor modifique la Duración del Acuerdo o Elija un Intervalo de Revisión Menor.');
+				return FALSE;
+			}
+
+			else if ( ($this->input->post('intervalo_revision') == 'Anual') && ($fecha->y < 1) )
+			{
+				$this->form_validation->set_message('intervalos_revision_check', 'La duración del Acuerdo es Menor a Un Año. Por Favor modifique la Duración del Acuerdo o Elija un Intervalo de Revisión Menor.');
+				return FALSE;
+			}
+
+			else
+			{
+				return TRUE;
+			}
+		}
+		else
+			{
+				return TRUE;
+			}
+	}
+
+
+
+
 	/*
 	* Comienzo de la Creacion de Acuerdos de Niveles de Servicio.
     */
@@ -328,10 +467,13 @@ class Acuerdos_ns extends MX_Controller
          $this->form_validation->set_rules('servicio', 'Nombre del Servicio', 'callback_dropdown_servicio');
          $this->form_validation->set_rules('gestor', 'Gestor de Niveles del Servicio', 'callback_dropdown_gestor');
          $this->form_validation->set_rules('clientes', 'Cliente(s)', 'required|trim|max_length[500]');
+         $this->form_validation->set_rules('representante_cliente', 'Representante del Cliente', 'callback_dropdown_representante_cliente');
+
+         
 
          $this->form_validation->set_rules('fecha_inicio', 'Fecha de Inicio', 'required|trim');
          $this->form_validation->set_rules('fecha_culminacion', 'Fecha de Culminación', 'required|trim');
-         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision');
+         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision|callback_intervalos_revision_check');
          $this->form_validation->set_rules('objetivos_acuerdo', 'Objetivos del Acuerdo', 'required|trim|max_length[65535]');
          $this->form_validation->set_rules('alcance', 'Alcance y Exclusiones del Acuerdo', 'required|trim|max_length[65535]');
          $this->form_validation->set_rules('condiciones_terminacion', 'Condiciones de Terminación del Acuerdo', 'max_length[65535]');
@@ -410,24 +552,26 @@ class Acuerdos_ns extends MX_Controller
 
          $this->form_validation->set_rules('intervalo_mantenimiento', 'Intervalo de Mantenimiento del Acuerdo', 'callback_dropdown_intervalo_mantenimiento');
 
+          $this->form_validation->set_rules('complemento_disponibilidad', 'Complemento de Disponibilidad', 'max_length[65535]');
+
          $this->form_validation->set_rules('unidad_medida', 'Unidad de Medida', 'callback_dropdown_unidad_medida');
 
          $this->form_validation->set_rules('minimo_caida', 'Mínimo de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer|callback_numero_caidas_check');
 
 
          $this->form_validation->set_rules('unidad_tiempo1', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo');
          $this->form_validation->set_rules('minimo_duracion_caida', 'Duración Mínima de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer|callback_duracion_caidas_check');
 
          $this->form_validation->set_rules('unidad_tiempo2', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo2');
          $this->form_validation->set_rules('minimo_duracion_respuesta', 'Tiempo Mínimo de Respuesta', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer|callback_tiempo_respuesta_check');
 
 
          $this->form_validation->set_rules('tiempo_restauracion1', 'Unidad de Medida', 'callback_dropdown_unidad_tiempo_restauracion');
          $this->form_validation->set_rules('minimo_duracion_restauracion', 'Tiempo Mínimo de Restauración', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer|callback_tiempo_restauracion_check');
 
          $this->form_validation->set_rules('soporte', 'Atención al Cliente', 'required|trim|max_length[65535]');
 
@@ -487,11 +631,18 @@ class Acuerdos_ns extends MX_Controller
 		            	}
 
 
+		         $fecha_inicio = strtotime($this->input->post('fecha_inicio')); 
+		         $fecha_inicio = date("Y-m-d", $fecha_inicio); 
+
+		         $fecha_culminacion = strtotime($this->input->post('fecha_culminacion'));
+		         $fecha_culminacion = date("Y-m-d", $fecha_culminacion); 
+
+
 		        // Establecer fecha de revisión de acuerdo
 
 		           if( $this->input->post('intervalo_revision') == 'Mensual' )
 		            	{
-		            		$date = date('Y-m-j');
+		            		$date = $fecha_inicio;
 							$newdate = strtotime ( '+1 month' , strtotime ( $date ) ) ;
 							$fecha_revision = date ( 'Y-m-j' , $newdate );
 		            		
@@ -499,7 +650,7 @@ class Acuerdos_ns extends MX_Controller
 
 		           if( $this->input->post('intervalo_revision') == 'Trimestral' )
 		            	{
-		            		$date = date('Y-m-j');
+		            		$date = $fecha_inicio;
 							$newdate = strtotime ( '+3 month' , strtotime ( $date ) ) ;
 							$fecha_revision = date ( 'Y-m-j' , $newdate );
 		            		
@@ -507,7 +658,7 @@ class Acuerdos_ns extends MX_Controller
 
 		           if( $this->input->post('intervalo_revision') == 'Semestral' )
 		            	{
-		            			$date = date('Y-m-j');
+		            			$date = $fecha_inicio;
 								$newdate = strtotime ( '+6 month' , strtotime ( $date ) ) ;
 								$fecha_revision = date ( 'Y-m-j' , $newdate );
 		            		
@@ -515,7 +666,7 @@ class Acuerdos_ns extends MX_Controller
 
 		           if( $this->input->post('intervalo_revision') == 'Anual' )
 		            	{
-		            		$date = date('Y-m-j');
+		            		$date = $fecha_inicio;
 							$newdate = strtotime ( '+1 year' , strtotime ( $date ) ) ;
 							$fecha_revision = date ( 'Y-m-j' , $newdate );	            		
 		            	}	        
@@ -1263,17 +1414,14 @@ class Acuerdos_ns extends MX_Controller
 		            		$glosario = NULL;
 		            	}
 
-		         $fecha_inicio = strtotime($this->input->post('fecha_inicio')); 
-		         $fecha_inicio = date("Y-m-d", $fecha_inicio); 
-
-		         $fecha_culminacion = strtotime($this->input->post('fecha_culminacion'));
-		          $fecha_culminacion = date("Y-m-d", $fecha_culminacion); 
+		      
             	
                 $acuerdo = array(
                 				'nombre_acuerdo'=>$this->input->post('nombre_acuerdo'),
                                 'id_servicio' => $this->input->post('servicio'),
                                 'gestor_servicio' => $this->input->post('gestor'),
                                 'cliente' => $this->input->post('clientes'),
+                                'representante_cliente' => $this->input->post('representante_cliente'),
 
                                 'fecha_inicio' =>  $fecha_inicio,
                                 'fecha_final' =>  $fecha_culminacion,
@@ -1333,6 +1481,8 @@ class Acuerdos_ns extends MX_Controller
 
 								'pregunta_mant' => $this->input->post('options_pregunta'),
 								'modalidad_mantenimiento' => $this->input->post('intervalo_mantenimiento'),
+
+								'complemento_disponibilidad' => $this->input->post('complemento_disponibilidad'),
 
 								'unidad_num_caidas' => $this->input->post('unidad_medida'),
 								'minimo_num_caidas' => $this->input->post('minimo_caida'),
@@ -1422,6 +1572,7 @@ class Acuerdos_ns extends MX_Controller
 		
 		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));		
 		$data_view['gestor'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->gestor_servicio));
+		$data_view['representante'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->representante_cliente));
 		
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/ver_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
 	}
@@ -1481,10 +1632,11 @@ class Acuerdos_ns extends MX_Controller
          $this->form_validation->set_rules('servicio', 'Nombre del Servicio', 'callback_dropdown_servicio');
          $this->form_validation->set_rules('gestor', 'Gestor de Niveles del Servicio', 'callback_dropdown_gestor');
          $this->form_validation->set_rules('clientes', 'Cliente(s)', 'required|trim|max_length[500]');
+         $this->form_validation->set_rules('representante_cliente', 'Representante del Cliente', 'callback_dropdown_representante_cliente');
 
          $this->form_validation->set_rules('fecha_inicio', 'Fecha de Inicio', 'required|trim');
          $this->form_validation->set_rules('fecha_culminacion', 'Fecha de Culminación', 'required|trim');
-         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision');
+         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision|callback_intervalos_revision_check');
          $this->form_validation->set_rules('objetivos_acuerdo', 'Objetivos del Acuerdo', 'required|trim|max_length[65535]');
          $this->form_validation->set_rules('alcance', 'Alcance y Exclusiones del Acuerdo', 'required|trim|max_length[65535]');
          $this->form_validation->set_rules('condiciones_terminacion', 'Condiciones de Terminación del Acuerdo', 'max_length[65535]');
@@ -1563,24 +1715,28 @@ class Acuerdos_ns extends MX_Controller
 
          $this->form_validation->set_rules('intervalo_mantenimiento', 'Intervalo de Mantenimiento del Acuerdo', 'callback_dropdown_intervalo_mantenimiento');
 
+
+         $this->form_validation->set_rules('complemento_disponibilidad', 'Complemento de Disponibilidad', 'max_length[65535]');
+
          $this->form_validation->set_rules('unidad_medida', 'Unidad de Medida', 'callback_dropdown_unidad_medida');
 
          $this->form_validation->set_rules('minimo_caida', 'Mínimo de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer|callback_numero_caidas_check');
 
 
          $this->form_validation->set_rules('unidad_tiempo1', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo');
          $this->form_validation->set_rules('minimo_duracion_caida', 'Duración Mínima de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer|callback_duracion_caidas_check');
 
          $this->form_validation->set_rules('unidad_tiempo2', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo2');
          $this->form_validation->set_rules('minimo_duracion_respuesta', 'Tiempo Mínimo de Respuesta', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer|callback_tiempo_respuesta_check');
 
 
          $this->form_validation->set_rules('tiempo_restauracion1', 'Unidad de Medida', 'callback_dropdown_unidad_tiempo_restauracion');
          $this->form_validation->set_rules('minimo_duracion_restauracion', 'Tiempo Mínimo de Restauración', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer|callback_tiempo_restauracion_check');
+
 
          $this->form_validation->set_rules('soporte', 'Atención al Cliente', 'required|trim|max_length[65535]');
 
@@ -1640,11 +1796,19 @@ class Acuerdos_ns extends MX_Controller
 		            	}
 
 
+
+		        $fecha_inicio = strtotime($this->input->post('fecha_inicio')); 
+		         $fecha_inicio = date("Y-m-d", $fecha_inicio); 
+
+		         $fecha_culminacion = strtotime($this->input->post('fecha_culminacion'));
+		          $fecha_culminacion = date("Y-m-d", $fecha_culminacion); 
+
+
 		        // Establecer fecha de revisión de acuerdo
 
 		           if( $this->input->post('intervalo_revision') == 'Mensual' )
 		            	{
-		            		$date = date('Y-m-j');
+		            		$date = $fecha_inicio;
 							$newdate = strtotime ( '+1 month' , strtotime ( $date ) ) ;
 							$fecha_revision = date ( 'Y-m-j' , $newdate );
 		            		
@@ -1652,7 +1816,7 @@ class Acuerdos_ns extends MX_Controller
 
 		           if( $this->input->post('intervalo_revision') == 'Trimestral' )
 		            	{
-		            		$date = date('Y-m-j');
+		            		$date = $fecha_inicio;
 							$newdate = strtotime ( '+3 month' , strtotime ( $date ) ) ;
 							$fecha_revision = date ( 'Y-m-j' , $newdate );
 		            		
@@ -1660,7 +1824,7 @@ class Acuerdos_ns extends MX_Controller
 
 		           if( $this->input->post('intervalo_revision') == 'Semestral' )
 		            	{
-		            			$date = date('Y-m-j');
+		            			$date = $fecha_inicio;
 								$newdate = strtotime ( '+6 month' , strtotime ( $date ) ) ;
 								$fecha_revision = date ( 'Y-m-j' , $newdate );
 		            		
@@ -1668,7 +1832,7 @@ class Acuerdos_ns extends MX_Controller
 
 		           if( $this->input->post('intervalo_revision') == 'Anual' )
 		            	{
-		            		$date = date('Y-m-j');
+		            		$date = $fecha_inicio;
 							$newdate = strtotime ( '+1 year' , strtotime ( $date ) ) ;
 							$fecha_revision = date ( 'Y-m-j' , $newdate );	            		
 		            	}	        
@@ -2416,11 +2580,7 @@ class Acuerdos_ns extends MX_Controller
 		            		$glosario = NULL;
 		            	}
 
-		         $fecha_inicio = strtotime($this->input->post('fecha_inicio')); 
-		         $fecha_inicio = date("Y-m-d", $fecha_inicio); 
-
-		         $fecha_culminacion = strtotime($this->input->post('fecha_culminacion'));
-		          $fecha_culminacion = date("Y-m-d", $fecha_culminacion); 
+		         
 
 
 		          if($operacion == 'actualizar')
@@ -2440,6 +2600,8 @@ class Acuerdos_ns extends MX_Controller
                                 'id_servicio' => $this->input->post('servicio'),
                                 'gestor_servicio' => $this->input->post('gestor'),
                                 'cliente' => $this->input->post('clientes'),
+
+                                'representante_cliente' => $this->input->post('representante_cliente'),
 
                                 'fecha_inicio' =>  $fecha_inicio,
                                 'fecha_final' =>  $fecha_culminacion,
@@ -2504,6 +2666,9 @@ class Acuerdos_ns extends MX_Controller
 
 								'pregunta_mant' => $this->input->post('options_pregunta'),
 								'modalidad_mantenimiento' => $this->input->post('intervalo_mantenimiento'),
+
+
+								'complemento_disponibilidad' => $this->input->post('complemento_disponibilidad'),
 
 								'unidad_num_caidas' => $this->input->post('unidad_medida'),
 								'minimo_num_caidas' => $this->input->post('minimo_caida'),
@@ -2579,13 +2744,13 @@ class Acuerdos_ns extends MX_Controller
 
 		            	if($resultado_acuerdo)
 			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+			            		$ruta = $this->generar_pdf_acuerdo($resultado_acuerdo);
 
 								$acuerdo = array(
                                 'ruta_pdf' => $ruta,
 
                                 );
-                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+                                $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$resultado_acuerdo));
 
 			            		$this->session->set_flashdata('Success', 'El Acuerdo de Niveles de Servicio ha sido Creado con Éxito en base al ANS seleccionado');
 			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
@@ -2666,6 +2831,7 @@ class Acuerdos_ns extends MX_Controller
 
 		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));		
 		$data_view['gestor'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->gestor_servicio));
+		$data_view['representante'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->representante_cliente));
 
 		$posiciones = array();     
 
@@ -2819,6 +2985,7 @@ class Acuerdos_ns extends MX_Controller
 
   		$data_view['servicio'] =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));		
 		$data_view['gestor'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->gestor_servicio));
+		$data_view['representante'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->representante_cliente));
 
 		$servicio =  $this->general->get_row('servicio',array('servicio_id'=>$acuerdo->id_servicio));
 		$data_view['proveedor'] =$this->general->get_row('servicio_proveedor',array('proveedor_id'=>$servicio->proveedor_servicio));

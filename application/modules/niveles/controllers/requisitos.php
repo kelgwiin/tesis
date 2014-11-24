@@ -306,6 +306,74 @@ class Requisitos extends MX_Controller
 		}
 	}
 
+	function numero_caidas_check()
+	{
+		if ($this->input->post('minimo_caida') && $this->input->post('maximo_caida'))
+		{
+			if ($this->input->post('minimo_caida') >= $this->input->post('maximo_caida'))
+			{
+				$this->form_validation->set_message('numero_caidas_check', 'El numero de Caídas Máximas No puede ser Menor o Igual al de Caídas Mínimas');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+
+	function tiempo_respuesta_check()
+	{
+		if ($this->input->post('minimo_duracion_respuesta') && $this->input->post('maximo_duracion_respuesta'))
+		{
+			if ($this->input->post('minimo_duracion_respuesta') >= $this->input->post('maximo_duracion_respuesta'))
+			{
+				$this->form_validation->set_message('tiempo_respuesta_check', 'El numero de Tiempo Máximo No puede ser Menor o Igual al del Tiempo Mínimo');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+
+	function duracion_caidas_check()
+	{
+		if ($this->input->post('minimo_duracion_caida') && $this->input->post('maximo_duracion_caida'))
+		{
+			if ($this->input->post('minimo_duracion_caida') >= $this->input->post('maximo_duracion_caida'))
+			{
+				$this->form_validation->set_message('duracion_caidas_check', 'El numero de Tiempo Máximo No puede ser Menor o Igual al del Tiempo Mínimo');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+
+	function tiempo_restauracion_check()
+	{
+		if ($this->input->post('minimo_duracion_restauracion') && $this->input->post('maximo_duracion_restauracion'))
+		{
+			if ($this->input->post('minimo_duracion_restauracion') >= $this->input->post('maximo_duracion_restauracion'))
+			{
+				$this->form_validation->set_message('tiempo_restauracion_check', 'El numero de Tiempo Máximo No puede ser Menor o Igual al del Tiempo Mínimo');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+
+
 
 	/*
 	* Comienzo de la Creacion de Acuerdos de Niveles de Servicio.
@@ -397,24 +465,26 @@ class Requisitos extends MX_Controller
 
          $this->form_validation->set_rules('intervalo_mantenimiento', 'Intervalo de Mantenimiento del Acuerdo', 'callback_dropdown_intervalo_mantenimiento');
 
-         $this->form_validation->set_rules('unidad_medida', 'Unidad de Medida', 'callback_dropdown_unidad_medida');
+           $this->form_validation->set_rules('complemento_disponibilidad', 'Complemento de Disponibilidad', 'max_length[65535]');
+
+        $this->form_validation->set_rules('unidad_medida', 'Unidad de Medida', 'callback_dropdown_unidad_medida');
 
          $this->form_validation->set_rules('minimo_caida', 'Mínimo de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer|callback_numero_caidas_check');
 
 
          $this->form_validation->set_rules('unidad_tiempo1', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo');
          $this->form_validation->set_rules('minimo_duracion_caida', 'Duración Mínima de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer|callback_duracion_caidas_check');
 
          $this->form_validation->set_rules('unidad_tiempo2', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo2');
          $this->form_validation->set_rules('minimo_duracion_respuesta', 'Tiempo Mínimo de Respuesta', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer|callback_tiempo_respuesta_check');
 
 
          $this->form_validation->set_rules('tiempo_restauracion1', 'Unidad de Medida', 'callback_dropdown_unidad_tiempo_restauracion');
          $this->form_validation->set_rules('minimo_duracion_restauracion', 'Tiempo Mínimo de Restauración', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer|callback_tiempo_restauracion_check');
 
          $this->form_validation->set_rules('soporte', 'Atención al Cliente', 'required|trim|max_length[65535]');
 
@@ -1233,6 +1303,8 @@ class Requisitos extends MX_Controller
 								'pregunta_mant' => $this->input->post('options_pregunta'),
 								'modalidad_mantenimiento' => $this->input->post('intervalo_mantenimiento'),
 
+								'complemento_disponibilidad' => $this->input->post('complemento_disponibilidad'),
+
 								'unidad_num_caidas' => $this->input->post('unidad_medida'),
 								'minimo_num_caidas' => $this->input->post('minimo_caida'),
 								'maximo_num_caidas' => $this->input->post('maximo_caida'),
@@ -1436,24 +1508,26 @@ class Requisitos extends MX_Controller
 
          $this->form_validation->set_rules('intervalo_mantenimiento', 'Intervalo de Mantenimiento del Acuerdo', 'callback_dropdown_intervalo_mantenimiento');
 
-         $this->form_validation->set_rules('unidad_medida', 'Unidad de Medida', 'callback_dropdown_unidad_medida');
+           $this->form_validation->set_rules('complemento_disponibilidad', 'Complemento de Disponibilidad', 'max_length[65535]');
+
+          $this->form_validation->set_rules('unidad_medida', 'Unidad de Medida', 'callback_dropdown_unidad_medida');
 
          $this->form_validation->set_rules('minimo_caida', 'Mínimo de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_caida', 'Máximo de Caídas', 'required|trim|integer|callback_numero_caidas_check');
 
 
          $this->form_validation->set_rules('unidad_tiempo1', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo');
          $this->form_validation->set_rules('minimo_duracion_caida', 'Duración Mínima de Caídas', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_caida', 'Duración Máxima de Caídas', 'required|trim|integer|callback_duracion_caidas_check');
 
          $this->form_validation->set_rules('unidad_tiempo2', 'Unidad de Tiempo', 'callback_dropdown_unidad_tiempo2');
          $this->form_validation->set_rules('minimo_duracion_respuesta', 'Tiempo Mínimo de Respuesta', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_respuesta', 'Tiempo Máximo de Respuesta', 'required|trim|integer|callback_tiempo_respuesta_check');
 
 
          $this->form_validation->set_rules('tiempo_restauracion1', 'Unidad de Medida', 'callback_dropdown_unidad_tiempo_restauracion');
          $this->form_validation->set_rules('minimo_duracion_restauracion', 'Tiempo Mínimo de Restauración', 'required|trim|integer');
-         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer');
+         $this->form_validation->set_rules('maximo_duracion_restauracion', 'Tiempo Máximo de Restauración', 'required|trim|integer|callback_tiempo_restauracion_check');
 
          $this->form_validation->set_rules('soporte', 'Atención al Cliente', 'required|trim|max_length[65535]');
 
@@ -2269,6 +2343,8 @@ class Requisitos extends MX_Controller
 
 								'pregunta_mant' => $this->input->post('options_pregunta'),
 								'modalidad_mantenimiento' => $this->input->post('intervalo_mantenimiento'),
+
+								'complemento_disponibilidad' => $this->input->post('complemento_disponibilidad'),
 
 								'unidad_num_caidas' => $this->input->post('unidad_medida'),
 								'minimo_num_caidas' => $this->input->post('minimo_caida'),

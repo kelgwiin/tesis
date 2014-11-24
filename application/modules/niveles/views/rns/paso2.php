@@ -514,6 +514,52 @@
 		</div>
 	</div>
 
+
+
+	<hr><br>
+
+	<div class=""><h4 > 
+ 	 		<label class="control-label"><b> Complemento de Disponibilidad</b></h4></label>
+	</div>
+
+	<div>
+		Esta sección esta destinada para especificar: Procedimientos para anunciar interrupciones del Servicio (Planeadas / No planeadas), margen
+		para los periodos de Notificación, Restricciones y Exclusiones de Disponibilidad (Si las Hay) y cualquier punto referente a la Disponibilidad del Servicio
+		que no este cubierto por las métricas establecidas para este Acuerdo. 
+	</div><br><br>
+
+	<div class="row">
+	  <div class="form-group">
+
+			        <div class="col-md-offset-1">
+						<label for="tipo_servicio" class="col-md-2 control-label text-right">Complemento</label>		    
+					</div>
+
+			        <div class="col-md-8">
+			            <?php $data = array(
+			            		'value' => set_value('complemento_disponibilidad'),
+		                        'name'        => 'complemento_disponibilidad',
+		                        'id'          => 'complemento_disponibilidad', 
+		                        'class'          => 'form-control boxsizingBorder',
+		                        'placeholder' => '',
+		                        //'rows' => '6',                           
+		                                  );
+		                echo form_textarea($data)?>
+			        </div>
+	 </div>
+	 <div class="form-group">
+	     <div class="control-label col-md-3">
+	      </div>
+	      	<div class="col-md-8">
+			    <label style="color:red;">
+			   	<?php 
+			        echo form_error('complemento_disponibilidad');
+				 ?>
+				</label>
+			</div>
+		</div>
+   </div><br>
+
    
 
   <h3 > <b> Confiabilidad</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_confiabilidad_acuerdo">

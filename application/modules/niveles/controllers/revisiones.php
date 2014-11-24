@@ -110,6 +110,23 @@ class Revisiones extends MX_Controller
 				return TRUE;
 			}
 		}
+		else
+			{
+				return TRUE;
+			}
+	}
+
+	function dropdown_tipo_evento()
+	{
+		if ($this->input->post('tipo_evento') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_tipo_evento', 'Por favor seleccione un Tipo de Evento');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
 	}
 
 
@@ -121,11 +138,12 @@ class Revisiones extends MX_Controller
 
 		 $this->load->library('form_validation');
 		 $this->load->helper(array('form', 'url'));
+		 $this->form_validation->set_rules('tipo_evento', 'Tipo de Evento', 'callback_dropdown_tipo_evento');
          $this->form_validation->set_rules('nombre_evento', 'Nombre del Evento', 'required|min_length[3]|max_length[250]|trim|callback_categoria_name_check');
          $this->form_validation->set_rules('lugar_evento', 'Lugar del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('descripcion_evento', 'Descripción del Evento', 'trim|max_length[500]');
-         $this->form_validation->set_rules('evento_inicio', 'Inicio del Evento', 'required|trim|callback_fechas_check');
-         $this->form_validation->set_rules('evento_fin', 'Fin del Evento', 'required|trim');
+         $this->form_validation->set_rules('evento_inicio', 'Inicio del Evento', 'required|trim');
+         $this->form_validation->set_rules('evento_fin', 'Fin del Evento', 'required|trim|callback_fechas_check');
 
          $this->form_validation->set_message('required', 'Campo Requerido');
          $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
@@ -134,8 +152,19 @@ class Revisiones extends MX_Controller
          
          if ($this->form_validation->run($this) == FALSE)
             {
+            		$fecha_actual = date('Y-m-j H:i:s');
 
-               $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones','','Reuniones y Revisiones','','two_level');
+					$date = date('Y-m-d');
+					$newdate = strtotime ( '+8 day' , strtotime ( $date ) ) ;
+					$fecha_proxima = date ( 'Y-m-d 23:59:00' , $newdate );
+
+					$eventos_recientes = $this->niveles->obtener_revisiones_recientes($fecha_actual,$fecha_proxima);
+
+					$data_view['eventos_recientes']	= $eventos_recientes;
+					$data_view['inicio']	= $fecha_actual;
+					$data_view['fin']	= $fecha_proxima;
+
+               $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
             }
             else
             {
@@ -188,11 +217,50 @@ class Revisiones extends MX_Controller
 			$eventos_calendario[$i]['id'] = $evento->id_evento;
 			$eventos_calendario[$i]['title'] = $evento->nombre_evento;
 
+			$eventos_calendario[$i]['descripcion'] = $evento->descripcion_evento;
+			$eventos_calendario[$i]['lugar'] = $evento->lugar_evento;
+
+			$eventos_calendario[$i]['tipo'] = $evento->tipo_evento;
+
 			$inicio=str_replace(" ", "T", $evento->inicio);
 			$eventos_calendario[$i]['start'] = $inicio;
 
 			$fin=str_replace(" ", "T", $evento->fin);
 			$eventos_calendario[$i]['end'] = $fin;
+
+
+			$inicio = date_create($evento->inicio);
+			$eventos_calendario[$i]['inicio'] =  date_format($inicio,'d/m/Y h:i a');
+
+			$fin = date_create($evento->fin);
+			$eventos_calendario[$i]['fin'] =  date_format($fin,'d/m/Y h:i a');
+
+			if($evento->tipo_evento == "revision_ANS")
+				{
+					$eventos_calendario[$i]['color'] = '#42A321';
+				}
+
+			if($evento->tipo_evento == "renovacion_ANS")
+				{
+					$eventos_calendario[$i]['color'] = '#FF7519';
+				}
+
+			if($evento->tipo_evento == "vencimiento_ANS")
+				{
+					$eventos_calendario[$i]['color'] = '#E64545';	
+					$eventos_calendario[$i]['allDay'] = true;
+				}
+
+			if($evento->tipo_evento == "reunion")
+				{
+					$eventos_calendario[$i]['color'] = '#3366FF';
+				}
+
+			if($evento->tipo_evento == "otro")
+				{
+					$eventos_calendario[$i]['color'] = '#8E8E86';
+				}
+
 			$i++;
 		}
 

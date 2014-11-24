@@ -176,6 +176,8 @@ $(document).ready(function() {
                                  $('#options_pregunta_1').prop('checked', false);
                                  $('#options_pregunta_2').prop('checked', false);
 
+                                  tinymce.get('complemento_disponibilidad').setContent('');
+
                                  $('#dropdown_unidad_medida').val('seleccione');
                                                           $("#minimo_caida").prop('disabled', true);
                                                           $('#minimo_caida').val('');
@@ -378,6 +380,9 @@ $(document).ready(function() {
                                   {
                                       $('#options_pregunta_2').prop('checked', true);
                                   }
+
+
+                                  tinymce.get('complemento_disponibilidad').setContent(requisito.complemento_disponibilidad);
 
 
                                 $('#dropdown_unidad_medida').val(requisito.unidad_num_caidas);

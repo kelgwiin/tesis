@@ -74,7 +74,8 @@
                                <i><?php echo $acuerdo->cliente; ?></i>
                             </td>
                         </tr>
-                    </table>
+                    </table><br>
+                    <b>Representante del Cliente:</b> <i><?php echo $representante->codigo_empleado.' - '.$representante->nombre; ?></i>
 
                    </p><br>
                 </td>
@@ -248,6 +249,7 @@
 
     <?php if($val == 'niveles') : ?>
      <?php echo "<pagebreak />";  ?>
+     <div class="col-md-10 col-md-offset-1">
      <table width="100%">
             <tr style="background-color: #3a87ad;">
                 <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
@@ -956,6 +958,23 @@
                                                </table>
 
                         <br><br>
+
+
+                        <?php if($acuerdo->complemento_disponibilidad != NULL) : ?>
+
+                             
+                          <br>
+                          <h4><b>Complemento de Disponibilidad</b></h4>
+                        
+                        
+                          <?php echo $acuerdo->complemento_disponibilidad; ?><br><br><br>
+
+                          
+                          
+                          
+                          <?php endif ?> 
+
+            
                         <br><h4><b>Confiabilidad</b></h4><br>
                         
 
@@ -1232,6 +1251,7 @@
 
      <?php if($val == 'soporte') : ?>
       <?php echo "<pagebreak />";  ?>
+      <div class="col-md-10 col-md-offset-1">
       <table width="100%">
             <tr style="background-color: #3a87ad;">
                 <td style="text-align: center; vertical-align: middle; height: 45px; color: white">
@@ -1463,7 +1483,10 @@
 
     <?php endforeach ?>
 
-        
+          <?php echo "<pagebreak />";  ?>
+          <div class="col-md-10 col-md-offset-1">
+
+
         <table width="100%">
             <tr style="background-color: #3a87ad;">
                 <td style="text-align: center; vertical-align: middle; height: 45px; color: white">

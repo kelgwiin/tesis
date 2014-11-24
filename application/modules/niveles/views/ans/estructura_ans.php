@@ -280,6 +280,12 @@ $(document).ready(function() {
                           <td><h5><i><?php echo $acuerdo->cliente; ?></i></h5></td>
                         </tr>
 
+                        
+                        <tr>
+                          <td width="30%"><h5><i><b>Representante del Cliente:</b></i></h5></td>
+                          <td><h5><i><?php echo $representante->codigo_empleado.' - '.$representante->nombre;  ?></i></h5></td>
+                        </tr>
+
                         <tr>
                           <td width="30%"><h5><i><b>Duración del Acuerdo:</b></i></h5></td>
                           <td><h5>
@@ -1120,6 +1126,21 @@ $(document).ready(function() {
                                         </div>
                                     </div>
                              </div> 
+
+
+                        <?php if($acuerdo->complemento_disponibilidad != NULL) : ?>
+
+               
+                          <br>
+                          <h4><b>Complemento de Disponibilidad</b></h4>
+                        
+                        
+                          <?php echo $acuerdo->complemento_disponibilidad; ?><br><br><br>
+
+                          
+                          
+                          
+                          <?php endif ?> 
 
 
 

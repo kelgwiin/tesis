@@ -2,9 +2,6 @@
 
 $(document).ready(function() {
 
-    //var errores = <?php echo $errores; ?>;
-    //$('#myModal').modal('show'); 
-
 
      if($('#errores').val() != '0')
       {
@@ -32,64 +29,6 @@ $(document).ready(function() {
       axisFormat: 'h a',
       events: './tesis/index.php/niveles_de_servicio/gestion_Revisiones/obtener_eventos',
 
-    /*  events: [
-      {
-        title: 'All Day Event',
-        start: '2014-11-01'
-      },
-      {
-        title: 'Long Event',
-        start: '2014-11-07',
-        end: '2014-11-10'
-      },
-      {
-        id: 999,
-        title: 'Repeating Event',
-        start: '2014-11-11T16:00:00'
-      },
-      {
-        id: 999,
-        title: 'Repeating Event',
-        start: '2014-11-16T16:00:00'
-      },
-      {
-        title: 'Conference',
-        start: '2014-11-11',
-        end: '2014-11-13'
-      },
-      {
-        title: 'Meeting',
-        start: '2014-11-12T10:30:00',
-        end: '2014-11-12T12:30:00'
-      },
-      {
-        title: 'Lunch',
-        start: '2014-11-12T12:00:00'
-      },
-      {
-        title: 'Meeting',
-        start: '2014-11-12T14:30:00'
-      },
-      {
-        title: 'Happy Hour',
-        start: '2014-11-12T17:30:00'
-      },
-      {
-        title: 'Dinner',
-        start: '2014-11-12T20:00:00'
-      },
-      {
-        title: 'Birthday Party',
-        start: '2014-11-13T07:00:00'
-      },
-      {
-        title: 'Click for Google',
-        url: 'http://google.com/',
-        start: '2014-11-28'
-      }
-    ],*/
-
-
 
     dayClick: function() { 
  
@@ -102,6 +41,65 @@ $(document).ready(function() {
 
      eventClick: function(calEvent, jsEvent, view) {
 
+        $('#modal_evento').modal('show');
+
+        $("#tabla_nombre").empty();
+        $("#tabla_tipo").empty();
+        $("#tabla_lugar").empty();
+        $("#tabla_inicio").empty();
+        $("#tabla_fin").empty();
+        $("#tabla_descripcion").empty();
+
+        $("#tabla_nombre").append(calEvent.title);
+
+
+        if(calEvent.tipo == 'vencimiento_ANS')
+            {   
+                 var posiciones = calEvent.inicio.split(' ');
+
+                $("#tabla_inicio").append('<i class="fa fa-calendar"></i> '+posiciones[0]+' Todo el Día');
+                $("#tabla_fin").append('<i class="fa fa-calendar"></i> '+posiciones[0]+' Todo el Día');
+
+
+            }
+        else
+            {
+                $("#tabla_inicio").append('<i class="fa fa-calendar"></i> '+calEvent.inicio);
+                $("#tabla_fin").append('<i class="fa fa-calendar"></i> '+calEvent.fin);
+            }
+
+      
+
+        if(calEvent.lugar == '')
+        {$("#tabla_lugar").append('<i>No Establecido</i>');}
+        else
+        {$("#tabla_lugar").append(calEvent.lugar);}
+
+        if(calEvent.tipo == 'revision_ANS')
+            {$("#tabla_tipo").append('<span class="label" style="background-color:#42A321;">Revisión de ANS</span>');}
+
+        if(calEvent.tipo == 'renovacion_ANS')
+            {$("#tabla_tipo").append('<span class="label" style="background-color:#FF7519;" >Renovación de ANS</span>');}
+
+        if(calEvent.tipo == 'vencimiento_ANS')
+            {$("#tabla_tipo").append('<span class="label" style="background-color:#E64545;">Vencimiento de ANS</span>');}
+
+        if(calEvent.tipo == 'reunion')
+            {$("#tabla_tipo").append('<span class="label" style="background-color:#3366FF;" >Reunión</span>');}
+
+        if(calEvent.tipo == 'otro')
+            {$("#tabla_tipo").append('<span class="label" style="background-color:#8E8E86;" >Otro</span>');}
+        
+        $("#tabla_lugar").append(calEvent.lugar);
+
+        if(calEvent.descripcion == '')
+        {$("#tabla_descripcion").append('<i>No Posee</i>');}
+        else
+        {$("#tabla_descripcion").append(calEvent.descripcion);}
+
+
+        $("#footer_vista_evento").append('<button type="button" class="btn btn-warning" data-dismiss="modal">Modicar</button> <button type="button" class="btn btn-danger" data-dismiss="modal">Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
+        
         //alert('Event: ' + calEvent.title);
         //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
         //alert('View: ' + calEvent.id);

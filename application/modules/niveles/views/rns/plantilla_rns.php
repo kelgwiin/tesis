@@ -786,7 +786,24 @@
                                                 </tbody>
                                                </table>
 
-                        <br><br>
+                                               <br><br>
+
+
+                        <?php if($requisito->complemento_disponibilidad != NULL) : ?>
+
+                             
+                          <br>
+                          <h4><b>Complemento de Disponibilidad</b></h4>
+                        
+                        
+                          <?php echo $requisito->complemento_disponibilidad; ?><br>
+
+                          
+                          
+                          
+                          <?php endif ?> 
+
+                        
                         <br><h4><b>Confiabilidad</b></h4><br>
                         
 

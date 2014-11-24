@@ -131,6 +131,10 @@
 
 	<div class="col-md-7">
 
+
+		
+
+
 	  <div class="form-group">
 
 			<div class="required">
@@ -160,6 +164,45 @@
 				 ?>
 				</label>
 			</div>
+	</div>
+
+
+	<div class="form-group">
+			
+			<div class="required text-right">
+				<label for="service_name" class="col-md-2 control-label">Representante del Cliente</label> 
+			</div>
+
+		    <div class="col-md-7">
+
+		         <?php
+		        	$options = array(
+		        		'seleccione' => 'Seleccione una Persona',		        	  
+	                );
+					//$options['-1'] = 'Seleccione un Departamento';
+					foreach($personal as $persona)
+		            { 
+		              $options[$persona->id_personal] = $persona->codigo_empleado." - ".$persona->nombre;
+		            }
+
+
+		        ?>
+
+		      	 <?php echo form_dropdown('representante_cliente', $options,set_value('representante_cliente'),'class="form-control" id="dropdown_representante_cliente" '); ?>	
+		    </div>
+		</div>
+
+
+		<div class="form-group">
+		     <div class="control-label col-md-2">
+		      </div>
+		      	<div class="col-md-7">
+				    <label style="color:red;">
+				   	<?php 
+				        echo form_error('representante_cliente');
+					 ?>
+			 </label>
+		</div>
 	</div>
 
 	</div>

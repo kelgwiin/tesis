@@ -99,6 +99,39 @@
 				</div>
 
 
+				<div class="form-group">
+			        <div class="required">
+						<label class="col-md-4 control-label">Estatus del Servicio</label>		    
+					</div>
+
+					<div class="col-md-7">
+
+						 
+			       		<?php
+					       	$options = array(
+					       	  'seleccione' => 'Seleccione',
+					       	  'Activo' => 'Activo',
+					       	  'Retirado' => 'Retirado',
+			                );
+					        ?>
+				            <?php echo form_dropdown('estatus_servicio', $options,set_value('estatus_servicio',@$servicio->estatus),'class="form-control" id="dropdown_estatus_servicio"'); ?>
+			     
+				       </div>
+			    </div>
+
+			    <div class="form-group">
+			      	<div class="control-label col-md-4">
+			      	</div>
+			      	<div class="col-md-7">
+					    <label style="color:red;">
+					   	<?php 
+					        echo form_error('estatus_servicio');
+						 ?>
+						</label>
+					</div>
+				</div>	
+
+
 
 				<div class="form-group">
 			 		

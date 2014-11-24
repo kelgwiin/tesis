@@ -5,10 +5,15 @@
 <style>
 .datepicker{z-index:1151 !important;}
 
+.borderless tbody tr td, .borderless thead tr th {
+    border: none;
+}
+
 </style>
 
+
+
 <div id="page-wrapper">
-<h2>Calendario de Revisiones y Reuniones.</h2>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-calendar"></i> 
@@ -35,7 +40,10 @@
 
 
 <div class='col-lg-8'>
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
+	   <div class="panel-heading text-center">
+		   <h3 class="panel-title"> <b> <i class="fa fa-calendar"></i>  Calendario </b> </h3>
+		  </div>
 	  <div class="panel-body">
 	    	
 			<div id='calendar'></div>
@@ -59,52 +67,86 @@
 				 <input type='text' name="errores" class="form-control" id='errores'  value="<?php echo strlen($errores); ?>"/>
 		</div>
 
-		<div class="panel panel-info">
+		<div class="panel panel-primary">
 		  <div class="panel-heading text-center">
-		    <h3 class="panel-title"><b><i class="fa fa-search"></i> Próximas Revisiones</b></h3>
+		    <h3 class="panel-title"><b><i class="fa fa-calendar-o"></i> Próximos Eventos</b></h3>
 		  </div>
-		  <div class="panel-body" style="height:470px; max-height:470px; overflow-y: scroll;">
-		    
+		  <div class="panel-body" style="height:400px; max-height:400px; overflow-y: scroll;">
 
-		    <table class="table table-condensed">
+
+
+		    <table class="table" >
 
 		      <thead>
-		      	<tr>
-		      		<td width="30%"><b>Nombre</b></td>
-		      		<td width="30%"><b>Inicio</b></td>
-		      		<td width="30%"><b>Fin</b></td>
 
-		      	</tr>
-
-		      </thead>
+		     
 			
 			  <?php foreach ($eventos_recientes as $evento_reciente) :?>
 			  	
 			  	<tr>
+			  		<td> 							<?php if($evento_reciente->tipo_evento == 'revision_ANS') : ?>
+									  				<span class="label" style="background-color:#42A321;"> </span>
+												  	<?php endif ?>
+							                 		<?php if($evento_reciente->tipo_evento == 'renovacion_ANS') : ?>
+									  				<span class="label" style="background-color:#FF7519;" > </span>
+												  	<?php endif ?>
+												  	<?php if($evento_reciente->tipo_evento == 'vencimiento_ANS') : ?>
+												  				<span class="label" style="background-color:#E64545;"> </span>
+												  	<?php endif ?>
+												  	<?php if($evento_reciente->tipo_evento == 'reunion') : ?>
+												  				<span class="label" style="background-color:#3366FF;"> </span>
+												  	<?php endif ?> 
+												  	<?php if($evento_reciente->tipo_evento == 'otro') : ?>
+												  				<span class="label" style="background-color:#8E8E86;"> </span>
+												  	<?php endif ?> 
+					</td>
+			  		<td  width="30%"> <?php echo $evento_reciente->nombre_evento; ?></td>
 
-			  		<td> <?php echo $evento_reciente->nombre_evento; ?></td>
-
-			  		<td> <?php 
+			  		<td  width="30%" class="text-right"> <?php 
 			  					$inicio = date_create($evento_reciente->inicio);
-			  					echo date_format($inicio,'d/m h:i a'); ?></td>
+			  					echo '<b>Inicio:</b> '.date_format($inicio,'d/m') ?> <br><?php
+			  					echo date_format($inicio,'h:i a'); ?></td>
 
-			  		<td> <?php $fin = date_create($evento_reciente->fin);
-			  					echo date_format($fin,'d/m h:i a');  ?></td>
+			  		<td  width="30%" class="text-right"> <?php $fin = date_create($evento_reciente->fin);
+			  					echo '<b>Fin:</b> '.date_format($fin,'d/m');  ?> <br><?php
+			  					echo date_format($fin,'h:i a'); ?></td>
 
 			  	</tr>
 
 			  <?php endforeach ?>
+
+			   </thead>
+			   <TBODY></TBODY>
 
 			</table>
 
 		  </div>
 		</div>
 
+
+		<div class="panel panel-default">
+		    
+		  	<table class="table borderless">
+		  		<tr>
+		  			<td><div class='col-lg-1'> <span class="label" style="background-color:#42A321;"> </span></div> <div class='col-lg-offset-2'><b>Revisión de ANS</b></div> </td>
+		  			<td><div class='col-lg-1'><span class="label" style="background-color:#FF7519;" > </span></div> <div class='col-lg-offset-2'><b> Renovación de ANS</b></div> </td>
+		  		</tr>
+
+		  		<tr>
+		  			<td><div class='col-lg-1'><span class="label" style="background-color:#E64545;"> </span></div> <div class='col-lg-offset-2'><b> Vencimiento de ANS</b></div></td>
+		  			<td><div class='col-lg-1'><span class="label" style="background-color:#3366FF;" > </span></div> <div class='col-lg-offset-2'><b> Reunión </b></div></td>
+		  		</tr>
+ 
+		  		<tr>
+		  			<td><div class='col-lg-1'><span class="label" style="background-color:#8E8E86;" > </span></div> <div class='col-lg-offset-2'><b> Otro </b></div></td>
+		  		</tr>
+		  	</table>
+
+		</div>
+
 	   
 
 	</div>
-
-
 
 <?php
 		    // Apertura de Formulario
@@ -145,6 +187,42 @@
 							  		<?php 
 								        echo form_error('nombre_evento');
 									 ?>
+								</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+				
+
+						    	<div class="required">
+									<label  class="col-md-4 control-label">Tipo de Evento</label> 
+								</div>
+						    	 
+						       <div class="col-md-7">
+						       		<?php
+								       	$options = array(
+								       	  'seleccione' => 'Seleccione un Tipo',
+								       	  'revision_ANS' => 'Revisión de ANS',
+								       	  'renovacion_ANS' => 'Renovación de ANS',
+								       	  'vencimiento_ANS' => 'Vencimiento de ANS',								       	  
+								       	  'reunion' => 'Reunión',
+								       	  'otro' => 'Otro',
+
+						                );
+								        ?>
+							            <?php echo form_dropdown('tipo_evento', $options,set_value('tipo_evento'),'class="form-control" id="dropdown_tipo_evento"'); ?>
+						       
+						   	   </div>
+
+						</div>
+						<div class="form-group">
+					     <div class="control-label col-md-4">
+					      </div>
+					      	<div class="col-md-7">
+							    <label style="color:red;">
+							   	<?php 
+							        echo form_error('tipo_evento');
+								 ?>
 								</label>
 							</div>
 						</div>
@@ -293,3 +371,83 @@
   </div>
 </div>
  <?php echo form_close(); ?>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-sm" id='modal_evento' tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Vista Evento</h4>
+      </div>
+      <div class="modal-body">
+
+      	<table class="table borderless">
+      		<thead>
+      		<tr>
+      			<td width="30%">
+      				<b>Nombre del Evento: </b>
+      			</td>
+      			<td id="tabla_nombre">
+      				
+      			</td>
+      		</tr>
+      	   </thead>
+
+      		<tr>
+      			<td>
+      				<b>Tipo del Evento: </b>
+      			</td>
+      			<td id="tabla_tipo">
+      				
+      			</td>
+      		</tr>
+
+      		<tr>
+      			<td>
+      				<b>Lugar del Evento: </b>
+      			</td>
+      			<td id="tabla_lugar">
+      				
+      			</td>
+      		</tr>
+
+      		<tr>
+      			<td>
+      				<b>Inicio: </b>
+      			</td>
+      			<td id="tabla_inicio">
+      				
+      			</td>
+      		</tr>
+
+      		<tr>
+      			<td>
+      				<b>Fin: </b>
+      			</td>
+      			<td id="tabla_fin">
+      				
+      			</td>
+      		</tr>
+
+      		<tr>
+      			<td>
+      				<b>Descripción: </b>
+      			</td>
+      			<td id="tabla_descripcion">
+      				
+      			</td>
+      		</tr>
+
+      	</table>
+        
+      </div>
+      <div class="modal-footer" id="footer_vista_evento">
+        
+      </div>
+    </div>
+  </div>
+</div>

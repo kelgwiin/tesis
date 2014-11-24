@@ -564,6 +564,20 @@ class Cargar_Data extends MX_Controller
 	}
 
 
+	function dropdown_estatus()
+	{
+		if ($this->input->post('estatus_servicio') === 'seleccione')
+		{
+			$this->form_validation->set_message('dropdown_estatus', 'Por favor seleccione el Estatus del Servicio');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
+
 
 	public function nuevo_servicio(){
 
@@ -783,7 +797,8 @@ class Cargar_Data extends MX_Controller
          $this->form_validation->set_rules('prioridad_servicio', 'Prioridad', 'callback_dropdown_prioridad');
          $this->form_validation->set_rules('impacto', 'impacto', '');
          $this->form_validation->set_rules('procedimiento_solicitud', 'Procedimientos de Solicitud', '');
-         $this->form_validation->set_rules('contacto', 'Informacion de Contactos', '');
+         $this->form_validation->set_rules('contacto', 'Informacion de Contactos', '');        
+          $this->form_validation->set_rules('estatus_servicio', 'Estatus', 'callback_dropdown_estatus');
          
          $data_view['mensaje'] = '';
 
@@ -857,7 +872,7 @@ class Cargar_Data extends MX_Controller
                                 'impacto' => $impacto,
                                 'procedimiento_solicitud' => $procedimiento,
                                 'contacto' => $contacto,
-                                'estatus' => 'Activo',
+                                'estatus' => $this->input->post('estatus_servicio'),
                                 'ruta_imagen' => $servicio->ruta_imagen,
 
                                 );
