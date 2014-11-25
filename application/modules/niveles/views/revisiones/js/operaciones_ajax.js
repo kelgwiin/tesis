@@ -1,11 +1,66 @@
+function modificarEvento(id_evento) {
 
+          //$("#eliminar").modal('show');
+       $('#modal_evento').modal('hide');
+
+
+       $.ajax({
+                 
+                            
+                            url: config.base+'index.php/niveles/revisiones/obtener_evento',
+                            type: 'POST',
+                            data: {                         
+                                    evento_id : id_evento,                                             
+                                  },
+                            dataType: 'json',
+                            cache : false,  
+
+                             success: function(data_evento){
+                                               
+
+                                 $("#nombre_evento_modificar").val(data_evento.title);
+                                 $("#dropdown_tipo_evento_modificar").val(data_evento.tipo);
+                                 $("#dropdown_tipo_evento_modificar").val(data_evento.tipo);
+                                 $("#lugar_evento_modificar").val(data_evento.lugar);
+
+                                 $('#inicio_evento_modificar').val(data_evento.inicio);
+                                 $('#fin_evento_modificar').val(data_evento.fin);
+
+                                 $("#descripcion_evento_modificar").val(data_evento.descripcion);
+
+                                 $("#id_evento_modificar").val(data_evento.id);
+                                       
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   //alert(xhr.status+" "+thrownError);
+                                   //$("#modal_error").modal('show');
+                                                
+                                 }
+                        });
+
+
+       
+
+
+         $('#modificar_evento').modal('show');
+       
+       //alert('id evento: '+id_evento);
+
+
+    }
 
 $(document).ready(function() {
 
 
-     if($('#errores').val() != '0')
+     if($('#errores').val() != '0' && $('#nuevo_bandera').val() == 'nuevo_bandera')
       {
-          $('#myModal').modal('show');
+         $('#nuevo_evento').modal('show');
+      }
+
+
+    if($('#errores_modificar').val() != '0' && $('#modificar_bandera').val() == 'modificar_bandera')
+      {
+          $('#modificar_evento').modal('show');
       }
 
 
@@ -30,18 +85,26 @@ $(document).ready(function() {
       events: './tesis/index.php/niveles_de_servicio/gestion_Revisiones/obtener_eventos',
 
 
-    dayClick: function() { 
+    dayClick: function(date, jsEvent, view) { 
  
-        //var moment = $('#calendar').fullCalendar('getDate');
-        //alert("The current date of the calendar is " + moment.format());
-        //alert(moment);
-        alert('hola');
+        //$('#nuevo_evento').modal('show');
+
+        //alert('Clicked on: ' + date.format('MM/DD/YYYY h:mm A'));
+
+        var fecha_actual = date.format('MM/DD/YYYY h:mm a');
+
+        //alert(fecha_actual);
+
+        $('#inicio_evento').data("DateTimePicker").setDate(fecha_actual);
+        $('#fin_evento').data("DateTimePicker").setDate(fecha_actual);
+
+        $('#nuevo_evento').modal('show');
     },
 
 
      eventClick: function(calEvent, jsEvent, view) {
 
-        $('#modal_evento').modal('show');
+           $('#modal_evento').modal('show');
 
         $("#tabla_nombre").empty();
         $("#tabla_tipo").empty();
@@ -49,6 +112,7 @@ $(document).ready(function() {
         $("#tabla_inicio").empty();
         $("#tabla_fin").empty();
         $("#tabla_descripcion").empty();
+        $("#footer_vista_evento").empty();
 
         $("#tabla_nombre").append(calEvent.title);
 
@@ -90,7 +154,7 @@ $(document).ready(function() {
         if(calEvent.tipo == 'otro')
             {$("#tabla_tipo").append('<span class="label" style="background-color:#8E8E86;" >Otro</span>');}
         
-        $("#tabla_lugar").append(calEvent.lugar);
+        
 
         if(calEvent.descripcion == '')
         {$("#tabla_descripcion").append('<i>No Posee</i>');}
@@ -98,7 +162,7 @@ $(document).ready(function() {
         {$("#tabla_descripcion").append(calEvent.descripcion);}
 
 
-        $("#footer_vista_evento").append('<button type="button" class="btn btn-warning" data-dismiss="modal">Modicar</button> <button type="button" class="btn btn-danger" data-dismiss="modal">Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
+        $("#footer_vista_evento").append('<button type="button" onclick="modificarEvento('+calEvent.id+');" class="btn btn-warning"><i class="fa fa-pencil"></i> Modicar</button> <button type="button" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
         
         //alert('Event: ' + calEvent.title);
         //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
@@ -111,6 +175,24 @@ $(document).ready(function() {
 
 
     });
+
+
+ $('#inicio_evento_modificar').datetimepicker({
+                     icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down"
+                }
+                });
+ $('#fin_evento_modificar').datetimepicker({                     
+              icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down"
+                }
+                });
 
 
  $('#inicio_evento').datetimepicker({
@@ -137,6 +219,7 @@ $(document).ready(function() {
   });
 
 
+
  $('#cancelar_creacion').click(function(){ 
 
          $("#formulario_evento").fadeOut();
@@ -144,7 +227,6 @@ $(document).ready(function() {
    });
 
  $('#ver_formulario_evento').click(function(){ 
-
 
          $("#formulario_evento").fadeIn();
          $("html, body").scrollTop($('#formulario_evento').offset().top);      
@@ -155,122 +237,19 @@ $(document).ready(function() {
     },10000);
 
 
+ $('#modificar_boton').click(function(){ 
+
+    $('#modificar_evento').modal('hide');
+      
+   });
+
+  $('#cancelar_modificacion').click(function(){ 
+
+    $('#modificar_evento').modal('show');
+      
+   });
+
 
 });
 
 
-
-
-
-
-/*var Script = function () {
-
-//    calender
-
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
-    $('#calendar').fullCalendar({      
-       height: 500,
-        aspectRatio: 0.2,
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-        },
-        timeFormat: {
-            agenda: 'h(:mm)t{ - h(:mm)t}',
-            '': 'h(:mm)t{-h(:mm)t }'
-        },
-        monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ], 
-        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-        dayNames: [ 'Domingo', 'Lunes', 'Martes', 'MiÃƒÂ©rcoles', 'Jueves', 'Viernes', 'SÃ¡bado'],
-        dayNamesShort: ['Dom','Lun','Mar','MiÃ©','Jue','Vie','SÃ¡b'],
-        firstDay: 1,
-        weekends: true,
-        buttonText: {
-            today: 'hoy',
-            month: 'mes',
-            week: 'semana',
-            day: 'dÃ­a'
-           },
-        editable: true,
-        events: './tesis/index.php/Disponibilidad/json',
-        
-        eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent)
-        {
-            $params = {
-                'event'         : event.eventos_id,
-                'daystart'      : $.fullCalendar.formatDate( event.start, 'yyyy-MM-dd HH:mm:ss'),
-                'dayend'        : $.fullCalendar.formatDate( event.end, 'yyyy-MM-dd HH:mm:ss'),
-            };
-            
-            $.ajax({
-                url     : './tesis/index.php/Disponibilidad/resize',
-                cache   : true,
-                type    : 'POST',
-                data    : $params,
-
-                beforeSend: function()
-                {
-                    alert('se va a activar el evento Resize');
-                },
-                complete: function(response)
-                {
-                    alert(response.responseText);
-                }
-
-            });
-        },
-        
-        eventDrop: function(event, dayDelta, minuteDelta, revertFunc, jsEvent)
-        {
-            $params = {
-                'event'         : event.eventos_id,
-                'daystart'      : $.fullCalendar.formatDate( event.start, 'yyyy-MM-dd HH:mm:ss'),
-                'dayend'        : $.fullCalendar.formatDate( event.end, 'yyyy-MM-dd HH:mm:ss'),
-            };
-            
-            $.ajax({
-                url     : './tesis/index.php/Disponibilidad/drop_event/',
-                type    : 'POST',
-                data    : $params,
-                
-                beforeSend: function()
-                {
-                    alert('se va a activar el evento EventDrop');
-                },
-                complete: function(response)
-                {
-                    alert(response.responseText);
-                }
-            });
-        },
-        
-        eventClick: function(event, dayDelta, minuteDelta, revertFunc, jsEvent) {
-            var decision = confirm("Â¿Deseas Borrar eliminar este evento? "+event.title); 
-            if (decision) { 
-                $params = {
-                    'event'         : event.id,
-                };
-            
-                $.ajax({
-                    url     : './tesis/index.php/Disponibilidad/delete_event',
-                    type    : 'POST',
-                    data    : $params,
-                    complete: function(response)
-                    {
-                        alert(response.responseText);
-                    }
-                });
-                $('#calendar').fullCalendar('removeEvents', event.id);
-
-            } else {
-                alert('has decidido no borrar '+event.title+' perfecto');
-            }
-        }
-        
-    }); // end $calendar
-}();*/

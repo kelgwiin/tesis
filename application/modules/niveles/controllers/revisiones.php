@@ -91,6 +91,10 @@ class Revisiones extends MX_Controller
 		$data_view['inicio']	= $fecha_actual;
 		$data_view['fin']	= $fecha_proxima;
 
+		$data_view['nuevo'] = true;
+
+		$data_view['modificacion'] = true;
+
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
 	}
 
@@ -149,6 +153,9 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
 
          $data_view['mensaje'] = '';
+
+
+
          
          if ($this->form_validation->run($this) == FALSE)
             {
@@ -163,6 +170,10 @@ class Revisiones extends MX_Controller
 					$data_view['eventos_recientes']	= $eventos_recientes;
 					$data_view['inicio']	= $fecha_actual;
 					$data_view['fin']	= $fecha_proxima;
+					
+					$data_view['nuevo'] = true;
+
+					$data_view['modificacion'] = false;
 
                $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
             }
@@ -196,6 +207,87 @@ class Revisiones extends MX_Controller
 		            else
 		            	{
 		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Crear el Evento');
+		            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
+		            	}
+
+		       
+                
+            }
+	}
+
+
+
+
+	public function modificar_evento()
+	{
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+
+		
+
+		 $this->load->library('form_validation');
+		 $this->load->helper(array('form', 'url'));
+		 $this->form_validation->set_rules('tipo_evento_modificar', 'Tipo de Evento', 'callback_dropdown_tipo_evento');
+         $this->form_validation->set_rules('nombre_evento_modificar', 'Nombre del Evento', 'required|min_length[3]|max_length[250]|trim|callback_categoria_name_check');
+         $this->form_validation->set_rules('lugar_evento_modificar', 'Lugar del Evento', 'trim|max_length[500]');
+         $this->form_validation->set_rules('descripcion_evento_modificar', 'Descripción del Evento', 'trim|max_length[500]');
+         $this->form_validation->set_rules('evento_inicio_modificar', 'Inicio del Evento', 'required|trim');
+         $this->form_validation->set_rules('evento_fin_modificar', 'Fin del Evento', 'required|trim|callback_fechas_check');
+
+         $this->form_validation->set_rules('id_evento_modificar', 'ID del Evento', 'trim');
+
+         $this->form_validation->set_message('required', 'Campo Requerido');
+         $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
+
+         $data_view['mensaje'] = '';
+         
+         if ($this->form_validation->run($this) == FALSE)
+            {
+            		$fecha_actual = date('Y-m-j H:i:s');
+
+					$date = date('Y-m-d');
+					$newdate = strtotime ( '+8 day' , strtotime ( $date ) ) ;
+					$fecha_proxima = date ( 'Y-m-d 23:59:00' , $newdate );
+
+					$eventos_recientes = $this->niveles->obtener_revisiones_recientes($fecha_actual,$fecha_proxima);
+
+					$data_view['eventos_recientes']	= $eventos_recientes;
+					$data_view['inicio']	= $fecha_actual;
+					$data_view['fin']	= $fecha_proxima;
+					$data_view['modificacion'] = true;
+					$data_view['nuevo'] = false;
+
+               $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
+            }
+            else
+            {
+
+
+            	 $fecha_inicio = strtotime($this->input->post('evento_inicio_modificar')); 
+		         $fecha_inicio = date("Y-m-d H:i:s", $fecha_inicio); 
+
+		         $fecha_fin = strtotime($this->input->post('evento_fin_modificar')); 
+		         $fecha_fin = date("Y-m-d H:i:s", $fecha_fin); 
+
+
+            	  $evento = array(
+
+            					'nombre_evento' => $this->input->post('nombre_evento_modificar'),
+            					'lugar_evento' => $this->input->post('lugar_evento_modificar'),
+            					'inicio' => $fecha_inicio,
+            					'fin' => $fecha_fin,
+            					'descripcion_evento' => $this->input->post('descripcion_evento_modificar'),
+                               );
+
+			       $id_evento = $this->general->update2('evento_gns',$evento,array('id_evento'=> $this->input->post('id_evento_modificar')));
+
+	            	if($id_evento)
+		            	{
+		            		$this->session->set_flashdata('Success', 'Evento Modificado con Éxito');
+		            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
+		            	}
+		            else
+		            	{
+		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Modificar el Evento');
 		            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
 		            	}
 
@@ -265,6 +357,35 @@ class Revisiones extends MX_Controller
 		}
 
 		echo json_encode($eventos_calendario);
+
+	}
+
+
+	public function obtener_evento()
+	{
+
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+
+		$id_evento = $this->input->post('evento_id');
+
+
+		$evento = $this->general->get_row('evento_gns',array('id_evento'=>$id_evento));
+
+		$evento_calendario['id'] = $evento->id_evento;
+		$evento_calendario['title'] = $evento->nombre_evento;
+
+		$evento_calendario['descripcion'] = $evento->descripcion_evento;
+		$evento_calendario['lugar'] = $evento->lugar_evento;
+
+		$evento_calendario['tipo'] = $evento->tipo_evento;
+
+		$inicio = date_create($evento->inicio);
+		$evento_calendario['inicio'] =  date_format($inicio,'d/m/Y h:i A');
+
+		$fin = date_create($evento->fin);
+		$evento_calendario['fin'] =  date_format($fin,'d/m/Y h:i A');
+
+		echo json_encode($evento_calendario);
 
 	}
 

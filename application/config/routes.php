@@ -134,6 +134,7 @@ $route['requisito_niveles_servicio/gestion_RNS/generar_pdf_RNS/(:num)'] = "nivel
 $route['niveles_de_servicio/gestion_Revisiones'] = "niveles/revisiones/revisiones";
 $route['niveles_de_servicio/gestion_Revisiones/nuevo_evento'] = "niveles/revisiones/nuevo_evento";
 $route['niveles_de_servicio/gestion_Revisiones/obtener_eventos'] = "niveles/revisiones/obtener_eventos";
+$route['niveles_de_servicio/gestion_Revisiones/modificar_evento'] = "niveles/revisiones/modificar_evento";
 
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 

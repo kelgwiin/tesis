@@ -56,16 +56,51 @@
 	<div class='col-lg-4'>	
 		<div class="row text-center">
 			<a class="btn btn-info" data-backdrop="static" id='ver_formulario_evento'
-   			data-keyboard="false" data-toggle="modal" data-target="#myModal" href="<?php //echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>"> <i class="fa fa-plus"></i>  Crear Nuevo Evento</a><hr>
+   			data-keyboard="false" data-toggle="modal" data-target="#nuevo_evento" href="<?php //echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>"> <i class="fa fa-plus"></i>  Crear Nuevo Evento</a><hr>
 		</div>
 
 		
 
+	     
 	     <?php $errores = validation_errors(); ?>
+
+	     <?php if($nuevo == true) { ?>
+
 
 		<div style="display: none;">
 				 <input type='text' name="errores" class="form-control" id='errores'  value="<?php echo strlen($errores); ?>"/>
 		</div>
+
+		<div style="display: none;">
+				 <input type='text' name="nuevo_bandera" class="form-control" id='nuevo_bandera'  value="nuevo_bandera"/>
+		</div>
+
+		<div style="display: none;">
+				 <input type='text' name="modificar_bandera" class="form-control" id='modificar_bandera'  value=""/>
+				</div>
+
+		 <?php }
+		      ?>
+
+
+
+		  <?php if($modificacion == true) { ?>
+
+			
+				<div style="display: none;">
+						 <input type='text' name="errores_modificar" class="form-control" id='errores_modificar'  value="<?php echo strlen($errores); ?>"/>
+				</div>
+
+				<div style="display: none;">
+				 <input type='text' name="modificar_bandera" class="form-control" id='modificar_bandera'  value="modificar_bandera"/>
+				</div>
+
+					<div style="display: none;">
+				 <input type='text' name="nuevo_bandera" class="form-control" id='nuevo_bandera'  value=""/>
+				</div>
+
+		      <?php }
+		      ?>
 
 		<div class="panel panel-primary">
 		  <div class="panel-heading text-center">
@@ -155,7 +190,7 @@
 	      ?>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="nuevo_evento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -451,3 +486,247 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+         <?php
+		    // Apertura de Formulario
+		    $attributes = array('role' => 'form', 'id'=> 'new_service_form','class'=>'form-horizontal');
+			echo form_open_multipart(base_url().'index.php/niveles_de_servicio/gestion_Revisiones/modificar_evento',$attributes); 
+	      ?>
+
+<!-- Modal -->
+<div class="modal fade" id="modificar_evento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-calendar-o"></i> Modificar Evento</h4>
+      </div>
+      <div class="modal-body">
+        	<div class="row">
+
+
+			      		<div class="form-group">
+							
+							<div class="required text-right">
+								<label for="service_name" class="col-md-4 control-label">Nombre del Evento</label> 
+							</div>
+
+						    <div class="col-md-7">
+						       <input type='text' name="nombre_evento_modificar" class="form-control" id='nombre_evento_modificar'  value="<?php echo set_value('nombre_evento_modificar'); ?>"/>
+						     
+
+						    </div>
+						</div>
+
+						<div class="form-group">
+					     <div class="control-label col-md-4">
+					      </div>
+					      	<div class="col-md-7">
+							    <label id='nombre_evento_error' style="color:red;">
+							  		<?php 
+								        echo form_error('nombre_evento_modificar');
+									 ?>
+								</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+				
+
+						    	<div class="required">
+									<label  class="col-md-4 control-label">Tipo de Evento</label> 
+								</div>
+						    	 
+						       <div class="col-md-7">
+						       		<?php
+								       	$options = array(
+								       	  'seleccione' => 'Seleccione un Tipo',
+								       	  'revision_ANS' => 'Revisión de ANS',
+								       	  'renovacion_ANS' => 'Renovación de ANS',
+								       	  'vencimiento_ANS' => 'Vencimiento de ANS',								       	  
+								       	  'reunion' => 'Reunión',
+								       	  'otro' => 'Otro',
+
+						                );
+								        ?>
+							            <?php echo form_dropdown('tipo_evento_modificar', $options,set_value('tipo_evento_modificar'),'class="form-control" id="dropdown_tipo_evento_modificar"'); ?>
+						       
+						   	   </div>
+
+						</div>
+						<div class="form-group">
+					     <div class="control-label col-md-4">
+					      </div>
+					      	<div class="col-md-7">
+							    <label style="color:red;">
+							   	<?php 
+							        echo form_error('tipo_evento_modificar');
+								 ?>
+								</label>
+							</div>
+						</div>
+
+
+
+						  <div class="form-group">
+
+						        <div class="">
+									<label for="tipo_servicio" class="col-md-4 control-label text-right">Lugar del Evento </label>		    
+								</div>
+
+						        <div class="col-md-7">
+						            <?php $data = array(
+						            		'value' => set_value('lugar_evento_modificar'),
+					                        'name'        => 'lugar_evento_modificar',
+					                        'id'          => 'lugar_evento_modificar', 
+					                        'class'          => 'form-control boxsizingBorder',
+					                        'placeholder' => '',
+					                        'rows' => '2',                           
+					                                  );
+					                echo form_textarea($data)?>
+						        </div>
+							 </div>
+
+							  <div class="form-group">
+							     <div class="control-label col-md-4 text-right">
+							      </div>
+							      	<div class="col-md-7">
+									    <label style="color:red;">
+									   	<?php 
+									        echo form_error('lugar_evento_modificar');
+										 ?>
+										</label>
+									</div>
+								</div>
+
+
+
+							<div class="form-group">
+						
+								<div class="required text-right">
+									<label for="service_name" class="col-md-4 control-label">Inicio</label> 
+								</div>
+
+							    <div class="col-md-5">
+							       <div class="input-group">
+							       <input type='text' name="evento_inicio_modificar" class="form-control" id='inicio_evento_modificar' value="<?php echo set_value('evento_inicio_modificar'); ?>"/>
+							       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							   	   </div>
+
+							    </div>
+							</div>
+							<div class="form-group">
+						     <div class="control-label col-md-4">
+						      </div>
+						      	<div class="col-md-7">
+								    <label style="color:red;">
+								   	<?php 
+								        echo form_error('evento_inicio_modificar');
+									 ?>
+									</label>
+								</div>
+							</div>
+
+
+							<div class="form-group">
+						
+								<div class="required text-right">
+									<label for="service_name" class="col-md-4 control-label">Fin</label> 
+								</div>
+
+							    <div class="col-md-5">
+							       <div class="input-group">
+							       <input type='text' name="evento_fin_modificar" class="form-control" id='fin_evento_modificar' value="<?php echo set_value('evento_fin_modificar'); ?>"/>
+							       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							   	   </div>
+
+							    </div>
+							</div>
+							<div class="form-group">
+						     <div class="control-label col-md-4">
+						      </div>
+						      	<div class="col-md-5">
+								    <label style="color:red;">
+								   	<?php 
+								        echo form_error('evento_fin_modificar');
+									 ?>
+									</label>
+								</div>
+							</div>
+
+
+
+						  <div class="form-group">
+
+						        <div class="">
+									<label for="tipo_servicio" class="col-md-4 control-label text-right">Descripción del Evento </label>		    
+								</div>
+
+						        <div class="col-md-7">
+						            <?php $data = array(
+						            		'value' => set_value('descripcion_evento_modificar'),
+					                        'name'        => 'descripcion_evento_modificar',
+					                        'id'          => 'descripcion_evento_modificar', 
+					                        'class'          => 'form-control boxsizingBorder',	
+					                        'placeholder' => '',
+					                        'rows' => '2',                           
+					                                  );
+					                echo form_textarea($data)?>
+						        </div>
+							 </div>
+
+							  <div class="form-group">
+							     <div class="control-label col-md-4 text-right">
+							      </div>
+							      	<div class="col-md-7">
+									    <label style="color:red;">
+									   	<?php 
+									        echo form_error('descripcion_evento_modificar');
+										 ?>
+										</label>
+									</div>
+								</div>
+
+
+			</div>
+
+				<div style="display: none;">				
+				 <input type='text' name="id_evento_modificar" class="form-control" id='id_evento_modificar'  value="<?php echo set_value('id_evento_modificar'); ?>"/>
+				</div>
+
+      </div>
+      <div class="modal-footer">
+         <a data-dismiss="modal" class="btn btn-danger" >Cancelar</a>
+		 <button data-toggle="modal" data-target="#modificar"  id="modificar_boton" class="btn btn-warning">Modificar Evento</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Modificar</b> este Evento?</div></p>
+		      </div>
+		      <div class="modal-footer">
+		      	<button type="submit" id="actualizar_confirm" class="btn btn-warning">Modificar</button>
+		        <button type="button" class="btn btn-default" id="cancelar_modificacion" data-dismiss="modal">Cancelar</button>      
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
+ <?php echo form_close(); ?>
