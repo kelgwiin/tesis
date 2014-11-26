@@ -135,6 +135,7 @@ $route['niveles_de_servicio/gestion_Revisiones'] = "niveles/revisiones/revisione
 $route['niveles_de_servicio/gestion_Revisiones/nuevo_evento'] = "niveles/revisiones/nuevo_evento";
 $route['niveles_de_servicio/gestion_Revisiones/obtener_eventos'] = "niveles/revisiones/obtener_eventos";
 $route['niveles_de_servicio/gestion_Revisiones/modificar_evento'] = "niveles/revisiones/modificar_evento";
+$route['niveles_de_servicio/gestion_Revisiones/eliminar_evento'] = "niveles/revisiones/eliminar_evento";
 
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 

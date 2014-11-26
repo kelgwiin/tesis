@@ -49,7 +49,50 @@ function modificarEvento(id_evento) {
 
     }
 
+
+function deleteEvento(id_evento) {
+
+
+          $("#modal_evento").modal('hide');
+
+          $("#eliminar").modal('show');
+          
+
+          $("#eliminar_confirm").click(function(){
+
+            
+
+                 $.ajax({
+                 
+                            
+                            url: config.base+'index.php/niveles/revisiones/eliminar_evento',
+                            type: 'POST',
+                            data: {                         
+                                    evento_id : id_evento,                                             
+                                  },
+                            //dataType: 'json',
+                            cache : false,  
+
+                             success: function(data){
+                                               
+                              $("#eliminar").modal('hide');
+                              window.location.href = config.base+'index.php/niveles/revisiones/revisiones';
+                                       
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   //alert(xhr.status+" "+thrownError);
+                                   //$("#modal_error").modal('show');
+                                                
+                                 }
+                        });
+
+            });
+
+
+    }
+
 $(document).ready(function() {
+
 
 
      if($('#errores').val() != '0' && $('#nuevo_bandera').val() == 'nuevo_bandera')
@@ -162,7 +205,7 @@ $(document).ready(function() {
         {$("#tabla_descripcion").append(calEvent.descripcion);}
 
 
-        $("#footer_vista_evento").append('<button type="button" onclick="modificarEvento('+calEvent.id+');" class="btn btn-warning"><i class="fa fa-pencil"></i> Modicar</button> <button type="button" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
+        $("#footer_vista_evento").append('<button type="button" onclick="modificarEvento('+calEvent.id+');" class="btn btn-warning"><i class="fa fa-pencil"></i> Modicar</button> <button type="button" onclick="deleteEvento('+calEvent.id+');" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
         
         //alert('Event: ' + calEvent.title);
         //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
@@ -250,6 +293,63 @@ $(document).ready(function() {
    });
 
 
+  $('#cancelar_eliminacion').click(function(){ 
+
+    $('#modal_evento').modal('show');
+      
+   });
+
+
+   $('#add_asistente').click(function()
+    {
+      var id_personal = $('#personal').val();
+      var personal = $('#personal option:selected').data('nombre');
+      var dpto = $('#personal option:selected').data('dpto');
+      var codigo = $('#personal option:selected').data('codigo');
+      // alert('id_personal: '+id_personal+' - personal: '+personal+' - dpto: '+dpto);
+      if(id_personal != null && id_personal != '')
+      {
+        $('#personal option:selected').remove();
+        $('select[name=asistentes_evento\\[\\]]').append('<option value="'+id_personal+'" data-nombre="'+personal+'" data-codigo="'+codigo+'" data-dpto="'+dpto+'">'+personal+' - '+codigo+'</option>');
+      }else
+      {
+        //alert('Debe seleccionar personal para agregarlo al campo de asistentes_evento de desarrollo');
+      }
+    });
+    
+    $('#remove_asistente').click(function()
+    {
+      var id_personal = $('select[name=asistentes_evento\\[\\]]').val();
+      var personal = $('select[name=asistentes_evento\\[\\]] option:selected').data('nombre');
+      var dpto = $('select[name=asistentes_evento\\[\\]] option:selected').data('dpto');
+      var codigo = $('select[name=asistentes_evento\\[\\]] option:selected').data('codigo');
+      // alert('id_personal: '+id_personal+' - personal: '+personal+' - dpto: '+dpto);
+      if(id_personal != null && id_personal != '')
+      {
+        $('select[name=asistentes_evento\\[\\]] option:selected').remove();
+        $('#personal optgroup[label="'+dpto+'"]').append('<option style="margin-left:16px;" value="'+id_personal+'" data-nombre="'+personal+'" data-codigo="'+codigo+'" data-dpto="'+dpto+'">'+personal+' - '+codigo+'</option>');
+      }else
+      {
+       // alert('Debe seleccionar personal para removerlo del campo de asistentes_evento de desarrollo');
+      }
+    });
+
+
+    $('#agregar_asistentes').click(function(){ 
+
+        $('#nuevo_evento').modal('hide');
+
+        
+        $('#asistentes').modal('show');
+   });
+
+
+    $('#listo_modal_asistentes').click(function(){ 
+
+        $('#nuevo_evento').modal('show');
+   });
+
+  
 });
 
 

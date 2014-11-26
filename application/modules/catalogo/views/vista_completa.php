@@ -69,10 +69,6 @@
 						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->tipo_servicio; ?></td>
 						</tr>
 
-						<tr>
-						  <td class="col-lg-4"><b>Horas de Servicio</b></td>
-						  <td class="col-lg-8 text-left"><?php echo '--Horas de Actividad del Servicio--'; ?></td>
-						</tr>	
 
 						 <tr>
 						  <td class="col-lg-4"><b>Proveedor del Servicio</b></td>
@@ -234,17 +230,6 @@
 						  <td class="col-lg-4"><b>Revisiones del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo '"La frecuencia de las reuniones de examen de nivel de servicio. Tambien la ultima reunion fijada"'; ?></td>
 						</tr>
-
-
-						<tr>
-						  <td class="col-lg-4"><b>Costo </b></td>
-						  <td class="col-lg-8 text-left"><?php echo '"Costo del Servicio"'; ?></td>
-						</tr>
-
-
-
-
-
 
 
 						<tr> <td></td><td></td></tr>	

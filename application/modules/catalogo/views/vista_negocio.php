@@ -59,11 +59,6 @@
 						  <td class="col-lg-8 text-left"><?php echo $servicio->tipo_servicio; ?></td>
 						</tr>
 
-						<tr>
-						  <td class="col-lg-4"><b>Horas de Servicio</b></td>
-						  <td class="col-lg-8 text-left"><?php echo '--Horas de Actividad del Servicio--'; ?></td>
-						</tr>	
-
 						 <tr>
 						  <td class="col-lg-4"><b>Proveedor del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $proveedor->nombre; ?></td>
@@ -174,10 +169,10 @@
 						</tr>
 
 
-						<tr>
+						<!--<tr>
 						  <td class="col-lg-4"><b>Costo </b></td>
-						  <td class="col-lg-8 text-left"><?php echo '"Costo del Servicio"'; ?></td>
-						</tr>
+						  <td class="col-lg-8 text-left"><?php //echo '"Costo del Servicio"'; ?></td>
+						</tr>-->
 
 
 

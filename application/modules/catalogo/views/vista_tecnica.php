@@ -55,10 +55,6 @@
 						  <td class="col-lg-8 text-left"><?php echo $servicio_actual->tipo_servicio; ?></td>
 						</tr>
 
-						<tr>
-						  <td class="col-lg-4"><b>Horas de Servicio</b></td>
-						  <td class="col-lg-8 text-left"><?php echo '--Horas de Actividad del Servicio--'; ?></td>
-						</tr>	
 
 						 <tr>
 						  <td class="col-lg-4"><b>Proveedor del Servicio</b></td>
@@ -68,18 +64,6 @@
 						<tr>
 						  <td class="col-lg-4"><b>Propietario del Servicio</b></td>
 						  <td class="col-lg-8 text-left"><?php echo $propietario->codigo_empleado.' - '.$propietario->nombre; ?></td>
-						</tr>
-
-						<tr>
-						  <td class="col-lg-4"><b>Acuerdos de Nivel de Operacional</b></td>
-						  <td class="col-lg-8 text-left"><?php echo '"Una lista de los OLA operativos para los servicios de TI. Por lo general, es mejor proporcionar un vínculo 
-						                                            al documento con el OLA que abarca el servicio de TI."'; ?></td>
-						</tr>
-
-							<tr>
-						  <td class="col-lg-4"><b>Contratos de Soporte</b></td>
-						  <td class="col-lg-8 text-left"><?php echo '"Una lista de los UC operativos para los servicios de TI. Por lo general, es mejor proporcionar un vínculo 
-						                                            al documento con el UC que abarca el servicio de TI."'; ?></td>
 						</tr>
 
 						

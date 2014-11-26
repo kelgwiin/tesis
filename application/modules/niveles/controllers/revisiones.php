@@ -79,6 +79,10 @@ class Revisiones extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
+
+		$this->load->model('continuidad/gestionriesgos_model','riesgos');
+
+
 		$fecha_actual = date('Y-m-j H:i:s');
 
 		$date = date('Y-m-d');
@@ -94,6 +98,8 @@ class Revisiones extends MX_Controller
 		$data_view['nuevo'] = true;
 
 		$data_view['modificacion'] = true;
+
+		$data_view['personal'] = $this->riesgos->get_personal();
 
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
 	}
@@ -149,10 +155,16 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_rules('evento_inicio', 'Inicio del Evento', 'required|trim');
          $this->form_validation->set_rules('evento_fin', 'Fin del Evento', 'required|trim|callback_fechas_check');
 
+          $this->form_validation->set_rules('asistentes_evento[]', 'asistentes', 'trim');
+           $this->form_validation->set_rules('personal[]', 'personal', 'trim');
+
          $this->form_validation->set_message('required', 'Campo Requerido');
          $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
 
          $data_view['mensaje'] = '';
+
+         $this->load->model('continuidad/gestionriesgos_model','riesgos');
+		$data_view['personal'] = $this->riesgos->get_personal();
 
 
 
@@ -386,6 +398,27 @@ class Revisiones extends MX_Controller
 		$evento_calendario['fin'] =  date_format($fin,'d/m/Y h:i A');
 
 		echo json_encode($evento_calendario);
+
+	}
+
+
+	public function eliminar_evento($evento_id = '')
+	{
+
+		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+
+		$id_evento = $this->input->post('evento_id');
+
+		
+		$delete = $this->general->delete('evento_gns',array('id_evento'=>$id_evento));
+		if($delete)
+	        {
+				$this->session->set_flashdata('Success', 'El Evento ha sido Eliminado con Éxito');
+			}
+		else
+			{
+				$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Eliminar el Evento');
+			}	
 
 	}
 

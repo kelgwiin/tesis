@@ -140,11 +140,19 @@
 			  		<td  width="30%" class="text-right"> <?php 
 			  					$inicio = date_create($evento_reciente->inicio);
 			  					echo '<b>Inicio:</b> '.date_format($inicio,'d/m') ?> <br><?php
-			  					echo date_format($inicio,'h:i a'); ?></td>
+			  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
+			  					{echo "Todo el Día";}
+			  					else
+			  					{echo date_format($inicio,'h:i a');}	
+			  					 ?></td>
 
 			  		<td  width="30%" class="text-right"> <?php $fin = date_create($evento_reciente->fin);
 			  					echo '<b>Fin:</b> '.date_format($fin,'d/m');  ?> <br><?php
-			  					echo date_format($fin,'h:i a'); ?></td>
+			  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
+			  					{echo "Todo el Día";}
+			  					else
+			  					{echo date_format($fin,'h:i a');}	
+			  					 ?></td>
 
 			  	</tr>
 
@@ -238,8 +246,7 @@
 								       	$options = array(
 								       	  'seleccione' => 'Seleccione un Tipo',
 								       	  'revision_ANS' => 'Revisión de ANS',
-								       	  'renovacion_ANS' => 'Renovación de ANS',
-								       	  'vencimiento_ANS' => 'Vencimiento de ANS',								       	  
+								       	  'renovacion_ANS' => 'Renovación de ANS',								       	  
 								       	  'reunion' => 'Reunión',
 								       	  'otro' => 'Otro',
 
@@ -395,6 +402,11 @@
 									</div>
 								</div>
 
+							<div class="col-md-1 col-md-offset-5">
+							<a id="agregar_asistentes" class="btn btn-success">Agregar Asistentes</a>
+							</div>
+
+
 
 			</div>
       </div>
@@ -405,6 +417,62 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade bs-example-modal-lg" id='asistentes' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+        </div>
+        <div class="modal-body">
+         	<div class="row">
+							<div class="col-md-5">
+								<label>Personal de la organización</label>
+								<?php $defaultvalue = '1'; ?>
+								<select id="personal" name='personal[]' class="form-control" value="<?php echo set_value('personal[]') ?>" size="10" style="margin-top: 25px; overflow-x:auto;">
+									<?php foreach($personal as $key => $person) : ?>
+										<optgroup label="<?php echo ucwords($key) ?>">
+											<?php foreach($person as $k => $per) : ?>
+												<option value="<?php echo $per->id_personal ?>" data-nombre="<?php echo $per->nombre ?>" data-codigo="<?php echo $per->codigo_empleado ?>"
+													data-dpto="<?php echo ucwords($key) ?>  <?php echo set_select('personal[]', $per->id_personal, ( (set_select('personal[]', $per->id_personal)!= true) &&  ($per->id_personal == $defaultvalue) ) ? TRUE : FALSE ) ?> ">
+													<?php echo $per->nombre." - ".$per->codigo_empleado ?>
+												</option>
+											<?php endforeach ?>
+										</optgroup>
+									<?php endforeach ?>
+								</select>
+							</div>
+							<div class="col-md-2" style="margin-top: 90px">
+								<center>
+									<div>
+										<a class="btn btn-primary" data-toggle="tooltip" id="add_asistente" 
+											data-original-title="Agregar personal al equipo de desarrollo" data-placement="top">
+											<i class = "fa fa-arrow-right fa-lg"></i>
+										</a>
+										<br /><br />
+										<a class="btn btn-primary" data-toggle="tooltip" id="remove_asistente"
+											data-original-title="Remover personal del equipo de desarrollo" data-placement="bottom">
+											<i class="fa fa-arrow-left fa-lg"></i>
+										</a>
+									</div>
+								</center>
+							</div>
+							<div class="col-md-5 text-center">
+								<label>Asistentes </label>
+								<select id="asistentes_evento" name="asistentes_evento[]" value="<?php echo set_value( $this->input->post('asistentes_evento[]')) ?>" class="form-control" size="10" style="margin-top: 25px;overflow-x:auto;">
+								</select>
+							</div>
+						</div><br><br>
+        </div>
+           <div class="modal-footer">
+		        <button type="button"  id='listo_modal_asistentes' class="btn btn-success" data-dismiss="modal">Listo</button>      
+		      </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
  <?php echo form_close(); ?>
 
 
@@ -730,3 +798,29 @@
 
 
  <?php echo form_close(); ?>
+
+
+
+ 	<div class="modal fade" id="eliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Eliminar</b> este Evento?</div></p>
+		      </div>
+		      <div class="modal-footer">
+		      	<button type="submit" id="eliminar_confirm" class="btn btn-danger">Eliminar</button>
+		        <button type="button" id="cancelar_eliminacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>      
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
+
+
+
+
