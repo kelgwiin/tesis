@@ -93,7 +93,7 @@ function deleteEvento(id_evento) {
 
 $(document).ready(function() {
 
-
+ $('#asistentes').modal('show');
 
      if($('#errores').val() != '0' && $('#nuevo_bandera').val() == 'nuevo_bandera')
       {
@@ -346,10 +346,136 @@ $(document).ready(function() {
 
     $('#listo_modal_asistentes').click(function(){ 
 
-        $('#nuevo_evento').modal('show');
+        //$('#nuevo_evento').modal('show');
    });
+
+
+      $('#elemento1').click(function(){ 
+        
+         alert("hola");
+   });
+
+
+  // Operaciones de la lista de asistentes al evento
+
+             /*$('.list-group').click(function () {
+
+              $(this).toggleClass('active');
+              });
+
+               $('.list-group-item').click(function () {
+
+              $(this).toggleClass('active');
+              });*/
+
+
+$('body').on('click', '.list-group .list-group-item', function () {
+                $(this).toggleClass('active');
+               //alert('Ultima clase: '+$(this).parent().attr('class').split(' ').pop());
+            });
+
+            $('.list-arrows button').click(function () {
+                var $button = $(this), actives = '';
+                if ($button.hasClass('move-left')) {
+
+                    //actives = $('.list-right ul a.active');
+
+                    $('.list-right ul a.active').each(function() {
+                        //alert('Ultima clase: '+$(this).attr('class').split(' ')[0]);
+                        $(this).removeClass('active');
+                        var clase = $(this).attr('class').split(' ')[0];
+                        var categoria = clase.split('+')[1];
+                        //alert(categoria);
+                        $(this).appendTo(" ."+categoria);
+
+                        if($(' .'+categoria).children().length != 0)
+                          {
+                           $('#'+categoria).show(); 
+                          } 
+
+
+                      });
+
+                      if($('#lista_asistentes').children().length == 0)
+                          {
+                           $('#alerta_asistentes').show(); 
+                          }
+
+                        if($('.list-left ul').children().length != 0)
+                          {
+                             $('#asistentes_personal').hide();
+                          }
+
+                        var $checkBox = $('.dual-list .selector');
+                        if ($checkBox.hasClass('selected')){
+                              $checkBox.removeClass('selected').closest('.well').find('ul a.active').removeClass('active');
+                              $checkBox.children('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+                          }
+                      
+
+                } else if ($button.hasClass('move-right')) {
+                   /* actives = $('.list-left ul a.active');
+                    actives.clone().appendTo('.list-right ul');
+                    actives.remove();*/
+
+                       $('.list-left ul a.active').each(function() {
+
+                        $(this).removeClass('active');
+                        var clase = $(this).attr('class').split(' ')[0];
+                        var categoria = clase.split('+')[1];
+                        //alert(categoria);
+                        $(this).appendTo("#lista_asistentes");
+
+                         if($(' .'+categoria).children().length == 0)
+                          {
+                           $('#'+categoria).hide(); 
+                          } 
+                      });
+
+
+
+                      if($('.list-left ul').children().length == 0)
+                          {
+                             $('#asistentes_personal').show();
+                          }
+
+                     if($('#lista_asistentes').children().length != 0)
+                          {
+                           $('#alerta_asistentes').hide(); 
+                          }  
+
+
+                      var $checkBox = $('.dual-list .selector');
+                        if ($checkBox.hasClass('selected')){
+                              $checkBox.removeClass('selected').closest('.well').find('ul a.active').removeClass('active');
+                              $checkBox.children('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+                          }
+
+                                        
+                }
+            });
+            $('.dual-list .selector').click(function () {
+                var $checkBox = $(this);
+                if (!$checkBox.hasClass('selected')) {
+                    $checkBox.addClass('selected').closest('.well').find('ul a:not(.active)').addClass('active');
+                    $checkBox.children('i').removeClass('fa-square-o').addClass('fa-check-square-o');
+                } else {
+                    $checkBox.removeClass('selected').closest('.well').find('ul a.active').removeClass('active');
+                    $checkBox.children('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+                }
+            });
+
+            $('[name="SearchDualList"]').keyup(function (e) {
+                var code = e.keyCode || e.which;
+                if (code == '9') return;
+                if (code == '27') $(this).val(null);
+                var $rows = $(this).closest('.dual-list').find('.list-group a');
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
 
   
 });
-
-

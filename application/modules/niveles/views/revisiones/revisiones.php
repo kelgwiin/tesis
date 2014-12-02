@@ -9,6 +9,12 @@
     border: none;
 }
 
+#asistentes .modal-dialog  {width:75%;}
+
+.list-left li, .list-right li {
+            cursor: pointer;
+        }
+
 </style>
 
 
@@ -418,16 +424,120 @@
   </div>
 </div>
 
+ <?php echo form_close(); ?>
 <div class="modal fade bs-example-modal-lg" id='asistentes' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+          <h4 class="modal-title" id="myLargeModalLabel">Agregar Asistentes al Evento</h4>
         </div>
-        <div class="modal-body">
-         	<div class="row">
+        <div class="modal-body" id="contenido_modal_asistentes">
+         
+
+			<div class="row">
+					<div class="dual-list list-left col-md-5" style="margin-left: 50px;">
+		            <div class="well text-left">
+		                <div class="row">
+		                    <div class="col-md-10">
+		                        <div class="input-group">
+							       <input type='text' name="SearchDualList" class="form-control" placeholder="Buscar"/>
+							       <span class="input-group-addon"><i class="fa fa-search"></i></span>
+							   	 </div>
+		                    </div>
+		                    <div class="col-md-2">
+		                        <div class="btn-group">
+		                            <a class="btn btn-default selector" data-toggle="tooltip" data-original-title="Seleccionar Todo" ><i class="fa fa-square-o"></i></a>
+		                        </div>
+		                    </div>
+		                </div>
+
+		                <br><div class="text-center"><b>Personal de la Organización</b></div><br>
+
+
+		                <div id="asistentes_personal" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Todo el Personal Asistirá a este Evento </b></div>
+		                
+		                      <div id='pedro'>Pedro</div>
+		                      <ul class="list-group pedro">
+						         <a  class="hijo+pedro list-group-item ">Sub-elemento 2.1</a>
+						         <a  class="hijo+pedro list-group-item ">Sub-elemento 2.2</a>
+						      </ul>
+		                      <div id='jose'>Jose</div>
+							  <ul class="list-group jose">
+						         <a  class="hijo+jose list-group-item ">Sub-elemento 2.1</a>
+						         <a  class="hijo+jose list-group-item ">Sub-elemento 2.2</a>
+						      </ul>
+		                     <div id='pablo'> Pablo</div>
+						      <ul class="list-group pablo">
+							  <a  class="hijo+pablo list-group-item ">Dapibus ac facilisis in</a>
+							  <a  class="hijo+pablo list-group-item ">Morbi leo risus</a>
+							  <a  class="hijo+pablo list-group-item ">Porta ac consectetur ac</a>
+							  <a  class="hijo+pablo list-group-item ">Vestibulum at eros</a>
+		                </ul>
+		            </div>
+		        </div>
+
+		      <!--  <div class="list-arrows col-md-1 text-center">
+		            <button type="button" class="btn btn-default btn-sm move-left">
+		                <span class="glyphicon glyphicon-chevron-left"></span>
+		            </button>
+
+		            <button type="button" class="btn btn-default btn-sm move-right">
+		                <span class="glyphicon glyphicon-chevron-right"></span>
+		            </button>
+		        </div> -->
+
+		        <div class="col-md-1 list-arrows" style="margin-top: 90px">
+								<center>
+									<div>
+										<button type="button" class="btn btn-primary move-right" data-toggle="tooltip" id="add_asistente" 
+											data-original-title="Agregar Asitentes al Evento" data-placement="top">
+											<i class = "fa fa-arrow-right fa-lg"></i>
+										</button>
+										<br /><br />
+										<button type="button" class="btn btn-primary move-left" data-toggle="tooltip" id="remove_asistente"
+											data-original-title="Remover Asitentes del Evento" data-placement="bottom">
+											<i class="fa fa-arrow-left fa-lg"></i>
+										</button>
+									</div>
+								</center>
+				</div>
+
+		        <div class="dual-list list-right col-md-5">
+		            <div class="well" id='well2'>
+		                <div class="row">
+		                
+		                    <div class="col-md-10">
+		                         <div class="input-group">
+							       <input type='text' name="SearchDualList" class="form-control" placeholder="Buscar"/>
+							       <span class="input-group-addon"><i class="fa fa-search"></i></span>
+							   	  </div>
+		                    </div>
+		                        <div class="col-md-2">
+		                        <div class="btn-group">
+		                            <a class="btn btn-default selector" data-toggle="tooltip" data-original-title="Seleccionar Todo" ><i class="fa fa-square-o"></i></a>
+		                        </div>
+		                    </div>
+		                </div>
+
+		                <br><div class="text-center"><b>Asistentes al Evento</b></div><br>
+
+						<div id="alerta_asistentes" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Este Evento No Posee Asistentes </b></div>
+					
+		                <ul id='lista_asistentes' class="list-group">
+		                      <a  class="hijo+pedro list-group-item">  Cras justo odio  </a>
+							  <a  class="hijo+pedro list-group-item">Dapibus ac facilisis in</a>
+							  <a  class="hijo+pedro list-group-item">Morbi leo risus</a>
+							  <a  class="hijo+pedro list-group-item">Porta ac consectetur ac</a>
+							  <a  class="hijo+pedro list-group-item">Vestibulum at eros</a>
+		                </ul>
+		            </div>
+		        </div>
+
+        </div><br><br>
+
+        	<div class="row">
 							<div class="col-md-5">
 								<label>Personal de la organización</label>
 								<?php $defaultvalue = '1'; ?>
@@ -465,6 +575,7 @@
 								</select>
 							</div>
 						</div><br><br>
+
         </div>
            <div class="modal-footer">
 		        <button type="button"  id='listo_modal_asistentes' class="btn btn-success" data-dismiss="modal">Listo</button>      
@@ -473,7 +584,6 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
- <?php echo form_close(); ?>
 
 
 
