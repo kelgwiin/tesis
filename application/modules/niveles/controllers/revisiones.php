@@ -101,6 +101,8 @@ class Revisiones extends MX_Controller
 
 		$data_view['personal'] = $this->riesgos->get_personal();
 
+		$data_view['asistentes_evento'] = array();
+
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
 	}
 
@@ -155,8 +157,8 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_rules('evento_inicio', 'Inicio del Evento', 'required|trim');
          $this->form_validation->set_rules('evento_fin', 'Fin del Evento', 'required|trim|callback_fechas_check');
 
-          $this->form_validation->set_rules('asistentes_evento[]', 'asistentes', 'trim');
-           $this->form_validation->set_rules('personal[]', 'personal', 'trim');
+         // $this->form_validation->set_rules('asistentes_evento[]', 'asistentes', 'trim');
+         //  $this->form_validation->set_rules('personal[]', 'personal', 'trim');
 
          $this->form_validation->set_message('required', 'Campo Requerido');
          $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
@@ -164,7 +166,39 @@ class Revisiones extends MX_Controller
          $data_view['mensaje'] = '';
 
          $this->load->model('continuidad/gestionriesgos_model','riesgos');
-		$data_view['personal'] = $this->riesgos->get_personal();
+
+		 $data_view['personal'] = $this->riesgos->get_personal();
+
+
+		 if($this->input->post('asistentes_evento'))
+		 {
+		 	$data_view['asistentes_evento'] = $this->input->post('asistentes_evento');
+
+		 	 foreach ($this->input->post('asistentes_evento') as $valor) {
+			
+			$persona = $this->general->get_row('personal',array('id_personal'=>$valor));
+
+			$asistentes_evento[$valor]['id_personal'] = $persona->id_personal;
+			$asistentes_evento[$valor]['nombre'] = $persona->nombre;
+			$asistentes_evento[$valor]['codigo_empleado'] = $persona->codigo_empleado;
+
+			$departamento = $this->general->get_row('departamento',array('departamento_id'=>$persona->id_departamento));
+
+			$asistentes_evento[$valor]['departamento'] = $departamento->nombre;
+			}
+
+			
+
+
+			$data_view['asistentes'] = $asistentes_evento;
+
+		 }
+
+
+
+		 
+
+		
 
 
 

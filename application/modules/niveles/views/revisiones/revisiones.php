@@ -424,7 +424,7 @@
   </div>
 </div>
 
- <?php echo form_close(); ?>
+
 <div class="modal fade bs-example-modal-lg" id='asistentes' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -436,7 +436,7 @@
         <div class="modal-body" id="contenido_modal_asistentes">
          
 
-			<div class="row">
+         	<div class="row">
 					<div class="dual-list list-left col-md-5" style="margin-left: 50px;">
 		            <div class="well text-left">
 		                <div class="row">
@@ -453,40 +453,31 @@
 		                    </div>
 		                </div>
 
-		                <br><div class="text-center"><b>Personal de la Organización</b></div><br>
+		                <br><div class="text-center"><b>Personal de la Organización</b></div>
 
 
-		                <div id="asistentes_personal" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Todo el Personal Asistirá a este Evento </b></div>
+		               <!-- <div id="asistentes_personal" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Todo el Personal Asistirá a este Evento </b></div>-->
 		                
-		                      <div id='pedro'>Pedro</div>
-		                      <ul class="list-group pedro">
-						         <a  class="hijo+pedro list-group-item ">Sub-elemento 2.1</a>
-						         <a  class="hijo+pedro list-group-item ">Sub-elemento 2.2</a>
-						      </ul>
-		                      <div id='jose'>Jose</div>
-							  <ul class="list-group jose">
-						         <a  class="hijo+jose list-group-item ">Sub-elemento 2.1</a>
-						         <a  class="hijo+jose list-group-item ">Sub-elemento 2.2</a>
-						      </ul>
-		                     <div id='pablo'> Pablo</div>
-						      <ul class="list-group pablo">
-							  <a  class="hijo+pablo list-group-item ">Dapibus ac facilisis in</a>
-							  <a  class="hijo+pablo list-group-item ">Morbi leo risus</a>
-							  <a  class="hijo+pablo list-group-item ">Porta ac consectetur ac</a>
-							  <a  class="hijo+pablo list-group-item ">Vestibulum at eros</a>
-		                </ul>
+		               			<?php //$defaultvalue = '1'; ?>
+								<select id="personal" name='personal[]' class="form-control lista_empleados"  size="10" style="margin-top: 25px; overflow-x:auto;" multiple>
+									<?php foreach($personal as $key => $person) : ?>
+										<optgroup label="<?php echo ucwords($key) ?>" class="<?php echo ucwords($key) ?>">
+											<?php foreach($person as $k => $per) : ?>
+
+												<?php if(!in_array($per->id_personal, $asistentes_evento)) : ?>
+													<option value="<?php echo $per->id_personal ?>" data-nombre="<?php echo $per->nombre ?>" data-codigo="<?php echo $per->codigo_empleado ?>"
+														data-dpto="<?php echo ucwords($key) ?>">
+														<?php echo $per->nombre." - ".$per->codigo_empleado ?>
+													</option>
+												<?php endif ?>
+											<?php endforeach ?>
+										</optgroup>
+									<?php endforeach ?>
+								</select>
+
+
 		            </div>
 		        </div>
-
-		      <!--  <div class="list-arrows col-md-1 text-center">
-		            <button type="button" class="btn btn-default btn-sm move-left">
-		                <span class="glyphicon glyphicon-chevron-left"></span>
-		            </button>
-
-		            <button type="button" class="btn btn-default btn-sm move-right">
-		                <span class="glyphicon glyphicon-chevron-right"></span>
-		            </button>
-		        </div> -->
 
 		        <div class="col-md-1 list-arrows" style="margin-top: 90px">
 								<center>
@@ -521,60 +512,28 @@
 		                    </div>
 		                </div>
 
-		                <br><div class="text-center"><b>Asistentes al Evento</b></div><br>
+		                <br><div class="text-center"><b>Asistentes al Evento</b></div>
 
-						<div id="alerta_asistentes" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Este Evento No Posee Asistentes </b></div>
-					
-		                <ul id='lista_asistentes' class="list-group">
-		                      <a  class="hijo+pedro list-group-item">  Cras justo odio  </a>
-							  <a  class="hijo+pedro list-group-item">Dapibus ac facilisis in</a>
-							  <a  class="hijo+pedro list-group-item">Morbi leo risus</a>
-							  <a  class="hijo+pedro list-group-item">Porta ac consectetur ac</a>
-							  <a  class="hijo+pedro list-group-item">Vestibulum at eros</a>
-		                </ul>
+						<!--<div id="alerta_asistentes" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Este Evento No Posee Asistentes </b></div> -->
+						
+						<select id="asistentes_evento" name="asistentes_evento[]" class="form-control lista_empleados" size="10" style="margin-top: 25px;overflow-x:auto;" multiple>
+
+
+		                	<?php if(count($asistentes) > 0) : ?>
+
+		                		<?php foreach($asistentes as $asistente) : ?>
+												<option style="margin-left:16px;" value="<?php echo $asistente['id_personal'] ?>" data-nombre="<?php echo $asistente['nombre'] ?>" data-codigo="<?php echo $asistente['codigo_empleado'] ?>"
+													data-dpto="<?php echo ucwords($asistente['departamento']) ?>">
+													<?php echo $asistente['nombre']." - ".$asistente['codigo_empleado'] ?>
+												</option>
+								<?php endforeach ?>
+
+		                	<?php endif ?>
+						</select>
 		            </div>
 		        </div>
 
-        </div><br><br>
-
-        	<div class="row">
-							<div class="col-md-5">
-								<label>Personal de la organización</label>
-								<?php $defaultvalue = '1'; ?>
-								<select id="personal" name='personal[]' class="form-control" value="<?php echo set_value('personal[]') ?>" size="10" style="margin-top: 25px; overflow-x:auto;">
-									<?php foreach($personal as $key => $person) : ?>
-										<optgroup label="<?php echo ucwords($key) ?>">
-											<?php foreach($person as $k => $per) : ?>
-												<option value="<?php echo $per->id_personal ?>" data-nombre="<?php echo $per->nombre ?>" data-codigo="<?php echo $per->codigo_empleado ?>"
-													data-dpto="<?php echo ucwords($key) ?>  <?php echo set_select('personal[]', $per->id_personal, ( (set_select('personal[]', $per->id_personal)!= true) &&  ($per->id_personal == $defaultvalue) ) ? TRUE : FALSE ) ?> ">
-													<?php echo $per->nombre." - ".$per->codigo_empleado ?>
-												</option>
-											<?php endforeach ?>
-										</optgroup>
-									<?php endforeach ?>
-								</select>
-							</div>
-							<div class="col-md-2" style="margin-top: 90px">
-								<center>
-									<div>
-										<a class="btn btn-primary" data-toggle="tooltip" id="add_asistente" 
-											data-original-title="Agregar personal al equipo de desarrollo" data-placement="top">
-											<i class = "fa fa-arrow-right fa-lg"></i>
-										</a>
-										<br /><br />
-										<a class="btn btn-primary" data-toggle="tooltip" id="remove_asistente"
-											data-original-title="Remover personal del equipo de desarrollo" data-placement="bottom">
-											<i class="fa fa-arrow-left fa-lg"></i>
-										</a>
-									</div>
-								</center>
-							</div>
-							<div class="col-md-5 text-center">
-								<label>Asistentes </label>
-								<select id="asistentes_evento" name="asistentes_evento[]" value="<?php echo set_value( $this->input->post('asistentes_evento[]')) ?>" class="form-control" size="10" style="margin-top: 25px;overflow-x:auto;">
-								</select>
-							</div>
-						</div><br><br>
+        </div>
 
         </div>
            <div class="modal-footer">
@@ -584,7 +543,7 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
-
+ <?php echo form_close(); ?>
 
 
 
