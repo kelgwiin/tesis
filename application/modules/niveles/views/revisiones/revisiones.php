@@ -293,6 +293,47 @@
 							</div>
 						</div>
 
+							<div id="contenedor_dropdown_acuerdos" >
+									<div class="form-group acuerdos-list">
+				
+												<div class="required text-right">
+													<label for="service_name" class="col-md-4  control-label">Acuerdo de Niveles de Servicio</label> 
+												</div>
+
+											    <div class="col-md-7">
+
+											         <?php
+											        	$options = array(
+											        		'seleccione' => 'Seleccione un Acuerdo',		        	  
+										                );
+
+														foreach($acuerdos as $acuerdo)
+											            { 
+											              $options[$acuerdo->acuerdo_nivel_id] = $acuerdo->nombre_acuerdo;
+											            }
+
+
+											        ?>
+
+											      	 <?php echo form_dropdown('acuerdos', $options,set_value('acuerdos'),'class="form-control"  id="dropdown_acuerdos" '); ?>	
+											    </div>
+											</div>
+
+
+											<div class="form-group">
+											     <div class="control-label col-md-4">
+											      </div>
+											      	<div class="col-md-7">
+													    <label style="color:red;" id="error_requisitos">
+													    	 	<?php 
+																        echo form_error('acuerdos');
+																	 ?>
+													   	
+												        </label>
+													</div>
+										    </div>
+						       </div>
+						 
 
 
 						  <div class="form-group">

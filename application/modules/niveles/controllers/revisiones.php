@@ -105,6 +105,8 @@ class Revisiones extends MX_Controller
 
 		$data_view['asistentes'] = array();
 
+		$data_view['acuerdos'] = $this->general->get_table('acuerdo_nivel_servicio');
+
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
 	}
 
@@ -143,6 +145,25 @@ class Revisiones extends MX_Controller
 		}	
 	}
 
+	function dropdown_acuerdos()
+	{
+		if ( ($this->input->post('tipo_evento') == 'revision_ANS')||($this->input->post('tipo_evento') =='renovacion_ANS') )
+		{
+			if($this->input->post('acuerdos') == 'seleccione'){
+			$this->form_validation->set_message('dropdown_acuerdos', 'Por favor seleccione un Acuerdo de Niveles Servicio');
+			return FALSE;
+			}
+			else
+				{
+			return TRUE;
+			}	
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
 
 	public function nuevo_evento()
 	{
@@ -158,6 +179,7 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_rules('descripcion_evento', 'Descripción del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('evento_inicio', 'Inicio del Evento', 'required|trim');
          $this->form_validation->set_rules('evento_fin', 'Fin del Evento', 'required|trim|callback_fechas_check');
+         $this->form_validation->set_rules('acuerdos', 'Acuerdos', 'callback_dropdown_acuerdos');
 
          // $this->form_validation->set_rules('asistentes_evento[]', 'asistentes', 'trim');
          //  $this->form_validation->set_rules('personal[]', 'personal', 'trim');
@@ -166,6 +188,9 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
 
          $data_view['mensaje'] = '';
+
+
+		$data_view['acuerdos'] = $this->general->get_table('acuerdo_nivel_servicio');
 
          $this->load->model('continuidad/gestionriesgos_model','riesgos');
 
@@ -308,6 +333,9 @@ class Revisiones extends MX_Controller
 
 
 
+
+
+
 	public function modificar_evento()
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
@@ -317,6 +345,7 @@ class Revisiones extends MX_Controller
 		 $this->load->library('form_validation');
 		 $this->load->helper(array('form', 'url'));
 		 $this->form_validation->set_rules('tipo_evento_modificar', 'Tipo de Evento', 'callback_dropdown_tipo_evento');
+		 
          $this->form_validation->set_rules('nombre_evento_modificar', 'Nombre del Evento', 'required|min_length[3]|max_length[250]|trim|callback_categoria_name_check');
          $this->form_validation->set_rules('lugar_evento_modificar', 'Lugar del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('descripcion_evento_modificar', 'Descripción del Evento', 'trim|max_length[500]');

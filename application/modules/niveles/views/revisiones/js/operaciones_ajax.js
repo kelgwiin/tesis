@@ -140,6 +140,8 @@ $(document).ready(function() {
 
 // $('#asistentes').modal('show');
 
+$('#nuevo_evento').modal('show');
+
      
 
       $("optgroup").each(function(){
@@ -153,6 +155,10 @@ $(document).ready(function() {
 
      if($('#errores').val() != '0' && $('#nuevo_bandera').val() == 'nuevo_bandera')
       {
+          if( ($( "#dropdown_tipo_evento" ).val() == 'revision_ANS') || ($( "#dropdown_tipo_evento" ).val() == 'renovacion_ANS'))
+          {
+               $( "#contenedor_dropdown_acuerdos" ).fadeIn();
+          }
          $('#nuevo_evento').modal('show');
       }
 
@@ -583,6 +589,19 @@ $(document).ready(function() {
                 }
             });
 
+    // Aparecer dropdown acuerdos
+    $( "#dropdown_tipo_evento" ).change(function() {
+
+      $( "#dropdown_acuerdos" ).val('seleccione');
+      
+      if( ($( "#dropdown_tipo_evento" ).val() == 'revision_ANS') || ($( "#dropdown_tipo_evento" ).val() == 'renovacion_ANS'))
+      {
+           $( "#contenedor_dropdown_acuerdos" ).fadeIn();
+      }
+      else{
+           $( "#contenedor_dropdown_acuerdos" ).fadeOut();
+      }
+    });
 
 
 
