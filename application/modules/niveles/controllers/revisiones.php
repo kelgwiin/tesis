@@ -103,6 +103,8 @@ class Revisiones extends MX_Controller
 
 		$data_view['asistentes_evento'] = array();
 
+		$data_view['asistentes'] = array();
+
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
 	}
 
@@ -168,37 +170,33 @@ class Revisiones extends MX_Controller
          $this->load->model('continuidad/gestionriesgos_model','riesgos');
 
 		 $data_view['personal'] = $this->riesgos->get_personal();
+ 
 
+		$data_view['asistentes_evento'] = array();
 
-		 if($this->input->post('asistentes_evento'))
-		 {
-		 	$data_view['asistentes_evento'] = $this->input->post('asistentes_evento');
-
-		 	 foreach ($this->input->post('asistentes_evento') as $valor) {
-			
-			$persona = $this->general->get_row('personal',array('id_personal'=>$valor));
-
-			$asistentes_evento[$valor]['id_personal'] = $persona->id_personal;
-			$asistentes_evento[$valor]['nombre'] = $persona->nombre;
-			$asistentes_evento[$valor]['codigo_empleado'] = $persona->codigo_empleado;
-
-			$departamento = $this->general->get_row('departamento',array('departamento_id'=>$persona->id_departamento));
-
-			$asistentes_evento[$valor]['departamento'] = $departamento->nombre;
-			}
-
-			
-
-
-			$data_view['asistentes'] = $asistentes_evento;
-
-		 }
-
-
-
-		 
-
+		$data_view['asistentes'] = array();
 		
+		 if($this->input->post('asistentes_evento'))
+					 {
+					 	$data_view['asistentes_evento'] = $this->input->post('asistentes_evento');
+
+					 	 foreach ($this->input->post('asistentes_evento') as $valor) {
+						
+						$persona = $this->general->get_row('personal',array('id_personal'=>$valor));
+
+						$asistentes_evento[$valor]['id_personal'] = $persona->id_personal;
+						$asistentes_evento[$valor]['nombre'] = $persona->nombre;
+						$asistentes_evento[$valor]['codigo_empleado'] = $persona->codigo_empleado;
+
+						$departamento = $this->general->get_row('departamento',array('departamento_id'=>$persona->id_departamento));
+
+						$asistentes_evento[$valor]['departamento'] = $departamento->nombre;
+					
+					    }
+					    
+						$data_view['asistentes'] = $asistentes_evento;
+
+					 }
 
 
 
@@ -221,6 +219,10 @@ class Revisiones extends MX_Controller
 
 					$data_view['modificacion'] = false;
 
+
+
+
+
                $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
             }
             else
@@ -237,6 +239,7 @@ class Revisiones extends MX_Controller
             	  $evento = array(
 
             					'nombre_evento' => $this->input->post('nombre_evento'),
+            					'tipo_evento' => $this->input->post('tipo_evento'),
             					'lugar_evento' => $this->input->post('lugar_evento'),
             					'inicio' => $fecha_inicio,
             					'fin' => $fecha_fin,
@@ -247,8 +250,49 @@ class Revisiones extends MX_Controller
 
 	            	if($id_evento)
 		            	{
-		            		$this->session->set_flashdata('Success', 'Evento Creado con Éxito');
-		            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
+
+		            		if(count($this->input->post('asistentes_evento')) > 0)
+			            			{
+					            		foreach ($this->input->post('asistentes_evento') as $key => $asistente_evento)
+									       	{
+									       		$asistencia = false;
+
+									       		if( !($this->general->exist('asistente_evento',array('id_personal'=> $asistente_evento,'id_evento'=> $id_evento))) )
+									       		{
+									       		  $asistentes = array(
+									                                'id_evento' => $id_evento,
+									                                'id_personal' => $asistente_evento,  
+									                                );
+
+									            	$this->general->insert('asistente_evento',$asistentes,'');
+									            }
+
+									             if(($this->general->exist('asistente_evento',array('id_personal'=> $asistente_evento,'id_evento'=> $id_evento))) )
+									       		{
+									       			$asistencia = true;
+									       		}
+									       	}
+
+									       	if($asistencia)
+									       	{
+							            		$this->session->set_flashdata('Success', 'Evento Creado con Éxito');
+							            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
+						            		}
+							            	else
+							            	{
+							            		$this->session->set_flashdata('Error', 'El Evento fue Creado, Pero ha ocurrido un problema al Agregar los Asistentes del Evento');
+							            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
+							            	}
+						           }
+
+								  else
+									  {
+
+									  	$this->session->set_flashdata('Success', 'Evento Creado con Éxito');
+						            	redirect(site_url('index.php/niveles/revisiones/revisiones'));
+									  }
+
+
 		            	}
 		            else
 		            	{
@@ -276,8 +320,8 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_rules('nombre_evento_modificar', 'Nombre del Evento', 'required|min_length[3]|max_length[250]|trim|callback_categoria_name_check');
          $this->form_validation->set_rules('lugar_evento_modificar', 'Lugar del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('descripcion_evento_modificar', 'Descripción del Evento', 'trim|max_length[500]');
-         $this->form_validation->set_rules('evento_inicio_modificar', 'Inicio del Evento', 'required|trim');
-         $this->form_validation->set_rules('evento_fin_modificar', 'Fin del Evento', 'required|trim|callback_fechas_check');
+         $this->form_validation->set_rules('inicio_evento_modificar', 'Inicio del Evento', 'required|trim');
+         $this->form_validation->set_rules('fin_evento_modificar', 'Fin del Evento', 'required|trim|callback_fechas_check');
 
          $this->form_validation->set_rules('id_evento_modificar', 'ID del Evento', 'trim');
 
@@ -285,6 +329,41 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
 
          $data_view['mensaje'] = '';
+
+
+
+        $this->load->model('continuidad/gestionriesgos_model','riesgos');
+
+		$data_view['personal'] = $this->riesgos->get_personal();
+ 
+
+		$data_view['asistentes_evento'] = array();
+
+		$data_view['asistentes'] = array();
+		
+		 if($this->input->post('asistentes_evento_modificar'))
+					 {
+					 	$data_view['asistentes_evento'] = $this->input->post('asistentes_evento_modificar');
+
+					 	 foreach ($this->input->post('asistentes_evento_modificar') as $valor) {
+						
+						$persona = $this->general->get_row('personal',array('id_personal'=>$valor));
+
+						$asistentes_evento[$valor]['id_personal'] = $persona->id_personal;
+						$asistentes_evento[$valor]['nombre'] = $persona->nombre;
+						$asistentes_evento[$valor]['codigo_empleado'] = $persona->codigo_empleado;
+
+						$departamento = $this->general->get_row('departamento',array('departamento_id'=>$persona->id_departamento));
+
+						$asistentes_evento[$valor]['departamento'] = $departamento->nombre;
+					
+					    }
+					    
+						$data_view['asistentes'] = $asistentes_evento;
+
+					 }
+
+
          
          if ($this->form_validation->run($this) == FALSE)
             {
@@ -297,8 +376,8 @@ class Revisiones extends MX_Controller
 					$eventos_recientes = $this->niveles->obtener_revisiones_recientes($fecha_actual,$fecha_proxima);
 
 					$data_view['eventos_recientes']	= $eventos_recientes;
-					$data_view['inicio']	= $fecha_actual;
-					$data_view['fin']	= $fecha_proxima;
+					//$data_view['inicio']	= $fecha_actual;
+					//$data_view['fin']	= $fecha_proxima;
 					$data_view['modificacion'] = true;
 					$data_view['nuevo'] = false;
 
@@ -308,16 +387,18 @@ class Revisiones extends MX_Controller
             {
 
 
-            	 $fecha_inicio = strtotime($this->input->post('evento_inicio_modificar')); 
-		         $fecha_inicio = date("Y-m-d H:i:s", $fecha_inicio); 
+            	 $fecha_inicio = strtotime($this->input->post('inicio_evento_modificar')); 
+		         $fecha_inicio = date("Y-m-d H:i:s", $fecha_inicio);
 
-		         $fecha_fin = strtotime($this->input->post('evento_fin_modificar')); 
+
+		         $fecha_fin = strtotime($this->input->post('fin_evento_modificar')); 
 		         $fecha_fin = date("Y-m-d H:i:s", $fecha_fin); 
 
 
             	  $evento = array(
 
             					'nombre_evento' => $this->input->post('nombre_evento_modificar'),
+
             					'lugar_evento' => $this->input->post('lugar_evento_modificar'),
             					'inicio' => $fecha_inicio,
             					'fin' => $fecha_fin,
@@ -326,7 +407,53 @@ class Revisiones extends MX_Controller
 
 			       $id_evento = $this->general->update2('evento_gns',$evento,array('id_evento'=> $this->input->post('id_evento_modificar')));
 
-	            	if($id_evento)
+			       $asistentes_bandera = true;
+			       $personal_bandera = true;
+
+			       if($this->input->post('asistentes_evento_modificar'))
+					 {
+
+					 	foreach ($this->input->post('asistentes_evento_modificar') as $asistente) {
+					 	
+					 		$asistentes_bandera = false;
+				       		if( !($this->general->exist('asistente_evento',array('id_personal'=> $asistente,'id_evento'=> $this->input->post('id_evento_modificar')))) )
+				       		{
+				       		  $persona_asistente = array(
+				                                'id_evento' => $this->input->post('id_evento_modificar'),
+				                                'id_personal' => $asistente,  
+				                                );
+
+				            	$this->general->insert('asistente_evento',$persona_asistente,'');
+				            }
+				             if(($this->general->exist('asistente_evento',array('id_personal'=> $asistente,'id_evento'=> $this->input->post('id_evento_modificar')))) )
+				       		{
+				       			$asistentes_bandera = true;
+				       		}
+
+					 	}
+
+					 }
+
+				   if($this->input->post('personal_modificar'))
+					 {
+
+					 	foreach ($this->input->post('personal_modificar') as $asistente) {
+					 	
+					 		$personal_bandera = false;
+				       		if( ($this->general->exist('asistente_evento',array('id_personal'=> $asistente,'id_evento'=> $this->input->post('id_evento_modificar')))) )
+				       		{
+				            	$this->general->delete('asistente_evento',array('id_personal'=> $asistente,'id_evento'=> $this->input->post('id_evento_modificar')));
+				            }
+				             if(!($this->general->exist('asistente_evento',array('id_personal'=> $asistente,'id_evento'=> $this->input->post('id_evento_modificar')))) )
+				       		{
+				       			$personal_bandera = true;
+				       		}
+
+					 	}
+
+					 }
+
+	            	if($id_evento && $asistentes_bandera && $personal_bandera)
 		            	{
 		            		$this->session->set_flashdata('Success', 'Evento Modificado con Éxito');
 		            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
@@ -368,10 +495,12 @@ class Revisiones extends MX_Controller
 
 
 			$inicio = date_create($evento->inicio);
-			$eventos_calendario[$i]['inicio'] =  date_format($inicio,'d/m/Y h:i a');
+			$eventos_calendario[$i]['inicio'] =  date_format($inicio,'m/d/Y h:i a');
+			$eventos_calendario[$i]['fecha_inicio'] =  date_format($inicio,'d/m/Y h:i a');
 
 			$fin = date_create($evento->fin);
-			$eventos_calendario[$i]['fin'] =  date_format($fin,'d/m/Y h:i a');
+			$eventos_calendario[$i]['fin'] =  date_format($fin,'m/d/Y h:i a');
+			$eventos_calendario[$i]['fecha_fin'] =  date_format($fin,'d/m/Y h:i a');
 
 			if($evento->tipo_evento == "revision_ANS")
 				{
@@ -398,6 +527,27 @@ class Revisiones extends MX_Controller
 				{
 					$eventos_calendario[$i]['color'] = '#8E8E86';
 				}
+
+				//$evento_calendario['asistentes'] = $this->general->get_result('asistente_evento',array('id_evento'=> $id_evento)); 
+
+				$asistentes = $this->general->get_result('asistente_evento',array('id_evento'=> $evento->id_evento)); 
+
+				$j = 0;
+
+				$asistentes_evento = array();
+
+				foreach ($asistentes as $asistente) {				
+
+					$asistentes_evento[$j] = $this->general->get_row('personal',array('id_personal'=>$asistente->id_personal));
+
+					$departamento = $this->general->get_row('departamento',array('departamento_id'=>$asistentes_evento[$j]->id_departamento));
+
+					$asistentes_evento[$j]->departamento = $departamento->nombre;
+
+					$j++;
+				}
+
+				$eventos_calendario[$i]['asistentes'] = $asistentes_evento;
 
 			$i++;
 		}
@@ -426,10 +576,51 @@ class Revisiones extends MX_Controller
 		$evento_calendario['tipo'] = $evento->tipo_evento;
 
 		$inicio = date_create($evento->inicio);
-		$evento_calendario['inicio'] =  date_format($inicio,'d/m/Y h:i A');
+		$evento_calendario['inicio'] =  date_format($inicio,'m/d/Y h:i A');
 
 		$fin = date_create($evento->fin);
-		$evento_calendario['fin'] =  date_format($fin,'d/m/Y h:i A');
+		$evento_calendario['fin'] =  date_format($fin,'m/d/Y h:i A');
+
+
+		$asistentes = $this->general->get_result('asistente_evento',array('id_evento'=> $evento->id_evento));
+
+
+		if(count($asistentes) > 0)
+			{
+
+				//$evento_calendario['lista_asistentes'] = $asistentes; 
+
+						$j = 0;
+
+						$asistentes_evento = array();
+
+						foreach ($asistentes as $asistente) {				
+
+							$asistentes_evento[$j] = $this->general->get_row('personal',array('id_personal'=>$asistente->id_personal));
+
+							$departamento = $this->general->get_row('departamento',array('departamento_id'=>$asistentes_evento[$j]->id_departamento));
+
+							$asistentes_evento[$j]->departamento = $departamento->nombre;
+
+							$asistentes_arreglo[$j] =  $asistente->id_personal;
+
+							$j++;
+						}
+
+				
+				$evento_calendario['asistentes'] = $asistentes_evento;
+				$evento_calendario['asistentes_arreglo'] = $asistentes_arreglo;
+		    }
+
+		else
+			{
+				$evento_calendario['asistentes'] = array();
+				$evento_calendario['asistentes_arreglo'] = array();
+
+			}
+
+		$this->load->model('continuidad/gestionriesgos_model','riesgos');
+		$evento_calendario['empleados'] = $this->riesgos->get_personal();
 
 		echo json_encode($evento_calendario);
 

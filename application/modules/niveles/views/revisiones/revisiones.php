@@ -11,9 +11,13 @@
 
 #asistentes .modal-dialog  {width:75%;}
 
+#asistentes_modificar .modal-dialog  {width:75%;}
+
 .list-left li, .list-right li {
             cursor: pointer;
         }
+
+
 
 </style>
 
@@ -120,49 +124,63 @@
 
 		      <thead>
 
-		     
+		     <?php if(count($eventos_recientes) > 0) : ?>
 			
-			  <?php foreach ($eventos_recientes as $evento_reciente) :?>
-			  	
+				  <?php foreach ($eventos_recientes as $evento_reciente) :?>
+				  	
+				  	<tr>
+				  		<td> 							<?php if($evento_reciente->tipo_evento == 'revision_ANS') : ?>
+										  				<span class="label" style="background-color:#42A321;"> </span>
+													  	<?php endif ?>
+								                 		<?php if($evento_reciente->tipo_evento == 'renovacion_ANS') : ?>
+										  				<span class="label" style="background-color:#FF7519;" > </span>
+													  	<?php endif ?>
+													  	<?php if($evento_reciente->tipo_evento == 'vencimiento_ANS') : ?>
+													  				<span class="label" style="background-color:#E64545;"> </span>
+													  	<?php endif ?>
+													  	<?php if($evento_reciente->tipo_evento == 'reunion') : ?>
+													  				<span class="label" style="background-color:#3366FF;"> </span>
+													  	<?php endif ?> 
+													  	<?php if($evento_reciente->tipo_evento == 'otro') : ?>
+													  				<span class="label" style="background-color:#8E8E86;"> </span>
+													  	<?php endif ?> 
+						</td>
+				  		<td  width="30%"> <?php echo $evento_reciente->nombre_evento; ?></td>
+
+				  		<td  width="30%" class="text-right"> <?php 
+				  					$inicio = date_create($evento_reciente->inicio);
+				  					echo '<b>Inicio:</b> '.date_format($inicio,'d/m') ?> <br><?php
+				  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
+				  					{echo "Todo el Día";}
+				  					else
+				  					{echo date_format($inicio,'h:i a');}	
+				  					 ?></td>
+
+				  		<td  width="30%" class="text-right"> <?php $fin = date_create($evento_reciente->fin);
+				  					echo '<b>Fin:</b> '.date_format($fin,'d/m');  ?> <br><?php
+				  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
+				  					{echo "Todo el Día";}
+				  					else
+				  					{echo date_format($fin,'h:i a');}	
+				  					 ?></td>
+
+				  	</tr>
+
+				  <?php endforeach ?>
+
+			  <?php else : ?>
+
 			  	<tr>
-			  		<td> 							<?php if($evento_reciente->tipo_evento == 'revision_ANS') : ?>
-									  				<span class="label" style="background-color:#42A321;"> </span>
-												  	<?php endif ?>
-							                 		<?php if($evento_reciente->tipo_evento == 'renovacion_ANS') : ?>
-									  				<span class="label" style="background-color:#FF7519;" > </span>
-												  	<?php endif ?>
-												  	<?php if($evento_reciente->tipo_evento == 'vencimiento_ANS') : ?>
-												  				<span class="label" style="background-color:#E64545;"> </span>
-												  	<?php endif ?>
-												  	<?php if($evento_reciente->tipo_evento == 'reunion') : ?>
-												  				<span class="label" style="background-color:#3366FF;"> </span>
-												  	<?php endif ?> 
-												  	<?php if($evento_reciente->tipo_evento == 'otro') : ?>
-												  				<span class="label" style="background-color:#8E8E86;"> </span>
-												  	<?php endif ?> 
-					</td>
-			  		<td  width="30%"> <?php echo $evento_reciente->nombre_evento; ?></td>
+				  		<td><div class="alert alert-info text-center" role="alert"> <b> <i class="fa fa-exclamation-circle"></i> No existen Eventos dentro de los próximos 8 días. </b></div> </td>
 
-			  		<td  width="30%" class="text-right"> <?php 
-			  					$inicio = date_create($evento_reciente->inicio);
-			  					echo '<b>Inicio:</b> '.date_format($inicio,'d/m') ?> <br><?php
-			  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
-			  					{echo "Todo el Día";}
-			  					else
-			  					{echo date_format($inicio,'h:i a');}	
-			  					 ?></td>
+				</tr>
 
-			  		<td  width="30%" class="text-right"> <?php $fin = date_create($evento_reciente->fin);
-			  					echo '<b>Fin:</b> '.date_format($fin,'d/m');  ?> <br><?php
-			  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
-			  					{echo "Todo el Día";}
-			  					else
-			  					{echo date_format($fin,'h:i a');}	
-			  					 ?></td>
 
-			  	</tr>
 
-			  <?php endforeach ?>
+
+			  <?php endif ?>
+
+
 
 			   </thead>
 			   <TBODY></TBODY>
@@ -408,8 +426,8 @@
 									</div>
 								</div>
 
-							<div class="col-md-1 col-md-offset-5">
-							<a id="agregar_asistentes" class="btn btn-success">Agregar Asistentes</a>
+							<div class="col-md-1 col-md-offset-4">
+							<a id="agregar_asistentes" class="btn btn-success"><i class="fa fa-users"></i> Agregar Asistentes</a>
 							</div>
 
 
@@ -425,7 +443,8 @@
 </div>
 
 
-<div class="modal fade bs-example-modal-lg" id='asistentes' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id='asistentes' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" 
+   data-keyboard="false"> 
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
@@ -435,6 +454,13 @@
         </div>
         <div class="modal-body" id="contenido_modal_asistentes">
          
+			<ol class="breadcrumb">
+				<li class="active"><i class="fa fa-calendar"></i> 
+					Esta Secci&#243;n brinda la opción de asignar asistentes al Evento que esta siendo Creado. Para Asignar una persona a la lista de asistentes, primero
+					debe seleccionarla de la Lista del Personal de la Organización y luego dar click al botón con la flecha que apunta hacia la derecha. Para Remover a una persona de la lista de asistentes, primero
+					debe seleccionarla de la Lista de Asistentes y luego dar click al botón con la flecha que apunta hacia la izquierda.<br> Para Seleccionar todos los elementos de la lista puede hace click en el boton
+					ubicado al lado derecho de la barra de busqueda.</li>
+				</ol><br>
 
          	<div class="row">
 					<div class="dual-list list-left col-md-5" style="margin-left: 50px;">
@@ -459,7 +485,7 @@
 		               <!-- <div id="asistentes_personal" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Todo el Personal Asistirá a este Evento </b></div>-->
 		                
 		               			<?php //$defaultvalue = '1'; ?>
-								<select id="personal" name='personal[]' class="form-control lista_empleados"  size="10" style="margin-top: 25px; overflow-x:auto;" multiple>
+								<select id="personal" name='personal[]' class="form-control lista_empleados_nuevo lista_empleados"  size="10" style="margin-top: 25px; overflow-x:auto;" multiple>
 									<?php foreach($personal as $key => $person) : ?>
 										<optgroup label="<?php echo ucwords($key) ?>" class="<?php echo ucwords($key) ?>">
 											<?php foreach($person as $k => $per) : ?>
@@ -522,12 +548,12 @@
 		                	<?php if(count($asistentes) > 0) : ?>
 
 		                		<?php foreach($asistentes as $asistente) : ?>
-												<option style="margin-left:16px;" value="<?php echo $asistente['id_personal'] ?>" data-nombre="<?php echo $asistente['nombre'] ?>" data-codigo="<?php echo $asistente['codigo_empleado'] ?>"
-													data-dpto="<?php echo ucwords($asistente['departamento']) ?>">
+												<option value="<?php echo $asistente['id_personal'] ?>" data-nombre="<?php echo $asistente['nombre'] ?>" data-codigo="<?php echo $asistente['codigo_empleado'] ?>"
+													data-dpto="<?php echo ucwords($asistente['departamento']) ?>" style="margin-left:16px;" selected >
 													<?php echo $asistente['nombre']." - ".$asistente['codigo_empleado'] ?>
 												</option>
 								<?php endforeach ?>
-
+									
 		                	<?php endif ?>
 						</select>
 		            </div>
@@ -610,6 +636,16 @@
       				<b>Descripción: </b>
       			</td>
       			<td id="tabla_descripcion">
+      				
+      			</td>
+      		</tr>
+
+      		<tr>
+      			<td>
+      				<b>Asistentes: </b>
+      			</td>
+      			<td id="tabla_asistentes">
+      				
       				
       			</td>
       		</tr>
@@ -752,7 +788,7 @@
 
 							    <div class="col-md-5">
 							       <div class="input-group">
-							       <input type='text' name="evento_inicio_modificar" class="form-control" id='inicio_evento_modificar' value="<?php echo set_value('evento_inicio_modificar'); ?>"/>
+							       <input type='text' name="inicio_evento_modificar" class="form-control" id='inicio_evento_modificar' value="<?php echo set_value('inicio_evento_modificar'); ?>"/>
 							       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							   	   </div>
 
@@ -764,7 +800,7 @@
 						      	<div class="col-md-7">
 								    <label style="color:red;">
 								   	<?php 
-								        echo form_error('evento_inicio_modificar');
+								        echo form_error('inicio_evento_modificar');
 									 ?>
 									</label>
 								</div>
@@ -779,7 +815,7 @@
 
 							    <div class="col-md-5">
 							       <div class="input-group">
-							       <input type='text' name="evento_fin_modificar" class="form-control" id='fin_evento_modificar' value="<?php echo set_value('evento_fin_modificar'); ?>"/>
+							       <input type='text' name="fin_evento_modificar" class="form-control" id='fin_evento_modificar' value="<?php echo set_value('fin_evento_modificar'); ?>"/>
 							       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							   	   </div>
 
@@ -791,7 +827,7 @@
 						      	<div class="col-md-5">
 								    <label style="color:red;">
 								   	<?php 
-								        echo form_error('evento_fin_modificar');
+								        echo form_error('fin_evento_modificar');
 									 ?>
 									</label>
 								</div>
@@ -830,6 +866,10 @@
 									</div>
 								</div>
 
+							<div class="col-md-1 col-md-offset-4">
+							<a id="agregar_asistentes_modificar" class="btn btn-success"><i class="fa fa-users"></i> Actualizar Asistentes</a>
+							</div>
+
 
 			</div>
 
@@ -847,6 +887,133 @@
 </div>
 
 
+<div class="modal fade bs-example-modal-lg" id='asistentes_modificar' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" 
+   data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myLargeModalLabel">Actualizar Asistentes al Evento</h4>
+        </div>
+        <div class="modal-body" id="contenido_modal_asistentes_modificar">
+         
+         <ol class="breadcrumb">
+				<li class="active"><i class="fa fa-calendar"></i> 
+					Esta Secci&#243;n brinda la opción de asignar y remover asistentes del Evento que esta siendo Modificado. Para Asignar una persona a la lista de asistentes, primero
+					debe seleccionarla de la Lista del Personal de la Organización y luego dar click al botón con la flecha que apunta hacia la derecha. Para Remover a una persona de la lista de asistentes, primero
+					debe seleccionarla de la Lista de Asistentes y luego dar click al botón con la flecha que apunta hacia la izquierda.<br> Para Seleccionar todos los elementos de la lista puede hace click en el boton
+					ubicado al lado derecho de la barra de busqueda.</li>
+				</ol><br>
+
+         	<div class="row">
+					<div class="dual-list list-left col-md-5" style="margin-left: 50px;">
+		            <div class="well text-left">
+		                <div class="row">
+		                    <div class="col-md-10">
+		                        <div class="input-group">
+							       <input type='text' name="SearchDualList" class="form-control" placeholder="Buscar"/>
+							       <span class="input-group-addon"><i class="fa fa-search"></i></span>
+							   	 </div>
+		                    </div>
+		                    <div class="col-md-2">
+		                        <div class="btn-group">
+		                            <a class="btn btn-default selector" data-toggle="tooltip" data-original-title="Seleccionar Todo" ><i class="fa fa-square-o"></i></a>
+		                        </div>
+		                    </div>
+		                </div>
+
+		                <br><div class="text-center"><b>Personal de la Organización</b></div>
+
+
+		               <!-- <div id="asistentes_personal" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Todo el Personal Asistirá a este Evento </b></div>-->
+		                
+		               			<?php //$defaultvalue = '1'; ?>
+								<select id="personal_modificar" name='personal_modificar[]' class="form-control lista_empleados_modificar lista_empleados"  size="10" style="margin-top: 25px; overflow-x:auto;" multiple>
+									<?php foreach($personal as $key => $person) : ?>
+										<optgroup label="<?php echo ucwords($key) ?>" class="<?php echo ucwords($key) ?>">
+											<?php foreach($person as $k => $per) : ?>
+
+												<?php if(!in_array($per->id_personal, $asistentes_evento)) : ?>
+													<option value="<?php echo $per->id_personal ?>" data-nombre="<?php echo $per->nombre ?>" data-codigo="<?php echo $per->codigo_empleado ?>"
+														data-dpto="<?php echo ucwords($key) ?>">
+														<?php echo $per->nombre." - ".$per->codigo_empleado ?>
+													</option>
+												<?php endif ?>
+											<?php endforeach ?>
+										</optgroup>
+									<?php endforeach ?>
+								</select>
+
+
+		            </div>
+		        </div>
+
+		        <div class="col-md-1 list-arrows" style="margin-top: 90px">
+								<center>
+									<div>
+										<button type="button" class="btn btn-primary move-right_modificar" data-toggle="tooltip" id="add_asistente" 
+											data-original-title="Agregar Asitentes al Evento" data-placement="top">
+											<i class = "fa fa-arrow-right fa-lg"></i>
+										</button>
+										<br /><br />
+										<button type="button" class="btn btn-primary move-left_modificar" data-toggle="tooltip" id="remove_asistente"
+											data-original-title="Remover Asitentes del Evento" data-placement="bottom">
+											<i class="fa fa-arrow-left fa-lg"></i>
+										</button>
+									</div>
+								</center>
+				</div>
+
+		        <div class="dual-list list-right col-md-5">
+		            <div class="well" id='well2'>
+		                <div class="row">
+		                
+		                    <div class="col-md-10">
+		                         <div class="input-group">
+							       <input type='text' name="SearchDualList" class="form-control" placeholder="Buscar"/>
+							       <span class="input-group-addon"><i class="fa fa-search"></i></span>
+							   	  </div>
+		                    </div>
+		                        <div class="col-md-2">
+		                        <div class="btn-group">
+		                            <a class="btn btn-default selector" data-toggle="tooltip" data-original-title="Seleccionar Todo" ><i class="fa fa-square-o"></i></a>
+		                        </div>
+		                    </div>
+		                </div>
+
+		                <br><div class="text-center"><b>Asistentes al Evento</b></div>
+
+						<!--<div id="alerta_asistentes" class="alert alert-info text-center" role="alert" style="display: none;"> <b> <i class="fa fa-exclamation-circle"></i> Este Evento No Posee Asistentes </b></div> -->
+						
+						<select id="asistentes_evento_modificar" name="asistentes_evento_modificar[]" class="form-control lista_empleados" size="10" style="margin-top: 25px;overflow-x:auto;" multiple>
+
+
+		                	<?php if(count($asistentes) > 0) : ?>
+
+		                		<?php foreach($asistentes as $asistente) : ?>
+												<option value="<?php echo $asistente['id_personal'] ?>" data-nombre="<?php echo $asistente['nombre'] ?>" data-codigo="<?php echo $asistente['codigo_empleado'] ?>"
+													data-dpto="<?php echo ucwords($asistente['departamento']) ?>" style="margin-left:16px;" selected >
+													<?php echo $asistente['nombre']." - ".$asistente['codigo_empleado'] ?>
+												</option>
+								<?php endforeach ?>
+									
+		                	<?php endif ?>
+						</select>
+		            </div>
+		        </div>
+
+        </div>
+
+        </div>
+           <div class="modal-footer">
+		        <button type="button"  id='listo_modal_asistentes_modificar' class="btn btn-success" data-dismiss="modal">Listo</button>      
+		      </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
 <div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
@@ -858,7 +1025,7 @@
 		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Modificar</b> este Evento?</div></p>
 		      </div>
 		      <div class="modal-footer">
-		      	<button type="submit" id="actualizar_confirm" class="btn btn-warning">Modificar</button>
+		      	<button type="submit" id="actualizar_confirm_modificar" class="btn btn-warning">Modificar</button>
 		        <button type="button" class="btn btn-default" id="cancelar_modificacion" data-dismiss="modal">Cancelar</button>      
 		      </div>
 		    </div><!-- /.modal-content -->
@@ -887,6 +1054,10 @@
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
+
+
+
+
 
 
 

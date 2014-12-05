@@ -1,6 +1,5 @@
 function modificarEvento(id_evento) {
 
-          //$("#eliminar").modal('show');
        $('#modal_evento').modal('hide');
 
 
@@ -29,6 +28,55 @@ function modificarEvento(id_evento) {
                                  $("#descripcion_evento_modificar").val(data_evento.descripcion);
 
                                  $("#id_evento_modificar").val(data_evento.id);
+
+                                 $("#personal_modificar").empty();
+                                 $("#asistentes_evento_modificar").empty();
+
+
+                                var select_empleados;
+
+                                for (var key in data_evento.empleados) {
+                                     
+                                     select_empleados = select_empleados+'<optgroup label="'+key+'" class="'+key+'">';
+
+                                     data_evento.empleados[key].forEach(function(empleado) {
+
+
+
+                                      if((jQuery.inArray(empleado.id_personal, data_evento.asistentes_arreglo)) == (-1))
+                                        {
+                                         
+                                          select_empleados = select_empleados+'<option value="'+empleado.id_personal+'" data-nombre="'+empleado.nombre+'" data-codigo="'+empleado.codigo_empleado+'" data-dpto="'+key+'">'+empleado.nombre+' - '+empleado.codigo_empleado+'</option>';
+                                        
+                                        }
+                                     });
+
+                                     select_empleados = select_empleados+'</optgroup>';
+                                  }
+
+                                 $('select#personal_modificar').append(select_empleados);
+
+                                  $(".lista_empleados_modificar optgroup").each(function(){
+
+                                       // alert('hijos: '+$(this).children().length);
+
+                                         if($(this).children().length == 0)
+                                                          {
+                                                             $(this).hide();                                         
+                                                          }    
+                                    });
+
+                                  var select_asistentes;
+
+                                  data_evento.asistentes.forEach(function(asistente) {
+
+                                  select_asistentes = select_asistentes+'<option style="margin-left:16px;" value="'+asistente.id_personal+'" data-nombre="'+asistente.nombre+'" data-codigo="'+asistente.codigo_empleado+'" data-dpto="'+asistente.departamento+'">'+asistente.nombre+' - '+asistente.codigo_empleado+'</option>';
+
+                                  });
+
+                                  $('select#asistentes_evento_modificar').append(select_asistentes);
+
+
                                        
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -43,9 +91,6 @@ function modificarEvento(id_evento) {
 
 
          $('#modificar_evento').modal('show');
-       
-       //alert('id evento: '+id_evento);
-
 
     }
 
@@ -93,7 +138,18 @@ function deleteEvento(id_evento) {
 
 $(document).ready(function() {
 
- $('#asistentes').modal('show');
+// $('#asistentes').modal('show');
+
+     
+
+      $("optgroup").each(function(){
+
+                     if($(this).children().length == 0)
+                                      {
+                                         $(this).hide();                                         
+                                      }       
+                });
+
 
      if($('#errores').val() != '0' && $('#nuevo_bandera').val() == 'nuevo_bandera')
       {
@@ -105,9 +161,6 @@ $(document).ready(function() {
       {
           $('#modificar_evento').modal('show');
       }
-
-
-    // page is now ready, initialize the calendar...
 
     $('#calendar').fullCalendar({
         lang: 'es',
@@ -130,16 +183,10 @@ $(document).ready(function() {
 
     dayClick: function(date, jsEvent, view) { 
  
-        //$('#nuevo_evento').modal('show');
-
-        //alert('Clicked on: ' + date.format('MM/DD/YYYY h:mm A'));
-
         var fecha_actual = date.format('MM/DD/YYYY h:mm a');
 
-        //alert(fecha_actual);
-
         $('#inicio_evento').data("DateTimePicker").setDate(fecha_actual);
-        $('#fin_evento').data("DateTimePicker").setDate(fecha_actual);
+       // $('#fin_evento').data("DateTimePicker").setDate(fecha_actual);
 
         $('#nuevo_evento').modal('show');
     },
@@ -147,7 +194,7 @@ $(document).ready(function() {
 
      eventClick: function(calEvent, jsEvent, view) {
 
-           $('#modal_evento').modal('show');
+        $('#modal_evento').modal('show');
 
         $("#tabla_nombre").empty();
         $("#tabla_tipo").empty();
@@ -155,6 +202,7 @@ $(document).ready(function() {
         $("#tabla_inicio").empty();
         $("#tabla_fin").empty();
         $("#tabla_descripcion").empty();
+        $("#tabla_asistentes").empty();
         $("#footer_vista_evento").empty();
 
         $("#tabla_nombre").append(calEvent.title);
@@ -171,8 +219,8 @@ $(document).ready(function() {
             }
         else
             {
-                $("#tabla_inicio").append('<i class="fa fa-calendar"></i> '+calEvent.inicio);
-                $("#tabla_fin").append('<i class="fa fa-calendar"></i> '+calEvent.fin);
+                $("#tabla_inicio").append('<i class="fa fa-calendar"></i> '+calEvent.fecha_inicio);
+                $("#tabla_fin").append('<i class="fa fa-calendar"></i> '+calEvent.fecha_fin);
             }
 
       
@@ -205,15 +253,63 @@ $(document).ready(function() {
         {$("#tabla_descripcion").append(calEvent.descripcion);}
 
 
+      //$("#tabla_asistentes").append(calEvent.asistentes[1].nombre);
+
+        if(calEvent.asistentes.length == 0)
+          {
+              $("#tabla_asistentes").append('<i>No Posee</i>');
+          }
+        else
+          {
+              var informacion_asistentes = '<div class="panel panel-default" style="width:400px; height:200px; overflow-y: auto; overflow-x: scroll;"><table class="table table-striped" style="width: 100%;">';
+
+              /* informacion_asistentes = informacion_asistentes+'<thead>';
+
+              informacion_asistentes = informacion_asistentes+'<tr>';
+
+                 informacion_asistentes = informacion_asistentes+'<th><b>Código</b></th>';
+                  informacion_asistentes = informacion_asistentes+'<th><b>Nombre</b></th>';
+                  informacion_asistentes = informacion_asistentes+'<th><b>Email Personal</b></th>';
+                  informacion_asistentes = informacion_asistentes+'<th><b>Email Corporativo</b></th>';
+                  informacion_asistentes = informacion_asistentes+'<th><b>Telf Personal</b></th>';
+                  informacion_asistentes = informacion_asistentes+'<th><b>Telf Corporativo</b></th>';
+
+
+               informacion_asistentes = informacion_asistentes+'</tr>';
+
+                informacion_asistentes = informacion_asistentes+'</thead>';*/
+
+               informacion_asistentes = informacion_asistentes+'<tbody>';
+
+              calEvent.asistentes.forEach(function(asistente) {
+
+                  informacion_asistentes = informacion_asistentes+'<tr>';
+
+
+
+                  informacion_asistentes = informacion_asistentes+'<td><b>'+asistente.codigo_empleado+'</b></td>';
+                  informacion_asistentes = informacion_asistentes+'<td>'+asistente.nombre+'</td>';                  
+                  informacion_asistentes = informacion_asistentes+'<td>'+asistente.departamento+'</td>';
+                  informacion_asistentes = informacion_asistentes+'<td>'+asistente.email_personal+'</td>';
+                  informacion_asistentes = informacion_asistentes+'<td>'+asistente.email_corporativo+'</td>';
+                  informacion_asistentes = informacion_asistentes+'<td>'+asistente.tlfn_personal+'</td>';
+                  informacion_asistentes = informacion_asistentes+'<td>'+asistente.tlfn_corporativo+'</td>';
+                
+                  informacion_asistentes = informacion_asistentes+'</tr>';
+              });
+
+                 informacion_asistentes = informacion_asistentes+'</tbody>';
+
+
+              informacion_asistentes = informacion_asistentes+'</table> </div>';
+
+               // $("#tabla_asistentes").append(asistente.nombre);
+
+                $("#tabla_asistentes").append(informacion_asistentes);
+          }
+
         $("#footer_vista_evento").append('<button type="button" onclick="modificarEvento('+calEvent.id+');" class="btn btn-warning"><i class="fa fa-pencil"></i> Modicar</button> <button type="button" onclick="deleteEvento('+calEvent.id+');" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
         
-        //alert('Event: ' + calEvent.title);
-        //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-        //alert('View: ' + calEvent.id);
-
-        // change the border color just for fun
-        //$(this).css('border-color', 'red');
-
     },
 
 
@@ -255,10 +351,11 @@ $(document).ready(function() {
                 }
                 });
  $("#inicio_evento").on("dp.change",function (e) {
-  $('#fin_evento').data("DateTimePicker").setMinDate(e.date);
+ // $('#fin_evento').data("DateTimePicker").setMinDate(e.date);
  });
  $("#fin_evento").on("dp.change",function (e) {
- $('#inicio_evento').data("DateTimePicker").setMaxDate(e.date);
+ //$('#inicio_evento').data("DateTimePicker").setMaxDate(e.date);
+ //$('#fin_evento').val($('#inicio_evento').val());
   });
 
 
@@ -300,42 +397,7 @@ $(document).ready(function() {
    });
 
 
-   /*$('#add_asistente').click(function()
-    {
-      var id_personal = $('#personal').val();
-      var personal = $('#personal option:selected').data('nombre');
-      var dpto = $('#personal option:selected').data('dpto');
-      var codigo = $('#personal option:selected').data('codigo');
-      // alert('id_personal: '+id_personal+' - personal: '+personal+' - dpto: '+dpto);
-      if(id_personal != null && id_personal != '')
-      {
-        $('#personal option:selected').remove();
-        $('select[name=asistentes_evento\\[\\]]').append('<option value="'+id_personal+'" data-nombre="'+personal+'" data-codigo="'+codigo+'" data-dpto="'+dpto+'">'+personal+' - '+codigo+'</option>');
-      }else
-      {
-        //alert('Debe seleccionar personal para agregarlo al campo de asistentes_evento de desarrollo');
-      }
-    });
-    
-    $('#remove_asistente').click(function()
-    {
-      var id_personal = $('select[name=asistentes_evento\\[\\]]').val();
-      var personal = $('select[name=asistentes_evento\\[\\]] option:selected').data('nombre');
-      var dpto = $('select[name=asistentes_evento\\[\\]] option:selected').data('dpto');
-      var codigo = $('select[name=asistentes_evento\\[\\]] option:selected').data('codigo');
-      // alert('id_personal: '+id_personal+' - personal: '+personal+' - dpto: '+dpto);
-      if(id_personal != null && id_personal != '')
-      {
-        $('select[name=asistentes_evento\\[\\]] option:selected').remove();
-        $('#personal optgroup[label="'+dpto+'"]').append('<option style="margin-left:16px;" value="'+id_personal+'" data-nombre="'+personal+'" data-codigo="'+codigo+'" data-dpto="'+dpto+'">'+personal+' - '+codigo+'</option>');
-      }else
-      {
-       // alert('Debe seleccionar personal para removerlo del campo de asistentes_evento de desarrollo');
-      }
-    });*/
-
-
-    $('#agregar_asistentes').click(function(){ 
+  $('#agregar_asistentes').click(function(){ 
 
         $('#nuevo_evento').modal('hide');
 
@@ -347,6 +409,35 @@ $(document).ready(function() {
     $('#listo_modal_asistentes').click(function(){ 
 
         $('#nuevo_evento').modal('show');
+
+                $('select#asistentes_evento option:not(selected)').each(function(){ 
+
+                                    ($this).prop("selected", true);
+
+                                });
+   });
+
+
+
+     $('#agregar_asistentes_modificar').click(function(){ 
+
+        $('#modificar_evento').modal('hide');
+
+        
+        $('#asistentes_modificar').modal('show');
+   });
+
+
+      $('#listo_modal_asistentes_modificar').click(function(){ 
+
+        $('#modificar_evento').modal('show');
+
+        var $checkBox = $('.dual-list .selector');
+
+         if (!$checkBox.hasClass('selected')) {
+                    $checkBox.addClass('selected').closest('.well').find('select#asistentes_evento_modificar option:not(selected)').prop("selected", true);
+                    $checkBox.addClass('selected').closest('.well').find('select#personal_modificar option:not(selected)').prop("selected", true);
+                } 
    });
 
 
@@ -358,21 +449,19 @@ $(document).ready(function() {
                      options = $('select#asistentes_evento :selected');
                        options.each(     
                                 function(){
-                                  
+
                                     op = $(this);
                                     
                                      var dpto = $(this).data('dpto');
 
-                                     //var nombre = $(this).data('nombre');
 
-                                     $("optgroup[label='" +dpto+ "']").append(op);
+                                     $(".lista_empleados_nuevo optgroup[label='" +dpto+ "']").append(op);
 
-                                    if($("optgroup[label='" +dpto+ "']").children().length != 0)
+                                    if($(".lista_empleados_nuevo optgroup[label='" +dpto+ "']").children().length != 0)
                                       {
-                                         $("optgroup[label='" +dpto+ "']").show();                                         
+                                         $(".lista_empleados_nuevo optgroup[label='" +dpto+ "']").show();                                         
                                       }
 
-                                      alert(dpto);
                                 }                               
                             );
 
@@ -392,9 +481,9 @@ $(document).ready(function() {
                                     op = $(this);
                                     $('select#asistentes_evento').append(op);
                                      var dpto = $(this).data('dpto');
-                                    if($("optgroup[label='" +dpto+ "']").children().length == 0)
+                                    if($(".lista_empleados_nuevo optgroup[label='" +dpto+ "']").children().length == 0)
                                       {
-                                         $("optgroup[label='" +dpto+ "']").hide();                                         
+                                         $(".lista_empleados_nuevo optgroup[label='" +dpto+ "']").hide();                                         
                                       }
                                       
                                 }                               
@@ -433,6 +522,69 @@ $(document).ready(function() {
                     return !~text.indexOf(val);
                 }).hide();
             });
+
+
+
+
+             $('.list-arrows button').click(function () {
+                var $button = $(this);
+                if ($button.hasClass('move-left_modificar')) {
+
+                     options = $('select#asistentes_evento_modificar :selected');
+                       options.each(     
+                                function(){
+
+                                    op = $(this);
+                                    
+                                     var dpto = $(this).data('dpto');
+
+                                     $(".lista_empleados_modificar optgroup[label='" +dpto+ "']").append(op);
+
+                                    if($(".lista_empleados_modificar optgroup[label='" +dpto+ "']").children().length != 0)
+                                      {
+                                         $(".lista_empleados_modificar optgroup[label='" +dpto+ "']").show();                                         
+                                      }
+                                }                               
+                            );
+
+                        var $checkBox = $('.dual-list .selector');
+                        if ($checkBox.hasClass('selected')){
+                              $checkBox.removeClass('selected').closest('.well').find('ul a.active').removeClass('active');
+                              $checkBox.children('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+                          }
+                      
+
+                } else if ($button.hasClass('move-right_modificar')) {
+
+
+                       options = $('select#personal_modificar :selected');
+                       options.each(     
+                                function(){
+
+                                    op = $(this);
+                                    $('select#asistentes_evento_modificar').append(op);
+                                     var dpto = $(this).data('dpto');
+
+                                    if($(".lista_empleados_modificar optgroup[label='"+dpto+"']").children().length == 0)
+                                      {
+                                         $(".lista_empleados_modificar optgroup[label='"+dpto+"']").hide();  
+
+                                      }
+                                }                               
+                            );
+
+                      var $checkBox = $('.dual-list .selector');
+                        if ($checkBox.hasClass('selected')){
+                              $checkBox.removeClass('selected').closest('.well').find('ul a.active').removeClass('active');
+                              $checkBox.children('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+                          }
+
+                                        
+                }
+            });
+
+
+
 
   
 });
