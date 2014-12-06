@@ -77,7 +77,7 @@ class Revisiones extends MX_Controller
 	
 	public function index()
 	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
 
 		$this->load->model('continuidad/gestionriesgos_model','riesgos');
@@ -164,10 +164,29 @@ class Revisiones extends MX_Controller
 		}	
 	}
 
+	function dropdown_acuerdos_modificar()
+	{
+		if ( ($this->input->post('tipo_evento_modificar') == 'revision_ANS')||($this->input->post('tipo_evento_modificar') =='renovacion_ANS') )
+		{
+			if($this->input->post('acuerdos_modificar') == 'seleccione'){
+			$this->form_validation->set_message('dropdown_acuerdos_modificar', 'Por favor seleccione un Acuerdo de Niveles Servicio');
+			return FALSE;
+			}
+			else
+				{
+			return TRUE;
+			}	
+		}
+		else
+		{
+			return TRUE;
+		}	
+	}
+
 
 	public function nuevo_evento()
 	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
 		
 
@@ -276,6 +295,31 @@ class Revisiones extends MX_Controller
 	            	if($id_evento)
 		            	{
 
+		            		//Relacion de ANS con el Evento
+		            		if(($this->input->post('tipo_evento') == 'revision_ANS')||($this->input->post('tipo_evento') =='renovacion_ANS'))
+		            		{
+			            		if($this->input->post('acuerdos'))
+			            		{
+			            			$id_acuerdo = $this->input->post('acuerdos');
+
+
+			            			$evento_ANS = array(
+				                                'id_evento' => $id_evento,
+				                                'acuerdo_nivel_id' => $id_acuerdo,  
+				                                );
+
+
+
+			            			$id_evento_ANS = $this->general->insert('evento_ans',$evento_ANS,'');
+
+
+
+			            		}
+		            		}
+
+
+
+		            		// Inserta los asistentes al evento
 		            		if(count($this->input->post('asistentes_evento')) > 0)
 			            			{
 					            		foreach ($this->input->post('asistentes_evento') as $key => $asistente_evento)
@@ -316,6 +360,7 @@ class Revisiones extends MX_Controller
 									  	$this->session->set_flashdata('Success', 'Evento Creado con Éxito');
 						            	redirect(site_url('index.php/niveles/revisiones/revisiones'));
 									  }
+							     //Fin de inserta asistentes al evento
 
 
 		            	}
@@ -338,7 +383,7 @@ class Revisiones extends MX_Controller
 
 	public function modificar_evento()
 	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
 		
 
@@ -354,10 +399,14 @@ class Revisiones extends MX_Controller
 
          $this->form_validation->set_rules('id_evento_modificar', 'ID del Evento', 'trim');
 
+         $this->form_validation->set_rules('acuerdos_modificar', 'Acuerdos', 'callback_dropdown_acuerdos_modificar');
+
          $this->form_validation->set_message('required', 'Campo Requerido');
          $this->form_validation->set_message('integer', 'Solo Números Enteros Permitidos');
 
          $data_view['mensaje'] = '';
+
+         $data_view['acuerdos'] = $this->general->get_table('acuerdo_nivel_servicio');
 
 
 
@@ -427,7 +476,7 @@ class Revisiones extends MX_Controller
             	  $evento = array(
 
             					'nombre_evento' => $this->input->post('nombre_evento_modificar'),
-
+            					'tipo_evento' => $this->input->post('tipo_evento_modificar'),
             					'lugar_evento' => $this->input->post('lugar_evento_modificar'),
             					'inicio' => $fecha_inicio,
             					'fin' => $fecha_fin,
@@ -482,6 +531,49 @@ class Revisiones extends MX_Controller
 
 					 }
 
+
+					 $evento = $this->general->get_row('evento_gns',array('id_evento'=>$this->input->post('id_evento_modificar')));
+
+					 $evento_ans = $this->general->get_row('evento_ans',array('id_evento'=>$this->input->post('id_evento_modificar')));
+
+					 $id_ans_evento = $evento_ans->acuerdo_nivel_id ;
+
+
+					 if( ($evento->tipo_evento == 'revision_ANS')||( $evento->tipo_evento =='renovacion_ANS') )
+						{
+							 if ( ($this->input->post('tipo_evento_modificar') != 'revision_ANS') && ( $this->input->post('tipo_evento_modificar') !='renovacion_ANS') )
+								{ 
+
+									if( ($this->general->exist('evento_ans',array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $id_ans_evento))))
+							       		{
+							      
+							            	$this->general->delete('evento_ans',array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $id_ans_evento));
+							            }
+
+								}
+							 else{
+
+							 	 $ans_evento = $this->general->get_row('evento_ans',array('id_evento'=>$this->input->post('id_evento_modificar')));
+
+							 	 $ans_evento = $ans_evento->acuerdo_nivel_id;
+
+							 	 if($ans_evento != $this->input->post('acuerdos_modificar'))
+							 	 	{
+							 	 		$evento_ANS = array(
+				                                'acuerdo_nivel_id' => $this->input->post('acuerdos_modificar'),  
+				                                );
+							 	 		$evento_ans_modificado = $this->general->update2('evento_ans',$evento_ANS,array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $ans_evento));
+
+							 	 	}
+
+
+							 }
+							
+
+						}
+
+
+
 	            	if($id_evento && $asistentes_bandera && $personal_bandera)
 		            	{
 		            		$this->session->set_flashdata('Success', 'Evento Modificado con Éxito');
@@ -502,7 +594,7 @@ class Revisiones extends MX_Controller
 
 	public function obtener_eventos()
 	{
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 		$eventos = $this->general->get_table('evento_gns');	
 
 		$i = 0;
@@ -515,6 +607,17 @@ class Revisiones extends MX_Controller
 			$eventos_calendario[$i]['lugar'] = $evento->lugar_evento;
 
 			$eventos_calendario[$i]['tipo'] = $evento->tipo_evento;
+
+			if (( $evento->tipo_evento == 'revision_ANS')|| ($evento->tipo_evento =='renovacion_ANS') )
+			{
+				$acuerdo = $this->general->get_row('evento_ans',array('id_evento'=> $evento->id_evento));
+
+				$acuerdo_info = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=> $acuerdo->acuerdo_nivel_id));
+
+				$eventos_calendario[$i]['acuerdo'] =  $acuerdo->acuerdo_nivel_id;
+
+				$eventos_calendario[$i]['acuerdo_nombre'] =  $acuerdo_info->nombre_acuerdo;
+			}
 
 			$inicio=str_replace(" ", "T", $evento->inicio);
 			$eventos_calendario[$i]['start'] = $inicio;
@@ -589,7 +692,7 @@ class Revisiones extends MX_Controller
 	public function obtener_evento()
 	{
 
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
 		$id_evento = $this->input->post('evento_id');
 
@@ -612,6 +715,15 @@ class Revisiones extends MX_Controller
 
 
 		$asistentes = $this->general->get_result('asistente_evento',array('id_evento'=> $evento->id_evento));
+
+		$evento_calendario['acuerdo'] = -1;
+
+		if (( $evento->tipo_evento == 'revision_ANS')|| ($evento->tipo_evento =='renovacion_ANS') )
+		{
+			$acuerdo = $this->general->get_row('evento_ans',array('id_evento'=> $evento->id_evento));
+
+			$evento_calendario['acuerdo'] =  $acuerdo->acuerdo_nivel_id;
+		}
 
 
 		if(count($asistentes) > 0)
@@ -659,7 +771,7 @@ class Revisiones extends MX_Controller
 	public function eliminar_evento($evento_id = '')
 	{
 
-		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
 		$id_evento = $this->input->post('evento_id');
 

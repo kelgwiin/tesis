@@ -293,7 +293,7 @@
 							</div>
 						</div>
 
-							<div id="contenedor_dropdown_acuerdos" >
+							<div id="contenedor_dropdown_acuerdos"  style="display: none;">
 									<div class="form-group acuerdos-list">
 				
 												<div class="required text-right">
@@ -645,6 +645,16 @@
       			</td>
       		</tr>
 
+
+      		<tr id="campo_ans" style="display: none;">
+      			<td>
+      				<b>ANS: </b>
+      			</td>
+      			<td id="tabla_ans">
+      				
+      			</td>
+      		</tr>
+
       		<tr>
       			<td>
       				<b>Lugar del Evento: </b>
@@ -762,8 +772,7 @@
 								       	$options = array(
 								       	  'seleccione' => 'Seleccione un Tipo',
 								       	  'revision_ANS' => 'Revisión de ANS',
-								       	  'renovacion_ANS' => 'Renovación de ANS',
-								       	  'vencimiento_ANS' => 'Vencimiento de ANS',								       	  
+								       	  'renovacion_ANS' => 'Renovación de ANS',								       	  
 								       	  'reunion' => 'Reunión',
 								       	  'otro' => 'Otro',
 
@@ -785,6 +794,48 @@
 								</label>
 							</div>
 						</div>
+
+
+						<div id="contenedor_dropdown_acuerdos_modificar"  style="display: none;">
+									<div class="form-group acuerdos-list">
+				
+												<div class="required text-right">
+													<label for="service_name" class="col-md-4  control-label">Acuerdo de Niveles de Servicio</label> 
+												</div>
+
+											    <div class="col-md-7">
+
+											         <?php
+											        	$options = array(
+											        		'seleccione' => 'Seleccione un Acuerdo',		        	  
+										                );
+
+														foreach($acuerdos as $acuerdo)
+											            { 
+											              $options[$acuerdo->acuerdo_nivel_id] = $acuerdo->nombre_acuerdo;
+											            }
+
+
+											        ?>
+
+											      	 <?php echo form_dropdown('acuerdos_modificar', $options,set_value('acuerdos_modificar'),'class="form-control"  id="dropdown_acuerdos_modificar" '); ?>	
+											    </div>
+											</div>
+
+
+											<div class="form-group">
+											     <div class="control-label col-md-4">
+											      </div>
+											      	<div class="col-md-7">
+													    <label style="color:red;" id="error_requisitos">
+													    	 	<?php 
+																        echo form_error('acuerdos_modificar');
+																	 ?>
+													   	
+												        </label>
+													</div>
+										    </div>
+						       </div>
 
 
 
@@ -920,7 +971,7 @@
 
       </div>
       <div class="modal-footer">
-         <a data-dismiss="modal" class="btn btn-danger" >Cancelar</a>
+         <a data-dismiss="modal" id='cancelar_modificar' class="btn btn-danger" >Cancelar</a>
 		 <button data-toggle="modal" data-target="#modificar"  id="modificar_boton" class="btn btn-warning">Modificar Evento</button>
       </div>
     </div>

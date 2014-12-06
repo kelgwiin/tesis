@@ -19,7 +19,18 @@ function modificarEvento(id_evento) {
 
                                  $("#nombre_evento_modificar").val(data_evento.title);
                                  $("#dropdown_tipo_evento_modificar").val(data_evento.tipo);
-                                 $("#dropdown_tipo_evento_modificar").val(data_evento.tipo);
+
+
+                                   if(data_evento.acuerdo != -1){
+                                      $("#dropdown_acuerdos_modificar").val(data_evento.acuerdo);
+                                   }
+
+                                  if( ($( "#dropdown_tipo_evento_modificar" ).val() == 'revision_ANS') || ($( "#dropdown_tipo_evento_modificar" ).val() == 'renovacion_ANS'))
+                                    {
+
+                                         $( "#contenedor_dropdown_acuerdos_modificar" ).fadeIn();
+                                    }
+
                                  $("#lugar_evento_modificar").val(data_evento.lugar);
 
                                  $('#inicio_evento_modificar').val(data_evento.inicio);
@@ -140,7 +151,7 @@ $(document).ready(function() {
 
 // $('#asistentes').modal('show');
 
-$('#nuevo_evento').modal('show');
+//$('#nuevo_evento').modal('show');
 
      
 
@@ -165,6 +176,10 @@ $('#nuevo_evento').modal('show');
 
     if($('#errores_modificar').val() != '0' && $('#modificar_bandera').val() == 'modificar_bandera')
       {
+          if( ($( "#dropdown_tipo_evento_modificar" ).val() == 'revision_ANS') || ($( "#dropdown_tipo_evento_modificar" ).val() == 'renovacion_ANS'))
+          {
+               $( "#contenedor_dropdown_acuerdos_modificar" ).fadeIn();
+          }
           $('#modificar_evento').modal('show');
       }
 
@@ -202,6 +217,8 @@ $('#nuevo_evento').modal('show');
 
         $('#modal_evento').modal('show');
 
+         $("#campo_ans").hide();
+
         $("#tabla_nombre").empty();
         $("#tabla_tipo").empty();
         $("#tabla_lugar").empty();
@@ -210,6 +227,7 @@ $('#nuevo_evento').modal('show');
         $("#tabla_descripcion").empty();
         $("#tabla_asistentes").empty();
         $("#footer_vista_evento").empty();
+        $("#tabla_ans").empty();
 
         $("#tabla_nombre").append(calEvent.title);
 
@@ -228,6 +246,19 @@ $('#nuevo_evento').modal('show');
                 $("#tabla_inicio").append('<i class="fa fa-calendar"></i> '+calEvent.fecha_inicio);
                 $("#tabla_fin").append('<i class="fa fa-calendar"></i> '+calEvent.fecha_fin);
             }
+
+
+        if ( (calEvent.tipo == 'revision_ANS') || (calEvent.tipo =='renovacion_ANS') )
+        {
+
+              //var acuerdo = '<a target="_blank" href="<?php echo base_url()."index.php/niveles_de_servicio/gestion_ANS/ver_ANS/".'+calEvent.acuerdo+';?> >';
+              //acuerdo = acuerdo + calEvent.acuerdo;
+              var acuerdo = '<a target="_blank" href="'+config.base+'index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'+calEvent.acuerdo+'" >';
+              acuerdo = acuerdo + calEvent.acuerdo_nombre+'</a>';
+
+             $("#tabla_ans").append(acuerdo);
+             $("#campo_ans").show();
+        }
 
       
 
@@ -600,6 +631,19 @@ $('#nuevo_evento').modal('show');
       }
       else{
            $( "#contenedor_dropdown_acuerdos" ).fadeOut();
+      }
+    });
+
+    $( "#dropdown_tipo_evento_modificar" ).change(function() {
+
+      //$( "#dropdown_acuerdos_modificar" ).val('seleccione');
+      
+      if( ($( "#dropdown_tipo_evento_modificar" ).val() == 'revision_ANS') || ($( "#dropdown_tipo_evento_modificar" ).val() == 'renovacion_ANS'))
+      {
+           $( "#contenedor_dropdown_acuerdos_modificar" ).fadeIn();
+      }
+      else{
+           $( "#contenedor_dropdown_acuerdos_modificar" ).fadeOut();
       }
     });
 
