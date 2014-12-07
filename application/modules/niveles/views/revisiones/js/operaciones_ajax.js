@@ -207,7 +207,7 @@ $(document).ready(function() {
         var fecha_actual = date.format('MM/DD/YYYY h:mm a');
 
         $('#inicio_evento').data("DateTimePicker").setDate(fecha_actual);
-       // $('#fin_evento').data("DateTimePicker").setDate(fecha_actual);
+       $('#fin_evento').data("DateTimePicker").setDate(fecha_actual);
 
         $('#nuevo_evento').modal('show');
     },
@@ -387,13 +387,15 @@ $(document).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
- $("#inicio_evento").on("dp.change",function (e) {
+
+
+// $("#inicio_evento").on("dp.change",function (e) {
  // $('#fin_evento').data("DateTimePicker").setMinDate(e.date);
- });
- $("#fin_evento").on("dp.change",function (e) {
+// });
+// $("#fin_evento").on("dp.change",function (e) {
  //$('#inicio_evento').data("DateTimePicker").setMaxDate(e.date);
  //$('#fin_evento').val($('#inicio_evento').val());
-  });
+ // });
 
 
 

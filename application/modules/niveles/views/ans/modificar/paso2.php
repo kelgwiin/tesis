@@ -4,6 +4,9 @@
 
   <div class="row">
   	<div class="col-md-5">
+
+  		<fieldset disabled>
+
     	<div class="form-group">
 			
 			<div class="required text-right">
@@ -101,7 +104,11 @@
 			
 	</div> 	
 
+  </fieldset>
+
 	  	<div class="col-md-5">
+
+	  		<fieldset disabled>
     	<div class="form-group">
 			
 			<div class="required text-left">
@@ -132,6 +139,7 @@
 		</div> 
 
   </div>
+  </fieldset>
   <br>
 
    <h3 > <b> Objetivos del Acuerdo</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_objetivo_acuerdo">

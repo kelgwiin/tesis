@@ -132,6 +132,83 @@ class Revisiones extends MX_Controller
 			}
 	}
 
+
+	function fechas_check2()
+	{
+		if ($this->input->post('evento_fin') && $this->input->post('evento_inicio'))
+		{
+			 $fecha_inicio = strtotime($this->input->post('evento_inicio')); 
+		     $fecha_inicio = date("Y-m-d H:i:s", $fecha_inicio); 
+
+		      $fecha_fin = strtotime($this->input->post('evento_fin')); 
+		      $fecha_fin = date("Y-m-d H:i:s", $fecha_fin); 
+
+			if ($fecha_inicio > $fecha_fin)
+			{
+				$this->form_validation->set_message('fechas_check2', 'La Fecha y Hora de Inicio del Evento no pueden ser Mayor a la de Culminación');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+		else
+			{
+				return TRUE;
+			}
+	}
+
+
+
+		function fechas_check_modificar()
+	{
+		if ($this->input->post('fin_evento_modificar'))
+		{
+			if ($this->input->post('fin_evento_modificar') == $this->input->post('inicio_evento_modificar'))
+			{
+				$this->form_validation->set_message('fechas_check_modificar', 'La Fecha y Hora de Inicio y Fin del Evento no pueden ser Iguales');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+		else
+			{
+				return TRUE;
+			}
+	}
+
+
+	function fechas_check2_modificar()
+	{
+		if ($this->input->post('fin_evento_modificar') && $this->input->post('inicio_evento_modificar'))
+		{
+			 $fecha_inicio = strtotime($this->input->post('inicio_evento_modificar')); 
+		     $fecha_inicio = date("Y-m-d H:i:s", $fecha_inicio); 
+
+		      $fecha_fin = strtotime($this->input->post('fin_evento_modificar')); 
+		      $fecha_fin = date("Y-m-d H:i:s", $fecha_fin); 
+
+			if ($fecha_inicio > $fecha_fin)
+			{
+				$this->form_validation->set_message('fechas_check2_modificar', 'La Fecha y Hora de Inicio del Evento no pueden ser Mayor a la de Culminación');
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+		else
+			{
+				return TRUE;
+			}
+	}
+
+
 	function dropdown_tipo_evento()
 	{
 		if ($this->input->post('tipo_evento') === 'seleccione')
@@ -197,7 +274,7 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_rules('lugar_evento', 'Lugar del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('descripcion_evento', 'Descripción del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('evento_inicio', 'Inicio del Evento', 'required|trim');
-         $this->form_validation->set_rules('evento_fin', 'Fin del Evento', 'required|trim|callback_fechas_check');
+         $this->form_validation->set_rules('evento_fin', 'Fin del Evento', 'required|trim|callback_fechas_check|callback_fechas_check2');
          $this->form_validation->set_rules('acuerdos', 'Acuerdos', 'callback_dropdown_acuerdos');
 
          // $this->form_validation->set_rules('asistentes_evento[]', 'asistentes', 'trim');
@@ -395,7 +472,7 @@ class Revisiones extends MX_Controller
          $this->form_validation->set_rules('lugar_evento_modificar', 'Lugar del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('descripcion_evento_modificar', 'Descripción del Evento', 'trim|max_length[500]');
          $this->form_validation->set_rules('inicio_evento_modificar', 'Inicio del Evento', 'required|trim');
-         $this->form_validation->set_rules('fin_evento_modificar', 'Fin del Evento', 'required|trim|callback_fechas_check');
+         $this->form_validation->set_rules('fin_evento_modificar', 'Fin del Evento', 'required|trim|callback_fechas_check_modificar|callback_fechas_check2_modificar');
 
          $this->form_validation->set_rules('id_evento_modificar', 'ID del Evento', 'trim');
 
@@ -464,7 +541,78 @@ class Revisiones extends MX_Controller
             else
             {
 
+            		 // Comienzo de modificacion de la relacion entre un ANS y un Evento
+            	     $delete_bandera = true;
 
+					 $update_bandera = true;
+
+					 $insert_bandera = true;
+
+
+					 $evento = $this->general->get_row('evento_gns',array('id_evento'=>$this->input->post('id_evento_modificar')));
+
+					 $evento_ans = $this->general->get_row('evento_ans',array('id_evento'=>$this->input->post('id_evento_modificar')));
+
+					 $id_ans_evento = $evento_ans->acuerdo_nivel_id ;
+
+
+					 if( ($evento->tipo_evento == 'revision_ANS')||( $evento->tipo_evento =='renovacion_ANS') )
+						{
+							 if ( ($this->input->post('tipo_evento_modificar') != 'revision_ANS') && ( $this->input->post('tipo_evento_modificar') !='renovacion_ANS') )
+								{ 
+
+									if( ($this->general->exist('evento_ans',array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $id_ans_evento))))
+							       		{
+							      
+							            	$delete_bandera = $this->general->delete('evento_ans',array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $id_ans_evento));
+							            }
+
+								}
+							 else{							
+
+									 	 $ans_evento = $this->general->get_row('evento_ans',array('id_evento'=>$this->input->post('id_evento_modificar')));
+
+									 	 $ans_evento = $ans_evento->acuerdo_nivel_id;
+
+									 	 if($ans_evento != $this->input->post('acuerdos_modificar'))
+									 	 	{
+									 	 		$evento_ANS = array(
+						                                'acuerdo_nivel_id' => $this->input->post('acuerdos_modificar'),  
+						                                );
+									 	 		$update_bandera = $evento_ans_modificado = $this->general->update2('evento_ans',$evento_ANS,array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $ans_evento));
+
+									 	 	}							 	 
+
+							 }							
+
+						}
+					else{
+
+							if ( ($this->input->post('tipo_evento_modificar') == 'revision_ANS') || ( $this->input->post('tipo_evento_modificar') =='renovacion_ANS') )
+								{
+
+									$id_acuerdo = $this->input->post('acuerdos_modificar');
+
+
+				            			$evento_ANS = array(
+					                                'id_evento' => $this->input->post('id_evento_modificar'),
+					                                'acuerdo_nivel_id' => $id_acuerdo,  
+					                                );
+
+
+
+				            			 $this->general->insert('evento_ans',$evento_ANS,'');
+
+				            			 $insert_bandera = $this->general->exist('evento_ans',array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $id_acuerdo));
+
+								}
+
+						}
+
+				// Fin de modificacion de la relacion entre un ANS y un Evento
+
+
+				// Comienzo modificacion de evento
             	 $fecha_inicio = strtotime($this->input->post('inicio_evento_modificar')); 
 		         $fecha_inicio = date("Y-m-d H:i:s", $fecha_inicio);
 
@@ -485,6 +633,10 @@ class Revisiones extends MX_Controller
 
 			       $id_evento = $this->general->update2('evento_gns',$evento,array('id_evento'=> $this->input->post('id_evento_modificar')));
 
+			       // Fin modificacion de evento
+
+
+			       // Comienzo modificacion de Asistentes al Evento
 			       $asistentes_bandera = true;
 			       $personal_bandera = true;
 
@@ -530,51 +682,11 @@ class Revisiones extends MX_Controller
 					 	}
 
 					 }
+					  // Fin modificacion de Asistentes al Evento
+					 
 
 
-					 $evento = $this->general->get_row('evento_gns',array('id_evento'=>$this->input->post('id_evento_modificar')));
-
-					 $evento_ans = $this->general->get_row('evento_ans',array('id_evento'=>$this->input->post('id_evento_modificar')));
-
-					 $id_ans_evento = $evento_ans->acuerdo_nivel_id ;
-
-
-					 if( ($evento->tipo_evento == 'revision_ANS')||( $evento->tipo_evento =='renovacion_ANS') )
-						{
-							 if ( ($this->input->post('tipo_evento_modificar') != 'revision_ANS') && ( $this->input->post('tipo_evento_modificar') !='renovacion_ANS') )
-								{ 
-
-									if( ($this->general->exist('evento_ans',array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $id_ans_evento))))
-							       		{
-							      
-							            	$this->general->delete('evento_ans',array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $id_ans_evento));
-							            }
-
-								}
-							 else{
-
-							 	 $ans_evento = $this->general->get_row('evento_ans',array('id_evento'=>$this->input->post('id_evento_modificar')));
-
-							 	 $ans_evento = $ans_evento->acuerdo_nivel_id;
-
-							 	 if($ans_evento != $this->input->post('acuerdos_modificar'))
-							 	 	{
-							 	 		$evento_ANS = array(
-				                                'acuerdo_nivel_id' => $this->input->post('acuerdos_modificar'),  
-				                                );
-							 	 		$evento_ans_modificado = $this->general->update2('evento_ans',$evento_ANS,array('id_evento'=> $this->input->post('id_evento_modificar'),'acuerdo_nivel_id'=> $ans_evento));
-
-							 	 	}
-
-
-							 }
-							
-
-						}
-
-
-
-	            	if($id_evento && $asistentes_bandera && $personal_bandera)
+	            	if($id_evento && $asistentes_bandera && $personal_bandera && $delete_bandera && $update_bandera && $insert_bandera)
 		            	{
 		            		$this->session->set_flashdata('Success', 'Evento Modificado con Éxito');
 		            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
@@ -584,6 +696,7 @@ class Revisiones extends MX_Controller
 		            		$this->session->set_flashdata('Error', 'Ha ocurrido un problema al Modificar el Evento');
 		            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
 		            	}
+
 
 		       
                 

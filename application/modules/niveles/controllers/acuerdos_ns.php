@@ -1533,6 +1533,9 @@ class Acuerdos_ns extends MX_Controller
 
 	            	if($id_acuerdo)
 		            	{
+
+
+		            		//Crear pdf
 		            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
 
 								$acuerdo = array(
@@ -1540,6 +1543,11 @@ class Acuerdos_ns extends MX_Controller
 
                                 );
                                 $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$id_acuerdo));
+
+                            //Crear eventos
+
+
+                            //Fin de Crear Eventos
 
 		            		$this->session->set_flashdata('Success', 'El Nuevo Acuerdo de Niveles de Servicio ha sido Creado con Éxito');
 		            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
