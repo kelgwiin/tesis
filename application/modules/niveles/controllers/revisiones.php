@@ -369,6 +369,8 @@ class Revisiones extends MX_Controller
 
 			       $id_evento = $this->general->insert('evento_gns',$evento,'');
 
+            
+
 	            	if($id_evento)
 		            	{
 
@@ -397,7 +399,7 @@ class Revisiones extends MX_Controller
 
 
 		            		// Inserta los asistentes al evento
-		            		if(count($this->input->post('asistentes_evento')) > 0)
+		            		if($this->input->post('asistentes_evento'))
 			            			{
 					            		foreach ($this->input->post('asistentes_evento') as $key => $asistente_evento)
 									       	{
@@ -426,7 +428,7 @@ class Revisiones extends MX_Controller
 						            		}
 							            	else
 							            	{
-							            		$this->session->set_flashdata('Error', 'El Evento fue Creado, Pero ha ocurrido un problema al Agregar los Asistentes del Evento');
+							            		$this->session->set_flashdata('Error', 'El Evento fue Creado, Pero ha ocurrido un problema al Agregar los Asistentes del Evento'.count($this->input->post('asistentes_evento')) );
 							            		redirect(site_url('index.php/niveles/revisiones/revisiones'));
 							            	}
 						           }
