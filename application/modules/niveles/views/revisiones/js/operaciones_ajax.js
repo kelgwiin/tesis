@@ -232,7 +232,7 @@ $(document).ready(function() {
         $("#tabla_nombre").append(calEvent.title);
 
 
-        if(calEvent.tipo == 'vencimiento_ANS')
+        if(calEvent.allDay)
             {   
                  var posiciones = calEvent.inicio.split(' ');
 
@@ -270,8 +270,11 @@ $(document).ready(function() {
         if(calEvent.tipo == 'revision_ANS')
             {$("#tabla_tipo").append('<span class="label" style="background-color:#42A321;">Revisión de ANS</span>');}
 
+        if(calEvent.tipo == 'recordatorio_ANS')
+            {$("#tabla_tipo").append('<span class="label" style="background-color:#FF7519;" >Recordatorio de Vencimiento y Renovación de ANS</span>');}
+
         if(calEvent.tipo == 'renovacion_ANS')
-            {$("#tabla_tipo").append('<span class="label" style="background-color:#FF7519;" >Renovación de ANS</span>');}
+            {$("#tabla_tipo").append('<span class="label" style="background-color:#CC99FF;" >Renovación de ANS</span>');}
 
         if(calEvent.tipo == 'vencimiento_ANS')
             {$("#tabla_tipo").append('<span class="label" style="background-color:#E64545;">Vencimiento de ANS</span>');}

@@ -196,15 +196,17 @@
 		  	<table class="table borderless">
 		  		<tr>
 		  			<td><div class='col-lg-1'> <span class="label" style="background-color:#42A321;"> </span></div> <div class='col-lg-offset-2'><b>Revisión de ANS</b></div> </td>
-		  			<td><div class='col-lg-1'><span class="label" style="background-color:#FF7519;" > </span></div> <div class='col-lg-offset-2'><b> Renovación de ANS</b></div> </td>
+		  			<td><div class='col-lg-1'><span class="label" style="background-color:#7A5C99;" > </span></div> <div class='col-lg-offset-2'><b> Renovación de ANS</b></div> </td>
 		  		</tr>
 
 		  		<tr>
+		  			<td><div class='col-lg-1'><span class="label" style="background-color:#FF7519;"> </span></div> <div class='col-lg-offset-2'><b> Recordatorio ANS</b></div></td>
 		  			<td><div class='col-lg-1'><span class="label" style="background-color:#E64545;"> </span></div> <div class='col-lg-offset-2'><b> Vencimiento de ANS</b></div></td>
-		  			<td><div class='col-lg-1'><span class="label" style="background-color:#3366FF;" > </span></div> <div class='col-lg-offset-2'><b> Reunión </b></div></td>
+		  			
 		  		</tr>
  
 		  		<tr>
+		  			<td><div class='col-lg-1'><span class="label" style="background-color:#3366FF;" > </span></div> <div class='col-lg-offset-2'><b> Reunión </b></div></td>
 		  			<td><div class='col-lg-1'><span class="label" style="background-color:#8E8E86;" > </span></div> <div class='col-lg-offset-2'><b> Otro </b></div></td>
 		  		</tr>
 		  	</table>

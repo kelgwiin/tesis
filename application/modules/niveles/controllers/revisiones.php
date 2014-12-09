@@ -756,6 +756,12 @@ class Revisiones extends MX_Controller
 
 			if($evento->tipo_evento == "renovacion_ANS")
 				{
+					$eventos_calendario[$i]['color'] = '#7A5C99';
+				}
+
+
+			if($evento->tipo_evento == "recordatorio_ANS")
+				{
 					$eventos_calendario[$i]['color'] = '#FF7519';
 				}
 
@@ -774,6 +780,11 @@ class Revisiones extends MX_Controller
 				{
 					$eventos_calendario[$i]['color'] = '#8E8E86';
 				}
+
+			if($evento->inicio == $evento->fin)
+			{
+				$eventos_calendario[$i]['allDay'] = true;
+			}
 
 				//$evento_calendario['asistentes'] = $this->general->get_result('asistente_evento',array('id_evento'=> $id_evento)); 
 

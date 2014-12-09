@@ -409,20 +409,20 @@ class Acuerdos_ns extends MX_Controller
 			 $fecha = $fecha1->diff($fecha2);
 
 
-			if ( ($this->input->post('intervalo_revision') == 'Mensual') && ((int)$fecha->m < 1) )
+			if ( ($this->input->post('intervalo_revision') == 'Mensual') && ((int)$fecha->m < 1) && ($fecha->y < 1) )
 			{
 				$this->form_validation->set_message('intervalos_revision_check', 'La duración del Acuerdo es Menor a Un Mes. Por Favor modifique la Duración del Acuerdo.');
 				return FALSE;
 			}
 
 
-			else if ( ($this->input->post('intervalo_revision') == 'Trimestral') && ($fecha->m < 3) )
+			else if ( ($this->input->post('intervalo_revision') == 'Trimestral') && ($fecha->m < 3) && ($fecha->y < 1) )
 			{
 				$this->form_validation->set_message('intervalos_revision_check', 'La duración del Acuerdo es Menor a Tres Meses. Por Favor modifique la Duración del Acuerdo o Elija un Intervalo de Revisión Menor.');
 				return FALSE;
 			}
 
-			else if ( ($this->input->post('intervalo_revision') == 'Semestral') && ($fecha->m < 6) )
+			else if ( ($this->input->post('intervalo_revision') == 'Semestral') && ($fecha->m < 6) && ($fecha->y < 1) )
 			{
 				$this->form_validation->set_message('intervalos_revision_check', 'La duración del Acuerdo es Menor a Seis Meses. Por Favor modifique la Duración del Acuerdo o Elija un Intervalo de Revisión Menor.');
 				return FALSE;
@@ -1600,6 +1600,7 @@ class Acuerdos_ns extends MX_Controller
 
 							            					'nombre_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
 							            					'tipo_evento' => 'revision_ANS',
+							            					'lugar_evento' => ' ',
 							            					'inicio' => $fecha_revision,
 							            					'fin' => $fecha_revision,
 							            					'descripcion_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
@@ -1627,7 +1628,7 @@ class Acuerdos_ns extends MX_Controller
 
 									            $asistentes = array(
 									                                'id_evento' => $id_evento,
-									                                'id_personal' => 'gestor_servicio' => $this->input->post('gestor'),  
+									                                'id_personal' => $this->input->post('gestor'),  
 									                                );
 
 									            $this->general->insert('asistente_evento',$asistentes,'');
@@ -1651,6 +1652,7 @@ class Acuerdos_ns extends MX_Controller
 
 							            					'nombre_evento' => 'Vencimiento del ANS: '.$this->input->post('nombre_acuerdo'),
 							            					'tipo_evento' => 'vencimiento_ANS',
+							            					'lugar_evento' => ' ',
 							            					'inicio' => $fecha_fin2,
 							            					'fin' => $fecha_fin2,
 							            					'descripcion_evento' => 'Vencimiento: '.$this->input->post('nombre_acuerdo'),
@@ -1678,12 +1680,72 @@ class Acuerdos_ns extends MX_Controller
 
 									            $asistentes = array(
 									                                'id_evento' => $id_evento,
-									                                'id_personal' => 'gestor_servicio' => $this->input->post('gestor'),  
+									                                'id_personal' => $this->input->post('gestor'),  
 									                                );
 
 									            $this->general->insert('asistente_evento',$asistentes,'');
 
 							    // FIN Evento de Vencimiento
+
+
+
+								$date = $fecha_fin2;
+								$newdate = strtotime ( '-15 day', strtotime ( $date ) ) ;
+								$fecha_recordatorio = date ( 'Y-m-d 00:00:00' , $newdate );
+
+								$dia = date ( 'N' , $newdate );
+
+								while ($dia != '1')
+											  {
+											  	$newdate = strtotime ( '-1 day' , strtotime ( $fecha_recordatorio ) ) ;
+											  	$fecha_recordatorio = date ( 'Y-m-d 00:00:00' , $newdate );
+											  	$dia = date ( 'N' , $newdate );
+											  }
+
+
+
+
+								// Evento de Alerta de Vencimiento y Renovacion
+
+													// Creando el Evento 
+													  $evento = array(
+
+									            					'nombre_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),
+									            					'tipo_evento' => 'recordatorio_ANS',
+									            					'lugar_evento' => ' ',
+									            					'inicio' => $fecha_recordatorio,
+									            					'fin' => $fecha_recordatorio,
+									            					'descripcion_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),
+									                               );
+
+												       $id_evento = $this->general->insert('evento_gns',$evento,''); 
+
+												       //Relacionando Evento con el Acuerdo
+												            			
+												        $evento_ANS = array(
+													                'id_evento' => $id_evento,
+													                'acuerdo_nivel_id' => $id_acuerdo,  
+													                 );
+
+														$id_evento_ANS = $this->general->insert('evento_ans',$evento_ANS,'');
+
+
+														//Agregar asistentes a evento: Representate de Clientes y Gestor de Niveles de Servicio
+														$asistentes = array(
+											                                'id_evento' => $id_evento,
+											                                'id_personal' => $this->input->post('representante_cliente'),  
+											                                );
+
+											            $this->general->insert('asistente_evento',$asistentes,'');
+
+											            $asistentes = array(
+											                                'id_evento' => $id_evento,
+											                                'id_personal' => $this->input->post('gestor'),  
+											                                );
+
+											            $this->general->insert('asistente_evento',$asistentes,'');
+
+									    // FIN Evento de Alerta de Vencimiento y Renovacion
 
 
 
@@ -2900,6 +2962,213 @@ class Acuerdos_ns extends MX_Controller
 
                                 );
                                 $this->general->update2('acuerdo_nivel_servicio',$acuerdo,array('acuerdo_nivel_id'=>$resultado_acuerdo));
+
+
+                                 //Crear eventos
+
+                                //Eventos de Revision
+
+                                if( $this->input->post('intervalo_revision') == 'Mensual' )
+								   	{
+								   		$operacion_fecha = '+1 month';		            		
+								    }
+
+								if( $this->input->post('intervalo_revision') == 'Trimestral' )
+								    {
+								        $operacion_fecha = '+3 month';			            		
+								    }
+
+								if( $this->input->post('intervalo_revision') == 'Semestral' )
+								    {
+								        $operacion_fecha = '+6 month';				            		
+								    }
+
+								if( $this->input->post('intervalo_revision') == 'Anual' )
+								    {
+								        $operacion_fecha = '+1 year';	           		
+								    }
+
+								 $fecha_inicio2 = strtotime($this->input->post('fecha_inicio')); 
+						         $fecha_inicio2 = date("Y-m-d 00:00:00", $fecha_inicio2); 
+
+						         $fecha_fin2 = strtotime($this->input->post('fecha_culminacion'));
+						         $fecha_fin2 = date("Y-m-d 00:00:00", $fecha_fin2); 
+				
+							     $date = $fecha_inicio2;
+								 $newdate = strtotime ( $operacion_fecha, strtotime ( $date ) ) ;
+								 $fecha_revision = date ( 'Y-m-d' , $newdate );
+
+								 $dia = date ( 'N' , $newdate );
+
+								 while ($fecha_revision <= $fecha_fin2)
+										{
+
+											  $fecha_anterior = $fecha_revision;
+
+											  // Si no es viernes resta días hasta llegar al próximo viernes
+											  while ($dia != '5')
+											  {
+											  	$newdate = strtotime ( '-1 day' , strtotime ( $fecha_revision ) ) ;
+											  	$fecha_revision = date ( 'Y-m-d' , $newdate );
+											  	$dia = date ( 'N' , $newdate );
+											  }
+
+											  // Creando el Evento 
+											  $evento = array(
+
+							            					'nombre_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
+							            					'tipo_evento' => 'revision_ANS',
+							            					'lugar_evento' => ' ',
+							            					'inicio' => $fecha_revision,
+							            					'fin' => $fecha_revision,
+							            					'descripcion_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
+							                               );
+
+										       $id_evento = $this->general->insert('evento_gns',$evento,''); 
+
+										       //Relacionando Evento con el Acuerdo
+										            			
+										        $evento_ANS = array(
+											                'id_evento' => $id_evento,
+											                'acuerdo_nivel_id' => $resultado_acuerdo,  
+											                 );
+
+												$id_evento_ANS = $this->general->insert('evento_ans',$evento_ANS,'');
+
+
+												//Agregar asistentes a evento: Representate de Clientes y Gestor de Niveles de Servicio
+												$asistentes = array(
+									                                'id_evento' => $id_evento,
+									                                'id_personal' => $this->input->post('representante_cliente'),  
+									                                );
+
+									            $this->general->insert('asistente_evento',$asistentes,'');
+
+									            $asistentes = array(
+									                                'id_evento' => $id_evento,
+									                                'id_personal' => $this->input->post('gestor'),  
+									                                );
+
+									            $this->general->insert('asistente_evento',$asistentes,'');
+
+
+												//Nueva fecha de Revision
+												$newdate = strtotime ( $operacion_fecha , strtotime ( $fecha_anterior ) ) ;
+												$fecha_revision = date ( 'Y-m-d' , $newdate );
+
+												$dia = date ( 'N' , $newdate );
+
+										}
+
+	  								//FIN Eventos de Revision
+
+
+								// Evento de Vencimiento
+
+											// Creando el Evento 
+											  $evento = array(
+
+							            					'nombre_evento' => 'Vencimiento del ANS: '.$this->input->post('nombre_acuerdo'),
+							            					'tipo_evento' => 'vencimiento_ANS',
+							            					'lugar_evento' => ' ',
+							            					'inicio' => $fecha_fin2,
+							            					'fin' => $fecha_fin2,
+							            					'descripcion_evento' => 'Vencimiento: '.$this->input->post('nombre_acuerdo'),
+							                               );
+
+										       $id_evento = $this->general->insert('evento_gns',$evento,''); 
+
+										       //Relacionando Evento con el Acuerdo
+										            			
+										        $evento_ANS = array(
+											                'id_evento' => $id_evento,
+											                'acuerdo_nivel_id' => $resultado_acuerdo,  
+											                 );
+
+												$id_evento_ANS = $this->general->insert('evento_ans',$evento_ANS,'');
+
+
+												//Agregar asistentes a evento: Representate de Clientes y Gestor de Niveles de Servicio
+												$asistentes = array(
+									                                'id_evento' => $id_evento,
+									                                'id_personal' => $this->input->post('representante_cliente'),  
+									                                );
+
+									            $this->general->insert('asistente_evento',$asistentes,'');
+
+									            $asistentes = array(
+									                                'id_evento' => $id_evento,
+									                                'id_personal' => $this->input->post('gestor'),  
+									                                );
+
+									            $this->general->insert('asistente_evento',$asistentes,'');
+
+							    // FIN Evento de Vencimiento
+
+
+
+								$date = $fecha_fin2;
+								$newdate = strtotime ( '-15 day', strtotime ( $date ) ) ;
+								$fecha_recordatorio = date ( 'Y-m-d 00:00:00' , $newdate );
+
+								$dia = date ( 'N' , $newdate );
+
+								while ($dia != '1')
+											  {
+											  	$newdate = strtotime ( '-1 day' , strtotime ( $fecha_recordatorio ) ) ;
+											  	$fecha_recordatorio = date ( 'Y-m-d 00:00:00' , $newdate );
+											  	$dia = date ( 'N' , $newdate );
+											  }
+
+
+
+
+								// Evento de Alerta de Vencimiento y Renovacion
+
+													// Creando el Evento 
+													  $evento = array(
+
+									            					'nombre_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),
+									            					'tipo_evento' => 'recordatorio_ANS',
+									            					'lugar_evento' => ' ',
+									            					'inicio' => $fecha_recordatorio,
+									            					'fin' => $fecha_recordatorio,
+									            					'descripcion_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),
+									                               );
+
+												       $id_evento = $this->general->insert('evento_gns',$evento,''); 
+
+												       //Relacionando Evento con el Acuerdo
+												            			
+												        $evento_ANS = array(
+													                'id_evento' => $id_evento,
+													                'acuerdo_nivel_id' => $resultado_acuerdo,  
+													                 );
+
+														$id_evento_ANS = $this->general->insert('evento_ans',$evento_ANS,'');
+
+
+														//Agregar asistentes a evento: Representate de Clientes y Gestor de Niveles de Servicio
+														$asistentes = array(
+											                                'id_evento' => $id_evento,
+											                                'id_personal' => $this->input->post('representante_cliente'),  
+											                                );
+
+											            $this->general->insert('asistente_evento',$asistentes,'');
+
+											            $asistentes = array(
+											                                'id_evento' => $id_evento,
+											                                'id_personal' => $this->input->post('gestor'),  
+											                                );
+
+											            $this->general->insert('asistente_evento',$asistentes,'');
+
+									    // FIN Evento de Alerta de Vencimiento y Renovacion
+
+
+
+
+                            //Fin de Crear Eventos
 
 			            		$this->session->set_flashdata('Success', 'El Acuerdo de Niveles de Servicio ha sido Creado con Éxito en base al ANS seleccionado');
 			            		redirect(site_url('index.php/niveles_de_servicio/gestion_ANS'));
