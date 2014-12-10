@@ -916,6 +916,19 @@ class Revisiones extends MX_Controller
 
 
 
+		public function notificar_evento($evento_id = '')
+	{
+
+		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
+
+		$id_evento = $this->input->post('evento_id');
+
+		
+		
+	}
+
+
+
 
 }
 

@@ -1150,7 +1150,33 @@
 		</div><!-- /.modal -->
 
 
+<div class="modal fade" id="notificar_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" 
+   data-keyboard="false">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> ¿Est&#225; seguro que desea <b>Notificar</b> este Evento? Se enviara un <b>Email</b> con
+		        	los datos del Evento a todos los Asistentes seleccionados.</div></p><br>
 
+		        	<div class="text-left">
+		        	<a id="notificar_seleccionar" class="btn btn-default btn-xs todos">Todos <i id='icono_todos' class="fa fa-check-square-o"></i></a><br>
+		        	</div>
+		        	<div id="checkbox_asistentes">
+
+
+		        	</div>
+		      </div>
+		      <div class="modal-footer">
+		      	<button type="button" id="notificar_confirm" class="btn btn-warning"><i class="fa fa-envelope"></i> Notificar</button>
+		        <button type="button" class="btn btn-default" id="cancelar_modificacion" data-dismiss="modal">Cancelar</button>      
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 
 

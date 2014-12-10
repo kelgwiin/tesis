@@ -147,6 +147,131 @@ function deleteEvento(id_evento) {
 
     }
 
+
+function notificarEvento(id_evento) {
+
+      $("#checkbox_asistentes").empty();
+
+      $.ajax({
+                 
+                            
+                            url: config.base+'index.php/niveles/revisiones/obtener_evento',
+                            type: 'POST',
+                            data: {                         
+                                    evento_id : id_evento,                                             
+                                  },
+                            dataType: 'json',
+                            cache : false,  
+
+                             success: function(evento){
+                                               
+                                  var informacion_asistentes = '<div class="panel panel-default" style="width:540px; height:200px; overflow-y: auto; overflow-x: scroll;"><table class="table table-striped" style="width: 100%;">';
+
+                                 
+                                   informacion_asistentes = informacion_asistentes+'<tbody>';
+
+                                    evento.asistentes.forEach(function(asistente) {
+
+                                      informacion_asistentes = informacion_asistentes+'<tr>';
+
+                                      informacion_asistentes = informacion_asistentes+'<td><input type="checkbox" class="checkbox_notificar" id="'+asistente.id_personal+'" value="'+asistente.id_personal+'" checked /></td>';
+
+                                      informacion_asistentes = informacion_asistentes+'<td><b>'+asistente.codigo_empleado+'</b></td>';
+                                      informacion_asistentes = informacion_asistentes+'<td>'+asistente.nombre+'</td>';                  
+                                      informacion_asistentes = informacion_asistentes+'<td>'+asistente.departamento+'</td>';
+                                      informacion_asistentes = informacion_asistentes+'<td>'+asistente.email_personal+'</td>';
+                                      informacion_asistentes = informacion_asistentes+'<td>'+asistente.email_corporativo+'</td>';
+                                      
+                                    
+                                      informacion_asistentes = informacion_asistentes+'</tr>';
+                                  });
+
+                                     informacion_asistentes = informacion_asistentes+'</tbody>';
+
+
+                                  informacion_asistentes = informacion_asistentes+'</table> </div>';
+
+                                  
+                                    $("#checkbox_asistentes").append(informacion_asistentes);
+
+                                    $("#modal_evento").modal('hide');
+
+                                    $("#notificar_modal").modal('show');
+                                       
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   //alert(xhr.status+" "+thrownError);
+                                   //$("#modal_error").modal('show');
+                                                
+                                 }
+                        });
+
+
+
+
+
+       
+
+          
+
+         $("#notificar_confirm").click(function(){
+
+
+                var i=0;
+                var bandera=0;
+                var asistentes_notificados = [];
+                $(".checkbox_notificar").each(function(){
+                    if(this.checked)
+                      {
+                        bandera=1;
+                        asistentes_notificados[i] = $(this).val();
+                        i++;
+                      }
+                });
+
+                if(bandera == 1)
+                {
+                   alert(asistentes_notificados);
+                }
+                else
+                {
+                    alert('No ha seleccionado nada');
+                }
+
+             
+             $.ajax({
+                 
+                            
+                            url: config.base+'index.php/niveles/revisiones/notificar_evento',
+                            type: 'POST',
+                            data: {
+                                    evento_id : id_evento,                         
+                                    asistentes : asistentes_notificados,                                             
+                                  },
+                            //dataType: 'json',
+                            cache : false,  
+
+                             success: function(data){
+                                               
+                              $("#notificar_modal").modal('hide');
+                              //window.location.href = config.base+'index.php/niveles/revisiones/revisiones';
+                                       
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   //alert(xhr.status+" "+thrownError);
+                                   //$("#modal_error").modal('show');
+                                                
+                                 }
+                        });
+           });
+
+
+    }
+
+
+
+
+
 $(document).ready(function() {
 
 // $('#asistentes').modal('show');
@@ -229,7 +354,13 @@ $(document).ready(function() {
         $("#footer_vista_evento").empty();
         $("#tabla_ans").empty();
 
+        $("#checkbox_asistentes").empty();
+
         $("#tabla_nombre").append(calEvent.title);
+
+        if( !$('#icono_todos').hasClass('fa-check-square-o') ){
+            $('#icono_todos').removeClass('fa-square-o').addClass('fa-check-square-o');
+        }
 
 
         if(calEvent.allDay)
@@ -343,8 +474,9 @@ $(document).ready(function() {
 
               informacion_asistentes = informacion_asistentes+'</table> </div>';
 
-               // $("#tabla_asistentes").append(asistente.nombre);
+              informacion_asistentes = informacion_asistentes+'<button type="button" onclick="notificarEvento('+calEvent.id+');" class="btn btn-success btn-xs col-lg-offset-4"><i class="fa fa-envelope"></i> Notificar Asistentes</button>';
 
+              
                 $("#tabla_asistentes").append(informacion_asistentes);
           }
 
@@ -480,6 +612,38 @@ $(document).ready(function() {
                     $checkBox.addClass('selected').closest('.well').find('select#asistentes_evento_modificar option:not(selected)').prop("selected", true);
                     $checkBox.addClass('selected').closest('.well').find('select#personal_modificar option:not(selected)').prop("selected", true);
                 } 
+   });
+
+
+  // Seleccionar todos, notificación asistentes.
+  $('#notificar_seleccionar').click(function(){ 
+
+      if( !$('#notificar_seleccionar').hasClass('todos') ){
+          $(".checkbox_notificar").each(function(){
+                    if(!this.checked)
+                      {
+                       $(this).prop("checked", true);
+                      }
+           
+
+        });
+         $('#notificar_seleccionar').addClass('todos');
+         $('#icono_todos').removeClass('fa-square-o').addClass('fa-check-square-o');
+      }
+      else{
+
+           $(".checkbox_notificar").each(function(){
+                    if(this.checked)
+                      {
+                       $(this).prop("checked", false);
+                      }
+            
+
+        });
+            $('#notificar_seleccionar').removeClass('todos');
+            $('#icono_todos').removeClass('fa-check-square-o').addClass('fa-square-o');
+      }
+
    });
 
 
