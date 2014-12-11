@@ -1600,7 +1600,7 @@ class Acuerdos_ns extends MX_Controller
 
 							            					'nombre_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
 							            					'tipo_evento' => 'revision_ANS',
-							            					'lugar_evento' => ' ',
+							            					'lugar_evento' => '',
 							            					'inicio' => $fecha_revision,
 							            					'fin' => $fecha_revision,
 							            					'descripcion_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
@@ -1652,7 +1652,7 @@ class Acuerdos_ns extends MX_Controller
 
 							            					'nombre_evento' => 'Vencimiento del ANS: '.$this->input->post('nombre_acuerdo'),
 							            					'tipo_evento' => 'vencimiento_ANS',
-							            					'lugar_evento' => ' ',
+							            					'lugar_evento' => '',
 							            					'inicio' => $fecha_fin2,
 							            					'fin' => $fecha_fin2,
 							            					'descripcion_evento' => 'Vencimiento: '.$this->input->post('nombre_acuerdo'),
@@ -1712,7 +1712,7 @@ class Acuerdos_ns extends MX_Controller
 
 									            					'nombre_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),
 									            					'tipo_evento' => 'recordatorio_ANS',
-									            					'lugar_evento' => ' ',
+									            					'lugar_evento' => '',
 									            					'inicio' => $fecha_recordatorio,
 									            					'fin' => $fecha_recordatorio,
 									            					'descripcion_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),
@@ -3018,7 +3018,7 @@ class Acuerdos_ns extends MX_Controller
 
 							            					'nombre_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
 							            					'tipo_evento' => 'revision_ANS',
-							            					'lugar_evento' => ' ',
+							            					'lugar_evento' => '',
 							            					'inicio' => $fecha_revision,
 							            					'fin' => $fecha_revision,
 							            					'descripcion_evento' => 'Revision del ANS: '.$this->input->post('nombre_acuerdo'),
@@ -3070,7 +3070,7 @@ class Acuerdos_ns extends MX_Controller
 
 							            					'nombre_evento' => 'Vencimiento del ANS: '.$this->input->post('nombre_acuerdo'),
 							            					'tipo_evento' => 'vencimiento_ANS',
-							            					'lugar_evento' => ' ',
+							            					'lugar_evento' => '',
 							            					'inicio' => $fecha_fin2,
 							            					'fin' => $fecha_fin2,
 							            					'descripcion_evento' => 'Vencimiento: '.$this->input->post('nombre_acuerdo'),
@@ -3130,7 +3130,7 @@ class Acuerdos_ns extends MX_Controller
 
 									            					'nombre_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),
 									            					'tipo_evento' => 'recordatorio_ANS',
-									            					'lugar_evento' => ' ',
+									            					'lugar_evento' => '',
 									            					'inicio' => $fecha_recordatorio,
 									            					'fin' => $fecha_recordatorio,
 									            					'descripcion_evento' => 'Recordatorio de Vencimiento y Renovación del ANS: '.$this->input->post('nombre_acuerdo'),

@@ -194,9 +194,6 @@ function notificarEvento(id_evento) {
                                   
                                     $("#checkbox_asistentes").append(informacion_asistentes);
 
-                                    $("#modal_evento").modal('hide');
-
-                                    $("#notificar_modal").modal('show');
                                        
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -211,7 +208,10 @@ function notificarEvento(id_evento) {
 
 
        
+        
+                                    $("#modal_evento").modal('hide');
 
+                                    $("#notificar_modal").modal('show');
           
 
          $("#notificar_confirm").click(function(){
@@ -231,15 +231,8 @@ function notificarEvento(id_evento) {
 
                 if(bandera == 1)
                 {
-                   alert(asistentes_notificados);
-                }
-                else
-                {
-                    alert('No ha seleccionado nada');
-                }
-
-             
-             $.ajax({
+                   //alert(asistentes_notificados);
+                        $.ajax({
                  
                             
                             url: config.base+'index.php/niveles/revisiones/notificar_evento',
@@ -248,12 +241,13 @@ function notificarEvento(id_evento) {
                                     evento_id : id_evento,                         
                                     asistentes : asistentes_notificados,                                             
                                   },
-                            //dataType: 'json',
+                            dataType: 'json',
                             cache : false,  
 
                              success: function(data){
-                                               
-                              $("#notificar_modal").modal('hide');
+
+                              //alert(data);
+                              //$("#notificar_modal").modal('hide');
                               //window.location.href = config.base+'index.php/niveles/revisiones/revisiones';
                                        
                              },
@@ -263,6 +257,18 @@ function notificarEvento(id_evento) {
                                                 
                                  }
                         });
+
+                    $("#notificar_modal").modal('hide');
+
+                    $("#notificar_exito").modal('show');
+
+                        
+                }
+                else
+                {
+                    $("#alerta_todos").modal('show');
+                }
+
            });
 
 
@@ -474,13 +480,18 @@ $(document).ready(function() {
 
               informacion_asistentes = informacion_asistentes+'</table> </div>';
 
-              informacion_asistentes = informacion_asistentes+'<button type="button" onclick="notificarEvento('+calEvent.id+');" class="btn btn-success btn-xs col-lg-offset-4"><i class="fa fa-envelope"></i> Notificar Asistentes</button>';
+              informacion_asistentes = informacion_asistentes+'<button type="button" onclick="notificarEvento('+calEvent.id+');" class="btn btn-success btn-xs col-lg-offset-8"><i class="fa fa-envelope"></i> Notificar Asistentes</button>';
 
               
                 $("#tabla_asistentes").append(informacion_asistentes);
           }
 
-        $("#footer_vista_evento").append('<button type="button" onclick="modificarEvento('+calEvent.id+');" class="btn btn-warning"><i class="fa fa-pencil"></i> Modicar</button> <button type="button" onclick="deleteEvento('+calEvent.id+');" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
+        if( (calEvent.tipo != 'vencimiento_ANS') && (calEvent.tipo != 'recordatorio_ANS') )
+            {
+              $("#footer_vista_evento").append('<button type="button" onclick="modificarEvento('+calEvent.id+');" class="btn btn-warning"><i class="fa fa-pencil"></i> Modicar</button> ');
+            }
+
+        $("#footer_vista_evento").append(' <button type="button" onclick="deleteEvento('+calEvent.id+');" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>');
         
     },
 
@@ -589,6 +600,14 @@ $(document).ready(function() {
                                     ($this).prop("selected", true);
 
                                 });
+   });
+
+
+
+    $('#exito_notificar_confirm').click(function(){ 
+
+        $('#modal_evento').modal('show');
+        $("#notificar_exito").modal('hide');
    });
 
 

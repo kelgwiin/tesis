@@ -1179,6 +1179,40 @@
 		</div><!-- /.modal -->
 
 
+<div class="modal fade" id="notificar_exito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" 
+   data-keyboard="false">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-success" role="alert"><i class="fa fa-check"></i> Las Notificaciones se han enviado con Éxito</div></p><br>
+		      </div>
+		      <div class="modal-footer">
+		      	<button type="button" id="exito_notificar_confirm" class="btn btn-success"></i> OK</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
+<div class="modal fade" id="alerta_todos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      
+		      </div>
+		      <div class="modal-body text-center">
+		        <p><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> Debe Seleccionar a una Persona como Mínimo</div></p><br>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
 
 
 

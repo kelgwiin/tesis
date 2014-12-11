@@ -916,14 +916,111 @@ class Revisiones extends MX_Controller
 
 
 
-		public function notificar_evento($evento_id = '')
+	public function notificar_evento($evento_id = '')
 	{
-
-		//modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
 		$id_evento = $this->input->post('evento_id');
 
+		$asistentes =   $this->input->post('asistentes');
+
+		$evento = $this->general->get_row('evento_gns',array('id_evento'=>$id_evento));
+
+		$acuerdo = $this->general->get_row('evento_ans',array('id_evento'=> $evento->id_evento));
+
+	    $acuerdo_info = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=> $acuerdo->acuerdo_nivel_id));
+
+
+		$j = 0;
+
+		$involucrados = array();
+
+		foreach ($asistentes as $asistente) {				
+				$involucrados[$j] = $this->general->get_row('personal',array('id_personal'=>$asistente));
+				$j++;
+		}
+		   
+
+		$inicio = date_create($evento->inicio);
+		$inicio =  date_format($inicio,'m/d/Y h:i A');
+
+		$fin = date_create($evento->fin);
+		$fin =  date_format($fin,'m/d/Y h:i A');
+
+
+
+				$mensaje = '<b>Evento:</b> '.$evento->nombre_evento.'<br />';
+				$mensaje = $mensaje.'<b>ANS:</b> '.$acuerdo_info->nombre_acuerdo.' <br />';
+
+				
+				if($evento->lugar_evento == '')
+		        {$mensaje = $mensaje.'<b>Lugar:</b> <i>No Establecido</i> <br />';}
+		        else
+		        {$mensaje = $mensaje.'<b>Lugar:</b> '.$evento->lugar_evento.' <br />';}
+
+
+				$mensaje = $mensaje.'<b>Inicio:</b> '.$inicio.' <br />';
+				$mensaje = $mensaje.'<b>Fin:</b> '.$fin.' <br />';
+
+				if($evento->descripcion_evento == '')
+		        {$mensaje = $mensaje.'<b>Descripción:</b> <i>No Posee</i> <br />';}
+		        else
+		        {$mensaje = $mensaje.'<b>Descripción:</b> '.$evento->descripcion_evento.' <br />';}
+						
+
+
+		if($evento->tipo_evento == 'revision_ANS')
+			{
+				$asunto = 'Notificación de Revisión de Acuerdo de Niveles de Servicio';
+
+			}
+
+	    if($evento->tipo_evento == 'renovacion_ANS')
+			{
+				$asunto = 'Notificación de Renovación de Acuerdo de Niveles de Servicio';
+				
+			}
+
+	    if($evento->tipo_evento == 'recordatorio_ANS')
+			{
+				$asunto ='Recordatorio de Vencimiento Próximo de Acuerdo de Niveles de Servicio';	
+				
+			}
+
+		if($evento->tipo_evento == 'vencimiento_ANS')
+			{
+				$asunto = 'Notificación de Vencimiento de Acuerdo de Niveles de Servicio';
+			}
+
+
+		$config['protocol']		= "smtp";
+		$config['smtp_host']	= "ssl://smtp.googlemail.com";
+        $config['smtp_port']	= 465;
+		$config['smtp_user']	= "sigitec.facyt@gmail.com";
+        $config['smtp_pass']	= 'trabajo.grado.sigitec';
+        $config['mailtype']		= "html";
+        $config['charset']		='utf-8';
+        $config['newline']		="\r\n";
+        $this->load->library('email', $config);
+        $this->email->initialize($config);
+        $this->email->from('sigitec.facyt@gmail.com','SIGITEC | Gestión de Niveles de Servicio');
+        $this->email->subject($asunto);
+		$this->email->message($mensaje);
+
+		/*if(isset($email->pdf_path) && !empty($email->pdf_path) && file_exists($email->pdf_path))
+			$this->email->attach($email->pdf_path);*/
+			
 		
+		foreach($involucrados as $key => $people)
+		{
+			$emails_tosend[] = $people->email_personal;
+		}
+		$emails_str = implode(', ', $emails_tosend);
+		$this->email->to($emails_str);
+		$this->email->send();
+
+		return true;
+
+		// die_pre($this->email->print_debugger());
 		
 	}
 
