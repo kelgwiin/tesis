@@ -167,9 +167,6 @@ else:
     except ConfigParser.NoSectionError:
         raise Exception("No se pudieron leer parametros.")
 
-# Bucar pids por comando
-pids, pids_comando = buscar_pids(commands)
-
 
 def set_exit_handler(func):
     signal.signal(signal.SIGTERM, func)
@@ -405,6 +402,8 @@ def muestreo_mem(p_ids, memorias):
 
 
 def principal():
+    # Bucar pids por comando
+    pids, pids_comando = buscar_pids(commands)
     principal_starttime = time.time()
     io_before = defaultdict(dict)
     io_after = defaultdict(dict)
