@@ -167,9 +167,6 @@ else:
     except ConfigParser.NoSectionError:
         raise Exception("No se pudieron leer parametros.")
 
-# Bucar pids por comando
-pids, pids_comando = buscar_pids(commands)
-
 
 def set_exit_handler(func):
     signal.signal(signal.SIGTERM, func)
@@ -220,7 +217,7 @@ def verificar_dir():
                     raise
 
 
-def escribir_archivo(array):
+def escribir_archivo(array, pids_comando):
     if process:
         output = defaultdict(dict)
         for key in pids_comando.iterkeys():
@@ -405,6 +402,8 @@ def muestreo_mem(p_ids, memorias):
 
 
 def principal():
+    # Bucar pids por comando
+    pids, pids_comando = buscar_pids(commands)
     principal_starttime = time.time()
     io_before = defaultdict(dict)
     io_after = defaultdict(dict)
@@ -425,7 +424,7 @@ def principal():
     muestreo_mem(pids, mem)
     for p in pids:
         datos[p] = datos_proceso(p, pstat_before[p], pstat_after[p], io_before[p], io_after[p], mem[p])
-    escribir_archivo(datos)
+    escribir_archivo(datos, pids_comando)
     delay_completo = time.time() - principal_starttime
     return delay_completo
 
