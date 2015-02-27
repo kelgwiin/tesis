@@ -97,10 +97,11 @@
 					        <?php
 					        	$options = array(
 					        	  'seleccione' => 'Seleccione',
-					        	  'Critica' => 'Crítica',
-					        	  'Alta' => 'Alta',
-					        	  'Media' => 'Media',
-					        	  'Baja' => 'Baja',
+					        	 'Critico' => 'Crítico',
+					        	  'No Critico' => 'No Crítico'
+					        	  //'Alta' => 'Alta',
+					        	  //'Media' => 'Media',
+					        	  //'Baja' => 'Baja',
 					        	  
 
 				                );

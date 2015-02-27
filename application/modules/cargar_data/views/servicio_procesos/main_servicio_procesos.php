@@ -109,13 +109,8 @@
 							                 		<?php if($proceso->tipo == 'Critica') : ?>
 									  				<span class="label label-danger"><?php echo $proceso->tipo; ?></span>
 												  	<?php endif ?>
-							                 		<?php if($proceso->tipo == 'Alta') : ?>
-									  				<span class="label" style="background-color:#FF6600;" ><?php echo $proceso->tipo; ?></span>
-												  	<?php endif ?>
-												  	<?php if($proceso->tipo == 'Media') : ?>
-												  				<span class="label" style="background-color:#FFCC66;"><?php echo $proceso->tipo; ?></span>
-												  	<?php endif ?>
-												  	<?php if($proceso->tipo == 'Baja') : ?>
+							                 		
+												  	<?php if($proceso->tipo == 'No Critico') : ?>
 												  				<span class="label label-default"><?php echo $proceso->tipo; ?></span>
 												  	<?php endif ?>
 
