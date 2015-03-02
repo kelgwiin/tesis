@@ -94,33 +94,6 @@ count = 1
 iterate = True
 interval = 5
 
-'''try:
-    # Read command line args
-    myopts, args = getopt.getopt(sys.argv[1:], "c:o:i:psmem:s:p:")
-    for o, a in myopts:
-        if o == '-c':
-            commands = a.split(',')
-        elif o == '-i':
-            interval = a
-        elif o == '-psmem':
-            use_ps_mem = True
-        elif o == '-o':
-            out_term = True
-        elif o == '-s':
-            single_pass = True
-        elif o == '-p':
-            process = True
-except getopt.GetoptError as e:
-    print(str(e))
-    print("Usage: %s -c [command1,command2,command3..] -i [secs]" % sys.argv[0])
-    print("   -psmem Use psmem module to calculate memory usage per thread. Uses more system resources!. ")
-    print("   -o Print output to stout instead of local file. Useful for remote polling. ")
-    print("   -i Interval between polls in seconds. ")
-    print("   -c processes names(system command) separated by commas(,) ")
-    print("   -s Polls processes only one time. Overrides the -i option. ")
-    print("   -p Outputs the sum of threads per process. ")
-    sys.exit(2)'''
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-ps', '--use-ps-mem', action='store_true',
                     help="Use psmem module to calculate memory usage per thread. Uses more system resources!")
@@ -187,6 +160,11 @@ def log_filename():
 
 def proc_filename():
     procname = directorio + "stats/" + "proc_" + datetime.date.today().__str__() + ".csv"
+    return procname
+
+
+def sys_filename():
+    procname = directorio + "stats/" + "sys_" + datetime.date.today().__str__() + ".csv"
     return procname
 
 
