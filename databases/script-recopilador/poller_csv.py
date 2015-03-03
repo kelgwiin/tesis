@@ -135,6 +135,8 @@ else:
             if 'directorio' in globals():
                 if directorio is not "":
                     directorio += "poller_csv/"
+            if 'interface' in globals():
+                interface = configParser.get('variables', 'interface')
     except IOError:
         raise Exception("No se pudo abrir el archivo de configuracion.")
     except ConfigParser.NoSectionError:
@@ -195,6 +197,22 @@ def verificar_dir():
                     raise
 
 
+def mac_interface():
+    """"
+        MAC ADDRESS PARA LA INTERFACE ESPECIFICADA
+    """""
+    if pass interface is not "":
+        t = subprocess.Popen(["ifconfig", interface, "| grep HWaddr"], stdout=subprocess.PIPE)
+        (output, err) = t.communicate()
+        p = p.split("     ")
+        p2 = p[1].split(" ")
+        pin = p2.index("HWaddr") + 1
+        print "MAC ADDRESS: %s" % p[pin]
+        return p[pin]
+    else
+        return ""        
+
+
 def escribir_archivo(array, pids_comando):
     if process:
         output = defaultdict(dict)
@@ -210,6 +228,7 @@ def escribir_archivo(array, pids_comando):
             ddtotal = 0
             pagerr = 0
             timealive = 0
+            mac = mac_interface()
             for pid in pids_comando[key]:
                 cpu += array[pid][2]
                 memoria += array[pid][3]

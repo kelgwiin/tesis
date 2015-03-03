@@ -5,3 +5,4 @@ ps_mem = False
 logtime = False
 storepath = /home/
 per_threads = False
+interface = wlan0
