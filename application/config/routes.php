@@ -137,11 +137,18 @@ $route['niveles_de_servicio/gestion_Revisiones/obtener_eventos'] = "niveles/revi
 $route['niveles_de_servicio/gestion_Revisiones/modificar_evento'] = "niveles/revisiones/modificar_evento";
 $route['niveles_de_servicio/gestion_Revisiones/eliminar_evento'] = "niveles/revisiones/eliminar_evento";
 
+$route['niveles_de_servicio/gestion_Reportes'] = "niveles/reportes/reportes";
+$route['niveles_de_servicio/gestion_Reportes/procesar_data'] = "niveles/reportes/procesar_data";
+
+
+
+
 /* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/
 $route['Operaciones'] = "Operaciones/Operaciones/toolset";
 $route['Operaciones/extract_data'] = "Operaciones/Operaciones/extract_data";
+$route['Operaciones/load_stats'] = "Operaciones/Operaciones/load_stats";
 /* Rutas Para el Modulo de Gestión de La capacidad */
 $route['Capacidad/'] = "Capacidad/Capacidad";
 /* Modulo Componentes IT */
