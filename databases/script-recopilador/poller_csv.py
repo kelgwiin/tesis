@@ -201,7 +201,7 @@ def mac_interface():
     """"
         MAC ADDRESS PARA LA INTERFACE ESPECIFICADA
     """""
-    if pass interface is not "":
+    if interface is not "":
         t = subprocess.Popen(["ifconfig", interface, "| grep HWaddr"], stdout=subprocess.PIPE)
         (output, err) = t.communicate()
         p = p.split("     ")
@@ -264,15 +264,19 @@ def escribir_archivo(array, pids_comando):
 
 
 def stat():
-    stat_file = proc.open('stat').read()
-    vmstat_file = proc.open('vmstat').read()
-    interrupts = re.search(r'intr\s+(\d+)', stat_file).group(1)  # INTERRUPTS
-    pagesin = re.search(r'pgpgin\s+(\d+)', vmstat_file).group(1)  # PAGES IN
-    pagesout = re.search(r'pgpgout\s+(\d+)', vmstat_file).group(1)  # PAGES OUT
-    pswapin = re.search(r'pswpin\s+(\d+)', vmstat_file).group(1)  # SWAP IN
-    pswapout = re.search(r'pswpout\s+(\d+)', vmstat_file).group(1)  # SWAP OUT
-    datos = [float(pagesin), float(pagesout), float(interrupts), float(pswapin), float(pswapout)]
-    return datos
+    try:
+        stat_file = proc.open('stat').read()
+        vmstat_file = proc.open('vmstat').read()
+        interrupts = re.search(r'intr\s+(\d+)', stat_file).group(1)  # INTERRUPTS
+        pagesin = re.search(r'pgpgin\s+(\d+)', vmstat_file).group(1)  # PAGES IN
+        pagesout = re.search(r'pgpgout\s+(\d+)', vmstat_file).group(1)  # PAGES OUT
+        pswapin = re.search(r'pswpin\s+(\d+)', vmstat_file).group(1)  # SWAP IN
+        pswapout = re.search(r'pswpout\s+(\d+)', vmstat_file).group(1)  # SWAP OUT
+        datos = [float(pagesin), float(pagesout), float(interrupts), float(pswapin), float(pswapout)]
+    except KeyError or LookupError:
+        array[p] = [0, 0, 0, 0, 0]
+    else
+        return datos
 
 
 def buscar_totales():
