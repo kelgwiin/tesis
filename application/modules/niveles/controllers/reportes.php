@@ -254,47 +254,67 @@ class Reportes extends MX_Controller
 		 		foreach ($servicios as  $servicio) {
 
 		 			$proceso_caido = false;
-		 			$inicio_caida_aux = 0;
+		 			//$inicio_caida_aux = 0;
 		 			$fin_caida_aux = 0;
 		 			// Se recorre cada proceso que soporta al servicio
-			 		for ($j=1; $j <= count($servicios_procesos[$servicio->nombre]) ; $j++) { 
+			 		for ($a=1; $a <= count($servicios_procesos[$servicio->nombre]) ; $a++) { 
 				 		
-				 		$proceso_nombre = $servicios_procesos[$servicio->nombre][$j]->nombre; // Nombre del Proceso al cual se le revisa su estado (activo o  caido)
+				 		$proceso_nombre = $servicios_procesos[$servicio->nombre][$a]->nombre; // Nombre del Proceso al cual se le revisa su estado (activo o  caido)
 
 				 		// Si el proceso esta caido y es critico
-				 		if ( ($procesos_caida[$proceso_nombre][1]->estado == 'caido') && ($servicios_procesos[$servicio->nombre][$j]->tipo == 'Critico') ) {			 			
+				 		if ( ($procesos_caida[$proceso_nombre][1]->estado == 'caido') && ($servicios_procesos[$servicio->nombre][$a]->tipo == 'Critico') ) {			 			
 
 				 			$proceso_caido = true;
 
+				 			if($servicios_caida[$servicio->nombre][1]->estado == 'activo') {
+				 				$servicios_caida[$servicio->nombre][1]->estado = 'caido';
+				 			}
+				 			
+
 				 			// Si no hay inicio de caida registrada para el servicio
-				 			if ( $inicio_caida_aux == 0) {
-				 				$inicio_caida_aux = $procesos_caida_aux[$proceso_nombre][1]->inicio_caida;
-				 				//$servicios_caida[$servicio->nombre][1]->inicio_caida = $procesos_caida_aux[$proceso_nombre][1]->inicio_caida;
-				 				//$servicios_caida[$servicio->nombre][1]->estado = 'caido';
+				 			if ( $servicios_caida[$servicio->nombre][1]->inicio_caida == 0) {
+				 				$servicios_caida[$servicio->nombre][1]->inicio_caida = $procesos_caida_aux[$proceso_nombre][1]->inicio_caida;
+				 				
 				 			}
-				 			// Si extiste una hora de caida registrada
-				 			else{
-				 				//Si la hora de caida de otro proceso es menor se actualiza la hora de caida del servicio. Esto se debe a que un servicio puede ser soportado por varios procesos y varios de ellos pueden tener el mismo estado de caidos al momento en que se realiza el monitoreo cada intervalo de tiempo.
-				 				if ( ($procesos_caida_aux[$proceso_nombre][1]->inicio_caida) < $inicio_caida_aux ) {
-				 					
-				 					$inicio_caida_aux = $procesos_caida_aux[$proceso_nombre][1]->inicio_caida;				
-				 				}
-				 			}
-
-				 			//Se suma el intervalo de medicion del poller csv a la duracion de la caida del proceso
-
-				 			/****$servicios_caida[$servicio->nombre][1]->duracion = $servicios_caida[$servicio->nombre][1]->duracion + $intervalo_medicion;*/
-
 				 		}
 
 				 		// Si el proceso esta activo y es critico
-				 		if  (($procesos_caida[$proceso_nombre][1]->estado == 'activo') && ($servicios_procesos[$servicio->nombre][$j]->tipo == 'Critico') ) {
-				 				
-				 				// Si no hay fin de caida registrada para el servicio
-				 				if ($fin_caida_aux == 0) {
-				 					//$fin_caida_aux = ;
-				 				}
-				 			}	
+				 		if  (($procesos_caida[$proceso_nombre][1]->estado == 'activo') && ($servicios_procesos[$servicio->nombre][$a]->tipo == 'Critico') ) {
+
+				 				$fin_caida_aux = $procesos_caida_aux[$proceso_nombre][1]->timestamp;
+				 			}
+
+				 	}
+
+				 	if (($proceso_caido == true) && ($servicios_caida[$servicio->nombre][1]->estado == 'caido') ) {
+				 		$servicios_caida[$servicio->nombre][1]->duracion = $servicios_caida[$servicio->nombre][1]->duracion + $intervalo_medicion;	
+				 	}
+
+				 	if (($proceso_caido == false) && ($servicios_caida[$servicio->nombre][1]->estado == 'caido') ) {
+				 		
+				 		$servicios_caida[$servicio->nombre][1]->fin_caida =  $fin_caida_aux;
+
+				 		$segundos = $servicios_caida[$servicio->nombre][1]->duracion;
+				 		
+				 		$horas = floor($segundos / 3600);
+						$mins = floor(($segundos - ($horas*3600)) / 60);
+						$segs = floor($segundos % 60);
+
+						$duracion = $horas.":".$mins.":".$segs;
+
+				 		$servicio_caida = array(
+	                					        'servicio_id'=>$servicio->servicio_id,
+					                                'inicio_caida' => $servicios_caida[$servicio->nombre][1]->inicio_caida,
+					                                'fin_caida' => $servicios_caida[$servicio->nombre][1]->fin_caida,
+					                                'duracion_caida' => $duracion,
+					                                'duracion_caida_seg'=> $servicios_caida[$servicio->nombre][1]->duracion,
+				                                );
+
+		 				$this->general->insert('servicio_caida_historial',$servicio_caida,'');
+
+		 				$servicios_caida[$servicio->nombre][1] = (object) array('inicio_caida' => '0', 'fin_caida' => '0', 'estado'=>'activo', 'duracion' => 0); 
+
+
 
 				 	}
 

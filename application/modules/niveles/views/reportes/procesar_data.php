@@ -117,7 +117,7 @@ foreach($servicios as $servicio)
 
 echo $servicios_caida['chrome'][1]->estado;*/
 
-$tiempo_inicio ='2015-02-28 2:10:02'; 
+/*$tiempo_inicio ='2015-02-28 2:10:02'; 
 					     	$inicio = date_create($tiempo_inicio);
 					     	$tiempo_inicio = date_format($inicio,"H:i:s");
 
@@ -135,6 +135,6 @@ $tiempo_inicio ='2015-02-28 2:10:02';
 
 if ($tiempo_inicio < $tiempo_culminacion) {
 	echo 'el tiempo de inicio es menor';
-}
+}*/
 
 ?>
