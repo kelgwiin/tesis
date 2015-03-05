@@ -209,7 +209,7 @@ def mac_interface():
         pin = p2.index("HWaddr") + 1
         print "MAC ADDRESS: %s" % p[pin]
         return p[pin]
-    else
+    else:
         return ""        
 
 
@@ -275,7 +275,7 @@ def stat():
         datos = [float(pagesin), float(pagesout), float(interrupts), float(pswapin), float(pswapout)]
     except KeyError or LookupError:
         array[p] = [0, 0, 0, 0, 0]
-    else
+    else:
         return datos
 
 
@@ -331,10 +331,11 @@ def pid_io(p, array):
         array[p] = datos
         despues = time.time() - antes - startTime
         if tiempos:
-            print "pid_io: %f" % despues
-        return array
+            print "pid_io: %f" % despues        
     except KeyError or LookupError:
         array[p] = [0, 0, 0, 0, 0]
+    else:
+        return array
 
 
 def pid_stat(p, array):
@@ -359,7 +360,8 @@ def pid_stat(p, array):
             print "pid_stat: %f" % despues
     except KeyError or LookupError:
         array[p] = ["C", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""]
-    return array
+    else:
+        return array
 
 
 def pid_mem(p, array):
@@ -382,7 +384,8 @@ def pid_mem(p, array):
             array[p] = private + shared
     except KeyError or RuntimeError or LookupError:
         array[p] = 0
-    return array
+    else: 
+        return array
 
 
 def muestreo(pid_s, array_io, array_pstat):
