@@ -116,6 +116,7 @@ if args.commands != "null":
     single_pass = args.single_pass
     process = args.process
     interval = args.interval
+    interface = "eth0"
     tiempos = False
 else:
     try:
