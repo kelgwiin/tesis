@@ -20,7 +20,13 @@ import argparse
 import logging.handlers
 import ConfigParser
 import errno
+from daemon import Daemon
 from collections import defaultdict
+
+
+class PollerDaemon(Daemon):
+    def run(self):
+        main()
 
 
 # DEFAULTS
@@ -40,7 +46,7 @@ class Proceso:
             return open(self.path(*args))
         except (IOError, OSError):
             val = sys.exc_info()[1]
-            if val.errno == errno.ENOENT or val.errno == errno.EPERM:  # kernel thread or process gone
+            if val.errno == errno.ENOENT or val.errno == errno.EPERM:
                 raise LookupError
             raise
 
@@ -81,67 +87,6 @@ def buscar_pids(comms):
         pid += p
         pid_command[c] = p
     return pid, pid_command
-
-
-startTime = time.time()
-proc = Proceso()
-Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
-PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  #
-directorio = ""
-out_term = single_pass = False
-process = True
-count = 1
-iterate = True
-interval = 5
-
-parser = argparse.ArgumentParser()
-parser.add_argument('-ps', '--use-ps-mem', action='store_true',
-                    help="Use psmem module to calculate memory usage per thread. Uses more system resources!")
-parser.add_argument('-o', '--out-term', action='store_true',
-                    help="Print output to stout instead of local file. Useful for remote polling.")
-parser.add_argument('-s', '--single-pass', action='store_true',
-                    help="Polls processes only one time. Overrides the -i option.")
-parser.add_argument('-p', '--process', action='store_true',
-                    help="Outputs the sum of threads per process.")
-parser.add_argument('-i', '--interval', default=5,
-                    help="Interval between polls in seconds. Default set to 5 seconds.")
-parser.add_argument('-c', '--commands', default="null",
-                    help="Processes names(system command) separated by commas(,)")
-args = parser.parse_args()
-
-if args.commands != "null":
-    commands = args.commands.split(',')
-    use_ps_mem = args.use_ps_mem
-    out_term = args.out_term
-    single_pass = args.single_pass
-    process = args.process
-    interval = args.interval
-    interface = "eth0"
-    tiempos = False
-else:
-    try:
-        with open('config') as f:
-            configParser = ConfigParser.RawConfigParser()
-            configParser.read(r'config')
-            tiempos = configParser.get('variables', 'logtime') is True
-            directorio = configParser.get('variables', 'storepath')
-            if 'commands' not in globals():
-                commands = configParser.get('variables', 'commands').split(",")
-            if 'interval' not in globals():
-                interval = float(configParser.get('variables', 'interval'))
-            if 'use_ps_mem' not in globals():
-                use_ps_mem = configParser.get('variables', 'ps_mem') is True           
-            if 'process' not in globals():
-                process = not configParser.get('variables', 'per_threads')
-            if 'directorio' in globals():
-                if directorio is not "":
-                    directorio += "poller_csv/"
-            if 'interface' in globals():
-                interface = configParser.get('variables', 'interface')
-    except IOError:
-        raise Exception("No se pudo abrir el archivo de configuracion.")
-    except ConfigParser.NoSectionError:
-        raise Exception("No se pudieron leer parametros.")
 
 
 def set_exit_handler(func):
@@ -190,7 +135,7 @@ def verificar_dir():
     for d in dirs:
         if not os.path.exists(os.path.dirname(d)):
             try:
-                os.makedirs(os.path.dirname(d))  # CREAR DIRECTORIO SI NO EXISTE
+                os.makedirs(os.path.dirname(d))
             except OSError as exc:  # Python >2.5
                 if exc.errno == errno.EEXIST and os.path.isdir(d):
                     pass
@@ -203,15 +148,14 @@ def mac_interface():
         MAC ADDRESS PARA LA INTERFACE ESPECIFICADA
     """""
     if interface is not "":
-        t = subprocess.Popen(["ifconfig", interface, "| grep HWaddr"], stdout=subprocess.PIPE)
-        (output, err) = t.communicate()
-        p = p.split("     ")
+        t = subprocess.Popen(["ifconfig ", interface, " | grep HWaddr"],
+                             stdout=subprocess.PIPE, stderr=None, shell=True).communicate()[0]
+        p = t.split("     ")
         p2 = p[1].split(" ")
         pin = p2.index("HWaddr") + 1
-        print "MAC ADDRESS: %s" % p[pin]
-        return p[pin]
+        return p2[pin]
     else:
-        return ""        
+        return ""
 
 
 def escribir_archivo(array, pids_comando):
@@ -248,7 +192,7 @@ def escribir_archivo(array, pids_comando):
                 status = "R"
             timestamp = (time.strftime('%Y-%m-%d %H:%M:%S'))
             output[nombre] = ["P", nombre, cpu, memoria, lectop, escriop, ddlect, ddescri, ddtotal, pagerr,
-                              timealive, status, timestamp, procesos]
+                              timealive, status, timestamp, procesos, mac]
     if out_term:
         file_out = sys.stdout
     else:
@@ -332,7 +276,7 @@ def pid_io(p, array):
         array[p] = datos
         despues = time.time() - antes - startTime
         if tiempos:
-            print "pid_io: %f" % despues        
+            print "pid_io: %f" % despues
     except KeyError or LookupError:
         array[p] = [0, 0, 0, 0, 0]
     else:
@@ -385,7 +329,7 @@ def pid_mem(p, array):
             array[p] = private + shared
     except KeyError or RuntimeError or LookupError:
         array[p] = 0
-    else: 
+    else:
         return array
 
 
@@ -434,12 +378,110 @@ def principal():
     return delay_completo
 
 
-if __name__ == "__main__":
+def args_parser():
+    global args
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-ps', '--use-ps-mem', action='store_true',
+                        help="Use psmem module to calculate memory usage " +
+                        "per thread(includes used memory by shared " +
+                        "libraries). Uses more system resources!")
+    parser.add_argument('-o', '--out-term', action='store_true',
+                        help="Print output to stout instead of local file." +
+                             " Useful for remote polling.")
+    parser.add_argument('-s', '--single-pass', action='store_true',
+                        help="Polls processes only one time. " +
+                             "Overrides the -i option.")
+    parser.add_argument('-p', '--process', action='store_true',
+                        help="Outputs the sum of threads per process.")
+    parser.add_argument('-i', '--interval', default=5,
+                        help="Interval between polls in seconds. " +
+                             "Default set to 5 seconds.")
+    parser.add_argument('-c', '--commands', default="null",
+                        help="Processes names(system command) " +
+                             "separated by commas(,)")
+    parser.add_argument('-iface', '--interface', default="eth0",
+                        help="Interface used in the work/home network.")
+    args = parser.parse_args()
+
+
+def read_config():
+    global commands
+    global use_ps_mem
+    global tiempos
+    global startTime
+    global proc
+    global Hertz
+    global PAGESIZE
+    global directorio
+    global out_term
+    global single_pass
+    global process
+    global count
+    global iterate
+    global interval
+    global interface
+
+    startTime = time.time()
+    proc = Proceso()
+    Hertz = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
+    PAGESIZE = os.sysconf("SC_PAGE_SIZE") / 1024  #
+    directorio = ""
+    out_term = single_pass = False
+    process = True
+    count = 1
+    interval = 5
+    iterate = True
+    interface = "eth0"
+
+    if args.commands != "null":
+        commands = args.commands.split(',')
+        use_ps_mem = args.use_ps_mem
+        out_term = args.out_term
+        single_pass = args.single_pass
+        process = args.process
+        interval = args.interval
+        interface = args.interface
+        tiempos = False
+    else:
+        print "Reading config..."
+        try:
+            with open('config') as f:
+                configParser = ConfigParser.RawConfigParser()
+                configParser.read(r'config')
+                tiempos = configParser.get('variables', 'logtime') is True
+                directorio = configParser.get('variables', 'storepath')
+                if 'commands' not in globals():
+                    commands = configParser.get('variables', 'commands').split(",")
+                if 'interval' not in globals():
+                    interval = float(configParser.get('variables', 'interval'))
+                if 'use_ps_mem' not in globals():
+                    use_ps_mem = configParser.get('variables', 'ps_mem') is True
+                if 'process' not in globals():
+                    process = not configParser.get('variables', 'per_threads')
+                if 'directorio' in globals():
+                    if directorio is not "":
+                        directorio += "poller_csv/"
+                if 'interface' in globals():
+                    interface = configParser.get('variables', 'interface')
+        except IOError:
+            raise Exception("No se pudo abrir el archivo de configuracion.")
+        except ConfigParser.NoSectionError:
+            raise Exception("No se pudieron leer parametros.")
+
+
+def main():
+    args_parser()
+    read_config()
     set_exit_handler(on_exit)
+    global iterate
+    global count
     if not out_term:
         verificar_dir()
         log = init_log()
-    while iterate:
+        print "Poller_csv.py in Python %s.%s.%s" % (sys.version_info[0],
+                                                    sys.version_info[1],
+                                                    sys.version_info[2])
+    while iterate is True:
         tiempo_transcurrido = principal()
         count += 1
         if not single_pass:
@@ -449,3 +491,7 @@ if __name__ == "__main__":
             print "Leyendo datos..."
             print "Tiempo transcurrido: %f" % tiempo_transcurrido
         iterate = not single_pass
+
+
+if __name__ == "__main__":
+    main()
