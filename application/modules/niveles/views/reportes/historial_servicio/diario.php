@@ -13,8 +13,15 @@
 		      foreach($servicios as $servicio)	{ 
 		      $options[$servicio->servicio_id] = $servicio->nombre;
 		       }?>
-		        <?php echo form_dropdown('servicios', $options,set_value('servicios',@$servicio_proceso_id),'class="form-control" id="dropdown_servicio_procesos" '); ?>
+		        <?php echo form_dropdown('servicios', $options,set_value('servicios',@$servicio_proceso_id),'class="form-control" id="dropdown_servicios" '); ?>
 		  </div>
+		  <div class="form-group">
+			<div>
+				<label style="color:red;" id="error_servicio">
+					
+				</label>
+			</div>
+		</div>
 	  </div>
 	   <div class="col-md-2">
 		<div class="form-group">
@@ -23,12 +30,19 @@
 		          </div> 
 		          <div>
 			<div class="input-group">
-				<input type='text' name="fecha_inicio" class="form-control" id='dpd1' value="<?php echo set_value('fecha_inicio'); ?>"/>
+				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value=""/>
 				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			</div>
 		          </div>
 
 		  </div>
+		   <div class="form-group">
+			<div>
+				<label style="color:red;" id="error_dia">
+					
+				</label>
+			</div>
+		</div>
 	</div>
 
 	<div class="col-md-2">
@@ -37,9 +51,15 @@
 	     </div>
 
 	     <div class="">
-		<a class="btn btn-info" id="nuevo_proceso" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>"> <i class="fa fa-search"></i> Buscar </a>
+		<a class="btn btn-info" id="buscar_historial" onclick="mostrarHistorial();"> <i class="fa fa-search"></i> Buscar </a>
 	     </div>
 	 </div>
+
+</div>
+
+<br>
+
+<div >
 
 </div>
 

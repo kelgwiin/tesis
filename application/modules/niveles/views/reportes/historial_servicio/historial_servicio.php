@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>application/modules/niveles/views/ans/css/ans.css">
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/operaciones_ajax.js"></script>
 
 <div id="page-wrapper">
 
