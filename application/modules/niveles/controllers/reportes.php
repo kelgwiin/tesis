@@ -82,8 +82,17 @@ class Reportes extends MX_Controller
 
     		}
 
-    	function  procesar_data()
-    		{   		    
+
+	function historial_servicio(){
+
+
+    		$data_view['servicios']= $this->general->get_table('servicio');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/historial_servicio/historial_servicio',$data_view,'Reportes','','two_level');
+
+
+	}
+
+    	function  procesar_data(){   		    
     		    
 
     		    // Creacion de array con la informacion de cuales servicios son soportados por cada proceso.
@@ -355,6 +364,8 @@ class Reportes extends MX_Controller
 
 
 }
+
+
 
 
 ?>
