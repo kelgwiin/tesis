@@ -74,6 +74,29 @@ class Reportes extends MX_Controller
 	}
 
 
+	function  transformarSegundos($segundos){
+
+		$horas = floor($segundos / 3600);
+		$mins = floor(($segundos - ($horas*3600)) / 60);
+		$segs = floor($segundos % 60);
+
+		if(strlen((string)$horas) == 1){
+			$horas = '0'.$horas;
+		}
+
+		if(strlen((string)$mins) == 1){
+			$mins = '0'.$mins;
+		}
+
+		if(strlen((string)$segs) == 1){
+			$segs = '0'.$segs;
+		}
+
+		$duracion = $horas.":".$mins.":".$segs;
+
+		return (string)$duracion;
+	} 
+
 
     	function index()
     		{
@@ -90,6 +113,73 @@ class Reportes extends MX_Controller
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/historial_servicio/historial_servicio',$data_view,'Reportes','','two_level');
 
 
+	}
+
+	function obtener_historial_servicio_dia(){
+
+		$servicio_id = $this->input->post('servicio_id');
+
+		$fecha_dia = $this->input->post('dia'); 
+		$inicio = date_create($fecha_dia);
+		$fecha_dia = date_format($inicio,"Y-m-d");
+
+		$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
+
+		$historial = $historial_servicio['caidas_servicio'];
+
+		// Transformar formato datetime a solo tiempo
+		$i = 0;
+		$tiempo_caida = 0;
+		$caida_mayor = 0;
+		$caida_menor = 0;
+		foreach ($historial as  $registro) {
+			$inicio = date_create($historial_servicio['caidas_servicio'][$i]->inicio_caida);
+			$historial_servicio['caidas_servicio'][$i]->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
+
+			$fin = date_create($historial_servicio['caidas_servicio'][$i]->fin_caida);
+			$historial_servicio['caidas_servicio'][$i]->fin_caida =  date_format($fin,'d/m/Y h:i:s a');
+
+			$tiempo_caida = $tiempo_caida + $registro->duracion_caida_seg;
+
+			if($registro->duracion_caida_seg > $caida_mayor){
+				$caida_mayor = $registro->duracion_caida_seg;
+			}
+
+			if($caida_menor  == 0){
+				$caida_menor = $registro->duracion_caida_seg;
+			} 
+			if( ($caida_menor  != 0) && ($registro->duracion_caida_seg < $caida_menor) ){
+				$caida_menor =$registro->duracion_caida_seg;
+			}
+
+			$i++;
+		}
+
+		$segundos = $tiempo_caida;
+
+		//Disponibilidad
+		$historial_servicio['disponibilidad'] = round( ((100)-((100*$segundos)/86400)) , 2);
+
+		//Numero de caidas
+		$historial_servicio['numero_caidas'] = count($historial);
+
+		//Duracion de caida
+		$historial_servicio['tiempo_caido'] = $this->transformarSegundos($segundos);
+
+		//Tiempo en linea
+		$tiempo_online = 86400 - $segundos;		
+		$historial_servicio['tiempo_online'] = $this->transformarSegundos($tiempo_online);
+
+		//Mayor Caida
+		$historial_servicio['mayor_caida'] = $this->transformarSegundos($caida_mayor);
+
+		//Mayor Caida
+		$historial_servicio['menor_caida'] = $this->transformarSegundos($caida_menor);
+
+				
+
+
+		echo json_encode($historial_servicio);
 	}
 
     	function  procesar_data(){   		    

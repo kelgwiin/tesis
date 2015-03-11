@@ -13,7 +13,7 @@
 		      foreach($servicios as $servicio)	{ 
 		      $options[$servicio->servicio_id] = $servicio->nombre;
 		       }?>
-		        <?php echo form_dropdown('servicios', $options,set_value('servicios',@$servicio_proceso_id),'class="form-control" id="dropdown_servicios" '); ?>
+		        <?php echo form_dropdown('servicios', $options,set_value('servicios','1'),'class="form-control" id="dropdown_servicios" '); ?>
 		  </div>
 		  <div class="form-group">
 			<div>
@@ -30,7 +30,7 @@
 		          </div> 
 		          <div>
 			<div class="input-group">
-				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value=""/>
+				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value="02/28/2015"/>
 				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			</div>
 		          </div>
@@ -59,7 +59,52 @@
 
 <br>
 
-<div >
+<div id='informacion_historial'>
+	<div  class="col-md-5">
+	     <div class="panel panel-default">
+  		<div class="panel-body">
+		<table class="table table-bordered">
+			<tr>
+				<td width="40%" class="active"><b>Disponibilidad (%)</b></td>
+				<td class='text-center' id="disponibilidad"></td>
+			</tr>	
+			<tr>
+				<td width="40%" class="active"><b>Tiempo Disponible</b></td>
+				<td class='text-center' id="tiempo_online"></td>
+			</tr>	
+			<tr>
+				<td width="40%" class="active" ><b>Numero de Caídas</b></td>
+				<td class='text-center' id='numero_caidas'></td>
+			</tr>	
+			<tr>
+				<td width="40%" class="active"><b>Tiempo Total Caído</b></td>
+				<td class='text-center' id="tiempo_caido"></td>
+			</tr>	
+			<tr>
+				<td width="40%" class="active"><b>Duración de Caída mas Larga</b></td>
+				<td class='text-center' id="mayor_caida"></td>
+			</tr>
+			<tr>
+				<td width="40%" class="active"><b>Duración de Caída mas Corta</b></td>
+				<td class='text-center' id="menor_caida"></td>
+			</tr>		
+		</table>
+		</div>
+	   </div>
+	</div>
+
+	<div  class="col-md-7">
+
+	   <div class="panel panel-default">
+  		<div class="panel-body">
+  			<div class="table-responsive" id='tabla_servicio'>
+
+                            	</div>
+
+  		</div>
+	   </div>
+
+	</div>
 
 </div>
 
