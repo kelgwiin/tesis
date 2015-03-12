@@ -35,6 +35,10 @@ function mostrarHistorial() {
                         $("#menor_caida").empty();
                         $("#disponibilidad").empty();
 
+
+                         $("#tabla_procesos").empty();
+                          $("#tabla_info").empty();
+
                        $.ajax({
                  
                             
@@ -50,17 +54,17 @@ function mostrarHistorial() {
                              success: function(data){
 
 
-
-                               var tabla_historial_servicio = '<table class="table table-bordered table-hover table-striped" id="tabla_caida_servicios">';
-                               tabla_historial_servicio = tabla_historial_servicio+'<thead>';
-                               tabla_historial_servicio = tabla_historial_servicio+'<tr>';
+                                // Creación de tabla de caídas de servicio
+                               var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios">';
+                               tabla_historial_servicio = tabla_historial_servicio+'<thead >';
+                               tabla_historial_servicio = tabla_historial_servicio+'<tr class="active">';
                                tabla_historial_servicio = tabla_historial_servicio+'<th>Inicio de Caída <i class="fa fa-sort"></i></th>';
                                tabla_historial_servicio = tabla_historial_servicio+'<th>Fin de Caída <i class="fa fa-sort"></i></th>';
-                               tabla_historial_servicio = tabla_historial_servicio+'<th>Duración de Caída <i class="fa fa-sort"></i></th>';
+                               tabla_historial_servicio = tabla_historial_servicio+'<th>Duración de Caída <i class="fa fa-sort"></i> <br><small>(hh:mm:ss)<small></th>';
                                tabla_historial_servicio = tabla_historial_servicio+'</tr>';
                                tabla_historial_servicio = tabla_historial_servicio+'</thead>';
 
-                              tabla_historial_servicio = tabla_historial_servicio+'<tbody id="cuerpo_tabla_servicio">';
+                              tabla_historial_servicio = tabla_historial_servicio+'<tbody">';
 
                                        
 
@@ -68,7 +72,7 @@ function mostrarHistorial() {
                                     tabla_historial_servicio = tabla_historial_servicio+'<tr>';
                                     tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.inicio_caida+'</td>';
                                     tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.fin_caida+'</td>';
-                                    tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.duracion_caida+'</td>';
+                                    tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.duracion_caida+' </td>';
                                     tabla_historial_servicio = tabla_historial_servicio+'</tr>';
                               });
 
@@ -78,11 +82,11 @@ function mostrarHistorial() {
                                $("#tabla_servicio").append(tabla_historial_servicio);
 
                                $("#numero_caidas").append(data.numero_caidas);
-                               $("#tiempo_caido").append(data.tiempo_caido);
-                               $("#tiempo_online").append(data.tiempo_online);
-                                $("#mayor_caida").append(data.mayor_caida);
-                                 $("#menor_caida").append(data.menor_caida);
-                                 $("#disponibilidad").append(data.disponibilidad);
+                               $("#tiempo_caido").append(" <h5>"+data.tiempo_caido+"</h5>");
+                               $("#tiempo_online").append(" <h5>"+data.tiempo_online+"</h5>");
+                                $("#mayor_caida").append(" <h5>"+data.mayor_caida+"</h5>");
+                                 $("#menor_caida").append(" <h5>"+data.menor_caida+"</h5>");
+                                 $("#disponibilidad").append(data.disponibilidad+" %");
 
                                $('#tabla_caida_servicios').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
                                .removeClass('tablesorter')
@@ -91,10 +95,103 @@ function mostrarHistorial() {
                                .removeClass('header headerSortDown headerSortUp');
 
                               $('#tabla_caida_servicios').dataTable( {
-                                "iDisplayLength": 5,
+                                "iDisplayLength": 4,
                                 "bLengthChange": false,
                                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
                                 });
+                              //Fin de creación de tabla de caídas de servicio
+
+
+                              //Creación de la tabla de caídas de procesos
+                              var tabla_historial_proceso = '<table class="table table-bordered" id="tabla_caida_procesos">';
+                               tabla_historial_proceso = tabla_historial_proceso+'<thead >';
+                               tabla_historial_proceso = tabla_historial_proceso+'<tr class="active">';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Proceso <i class="fa fa-sort"></i></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Inicio de Caída <i class="fa fa-sort"></i></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Fin de Caída <i class="fa fa-sort"></i></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Duración de Caída <i class="fa fa-sort"></i> <br><small>(hh:mm:ss)<small></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'</tr>';
+                               tabla_historial_proceso = tabla_historial_proceso+'</thead>';
+
+                              tabla_historial_proceso = tabla_historial_proceso+'<tbody>';
+
+                                       
+
+                              data.caidas_procesos.forEach(function(caida) {
+                                    tabla_historial_proceso = tabla_historial_proceso+'<tr>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+data.procesos_info[caida.proceso_id].nombre+'</td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.inicio_caida+'</td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.fin_caida+'</td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.duracion_caida+' </td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'</tr>';
+                              });
+
+                              tabla_historial_proceso = tabla_historial_proceso+ '</tbody>';
+                               tabla_historial_proceso = tabla_historial_proceso+ '</table>';
+
+                               $("#tabla_procesos").append(tabla_historial_proceso);
+
+                                $('#tabla_caida_procesos').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+                               .removeClass('tablesorter')
+                               .find('thead th')
+                               .unbind('click mousedown')
+                               .removeClass('header headerSortDown headerSortUp');
+
+                              $('#tabla_caida_procesos').dataTable( {
+                                "iDisplayLength": 4,
+                                "bLengthChange": false,
+                                "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
+                                });
+                              //Fin de Creación de tabla de caídas de procesos
+
+
+                              //Creación de la tabla con lo datos globales de caídas por proceso
+                               var tabla_info_proceso = '<table class="table table-bordered" id="tabla_info_procesos">';
+                               tabla_info_proceso = tabla_info_proceso+'<thead >';
+                               tabla_info_proceso = tabla_info_proceso+'<tr class="active">';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Proceso</th>';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Disponibilidad</th>';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Tiempo Disponible</th>';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Numero de Caídas</th>';
+                                tabla_info_proceso = tabla_info_proceso+'<th>Tiempo Total Caído</th>';
+                               tabla_info_proceso = tabla_info_proceso+'</tr>';
+                               tabla_info_proceso = tabla_info_proceso+'</thead>';
+
+                              tabla_info_proceso = tabla_info_proceso+'<tbody class="text-center">';
+
+                              data.servicio_procesos.forEach(function(proceso) {
+                                    var nombre_proceso = data.procesos_info[proceso.servicio_proceso_id].nombre;
+                                    //alert(nombre_proceso);
+                                    tabla_info_proceso = tabla_info_proceso+'<tr>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td class="active"><b><i>'+nombre_proceso+'</i></b></td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].disponibilidad+'</td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].tiempo_disponible+'</td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].caidas+' </td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].tiempo_caido+' </td>';
+                                    tabla_info_proceso = tabla_info_proceso+'</tr>';
+                              });
+
+                              tabla_historial_proceso = tabla_historial_proceso+ '</tbody>';
+                               tabla_historial_proceso = tabla_historial_proceso+ '</table>';
+
+                               $("#tabla_info").append(tabla_info_proceso);
+
+                               $('#tabla_info_procesos').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+                               .removeClass('tablesorter')
+                               .find('thead th')
+                               .unbind('click mousedown')
+                               .removeClass('header headerSortDown headerSortUp');
+
+                              $('#tabla_info_procesos').dataTable( {
+                                "iDisplayLength": 4,
+                                "bLengthChange": false,
+                                "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
+                                });
+
+                                       
+
+
+                              //Fin de la creación de la tabla con lo datos globales de caídas por proceso
                                                                                       
                              },
                              error: function(xhr, ajaxOptions, thrownError){

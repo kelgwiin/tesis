@@ -97,6 +97,19 @@ class Reportes extends MX_Controller
 		return (string)$duracion;
 	} 
 
+	function  tiempoSegundos($tiempo){
+
+		$tiempo = explode(":",$tiempo);
+
+		$horas = (int)$tiempo[0];
+		$mins = (int)$tiempo[1];
+		$segs = (int)$tiempo[2];
+
+		$segundos = ($horas*3600)+($mins*60)+($segs);
+
+		return $segundos;
+	} 
+
 
     	function index()
     		{
@@ -107,8 +120,6 @@ class Reportes extends MX_Controller
 
 
 	function historial_servicio(){
-
-
     		$data_view['servicios']= $this->general->get_table('servicio');
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/historial_servicio/historial_servicio',$data_view,'Reportes','','two_level');
 
@@ -176,7 +187,54 @@ class Reportes extends MX_Controller
 		//Mayor Caida
 		$historial_servicio['menor_caida'] = $this->transformarSegundos($caida_menor);
 
-				
+
+		//Informacion de Procesos por Servicio
+		$procesos_id = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=>$servicio_id));
+		$historial_servicio['servicio_procesos'] = $procesos_id;	
+
+
+		/****************************************************************************************************************/
+		//Almacenar informacion de caida de procesos
+		$historial_servicio['caidas_procesos'] = array();
+
+		foreach ($procesos_id as $proceso) {
+			$caidas_proceso = $this->general->get_result('proceso_caida_historial',array('proceso_id'=>$proceso->servicio_proceso_id));
+
+			$proceso_info[$proceso->servicio_proceso_id] = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$proceso->servicio_proceso_id));
+			$historial_servicio['procesos_info'] = $proceso_info;
+
+			$nombre_proceso = $proceso_info[$proceso->servicio_proceso_id]->nombre;
+
+			$tiempo_caido = 0;
+			foreach ($caidas_proceso as $caida) {
+				$inicio = date_create($caida->inicio_caida);
+				$caida->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
+
+				$fin = date_create($caida->fin_caida);
+				$caida->fin_caida =  date_format($fin,'d/m/Y h:i:s a');	
+
+				$tiempo_caida = $this->tiempoSegundos($caida->duracion_caida);
+
+				$tiempo_caido = $tiempo_caido + $tiempo_caida;			
+			}
+
+			$disponibilidad_proceso = round( ((100)-((100*$tiempo_caido)/86400)) , 2);
+			$tiempo_disponible_proceso = 86400 - $tiempo_caido;
+			$tiempo_disponible_proceso = $this->transformarSegundos($tiempo_disponible_proceso);
+			$numero_caidas = count($caidas_proceso);
+
+			$tiempo_caido = $this->transformarSegundos($tiempo_caido);
+
+			$historial_servicio['historial_procesos'][$nombre_proceso] = (object) array('disponibilidad' => $disponibilidad_proceso, 'tiempo_disponible' => $tiempo_disponible_proceso, 'caidas'=>$numero_caidas, 'tiempo_caido' => $tiempo_caido);
+
+
+			//Almacena todas las caidas por proceso
+			$historial_servicio['caidas_procesos'] = array_merge($historial_servicio['caidas_procesos'], $caidas_proceso);
+
+			
+		}
+			
+			
 
 
 		echo json_encode($historial_servicio);

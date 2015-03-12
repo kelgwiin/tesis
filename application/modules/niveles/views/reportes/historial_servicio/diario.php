@@ -1,5 +1,6 @@
 
 <br>
+
 <div class="row">
 	 <div class="col-md-3 col-md-offset-3">
 		  <div class="form-group">
@@ -57,54 +58,101 @@
 
 </div>
 
-<br>
+<hr>
 
 <div id='informacion_historial'>
-	<div  class="col-md-5">
-	     <div class="panel panel-default">
-  		<div class="panel-body">
-		<table class="table table-bordered">
-			<tr>
-				<td width="40%" class="active"><b>Disponibilidad (%)</b></td>
-				<td class='text-center' id="disponibilidad"></td>
-			</tr>	
-			<tr>
-				<td width="40%" class="active"><b>Tiempo Disponible</b></td>
-				<td class='text-center' id="tiempo_online"></td>
-			</tr>	
-			<tr>
-				<td width="40%" class="active" ><b>Numero de Caídas</b></td>
-				<td class='text-center' id='numero_caidas'></td>
-			</tr>	
-			<tr>
-				<td width="40%" class="active"><b>Tiempo Total Caído</b></td>
-				<td class='text-center' id="tiempo_caido"></td>
-			</tr>	
-			<tr>
-				<td width="40%" class="active"><b>Duración de Caída mas Larga</b></td>
-				<td class='text-center' id="mayor_caida"></td>
-			</tr>
-			<tr>
-				<td width="40%" class="active"><b>Duración de Caída mas Corta</b></td>
-				<td class='text-center' id="menor_caida"></td>
-			</tr>		
-		</table>
+
+
+	<div class="row" style=" padding: 45px;">
+		<div class="well well-sm"><h4>Datos de los Procesos que soportan al Servicio</h4></div>
+		<div  class="col-md-5">
+		     <div class="panel panel-primary">
+		     	<div class="panel-heading"><b>Datos de Disponibilidad y Caídas</b></div>
+	  		<div class="panel-body"><br>
+			<table class="table table-bordered">
+				<tr>
+					<td width="40%" class="active"><b>Disponibilidad (%)</b></td>
+					<td class='text-center' id="disponibilidad"></td>
+				</tr>	
+				<tr>
+					<td width="40%" class="active"><b>Tiempo Disponible</b> </td>
+					<td class='text-center' id="tiempo_online"></td>
+				</tr>	
+				<tr>
+					<td width="40%" class="active" ><b>Numero de Caídas</b></td>
+					<td class='text-center' id='numero_caidas'></td>
+				</tr>	
+				<tr>
+					<td width="40%" class="active"><b>Tiempo Total Caído</b></td>
+					<td class='text-center' id="tiempo_caido"></td>
+				</tr>	
+				<tr>
+					<td width="40%" class="active"><b>Duración de Caída mas Larga</b></td>
+					<td class='text-center' id="mayor_caida"></td>
+				</tr>
+				<tr>
+					<td width="40%" class="active"><b>Duración de Caída mas Corta</b></td>
+					<td class='text-center' id="menor_caida"></td>
+				</tr>		
+			</table>
+			<small>* Los tiempos son mostrados en base a 24hrs (hh:mm:ss) </small>
+			</div>
+		   </div>
 		</div>
-	   </div>
+		
+
+		<div  class="col-md-7">
+
+		   <div class="panel panel-primary" style="height: 405px;">
+		   	<div class="panel-heading"><b> Caídas Registradas por Servicio</b></div>
+	  		<div class="panel-body">
+
+	  			<div class="table-responsive" id='tabla_servicio'>
+
+	                            	</div>
+
+	  		</div>
+		   </div>
+
+		</div>
+
 	</div>
 
-	<div  class="col-md-7">
+	<hr>
 
-	   <div class="panel panel-default">
-  		<div class="panel-body">
-  			<div class="table-responsive" id='tabla_servicio'>
+	<div  class="row" style="padding: 45px;">
+	<div class="well well-sm"><h4>Datos de los Procesos que soportan al Servicio</h4></div>	
+		<div  class="col-md-6">
+		      <div class="panel panel-primary">
+		   	<div class="panel-heading"><b> Procesos Críticos que Soportan al Servicio</b></div>
+	  		<div class="panel-body">
 
-                            	</div>
+	  			<div class="table-responsive" id='tabla_info'>
 
-  		</div>
-	   </div>
+	                            	</div>
+	                            	<small>* Los tiempos son mostrados en base a 24hrs (hh:mm:ss) </small>
+
+	  		</div>
+		   </div>
+		</div>
+
+		<div  class="col-md-6">
+		   <div class="panel panel-primary">
+		   	<div class="panel-heading"><b> Caídas Registradas por Procesos que Soportan al Servicio</b></div>
+	  		<div class="panel-body">
+
+	  			<div class="table-responsive" id='tabla_procesos'>
+
+	                            	</div>
+	                            	
+
+	  		</div>
+		   </div>
+		 </div>
 
 	</div>
+
+	<hr>
 
 </div>
 
