@@ -52,13 +52,15 @@
 	     </div>
 
 	     <div class="">
-		<a class="btn btn-info" id="buscar_historial" onclick="mostrarHistorial();"> <i class="fa fa-search"></i> Buscar </a>
+		<a class="btn btn-info" id="buscar_historial" onclick="mostrarHistorialDiario();"> <i class="fa fa-search"></i> Buscar </a>
 	     </div>
-	 </div>
+	  </div>
 
 </div>
 
-
+<div id='no_info' style="display:none">
+<hr> <div class="alert alert-warning col-md-8 col-md-offset-2 text-center" role="alert"> <b>No existe información para el Servicio y Día Solicitados </b> </div>
+</div>
 
 <div id='informacion_historial' style="display:none">
 <hr>

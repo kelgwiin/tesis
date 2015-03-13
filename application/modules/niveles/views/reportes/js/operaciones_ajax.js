@@ -1,4 +1,4 @@
-function mostrarHistorial() {
+function mostrarHistorialDiario() {
 
 	var existe_error = false;
 
@@ -11,7 +11,7 @@ function mostrarHistorial() {
          		$("#error_servicio").empty();
          	}
 
-         	if($("#dia_historial").val() == ''){
+         	 if($("#dia_historial").val() == ''){
          		$("#error_dia").empty();
          		$("#error_dia").append('Seleccione un Día');
          		existe_error = true;
@@ -55,6 +55,13 @@ function mostrarHistorial() {
 
                              success: function(data){
 
+                            $("#informacion_historial").hide();
+                             $("#no_info").hide();
+
+                            if(data.caidas_servicio.length == 0){
+                                        $("#no_info").fadeIn();
+                            }
+                            else{
 
                                 // Creación de tabla de caídas de servicio
                                var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios">';
@@ -358,9 +365,11 @@ function mostrarHistorial() {
                                                                         }
                                                                }
                                                             }]
-                                                });                                                                                      
-                             
+                                                });  
 
+                                            $("#informacion_historial").fadeIn();
+                             
+                                    }// Fin del else
 
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -400,63 +409,5 @@ $( document ).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
-
-/*var dataq = new Array(new Array ('Proceso 1', 100), new Array('Proceso 2', 5.1),new Array('Proceso 3', 87.2));
-
- $('#grafica_disponibilidad_procesos').highcharts({
-        chart: {
-            type: 'column'
-        },
-        exporting: { enabled: false },
-                credits: {
-                  enabled: false
-              },
-        title: {
-            text: 'Disponibilidad por Procesos'
-        },
-        subtitle: {
-            text: 'nombre del servicio'
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                rotation: -45,
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        },
-        yAxis: {
-            min: 0,
-            max: 100,
-            title: {
-                text: 'Disponibilidad (%)'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        tooltip: {
-            pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'
-        },
-        series: [{
-            color: '#52CC7A',
-            name: 'Population',
-            data:dataq ,
-            dataLabels: {
-                enabled: true,
-                //rotation: -90,
-                color: '#000000',
-                align: 'center',
-                format: '<b>{point.y:.2f} %</b>', // two decimal
-                y: 25, // 25 pixels down from the top
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        }]
-    });*/
 
 });
