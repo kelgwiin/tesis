@@ -1,8 +1,61 @@
+function mostrarHistorialSemanal() {
+
+    var existe_error = false;
+
+    if($("#dropdown_servicios_semanal").val() == 'seleccione'){
+                $("#error_servicio_semanal").empty();
+                $("#error_servicio_semanal").append('Seleccione un Servicio');
+                existe_error = true;
+            }
+            else{
+                $("#error_servicio_semanal").empty();
+            }
+
+             if($("#dia_historial_semanal").val() == ''){
+                $("#error_semanal").empty();
+                $("#error_semanal").append('Seleccione un Día');
+                existe_error = true;
+
+            }
+            else{
+                $("#error_semanal").empty();        
+            }
+
+            if (existe_error == false) {}
+
+}
+
+
+
 $( document ).ready(function() {
+
+            $("#dropdown_servicios_semanal").change(function () {
+            if($("#dropdown_servicios_semanal").val() != 'seleccione'){             
+                        $("#error_servicio_semanal").empty();
+                    }   
+            });
+
+            $("#dia_historial_semanal").change(function () {
+                if($("#dia_historial_semanal").val() != ''){            
+                            $("#error_semanal").empty();
+                        }   
+                });
+
+
+                $('#dia_historial_semanal').datetimepicker({
+                    daysOfWeekDisabled: [0,2,3,4,5,6],
+                    pickTime: false,
+                     icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down"
+                }
+                });
 
 
             //Gráfica
-            $('#container123').highcharts({
+          /*  $('#container123').highcharts({
                 exporting: { enabled: false },
                 credits: {
                       enabled: false
@@ -93,7 +146,7 @@ $( document ).ready(function() {
                     /*layout: 'vertical',
                     align: 'right',
                     verticalAlign: 'middle',*/
-                    layout: 'horizontal',
+                 /*   layout: 'horizontal',
                     align: 'center',
                     verticalAlign: 'bottom',
                     borderWidth: 0
@@ -111,7 +164,7 @@ $( document ).ready(function() {
                     name: 'London',
                     data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
                 }]
-            });
+            });*/
 
 
 

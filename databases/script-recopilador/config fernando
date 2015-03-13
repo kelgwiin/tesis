@@ -1,5 +1,5 @@
 [variables]
-commands = chrome,vlc,smartgit,firefox,mysql-workbench,apache,mysql
+commands = chrome,vlc,smartgit,firefox,mysql-workbench
 interval = 5
 ps_mem = False
 logtime = False

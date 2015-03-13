@@ -2,8 +2,8 @@ function mostrarHistorialDiario() {
 
 	var existe_error = false;
 
-	if($("#dropdown_servicios").val() == 'seleccione'){         	
-         		$("#error_dia").empty();
+	if($("#dropdown_servicios").val() == 'seleccione'){ 
+                  $("#error_servicio").empty();
          		$("#error_servicio").append('Seleccione un Servicio');
          		existe_error = true;
          	}

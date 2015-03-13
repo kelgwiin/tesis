@@ -1,8 +1,7 @@
 [variables]
-commands = chrome,vlc,smartgit,firefox,mysql-workbench
+commands = chrome,vlc,smartgit,firefox,mysql-workbench,apache,mysql
 interval = 5
 ps_mem = False
 logtime = False
 storepath = /home/
 per_threads = False
-interface = wlan0
