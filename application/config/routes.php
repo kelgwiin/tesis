@@ -139,6 +139,7 @@ $route['niveles_de_servicio/gestion_Revisiones/eliminar_evento'] = "niveles/revi
 
 $route['niveles_de_servicio/gestion_Reportes'] = "niveles/reportes/reportes";
 $route['niveles_de_servicio/gestion_Reportes/procesar_data'] = "niveles/reportes/procesar_data";
+$route['niveles_de_servicio/gestion_Reportes/historial_servicio'] = "niveles/reportes/historial_servicio";
 
 
 

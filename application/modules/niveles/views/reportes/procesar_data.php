@@ -135,6 +135,6 @@ echo $servicios_caida['chrome'][1]->estado;*/
 
 if ($tiempo_inicio < $tiempo_culminacion) {
 	echo 'el tiempo de inicio es menor';
-}*/
+}*/ 
 
 ?>

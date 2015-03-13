@@ -74,6 +74,42 @@ class Reportes extends MX_Controller
 	}
 
 
+	function  transformarSegundos($segundos){
+
+		$horas = floor($segundos / 3600);
+		$mins = floor(($segundos - ($horas*3600)) / 60);
+		$segs = floor($segundos % 60);
+
+		if(strlen((string)$horas) == 1){
+			$horas = '0'.$horas;
+		}
+
+		if(strlen((string)$mins) == 1){
+			$mins = '0'.$mins;
+		}
+
+		if(strlen((string)$segs) == 1){
+			$segs = '0'.$segs;
+		}
+
+		$duracion = $horas.":".$mins.":".$segs;
+
+		return (string)$duracion;
+	} 
+
+	function  tiempoSegundos($tiempo){
+
+		$tiempo = explode(":",$tiempo);
+
+		$horas = (int)$tiempo[0];
+		$mins = (int)$tiempo[1];
+		$segs = (int)$tiempo[2];
+
+		$segundos = ($horas*3600)+($mins*60)+($segs);
+
+		return $segundos;
+	} 
+
 
     	function index()
     		{
@@ -82,8 +118,131 @@ class Reportes extends MX_Controller
 
     		}
 
-    	function  procesar_data()
-    		{   		    
+
+	function historial_servicio(){
+    		$data_view['servicios']= $this->general->get_table('servicio');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/historial_servicio/historial_servicio',$data_view,'Reportes','','two_level');
+
+
+	}
+
+	function obtener_historial_servicio_dia(){
+
+		$servicio_id = $this->input->post('servicio_id');
+
+		$fecha_dia = $this->input->post('dia'); 
+		$inicio = date_create($fecha_dia);
+		$fecha_dia = date_format($inicio,"Y-m-d");
+
+		$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
+
+		$historial = $historial_servicio['caidas_servicio'];
+
+		// Transformar formato datetime a solo tiempo
+		$i = 0;
+		$tiempo_caida = 0;
+		$caida_mayor = 0;
+		$caida_menor = 0;
+		foreach ($historial as  $registro) {
+			$inicio = date_create($historial_servicio['caidas_servicio'][$i]->inicio_caida);
+			$historial_servicio['caidas_servicio'][$i]->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
+
+			$fin = date_create($historial_servicio['caidas_servicio'][$i]->fin_caida);
+			$historial_servicio['caidas_servicio'][$i]->fin_caida =  date_format($fin,'d/m/Y h:i:s a');
+
+			$tiempo_caida = $tiempo_caida + $registro->duracion_caida_seg;
+
+			if($registro->duracion_caida_seg > $caida_mayor){
+				$caida_mayor = $registro->duracion_caida_seg;
+			}
+
+			if($caida_menor  == 0){
+				$caida_menor = $registro->duracion_caida_seg;
+			} 
+			if( ($caida_menor  != 0) && ($registro->duracion_caida_seg < $caida_menor) ){
+				$caida_menor =$registro->duracion_caida_seg;
+			}
+
+			$i++;
+		}
+
+		$segundos = $tiempo_caida;
+
+		//Disponibilidad
+		$historial_servicio['disponibilidad'] = round( ((100)-((100*$segundos)/86400)) , 2);
+
+		//Numero de caidas
+		$historial_servicio['numero_caidas'] = count($historial);
+
+		//Duracion de caida
+		$historial_servicio['tiempo_caido'] = $this->transformarSegundos($segundos);
+
+		//Tiempo en linea
+		$tiempo_online = 86400 - $segundos;		
+		$historial_servicio['tiempo_online'] = $this->transformarSegundos($tiempo_online);
+
+		//Mayor Caida
+		$historial_servicio['mayor_caida'] = $this->transformarSegundos($caida_mayor);
+
+		//Mayor Caida
+		$historial_servicio['menor_caida'] = $this->transformarSegundos($caida_menor);
+
+
+		//Informacion de Procesos por Servicio
+		$procesos_id = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=>$servicio_id));
+		$historial_servicio['servicio_procesos'] = $procesos_id;	
+
+
+		/****************************************************************************************************************/
+		//Almacenar informacion de caida de procesos
+		$historial_servicio['caidas_procesos'] = array();
+
+		foreach ($procesos_id as $proceso) {
+			$caidas_proceso = $this->general->get_result('proceso_caida_historial',array('proceso_id'=>$proceso->servicio_proceso_id));
+
+			$proceso_info[$proceso->servicio_proceso_id] = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$proceso->servicio_proceso_id));
+			$historial_servicio['procesos_info'] = $proceso_info;
+
+			$nombre_proceso = $proceso_info[$proceso->servicio_proceso_id]->nombre;
+
+			$tiempo_caido = 0;
+			foreach ($caidas_proceso as $caida) {
+				$inicio = date_create($caida->inicio_caida);
+				$caida->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
+
+				$fin = date_create($caida->fin_caida);
+				$caida->fin_caida =  date_format($fin,'d/m/Y h:i:s a');	
+
+				$tiempo_caida = $this->tiempoSegundos($caida->duracion_caida);
+
+				$tiempo_caido = $tiempo_caido + $tiempo_caida;			
+			}
+
+			$disponibilidad_proceso = round( ((100)-((100*$tiempo_caido)/86400)) , 2);
+			$tiempo_disponible_proceso = 86400 - $tiempo_caido;
+			$tiempo_disponible_proceso = $this->transformarSegundos($tiempo_disponible_proceso);
+			$numero_caidas = count($caidas_proceso);
+
+			$tiempo_segundos = $tiempo_caido;
+
+			$tiempo_caido = $this->transformarSegundos($tiempo_caido);
+
+			$historial_servicio['historial_procesos'][$nombre_proceso] = (object) array('disponibilidad' => $disponibilidad_proceso, 'tiempo_disponible' => $tiempo_disponible_proceso, 'caidas'=>$numero_caidas, 'tiempo_caido' => $tiempo_caido, 'segundos' => $tiempo_segundos);
+
+
+			//Almacena todas las caidas por proceso
+			$historial_servicio['caidas_procesos'] = array_merge($historial_servicio['caidas_procesos'], $caidas_proceso);
+
+			
+		}
+			
+			
+
+
+		echo json_encode($historial_servicio);
+	}
+
+    	function  procesar_data(){   		    
     		    
 
     		    // Creacion de array con la informacion de cuales servicios son soportados por cada proceso.
@@ -355,6 +514,8 @@ class Reportes extends MX_Controller
 
 
 }
+
+
 
 
 ?>
