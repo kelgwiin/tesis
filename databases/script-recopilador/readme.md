@@ -57,16 +57,16 @@ per_threads = True
 * per_threads: This flags is used for detailing threads in the target csv or to consolidate data per process.
 
 
-Bash script:
+poller_daemon.py:
 ------------
 
-I created a bash script for a painless install/uninstall of script as service.
+I created a python script that manages installs, uninstalls and start de poller_csv script as daemon for a painless install/uninstall of script as service.
 
 ```
-poller_csv.sh {install|uninstall|start|stop|restart|status}
+poller_daemon.py {install|uninstall|start|stop|restart|status}
 
 ```
 
-* install Install the script to the init.d directory.
-* uninstall Deletes the script from the init.d directory.
-* start|stop|restart|status Self explanatory
+* install Install the script to the /usr/bin directory.
+* uninstall Deletes the script from the /usr/bin directory and asks for deleting data repository.
+* start|stop|restart Self explanatory basic actions for poller_csv script

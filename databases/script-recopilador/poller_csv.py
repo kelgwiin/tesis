@@ -20,13 +20,55 @@ import argparse
 import logging.handlers
 import ConfigParser
 import errno
-from daemon import Daemon
+import atexit
 from collections import defaultdict
+pidfile = "/tmp/poller_csv.pid"
 
 
-class PollerDaemon(Daemon):
-    def run(self):
-        main()
+def get_pid():
+    try:
+        pf = file(pidfile, 'r')
+        pid = int(pf.read().strip())
+        pf.close()
+    except IOError:
+        pid = None
+    except SystemExit:
+        pid = None
+    return pid
+
+
+def delpid():
+    if get_pid():
+        os.remove(pidfile)
+
+
+def create_pid():
+    # Write pidfile
+    atexit.register(delpid)  # Make sure pid file is removed if we quit
+    file(pidfile, 'w+').write("%s\n" % str(os.getpid()))
+
+
+def register_pid():
+    pid = get_pid()
+    if pid:
+        message = "pidfile %s already exists. Attempting to kill previous instance and create a new one.! \n"
+        sys.stderr.write(message % pidfile)
+        try:
+            i = 0
+            while 1:
+                os.kill(pid, signal.SIGTERM)
+                time.sleep(0.1)
+                i = i + 1
+                if i % 10 == 0:
+                    os.kill(pid, signal.SIGHUP)
+        except OSError, err:
+            err = str(err)
+            if err.find("No such process") > 0:
+                if os.path.exists(pidfile):
+                    os.remove(pidfile)
+            else:
+                print str(err)
+    create_pid()
 
 
 # DEFAULTS
@@ -93,9 +135,13 @@ def set_exit_handler(func):
     signal.signal(signal.SIGTERM, func)
 
 
-def on_exit(sig, func=sys.exit):
-    print "exit handler triggered"
-    func(sig)
+def on_exit(sig=0, func=sys.exit):
+    try:
+        print "exit handler triggered"
+        func(sig)
+    except:
+        print "Bug-TypeError-EasterEgg :D"
+        sys.exit(0)
 
 
 def log_filename():
@@ -443,7 +489,6 @@ def read_config():
         interface = args.interface
         tiempos = False
     else:
-        print "Reading config..."
         try:
             with open('config') as f:
                 configParser = ConfigParser.RawConfigParser()
@@ -473,6 +518,7 @@ def main():
     args_parser()
     read_config()
     set_exit_handler(on_exit)
+    register_pid()
     global iterate
     global count
     if not out_term:

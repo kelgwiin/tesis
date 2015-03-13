@@ -6,35 +6,38 @@ import shutil
 import subprocess
 import errno
 import dis
+import signal
+import time
 import poller_csv
-
 
 poller_dir = "/usr/poller_csv"
 stats_dir = "/home/poller_csv"
-pid_dir = "/tmp/poller_daemon.pid"
-poller_pid = "/tmp/poller_csv.pid"
+pidfile = "/tmp/poller_csv.pid"
 files = ["/config", "/poller_csv.py", "/daemon.py", "/ps_mem.py", "/readme.md",
          "/poller_daemon.py"]
 cron = "/etc/crontab"
 cronjob = "@reboot python %s/poller_daemon.py start &" % poller_dir
-poller_script = "%s/poller_csv.py" % poller_dir
+poller_script = "%s/poller_csv.py &" % poller_dir
 poller_exec = "python %s" % poller_script
-proc_child = None
 
 
-daemon = poller_csv.PollerDaemon(pid_dir)
+def start():
+    os.system(poller_exec)
+    print "Daemon started."
+
+def get_pid():
+    try:
+        pf = file(pidfile, 'r')
+        pid = int(pf.read().strip())
+        pf.close()
+    except IOError:
+        pid = None
+    except SystemExit:
+        pid = None
+    return pid
 
 
 def query_yes_no(question, default="yes"):
-    """Ask a yes/no question via raw_input() and return their answer.
-
-    "question" is a string that is presented to the user.
-    "default" is the presumed answer if the user just hits <Enter>.
-        It must be "yes" (the default), "no" or None (meaning
-        an answer is required of the user).
-
-    The "answer" return value is True for "yes" or False for "no".
-    """
     valid = {"yes": True, "y": True, "ye": True,
              "no": False, "n": False}
     if default is None:
@@ -151,12 +154,38 @@ def delete_dir():
 
 
 def try_stop():
-    if not os.path.exists(pid_dir) and not os.path.exists(poller_pid):
-        print "Daemon not running."
-    else:
-        #proc_child.kill()
-        daemon.stop()
+    pid = get_pid()
+    if not pid:
+        message = "pidfile %s does not exist. Poller_Daemon not running!\n"
+        sys.stderr.write(message % pidfile)
+
+        if os.path.exists(pidfile):
+            os.remove(pidfile)
+
+        return  # Not an error in a restart
+    try:
+        i = 0
+        while 1:
+            os.kill(pid, signal.SIGTERM)
+            time.sleep(0.1)
+            i = i + 1
+            if i % 10 == 0:
+                os.kill(pid, signal.SIGHUP)
         print "Daemon stopped."
+    except OSError, err:
+        err = str(err)
+        if err.find("No such process") > 0:
+            if os.path.exists(pidfile):
+                os.remove(pidfile)
+        else:
+            print str(err)
+
+
+def check_install(func):
+    if not os.path.exists(poller_dir):
+        print "poller_csv files not installed!."
+    else:
+        func()
 
 
 def main():
@@ -165,19 +194,12 @@ def main():
                                                 sys.version_info[2])
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
-            if not os.path.exists(poller_dir):
-                print "poller_csv files not installed!."
-            else:
-                daemon.start()
-                #dis.disassemble(daemon.start())
-                print "Daemon started."
+            check_install(start)
         elif 'stop' == sys.argv[1]:
-            if not os.path.exists(poller_dir):
-                print "poller_csv files not installed!."
-            else:
-                try_stop()
+            check_install(try_stop)
         elif 'restart' == sys.argv[1]:
-            daemon.restart()
+            check_install(try_stop)
+            check_install(start)
         elif 'install' == sys.argv[1]:
             print "Creating directory and files necessary for the Poller_csv Daemon."
             create_directory(poller_dir)

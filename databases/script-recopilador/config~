@@ -1,7 +1,0 @@
-[variables]
-commands = chrome,vlc,smartgit,firefox,mysql-workbench
-interval = 5
-ps_mem = False
-logtime = False
-storepath = /home/
-per_threads = False
