@@ -58,10 +58,10 @@
 
 </div>
 
+
+
+<div id='informacion_historial' style="display:none">
 <hr>
-
-<div id='informacion_historial'>
-
 
 	<div class="row" style=" padding: 45px;">
 		<div class="well well-sm"><h4>Datos de los Procesos que soportan al Servicio</h4></div>
@@ -153,6 +153,26 @@
 	</div>
 
 	<hr>
+
+<div class="row" style="padding: 45px;">
+<div class="well well-sm"><h4>Gráficos de Comportamiento de los Procesos</h4></div>
+	<div class="panel with-nav-tabs panel-primary">
+                <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1default_procesos" data-toggle="tab">Disponibilidad</a></li>
+                            <li><a href="#tab2default_procesos" data-toggle="tab">Numero de Caídas</a></li>
+                            <li><a href="#tab3default_procesos" data-toggle="tab">Tiempo Caído</a></li>
+                        </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1default_procesos"><div id='grafica_disponibilidad_procesos' class="col-md-offset-2" style="height: 500px; width: 750px; "></div></div>
+                        <div class="tab-pane fade" id="tab2default_procesos"><div id='grafica_caidas_procesos' class="col-md-offset-2" style="height: 500px; width: 750px;"></div></div>
+                        <div class="tab-pane fade" id="tab3default_procesos"><div id='grafica_tiempo_procesos' class="col-md-offset-2" style="height: 500px; width: 750px;"></div></div>
+                    </div>
+                </div>
+            </div>
+</div>
 
 </div>
 

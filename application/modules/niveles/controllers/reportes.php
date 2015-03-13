@@ -223,9 +223,11 @@ class Reportes extends MX_Controller
 			$tiempo_disponible_proceso = $this->transformarSegundos($tiempo_disponible_proceso);
 			$numero_caidas = count($caidas_proceso);
 
+			$tiempo_segundos = $tiempo_caido;
+
 			$tiempo_caido = $this->transformarSegundos($tiempo_caido);
 
-			$historial_servicio['historial_procesos'][$nombre_proceso] = (object) array('disponibilidad' => $disponibilidad_proceso, 'tiempo_disponible' => $tiempo_disponible_proceso, 'caidas'=>$numero_caidas, 'tiempo_caido' => $tiempo_caido);
+			$historial_servicio['historial_procesos'][$nombre_proceso] = (object) array('disponibilidad' => $disponibilidad_proceso, 'tiempo_disponible' => $tiempo_disponible_proceso, 'caidas'=>$numero_caidas, 'tiempo_caido' => $tiempo_caido, 'segundos' => $tiempo_segundos);
 
 
 			//Almacena todas las caidas por proceso

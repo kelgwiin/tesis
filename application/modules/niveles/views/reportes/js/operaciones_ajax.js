@@ -36,8 +36,10 @@ function mostrarHistorial() {
                         $("#disponibilidad").empty();
 
 
-                         $("#tabla_procesos").empty();
-                          $("#tabla_info").empty();
+                        $("#tabla_procesos").empty();
+                        $("#tabla_info").empty();
+
+
 
                        $.ajax({
                  
@@ -186,13 +188,180 @@ function mostrarHistorial() {
                                 "iDisplayLength": 4,
                                 "bLengthChange": false,
                                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
-                                });
+                                });       
+                             //Fin de la creación de la tabla con lo datos globales de caídas por proceso
 
-                                       
+
+                             //***************************************************************************
+                             //GRAFICAS
+
+                             //Gráfica de Disponibilidad de procesos///////////////////////////////////////////////////////
+
+                                 //Preparando los datos
+                                 var datos_disponibilidad = new Array ();
+                                 var datos_caidas = new Array ();
+                                  var datos_tiempos = new Array ();
+
+                                 data.servicio_procesos.forEach(function(proceso) {
+                                    var nombre_proceso = data.procesos_info[proceso.servicio_proceso_id].nombre;
+                                    var disponibilidad_proceso = data.historial_procesos[nombre_proceso].disponibilidad;
+
+                                    var numero_caidas = data.historial_procesos[nombre_proceso].caidas;
+                                    //var tiempo_caido = data.historial_procesos[nombre_proceso].tiempo_caido;
+                                    var tiempo_caido = data.historial_procesos[nombre_proceso].segundos;
+
+                                    datos_disponibilidad.push(new Array (nombre_proceso, disponibilidad_proceso)); 
+                                    datos_caidas.push(new Array (nombre_proceso, numero_caidas)); 
+                                    datos_tiempos.push(new Array (nombre_proceso, tiempo_caido*1000)); 
+                                 });
+
+                                 var nombre_servicio = $( "#dropdown_servicios option:selected" ).text();
+
+                                 // Dibujando la gráfica
+                                    $('#grafica_disponibilidad_procesos').highcharts({
+                                            chart: { type: 'column'},
+                                            exporting: { enabled: false },
+                                            credits: {enabled: false},
+                                            title: {text: 'Disponibilidad por Procesos'},
+                                            subtitle: {text: nombre_servicio},
+                                            xAxis: {
+                                                type: 'category',
+                                                labels: {
+                                                    rotation: -45,
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            },
+                                            yAxis: {
+                                                min: 0,
+                                                tickInterval: 20,
+                                                title: {
+                                                    text: 'Disponibilidad (%)'
+                                                }
+                                            },
+                                            legend: {enabled: false},
+                                            tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'},
+                                            series: [{
+                                                color: '#52CC7A',
+                                                data: datos_disponibilidad,
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    //rotation: -90,
+                                                    color: '#000000',
+                                                    align: 'center',
+                                                    format: '<b>{point.y:.2f} %</b>', // two decimal
+                                                    y: 25, // 25 pixels down from the top
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            }]
+                                        });
+
+                                    //Gráfica de Caídas de procesos///////////////////////////////////////////////////////
+                                    // Dibujando la gráfica
+                                    $('#grafica_caidas_procesos').highcharts({
+                                            chart: {type: 'column' },
+                                            exporting: { enabled: false },
+                                             credits: {enabled: false },
+                                            title: {  text: 'Caídas por Procesos'},
+                                            subtitle: { text: nombre_servicio },
+                                            xAxis: {
+                                                type: 'category',
+                                                labels: {
+                                                    rotation: -45,
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            },
+                                            yAxis: {
+                                                min: 0,
+                                                title: {
+                                                    text: 'Nº de Caídas'
+                                                }
+                                            },
+                                            legend: { enabled: false },
+                                            tooltip: {
+                                                pointFormat: 'Nº de Caídas: <b>{point.y:.0f}</b>'
+                                            },
+                                            series: [{
+                                                color: '#FF8533',
+                                                data: datos_caidas,
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    color: '#000000',
+                                                    align: 'center',
+                                                    format: '<b>{point.y:.0f}</b>', // two decimal
+                                                    y: 25, // 25 pixels down from the top
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            }]
+                                        });
+
+                                
+                                    //Gráfica de Tiempo total Caído de procesos///////////////////////////////////////////////////////
+                                    // Dibujando la gráfica
+                                    $('#grafica_tiempo_procesos').highcharts({
+
+                                            title: {  text: 'Tiempo Total Caído por Procesos'},
+                                            subtitle: { text: nombre_servicio },
+                                                chart: { type: 'column' },
+                                                legend: { enabled: false },  
+                                                exporting: { enabled: false },
+                                                    credits: { enabled: false },          
+                                               xAxis: {
+                                                 type: 'category',
+                                                 labels: {
+                                                 rotation: -45,
+                                                  style: {
+                                                             fontSize: '13px',
+                                                               fontFamily: 'Verdana, sans-serif'
+                                                             }
+                                                         }
+                                                },            
+                                                yAxis: {
+                                                    type: 'datetime', 
+                                                     //tickInterval: 0.5 * 60 * 1000,
+                                                      dateTimeLabelFormats: { 
+                                                            second: '%H:%M:%S',
+                                                            minute: '%H:%M:%S',
+                                                            hour: '%H:%M:%S',
+                                                            day: '%H:%M:%S',
+                                                             week: '%H:%M:%S',
+                                                             month: '%H:%M:%S',
+                                                             year: '%H:%M:%S'
+                                                  },
+                                                 title: {  text: 'Tiempo (hh:mm:ss)'}
+                                                },
+                                                tooltip: { pointFormat: 'Tiempo Total Caído: <b>{point.y:%H:%M:%S} (hh:mm:ss)</b>' },
+                                                 series: [{
+                                                               color: '#669999',
+                                                               data: datos_tiempos,
+                                                                 dataLabels: {
+                                                                                        enabled: true,
+                                                                                        //rotation: -90,
+                                                                                        color: '#000000',
+                                                                                        align: 'center',
+                                                                                        format: '<b>{point.y:%H:%M:%S}</b>', // two decimal
+                                                                                        y: 25, // 25 pixels down from the top
+                                                                                        style: {
+                                                                                            fontSize: '13px',
+                                                                                            fontFamily: 'Verdana, sans-serif'
+                                                                        }
+                                                               }
+                                                            }]
+                                                });                                                                                      
+                             
 
 
-                              //Fin de la creación de la tabla con lo datos globales de caídas por proceso
-                                                                                      
                              },
                              error: function(xhr, ajaxOptions, thrownError){
                                    alert(xhr.status+" "+thrownError);
@@ -232,118 +401,62 @@ $( document ).ready(function() {
                 }
                 });
 
+/*var dataq = new Array(new Array ('Proceso 1', 100), new Array('Proceso 2', 5.1),new Array('Proceso 3', 87.2));
 
-            //Gráfica
-            $('#container123').highcharts({
-                exporting: { enabled: false },
-                credits: {
-                      enabled: false
-                  },
-                title: {
-                    text: 'Monthly Average Temperature',
-                    x: -20 //center
-                },
-                subtitle: {
-                    text: 'Source: WorldClimate.com',
-                    x: -20
-                },
-                xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                },
-                yAxis: {
-                    min: 0,
-                    minRange: 0.1,
-                    title: {
-                        text: 'Temperature (°C)'
-                    },
-                    plotLines: [{
-                        value: 0,
-                        width: 1,
-                        color: '#808080'
-                    }]
-                },
-                tooltip: {
-                    valueSuffix: '°C'
-                },
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    borderWidth: 0
-                },
-                series: [{
-                    name: 'Tokyo',
-                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-                }, {
-                    name: 'New York',
-                    data: [ 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-                }, {
-                    name: 'Berlin',
-                    data: [0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-                }, {
-                    name: 'London',
-                    data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-                }]
-            });
-
-//Gráfica
-            $('#container1234').highcharts({
-                title: {
-                    text: 'Monthly Average Temperature',
-                    x: -20 //center
-                },
-                exporting: { enabled: false },
+ $('#grafica_disponibilidad_procesos').highcharts({
+        chart: {
+            type: 'column'
+        },
+        exporting: { enabled: false },
                 credits: {
                   enabled: false
               },
-                subtitle: {
-                    text: 'Source: WorldClimate.com',
-                    x: -20
-                },
-
-                xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                },
-                yAxis: {
-                    min: 0,
-                    minRange: 0.1,
-                    title: {
-                        text: 'Temperature (°C)'
-                    },
-                    plotLines: [{
-                        value: 0,
-                        width: 1,
-                        color: '#808080'
-                    }]
-                },
-                tooltip: {
-                    valueSuffix: '°C'
-                },
-                legend: {
-                    /*layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle',*/
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    borderWidth: 0
-                },
-                series: [{
-                    name: 'Tokyo',
-                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-                }, {
-                    name: 'New York',
-                    data: [ 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-                }, {
-                    name: 'Berlin',
-                    data: [0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-                }, {
-                    name: 'London',
-                    data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-                }]
-            });
-
+        title: {
+            text: 'Disponibilidad por Procesos'
+        },
+        subtitle: {
+            text: 'nombre del servicio'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: 'Disponibilidad (%)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'
+        },
+        series: [{
+            color: '#52CC7A',
+            name: 'Population',
+            data:dataq ,
+            dataLabels: {
+                enabled: true,
+                //rotation: -90,
+                color: '#000000',
+                align: 'center',
+                format: '<b>{point.y:.2f} %</b>', // two decimal
+                y: 25, // 25 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });*/
 
 });
