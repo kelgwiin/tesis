@@ -46,6 +46,7 @@ ps_mem = False
 logtime = False
 storepath = /home/
 per_threads = True
+interface = eth0
 
 ```
 
@@ -55,7 +56,7 @@ per_threads = True
 * logtime: This flag creates a file for logging polling times, issues and exceptions.
 * storepath: Defines the path where this module creates a filesystem to store the stats directory(containing the csv per day of polling)
 * per_threads: This flags is used for detailing threads in the target csv or to consolidate data per process.
-
+* interface: The network interface connected to the bussiness/home network.
 
 poller_daemon.py:
 ------------

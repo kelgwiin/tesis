@@ -9,12 +9,12 @@ import dis
 import signal
 import time
 import poller_csv
+from crontab import CronTab
 
 poller_dir = "/usr/poller_csv"
 stats_dir = "/home/poller_csv"
 pidfile = "/tmp/poller_csv.pid"
-files = ["/config", "/poller_csv.py", "/daemon.py", "/ps_mem.py", "/readme.md",
-         "/poller_daemon.py"]
+files = ["/config", "/poller_csv.py", "/readme.md", "/poller_daemon.py"]
 cron = "/etc/crontab"
 cronjob = "@reboot python %s/poller_daemon.py start &" % poller_dir
 poller_script = "%s/poller_csv.py &" % poller_dir
@@ -106,6 +106,21 @@ def create_directory(d):
 
 
 def modify_crontab(case):
+    tab = CronTab()
+    cron = tab.new(command=poller_exec, comment='POLLER_CSV CRONJOB')
+    cron.every_reboot()
+    if case is "delete":
+        tab.remove(cron)
+        print "Cronjob Deleted."
+    elif case is "add":
+        if not tab.find_command(poller_exec):
+            tab.write()
+            print "Cronjob created succesfully!."
+        else:
+            print "Cronjob already exists!."
+
+
+"""def modify_crontab(case):
     if case is "delete":
         f = open(cron, "r")
         lines = f.readlines()
@@ -123,6 +138,7 @@ def modify_crontab(case):
             print "Cronjob created succesfully!."
         else:
             print "Cronjob already exists!."
+"""
 
 
 def cronjob_exists():
