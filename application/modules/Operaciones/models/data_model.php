@@ -86,13 +86,11 @@ class Data_model extends MY_Model
     {
         if($infile_method)
         {
-            $mac = $this->find_local_mac();
             $sql="LOAD DATA LOCAL INFILE '".$filename."' INTO TABLE proceso_historial
                 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n'
                 (`thread`,`comando_ejecutable`,`tasa_cpu`,`tasa_ram`,
                 `operaciones_lectura_dd`,`operaciones_lectura_dd`,`tasa_lectura_dd`,`tasa_escritura_dd`,
-                `tasa_transferencia_dd`,`pagina_errores`,`tiempo_online`,`estado_proceso`,`timestamp`,`pid_lista`)
-                SET `mac_dir` = '$mac'";
+                `tasa_transferencia_dd`,`pagina_errores`,`tiempo_online`,`estado_proceso`,`timestamp`,`pid_lista`,`mac_dir`)";
             return $this->db->query($sql);
         }
         else
@@ -129,7 +127,7 @@ class Data_model extends MY_Model
         $this->_table = 'proceso_historial';
         $this->_id= 'proceso_historial_id';
     }
-    function parse_data($array,$interface='eth0')
+    function parse_data($array)
     {
         array_pop($array);
         foreach ($array as $line)
@@ -147,8 +145,8 @@ class Data_model extends MY_Model
                             "tiempo_online" => $line[10],
                             "estado_proceso" => $line[11],
                             "timestamp" => $line[12],
-                            "pid_lista" => $line[13]);
-            if(isset($interface)) $temp['mac_dir'] = $this->find_local_mac($interface);
+                            "pid_lista" => $line[13],
+                            "mac_dir" => $line[14]);
             $data[] = $temp;
         }
         return $data;
@@ -213,8 +211,7 @@ class Data_model extends MY_Model
                    if ($line["tiempo_online"] > $online) $online = $line["tiempo_online"];
                    $st[] = $line["estado_proceso"]; 
                    $pid_lista[] = $line["thread"];
-                }
-                            
+                }                            
             }            
         }
         //foreach($plot_lines as $comando){ ksort($comando); }
