@@ -26,10 +26,11 @@
 	  </div>
 </div>
 
-
-<div id='no_acuerdos' style="display:none">
-<div class="alert alert-warning col-md-8 col-md-offset-2 text-center" role="alert"> <b>No existen ANS establecidos para este Servicio</b>.
-		 <br>Para generar un reporte debe existir por lo menos un ANS establecido para el Servicio consultado. <br>Sí desea crea un ANS puede hacer click <a target="_blank" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>">aquí</a>.</div>
+<div class="row">
+	<div id='no_acuerdos' style="display:none">
+	<div class="alert alert-warning col-md-8 col-md-offset-2 text-center" role="alert"> <b>No existen ANS establecidos para este Servicio</b>.
+			 <br>Para generar un reporte debe existir por lo menos un ANS establecido para el Servicio consultado. <br>Sí desea crea un ANS puede hacer click <a target="_blank" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>">aquí</a>.</div>
+	</div>
 </div>
 
 
@@ -41,6 +42,7 @@
 		       <label  class="control-label">Acuerdo de Niveles de Servicio</label>
 		     </div> 
 		     <select id="dropdown_acuerdos" name="acuerdos" class="form-control">
+		     	<option value="seleccione">Seleccione un Acuerdo</option>
 		     </select>
 		  </div>
 		  <div class="form-group">

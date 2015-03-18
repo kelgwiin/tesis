@@ -181,41 +181,50 @@ class Reportes extends MX_Controller
 
 		// Calculando que dia de la semana es. (lunes, martes, etc)
 		$dia_semana = (int)date('N', strtotime($fecha_dia));		
-		//$historial_servicio['dia'] = $dia_semana;
+		$historial_servicio['dia'] = $dia_semana;
 
 		$acuerdo_id = $this->input->post('acuerdo_id'); // Acuerdo ID
 
 		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$acuerdo_id));  //Información de ANS
 
 		//Obteniendo los datos del ANS correspondientes al día ingresado
-		if($dis_semana == 1){ // Si es igual a Lunes
+		if($dia_semana == 1){ // Si es igual a Lunes
 			$horario_inicio = $acuerdo->lunes_disp_ini;
 			$horario_fin = $acuerdo->lunes_disp_fin;
 		}
-		if($dis_semana == 2){ // Si es igual a Martes 
+		if($dia_semana == 2){ // Si es igual a Martes 
 			$horario_inicio = $acuerdo->martes_disp_ini;
 			$horario_fin = $acuerdo->martes_disp_fin;
 		}
-		if($dis_semana == 3){ // Si es igual a Miércoles
+		if($dia_semana == 3){ // Si es igual a Miércoles
 			$horario_inicio = $acuerdo->miercoles_disp_ini;
 			$horario_fin = $acuerdo->miercoles_disp_fin;
 		}
-		if($dis_semana == 4){ // Si es igual a Jueves
+		if($dia_semana == 4){ // Si es igual a Jueves
 			$horario_inicio = $acuerdo->jueves_disp_ini;
 			$horario_fin = $acuerdo->jueves_disp_fin;
 		}
-		if($dis_semana == 5){ // Si es igual a Viernes
+		if($dia_semana == 5){ // Si es igual a Viernes
 			$horario_inicio = $acuerdo->viernes_disp_ini;
 			$horario_fin = $acuerdo->viernes_disp_fin;
 		}
-		if($dis_semana == 6){ // Si es igual a Sábado
+		if($dia_semana == 6){ // Si es igual a Sábado
 			$horario_inicio = $acuerdo->sabado_disp_ini;
 			$horario_fin = $acuerdo->sabado_disp_fin;
 		}
-		if($dis_semana == 7){ // Si es igual a Domingo
+		if($dia_semana == 7){ // Si es igual a Domingo
 			$horario_inicio = $acuerdo->domingo_disp_ini;
 			$horario_fin = $acuerdo->domingo_disp_fin;
 		}
+
+
+		$historial_servicio['dia'] = $acuerdo->sabado_disp_ini." ".$acuerdo->sabado_disp_fin;
+		/*if($horario_inicio == $horario_fin){
+			$historial_servicio['dia'] = $acuerdo->lunes_disp_ini." ".$acuerdo->lunes_disp_fin;
+		}
+		else{
+			$historial_servicio['dia'] = 'diferentes';
+		}*/
 
 
 

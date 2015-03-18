@@ -393,6 +393,12 @@ $( document ).ready(function() {
 
             $("#no_acuerdos").fadeOut(); 
 
+            $("#error_acuerdos").empty();
+            $("#error_dia").empty();      
+           
+
+           // $('#dia_historial').val("");
+           //  $('#dia_historial').data("DateTimePicker").disable();
 
 		if($("#dropdown_servicios").val() != 'seleccione'){         	
          			//$("#error_servicio").empty();
@@ -443,7 +449,7 @@ $( document ).ready(function() {
 
 
         
-        /*$("#dropdown_acuerdos").change(function () {                
+        $("#dropdown_acuerdos").change(function () {                
 
                 if($("#dropdown_acuerdos").val()  != 'seleccione' ){
                 var id_acuerdo = $("#dropdown_acuerdos").val();
@@ -459,7 +465,26 @@ $( document ).ready(function() {
 
                              success: function(data){
 
-                                    alert(data.dias);
+                                    //alert(data.dias);
+
+                                    //$('#dia_historial').empty();
+
+                                   $('#dia_historial').data("DateTimePicker").destroy();
+
+                                   $('#dia_historial').datetimepicker({
+
+                                        pickTime: false,
+                                         icons: {
+                                        time: "fa fa-clock-o",
+                                        date: "fa fa-calendar",
+                                        up: "fa fa-chevron-up",
+                                        down: "fa fa-chevron-down",
+                                        },
+                                        maxDate: new Date(),
+                                        daysOfWeekDisabled: data.dias,
+                                    });
+
+                                    $('#dia_historial').data("DateTimePicker").enable();
                                                                       
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -468,9 +493,10 @@ $( document ).ready(function() {
                                  }
                         });             
                 }
-        }):*/
-
-
+                else{
+                  $('#dia_historial').data("DateTimePicker").disable()
+                }
+        });
 
 	$("#dia_historial").change(function () {
 		if($("#dia_historial").val() != ''){         	
@@ -489,7 +515,10 @@ $( document ).ready(function() {
                     down: "fa fa-chevron-down",
                     },
                     maxDate: new Date(),
+                    //daysOfWeekDisabled: cars,
                 });
+
+        $('#dia_historial').data("DateTimePicker").disable();
 
 
 });
