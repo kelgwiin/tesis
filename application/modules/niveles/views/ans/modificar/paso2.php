@@ -5,12 +5,6 @@
   <div class="row">
   	<div class="col-md-5">
 
-  		<?php if($operacion == 'actualizar') : ?>
-
-  		<fieldset disabled>
-
-  	    <?php endif ?>
-
     	<div class="form-group">
 
 
@@ -110,15 +104,8 @@
 			
 	</div> 	
 
-<?php if($operacion == 'actualizar') : ?>
-  </fieldset>
-  <?php endif ?>
 
 	  	<div class="col-md-5">
-
-	  		<?php if($operacion == 'actualizar') : ?>
-	  		<fieldset disabled>
-	  		<?php endif ?>
 
     	<div class="form-group">
 			
@@ -150,9 +137,6 @@
 		</div> 
 
   </div>
-  <?php if($operacion == 'actualizar') : ?>
-  </fieldset>
-  <?php endif ?>
   <br>
 
    <h3 > <b> Objetivos del Acuerdo</b><small><a type="button" class="btn btn-xs" data-toggle="modal" data-target="#ayuda_objetivo_acuerdo">

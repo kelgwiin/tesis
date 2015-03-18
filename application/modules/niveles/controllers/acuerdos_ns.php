@@ -1536,7 +1536,7 @@ class Acuerdos_ns extends MX_Controller
 
 
 		            		//Crear pdf
-		            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+		            		//$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
 
 								$acuerdo = array(
                                 'ruta_pdf' => $ruta,
@@ -1834,10 +1834,16 @@ class Acuerdos_ns extends MX_Controller
 				 	{
 				 		$this->form_validation->set_rules('nombre_acuerdo', 'Nombre del Acuerdo', 'required|trim|max_length[255]');
 				 	}
+				 $this->form_validation->set_rules('fecha_inicio', 'Fecha de Inicio', 'trim');
+				         $this->form_validation->set_rules('fecha_culminacion', 'Fecha de Culminación', 'trim');
+				         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', '');
 			 }
 		  else
 		  	{
 		  		$this->form_validation->set_rules('nombre_acuerdo', 'Nombre del Acuerdo', 'required|trim|max_length[255]|callback_acuerdo_check');
+		  		$this->form_validation->set_rules('fecha_inicio', 'Fecha de Inicio', 'required|trim');
+				         $this->form_validation->set_rules('fecha_culminacion', 'Fecha de Culminación', 'required|trim');
+				         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision|callback_intervalos_revision_check');
 		  	}
          
          $this->form_validation->set_rules('servicio', 'Nombre del Servicio', 'callback_dropdown_servicio');
@@ -1845,9 +1851,7 @@ class Acuerdos_ns extends MX_Controller
          $this->form_validation->set_rules('clientes', 'Cliente(s)', 'required|trim|max_length[500]');
          $this->form_validation->set_rules('representante_cliente', 'Representante del Cliente', 'callback_dropdown_representante_cliente');
 
-         $this->form_validation->set_rules('fecha_inicio', 'Fecha de Inicio', 'required|trim');
-         $this->form_validation->set_rules('fecha_culminacion', 'Fecha de Culminación', 'required|trim');
-         $this->form_validation->set_rules('intervalo_revision', 'Intervalo de Revisión del Acuerdo', 'callback_dropdown_intervalo_revision|callback_intervalos_revision_check');
+         
          $this->form_validation->set_rules('objetivos_acuerdo', 'Objetivos del Acuerdo', 'required|trim|max_length[65535]');
          $this->form_validation->set_rules('alcance', 'Alcance y Exclusiones del Acuerdo', 'required|trim|max_length[65535]');
          $this->form_validation->set_rules('condiciones_terminacion', 'Condiciones de Terminación del Acuerdo', 'max_length[65535]');
@@ -2931,7 +2935,8 @@ class Acuerdos_ns extends MX_Controller
 
 		            	if($resultado_acuerdo)
 			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
+			            		//Crear PDF
+			            		//$ruta = $this->generar_pdf_acuerdo($id_acuerdo);
 
 								$acuerdo = array(
                                 'ruta_pdf' => $ruta,
@@ -2955,7 +2960,8 @@ class Acuerdos_ns extends MX_Controller
 
 		            	if($resultado_acuerdo)
 			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($resultado_acuerdo);
+			            		//Crear PDF
+			            		//$ruta = $this->generar_pdf_acuerdo($resultado_acuerdo);
 
 								$acuerdo = array(
                                 'ruta_pdf' => $ruta,
@@ -3432,7 +3438,15 @@ class Acuerdos_ns extends MX_Controller
 		$mpdf = new mPDF();
 		$mpdf->WriteHTML($pdf);
 		$name = $id_acuerdo;
-		$ruta = './assets/documentacion_GNS/ANS/'.$name.'.pdf';
+
+		
+		/***** FUNCIONA EN  Linux ****/
+		$ruta = $_SERVER['DOCUMENT_ROOT'].'/assets/documentacion_GNS/ANS/'.$name.'.pdf';
+
+		
+		/***** FUNCIONA EN  WINDOWS ****/
+		//$ruta = './assets/documentacion_GNS/ANS/'.$name.'.pdf';
+
 		if(file_exists($ruta)) 
 		{unlink($ruta);}
 		$mpdf->Output($ruta,'F');

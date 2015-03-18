@@ -111,34 +111,120 @@ class Reportes extends MX_Controller
 	} 
 
 
-    	function index()
-    		{
+
+	function obtener_ans_servicio(){
+		$servicio_id = $this->input->post('servicio_id');		
+
+		$info_acuerdos['acuerdos'] = $this->general->get_result('acuerdo_nivel_servicio',array('id_servicio'=>$servicio_id, 'DATE(fecha_final) >=' => date('Y-m-d') ));
+
+		echo json_encode($info_acuerdos);
+	}
+
+	function obtener_dias_disponibles(){
+		$acuerdo_id = $this->input->post('acuerdo_id'); // Acuerdo ID
+		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$acuerdo_id));  //Información de ANS
+
+		$dias=  array();
+
+		if($acuerdo->lunes_disp_ini == NULL){
+		       array_push($dias, 0);
+		}
+		if($acuerdo->martes_disp_ini == NULL){
+		       array_push($dias, 1);
+		}
+		if($acuerdo->miercoles_disp_ini == NULL){
+		       array_push($dias, 2);
+		}
+		if($acuerdo->jueves_disp_ini == NULL){
+		       array_push($dias, 3);
+		}
+		if($acuerdo->viernes_disp_ini == NULL){
+		       array_push($dias, 4);
+		}
+		if($acuerdo->sabado_disp_ini == NULL){
+		       array_push($dias, 5);
+		}
+		if($acuerdo->domingo_disp_ini == NULL){
+		       array_push($dias, 6);
+		}
+
+		$resultado['dias'] = $dias;
+
+		echo  json_encode($resultado);
+	}
+
+
+    	function index(){
 
 		     $this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/main_reporte','','Reportes','','two_level');
 
-    		}
+    	}
 
 
 	function historial_servicio(){
     		$data_view['servicios']= $this->general->get_table('servicio');
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/historial_servicio/historial_servicio',$data_view,'Reportes','','two_level');
-
-
 	}
+
+
 
 	function obtener_historial_servicio_dia(){
 
-		$servicio_id = $this->input->post('servicio_id');
+
+		//Obteniendo datos mediante post:
+
+		$servicio_id = $this->input->post('servicio_id'); //Servicio ID
 
 		$fecha_dia = $this->input->post('dia'); 
 		$inicio = date_create($fecha_dia);
-		$fecha_dia = date_format($inicio,"Y-m-d");
+		$fecha_dia = date_format($inicio,"Y-m-d"); // Dia seleccionado para el reporte diario.
 
+		// Calculando que dia de la semana es. (lunes, martes, etc)
+		$dia_semana = (int)date('N', strtotime($fecha_dia));		
+		//$historial_servicio['dia'] = $dia_semana;
+
+		$acuerdo_id = $this->input->post('acuerdo_id'); // Acuerdo ID
+
+		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$acuerdo_id));  //Información de ANS
+
+		//Obteniendo los datos del ANS correspondientes al día ingresado
+		if($dis_semana == 1){ // Si es igual a Lunes
+			$horario_inicio = $acuerdo->lunes_disp_ini;
+			$horario_fin = $acuerdo->lunes_disp_fin;
+		}
+		if($dis_semana == 2){ // Si es igual a Martes 
+			$horario_inicio = $acuerdo->martes_disp_ini;
+			$horario_fin = $acuerdo->martes_disp_fin;
+		}
+		if($dis_semana == 3){ // Si es igual a Miércoles
+			$horario_inicio = $acuerdo->miercoles_disp_ini;
+			$horario_fin = $acuerdo->miercoles_disp_fin;
+		}
+		if($dis_semana == 4){ // Si es igual a Jueves
+			$horario_inicio = $acuerdo->jueves_disp_ini;
+			$horario_fin = $acuerdo->jueves_disp_fin;
+		}
+		if($dis_semana == 5){ // Si es igual a Viernes
+			$horario_inicio = $acuerdo->viernes_disp_ini;
+			$horario_fin = $acuerdo->viernes_disp_fin;
+		}
+		if($dis_semana == 6){ // Si es igual a Sábado
+			$horario_inicio = $acuerdo->sabado_disp_ini;
+			$horario_fin = $acuerdo->sabado_disp_fin;
+		}
+		if($dis_semana == 7){ // Si es igual a Domingo
+			$horario_inicio = $acuerdo->domingo_disp_ini;
+			$horario_fin = $acuerdo->domingo_disp_fin;
+		}
+
+
+
+		//Obteniendo caídas registradas para el Servicio
 		$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
 
 		$historial = $historial_servicio['caidas_servicio'];
 
-		// Transformar formato datetime a solo tiempo
+		// Transformar formato datetime a solo tiempo y Obtener tiempo de caída total por Servicio
 		$i = 0;
 		$tiempo_caida = 0;
 		$caida_mayor = 0;
@@ -171,30 +257,30 @@ class Reportes extends MX_Controller
 		//Disponibilidad
 		$historial_servicio['disponibilidad'] = round( ((100)-((100*$segundos)/86400)) , 2);
 
-		//Numero de caidas
+		//Numero de caídas
 		$historial_servicio['numero_caidas'] = count($historial);
 
-		//Duracion de caida
+		//Duración de caída
 		$historial_servicio['tiempo_caido'] = $this->transformarSegundos($segundos);
 
 		//Tiempo en linea
 		$tiempo_online = 86400 - $segundos;		
 		$historial_servicio['tiempo_online'] = $this->transformarSegundos($tiempo_online);
 
-		//Mayor Caida
+		//Mayor Caída
 		$historial_servicio['mayor_caida'] = $this->transformarSegundos($caida_mayor);
 
-		//Mayor Caida
+		//Mayor Caída
 		$historial_servicio['menor_caida'] = $this->transformarSegundos($caida_menor);
 
 
-		//Informacion de Procesos por Servicio
+		//Información de Procesos por Servicio
 		$procesos_id = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=>$servicio_id));
 		$historial_servicio['servicio_procesos'] = $procesos_id;	
 
 
 		/****************************************************************************************************************/
-		//Almacenar informacion de caida de procesos
+		//Almacenar información de caída de procesos
 		$historial_servicio['caidas_procesos'] = array();
 
 		foreach ($procesos_id as $proceso) {
@@ -230,7 +316,7 @@ class Reportes extends MX_Controller
 			$historial_servicio['historial_procesos'][$nombre_proceso] = (object) array('disponibilidad' => $disponibilidad_proceso, 'tiempo_disponible' => $tiempo_disponible_proceso, 'caidas'=>$numero_caidas, 'tiempo_caido' => $tiempo_caido, 'segundos' => $tiempo_segundos);
 
 
-			//Almacena todas las caidas por proceso
+			//Almacena todas las caídas por proceso
 			$historial_servicio['caidas_procesos'] = array_merge($historial_servicio['caidas_procesos'], $caidas_proceso);
 
 			
@@ -241,6 +327,35 @@ class Reportes extends MX_Controller
 
 		echo json_encode($historial_servicio);
 	}
+
+
+
+	function obtener_historial_servicio_semana(){
+
+		$servicio_id = $this->input->post('servicio_id');
+
+		$lunes = $this->input->post('dia'); 
+		$inicio = date_create($lunes);
+		$lunes = date_format($inicio,"Y-m-d");
+
+		$domingo = strtotime ( '+6 day' , strtotime ($lunes));
+		$domingo = date ( 'Y-m-d' , $domingo );
+
+		$historial_semanal['caidas_servicio_semanal'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida) >=' => $lunes, 'DATE(inicio_caida) <=' => $domingo));
+
+		$caidas_semanal = $historial_semanal['caidas_servicio_semanal'] ;
+
+
+
+		//$historial_semanal['domingo'] = $domingo;
+
+		echo json_encode($historial_semanal);
+
+
+
+	}
+
+
 
     	function  procesar_data(){   		    
     		    

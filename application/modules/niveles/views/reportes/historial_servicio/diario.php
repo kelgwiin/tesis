@@ -2,7 +2,7 @@
 <br>
 
 <div class="row">
-	 <div class="col-md-3 col-md-offset-3">
+	 <div class="col-md-3 col-md-offset-4">
 		  <div class="form-group">
 		       <div class="required">
 		       <label  class="control-label">Servicio</label>
@@ -14,11 +14,38 @@
 		      foreach($servicios as $servicio)	{ 
 		      $options[$servicio->servicio_id] = $servicio->nombre;
 		       }?>
-		        <?php echo form_dropdown('servicios', $options,set_value('servicios','1'),'class="form-control" id="dropdown_servicios" '); ?>
+		        <?php echo form_dropdown('servicios', $options,set_value('servicios',''),'class="form-control" id="dropdown_servicios" '); ?>
 		  </div>
 		  <div class="form-group">
 			<div>
 				<label style="color:red;" id="error_servicio">
+					
+				</label>
+			</div>
+		</div>
+	  </div>
+</div>
+
+
+<div id='no_acuerdos' style="display:none">
+<div class="alert alert-warning col-md-8 col-md-offset-2 text-center" role="alert"> <b>No existen ANS establecidos para este Servicio</b>.
+		 <br>Para generar un reporte debe existir por lo menos un ANS establecido para el Servicio consultado. <br>Sí desea crea un ANS puede hacer click <a target="_blank" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>">aquí</a>.</div>
+</div>
+
+
+<div class="row" id="opciones_reporte" style="display:none">
+
+	<div class="col-md-4 col-md-offset-2">
+		  <div class="form-group">
+		       <div class="required">
+		       <label  class="control-label">Acuerdo de Niveles de Servicio</label>
+		     </div> 
+		     <select id="dropdown_acuerdos" name="acuerdos" class="form-control">
+		     </select>
+		  </div>
+		  <div class="form-group">
+			<div>
+				<label style="color:red;" id="error_acuerdos">
 					
 				</label>
 			</div>
@@ -52,7 +79,7 @@
 	     </div>
 
 	     <div class="">
-		<a class="btn btn-info" id="buscar_historial" onclick="mostrarHistorialDiario();"> <i class="fa fa-search"></i> Buscar </a>
+		<a class="btn btn-info" id="buscar_historial" onclick="mostrarHistorialDiario();"> <i class="fa fa-file-text"></i>  Generar Reporte </a>
 	     </div>
 	  </div>
 

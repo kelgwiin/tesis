@@ -2,13 +2,13 @@ function mostrarHistorialDiario() {
 
 	var existe_error = false;
 
-	if($("#dropdown_servicios").val() == 'seleccione'){ 
-                  $("#error_servicio").empty();
-         		$("#error_servicio").append('Seleccione un Servicio');
+	if($("#dropdown_acuerdos").val() == 'seleccione'){ 
+                  $("#error_acuerdos").empty();
+         		$("#error_acuerdos").append('Seleccione un Acuerdo');
          		existe_error = true;
          	}
          	else{
-         		$("#error_servicio").empty();
+         		$("#error_acuerdos").empty();
          	}
 
          	 if($("#dia_historial").val() == ''){
@@ -25,6 +25,7 @@ function mostrarHistorialDiario() {
 
                         var id_servicio = $("#dropdown_servicios").val();
                         var fecha_dia = $("#dia_historial").val();
+                        var id_acuerdo = $("#dropdown_acuerdos").val();
                         var tabla_historial_servicio;
 
                         $("#tabla_servicio").empty();
@@ -39,8 +40,6 @@ function mostrarHistorialDiario() {
                         $("#tabla_procesos").empty();
                         $("#tabla_info").empty();
 
-
-
                        $.ajax({
                  
                             
@@ -48,20 +47,23 @@ function mostrarHistorialDiario() {
                             type: 'POST',
                             data: {                         
                                     servicio_id : id_servicio,
-                                    dia : fecha_dia,                                             
+                                    dia : fecha_dia,   
+                                    acuerdo_id : id_acuerdo,                                          
                                   },
                             dataType: 'json',
                             cache : false,  
 
                              success: function(data){
 
-                            $("#informacion_historial").hide();
+                              alert(data.dia);
+
+                             $("#informacion_historial").hide();
                              $("#no_info").hide();
 
-                            if(data.caidas_servicio.length == 0){
+                            /*  if(data.caidas_servicio.length == 0){
                                         $("#no_info").fadeIn();
                             }
-                            else{
+                            else{*/
 
                                 // Creación de tabla de caídas de servicio
                                var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios">';
@@ -369,7 +371,7 @@ function mostrarHistorialDiario() {
 
                                             $("#informacion_historial").fadeIn();
                              
-                                    }// Fin del else
+                                //    }// Fin del else
 
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -386,11 +388,89 @@ function mostrarHistorialDiario() {
 
 $( document ).ready(function() {
 
+      // Llenado del dropdown de ANS.
 	$("#dropdown_servicios").change(function () {
+
+            $("#no_acuerdos").fadeOut(); 
+
+
 		if($("#dropdown_servicios").val() != 'seleccione'){         	
-         			$("#error_servicio").empty();
-         		}	
-       	});
+         			//$("#error_servicio").empty();
+                  var id_servicio = $("#dropdown_servicios").val();
+
+                  $.ajax({   
+                            url: config.base+'index.php/niveles/reportes/obtener_ans_servicio',
+                            type: 'POST',
+                            data: {                         
+                                    servicio_id : id_servicio,                                       
+                                  },
+                            dataType: 'json',
+                            cache : false,  
+
+                             success: function(data){
+
+                                    $('select#dropdown_acuerdos').empty();
+                                    $('select#dropdown_acuerdos').append('<option value="seleccione">Seleccione un Acuerdo</option>');
+
+                                    if(data.acuerdos.length > 0){
+                                          var option = "";                                    
+                                          for (var i = 0; i < data.acuerdos.length; i++) {
+                                             option = '<option value="'+data.acuerdos[i].acuerdo_nivel_id+'">'+data.acuerdos[i].nombre_acuerdo+'</option> ';
+                                             $('select#dropdown_acuerdos').append(option);
+                                          };
+                                           
+                                          $("#opciones_reporte").fadeIn(); 
+                                    }  
+                                    else{
+
+                                        $("#opciones_reporte").hide(); 
+                                        $("#no_acuerdos").fadeIn(); 
+                                    }
+                                  
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   alert(xhr.status+" "+thrownError);
+                                   $("#modal_error").modal('show');                                                
+                                 }
+                        });                    
+         	}
+            else{                
+
+                  $("#opciones_reporte").fadeOut();
+                     
+            }	
+       });
+
+
+        
+        /*$("#dropdown_acuerdos").change(function () {                
+
+                if($("#dropdown_acuerdos").val()  != 'seleccione' ){
+                var id_acuerdo = $("#dropdown_acuerdos").val();
+
+                  $.ajax({   
+                            url: config.base+'index.php/niveles/reportes/obtener_dias_disponibles',
+                            type: 'POST',
+                            data: {                         
+                                     acuerdo_id : id_acuerdo,                                        
+                                  },
+                            dataType: 'json',
+                            cache : false,  
+
+                             success: function(data){
+
+                                    alert(data.dias);
+                                                                      
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   alert(xhr.status+" "+thrownError);
+                                   $("#modal_error").modal('show');                                                
+                                 }
+                        });             
+                }
+        }):*/
+
+
 
 	$("#dia_historial").change(function () {
 		if($("#dia_historial").val() != ''){         	
@@ -406,8 +486,10 @@ $( document ).ready(function() {
                     time: "fa fa-clock-o",
                     date: "fa fa-calendar",
                     up: "fa fa-chevron-up",
-                    down: "fa fa-chevron-down"
-                }
+                    down: "fa fa-chevron-down",
+                    },
+                    maxDate: new Date(),
                 });
+
 
 });

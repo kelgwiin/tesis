@@ -4,7 +4,7 @@
 
 <div id="page-wrapper">
 
-<h1>Historial de Niveles de Servicios</h1>
+<h1>Reportes de Niveles de Servicios</h1>
 
 			<ol class="breadcrumb">
 				<li class="active"><i class="fa fa-area-chart"></i> 
@@ -14,8 +14,8 @@
 <div class="panel with-nav-tabs panel-default">
                 <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li ><a href="#tab1default" data-toggle="tab">Diario</a></li>
-                            <li class="active"><a href="#tab2default" data-toggle="tab">Semanal</a></li>
+                            <li  class="active"><a href="#tab1default" data-toggle="tab">Diario</a></li>
+                            <li ><a href="#tab2default" data-toggle="tab">Semanal</a></li>
                             <li><a href="#tab3default" data-toggle="tab">Mensual</a></li>
                              <li><a href="#tab3default" data-toggle="tab">Anual</a></li>
                         </ul>
@@ -24,8 +24,8 @@
 
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade " id="tab1default"><?php $this->load->view('niveles/reportes/historial_servicio/diario'); ?></div>
-                        <div class="tab-pane fade in active" id="tab2default"><?php $this->load->view('niveles/reportes/historial_servicio/semanal'); ?></div>
+                        <div class="tab-pane fade in active" id="tab1default"><?php $this->load->view('niveles/reportes/historial_servicio/diario'); ?></div>
+                        <div class="tab-pane fade " id="tab2default"><?php $this->load->view('niveles/reportes/historial_servicio/semanal'); ?></div>
                         <div class="tab-pane fade" id="tab3default">Default 3</div>
                         <div class="tab-pane fade" id="tab4default">Default 4</div>
                         <div class="tab-pane fade" id="tab5default">Default 5</div>

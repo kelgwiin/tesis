@@ -21,7 +21,35 @@ function mostrarHistorialSemanal() {
                 $("#error_semanal").empty();        
             }
 
-            if (existe_error == false) {}
+            if (existe_error == false) {
+
+                        var id_servicio = $("#dropdown_servicios_semanal").val();
+                        var fecha_dia = $("#dia_historial_semanal").val();
+
+                          $.ajax({
+                 
+                            
+                            url: config.base+'index.php/niveles/reportes/obtener_historial_servicio_semana',
+                            type: 'POST',
+                            data: {                         
+                                    servicio_id : id_servicio,
+                                    dia : fecha_dia,                                             
+                                  },
+                            dataType: 'json',
+                            cache : false,  
+
+                             success: function(data){
+                                alert(data.caidas_servicio_semanal.length);
+
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   alert(xhr.status+" "+thrownError);
+                                   $("#modal_error").modal('show');
+                                                
+                                 }
+                        });
+
+            }
 
 }
 
