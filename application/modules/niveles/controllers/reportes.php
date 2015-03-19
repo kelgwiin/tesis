@@ -180,6 +180,37 @@ class Reportes extends MX_Controller
 	}
 
 
+	// Iguala las caídas que hayan comenzando antes o terminado después del intervalo de disponibilidad diario del Servicio.
+	function normalizar_caidas($caidas,$horario_inicio,$horario_fin){
+
+		$i = 0;
+		foreach ($caidas as $caida) {
+			if($caida->inicio_caida == $horario_inicio  &&  $caida->fin_caida > $horario_fin){
+			        $caidas[$i]->fin_caida = $horario_fin;
+			}
+			if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida == $horario_fin){
+			        $caidas[$i]->inicio_caida = $horario_inicio;
+			}
+			if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida > $horario_fin){
+			        $caidas[$i]->inicio_caida = $horario_inicio;
+			        $caidas[$i]->fin_caida = $horario_fin;
+			}
+
+			if($caida->inicio_caida < $horario_inicio  &&  ($caida->fin_caida < $horario_fin && $caida->fin_caida > $horario_inicio) ){
+			        $caidas[$i]->inicio_caida = $horario_inicio;
+			}
+
+			if( ($caida->inicio_caida > $horario_inicio && $caida->inicio_caida < $horario_fin)  &&  $caida->fin_caida > $horario_fin){
+			        $caidas[$i]->fin_caida = $horario_fin;
+			}
+
+		           $i++;
+		}
+
+		return $caidas;
+	}
+
+
 	//Muestra la pagina principal de la Sección de Reportes
 	function historial_servicio(){
     		$data_view['servicios']= $this->general->get_table('servicio');
@@ -198,15 +229,26 @@ class Reportes extends MX_Controller
 		$dia_semana = (int)date('N', strtotime($fecha_dia));
 
 		//Obteniendo caídas registradas para el Servicio
-		$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
-
-		$historial = $historial_servicio['caidas_servicio'];
+		//$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
+		//$historial = $historial_servicio['caidas_servicio'];
 
 		//PRUEBAAAAA************ 
 		$horario_inicio = $horario_disponibilidad[$dia_semana]->horario_inicio;
 		$horario_fin = $horario_disponibilidad[$dia_semana]->horario_fin;
 
-		$historial_servicio['prueba'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+		//$historial_servicio['prueba'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+
+		$historial_servicio['caidas_servicio'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+		//$historial = $historial_servicio['caidas_servicio'];
+
+
+
+		$caidas = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+
+		//$historial_servicio['caidas_servicio'] = $caidas_normalizadas;
+		$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$horario_inicio,$horario_fin);
+		$historial = $historial_servicio['caidas_servicio'];
+
 		//FIIN PRUEBAAA************
 
 		// Transformar formato datetime a solo tiempo y Obtener tiempo de caída total por Servicio

@@ -22,7 +22,7 @@ class Reportes_model extends CI_Model
 
 	public function obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin)
 	{
-		//$this->db->where("(email = '$user' OR username = '$user') AND password = '$pass'");
+		
 
 		$where = "servicio_id = '$servicio_id' AND DATE(inicio_caida) = '$fecha_dia' AND  ( (TIME(inicio_caida) < '$horario_inicio' AND TIME(fin_caida) > '$horario_fin') OR 
 												    (TIME(inicio_caida) = '$horario_inicio' AND TIME(fin_caida) = '$horario_fin') OR
@@ -31,7 +31,7 @@ class Reportes_model extends CI_Model
 												    (TIME(inicio_caida) > '$horario_inicio' AND TIME(fin_caida) < '$horario_fin') OR 
 												    (TIME(inicio_caida) < '$horario_inicio' AND (TIME(fin_caida) < '$horario_fin' AND TIME(fin_caida) > '$horario_inicio' )) OR
 												     ( (TIME(inicio_caida) > '$horario_inicio' AND TIME(inicio_caida) < '$horario_fin') AND TIME(fin_caida) > '$horario_fin'))";
-		//$where = "servicio_id = '$servicio_id' AND DATE(inicio_caida) = '$fecha_dia' AND  (TIME(inicio_caida) < '$horario_inicio' AND TIME(fin_caida) > '$horario_fin')";
+		
 		$this->db->where($where);
 		$query = $this->db->get('servicio_caida_historial');
 		return $query->result();
