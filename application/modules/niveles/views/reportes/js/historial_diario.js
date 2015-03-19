@@ -50,7 +50,7 @@ function mostrarHistorialDiario() {
                                     dia : fecha_dia,   
                                     acuerdo_id : id_acuerdo,                                          
                                   },
-                            dataType: 'json',
+                             dataType: 'json',
                             cache : false,  
 
                              success: function(data){
@@ -58,6 +58,14 @@ function mostrarHistorialDiario() {
                              /* for (var i = 1; i <= 7; i++) {
                                  alert(data.dia[i].horario_inicio+" "+data.dia[i].horario_fin+" "+data.dia[i].disponibilidad_segundos+" "+data.dia[i].disponibilidad_tiempo);
                               };*/
+
+                              alert(data.prueba.length);
+
+                              /*for (var i = 0; i < data.prueba.length; i++) {
+                                alert(data.prueba[i].inicio_caida+" "+data.prueba[i].fin_caida+" "+data.prueba[i].duracion_caida);
+                              };*/
+                                      
+                              
                              
 
                              $("#informacion_historial").hide();

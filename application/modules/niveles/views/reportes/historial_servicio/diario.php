@@ -60,7 +60,7 @@
 		          </div> 
 		          <div>
 			<div class="input-group">
-				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value="02/28/2015"/>
+				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value="02/24/2015"/>
 				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			</div>
 		          </div>

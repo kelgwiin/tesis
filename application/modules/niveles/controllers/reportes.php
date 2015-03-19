@@ -169,6 +169,7 @@ class Reportes extends MX_Controller
 					$horario_disponibilidad[$i]->disponibilidad_tiempo = $disponibilidad_tiempo;
 				}
 				else{
+					$horario_disponibilidad[$i]->horario_fin = "23:59:59";
 					$horario_disponibilidad[$i]->disponibilidad_segundos = 86400;
 					$horario_disponibilidad[$i]->disponibilidad_tiempo = "24:00:00";
 				}
@@ -200,6 +201,13 @@ class Reportes extends MX_Controller
 		$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
 
 		$historial = $historial_servicio['caidas_servicio'];
+
+		//PRUEBAAAAA************ 
+		$horario_inicio = $horario_disponibilidad[$dia_semana]->horario_inicio;
+		$horario_fin = $horario_disponibilidad[$dia_semana]->horario_fin;
+
+		$historial_servicio['prueba'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+		//FIIN PRUEBAAA************
 
 		// Transformar formato datetime a solo tiempo y Obtener tiempo de caída total por Servicio
 		$i = 0;
@@ -314,8 +322,7 @@ class Reportes extends MX_Controller
 
 
 		// Calculando el Historial del Servicio en comparación a los Objetivos establecidos en el ANS
-		$historial_servicio = $this->obtener_historial_diario($servicio_id,$fecha_dia,$horario_disponibilidad);
-
+		$historial_servicio = $this->obtener_historial_diario($servicio_id,$fecha_dia,$horario_disponibilidad);		
 
 		//$historial_servicio['dia'] = $this->obtener_horario_disponibilidad($acuerdo);
 
@@ -324,7 +331,7 @@ class Reportes extends MX_Controller
 
 
 
-	function obtener_historial_servicio_semana(){
+	/*function obtener_historial_servicio_semana(){
 
 		$servicio_id = $this->input->post('servicio_id');
 
@@ -347,7 +354,7 @@ class Reportes extends MX_Controller
 
 
 
-	}
+	}*/
 
 
 
