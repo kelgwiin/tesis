@@ -55,7 +55,10 @@ function mostrarHistorialDiario() {
 
                              success: function(data){
 
-                              alert(data.dia);
+                             /* for (var i = 1; i <= 7; i++) {
+                                 alert(data.dia[i].horario_inicio+" "+data.dia[i].horario_fin+" "+data.dia[i].disponibilidad_segundos+" "+data.dia[i].disponibilidad_tiempo);
+                              };*/
+                             
 
                              $("#informacion_historial").hide();
                              $("#no_info").hide();
