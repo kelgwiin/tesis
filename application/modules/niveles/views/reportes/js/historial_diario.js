@@ -64,6 +64,8 @@ function mostrarHistorialDiario() {
                               for (var i = 0; i < data.prueba.length; i++) {
                                 alert(data.prueba[i].inicio_caida+" "+data.prueba[i].fin_caida+" "+data.prueba[i].duracion_caida);
                               };
+
+                               alert(data.prueba2);
                                       
                               
                              

@@ -181,32 +181,38 @@ class Reportes extends MX_Controller
 
 
 	// Iguala las caídas que hayan comenzando antes o terminado después del intervalo de disponibilidad diario del Servicio.
-	function normalizar_caidas($caidas,$horario_inicio,$horario_fin){
+	function normalizar_caidas($caidas,$fecha_dia,$horario_inicio,$horario_fin){
+
+		$horario_inicio = date((string)$fecha_dia." ".(string)$horario_inicio);
+		$horario_fin = date((string)$fecha_dia." ".(string)$horario_fin);
+
+		//$horario_inicio = date_create('2015-02-24 08:00:00');
 
 		$i = 0;
 		foreach ($caidas as $caida) {
 			if($caida->inicio_caida == $horario_inicio  &&  $caida->fin_caida > $horario_fin){
 			        $caidas[$i]->fin_caida = $horario_fin;
 			}
-			if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida == $horario_fin){
+			else if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida == $horario_fin){
 			        $caidas[$i]->inicio_caida = $horario_inicio;
 			}
-			if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida > $horario_fin){
+			else if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida > $horario_fin){
 			        $caidas[$i]->inicio_caida = $horario_inicio;
 			        $caidas[$i]->fin_caida = $horario_fin;
 			}
 
-			if($caida->inicio_caida < $horario_inicio  &&  ($caida->fin_caida < $horario_fin && $caida->fin_caida > $horario_inicio) ){
+			else if($caida->inicio_caida < $horario_inicio  &&  ($caida->fin_caida < $horario_fin && $caida->fin_caida > $horario_inicio) ){
 			        $caidas[$i]->inicio_caida = $horario_inicio;
 			}
 
-			if( ($caida->inicio_caida > $horario_inicio && $caida->inicio_caida < $horario_fin)  &&  $caida->fin_caida > $horario_fin){
+			else if( ($caida->inicio_caida > $horario_inicio && $caida->inicio_caida < $horario_fin)  &&  $caida->fin_caida > $horario_fin){
 			        $caidas[$i]->fin_caida = $horario_fin;
 			}
 
 		           $i++;
 		}
 
+		//$caidas[1]= 'pija';
 		return $caidas;
 	}
 
@@ -241,12 +247,13 @@ class Reportes extends MX_Controller
 		$historial_servicio['caidas_servicio'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
 		//$historial = $historial_servicio['caidas_servicio'];
 
-
+		$historial_servicio['prueba2'] = date('2015-02-24 08:00:00');
 
 		$caidas = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
 
 		//$historial_servicio['caidas_servicio'] = $caidas_normalizadas;
-		$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$horario_inicio,$horario_fin);
+		$historial_servicio['caidas_servicio'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
+		$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
 		$historial = $historial_servicio['caidas_servicio'];
 
 		//FIIN PRUEBAAA************
@@ -258,10 +265,10 @@ class Reportes extends MX_Controller
 		$caida_menor = 0;
 		foreach ($historial as  $registro) {
 			$inicio = date_create($historial_servicio['caidas_servicio'][$i]->inicio_caida);
-			$historial_servicio['caidas_servicio'][$i]->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
+			//$historial_servicio['caidas_servicio'][$i]->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
 
 			$fin = date_create($historial_servicio['caidas_servicio'][$i]->fin_caida);
-			$historial_servicio['caidas_servicio'][$i]->fin_caida =  date_format($fin,'d/m/Y h:i:s a');
+			//$historial_servicio['caidas_servicio'][$i]->fin_caida =  date_format($fin,'d/m/Y h:i:s a');
 
 			$tiempo_caida = $tiempo_caida + $registro->duracion_caida_seg;
 
