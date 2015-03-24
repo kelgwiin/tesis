@@ -90,32 +90,41 @@
 <div id='no_info' style="display:none">
 <hr> <div class="alert alert-warning col-md-8 col-md-offset-2 text-center" role="alert"> <b>No existe información para el Servicio y Día Solicitados </b> </div>
 </div>
-
-<div id='informacion_historial' style="display:none">
+style="display:none"
+<div id='informacion_historial' >
 <hr>
 
 	<div class="row" style=" padding: 45px;">
-		<div class="well well-sm"><h4>Datos de los Procesos que soportan al Servicio</h4></div>
-		<div  class="col-md-5">
+		<div class="well well-sm"><h4>Datos de Niveles de Servicio</h4></div>
+		<div  class="col-md-7">
 		     <div class="panel panel-primary">
 		     	<div class="panel-heading"><b>Datos de Disponibilidad y Caídas</b></div>
 	  		<div class="panel-body"><br>
 			<table class="table table-bordered">
 				<tr>
+					<td width="40%" style="border-top:  hidden; border-left:  hidden" ></td>
+					<td width="20%" class="active text-center"><b>Resultado Obtenido</b></td>
+					<td class='text-center active'><b>Objetivos del ANS</b></td>
+				</tr>
+				<tr>
 					<td width="40%" class="active"><b>Disponibilidad (%)</b></td>
-					<td class='text-center' id="disponibilidad"></td>
+					<td width="20%" class='text-center' id="disponibilidad"></td>
+					<td class='text-center' id="disponibilidad_ANS"></td>
 				</tr>	
 				<tr>
 					<td width="40%" class="active"><b>Tiempo Disponible</b> </td>
 					<td class='text-center' id="tiempo_online"></td>
+					<td class='text-center' id="tiempo_online_ANS"></td>
 				</tr>	
 				<tr>
 					<td width="40%" class="active" ><b>Numero de Caídas</b></td>
-					<td class='text-center' id='numero_caidas'></td>
+					<td class='text-center' id='numero_caidas'  style="vertical-align:middle;"></td>
+					<td  id='numero_caidas_ANS'></td>
 				</tr>	
 				<tr>
 					<td width="40%" class="active"><b>Tiempo Total Caído</b></td>
 					<td class='text-center' id="tiempo_caido"></td>
+					<td rowspan="3" id="tiempo_caido_ANS"></td>
 				</tr>	
 				<tr>
 					<td width="40%" class="active"><b>Duración de Caída mas Larga</b></td>
@@ -126,15 +135,15 @@
 					<td class='text-center' id="menor_caida"></td>
 				</tr>		
 			</table>
-			<small>* Los tiempos son mostrados en base a 24hrs (hh:mm:ss) </small>
+			<small><i class='fa fa-clock-o'></i> El formato del tiempo es horas/minutos/segundos (hh:mm:ss) </small>
 			</div>
 		   </div>
 		</div>
 		
 
-		<div  class="col-md-7">
+		<div  class="col-md-5">
 
-		   <div class="panel panel-primary" style="height: 405px;">
+		   <div class="panel panel-primary" style="height: 554px;">
 		   	<div class="panel-heading"><b> Caídas Registradas por Servicio</b></div>
 	  		<div class="panel-body">
 
@@ -146,6 +155,19 @@
 		   </div>
 
 		</div>
+
+	</div>
+
+	<div class="row" style="padding: 45px; margin-top: -90px; margin-bottom: -40px">
+		<div class="panel panel-default">
+		  <div class="panel-body">
+		   	<!--<div style="width: 600px; height: 400px; margin: 0 auto">-->
+				<div id="container-disponibilidad" style="width: 300px; height: 200px; float: left; vertical-align:middle;"></div>
+				<div id="container-caidas" style="width: 220px; height: 220px; float: left"></div>
+			<!--</div>-->
+		  </div>
+		</div>
+
 
 	</div>
 

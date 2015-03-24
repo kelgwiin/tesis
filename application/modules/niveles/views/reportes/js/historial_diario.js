@@ -30,11 +30,14 @@ function mostrarHistorialDiario() {
 
                         $("#tabla_servicio").empty();
                         $("#numero_caidas").empty();
+                        $("#numero_caidas_ANS").empty();
                         $("#tiempo_caido").empty();
                         $("#tiempo_online").empty();
+                        $("#tiempo_online_ANS").empty();
                         $("#mayor_caida").empty();
                         $("#menor_caida").empty();
                         $("#disponibilidad").empty();
+                        $("#disponibilidad_ANS").empty();
 
 
                         $("#tabla_procesos").empty();
@@ -59,13 +62,13 @@ function mostrarHistorialDiario() {
                                  alert(data.dia[i].horario_inicio+" "+data.dia[i].horario_fin+" "+data.dia[i].disponibilidad_segundos+" "+data.dia[i].disponibilidad_tiempo);
                               };*/
 
-                              alert(data.prueba.length);
+                              //alert(data.prueba.length);
 
-                              for (var i = 0; i < data.prueba.length; i++) {
-                                alert(data.prueba[i].inicio_caida+" "+data.prueba[i].fin_caida+" "+data.prueba[i].duracion_caida);
-                              };
+                              /*for (var i = 0; i < data.prueba.length; i++) {
+                                alert(data.prueba[i].inicio_caida+" "+data.prueba[i].fin_caida+" "+data.prueba[i].duracion_caida+" "+data.prueba[i].duracion_caida_seg);
+                              };*/
 
-                               alert(data.prueba2);
+                               //alert(data.prueba2);
                                       
                               
                              
@@ -105,12 +108,92 @@ function mostrarHistorialDiario() {
 
                                $("#tabla_servicio").append(tabla_historial_servicio);
 
+                                $("#disponibilidad").append(data.disponibilidad+" %");
+                                $("#disponibilidad_ANS").append(data.ans.porcentaje_disp+" %");
+                                $("#tiempo_online").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
+                                $("#tiempo_online_ANS").append(" <h5>"+data.tiempo_disponible+" <i class='fa fa-clock-o'></i></h5>");
+
                                $("#numero_caidas").append(data.numero_caidas);
-                               $("#tiempo_caido").append(" <h5>"+data.tiempo_caido+"</h5>");
-                               $("#tiempo_online").append(" <h5>"+data.tiempo_online+"</h5>");
-                                $("#mayor_caida").append(" <h5>"+data.mayor_caida+"</h5>");
-                                 $("#menor_caida").append(" <h5>"+data.menor_caida+"</h5>");
-                                 $("#disponibilidad").append(data.disponibilidad+" %");
+
+                               var objetivos_caidas = '<b><i>Numero de Caídas (Por '+data.ans.unidad_num_caidas+')</i></b><br><br>';
+                                     objetivos_caidas =  objetivos_caidas+'<div class="progress">';  
+                                      objetivos_caidas =  objetivos_caidas+'<div class="progress-bar progress-bar-success" style="width: 33%">';
+                                      objetivos_caidas =  objetivos_caidas+'<div class="text-center"><b>Normal</b></div>';
+                                       objetivos_caidas =  objetivos_caidas+'</div>';
+                                       objetivos_caidas =  objetivos_caidas+'<div class="progress-bar progress-bar-warning" style="width: 33%">';
+                                       objetivos_caidas =  objetivos_caidas+'<div class="text-center"><b> Alerta </b></div>';
+                                       objetivos_caidas =  objetivos_caidas+'</div>';
+                                       objetivos_caidas =  objetivos_caidas+'<div class="progress-bar progress-bar-danger" style="width: 34%">';
+                                       objetivos_caidas =  objetivos_caidas+'<div class="text-center"><b>Fallo</b></div>';
+                                       objetivos_caidas =  objetivos_caidas+'</div>';
+                                       objetivos_caidas =  objetivos_caidas+'</div>';
+                                      objetivos_caidas =  objetivos_caidas+'<div class="progress-meter">';
+                                       objetivos_caidas =  objetivos_caidas+'<div class="meter meter-left" style="width: 33%;"><span class="meter-text">0 Caídas</span></div>';
+                                     objetivos_caidas =  objetivos_caidas+'<div class="meter meter-left" style="width: 33%;"><span class="meter-text">';
+                                     if (data.ans.minimo_num_caidas > 1) {
+                                              objetivos_caidas =  objetivos_caidas+data.ans.minimo_num_caidas+" caídas";
+                                     }
+                                     else{
+                                            objetivos_caidas =  objetivos_caidas+data.ans.minimo_num_caidas+" caída";
+                                     }
+                                     objetivos_caidas =  objetivos_caidas+'</span></div>';
+                                     objetivos_caidas =  objetivos_caidas+'<div class="meter meter-left" style="width: 34%;"><span class="meter-text">';
+                                       if (data.ans.maximo_num_caidas > 1) {
+                                              objetivos_caidas =  objetivos_caidas+data.ans.maximo_num_caidas+" caídas";
+                                     }
+                                     else{
+                                            objetivos_caidas =  objetivos_caidas+data.ans.maximo_num_caidas+" caída";
+                                     }
+                                     objetivos_caidas =  objetivos_caidas+'</span></div>';
+                                     objetivos_caidas =  objetivos_caidas+'</div><br>';
+
+
+                               $("#numero_caidas_ANS").append(objetivos_caidas);
+
+
+                                var objetivos_duracion_caidas = '<b><i>Duración de Caídas</i></b><br><br>';
+                                     objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="progress">';  
+                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="progress-bar progress-bar-success" style="width: 33%">';
+                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="text-center"><b>Normal</b></div>';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'</div>';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="progress-bar progress-bar-warning" style="width: 33%">';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="text-center"><b> Alerta </b></div>';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'</div>';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="progress-bar progress-bar-danger" style="width: 34%">';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="text-center"><b>Fallo</b></div>';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'</div>';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'</div>';
+                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="progress-meter">';
+                                       objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="meter meter-left" style="width: 33%;"><span class="meter-text">0 '+data.ans.unidad_duracion_caidas+'</span></div>';
+                                     objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="meter meter-left" style="width: 33%;"><span class="meter-text">';
+                                     if (data.ans.minimo_duracion_caidas > 1) {
+                                              objetivos_duracion_caidas =  objetivos_duracion_caidas+data.ans.minimo_duracion_caidas+" "+data.ans.unidad_duracion_caidas;
+                                     }
+                                     else{
+                                            var str = data.ans.unidad_duracion_caidas;
+                                            var newStr = str.substring(0, str.length-1);
+                                            objetivos_duracion_caidas =  objetivos_duracion_caidas+data.ans.minimo_duracion_caidas+" "+newStr;
+                                     }
+                                     objetivos_duracion_caidas =  objetivos_duracion_caidas+'</span></div>';
+                                     objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="meter meter-left" style="width: 34%;"><span class="meter-text">';
+                                       if (data.ans.maximo_duracion_caidas > 1) {
+                                              objetivos_duracion_caidas =  objetivos_duracion_caidas+data.ans.maximo_duracion_caidas+" "+data.ans.unidad_duracion_caidas;
+                                     }
+                                     else{
+                                            var str = data.ans.unidad_duracion_caidas;
+                                            var newStr = str.substring(0, str.length-1);
+                                            objetivos_duracion_caidas =  objetivos_duracion_caidas+data.ans.maximo_duracion_caidas+" "+newStr;
+                                     }
+                                     objetivos_duracion_caidas =  objetivos_duracion_caidas+'</span></div>';
+                                     objetivos_duracion_caidas =  objetivos_duracion_caidas+'</div><br>';
+
+                               $("#tiempo_caido").append(" <h5>"+data.tiempo_caido+" <i class='fa fa-clock-o'></i></h5>");   
+                                $("#tiempo_caido_ANS").append(objetivos_duracion_caidas);   
+
+                                $("#mayor_caida").append(" <h5>"+data.mayor_caida+" <i class='fa fa-clock-o'></i></h5>");
+                                 $("#menor_caida").append(" <h5>"+data.menor_caida+" <i class='fa fa-clock-o'></i></h5>");
+
+                               
 
                                $('#tabla_caida_servicios').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
                                .removeClass('tablesorter')
@@ -119,10 +202,205 @@ function mostrarHistorialDiario() {
                                .removeClass('header headerSortDown headerSortUp');
 
                               $('#tabla_caida_servicios').dataTable( {
-                                "iDisplayLength": 4,
+                                "iDisplayLength": 6,
                                 "bLengthChange": false,
                                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
                                 });
+
+
+                              // GRAFICAS NIVELES DE SERVICIO
+                              /**************************************************************/
+                              var maximo = parseInt(data.ans.maximo_num_caidas)+2;
+                              alert(maximo);
+                              // Trafica de Numero de Caídas
+                              $('#container-caidas').highcharts({
+                                  chart: {
+                                      type: 'gauge',
+                                      plotBackgroundColor: null,
+                                      plotBackgroundImage: null,
+                                      plotBorderWidth: 0,
+                                      plotShadow: false
+                                  },                                  
+                                  exporting: { enabled: false },
+                                  credits: {enabled: false },
+
+                                  title: { text: 'Número de Caidas'},
+                                  pane: {
+                                      startAngle: -150,
+                                      endAngle: 150,
+                                      background: [{
+                                          backgroundColor: {
+                                              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                              stops: [
+                                                  [0, '#FFF'],
+                                                  [1, '#333']
+                                              ]
+                                          },
+                                          borderWidth: 0,
+                                          outerRadius: '109%'
+                                      }, {
+                                          backgroundColor: {
+                                              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                              stops: [
+                                                  [0, '#333'],
+                                                  [1, '#FFF']
+                                              ]
+                                          },
+                                          borderWidth: 1,
+                                          outerRadius: '107%'
+                                      }, {
+                                          // default background
+                                      }, {
+                                          backgroundColor: '#DDD',
+                                          borderWidth: 0,
+                                          outerRadius: '105%',
+                                          innerRadius: '103%'
+                                      }]
+                                  },
+
+                                  // the value axis
+                                  yAxis: {
+                                      min: 0,
+                                      max: maximo,
+
+                                      minorTickInterval: 'auto',
+                                      minorTickWidth: 1,
+                                      minorTickLength: 10,
+                                      minorTickPosition: 'inside',
+                                      minorTickColor: '#666',
+
+                                      tickPixelInterval: 30,
+                                      tickWidth: 2,
+                                      tickPosition: 'inside',
+                                      tickLength: 10,
+                                      tickColor: '#666',
+                                      labels: {
+                                          step: 2,
+                                          rotation: 'auto'
+                                      },
+                                      title: {
+                                          text: ' '
+                                      },
+                                      plotBands: [{
+                                          from: 0,
+                                          to: data.ans.minimo_num_caidas,
+                                          color: '#55BF3B' // green
+                                      }, {
+                                          from: data.ans.minimo_num_caidas,
+                                          to: data.ans.maximo_num_caidas,
+                                          color: '#DDDF0D' // yellow
+                                      }, {
+                                          from: data.ans.maximo_num_caidas,
+                                          to: maximo,
+                                          color: '#DF5353' // red
+                                      }]
+                                  },
+
+                                  series: [{
+                                      name: 'N de Caidas',
+                                      data: [data.numero_caidas],
+                                      tooltip: {
+                                          //valueSuffix: ' km/h'
+                                      }
+                                  }]
+
+                              },
+                                  // Add some life
+                                 function (chart) {
+                                      if (!chart.renderer.forExport) {
+                                          setInterval(function () {
+                                              //newVal = 8;                    
+                                              point.update(newVal);
+
+                                          });
+                                      }
+                                  });
+
+                              // Gráfica de disponibilidad 
+                              var gaugeOptions = {
+
+                                      chart: {
+                                          type: 'solidgauge'
+                                      },
+
+                                      title: null,
+
+                                      pane: {
+                                          center: ['50%', '85%'],
+                                          size: '140%',
+                                          startAngle: -90,
+                                          endAngle: 90,
+                                          background: {
+                                              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                                              innerRadius: '60%',
+                                              outerRadius: '100%',
+                                              shape: 'arc'
+                                          }
+                                      },
+                                      exporting: { enabled: false },
+                                      credits: {enabled: false },
+
+                                      tooltip: {
+                                          enabled: false
+                                      },
+
+                                      // the value axis
+                                      yAxis: {
+                                          stops: [
+                                              [0.01, '#DF5353'], // red
+                                              [0.85, '#DDDF0D'], // yellow
+                                              [0.97, '#55BF3B']// green
+                                          ],
+                                          lineWidth: 0,
+                                          minorTickInterval: null,
+                                          tickPixelInterval: 400,
+                                          tickWidth: 0,
+                                          title: {
+                                              y: -70
+                                          },
+                                          labels: {
+                                              y: 16
+                                          }
+                                      },
+
+                                      plotOptions: {
+                                          solidgauge: {
+                                              dataLabels: {
+                                                  y: 5,
+                                                  borderWidth: 0,
+                                                  useHTML: true
+                                              }
+                                          }
+                                      }
+                                  };
+
+                                  
+                                  $('#container-disponibilidad').highcharts(Highcharts.merge(gaugeOptions, {
+                                      yAxis: {
+                                          min: 0,
+                                          max: 100,
+                                          title: {
+                                              text: '<b>Disponibilidad</b>'
+                                          }
+                                      },
+
+                                      credits: {
+                                          enabled: false
+                                      },
+
+                                      series: [{
+                                          //name: 'Speed',
+                                          data: [data.disponibilidad],
+                                          dataLabels: {
+                                              format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                                                  ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                                                     '<span style="font-size:12px;color:silver"> </span></div>'
+                                          },
+                                      }]
+
+                                  }));
+                               // GRAFICAS NIVELES DE SERVICIO
+                              /**************************************************************/
                               //Fin de creación de tabla de caídas de servicio
 
 
@@ -534,4 +812,299 @@ $( document ).ready(function() {
         $('#dia_historial').data("DateTimePicker").disable();
 
 
+
+        $('#container').highcharts({
+
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+
+        title: {
+            text: 'Numero de Caidas'
+        },
+
+        pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                // default background
+            }, {
+                backgroundColor: '#DDD',
+                borderWidth: 0,
+                outerRadius: '105%',
+                innerRadius: '103%'
+            }]
+        },
+
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 8,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: 'km/h'
+            },
+            plotBands: [{
+                from: 0,
+                to: 2,
+                color: '#55BF3B' // green
+            }, {
+                from: 2,
+                to: 5,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: 5,
+                to: 8,
+                color: '#DF5353' // red
+            }]
+        },
+
+        series: [{
+            name: 'N de Caidas',
+            data: [2],
+            tooltip: {
+                //valueSuffix: ' km/h'
+            }
+        }]
+
+    },
+        // Add some life
+        function (chart) {
+            if (!chart.renderer.forExport) {
+                setInterval(function () {
+                    //newVal = 8;                    
+                    point.update(newVal);
+
+                });
+            }
+        });
+
+
 });
+
+/*
+ $('#container').highcharts({
+
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+
+        title: {
+            text: 'Numero de Caidas'
+        },
+
+        pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                // default background
+            }, {
+                backgroundColor: '#DDD',
+                borderWidth: 0,
+                outerRadius: '105%',
+                innerRadius: '103%'
+            }]
+        },
+
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 8,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: 'km/h'
+            },
+            plotBands: [{
+                from: 0,
+                to: 2,
+                color: '#55BF3B' // green
+            }, {
+                from: 2,
+                to: 5,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: 5,
+                to: 8,
+                color: '#DF5353' // red
+            }]
+        },
+
+        series: [{
+            name: 'N de Caidas',
+            data: [2],
+            tooltip: {
+                //valueSuffix: ' km/h'
+            }
+        }]
+
+    },
+        // Add some life
+        function (chart) {
+            if (!chart.renderer.forExport) {
+                setInterval(function () {
+                    //newVal = 8;                    
+                    point.update(newVal);
+
+                });
+            }
+        });*/
+
+/*
+var gaugeOptions = {
+
+        chart: {
+            type: 'solidgauge'
+        },
+
+        title: null,
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            stops: [
+                [0.01, '#DF5353'], // red
+                [0.85, '#DDDF0D'], // yellow
+                [0.97, '#55BF3B']// green
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+            title: {
+                y: -70
+            },
+            labels: {
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+
+    // The speed gauge
+    $('#container-speed').highcharts(Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: 'Disponibilidad'
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            //name: 'Speed',
+            data: [100],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                       '<span style="font-size:12px;color:silver"> </span></div>'
+            },
+        }]
+
+    }));*/

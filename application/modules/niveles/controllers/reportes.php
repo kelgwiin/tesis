@@ -190,29 +190,55 @@ class Reportes extends MX_Controller
 
 		$i = 0;
 		foreach ($caidas as $caida) {
+			$modificado = false;
 			if($caida->inicio_caida == $horario_inicio  &&  $caida->fin_caida > $horario_fin){
 			        $caidas[$i]->fin_caida = $horario_fin;
+			        $modificado = true;
 			}
 			else if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida == $horario_fin){
 			        $caidas[$i]->inicio_caida = $horario_inicio;
+			        $modificado = true;
 			}
 			else if($caida->inicio_caida < $horario_inicio  &&  $caida->fin_caida > $horario_fin){
 			        $caidas[$i]->inicio_caida = $horario_inicio;
 			        $caidas[$i]->fin_caida = $horario_fin;
+			        $modificado = true;
 			}
 
 			else if($caida->inicio_caida < $horario_inicio  &&  ($caida->fin_caida < $horario_fin && $caida->fin_caida > $horario_inicio) ){
 			        $caidas[$i]->inicio_caida = $horario_inicio;
+			        $modificado = true;
 			}
 
 			else if( ($caida->inicio_caida > $horario_inicio && $caida->inicio_caida < $horario_fin)  &&  $caida->fin_caida > $horario_fin){
 			        $caidas[$i]->fin_caida = $horario_fin;
+			        $modificado = true;
+			}
+
+			if($modificado == true){
+
+				$tiempo_inicio = $caidas[$i]->inicio_caida; 
+				$inicio = date_create($tiempo_inicio);
+				$tiempo_inicio = date_format($inicio,"H:i:s");
+
+				$tiempo_culminacion = $caidas[$i]->fin_caida; 
+				$fin = date_create($tiempo_culminacion);
+				$tiempo_culminacion = date_format($fin,"H:i:s"); 
+
+			     	$tiempo1 = new DateTime($tiempo_inicio);
+				$tiempo2 = new DateTime($tiempo_culminacion);
+  				$resta = $tiempo1->diff($tiempo2);
+				$duracion = $resta->h.":".$resta->i.":".$resta->s;				
+
+				$caidas[$i]->duracion_caida_seg = $this->tiempoSegundos($duracion);
+
+				$caidas[$i]->duracion_caida = $this->transformarSegundos($caidas[$i]->duracion_caida_seg);
 			}
 
 		           $i++;
 		}
 
-		//$caidas[1]= 'pija';
+		
 		return $caidas;
 	}
 
@@ -238,25 +264,22 @@ class Reportes extends MX_Controller
 		//$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
 		//$historial = $historial_servicio['caidas_servicio'];
 
-		//PRUEBAAAAA************ 
+		
 		$horario_inicio = $horario_disponibilidad[$dia_semana]->horario_inicio;
 		$horario_fin = $horario_disponibilidad[$dia_semana]->horario_fin;
 
+		$historial_servicio['tiempo_disponible'] = $horario_disponibilidad[$dia_semana]->disponibilidad_tiempo; //Tiempo que debe estar disponible el Servicio según el ANS
+
+		//PRUEBAAAAA************ 
 		//$historial_servicio['prueba'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
-
-		$historial_servicio['caidas_servicio'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+		//$historial_servicio['caidas_servicio'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
 		//$historial = $historial_servicio['caidas_servicio'];
-
-		$historial_servicio['prueba2'] = date('2015-02-24 08:00:00');
+		//$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
+		//FIIN PRUEBAAA************
 
 		$caidas = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
-
-		//$historial_servicio['caidas_servicio'] = $caidas_normalizadas;
-		$historial_servicio['caidas_servicio'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
-		$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
-		$historial = $historial_servicio['caidas_servicio'];
-
-		//FIIN PRUEBAAA************
+		$historial_servicio['caidas_servicio'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);		
+		$historial = $historial_servicio['caidas_servicio'];		
 
 		// Transformar formato datetime a solo tiempo y Obtener tiempo de caída total por Servicio
 		$i = 0;
@@ -265,10 +288,10 @@ class Reportes extends MX_Controller
 		$caida_menor = 0;
 		foreach ($historial as  $registro) {
 			$inicio = date_create($historial_servicio['caidas_servicio'][$i]->inicio_caida);
-			//$historial_servicio['caidas_servicio'][$i]->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
+			$historial_servicio['caidas_servicio'][$i]->inicio_caida =  date_format($inicio,'d/m/Y h:i:s a');
 
 			$fin = date_create($historial_servicio['caidas_servicio'][$i]->fin_caida);
-			//$historial_servicio['caidas_servicio'][$i]->fin_caida =  date_format($fin,'d/m/Y h:i:s a');
+			$historial_servicio['caidas_servicio'][$i]->fin_caida =  date_format($fin,'d/m/Y h:i:s a');
 
 			$tiempo_caida = $tiempo_caida + $registro->duracion_caida_seg;
 
@@ -288,8 +311,10 @@ class Reportes extends MX_Controller
 
 		$segundos = $tiempo_caida;
 
+
+
 		//Disponibilidad
-		$historial_servicio['disponibilidad'] = round( ((100)-((100*$segundos)/86400)) , 2);
+		$historial_servicio['disponibilidad'] = round( ((100)-((100*$segundos)/$horario_disponibilidad[$dia_semana]->disponibilidad_segundos)) , 2);
 
 		//Numero de caídas
 		$historial_servicio['numero_caidas'] = count($historial);
@@ -298,7 +323,7 @@ class Reportes extends MX_Controller
 		$historial_servicio['tiempo_caido'] = $this->transformarSegundos($segundos);
 
 		//Tiempo en linea
-		$tiempo_online = 86400 - $segundos;		
+		$tiempo_online = $horario_disponibilidad[$dia_semana]->disponibilidad_segundos - $segundos;		
 		$historial_servicio['tiempo_online'] = $this->transformarSegundos($tiempo_online);
 
 		//Mayor Caída
@@ -369,9 +394,12 @@ class Reportes extends MX_Controller
 
 		$horario_disponibilidad = $this->obtener_horario_disponibilidad($acuerdo); //Información de Horario de disponibilidad del Servicio
 
+		
 
 		// Calculando el Historial del Servicio en comparación a los Objetivos establecidos en el ANS
-		$historial_servicio = $this->obtener_historial_diario($servicio_id,$fecha_dia,$horario_disponibilidad);		
+		$historial_servicio = $this->obtener_historial_diario($servicio_id,$fecha_dia,$horario_disponibilidad);	
+
+		$historial_servicio['ans'] = $acuerdo;	
 
 		//$historial_servicio['dia'] = $this->obtener_horario_disponibilidad($acuerdo);
 
