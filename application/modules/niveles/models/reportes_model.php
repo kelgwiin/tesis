@@ -30,6 +30,8 @@ class Reportes_model extends CI_Model
 												    (TIME(inicio_caida) = '$horario_inicio' AND TIME(fin_caida) > '$horario_fin') OR
 												    (TIME(inicio_caida) > '$horario_inicio' AND TIME(fin_caida) < '$horario_fin') OR 
 												    (TIME(inicio_caida) < '$horario_inicio' AND (TIME(fin_caida) < '$horario_fin' AND TIME(fin_caida) > '$horario_inicio' )) OR
+												    (TIME(inicio_caida) = '$horario_inicio' AND (TIME(fin_caida) < '$horario_fin' AND TIME(fin_caida) > '$horario_inicio' )) OR
+												    ( (TIME(inicio_caida) > '$horario_inicio' AND TIME(inicio_caida) < '$horario_fin') AND TIME(fin_caida) = '$horario_fin') OR
 												     ( (TIME(inicio_caida) > '$horario_inicio' AND TIME(inicio_caida) < '$horario_fin') AND TIME(fin_caida) > '$horario_fin'))";
 		
 		$this->db->where($where);

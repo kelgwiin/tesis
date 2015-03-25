@@ -311,8 +311,6 @@ class Reportes extends MX_Controller
 
 		$segundos = $tiempo_caida;
 
-
-
 		//Disponibilidad
 		$historial_servicio['disponibilidad'] = round( ((100)-((100*$segundos)/$horario_disponibilidad[$dia_semana]->disponibilidad_segundos)) , 2);
 
@@ -321,16 +319,20 @@ class Reportes extends MX_Controller
 
 		//Duración de caída
 		$historial_servicio['tiempo_caido'] = $this->transformarSegundos($segundos);
+		$historial_servicio['tiempo_caido_segundos'] =$segundos;
 
 		//Tiempo en linea
 		$tiempo_online = $horario_disponibilidad[$dia_semana]->disponibilidad_segundos - $segundos;		
 		$historial_servicio['tiempo_online'] = $this->transformarSegundos($tiempo_online);
+		
 
 		//Mayor Caída
 		$historial_servicio['mayor_caida'] = $this->transformarSegundos($caida_mayor);
+		$historial_servicio['mayor_caida_segundos'] = $caida_mayor;
 
 		//Mayor Caída
 		$historial_servicio['menor_caida'] = $this->transformarSegundos($caida_menor);
+		$historial_servicio['menor_caida_segundos'] = $caida_menor;
 
 
 		//Información de Procesos por Servicio

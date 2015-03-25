@@ -158,12 +158,15 @@ style="display:none"
 
 	</div>
 
-	<div class="row" style="padding: 45px; margin-top: -90px; margin-bottom: -40px">
+	<div class="row" style="padding: 20px; margin-top: -70px; margin-bottom: -40px">
 		<div class="panel panel-default">
 		  <div class="panel-body">
 		   	<!--<div style="width: 600px; height: 400px; margin: 0 auto">-->
 				<div id="container-disponibilidad" style="width: 300px; height: 200px; float: left; vertical-align:middle;"></div>
 				<div id="container-caidas" style="width: 220px; height: 220px; float: left"></div>
+				<div id="container-tiempo-caido" style="width: 220px; height: 220px; float: left"></div>
+				<div id="container-mayor-caida" style="width: 220px; height: 220px; float: left"></div>
+				<div id="container-menor-caida" style="width: 200px; height: 220px; float: left"></div>
 			<!--</div>-->
 		  </div>
 		</div>
