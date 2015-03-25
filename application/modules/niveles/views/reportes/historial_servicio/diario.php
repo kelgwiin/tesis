@@ -60,7 +60,7 @@
 		          </div> 
 		          <div>
 			<div class="input-group">
-				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value="02/24/2015"/>
+				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value="02/28/2015"/>
 				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			</div>
 		          </div>
@@ -90,8 +90,8 @@
 <div id='no_info' style="display:none">
 <hr> <div class="alert alert-warning col-md-8 col-md-offset-2 text-center" role="alert"> <b>No existe información para el Servicio y Día Solicitados </b> </div>
 </div>
-style="display:none"
-<div id='informacion_historial' >
+
+<div id='informacion_historial' style="display:none">
 <hr>
 
 	<div class="row" style=" padding: 45px;">

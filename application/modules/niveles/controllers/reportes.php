@@ -260,24 +260,16 @@ class Reportes extends MX_Controller
 		// Calculando que día de la semana es. (lunes, martes, etc)
 		$dia_semana = (int)date('N', strtotime($fecha_dia));
 
-		//Obteniendo caídas registradas para el Servicio
-		//$historial_servicio['caidas_servicio'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida)' => $fecha_dia));
-		//$historial = $historial_servicio['caidas_servicio'];
-
-		
+			
 		$horario_inicio = $horario_disponibilidad[$dia_semana]->horario_inicio;
 		$horario_fin = $horario_disponibilidad[$dia_semana]->horario_fin;
 
 		$historial_servicio['tiempo_disponible'] = $horario_disponibilidad[$dia_semana]->disponibilidad_tiempo; //Tiempo que debe estar disponible el Servicio según el ANS
 
-		//PRUEBAAAAA************ 
-		//$historial_servicio['prueba'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
-		//$historial_servicio['caidas_servicio'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
-		//$historial = $historial_servicio['caidas_servicio'];
-		//$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
-		//FIIN PRUEBAAA************
-
+		//Obteniendo caídas registradas para el Servicio	
 		$caidas = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+
+		//Normalizando las caídas para el intervalo de disponibilidad diario
 		$historial_servicio['caidas_servicio'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);		
 		$historial = $historial_servicio['caidas_servicio'];		
 
@@ -344,8 +336,30 @@ class Reportes extends MX_Controller
 		//Almacenar información de caída de procesos
 		$historial_servicio['caidas_procesos'] = array();
 
+		$historial_servicio['prueba_caidas_procesos'] = array();
+
+
+		//PRUEBAAAAA************ 
+		//$historial_servicio['prueba'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+		//$historial_servicio['caidas_servicio'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
+		//$historial = $historial_servicio['caidas_servicio'];
+		//$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
+		//FIIN PRUEBAAA************
+
 		foreach ($procesos_id as $proceso) {
-			$caidas_proceso = $this->general->get_result('proceso_caida_historial',array('proceso_id'=>$proceso->servicio_proceso_id));
+
+			//$caidas_proceso = $this->general->get_result('proceso_caida_historial',array('proceso_id'=>$proceso->servicio_proceso_id)); //Asi estaba sin depender del ANS
+
+			//Obtener caídas por proceso
+			$caidas = $this->reportes->obtener_historial_proceso($proceso->servicio_proceso_id, $fecha_dia, $horario_inicio, $horario_fin);
+
+			//Normalizar caídas por proceso
+			$caidas_proceso = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
+
+			//PRUEBAAAAA************ 
+			$caidas_proceso_prueba = $this->reportes->obtener_historial_proceso($proceso->servicio_proceso_id, $fecha_dia, $horario_inicio, $horario_fin);
+			$historial_servicio['prueba_caidas_procesos'] = array_merge($historial_servicio['prueba_caidas_procesos'], $caidas_proceso_prueba);
+			//FIIN PRUEBAAA************
 
 			$proceso_info[$proceso->servicio_proceso_id] = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$proceso->servicio_proceso_id));
 			$historial_servicio['procesos_info'] = $proceso_info;
@@ -365,8 +379,8 @@ class Reportes extends MX_Controller
 				$tiempo_caido = $tiempo_caido + $tiempo_caida;			
 			}
 
-			$disponibilidad_proceso = round( ((100)-((100*$tiempo_caido)/86400)) , 2);
-			$tiempo_disponible_proceso = 86400 - $tiempo_caido;
+			$disponibilidad_proceso = round( ((100)-((100*$tiempo_caido)/$horario_disponibilidad[$dia_semana]->disponibilidad_segundos)) , 2);
+			$tiempo_disponible_proceso = $horario_disponibilidad[$dia_semana]->disponibilidad_segundos - $tiempo_caido;
 			$tiempo_disponible_proceso = $this->transformarSegundos($tiempo_disponible_proceso);
 			$numero_caidas = count($caidas_proceso);
 
@@ -378,7 +392,9 @@ class Reportes extends MX_Controller
 
 
 			//Almacena todas las caídas por proceso
-			$historial_servicio['caidas_procesos'] = array_merge($historial_servicio['caidas_procesos'], $caidas_proceso);			
+			$historial_servicio['caidas_procesos'] = array_merge($historial_servicio['caidas_procesos'], $caidas_proceso);
+
+
 		}
 
 		return $historial_servicio;

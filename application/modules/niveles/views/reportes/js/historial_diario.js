@@ -38,6 +38,7 @@ function mostrarHistorialDiario() {
                         $("#menor_caida").empty();
                         $("#disponibilidad").empty();
                         $("#disponibilidad_ANS").empty();
+                        $("#tiempo_caido_ANS").empty();
 
 
                         $("#tabla_procesos").empty();
@@ -67,6 +68,12 @@ function mostrarHistorialDiario() {
                               /*for (var i = 0; i < data.prueba.length; i++) {
                                 alert(data.prueba[i].inicio_caida+" "+data.prueba[i].fin_caida+" "+data.prueba[i].duracion_caida+" "+data.prueba[i].duracion_caida_seg);
                               };*/
+
+                              //alert(data.prueba_caidas_procesos.length);
+
+                             /* for (var i = 0; i < data.prueba_caidas_procesos.length; i++) {
+                                alert(data.prueba_caidas_procesos[i].inicio_caida+" "+data.prueba_caidas_procesos[i].fin_caida+" "+data.prueba_caidas_procesos[i].duracion_caida/*+" "+data.prueba_caidas_procesos[i].duracion_caida_seg*///);
+                              //};
 
                                //alert(data.prueba2);
                                       
@@ -548,8 +555,8 @@ function mostrarHistorialDiario() {
                                         maximo_caida_mayor = parseInt(duracion_caida_mayor)+2;
                                   }
 
-                                  alert(data.tiempo_caido_segundos+" "+data.mayor_caida_segundos+" "+data.menor_caida_segundos);
-                                  alert(duracion_caida_mayor);
+                                  //alert(data.tiempo_caido_segundos+" "+data.mayor_caida_segundos+" "+data.menor_caida_segundos);
+                                 //alert(duracion_caida_mayor);
 
                                   $('#container-mayor-caida').highcharts({
                                   chart: {
