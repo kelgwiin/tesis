@@ -186,7 +186,7 @@
 	  			<div class="table-responsive" id='tabla_info'>
 
 	                            	</div>
-	                            	<small>* Los tiempos son mostrados en base a 24hrs (hh:mm:ss) </small>
+	                            	<small><i class='fa fa-clock-o'></i> El formato del tiempo es horas/minutos/segundos (hh:mm:ss) </small>
 
 	  		</div>
 		   </div>

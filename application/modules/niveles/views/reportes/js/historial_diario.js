@@ -106,7 +106,7 @@ function mostrarHistorialDiario() {
                                     tabla_historial_servicio = tabla_historial_servicio+'<tr>';
                                     tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.inicio_caida+'</td>';
                                     tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.fin_caida+'</td>';
-                                    tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.duracion_caida+' </td>';
+                                    tabla_historial_servicio = tabla_historial_servicio+'<td class="text-center">'+caida.duracion_caida+' </td>';
                                     tabla_historial_servicio = tabla_historial_servicio+'</tr>';
                               });
 
@@ -810,7 +810,7 @@ function mostrarHistorialDiario() {
                                     tabla_historial_proceso = tabla_historial_proceso+'<td>'+data.procesos_info[caida.proceso_id].nombre+'</td>';
                                     tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.inicio_caida+'</td>';
                                     tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.fin_caida+'</td>';
-                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.duracion_caida+' </td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td class="text-center">'+caida.duracion_caida+' </td>';
                                     tabla_historial_proceso = tabla_historial_proceso+'</tr>';
                               });
 
