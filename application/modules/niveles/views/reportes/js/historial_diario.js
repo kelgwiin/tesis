@@ -1171,7 +1171,7 @@ $( document ).ready(function() {
                         });             
                 }
                 else{
-                  $('#dia_historial').data("DateTimePicker").disable()
+                  $('#dia_historial').data("DateTimePicker").disable();
                 }
         });
 

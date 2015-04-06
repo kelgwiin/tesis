@@ -426,7 +426,7 @@ class Reportes extends MX_Controller
 
 
 
-	/*function obtener_historial_servicio_semana(){
+	function obtener_historial_servicio_semana(){
 
 		$servicio_id = $this->input->post('servicio_id');
 
@@ -434,22 +434,29 @@ class Reportes extends MX_Controller
 		$inicio = date_create($lunes);
 		$lunes = date_format($inicio,"Y-m-d");
 
-		$domingo = strtotime ( '+6 day' , strtotime ($lunes));
-		$domingo = date ( 'Y-m-d' , $domingo );
+		/*$domingo = strtotime ( '+6 day' , strtotime ($lunes));
+		$domingo = date ( 'Y-m-d' , $domingo );*/
 
-		$historial_semanal['caidas_servicio_semanal'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida) >=' => $lunes, 'DATE(inicio_caida) <=' => $domingo));
+		//$dias[0] =  $lunes;
 
-		$caidas_semanal = $historial_semanal['caidas_servicio_semanal'] ;
+		for ($i=0; $i <= 6 ; $i++) { 
+			$dias[$i] =  strtotime ( '+'.$i.' day' , strtotime ($lunes));
+			$dias[$i] = date ( 'Y-m-d' , $dias[$i]);
+		}
+
+		$historial_semanal['dias'] = $dias;
+
+
+		/*$historial_semanal['caidas_servicio_semanal'] = $this->general->get_result('servicio_caida_historial',array('servicio_id'=>$servicio_id, 'DATE(inicio_caida) >=' => $lunes, 'DATE(inicio_caida) <=' => $domingo));
+
+		$caidas_semanal = $historial_semanal['caidas_servicio_semanal'] ;*/
 
 
 
 		//$historial_semanal['domingo'] = $domingo;
 
 		echo json_encode($historial_semanal);
-
-
-
-	}*/
+	}
 
 
 

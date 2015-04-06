@@ -2,13 +2,13 @@ function mostrarHistorialSemanal() {
 
     var existe_error = false;
 
-    if($("#dropdown_servicios_semanal").val() == 'seleccione'){
-                $("#error_servicio_semanal").empty();
-                $("#error_servicio_semanal").append('Seleccione un Servicio');
+    if($("#dropdown_acuerdos_semanal").val() == 'seleccione'){
+                $("#error_acuerdos_semanal").empty();
+                $("#error_acuerdos_semanal").append('Seleccione un Acuerdo');
                 existe_error = true;
             }
             else{
-                $("#error_servicio_semanal").empty();
+                $("#error_acuerdos_semanal").empty();
             }
 
              if($("#dia_historial_semanal").val() == ''){
@@ -25,6 +25,7 @@ function mostrarHistorialSemanal() {
 
                         var id_servicio = $("#dropdown_servicios_semanal").val();
                         var fecha_dia = $("#dia_historial_semanal").val();
+                        var id_acuerdo = $("#dropdown_acuerdos_semanal").val();
 
                           $.ajax({
                  
@@ -33,13 +34,23 @@ function mostrarHistorialSemanal() {
                             type: 'POST',
                             data: {                         
                                     servicio_id : id_servicio,
-                                    dia : fecha_dia,                                             
+                                    dia : fecha_dia,   
+                                    acuerdo_id : id_acuerdo,                                              
                                   },
                             dataType: 'json',
                             cache : false,  
 
                              success: function(data){
-                                alert(data.caidas_servicio_semanal.length);
+                                //alert('hola');
+                                //alert(data.caidas_servicio_semanal.length);
+
+                                alert(data.dias.length);
+
+                                data.dias.forEach(function(dia) {
+
+                                  alert(dia);
+
+                                });
 
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -57,11 +68,83 @@ function mostrarHistorialSemanal() {
 
 $( document ).ready(function() {
 
-            $("#dropdown_servicios_semanal").change(function () {
+        $("#dropdown_servicios_semanal").change(function () {
             if($("#dropdown_servicios_semanal").val() != 'seleccione'){             
                         $("#error_servicio_semanal").empty();
                     }   
             });
+
+
+             // Llenado del dropdown de ANS.
+    $("#dropdown_servicios_semanal").change(function () {
+
+            $("#no_acuerdos_semanal").fadeOut(); 
+
+            $("#error_acuerdos_semanal").empty();
+            $("#error_semanal").empty();      
+           
+
+           // $('#dia_historial').val("");
+           //  $('#dia_historial_semanal').data("DateTimePicker").disable();
+
+        if($("#dropdown_servicios_semanal").val() != 'seleccione'){             
+                    //$("#error_servicio").empty();
+                  var id_servicio = $("#dropdown_servicios_semanal").val();
+
+                  $.ajax({   
+                            url: config.base+'index.php/niveles/reportes/obtener_ans_servicio',
+                            type: 'POST',
+                            data: {                         
+                                    servicio_id : id_servicio,                                       
+                                  },
+                            dataType: 'json',
+                            cache : false,  
+
+                             success: function(data){
+
+                                    $('select#dropdown_acuerdos_semanal').empty();
+                                    $('select#dropdown_acuerdos_semanal').append('<option value="seleccione">Seleccione un Acuerdo</option>');
+
+                                    if(data.acuerdos.length > 0){
+                                          var option = "";                                    
+                                          for (var i = 0; i < data.acuerdos.length; i++) {
+                                             option = '<option value="'+data.acuerdos[i].acuerdo_nivel_id+'">'+data.acuerdos[i].nombre_acuerdo+'</option> ';
+                                             $('select#dropdown_acuerdos_semanal').append(option);
+                                          };
+                                           
+                                          $("#opciones_reporte_semanal").fadeIn(); 
+                                    }  
+                                    else{
+
+                                        $("#opciones_reporte_semanal").hide(); 
+                                        $("#no_acuerdos_semanal").fadeIn(); 
+                                    }
+                                  
+                             },
+                             error: function(xhr, ajaxOptions, thrownError){
+                                   alert(xhr.status+" "+thrownError);
+                                   $("#modal_error").modal('show');                                                
+                                 }
+                        });                    
+            }
+            else{                
+
+                  $("#opciones_reporte_semanal").fadeOut();
+                     
+            }   
+       });
+
+        $("#dropdown_acuerdos_semanal").change(function () {
+
+            if($("#dropdown_acuerdos_semanal").val()  != 'seleccione' ){
+
+                 $('#dia_historial_semanal').data("DateTimePicker").enable();
+            }
+            else{
+                $('#dia_historial_semanal').data("DateTimePicker").disable();
+            }
+        });
+
 
             $("#dia_historial_semanal").change(function () {
                 if($("#dia_historial_semanal").val() != ''){            
@@ -80,120 +163,6 @@ $( document ).ready(function() {
                     down: "fa fa-chevron-down"
                 }
                 });
-
-
-            //Gráfica
-          /*  $('#container123').highcharts({
-                exporting: { enabled: false },
-                credits: {
-                      enabled: false
-                  },
-                title: {
-                    text: 'Monthly Average Temperature',
-                    x: -20 //center
-                },
-                subtitle: {
-                    text: 'Source: WorldClimate.com',
-                    x: -20
-                },
-                xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                },
-                yAxis: {
-                    min: 0,
-                    minRange: 0.1,
-                    title: {
-                        text: 'Temperature (°C)'
-                    },
-                    plotLines: [{
-                        value: 0,
-                        width: 1,
-                        color: '#808080'
-                    }]
-                },
-                tooltip: {
-                    valueSuffix: '°C'
-                },
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    borderWidth: 0
-                },
-                series: [{
-                    name: 'Tokyo',
-                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-                }, {
-                    name: 'New York',
-                    data: [ 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-                }, {
-                    name: 'Berlin',
-                    data: [0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-                }, {
-                    name: 'London',
-                    data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-                }]
-            });
-
-//Gráfica
-            $('#container1234').highcharts({
-                title: {
-                    text: 'Monthly Average Temperature',
-                    x: -20 //center
-                },
-                exporting: { enabled: false },
-                credits: {
-                  enabled: false
-              },
-                subtitle: {
-                    text: 'Source: WorldClimate.com',
-                    x: -20
-                },
-
-                xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                },
-                yAxis: {
-                    min: 0,
-                    minRange: 0.1,
-                    title: {
-                        text: 'Temperature (°C)'
-                    },
-                    plotLines: [{
-                        value: 0,
-                        width: 1,
-                        color: '#808080'
-                    }]
-                },
-                tooltip: {
-                    valueSuffix: '°C'
-                },
-                legend: {
-                    /*layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle',*/
-                 /*   layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    borderWidth: 0
-                },
-                series: [{
-                    name: 'Tokyo',
-                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-                }, {
-                    name: 'New York',
-                    data: [ 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-                }, {
-                    name: 'Berlin',
-                    data: [0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-                }, {
-                    name: 'London',
-                    data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-                }]
-            });*/
-
-
+                $('#dia_historial_semanal').data("DateTimePicker").disable();
 
 });

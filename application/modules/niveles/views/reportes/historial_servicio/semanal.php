@@ -1,6 +1,7 @@
 <br>
+
 <div class="row">
-	 <div class="col-md-3 col-md-offset-3">
+	 <div class="col-md-3 col-md-offset-4">
 		  <div class="form-group">
 		       <div class="required">
 		       <label  class="control-label">Servicio</label>
@@ -12,7 +13,7 @@
 		      foreach($servicios as $servicio)	{ 
 		      $options[$servicio->servicio_id] = $servicio->nombre;
 		       }?>
-		        <?php echo form_dropdown('servicios', $options,set_value('servicios','1'),'class="form-control" id="dropdown_servicios_semanal" '); ?>
+		        <?php echo form_dropdown('servicios', $options,set_value('servicios',''),'class="form-control" id="dropdown_servicios_semanal" '); ?>
 		  </div>
 		  <div class="form-group">
 			<div>
@@ -22,6 +23,37 @@
 			</div>
 		</div>
 	  </div>
+
+</div>
+
+<div class="row">
+	<div id='no_acuerdos_semanal' style="display:none">
+	<div class="alert alert-warning col-md-8 col-md-offset-2 text-center" role="alert"> <b>No existen ANS establecidos para este Servicio</b>.
+			 <br>Para generar un reporte debe existir por lo menos un ANS establecido para el Servicio consultado. <br>Sí desea crea un ANS puede hacer click <a target="_blank" href="<?php echo base_url().'index.php/niveles_de_servicio/gestion_ANS/crear_ANS'?>">aquí</a>.</div>
+	</div>
+</div>
+
+
+<div class="row" id="opciones_reporte_semanal" style="display:none">
+
+	 <div class="col-md-4 col-md-offset-2">
+		  <div class="form-group">
+		       <div class="required">
+		       <label  class="control-label">Acuerdo de Niveles de Servicio</label>
+		     </div> 
+		     <select id="dropdown_acuerdos_semanal" name="acuerdos" class="form-control">
+		     	<option value="seleccione">Seleccione un Acuerdo</option>
+		     </select>
+		  </div>
+		  <div class="form-group">
+			<div>
+				<label style="color:red;" id="error_acuerdos_semanal">
+					
+				</label>
+			</div>
+		</div>
+	  </div>
+	
 	   <div class="col-md-2">
 		<div class="form-group">
 		          <div class="required">
@@ -50,7 +82,7 @@
 	     </div>
 
 	     <div class="">
-		<a class="btn btn-info" id="buscar_historial_semanal" onclick="mostrarHistorialSemanal();"> <i class="fa fa-search"></i> Buscar </a>
+		<a class="btn btn-info" id="buscar_historial_semanal" onclick="mostrarHistorialSemanal();"> <i class="fa fa-file-text"></i>  Generar Reporte  </a>
 	     </div>
 	  </div>
 
