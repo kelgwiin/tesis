@@ -41,16 +41,18 @@ function mostrarHistorialSemanal() {
                             cache : false,  
 
                              success: function(data){
-                                //alert('hola');
+                                 alert('hola');
                                 //alert(data.caidas_servicio_semanal.length);
 
-                                alert(data.dias.length);
+                               /* alert(data.dias.length);
+
+                                alert(data.ans.acuerdo_nivel_id);
 
                                 data.dias.forEach(function(dia) {
 
                                   alert(dia);
 
-                                });
+                                });*/
 
                              },
                              error: function(xhr, ajaxOptions, thrownError){
