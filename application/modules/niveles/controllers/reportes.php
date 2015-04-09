@@ -494,7 +494,8 @@ class Reportes extends MX_Controller
 
 			// Si el día de semana actual esta entre los días disponibles, se obtiene su historial de servicio.
 			if (in_array($dia_semana, $dias_disponibles)) {				
-				//array_push($dias, $fecha_dia);
+				
+				array_push($dias, $fecha_dia);
 				
 				$historial_servicio = $this->obtener_historial_diario($servicio_id,$fecha_dia,$horario_disponibilidad); //HISTORIAL DIARO DEL SERVICIO			
 
@@ -527,6 +528,8 @@ class Reportes extends MX_Controller
 				 /*******************************************/
 			}
 		}
+
+		$historial_semanal['numero_dias'] = count($dias);
 
 		/** Calculando el promedio SEMANAL de los Niveles de Servicio: **/
 

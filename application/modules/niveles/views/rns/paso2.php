@@ -590,6 +590,7 @@
 					       	$options = array(
 					       	  'seleccione' => 'Seleccione',
 					       	  'dia' => 'Día',
+					       	   'semana' => 'Semana',
 					       	  'mes' => 'Mes',
 					       	  'año' => 'Año',
 			                );
