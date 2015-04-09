@@ -59,29 +59,8 @@ function mostrarHistorialDiario() {
 
                              success: function(data){
 
-                             /* for (var i = 1; i <= 7; i++) {
-                                 alert(data.dia[i].horario_inicio+" "+data.dia[i].horario_fin+" "+data.dia[i].disponibilidad_segundos+" "+data.dia[i].disponibilidad_tiempo);
-                              };*/
-
-                              //alert(data.prueba.length);
-
-                              /*for (var i = 0; i < data.prueba.length; i++) {
-                                alert(data.prueba[i].inicio_caida+" "+data.prueba[i].fin_caida+" "+data.prueba[i].duracion_caida+" "+data.prueba[i].duracion_caida_seg);
-                              };*/
-
-                              //alert(data.prueba_caidas_procesos.length);
-
-                             /* for (var i = 0; i < data.prueba_caidas_procesos.length; i++) {
-                                alert(data.prueba_caidas_procesos[i].inicio_caida+" "+data.prueba_caidas_procesos[i].fin_caida+" "+data.prueba_caidas_procesos[i].duracion_caida/*+" "+data.prueba_caidas_procesos[i].duracion_caida_seg*///);
-                              //};
-
-                               //alert(data.prueba2);
-                                      
-                              
-                             
-
                              $("#informacion_historial").hide();
-                             $("#no_info").hide();
+                             //$("#no_info").hide();
 
                             /*  if(data.caidas_servicio.length == 0){
                                         $("#no_info").fadeIn();
