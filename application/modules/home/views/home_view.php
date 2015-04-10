@@ -44,7 +44,7 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <i class="fa fa-bar-chart-o fa-5x"></i>
+                    <i class="fa fa-desktop fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
                     <p class="announcement-text">Gesti&#243;n de Operaciones</p>
@@ -179,7 +179,7 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <i class="fa fa-suitcase fa-5x"></i>
+                    <i class="fa fa-bar-chart-o fa-5x"></i>
                   </div>
                   <div class="col-xs-6 text-center">
                     <p class="announcement-text">Gesti&#243;n de Niveles de Servicio</p>

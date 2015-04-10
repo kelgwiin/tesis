@@ -137,14 +137,10 @@ $route['niveles_de_servicio/gestion_Revisiones/obtener_eventos'] = "niveles/revi
 $route['niveles_de_servicio/gestion_Revisiones/modificar_evento'] = "niveles/revisiones/modificar_evento";
 $route['niveles_de_servicio/gestion_Revisiones/eliminar_evento'] = "niveles/revisiones/eliminar_evento";
 
-$route['niveles_de_servicio/gestion_Reportes'] = "niveles/reportes/reportes";
+$route['niveles_de_servicio/gestion_Reportes'] =  "niveles/reportes/historial_servicio";
 $route['niveles_de_servicio/gestion_Reportes/procesar_data'] = "niveles/reportes/procesar_data";
-$route['niveles_de_servicio/gestion_Reportes/historial_servicio'] = "niveles/reportes/historial_servicio";
-
-
-
-
-/* end of: Rutas para el Módulo de Catalogo de Servicio de TI*/
+$route['niveles_de_servicio/gestion_Reportes/historial_servicio'] = "niveles/reportes/reportes";
+/* end of: Rutas para el Módulo de Niveles de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/
 $route['Operaciones'] = "Operaciones/Operaciones/toolset";

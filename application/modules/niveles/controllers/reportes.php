@@ -32,17 +32,30 @@ class Reportes extends MX_Controller
 			"icon" => "fa fa-flag"
 		);
 
+		
+		$l[] = array(
+			"chain" => "Gestión de RNS",
+			"href" => site_url('index.php/requisito_niveles_servicio/gestion_RNS'),
+			"icon" => "fa fa-check-square-o"
+		);
+
 		$l[] = array(
 			"chain" => "Gestión de ANS",
 			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
-			"icon" => "fa fa-suitcase"
+			"icon" => "fa fa-file-text"
 		);
 
 		$l[] = array(
 			"chain" => "Gestión de Revisiones",
-			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
-			"icon" => "fa fa-suitcase"
+			"href" => site_url('index.php/niveles_de_servicio/gestion_Revisiones'),
+			"icon" => "fa fa-calendar"
 		);
+
+		$l[] = array(
+			"chain" => "Gestión de Reportes",
+			"href" => site_url('index.php/niveles_de_servicio/gestion_Reportes'),
+			"icon" => "fa fa-bar-chart"
+		);	
 
 		return $l;
 	}
@@ -52,7 +65,7 @@ class Reportes extends MX_Controller
 
     	function index(){
 
-		     $this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/main_reporte','','Reportes','','two_level');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/main_reporte','','Niveles de Servicio | Reportes de Niveles de Servicio','','two_level');
 
     	}
 
@@ -118,25 +131,25 @@ class Reportes extends MX_Controller
 		$dias=  array();
 
 		if($acuerdo->lunes_disp_ini == NULL){
-		       array_push($dias, 0);
-		}
-		if($acuerdo->martes_disp_ini == NULL){
 		       array_push($dias, 1);
 		}
-		if($acuerdo->miercoles_disp_ini == NULL){
+		if($acuerdo->martes_disp_ini == NULL){
 		       array_push($dias, 2);
 		}
-		if($acuerdo->jueves_disp_ini == NULL){
+		if($acuerdo->miercoles_disp_ini == NULL){
 		       array_push($dias, 3);
 		}
-		if($acuerdo->viernes_disp_ini == NULL){
+		if($acuerdo->jueves_disp_ini == NULL){
 		       array_push($dias, 4);
 		}
-		if($acuerdo->sabado_disp_ini == NULL){
+		if($acuerdo->viernes_disp_ini == NULL){
 		       array_push($dias, 5);
 		}
-		if($acuerdo->domingo_disp_ini == NULL){
+		if($acuerdo->sabado_disp_ini == NULL){
 		       array_push($dias, 6);
+		}
+		if($acuerdo->domingo_disp_ini == NULL){
+		       array_push($dias, 0);
 		}
 
 		$resultado['dias'] = $dias;
@@ -144,6 +157,7 @@ class Reportes extends MX_Controller
 		echo  json_encode($resultado);
 	}
 
+	// Devuelve los días disponibles en el horario fijado en el ANS
 	// Formato para los días de la semana tipo datetime [1,2,3,4,5,6,7]
 	function obtener_dias_disponibles2($acuerdo){
 
@@ -221,8 +235,6 @@ class Reportes extends MX_Controller
 		$horario_inicio = date((string)$fecha_dia." ".(string)$horario_inicio);
 		$horario_fin = date((string)$fecha_dia." ".(string)$horario_fin);
 
-		//$horario_inicio = date_create('2015-02-24 08:00:00');
-
 		$i = 0;
 		foreach ($caidas as $caida) {
 			$modificado = false;
@@ -272,7 +284,6 @@ class Reportes extends MX_Controller
 
 		           $i++;
 		}
-
 		
 		return $caidas;
 	}
@@ -281,7 +292,7 @@ class Reportes extends MX_Controller
 	//Muestra la pagina principal de la Sección de Reportes
 	function historial_servicio(){
     		$data_view['servicios']= $this->general->get_table('servicio');
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/historial_servicio/historial_servicio',$data_view,'Reportes','','two_level');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/historial_servicio/historial_servicio',$data_view,'Niveles de Servicio | Reportes de Niveles de Servicio','','two_level');
 	}
 
 
@@ -295,6 +306,10 @@ class Reportes extends MX_Controller
 		// Calculando que día de la semana es. (lunes, martes, etc)
 		$dia_semana = (int)date('N', strtotime($fecha_dia));
 
+		$dias_nombres = array('0',"Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo");
+		$nombre_dia = $dias_nombres[$dia_semana]; 
+
+		$historial_servicio['nombre_dia'] = $nombre_dia; // Nombre del día de la semana al cual se le esta elaborando el historial
 			
 		$horario_inicio = $horario_disponibilidad[$dia_semana]->horario_inicio;
 		$horario_fin = $horario_disponibilidad[$dia_semana]->horario_fin;
@@ -373,28 +388,13 @@ class Reportes extends MX_Controller
 
 		$historial_servicio['prueba_caidas_procesos'] = array();
 
-
-		//PRUEBAAAAA************ 
-		//$historial_servicio['prueba'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
-		//$historial_servicio['caidas_servicio'] = $this->reportes->obtener_historial_servicio($servicio_id, $fecha_dia, $horario_inicio, $horario_fin);
-		//$historial = $historial_servicio['caidas_servicio'];
-		//$historial_servicio['prueba'] = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
-		//FIIN PRUEBAAA************
-
 		foreach ($procesos_id as $proceso) {
-
-			//$caidas_proceso = $this->general->get_result('proceso_caida_historial',array('proceso_id'=>$proceso->servicio_proceso_id)); //Asi estaba sin depender del ANS
 
 			//Obtener caídas por proceso
 			$caidas = $this->reportes->obtener_historial_proceso($proceso->servicio_proceso_id, $fecha_dia, $horario_inicio, $horario_fin);
 
 			//Normalizar caídas por proceso
 			$caidas_proceso = $this->normalizar_caidas($caidas,$fecha_dia, $horario_inicio,$horario_fin);
-
-			//PRUEBAAAAA************ 
-			//$caidas_proceso_prueba = $this->reportes->obtener_historial_proceso($proceso->servicio_proceso_id, $fecha_dia, $horario_inicio, $horario_fin);
-			//$historial_servicio['prueba_caidas_procesos'] = array_merge($historial_servicio['prueba_caidas_procesos'], $caidas_proceso_prueba);
-			//FIIN PRUEBAAA************
 
 			$proceso_info[$proceso->servicio_proceso_id] = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$proceso->servicio_proceso_id));
 			$historial_servicio['procesos_info'] = $proceso_info;
@@ -428,8 +428,6 @@ class Reportes extends MX_Controller
 
 			//Almacena todas las caídas por proceso
 			$historial_servicio['caidas_procesos'] = array_merge($historial_servicio['caidas_procesos'], $caidas_proceso);
-
-
 		}
 
 		return $historial_servicio;
@@ -472,7 +470,7 @@ class Reportes extends MX_Controller
 
 		$horario_disponibilidad = $this->obtener_horario_disponibilidad($acuerdo); //Información de Horario de disponibilidad del Servicio según el ANS seleccionado	
 
-		$dias_nombres = array('0',"Lunes","Martes","Mi&eacute;rcoles","Jueves","Viernes","S&aacute;bado","Domingo");
+		$dias_nombres = array('0',"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
 		$dias = array();
 		$historial_semanal['caidas_servicio']  =  array();
 		$total_porcentaje_disponibilidad = 0;
@@ -498,6 +496,7 @@ class Reportes extends MX_Controller
 				array_push($dias, $fecha_dia);
 				
 				$historial_servicio = $this->obtener_historial_diario($servicio_id,$fecha_dia,$horario_disponibilidad); //HISTORIAL DIARO DEL SERVICIO			
+				$historial_semanal['historial_servicios'][$fecha_dia] = $historial_servicio; //Se almacena el historial completo de cada día. Base para elaborar gráficas
 
 				// Sumatoria de los niveles de servicio por cada día de la semana
 				$total_porcentaje_disponibilidad = $total_porcentaje_disponibilidad + $historial_servicio['disponibilidad'];  // Sumatoria de los porcentajes de disponibilidad
@@ -507,10 +506,10 @@ class Reportes extends MX_Controller
 				$total_numero_caidas = $total_numero_caidas + $historial_servicio['numero_caidas'] ; // Sumatoria de Numero de Caídas
 				$total_tiempo_caido = $total_tiempo_caido + $historial_servicio['tiempo_caido_segundos'] ; // Sumatoria de Tiempo Caído
 
-				if($historial_servicio['mayor_caida_segundos'] > 0)
+				if($historial_servicio['mayor_caida_segundos'] >= 0)
 				{array_push($tiempos_caidas , $historial_servicio['mayor_caida_segundos']); }
 
-				if($historial_servicio['menor_caida_segundos'] > 0)
+				if($historial_servicio['menor_caida_segundos'] >= 0)
 				{array_push($tiempos_caidas , $historial_servicio['menor_caida_segundos']);}
 
 				/** Informacion de Caidas por dia ***/
@@ -561,10 +560,12 @@ class Reportes extends MX_Controller
 
 		$historial_semanal['ans'] = $acuerdo;	
 
+		$historial_semanal['dias'] =$dias;
+
 		//$historial_semanal['dias'] = $dias_disponibles;
 		//$historial_semanal['dias'] =$dias;
 		//$historial_semanal['dias'] = $promedio_disponibilidad;
-		$historial_semanal['dias'] = $tiempos_caidas;
+		//$historial_semanal['dias'] = $tiempos_caidas;
 
 		
 
@@ -573,33 +574,7 @@ class Reportes extends MX_Controller
 
 
 
-    	function  procesar_data(){   		    
-    		    
-
-    		    // Creacion de array con la informacion de cuales servicios son soportados por cada proceso.
-    		    /*$procesos =  $this->reportes->obtener_procesos();
-    		    foreach ($procesos as  $proceso) {
-    		    	
-    		    	$proceso_info = $this->general->get_row('servicio_proceso',array('nombre'=>$proceso->comando_ejecutable));
-    		    	$proceso_id = $proceso_info->servicio_proceso_id;
-
-    		    	$servicios = $this->general->get_result('proceso_soporta_servicio',array('servicio_proceso_id'=>$proceso_id));
-
-    		    	$i = 1;
-
-    		    	foreach ($servicios as  $servicio) {
-
-    		    		$servicio_info = $this->general->get_row('servicio',array('servicio_id'=>$servicio->servicio_id));
-
-    		    		$procesos_servicios[$proceso->comando_ejecutable][$i] = $servicio_info;
-
-    		    		$i++;
-
-    		    	}
-    		    }
-    		    $data_view['procesos_servicios'] =  $procesos_servicios;*/
-    		    // Fin de la Creacion del array
-
+    	function  procesar_data(){   	 		    
 
     		    //Inicializar array de informacion de caida encontrada por proceso
     		    $procesos =  $this->reportes->obtener_procesos();
@@ -729,7 +704,7 @@ class Reportes extends MX_Controller
 					                                'duracion_caida' => $duracion,
 				                                );
 
-		 				//$this->general->insert('proceso_caida_historial',$proceso_caida,'');
+		 				$this->general->insert('proceso_caida_historial',$proceso_caida,'');
 
 		 				$procesos_caida[$registro->comando_ejecutable][1] = (object) array('inicio_caida' => '0', 'fin_caida' => '0', 'estado'=>'activo');
 
@@ -822,24 +797,13 @@ class Reportes extends MX_Controller
 		   }
 
 
-    		   /* foreach ($servicios as  $servicio) {
-
-    		    	$proceso_caido = false;
-    		    	$duracion_caida = 0;
-    		    	$inicio_caida = 0;
-    		    	$fin_caida = 0;
-    		    }*/
-
-
-
-
     		    $data_view['historial'] =  $this->reportes->obtener_historial();
     		    $data_view['procesos']  =  $this->reportes->obtener_procesos();
     		    $data_view['servicios']= $this->general->get_table('servicio');
     		    //$data_view['tiempos'] = $this->general->get_result('proceso_historial',array('comando_ejecutable'=>$nombre_proceso));
 
 
-		     $this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/procesar_data',$data_view,'Reportes','','two_level');
+		     $this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/procesar_data',$data_view,'Niveles de Servicio | Reportes de Niveles de Servicio','','two_level');
 
     		}
 

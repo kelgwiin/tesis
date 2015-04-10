@@ -1,6 +1,7 @@
 
 <br>
-
+<div class="well well-sm">
+	<br>
 <div class="row">
 	 <div class="col-md-3 col-md-offset-4">
 		  <div class="form-group">
@@ -60,7 +61,7 @@
 		          </div> 
 		          <div>
 			<div class="input-group">
-				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value="03/16/2015"/>
+				<input type='text' name="dia_historial" class="form-control" id='dia_historial' value="02/24/2015"/>
 				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			</div>
 		          </div>
@@ -84,6 +85,8 @@
 		<a class="btn btn-info" id="buscar_historial" onclick="mostrarHistorialDiario();"> <i class="fa fa-file-text"></i>  Generar Reporte </a>
 	     </div>
 	  </div>
+
+</div>
 
 </div>
 

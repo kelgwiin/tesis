@@ -20,7 +20,7 @@ class Acuerdos_ns extends MX_Controller
 		$this->load->module('utilities/utils');
     }
 	
-	private $title = 'Niveles de Servicio';
+	private $title = 'Niveles de Servicio | Acuerdos de Niveles de Servicio';
 
 	private function list_sidebar_niveles($index_active){
 		$l =  array();
@@ -34,42 +34,26 @@ class Acuerdos_ns extends MX_Controller
 		$l[] = array(
 			"chain" => "Gestión de RNS",
 			"href" => site_url('index.php/requisito_niveles_servicio/gestion_RNS'),
+			"icon" => "fa fa-check-square-o"
+		);
+
+		$l[] = array(
+			"chain" => "Gestión de ANS",
+			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
 			"icon" => "fa fa-file-text"
 		);
 
 		$l[] = array(
-			"chain" => "Gestión de ANS",
-			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
-			"icon" => "fa fa-suitcase"
+			"chain" => "Gestión de Revisiones",
+			"href" => site_url('index.php/niveles_de_servicio/gestion_Revisiones'),
+			"icon" => "fa fa-calendar"
 		);
 
-
-
-		/*$l[] = array(
-			"chain" => "Gestión de ANS",
-			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
-			"icon" => "fa fa-suitcase"
-		);
-
-		$sublista = array(
-			array(
-				'chain' => 'Principal',
-				'href'=> site_url('index.php/niveles_de_servicio/gestion_ANS')
-			),
-
-			array(
-				'chain' => 'Crear ANS',
-				'href'=> site_url('index.php/cargar_datos/servicio_categorias')
-			),
-
-		);
 		$l[] = array(
-			"chain" => "Gesti&#243;n del Cat&#225;logo",
-			"icon" => "fa fa-pencil-square-o",
-			"href" => site_url('index.php/catalogo'),
-			"list" => $sublista
-		);*/
-
+			"chain" => "Gestión de Reportes",
+			"href" => site_url('index.php/niveles_de_servicio/gestion_Reportes'),
+			"icon" => "fa fa-bar-chart"
+		);		
 
 		return $l;
 	}
@@ -80,7 +64,7 @@ class Acuerdos_ns extends MX_Controller
 		$data_view['servicios'] = $this->general->get_table('servicio');
 		$data_view['acuerdos'] = $this->general->get_table('acuerdo_nivel_servicio');		
 		$data_view['empleados'] = $this->general->get_table('personal');
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/acuerdos_de_NS',$data_view,'Niveles de Servicio','','two_level');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/acuerdos_de_NS',$data_view,'Niveles de Servicio | Acuerdos de Niveles de Servicio','','two_level');
 	}
 
 
@@ -608,7 +592,7 @@ class Acuerdos_ns extends MX_Controller
 		if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/crear_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
+                $this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/crear_acuerdo_de_NS',$data_view,'Niveles de Servicio | Acuerdos de Niveles de Servicio','','two_level');
             }
   		else
             {
@@ -1785,7 +1769,7 @@ class Acuerdos_ns extends MX_Controller
 		$data_view['gestor'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->gestor_servicio));
 		$data_view['representante'] =  $this->general->get_row('personal',array('id_personal'=>$acuerdo->representante_cliente));
 		
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/ver_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/ver_acuerdo_de_NS',$data_view,'Niveles de Servicio | Acuerdos de Niveles de Servicio','','two_level');
 	}
 	/*
 	* FIN: Mostrar Acuerdos de Niveles de Servicio.
@@ -1988,7 +1972,7 @@ class Acuerdos_ns extends MX_Controller
 		if ($this->form_validation->run($this) == FALSE)
             {
 
-                $this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/modificar/modificar_acuerdo_de_NS',$data_view,'Niveles de Servicio','','two_level');
+                $this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/modificar/modificar_acuerdo_de_NS',$data_view,'Niveles de Servicio | Acuerdos de Niveles de Servicio','','two_level');
             }
   		else
             {
@@ -3271,7 +3255,7 @@ class Acuerdos_ns extends MX_Controller
 
 		$data_view['posiciones'] = $posiciones ;
 
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/estructura_ans',$data_view,'Niveles de Servicio','','two_level');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/estructura_ans',$data_view,'Niveles de Servicio | Acuerdos de Niveles de Servicio','','two_level');
 			
 	}
 
@@ -3456,7 +3440,7 @@ class Acuerdos_ns extends MX_Controller
 		return $ruta;
 
 
-		//$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/plantilla_ans',$data_view,'Niveles de Servicio','','two_level');
+		//$this->utils->template($this->list_sidebar_niveles(1),'niveles/ans/plantilla_ans',$data_view,'Niveles de Servicio | Acuerdos de Niveles de Servicio','','two_level');
   }
 
 

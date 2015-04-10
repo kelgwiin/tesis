@@ -27,7 +27,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-6">
-										<i class="fa fa-cog fa-5x"></i>
+										<i class="fa fa-archive  fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
 										<p class="announcement-text">Cargar Datos Básicos</p>
@@ -55,7 +55,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-6">
-										<i class="fa fa-desktop fa-5x"></i>
+										<i class="fa fa-cog fa-5x"></i>
 									</div>
 									<div class="col-xs-6 text-center">
 										<p class="announcement-text">Cargar Componentes de TI</p>

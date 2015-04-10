@@ -12,13 +12,7 @@
         '</div></div></div>');
 
     return {
-        /**
-         * Opens our dialog
-         * @param message Custom message
-         * @param options Custom options:
-         *                options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
-         *                options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
-         */
+
         show: function (message, options) {
             // Assigning defaults
             var settings = $.extend({
@@ -52,91 +46,6 @@
 })(jQuery);
 
 $(document).ready(function() {
-
-
-
- /*  
-  $('#dropdown_requisitos').change(function () {
-
-       $("#error_requisitos").empty();
-       $('#checkbox_lunes').prop('checked', false).change();
-       $('#checkbox_martes').prop('checked', false).change();
-       $('#checkbox_miercoles').prop('checked', false).change();
-       $('#checkbox_jueves').prop('checked', false).change();
-       $('#checkbox_viernes').prop('checked', false).change();
-       $('#checkbox_sabado').prop('checked', false).change();
-       $('#checkbox_domingo').prop('checked', false).change();
-
-        $('#porcentaje_disponibilidad').val('');
-
-       $('#checkbox_lunes_mantenimiento').prop('checked', false).change();
-       $('#checkbox_martes_mantenimiento').prop('checked', false).change();
-       $('#checkbox_miercoles_mantenimiento').prop('checked', false).change();
-       $('#checkbox_jueves_mantenimiento').prop('checked', false).change();
-       $('#checkbox_viernes_mantenimiento').prop('checked', false).change();
-       $('#checkbox_sabado_mantenimiento').prop('checked', false).change();
-       $('#checkbox_domingo_mantenimiento').prop('checked', false).change();
-
-       $('#dropdown_intervalo_mantenimiento').val('seleccione');
-
-       $('#options_pregunta_1').prop('checked', false);
-       $('#options_pregunta_2').prop('checked', false);
-
-       $('#dropdown_unidad_medida').val('seleccione');
-                                $("#minimo_caida").prop('disabled', true);
-                                $('#minimo_caida').val('');
-                                $("#maximo_caida").prop('disabled', true);
-                                $('#maximo_caida').val(''); 
-
-       $('#dropdown_unidad_tiempo').val('seleccione');
-                                $("#minimo_duracion_caida").prop('disabled', true);
-                                $('#minimo_duracion_caida').val('');
-                                $("#maximo_duracion_caida").prop('disabled', true);
-                                $('#maximo_duracion_caida').val('');
-
-        $('#dropdown_tiempo_respuesta').val('seleccione');
-                                $("#minimo_duracion_respuesta").prop('disabled', true);
-                                $('#minimo_duracion_respuesta').val('');
-                                $("#maximo_duracion_respuesta").prop('disabled', true);
-                                $('#maximo_duracion_respuesta').val('');
-
-
-        $('#dropdown_unidad_tiempo_restauracion').val('seleccione');
-                                $("#minimo_duracion_restauracion").prop('disabled', true);
-                                $('#minimo_duracion_restauracion').val('');
-                                $("#maximo_duracion_restauracion").prop('disabled', true);
-                                $('#maximo_duracion_restauracion').val('');
-
-      tinymce.get('soporte').setContent('');
-
-
-                                $('#tiempo_respuesta_critico').val('');
-                                $('#dropdown_unidad_respuesta_critico').val('seleccione');
-
-                                 $('#tiempo_respuesta_severo').val('');
-                                $('#dropdown_unidad_respuesta_severo').val('seleccione');
-
-                                 $('#tiempo_respuesta_medio').val('');
-                                $('#dropdown_unidad_respuesta_medio').val('seleccione');
-
-                                 $('#tiempo_respuesta_menor').val('');
-                                $('#dropdown_unidad_respuesta_menor').val('seleccione');
-
-
-                                $('#tiempo_resolucion_critico').val('');
-                                $('#dropdown_unidad_resolucion_critico').val('seleccione');
-
-                                 $('#tiempo_resolucion_severo').val('');
-                                $('#dropdown_unidad_resolucion_severo').val('seleccione');
-
-                                 $('#tiempo_resolucion_medio').val('');
-                                $('#dropdown_unidad_resolucion_medio').val('seleccione');
-
-                                 $('#tiempo_resolucion_menor').val('');
-                                $('#dropdown_unidad_resolucion_menor').val('seleccione');
-
-
-    }); */
 
 
   $('#cargar_requisito').click(function(){
@@ -176,7 +85,7 @@ $(document).ready(function() {
                                  $('#options_pregunta_1').prop('checked', false);
                                  $('#options_pregunta_2').prop('checked', false);
 
-                                  tinymce.get('complemento_disponibilidad').setContent('');
+                                 // tinymce.get('complemento_disponibilidad').setContent('');
 
                                  $('#dropdown_unidad_medida').val('seleccione');
                                                           $("#minimo_caida").prop('disabled', true);
@@ -203,7 +112,7 @@ $(document).ready(function() {
                                                           $("#maximo_duracion_restauracion").prop('disabled', true);
                                                           $('#maximo_duracion_restauracion').val('');
 
-                                tinymce.get('soporte').setContent('');
+                               // tinymce.get('soporte').setContent('');
 
 
                                 $('#tiempo_respuesta_critico').val('');
@@ -381,8 +290,13 @@ $(document).ready(function() {
                                       $('#options_pregunta_2').prop('checked', true);
                                   }
 
+                                 if(requisito.complemento_disponibilidad != null){
+                                 tinymce.get('complemento_disponibilidad').setContent(requisito.complemento_disponibilidad);
+                                }
+                                else{
+                                   tinymce.get('complemento_disponibilidad').setContent('');
+                                }
 
-                                  tinymce.get('complemento_disponibilidad').setContent(requisito.complemento_disponibilidad);
 
 
                                 $('#dropdown_unidad_medida').val(requisito.unidad_num_caidas);
@@ -456,7 +370,7 @@ $(document).ready(function() {
 
     setTimeout(function() {
         $("#exito_requisitos").fadeOut(1000);
-    },10000);
+    },5000);
 
   }); 
 

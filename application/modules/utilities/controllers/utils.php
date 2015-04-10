@@ -102,14 +102,42 @@ class Utils extends MX_Controller
 		$l[] = array(
 			"chain" => "Gestión de Operaciones",
 			"href" => site_url('index.php/operaciones'),
-			"icon" => "fa fa-bar-chart-o"
+			"icon" => "fa fa-desktop"
 		);
 
 		//Acuerdos de Niveles de Servicio
+
+		$sublista_niveles = array(
+
+			array(
+			"chain" => "Gestión de RNS",
+			"href" => site_url('index.php/requisito_niveles_servicio/gestion_RNS'),
+			
+			),
+
+			 array(
+				"chain" => "Gestión de ANS",
+				"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
+				
+			),
+
+			 array(
+				"chain" => "Gestión de Revisiones",
+				"href" => site_url('index.php/niveles_de_servicio/gestion_Revisiones'),
+				
+			),
+
+			 array(
+				"chain" => "Gestión de Reportes",
+				"href" => site_url('index.php/niveles_de_servicio/gestion_Reportes'),				
+			)				
+		);
+
 		$l[] = array(
 			"chain" => "Gesti&#243;n de Niveles de Servicio",
 			"href" => site_url('index.php/niveles_de_servicio'),
-			"icon" => "fa fa-suitcase"
+			"icon" => "fa fa-bar-chart-o",
+			"list"=> $sublista_niveles
 		);
 
 		//Gestión de Capacidad

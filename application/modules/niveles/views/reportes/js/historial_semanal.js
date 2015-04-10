@@ -1,3 +1,12 @@
+function esEntero(numero){
+    if (numero - Math.floor(numero) == 0) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 function mostrarHistorialSemanal() {
 
     var existe_error = false;
@@ -76,7 +85,7 @@ function mostrarHistorialSemanal() {
 
                               $("#informacion_historial_semanal").hide();
                               
-                               // Creación de tabla de caídas de servicio
+                                // COMIENZO de la Creación de tabla de caídas de servicio
                                var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios_semanal">';
                                tabla_historial_servicio = tabla_historial_servicio+'<thead >';
                                tabla_historial_servicio = tabla_historial_servicio+'<tr class="active">';
@@ -102,14 +111,16 @@ function mostrarHistorialSemanal() {
                                tabla_historial_servicio = tabla_historial_servicio+ '</table>';
 
                                $("#tabla_servicio_semanal").append(tabla_historial_servicio);
+                               // FIN de la Creación de tabla de caídas de servicio
 
-
+                                // COMIENZO del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS
                                $('#tabla_caida_servicios_semanal').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
                                .removeClass('tablesorter')
                                .find('thead th')
                                .unbind('click mousedown')
                                .removeClass('header headerSortDown headerSortUp');
 
+                                // Declaración del datatable de caídas de servicio
                               $('#tabla_caida_servicios_semanal').dataTable( {
                                 "iDisplayLength": 4,
                                 "bLengthChange": false,
@@ -126,7 +137,7 @@ function mostrarHistorialSemanal() {
                                 if(data.ans.unidad_num_caidas == "dia"){
 
                                    var cantidad_dias = parseFloat(data.numero_dias);
-                                   numero_caidas_semanal = parseFloat((parseFloat(data.numero_caidas) / cantidad_dias).toFixed(3));
+                                   numero_caidas_semanal = parseFloat((parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2));
                                   //numero_caidas_semanal = (parseFloat(data.numero_caidas) / parseFloat(data.numero_dias)).toFixed(2) ;
                                       $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por día:</b></i> "+numero_caidas_semanal);
                                       
@@ -144,9 +155,9 @@ function mostrarHistorialSemanal() {
                                       $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por Año:</b></i> "+numero_caidas_semanal);
                                 }
 
-                                 if(data.ans.unidad_num_caidas == "año"){
+                                 if(data.ans.unidad_num_caidas === "año"){
                                       var cantidad_dias = ((parseFloat(data.numero_dias) * 4)*12) ;
-                                       numero_caidas_semanal = (parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2);
+                                       numero_caidas_semanal = parseFloat( (parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2) );
                                       $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por Año:</b></i> "+numero_caidas_semanal);
                                 }
                                 
@@ -227,14 +238,15 @@ function mostrarHistorialSemanal() {
 
                                 $("#mayor_caida_semanal").append(" <h5>"+data.mayor_caida+" <i class='fa fa-clock-o'></i></h5>");
                                  $("#menor_caida_semanal").append(" <h5>"+data.menor_caida+" <i class='fa fa-clock-o'></i></h5>");
+                                   // FIN del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS
 
-
-                                   // GRAFICAS NIVELES DE SERVICIO
+                              
+                              // COMIENZO GRAFICAS DE NIVELES DE SERVICIO
                               /**************************************************************/
                               
                               var maximo = parseInt(data.ans.maximo_num_caidas)+2;
-                              //alert(maximo);
-                              // Trafica de Numero de Caídas
+                             
+                              // Gráfica de Numero de Caídas
                               $('#container-caidas-semanal').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -438,7 +450,6 @@ function mostrarHistorialSemanal() {
                                             unidad_medida = "horas";
                                   }
                                   
-                                  //alert(data.tiempo_caido_segundos+" "+data.mayor_caida_segundos+" "+data.menor_caida_segundos);
                                   
                                   var maximo = 0;
                                   if(data.ans.maximo_duracion_caidas >= duracion_caida_total){
@@ -448,6 +459,12 @@ function mostrarHistorialSemanal() {
                                         maximo = parseInt(duracion_caida_total)+2;
                                   }
 
+                                  if( esEntero(duracion_caida_total) == false){
+                                         var numero_nuevo = parseFloat(duracion_caida_total);
+                                          duracion_caida_total = parseFloat(numero_nuevo.toFixed(2));
+                                  }
+
+                                   // Gráfica de Tiempo Total Caído
                                   $('#container-tiempo-caido-semanal').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -569,9 +586,12 @@ function mostrarHistorialSemanal() {
                                         maximo_caida_mayor = parseInt(duracion_caida_mayor)+2;
                                   }
 
-                                  //alert(data.tiempo_caido_segundos+" "+data.mayor_caida_segundos+" "+data.menor_caida_segundos);
-                                 //alert(duracion_caida_mayor);
+                                   if( esEntero(duracion_caida_mayor) == false){
+                                         var numero_nuevo = parseFloat(duracion_caida_mayor);
+                                          duracion_caida_mayor = parseFloat(numero_nuevo.toFixed(2));
+                                  }
 
+                                   // Gráfica de Mayor de Caída
                                   $('#container-mayor-caida-semanal').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -694,9 +714,12 @@ function mostrarHistorialSemanal() {
                                         maximo_caida_menor = parseInt(duracion_caida_menor)+2;
                                   }
 
-                                  /*alert(data.tiempo_caido_segundos+" "+data.menor_caida_segundos+" "+data.menor_caida_segundos);
-                                  alert(duracion_caida_menor);*/
+                                  if( esEntero(duracion_caida_menor) == false){
+                                         var numero_nuevo = parseFloat(duracion_caida_menor);
+                                          duracion_caida_menor = parseFloat(numero_nuevo.toFixed(2));
+                                  }
 
+                                  // Gráfica de Menor de Caída
                                   $('#container-menor-caida-semanal').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -799,14 +822,221 @@ function mostrarHistorialSemanal() {
                                           });
                                       }
                                   });
-                               //FIN DE LAS GRAFICAS NIVELES DE SERVICIO
+
+
+                                //GRAFICAS DE NIVELES DE SEVICIO SEMANAL
+
+                                //Gráficas de Disponibilidad de Servicios///////////////////////////////////////////////////////
+
+                                 //Preparando los datos
+                                 var datos_disponibilidad = new Array ();
+                                 var datos_disponibilidad2 = new Array ();
+                                 var datos_caidas = new Array ();
+                                 var datos_tiempos = new Array ();
+                                 var categorias = new Array ();
+
+                                 data.dias.forEach(function(dia) { 
+                                   
+                                    var nombre_dia = data.historial_servicios[dia].nombre_dia;
+                                    var disponibilidad_servicio = data.historial_servicios[dia].disponibilidad;
+                                    var numero_caidas = data.historial_servicios[dia].numero_caidas;
+                                    var tiempo_caido = data.historial_servicios[dia].tiempo_caido_segundos;
+
+                                     datos_disponibilidad.push(new Array (nombre_dia, disponibilidad_servicio)); 
+                                     categorias.push(nombre_dia); 
+                                     datos_disponibilidad2.push(disponibilidad_servicio); 
+                                     datos_caidas.push(new Array (nombre_dia, numero_caidas)); 
+                                     datos_tiempos.push(new Array (nombre_dia, tiempo_caido*1000)); 
+                                 });
+
+                                 var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
+
+                                 // Dibujando la gráfica
+                                    $('#grafica_disponibilidad_servicio_semanal').highcharts({
+                                            chart: { type: 'column'},
+                                            exporting: { enabled: false },
+                                            credits: {enabled: false},
+                                            title: {text: 'Disponibilidad de Servicio por Día'},
+                                            subtitle: {text: nombre_servicio},
+                                            xAxis: {
+                                                type: 'category',
+                                                labels: {
+                                                    rotation: -45,
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            },
+                                            yAxis: {
+                                                min: 0,
+                                                tickInterval: 20,
+                                                title: {
+                                                    text: 'Disponibilidad (%)'
+                                                }
+                                            },
+                                            legend: {enabled: false},
+                                            tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'},
+                                            series: [{
+                                                color: '#6699FF',
+                                                data: datos_disponibilidad,
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    //rotation: -90,
+                                                    color: '#000000',
+                                                    align: 'center',
+                                                    format: '<b>{point.y:.2f} %</b>', // two decimal
+                                                    y: 25, // 25 pixels down from the top
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            }]
+                                        });
+
+                                        // Segunda Gráfica de disponibilidad
+
+                                        $('#grafica_disponibilidad_servicio_semanal2').highcharts({
+                                          chart: {
+                                              type: 'line'
+                                          },
+                                          title: {text: 'Disponibilidad de Servicio por Día'},
+                                          //subtitle: {text: nombre_servicio},
+                                          legend: {enabled: false},
+                                          exporting: { enabled: false },
+                                          credits: {enabled: false},
+                                          xAxis: {
+                                             categories: categorias
+                                          },
+                                          yAxis: {
+                                              min: 0,                                              
+                                                tickInterval: 10,
+                                              title: {
+                                                   text: 'Disponibilidad (%)'
+                                              }
+                                          },
+                                          plotOptions: {
+                                              line: {
+                                                  dataLabels: {
+                                                      format: '<b>{point.y:.2f} %</b>',
+                                                      enabled: true
+                                                  },
+                                                  enableMouseTracking: false
+                                              }
+                                          },
+                                          series: [{
+                                              name: 'Tokyo',
+                                              data: datos_disponibilidad2
+                                          }]
+                                      });
+
+                                     //Gráfica de Caídas de Servicio///////////////////////////////////////////////////////
+                                    // Dibujando la gráfica
+                                    $('#grafica_caidas_servicio_semanal').highcharts({
+                                            chart: {type: 'column' },
+                                            exporting: { enabled: false },
+                                             credits: {enabled: false },
+                                            title: {  text: 'Numero de Caídas de Servicio por Día'},
+                                            subtitle: { text: nombre_servicio },
+                                            xAxis: {
+                                                type: 'category',
+                                                labels: {
+                                                    rotation: -45,
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            },
+                                            yAxis: {
+                                                min: 0,
+                                                title: {
+                                                    text: 'Nº de Caídas'
+                                                }
+                                            },
+                                            legend: { enabled: false },
+                                            tooltip: {
+                                                pointFormat: 'Nº de Caídas: <b>{point.y:.0f}</b>'
+                                            },
+                                            series: [{
+                                                color: '#FF8533',
+                                                data: datos_caidas,
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    color: '#000000',
+                                                    align: 'center',
+                                                    format: '<b>{point.y:.0f}</b>', // two decimal
+                                                    y: 25, // 25 pixels down from the top
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            }]
+                                        });
+
+                                    //Gráfica de Tiempo total Caído de Servicios///////////////////////////////////////////////////////
+                                    // Dibujando la gráfica
+                                    $('#grafica_tiempo_servicio_semanal').highcharts({
+
+                                            title: {  text: 'Tiempo Total Caído de Servicio por Día'},
+                                            subtitle: { text: nombre_servicio },
+                                                chart: { type: 'column' },
+                                                legend: { enabled: false },  
+                                                exporting: { enabled: false },
+                                                    credits: { enabled: false },          
+                                               xAxis: {
+                                                 type: 'category',
+                                                 labels: {
+                                                 rotation: -45,
+                                                  style: {
+                                                             fontSize: '13px',
+                                                               fontFamily: 'Verdana, sans-serif'
+                                                             }
+                                                         }
+                                                },            
+                                                yAxis: {
+                                                    type: 'datetime', 
+                                                     //tickInterval: 0.5 * 60 * 1000,
+                                                      dateTimeLabelFormats: { 
+                                                            second: '%H:%M:%S',
+                                                            minute: '%H:%M:%S',
+                                                            hour: '%H:%M:%S',
+                                                            day: '%H:%M:%S',
+                                                             week: '%H:%M:%S',
+                                                             month: '%H:%M:%S',
+                                                             year: '%H:%M:%S'
+                                                  },
+                                                 title: {  text: 'Tiempo (hh:mm:ss)'}
+                                                },
+                                                tooltip: { pointFormat: 'Tiempo Total Caído: <b>{point.y:%H:%M:%S} (hh:mm:ss)</b>' },
+                                                 series: [{
+                                                               color: '#669999',
+                                                               data: datos_tiempos,
+                                                                 dataLabels: {
+                                                                                        enabled: true,
+                                                                                        //rotation: -90,
+                                                                                        color: '#000000',
+                                                                                        align: 'center',
+                                                                                        format: '<b>{point.y:%H:%M:%S}</b>', // two decimal
+                                                                                        y: 25, // 25 pixels down from the top
+                                                                                        style: {
+                                                                                            fontSize: '13px',
+                                                                                            fontFamily: 'Verdana, sans-serif'
+                                                                        }
+                                                               }
+                                                            }]
+                                                });  
+
+
+                              //FIN DE LAS GRAFICAS NIVELES DE SERVICIO
                               /**************************************************************/
-                              //Fin de creación de tabla de caídas de servicio
 
 
 
 
-                              $("#informacion_historial_semanal").fadeIn();
+                              $("#informacion_historial_semanal").fadeIn();  // Mostrando el Contenido del Reporte
 
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -831,7 +1061,7 @@ $( document ).ready(function() {
             });
 
 
-             // Llenado del dropdown de ANS.
+     // Llenado del dropdown de ANS.
     $("#dropdown_servicios_semanal").change(function () {
 
             $("#no_acuerdos_semanal").fadeOut(); 

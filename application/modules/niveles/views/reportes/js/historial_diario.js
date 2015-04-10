@@ -67,7 +67,7 @@ function mostrarHistorialDiario() {
                             }
                             else{*/
 
-                                // Creación de tabla de caídas de servicio
+                                // COMIENZO de la Creación de tabla de caídas de servicio
                                var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios">';
                                tabla_historial_servicio = tabla_historial_servicio+'<thead >';
                                tabla_historial_servicio = tabla_historial_servicio+'<tr class="active">';
@@ -93,7 +93,9 @@ function mostrarHistorialDiario() {
                                tabla_historial_servicio = tabla_historial_servicio+ '</table>';
 
                                $("#tabla_servicio").append(tabla_historial_servicio);
+                                // FIN de la Creación de tabla de caídas de servicio
 
+                                 // COMIENZO del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS
                                 $("#disponibilidad").append(data.disponibilidad+" %");
                                 $("#disponibilidad_ANS").append(data.ans.porcentaje_disp+" %");
                                 $("#tiempo_online").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
@@ -173,14 +175,16 @@ function mostrarHistorialDiario() {
                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'</span></div>';
                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'</div><br>';
 
-                               $("#tiempo_caido").append(" <h5>"+data.tiempo_caido+" <i class='fa fa-clock-o'></i></h5>");   
+                                $("#tiempo_caido").append(" <h5>"+data.tiempo_caido+" <i class='fa fa-clock-o'></i></h5>");   
                                 $("#tiempo_caido_ANS").append(objetivos_duracion_caidas);   
 
                                 $("#mayor_caida").append(" <h5>"+data.mayor_caida+" <i class='fa fa-clock-o'></i></h5>");
                                  $("#menor_caida").append(" <h5>"+data.menor_caida+" <i class='fa fa-clock-o'></i></h5>");
 
-                               
+                                  // FIN del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS
 
+                               
+                                // Declaración del datatable de caídas de servicio
                                $('#tabla_caida_servicios').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
                                .removeClass('tablesorter')
                                .find('thead th')
@@ -194,12 +198,13 @@ function mostrarHistorialDiario() {
                                 });
 
 
-                              // GRAFICAS NIVELES DE SERVICIO
+                              // COMIENZO GRAFICAS DE NIVELES DE SERVICIO
                               /**************************************************************/
                               var numero_caidas = data.numero_caidas;
                               var maximo = parseInt(data.ans.maximo_num_caidas)+2;
-                              //alert(maximo);
-                              // Trafica de Numero de Caídas
+                        
+
+                              // Gráfica de Numero de Caídas
                               $('#container-caidas').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -292,7 +297,6 @@ function mostrarHistorialDiario() {
                                   }]
 
                               },
-                                  // Add some life
                                  function (chart) {
                                       if (!chart.renderer.forExport) {
                                           setInterval(function () {
@@ -302,6 +306,7 @@ function mostrarHistorialDiario() {
                                           });
                                       }
                                   });
+
 
                               // Gráfica de disponibilidad 
                               var gaugeOptions = {
@@ -361,7 +366,6 @@ function mostrarHistorialDiario() {
                                       }
                                   };
 
-                                  
                                   $('#container-disponibilidad').highcharts(Highcharts.merge(gaugeOptions, {
                                       yAxis: {
                                           min: 0,
@@ -402,8 +406,6 @@ function mostrarHistorialDiario() {
                                            duracion_caida_total =   duracion_caida_total / 3600;
                                             unidad_medida = "horas";
                                   }
-
-                                  //alert(data.tiempo_caido_segundos+" "+data.mayor_caida_segundos+" "+data.menor_caida_segundos);
                                   
                                   var maximo = 0;
                                   if(data.ans.maximo_duracion_caidas >= duracion_caida_total){
@@ -413,6 +415,12 @@ function mostrarHistorialDiario() {
                                         maximo = parseInt(duracion_caida_total)+2;
                                   }
 
+                                  if( esEntero(duracion_caida_total) == false){
+                                         var numero_nuevo = parseFloat(duracion_caida_total);
+                                          duracion_caida_total = parseFloat(numero_nuevo.toFixed(2));
+                                  }
+
+                                  // Gráfica de Tiempo Total Caído
                                   $('#container-tiempo-caido').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -505,7 +513,6 @@ function mostrarHistorialDiario() {
                                   }]
 
                               },
-                                  // Add some life
                                  function (chart) {
                                       if (!chart.renderer.forExport) {
                                           setInterval(function () {
@@ -534,9 +541,12 @@ function mostrarHistorialDiario() {
                                         maximo_caida_mayor = parseInt(duracion_caida_mayor)+2;
                                   }
 
-                                  //alert(data.tiempo_caido_segundos+" "+data.mayor_caida_segundos+" "+data.menor_caida_segundos);
-                                 //alert(duracion_caida_mayor);
+                                  if( esEntero(duracion_caida_mayor) == false){
+                                         var numero_nuevo = parseFloat(duracion_caida_mayor);
+                                          duracion_caida_mayor = parseFloat(numero_nuevo.toFixed(2));
+                                  }
 
+                                  // Gráfica de Mayor de Caída
                                   $('#container-mayor-caida').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -629,7 +639,6 @@ function mostrarHistorialDiario() {
                                   }]
 
                               },
-                                  // Add some life
                                  function (chart) {
                                       if (!chart.renderer.forExport) {
                                           setInterval(function () {
@@ -659,9 +668,13 @@ function mostrarHistorialDiario() {
                                         maximo_caida_menor = parseInt(duracion_caida_menor)+2;
                                   }
 
-                                  /*alert(data.tiempo_caido_segundos+" "+data.menor_caida_segundos+" "+data.menor_caida_segundos);
-                                  alert(duracion_caida_menor);*/
+                                 if( esEntero(duracion_caida_menor) == false){
+                                         var numero_nuevo = parseFloat(duracion_caida_menor);
+                                          duracion_caida_menor = parseFloat(numero_nuevo.toFixed(2));
+                                  }
 
+
+                                    // Gráfica de Menor de Caída
                                   $('#container-menor-caida').highcharts({
                                   chart: {
                                       type: 'gauge',
@@ -766,10 +779,10 @@ function mostrarHistorialDiario() {
                                   });
                                //FIN DE LAS GRAFICAS NIVELES DE SERVICIO
                               /**************************************************************/
-                              //Fin de creación de tabla de caídas de servicio
+                              
 
 
-                              //Creación de la tabla de caídas de procesos
+                              //Comienzo de Creación de la tabla de caídas de procesos
                               var tabla_historial_proceso = '<table class="table table-bordered" id="tabla_caida_procesos">';
                                tabla_historial_proceso = tabla_historial_proceso+'<thead >';
                                tabla_historial_proceso = tabla_historial_proceso+'<tr class="active">';
@@ -858,7 +871,7 @@ function mostrarHistorialDiario() {
 
 
                              //***************************************************************************
-                             //GRAFICAS
+                             //GRAFICAS DE NIVELES DE SERVICIO POR PROCESO
 
                              //Gráfica de Disponibilidad de procesos///////////////////////////////////////////////////////
 
@@ -909,7 +922,7 @@ function mostrarHistorialDiario() {
                                             legend: {enabled: false},
                                             tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'},
                                             series: [{
-                                                color: '#52CC7A',
+                                                color: '#6699FF',
                                                 data: datos_disponibilidad,
                                                 dataLabels: {
                                                     enabled: true,
@@ -1025,7 +1038,11 @@ function mostrarHistorialDiario() {
                                                             }]
                                                 });  
 
-                                            $("#informacion_historial").fadeIn();
+                                              //***************************************************************************
+                                             //GRAFICAS DE NIVELES DE SERVICIO POR PROCESO
+
+
+                                            $("#informacion_historial").fadeIn();  // Mostrando el Contenido del Reporte
                              
                                 //    }// Fin del else
 
@@ -1053,11 +1070,10 @@ $( document ).ready(function() {
             $("#error_dia").empty();      
            
 
-           // $('#dia_historial').val("");
-           //  $('#dia_historial').data("DateTimePicker").disable();
+           $('#dia_historial').val("");
+           $('#dia_historial').data("DateTimePicker").disable();
 
 		if($("#dropdown_servicios").val() != 'seleccione'){         	
-         			//$("#error_servicio").empty();
                   var id_servicio = $("#dropdown_servicios").val();
 
                   $.ajax({   
@@ -1104,7 +1120,7 @@ $( document ).ready(function() {
        });
 
 
-        
+        //Bloquea en el calendario los dias en el que el servicio no es utilizado según el ANS
         $("#dropdown_acuerdos").change(function () {                
 
                 if($("#dropdown_acuerdos").val()  != 'seleccione' ){
@@ -1121,9 +1137,8 @@ $( document ).ready(function() {
 
                              success: function(data){
 
-                                    //alert(data.dias);
-
-                                    //$('#dia_historial').empty();
+                                    $('#dia_historial').empty();
+                                    $('#dia_historial').val("");
 
                                    $('#dia_historial').data("DateTimePicker").destroy();
 
@@ -1154,6 +1169,7 @@ $( document ).ready(function() {
                 }
         });
 
+
 	$("#dia_historial").change(function () {
 		if($("#dia_historial").val() != ''){         	
          			$("#error_dia").empty();
@@ -1171,7 +1187,6 @@ $( document ).ready(function() {
                     down: "fa fa-chevron-down",
                     },
                     maxDate: new Date(),
-                    //daysOfWeekDisabled: cars,
                 });
 
         $('#dia_historial').data("DateTimePicker").disable();

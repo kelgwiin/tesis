@@ -31,43 +31,30 @@ class Revisiones extends MX_Controller
 			"icon" => "fa fa-flag"
 		);
 
+		
+		$l[] = array(
+			"chain" => "Gestión de RNS",
+			"href" => site_url('index.php/requisito_niveles_servicio/gestion_RNS'),
+			"icon" => "fa fa-check-square-o"
+		);
+
 		$l[] = array(
 			"chain" => "Gestión de ANS",
 			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
-			"icon" => "fa fa-suitcase"
+			"icon" => "fa fa-file-text"
 		);
 
 		$l[] = array(
 			"chain" => "Gestión de Revisiones",
-			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
-			"icon" => "fa fa-suitcase"
+			"href" => site_url('index.php/niveles_de_servicio/gestion_Revisiones'),
+			"icon" => "fa fa-calendar"
 		);
 
-		/*$l[] = array(
-			"chain" => "Gestión de ANS",
-			"href" => site_url('index.php/niveles_de_servicio/gestion_ANS'),
-			"icon" => "fa fa-suitcase"
-		);
-
-		$sublista = array(
-			array(
-				'chain' => 'Principal',
-				'href'=> site_url('index.php/niveles_de_servicio/gestion_ANS')
-			),
-
-			array(
-				'chain' => 'Crear ANS',
-				'href'=> site_url('index.php/cargar_datos/servicio_categorias')
-			),
-
-		);
 		$l[] = array(
-			"chain" => "Gesti&#243;n del Cat&#225;logo",
-			"icon" => "fa fa-pencil-square-o",
-			"href" => site_url('index.php/catalogo'),
-			"list" => $sublista
-		);*/
-
+			"chain" => "Gestión de Reportes",
+			"href" => site_url('index.php/niveles_de_servicio/gestion_Reportes'),
+			"icon" => "fa fa-bar-chart"
+		);	
 
 		return $l;
 	}
@@ -107,7 +94,7 @@ class Revisiones extends MX_Controller
 
 		$data_view['acuerdos'] = $this->general->get_table('acuerdo_nivel_servicio');
 
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Niveles de Servicio | Reuniones y Revisiones de Niveles de Servicio','','two_level');
 	}
 
 
@@ -344,7 +331,7 @@ class Revisiones extends MX_Controller
 
 
 
-               $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
+               $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Niveles de Servicio | Reuniones y Revisiones de Niveles de Servicio','','two_level');
             }
             else
             {
@@ -538,7 +525,7 @@ class Revisiones extends MX_Controller
 					$data_view['modificacion'] = true;
 					$data_view['nuevo'] = false;
 
-               $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Reuniones y Revisiones','','two_level');
+               $this->utils->template($this->list_sidebar_niveles(1),'niveles/revisiones/revisiones',$data_view,'Niveles de Servicio | Reuniones y Revisiones de Niveles de Servicio','','two_level');
             }
             else
             {

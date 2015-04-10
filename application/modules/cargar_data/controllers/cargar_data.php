@@ -2911,7 +2911,7 @@ class Cargar_Data extends MX_Controller
 	 * @param $index_active Índice del ítem activo.
 	 * @return array
 	 */
-	private function _list($index_active){
+	private function _list(){
 		$l =  array();
 
 			$l[] = array(
@@ -2921,13 +2921,13 @@ class Cargar_Data extends MX_Controller
 			"icon" => "fa fa-flag"
 		);
 
-		$l[] = array(
+		/*$l[] = array(
 			"chain" => "Descripción",
 			"active" => false,
 			"href" => site_url("index.php/cargar_datos"),
 			"icon" => "fa fa-bar-chart-o"
 		
-		);
+		);*/
 		$l[] = array(
 			"chain" => "Básico",
 			"active" => false,
@@ -3013,7 +3013,7 @@ class Cargar_Data extends MX_Controller
 
 
 
-		$l[$index_active]["active"] = true; //Colocar el ítem activo
+		//$l[$index_active]["active"] = true; //Colocar el ítem activo
 		return $l;
 	}//end of function: _list
 	

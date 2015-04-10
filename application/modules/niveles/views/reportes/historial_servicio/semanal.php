@@ -1,5 +1,6 @@
 <br>
-
+<div class="well well-sm">
+	<br>
 <div class="row">
 	 <div class="col-md-3 col-md-offset-4">
 		  <div class="form-group">
@@ -87,6 +88,7 @@
 	  </div>
 
 </div>
+</div>
 
 
 <div id='informacion_historial_semanal' style="display:none">
@@ -171,6 +173,29 @@
 
 
 	</div>
+
+
+	<div class="row" style="padding: 45px;">
+	<div class="well well-sm"><h4>Gráficos de Comportamiento de los Niveles de Servicio en la Semana</h4></div>
+		<div class="panel with-nav-tabs panel-primary">
+	                <div class="panel-heading">
+	                        <ul class="nav nav-tabs">
+	                            <li class="active"><a href="#tab1default_servicio_semanal" data-toggle="tab">Disponibilidad</a></li>
+	                            <li><a href="#tab2default_servicio_semanal" data-toggle="tab">Numero de Caídas</a></li>
+	                            <li><a href="#tab3default_servicio_semanal" data-toggle="tab">Tiempo Caído</a></li>
+	                        </ul>
+	                </div>
+	                <div class="panel-body">
+	                    <div class="tab-content">
+	                        <div class="tab-pane fade in active" id="tab1default_servicio_semanal"><div id='grafica_disponibilidad_servicio_semanal' class="col-md-offset-2" style="height: 400px; width: 750px; "></div><hr>
+	                    										<div id='grafica_disponibilidad_servicio_semanal2' class="col-md-offset-2" style="height: 400px; width: 750px; "></div></div>
+	                        <div class="tab-pane fade" id="tab2default_servicio_semanal"><div id='grafica_caidas_servicio_semanal' class="col-md-offset-2" style="height: 500px; width: 750px;"></div></div>
+	                        <div class="tab-pane fade" id="tab3default_servicio_semanal"><div id='grafica_tiempo_servicio_semanal' class="col-md-offset-2" style="height: 500px; width: 750px;"></div></div>
+	                    </div>
+	                </div>
+	            </div>
+	</div>
+
 
 	<hr>
 
