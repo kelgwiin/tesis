@@ -95,7 +95,17 @@
 </div>
 
 <div id='informacion_historial' style="display:none">
-<hr>
+
+	
+	<table class="table table-bordered">
+		<tr>
+			<td id='info_servicio'></td>
+			<td  id='info_acuerdo'></td>	
+			<td  id='info_fecha'></td>		
+		</tr>
+	</table>
+
+	<hr>
 
 	<div class="row" style=" padding: 45px;">
 		<div class="well well-sm"><h4>Datos de Niveles de Servicio</h4></div>

@@ -44,6 +44,10 @@ function mostrarHistorialDiario() {
                         $("#tabla_procesos").empty();
                         $("#tabla_info").empty();
 
+                         $("#info_servicio").empty();
+                              $("#info_acuerdo").empty();
+                              $("#info_fecha").empty();
+
                        $.ajax({
                  
                             
@@ -66,6 +70,14 @@ function mostrarHistorialDiario() {
                                         $("#no_info").fadeIn();
                             }
                             else{*/
+
+                            var nombre_servicio = $( "#dropdown_servicios option:selected" ).text();
+                              var nombre_acuerdo = $( "#dropdown_acuerdos option:selected" ).text();
+
+                              //Información de el Nombre de Servicio, ANS y fecha seleccionados
+                              $("#info_servicio").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
+                              $("#info_acuerdo").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
+                              $("#info_fecha").append('<h4><i class="fa fa-calendar"></i> '+fecha_dia+"</h4>");
 
                                 // COMIENZO de la Creación de tabla de caídas de servicio
                                var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios">';
@@ -844,7 +856,7 @@ function mostrarHistorialDiario() {
                                     //alert(nombre_proceso);
                                     tabla_info_proceso = tabla_info_proceso+'<tr>';
                                     tabla_info_proceso = tabla_info_proceso+'<td class="active"><b><i>'+nombre_proceso+'</i></b></td>';
-                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].disponibilidad+'</td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].disponibilidad+' %</td>';
                                     tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].tiempo_disponible+'</td>';
                                     tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].caidas+' </td>';
                                     tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].tiempo_caido+' </td>';
@@ -1153,6 +1165,7 @@ $( document ).ready(function() {
                                         },
                                         maxDate: new Date(),
                                         daysOfWeekDisabled: data.dias,
+                                        useCurrent: false,
                                     });
 
                                     $('#dia_historial').data("DateTimePicker").enable();
@@ -1187,6 +1200,7 @@ $( document ).ready(function() {
                     down: "fa fa-chevron-down",
                     },
                     maxDate: new Date(),
+                    useCurrent: false,
                 });
 
         $('#dia_historial').data("DateTimePicker").disable();

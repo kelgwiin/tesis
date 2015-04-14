@@ -9,9 +9,9 @@ function esEntero(numero){
 
 function mostrarHistorialSemanal() {
 
-    var existe_error = false;
+            var existe_error = false;
 
-    if($("#dropdown_acuerdos_semanal").val() == 'seleccione'){
+            if($("#dropdown_acuerdos_semanal").val() == 'seleccione'){
                 $("#error_acuerdos_semanal").empty();
                 $("#error_acuerdos_semanal").append('Seleccione un Acuerdo');
                 existe_error = true;
@@ -29,6 +29,24 @@ function mostrarHistorialSemanal() {
             else{
                 $("#error_semanal").empty();        
             }
+
+            var fecha = $("#dia_historial_semanal").val();           
+            var res = fecha.split("/");
+
+            var ano = res[2];
+            var mes = parseInt(res[0]) - 1;
+            var dia = res[1];
+            
+             var d = new Date(ano,mes,dia);
+             var n = d.getDay();
+
+           // Si el día seleccionado no es lunes
+            if(n != 1){
+              $("#error_semanal").append('Debe seleccionar un día que sea <u><b>Lunes</b></u>');
+              existe_error = true;
+            }
+
+            $("#informacion_historial_semanal").hide();
 
             if (existe_error == false) {
 
@@ -52,6 +70,12 @@ function mostrarHistorialSemanal() {
 
                               $("#tabla_procesos_semanal").empty();
                               $("#tabla_info_semanal").empty();
+                              $("#tabla_caida_servicios_semanal").empty();
+                               $("#tabla_caida_procesos_semanal").empty();
+
+                              $("#info_servicio_semanal").empty();
+                              $("#info_acuerdo_semanal").empty();
+                              $("#info_fecha_semanal").empty();
 
                           $.ajax({
                  
@@ -84,6 +108,15 @@ function mostrarHistorialSemanal() {
                           
 
                               $("#informacion_historial_semanal").hide();
+
+                              var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
+                              var nombre_acuerdo = $( "#dropdown_acuerdos_semanal option:selected" ).text();
+
+                              //Información de el Nombre de Servicio, ANS y fecha seleccionados
+                              $("#info_servicio_semanal").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
+                              $("#info_acuerdo_semanal").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
+                              $("#info_fecha_semanal").append('<h4><i class="fa fa-calendar"></i> '+fecha_dia+" - "+data.domingo+"</h4>");
+
                               
                                 // COMIENZO de la Creación de tabla de caídas de servicio
                                var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios_semanal">';
@@ -133,7 +166,11 @@ function mostrarHistorialSemanal() {
                                 $("#tiempo_online_semanal").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
                                 $("#tiempo_online_ANS_semanal").append(" <h5>"+data.tiempo_disponible+" <i class='fa fa-clock-o'></i></h5>");
 
-                                var numero_caidas_semanal;
+                                $("#numero_caidas_semanal").append(data.numero_caidas);
+
+                               var  numero_caidas_semanal = parseInt(data.numero_caidas);
+
+                              /*  var numero_caidas_semanal;
                                 if(data.ans.unidad_num_caidas == "dia"){
 
                                    var cantidad_dias = parseFloat(data.numero_dias);
@@ -152,14 +189,14 @@ function mostrarHistorialSemanal() {
                                  if(data.ans.unidad_num_caidas == "mes"){
                                       var cantidad_dias = (parseFloat(data.numero_dias) * 4) ;
                                        numero_caidas_semanal = parseFloat( (parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2) );
-                                      $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por Año:</b></i> "+numero_caidas_semanal);
+                                      $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por mes:</b></i> "+numero_caidas_semanal);
                                 }
 
                                  if(data.ans.unidad_num_caidas === "año"){
                                       var cantidad_dias = ((parseFloat(data.numero_dias) * 4)*12) ;
                                        numero_caidas_semanal = parseFloat( (parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2) );
                                       $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por Año:</b></i> "+numero_caidas_semanal);
-                                }
+                                }*/
                                 
 
                                 var objetivos_caidas = '<b><i>Numero de Caídas (Por '+data.ans.unidad_num_caidas+')</i></b><br><br>';
@@ -836,17 +873,18 @@ function mostrarHistorialSemanal() {
                                  var categorias = new Array ();
 
                                  data.dias.forEach(function(dia) { 
-                                   
-                                    var nombre_dia = data.historial_servicios[dia].nombre_dia;
-                                    var disponibilidad_servicio = data.historial_servicios[dia].disponibilidad;
-                                    var numero_caidas = data.historial_servicios[dia].numero_caidas;
-                                    var tiempo_caido = data.historial_servicios[dia].tiempo_caido_segundos;
+                                          // DATOS PARA SERVICIO
+                                          var nombre_dia = data.historial_servicios[dia].nombre_dia;
+                                          var disponibilidad_servicio = data.historial_servicios[dia].disponibilidad;
+                                          var numero_caidas = data.historial_servicios[dia].numero_caidas;
+                                          var tiempo_caido = data.historial_servicios[dia].tiempo_caido_segundos;
 
-                                     datos_disponibilidad.push(new Array (nombre_dia, disponibilidad_servicio)); 
-                                     categorias.push(nombre_dia); 
-                                     datos_disponibilidad2.push(disponibilidad_servicio); 
-                                     datos_caidas.push(new Array (nombre_dia, numero_caidas)); 
-                                     datos_tiempos.push(new Array (nombre_dia, tiempo_caido*1000)); 
+                                           datos_disponibilidad.push(new Array (nombre_dia, disponibilidad_servicio)); 
+                                           categorias.push(nombre_dia); 
+                                           datos_disponibilidad2.push(disponibilidad_servicio); 
+                                           datos_caidas.push(new Array (nombre_dia, numero_caidas)); 
+                                           datos_tiempos.push(new Array (nombre_dia, tiempo_caido*1000)); 
+
                                  });
 
                                  var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
@@ -902,7 +940,7 @@ function mostrarHistorialSemanal() {
                                               type: 'line'
                                           },
                                           title: {text: 'Disponibilidad de Servicio por Día'},
-                                          //subtitle: {text: nombre_servicio},
+                                          subtitle: {text: nombre_servicio},
                                           legend: {enabled: false},
                                           exporting: { enabled: false },
                                           credits: {enabled: false},
@@ -1032,6 +1070,500 @@ function mostrarHistorialSemanal() {
 
                               //FIN DE LAS GRAFICAS NIVELES DE SERVICIO
                               /**************************************************************/
+
+
+                                 //Comienzo de Creación de la tabla de caídas de procesos
+                              var tabla_historial_proceso = '<table class="table table-bordered" id="tabla_caida_procesos_semanal">';
+                               tabla_historial_proceso = tabla_historial_proceso+'<thead >';
+                               tabla_historial_proceso = tabla_historial_proceso+'<tr class="active">';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Proceso <i class="fa fa-sort"></i></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Inicio de Caída <i class="fa fa-sort"></i></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Fin de Caída <i class="fa fa-sort"></i></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'<th>Duración de Caída <i class="fa fa-sort"></i> <br><small>(hh:mm:ss)<small></th>';
+                               tabla_historial_proceso = tabla_historial_proceso+'</tr>';
+                               tabla_historial_proceso = tabla_historial_proceso+'</thead>';
+
+                              tabla_historial_proceso = tabla_historial_proceso+'<tbody>';
+
+                                       
+
+                              data.caidas_procesos.forEach(function(caida) {
+                                    tabla_historial_proceso = tabla_historial_proceso+'<tr>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+data.procesos_info[caida.proceso_id].nombre+'</td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.inicio_caida+'</td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.fin_caida+'</td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td class="text-center">'+caida.duracion_caida+' </td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'</tr>';
+                              });
+
+                              tabla_historial_proceso = tabla_historial_proceso+ '</tbody>';
+                               tabla_historial_proceso = tabla_historial_proceso+ '</table>';
+
+                               $("#tabla_procesos_semanal").append(tabla_historial_proceso);
+
+                                $('#tabla_caida_procesos_semanal').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+                               .removeClass('tablesorter')
+                               .find('thead th')
+                               .unbind('click mousedown')
+                               .removeClass('header headerSortDown headerSortUp');
+
+                              $('#tabla_caida_procesos_semanal').dataTable( {
+                                "iDisplayLength": 4,
+                                "bLengthChange": false,
+                                "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
+                                });
+                              //Fin de Creación de tabla de caídas de procesos
+
+
+                                  //Creación de la tabla con lo datos globales de caídas por proceso
+                               var tabla_info_proceso = '<table class="table table-bordered" id="tabla_info_procesos_semanal">';
+                               tabla_info_proceso = tabla_info_proceso+'<thead >';
+                               tabla_info_proceso = tabla_info_proceso+'<tr class="active">';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Proceso</th>';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Disponibilidad</th>';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Tiempo Disponible</th>';
+                               tabla_info_proceso = tabla_info_proceso+'<th>Numero de Caídas</th>';
+                                tabla_info_proceso = tabla_info_proceso+'<th>Tiempo Total Caído</th>';
+                               tabla_info_proceso = tabla_info_proceso+'</tr>';
+                               tabla_info_proceso = tabla_info_proceso+'</thead>';
+
+                              tabla_info_proceso = tabla_info_proceso+'<tbody class="text-center">';
+
+                              data.servicio_procesos.forEach(function(proceso) {
+                                    var nombre_proceso = data.procesos_info[proceso.servicio_proceso_id].nombre;
+                                    //alert(nombre_proceso);
+                                    tabla_info_proceso = tabla_info_proceso+'<tr>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td class="active"><b><i>'+nombre_proceso+'</i></b></td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].disponibilidad+' %</td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].tiempo_disponible+'</td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].caidas+' </td>';
+                                    tabla_info_proceso = tabla_info_proceso+'<td>'+data.historial_procesos[nombre_proceso].tiempo_caido+' </td>';
+                                    tabla_info_proceso = tabla_info_proceso+'</tr>';
+                              });
+
+                              tabla_historial_proceso = tabla_historial_proceso+ '</tbody>';
+                               tabla_historial_proceso = tabla_historial_proceso+ '</table>';
+
+                               $("#tabla_info_semanal").append(tabla_info_proceso);
+
+
+                            //***************************************************************************
+                             //GRAFICAS DE NIVELES DE SERVICIO POR PROCESO
+
+                             //Gráfica de Disponibilidad de procesos///////////////////////////////////////////////////////
+
+                                 //Preparando los datos
+                                 var datos_disponibilidad = new Array ();
+                                 var datos_caidas = new Array ();
+                                  var datos_tiempos = new Array ();
+
+                                 data.servicio_procesos.forEach(function(proceso) {
+                                    var nombre_proceso = data.procesos_info[proceso.servicio_proceso_id].nombre;
+                                    var disponibilidad_proceso = data.historial_procesos[nombre_proceso].disponibilidad;
+
+                                    var numero_caidas = data.historial_procesos[nombre_proceso].caidas;
+                                    //var tiempo_caido = data.historial_procesos[nombre_proceso].tiempo_caido;
+                                    var tiempo_caido = data.historial_procesos[nombre_proceso].segundos;
+
+                                    datos_disponibilidad.push(new Array (nombre_proceso, disponibilidad_proceso)); 
+                                    datos_caidas.push(new Array (nombre_proceso, numero_caidas)); 
+                                    datos_tiempos.push(new Array (nombre_proceso, tiempo_caido*1000)); 
+                                 });
+
+                                 var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
+
+                                 // Dibujando la gráfica
+                                    $('#grafica_disponibilidad_procesos_semanal').highcharts({
+                                            chart: { type: 'column'},
+                                            exporting: { enabled: false },
+                                            credits: {enabled: false},
+                                            title: {text: 'Disponibilidad por Procesos Semanal'},
+                                            subtitle: {text: nombre_servicio},
+                                            xAxis: {
+                                                type: 'category',
+                                                labels: {
+                                                    rotation: -45,
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            },
+                                            yAxis: {
+                                                min: 0,
+                                                tickInterval: 20,
+                                                title: {
+                                                    text: 'Disponibilidad (%)'
+                                                }
+                                            },
+                                            legend: {enabled: false},
+                                            tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'},
+                                            series: [{
+                                                color: '#6699FF',
+                                                data: datos_disponibilidad,
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    //rotation: -90,
+                                                    color: '#000000',
+                                                    align: 'center',
+                                                    format: '<b>{point.y:.2f} %</b>', // two decimal
+                                                    y: 25, // 25 pixels down from the top
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            }]
+                                        });
+
+
+                              //Gráfica de Caídas de procesos///////////////////////////////////////////////////////
+                                    // Dibujando la gráfica
+                                    $('#grafica_caidas_procesos_semanal').highcharts({
+                                            chart: {type: 'column' },
+                                            exporting: { enabled: false },
+                                             credits: {enabled: false },
+                                            title: {  text: 'Caídas por Procesos'},
+                                            subtitle: { text: nombre_servicio },
+                                            xAxis: {
+                                                type: 'category',
+                                                labels: {
+                                                    rotation: -45,
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            },
+                                            yAxis: {
+                                                min: 0,
+                                                title: {
+                                                    text: 'Nº de Caídas'
+                                                }
+                                            },
+                                            legend: { enabled: false },
+                                            tooltip: {
+                                                pointFormat: 'Nº de Caídas: <b>{point.y:.0f}</b>'
+                                            },
+                                            series: [{
+                                                color: '#FF8533',
+                                                data: datos_caidas,
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    color: '#000000',
+                                                    align: 'center',
+                                                    format: '<b>{point.y:.0f}</b>', // two decimal
+                                                    y: 25, // 25 pixels down from the top
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
+                                            }]
+                                        });
+
+                                
+                                    //Gráfica de Tiempo total Caído de procesos///////////////////////////////////////////////////////
+                                    // Dibujando la gráfica
+                                    $('#grafica_tiempo_procesos_semanal').highcharts({
+
+                                            title: {  text: 'Tiempo Total Caído por Procesos Semanal'},
+                                            subtitle: { text: nombre_servicio },
+                                                chart: { type: 'column' },
+                                                legend: { enabled: false },  
+                                                exporting: { enabled: false },
+                                                    credits: { enabled: false },          
+                                               xAxis: {
+                                                 type: 'category',
+                                                 labels: {
+                                                 rotation: -45,
+                                                  style: {
+                                                             fontSize: '13px',
+                                                               fontFamily: 'Verdana, sans-serif'
+                                                             }
+                                                         }
+                                                },            
+                                                yAxis: {
+                                                    type: 'datetime', 
+                                                     //tickInterval: 0.5 * 60 * 1000,
+                                                      dateTimeLabelFormats: { 
+                                                            second: '%H:%M:%S',
+                                                            minute: '%H:%M:%S',
+                                                            hour: '%H:%M:%S',
+                                                            day: '%H:%M:%S',
+                                                             week: '%H:%M:%S',
+                                                             month: '%H:%M:%S',
+                                                             year: '%H:%M:%S'
+                                                  },
+                                                 title: {  text: 'Tiempo (hh:mm:ss)'}
+                                                },
+                                                tooltip: { pointFormat: 'Tiempo Total Caído: <b>{point.y:%H:%M:%S} (hh:mm:ss)</b>' },
+                                                 series: [{
+                                                               color: '#669999',
+                                                               data: datos_tiempos,
+                                                                 dataLabels: {
+                                                                                        enabled: true,
+                                                                                        //rotation: -90,
+                                                                                        color: '#000000',
+                                                                                        align: 'center',
+                                                                                        format: '<b>{point.y:%H:%M:%S}</b>', // two decimal
+                                                                                        y: 25, // 25 pixels down from the top
+                                                                                        style: {
+                                                                                            fontSize: '13px',
+                                                                                            fontFamily: 'Verdana, sans-serif'
+                                                                        }
+                                                               }
+                                                            }]
+                                                });  
+
+
+                                      
+                                           //DATOS PARA PROCESOS
+                                           var series_disponibilidad_procesos = new Array();
+                                           var series_numero_caidas_procesos = new Array();
+                                           var series_tiempos_caidas_procesos = new Array();
+
+                                          data.servicio_procesos.forEach(function(proceso) {
+
+                                                var disponibilidades = new Array ();    
+                                                var datos_caidas = new Array ();          
+                                                 var datos_tiempos = new Array ();      
+
+                                                var nombre_proceso = data.procesos_info[proceso.servicio_proceso_id].nombre;                                          
+                                      
+                                                data.dias.forEach(function(dia) {                                                        
+                                                        var disponibilidad_proceso = data.historial_servicios[dia].historial_procesos[nombre_proceso].disponibilidad;
+
+                                                        var numero_caidas =  data.historial_servicios[dia].historial_procesos[nombre_proceso].caidas;
+                                                        var tiempo_caido =  data.historial_servicios[dia].historial_procesos[nombre_proceso].segundos;
+
+                                                        disponibilidades.push(disponibilidad_proceso);
+                                                        datos_caidas.push(numero_caidas); 
+                                                        datos_tiempos.push(tiempo_caido*1000); 
+                                                        
+
+                                                       // alert(nombre_proceso+" "+disponibilidad_proceso);                                                   
+                                                       
+                                             });
+
+                                            serie_disponibilidad = {name: nombre_proceso, data : disponibilidades};
+                                            serie_numero_caidas = {name: nombre_proceso, data : datos_caidas};
+                                            serie_tiempos_caidas = {name: nombre_proceso, data : datos_tiempos};
+
+                                            series_disponibilidad_procesos.push(serie_disponibilidad);
+                                            series_numero_caidas_procesos.push(serie_numero_caidas);
+                                           series_tiempos_caidas_procesos.push(serie_tiempos_caidas); 
+
+                                              
+                                         });
+
+                                          // Gráfica  lineal de disponibilidad de procesos por día
+                                          $('#grafica_disponibilidad_procesos_semanal2').highcharts({
+                                          chart: {
+                                              type: 'line'
+                                          },
+                                          title: {text: 'Disponibilidad de Procesos por Día'},
+                                           subtitle: { text: nombre_servicio },
+                                          //subtitle: {text: nombre_servicio},
+                                          //legend: {enabled: false},
+                                          exporting: { enabled: false },
+                                          credits: {enabled: false},
+                                          xAxis: {
+                                             categories: categorias
+                                          },
+                                          yAxis: {
+                                              min: 0,                                              
+                                                tickInterval: 10,
+                                              title: {
+                                                   text: 'Disponibilidad (%)'
+                                              }
+                                          },
+                                          plotOptions: {
+                                              line: {
+                                                  dataLabels: {
+                                                      format: '<b>{point.y:.2f} %</b>',
+                                                      enabled: true
+                                                  },
+                                                  enableMouseTracking: false
+                                              }
+                                          },
+                                          series: series_disponibilidad_procesos
+                                      });
+
+                                        // Gráfica tipo columna de disponibilidad de procesos por día
+                                          $('#grafica_disponibilidad_procesos_semanal3').highcharts({
+       
+                                              exporting: { enabled: false },
+                                             credits: { enabled: false },   
+                                              chart: {
+                                                  type: 'column'
+                                              },
+                                             title: {text: 'Disponibilidad de Procesos por Día'},
+                                              subtitle: { text: nombre_servicio },
+                                           
+                                              xAxis: {
+                                                  categories: categorias,
+                                                  crosshair: true
+                                              },
+                                              yAxis: {
+                                                  min: 0,
+                                                  title: {
+                                                      text: 'Disponibilidad (%)'
+                                                  }
+                                              },
+                                              tooltip: {
+                                                  headerFormat: '<span style="font-size:10px"><b><u>{point.key}</u></b></span><table>',
+                                                  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                                      '<td style="padding:0"><b>{point.y:.2f} %</b></td></tr>',
+                                                  footerFormat: '</table>',
+                                                  shared: true,
+                                                  useHTML: true
+                                              },
+                                              plotOptions: {
+                                                  column: {
+                                                      pointPadding: 0.2,
+                                                      borderWidth: 0
+                                                  }
+                                              },
+                                              series: series_disponibilidad_procesos,
+                                          });
+
+
+                                        // Gráfica de columna del numero de caídas de procesos por día
+                                        $('#grafica_caidas_procesos_semanal2').highcharts({
+       
+                                              exporting: { enabled: false },
+                                             credits: { enabled: false },   
+                                              chart: {
+                                                  type: 'column'
+                                              },
+                                             title: {text: 'Caídas por Procesos por Día'},
+                                              subtitle: { text: nombre_servicio },
+                                           
+                                              xAxis: {
+                                                  categories: categorias,
+                                                  crosshair: true
+                                              },
+                                              yAxis: {
+                                                  min: 0,
+                                                  title: {
+                                                      text: 'Nº de Caídas'
+                                                  }
+                                              },
+                                              tooltip: {
+                                                  headerFormat: '<span style="font-size:10px"><b><u>{point.key}</u></b></span><table>',
+                                                  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                                      '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
+                                                  footerFormat: '</table>',
+                                                  shared: true,
+                                                  useHTML: true
+                                              },
+                                              plotOptions: {
+                                                  column: {
+                                                      pointPadding: 0.2,
+                                                      borderWidth: 0
+                                                  }
+                                              },
+                                              series: series_numero_caidas_procesos,
+                                          });
+
+
+                                            // Gráfica  lineal del numero de caídas de procesos por día
+                                            $('#grafica_caidas_procesos_semanal3').highcharts({
+                                          chart: {
+                                              type: 'line'
+                                          },
+                                          title: {text: 'Caídas de Procesos por Día'},
+                                           subtitle: { text: nombre_servicio },
+                                          exporting: { enabled: false },
+                                          credits: {enabled: false},
+                                          xAxis: {
+                                             categories: categorias
+                                          },
+                                          yAxis: {
+                                              min: 0,                 
+                                              title: {
+                                                   text: 'Nº de Caídas'
+                                              }
+                                          },
+                                          plotOptions: {
+                                              line: {
+                                                  dataLabels: {
+                                                      format: '<b>{point.y:.0f}</b>',
+                                                      enabled: true
+                                                  },
+                                                  enableMouseTracking: false
+                                              }
+                                          },
+                                          series:  series_numero_caidas_procesos,
+                                      });
+
+                                        // Gráfica tipo barra de la duración total de caída de procesos por día
+                                         $('#grafica_tiempo_procesos_semanal2').highcharts({
+       
+                                              exporting: { enabled: false },
+                                             credits: { enabled: false },   
+                                              chart: {
+                                                  type: 'column'
+                                              },
+                                             title: {text: 'Tiempo Total Caído de Procesos por Día'},
+                                             subtitle: { text: nombre_servicio },
+                                                chart: { type: 'column' },
+                                                exporting: { enabled: false },
+                                                    credits: { enabled: false },          
+                                               xAxis: {
+                                                  categories: categorias
+                                                },            
+                                                yAxis: {
+                                                    type: 'datetime', 
+                                                     //tickInterval: 0.5 * 60 * 1000,
+                                                      dateTimeLabelFormats: { 
+                                                            second: '%H:%M:%S',
+                                                            minute: '%H:%M:%S',
+                                                            hour: '%H:%M:%S',
+                                                            day: '%H:%M:%S',
+                                                             week: '%H:%M:%S',
+                                                             month: '%H:%M:%S',
+                                                             year: '%H:%M:%S'
+                                                  },
+                                                 title: {  text: 'Tiempo (hh:mm:ss)'}
+                                                },
+                                                tooltip: { pointFormat: 'Tiempo Total Caído: <b>{point.y:%H:%M:%S} (hh:mm:ss)</b>' },
+                                                 series: series_tiempos_caidas_procesos,
+                                                });  
+
+                                           // Gráfica lineal de la duración total de caída de procesos por día
+                                              $('#grafica_tiempo_procesos_semanal3').highcharts({
+                                            chart: {
+                                                type: 'line'
+                                            },
+                                            title: {text: 'Tiempo Total Caído de Procesos por Día'},
+                                             subtitle: { text: nombre_servicio },
+                                            exporting: { enabled: false },
+                                            credits: {enabled: false},
+                                            xAxis: {
+                                               categories: categorias
+                                            },
+                                            yAxis: {
+                                                type: 'datetime', 
+                                                     //tickInterval: 0.5 * 60 * 1000,
+                                                      dateTimeLabelFormats: { 
+                                                            second: '%H:%M:%S',
+                                                            minute: '%H:%M:%S',
+                                                            hour: '%H:%M:%S',
+                                                            day: '%H:%M:%S',
+                                                             week: '%H:%M:%S',
+                                                             month: '%H:%M:%S',
+                                                             year: '%H:%M:%S'
+                                                  },
+                                                 title: {  text: 'Tiempo (hh:mm:ss)'}
+                                            },
+                                                tooltip: { pointFormat: 'Tiempo Total Caído: <b>{point.y:%H:%M:%S} (hh:mm:ss)</b>' },
+                                                 series: series_tiempos_caidas_procesos,
+                                        });
+
+                                    //***************************************************************************
+                                    //GRAFICAS DE NIVELES DE SERVICIO POR PROCESO
 
 
 

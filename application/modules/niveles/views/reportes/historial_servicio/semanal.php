@@ -92,9 +92,20 @@
 
 
 <div id='informacion_historial_semanal' style="display:none">
-<hr>
 
-	<div class="row" style=" padding: 45px;">
+
+	<table class="table table-bordered" >
+		<tr>
+			<td id='info_servicio_semanal'></td>
+			<td  id='info_acuerdo_semanal'></td>	
+			<td  id='info_fecha_semanal'></td>		
+		</tr>
+	</table>
+
+
+	<hr>
+
+	<div class="row" style=" padding: 45px; margin-top: -40px;">
 		<div class="well well-sm"><h4>Datos de Niveles de Servicio</h4></div>
 		<div  class="col-md-7">
 		     <div class="panel panel-primary">
@@ -206,7 +217,7 @@
 		   	<div class="panel-heading"><b> Procesos Críticos que Soportan al Servicio</b></div>
 	  		<div class="panel-body">
 
-	  			<div class="table-responsive" id='tabla_info'>
+	  			<div class="table-responsive" id='tabla_info_semanal'>
 
 	                            	</div>
 	                            	<small><i class='fa fa-clock-o'></i> El formato del tiempo es horas/minutos/segundos (hh:mm:ss) </small>
@@ -220,7 +231,7 @@
 		   	<div class="panel-heading"><b> Caídas Registradas por Procesos que Soportan al Servicio</b></div>
 	  		<div class="panel-body">
 
-	  			<div class="table-responsive" id='tabla_procesos'>
+	  			<div class="table-responsive" id='tabla_procesos_semanal'>
 
 	                            	</div>
 	                            	
@@ -238,16 +249,24 @@
 	<div class="panel with-nav-tabs panel-primary">
                 <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab1default_procesos" data-toggle="tab">Disponibilidad</a></li>
-                            <li><a href="#tab2default_procesos" data-toggle="tab">Numero de Caídas</a></li>
-                            <li><a href="#tab3default_procesos" data-toggle="tab">Tiempo Caído</a></li>
+                            <li class="active"><a href="#tab1default_procesos_semanal" data-toggle="tab">Disponibilidad</a></li>
+                            <li><a href="#tab2default_procesos_semanal" data-toggle="tab">Numero de Caídas</a></li>
+                            <li><a href="#tab3default_procesos_semanal" data-toggle="tab">Tiempo Caído</a></li>
                         </ul>
                 </div>
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="tab1default_procesos"><div id='grafica_disponibilidad_procesos' class="col-md-offset-2" style="height: 500px; width: 750px; "></div></div>
-                        <div class="tab-pane fade" id="tab2default_procesos"><div id='grafica_caidas_procesos' class="col-md-offset-2" style="height: 500px; width: 750px;"></div></div>
-                        <div class="tab-pane fade" id="tab3default_procesos"><div id='grafica_tiempo_procesos' class="col-md-offset-2" style="height: 500px; width: 750px;"></div></div>
+                        <div class="tab-pane fade in active" id="tab1default_procesos_semanal"><div id='grafica_disponibilidad_procesos_semanal' class="col-md-offset-2" style="height: 500px; width: 750px; "></div><hr>
+                        										<div id='grafica_disponibilidad_procesos_semanal3' class="col-md-offset-2" style="height: 400px; width: 750px; "></div><br><br>
+	                    										<div id='grafica_disponibilidad_procesos_semanal2' class="col-md-offset-2" style="height: 400px; width: 750px; "></div></div>
+
+                        <div class="tab-pane fade" id="tab2default_procesos_semanal"><div id='grafica_caidas_procesos_semanal' class="col-md-offset-2" style="height: 500px; width: 750px;"></div><hr>
+                        										<div id='grafica_caidas_procesos_semanal2' class="col-md-offset-2" style="height: 400px; width: 750px; "></div><br><br>
+	                    										<div id='grafica_caidas_procesos_semanal3' class="col-md-offset-2" style="height: 400px; width: 750px; "></div></div>
+
+                        <div class="tab-pane fade" id="tab3default_procesos_semanal"><div id='grafica_tiempo_procesos_semanal' class="col-md-offset-2" style="height: 500px; width: 750px;"></div><hr>
+                        										<div id='grafica_tiempo_procesos_semanal2' class="col-md-offset-2" style="height: 400px; width: 750px; "></div><br><br>
+	                    										<div id='grafica_tiempo_procesos_semanal3' class="col-md-offset-2" style="height: 400px; width: 750px; "></div></div>
                     </div>
                 </div>
             </div>
