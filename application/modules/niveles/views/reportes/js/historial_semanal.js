@@ -170,35 +170,6 @@ function mostrarHistorialSemanal() {
 
                                var  numero_caidas_semanal = parseInt(data.numero_caidas);
 
-                              /*  var numero_caidas_semanal;
-                                if(data.ans.unidad_num_caidas == "dia"){
-
-                                   var cantidad_dias = parseFloat(data.numero_dias);
-                                   numero_caidas_semanal = parseFloat((parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2));
-                                  //numero_caidas_semanal = (parseFloat(data.numero_caidas) / parseFloat(data.numero_dias)).toFixed(2) ;
-                                      $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por día:</b></i> "+numero_caidas_semanal);
-                                      
-                                }
-
-                                if(data.ans.unidad_num_caidas == "semana"){
-                                  numero_caidas_semanal = parseFloat(data.numero_caidas);
-                                      $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+numero_caidas_semanal);
-                                      
-                                }
-
-                                 if(data.ans.unidad_num_caidas == "mes"){
-                                      var cantidad_dias = (parseFloat(data.numero_dias) * 4) ;
-                                       numero_caidas_semanal = parseFloat( (parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2) );
-                                      $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por mes:</b></i> "+numero_caidas_semanal);
-                                }
-
-                                 if(data.ans.unidad_num_caidas === "año"){
-                                      var cantidad_dias = ((parseFloat(data.numero_dias) * 4)*12) ;
-                                       numero_caidas_semanal = parseFloat( (parseFloat(data.numero_caidas) / cantidad_dias).toFixed(2) );
-                                      $("#numero_caidas_semanal").append("<i><b>Total de Caídas:</b></i> "+data.numero_caidas+"<br><br> <i><b>Promedio de Caídas por Año:</b></i> "+numero_caidas_semanal);
-                                }*/
-                                
-
                                 var objetivos_caidas = '<b><i>Numero de Caídas (Por '+data.ans.unidad_num_caidas+')</i></b><br><br>';
                                      objetivos_caidas =  objetivos_caidas+'<div class="progress">';  
                                       objetivos_caidas =  objetivos_caidas+'<div class="progress-bar progress-bar-success" style="width: 33%">';

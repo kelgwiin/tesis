@@ -628,13 +628,14 @@ class Reportes extends MX_Controller
 		$historial_semanal['mayor_caida'] = $this->transformarSegundos($mayor_caida);
 		$historial_semanal['mayor_caida_segundos'] = $mayor_caida;
 
-		//Mayor Caída
-		
+		//Menor Caída		
 		if($mayor_caida != "00:00:00"){
 
-			$tiempos_caidas = array_diff($tiempos_caidas, array_diff_assoc($tiempos_caidas, array_unique($tiempos_caidas)));
+			$tiempos_caidas = array_unique($tiempos_caidas);
+			$clave = array_search("00:00:00", $tiempos_caidas);
+			unset($tiempos_caidas[$clave]);
 		}
-		$menor_caida = min($tiempos_caidas);
+		$menor_caida = min($tiempos_caidas);		
 		$historial_semanal['menor_caida'] = $this->transformarSegundos($menor_caida);
 		$historial_semanal['menor_caida_segundos'] = $menor_caida;
 
