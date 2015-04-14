@@ -7,84 +7,68 @@ function esEntero(numero){
     }
 }
 
-function mostrarHistorialSemanal() {
+function mostrarHistorialMensual() {
 
             var existe_error = false;
 
-            if($("#dropdown_acuerdos_semanal").val() == 'seleccione'){
-                $("#error_acuerdos_semanal").empty();
-                $("#error_acuerdos_semanal").append('Seleccione un Acuerdo');
+            if($("#dropdown_acuerdos_mensual").val() == 'seleccione'){
+                $("#error_acuerdos_mensual").empty();
+                $("#error_acuerdos_mensual").append('Seleccione un Acuerdo');
                 existe_error = true;
             }
             else{
-                $("#error_acuerdos_semanal").empty();
+                $("#error_acuerdos_mensual").empty();
             }
 
-             if($("#dia_historial_semanal").val() == ''){
-                $("#error_semanal").empty();
-                $("#error_semanal").append('Seleccione un Día');
+             if($("#dia_historial_mensual").val() == ''){
+                $("#error_mensual").empty();
+                $("#error_mensual").append('Seleccione un Día');
                 existe_error = true;
 
             }
             else{
-                $("#error_semanal").empty();        
+                $("#error_mensual").empty();        
             }
 
-            var fecha = $("#dia_historial_semanal").val();           
-            var res = fecha.split("/");
-
-            var ano = res[2];
-            var mes = parseInt(res[0]) - 1;
-            var dia = res[1];
-            
-             var d = new Date(ano,mes,dia);
-             var n = d.getDay();
-
-           // Si el día seleccionado no es lunes
-            if(n != 1){
-              $("#error_semanal").append('Debe seleccionar un día que sea <u><b>Lunes</b></u>');
-              existe_error = true;
-            }
-
-            $("#informacion_historial_semanal").hide();
+            $("#informacion_historial_mensual").hide();
 
             if (existe_error == false) {
 
-                        var id_servicio = $("#dropdown_servicios_semanal").val();
-                        var fecha_dia = $("#dia_historial_semanal").val();
-                        var id_acuerdo = $("#dropdown_acuerdos_semanal").val();
+                        var id_servicio = $("#dropdown_servicios_mensual").val();
+                        var fecha_mes = $("#dia_historial_mensual").val();
+                        var id_acuerdo = $("#dropdown_acuerdos_mensual").val();
 
 
-                              $("#tabla_servicio_semanal").empty();
-                              $("#numero_caidas_semanal").empty();
-                              $("#numero_caidas_ANS_semanal").empty();
-                              $("#tiempo_caido_semanal").empty();
-                              $("#tiempo_online_semanal").empty();
-                              $("#tiempo_online_ANS_semanal").empty();
-                              $("#mayor_caida_semanal").empty();
-                              $("#menor_caida_semanal").empty();
-                              $("#disponibilidad_semanal").empty();
-                              $("#disponibilidad_ANS_semanal").empty();
-                              $("#tiempo_caido_ANS_semanal").empty();
+                              $("#tabla_servicio_mensual").empty();
+                              $("#numero_caidas_mensual").empty();
+                              $("#numero_caidas_ANS_mensual").empty();
+                              $("#tiempo_caido_mensual").empty();
+                              $("#tiempo_online_mensual").empty();
+                              $("#tiempo_online_ANS_mensual").empty();
+                              $("#mayor_caida_mensual").empty();
+                              $("#menor_caida_mensual").empty();
+                              $("#disponibilidad_mensual").empty();
+                              $("#disponibilidad_ANS_mensual").empty();
+                              $("#tiempo_caido_ANS_mensual").empty();
 
 
-                              $("#tabla_procesos_semanal").empty();
-                              $("#tabla_info_semanal").empty();
-                              $("#tabla_caida_servicios_semanal").empty();
-                               $("#tabla_caida_procesos_semanal").empty();
+                              $("#tabla_procesos_mensual").empty();
+                              $("#tabla_info_mensual").empty();
+                              $("#tabla_caida_servicios_mensual").empty();
+                               $("#tabla_caida_procesos_mensual").empty();
 
-                              $("#info_servicio_semanal").empty();
-                              $("#info_acuerdo_semanal").empty();
-                              $("#info_fecha_semanal").empty();
+                              $("#info_servicio_mensual").empty();
+                              $("#info_acuerdo_mensual").empty();
+                              $("#info_fecha_mensual").empty();
 
                           $.ajax({
                  
                             
-                            url: config.base+'index.php/niveles/reportes/obtener_historial_servicio_semana',
+                            url: config.base+'index.php/niveles/reportes/obtener_historial_servicio_mes',
                             type: 'POST',
                             data: {                         
                                     servicio_id : id_servicio,
-                                    dia : fecha_dia,   
+                                    mes : fecha_mes,   
                                     acuerdo_id : id_acuerdo,                                              
                                   },
                             dataType: 'json',
@@ -92,19 +76,36 @@ function mostrarHistorialSemanal() {
 
                              success: function(data){
 
-                              $("#informacion_historial_semanal").hide();
+                              //alert(data.prueba);
+                                 //alert('hola');
+                                //alert(data.caidas_servicio_mensual.length);
 
-                              var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
-                              var nombre_acuerdo = $( "#dropdown_acuerdos_semanal option:selected" ).text();
+                                //alert(data.dias.length);
+
+                                //alert(data.numero_dias);
+
+
+                             /*  data.dias.forEach(function(dia) {
+
+                                  alert(dia);
+
+                                });*/
+
+                          
+
+                              $("#informacion_historial_mensual").hide();
+
+                              var nombre_servicio = $( "#dropdown_servicios_mensual option:selected" ).text();
+                              var nombre_acuerdo = $( "#dropdown_acuerdos_mensual option:selected" ).text();
 
                               //Información de el Nombre de Servicio, ANS y fecha seleccionados
-                              $("#info_servicio_semanal").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
-                              $("#info_acuerdo_semanal").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
-                              $("#info_fecha_semanal").append('<h4><i class="fa fa-calendar"></i> '+fecha_dia+" - "+data.domingo+"</h4>");
+                              $("#info_servicio_mensual").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
+                              $("#info_acuerdo_mensual").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
+                              $("#info_fecha_mensual").append('<h4><i class="fa fa-calendar"></i> '+data.mes+"</h4>");
 
                               
                                 // COMIENZO de la Creación de tabla de caídas de servicio
-                               var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios_semanal">';
+                               var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios_mensual">';
                                tabla_historial_servicio = tabla_historial_servicio+'<thead >';
                                tabla_historial_servicio = tabla_historial_servicio+'<tr class="active">';
                                tabla_historial_servicio = tabla_historial_servicio+'<th>Inicio de Caída <i class="fa fa-sort"></i></th>';
@@ -128,32 +129,32 @@ function mostrarHistorialSemanal() {
                               tabla_historial_servicio = tabla_historial_servicio+ '</tbody>';
                                tabla_historial_servicio = tabla_historial_servicio+ '</table>';
 
-                               $("#tabla_servicio_semanal").append(tabla_historial_servicio);
+                               $("#tabla_servicio_mensual").append(tabla_historial_servicio);
                                // FIN de la Creación de tabla de caídas de servicio
 
                                 // COMIENZO del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS
-                               $('#tabla_caida_servicios_semanal').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+                               $('#tabla_caida_servicios_mensual').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
                                .removeClass('tablesorter')
                                .find('thead th')
                                .unbind('click mousedown')
                                .removeClass('header headerSortDown headerSortUp');
 
                                 // Declaración del datatable de caídas de servicio
-                              $('#tabla_caida_servicios_semanal').dataTable( {
+                              $('#tabla_caida_servicios_mensual').dataTable( {
                                 "iDisplayLength": 4,
                                 "bLengthChange": false,
                                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
                                 });
 
 
-                               $("#disponibilidad_semanal").append(data.disponibilidad+" %");
-                                $("#disponibilidad_ANS_semanal").append(data.ans.porcentaje_disp+" %");
-                                $("#tiempo_online_semanal").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
-                                $("#tiempo_online_ANS_semanal").append(" <h5>"+data.tiempo_disponible+" <i class='fa fa-clock-o'></i></h5>");
+                               $("#disponibilidad_mensual").append(data.disponibilidad+" %");
+                                $("#disponibilidad_ANS_mensual").append(data.ans.porcentaje_disp+" %");
+                                $("#tiempo_online_mensual").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
+                                $("#tiempo_online_ANS_mensual").append(" <h5>"+data.tiempo_disponible+" <i class='fa fa-clock-o'></i></h5>");
 
-                                $("#numero_caidas_semanal").append(data.numero_caidas);
+                                $("#numero_caidas_mensual").append(data.numero_caidas);
 
-                               var  numero_caidas_semanal = parseInt(data.numero_caidas);
+                               var  numero_caidas_mensual = parseInt(data.numero_caidas);
 
                                 var objetivos_caidas = '<b><i>Numero de Caídas (Por '+data.ans.unidad_num_caidas+')</i></b><br><br>';
                                      objetivos_caidas =  objetivos_caidas+'<div class="progress">';  
@@ -188,7 +189,7 @@ function mostrarHistorialSemanal() {
                                      objetivos_caidas =  objetivos_caidas+'</div><br>';
 
 
-                               $("#numero_caidas_ANS_semanal").append(objetivos_caidas);
+                               $("#numero_caidas_ANS_mensual").append(objetivos_caidas);
 
                                var objetivos_duracion_caidas = '<b><i>Duración de Caídas</i></b><br><br>';
                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'<div class="progress">';  
@@ -226,12 +227,14 @@ function mostrarHistorialSemanal() {
                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'</span></div>';
                                      objetivos_duracion_caidas =  objetivos_duracion_caidas+'</div><br>';
 
-                               $("#tiempo_caido_semanal").append(" <h5>"+data.tiempo_caido+" <i class='fa fa-clock-o'></i></h5>");   
-                                $("#tiempo_caido_ANS_semanal").append(objetivos_duracion_caidas);   
+                               $("#tiempo_caido_mensual").append(" <h5>"+data.tiempo_caido+" <i class='fa fa-clock-o'></i></h5>");   
+                                $("#tiempo_caido_ANS_mensual").append(objetivos_duracion_caidas);   
 
-                                $("#mayor_caida_semanal").append(" <h5>"+data.mayor_caida+" <i class='fa fa-clock-o'></i></h5>");
-                                 $("#menor_caida_semanal").append(" <h5>"+data.menor_caida+" <i class='fa fa-clock-o'></i></h5>");
+                                $("#mayor_caida_mensual").append(" <h5>"+data.mayor_caida+" <i class='fa fa-clock-o'></i></h5>");
+                                 $("#menor_caida_mensual").append(" <h5>"+data.menor_caida+" <i class='fa fa-clock-o'></i></h5>");
                                    // FIN del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS
+
+
 
                               
                               // COMIENZO GRAFICAS DE NIVELES DE SERVICIO
@@ -240,7 +243,7 @@ function mostrarHistorialSemanal() {
                               var maximo = parseInt(data.ans.maximo_num_caidas)+2;
                              
                               // Gráfica de Numero de Caídas
-                              $('#container-caidas-semanal').highcharts({
+                              $('#container-caidas-mensual').highcharts({
                                   chart: {
                                       type: 'gauge',
                                       plotBackgroundColor: null,
@@ -325,7 +328,7 @@ function mostrarHistorialSemanal() {
 
                                   series: [{
                                       name: 'N de Caidas',
-                                      data: [numero_caidas_semanal],
+                                      data: [numero_caidas_mensual],
                                       tooltip: {
                                           //valueSuffix: ' km/h'
                                       }
@@ -402,7 +405,7 @@ function mostrarHistorialSemanal() {
                                   };
 
                                   
-                                  $('#container-disponibilidad-semanal').highcharts(Highcharts.merge(gaugeOptions, {
+                                  $('#container-disponibilidad-mensual').highcharts(Highcharts.merge(gaugeOptions, {
                                       yAxis: {
                                           min: 0,
                                           max: 100,
@@ -458,7 +461,7 @@ function mostrarHistorialSemanal() {
                                   }
 
                                    // Gráfica de Tiempo Total Caído
-                                  $('#container-tiempo-caido-semanal').highcharts({
+                                  $('#container-tiempo-caido-mensual').highcharts({
                                   chart: {
                                       type: 'gauge',
                                       plotBackgroundColor: null,
@@ -585,7 +588,7 @@ function mostrarHistorialSemanal() {
                                   }
 
                                    // Gráfica de Mayor de Caída
-                                  $('#container-mayor-caida-semanal').highcharts({
+                                  $('#container-mayor-caida-mensual').highcharts({
                                   chart: {
                                       type: 'gauge',
                                       plotBackgroundColor: null,
@@ -713,7 +716,7 @@ function mostrarHistorialSemanal() {
                                   }
 
                                   // Gráfica de Menor de Caída
-                                  $('#container-menor-caida-semanal').highcharts({
+                                  $('#container-menor-caida-mensual').highcharts({
                                   chart: {
                                       type: 'gauge',
                                       plotBackgroundColor: null,
@@ -830,29 +833,33 @@ function mostrarHistorialSemanal() {
 
                                  data.dias.forEach(function(dia) { 
                                           // DATOS PARA SERVICIO
-                                          var nombre_dia = data.historial_servicios[dia].nombre_dia;
+                                          var nombre_dia = data.historial_servicios[dia].nombre_dia+" "+dia;
                                           var disponibilidad_servicio = data.historial_servicios[dia].disponibilidad;
                                           var numero_caidas = data.historial_servicios[dia].numero_caidas;
                                           var tiempo_caido = data.historial_servicios[dia].tiempo_caido_segundos;
 
                                            datos_disponibilidad.push(new Array (nombre_dia, disponibilidad_servicio)); 
-                                           categorias.push(nombre_dia); 
-                                           datos_disponibilidad2.push(disponibilidad_servicio); 
+
+                                           var str = dia.split("/");
+                                           categorias.push(str[0]); 
+
+                                           datos_disponibilidad2.push(new Array (nombre_dia, disponibilidad_servicio)); 
                                            datos_caidas.push(new Array (nombre_dia, numero_caidas)); 
                                            datos_tiempos.push(new Array (nombre_dia, tiempo_caido*1000)); 
 
                                  });
 
-                                 var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
+                                 var nombre_servicio = $( "#dropdown_servicios_mensual option:selected" ).text();
 
                                  // Dibujando la gráfica
-                                    $('#grafica_disponibilidad_servicio_semanal').highcharts({
+                                    $('#grafica_disponibilidad_servicio_mensual').highcharts({
                                             chart: { type: 'column'},
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
-                                            title: {text: 'Disponibilidad de Servicio por Día'},
+                                            title: {text: 'Disponibilidad de Servicio '+data.mes},
                                             subtitle: {text: nombre_servicio},
                                             xAxis: {
+                                              categories: categorias,
                                                 type: 'category',
                                                 labels: {
                                                     rotation: -45,
@@ -874,51 +881,38 @@ function mostrarHistorialSemanal() {
                                             series: [{
                                                 color: '#6699FF',
                                                 data: datos_disponibilidad,
-                                                dataLabels: {
-                                                    enabled: true,
-                                                    //rotation: -90,
-                                                    color: '#000000',
-                                                    align: 'center',
-                                                    format: '<b>{point.y:.2f} %</b>', // two decimal
-                                                    y: 25, // 25 pixels down from the top
-                                                    style: {
-                                                        fontSize: '13px',
-                                                        fontFamily: 'Verdana, sans-serif'
-                                                    }
-                                                }
                                             }]
                                         });
 
                                         // Segunda Gráfica de disponibilidad
 
-                                        $('#grafica_disponibilidad_servicio_semanal2').highcharts({
+                                        $('#grafica_disponibilidad_servicio_mensual2').highcharts({
                                           chart: {
                                               type: 'line'
                                           },
-                                          title: {text: 'Disponibilidad de Servicio por Día'},
+                                          title: {text: 'Disponibilidad de Servicio '+data.mes},
                                           subtitle: {text: nombre_servicio},
                                           legend: {enabled: false},
                                           exporting: { enabled: false },
                                           credits: {enabled: false},
                                           xAxis: {
-                                             categories: categorias
+                                             categories: categorias,
+                                              labels: {
+                                                    rotation: -45,
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontFamily: 'Verdana, sans-serif'
+                                                    }
+                                                }
                                           },
                                           yAxis: {
                                               min: 0,                                              
-                                                tickInterval: 10,
+                                              tickInterval: 10,
                                               title: {
                                                    text: 'Disponibilidad (%)'
                                               }
                                           },
-                                          plotOptions: {
-                                              line: {
-                                                  dataLabels: {
-                                                      format: '<b>{point.y:.2f} %</b>',
-                                                      enabled: true
-                                                  },
-                                                  enableMouseTracking: false
-                                              }
-                                          },
+                                          tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'},
                                           series: [{
                                               name: 'Tokyo',
                                               data: datos_disponibilidad2
@@ -927,13 +921,14 @@ function mostrarHistorialSemanal() {
 
                                      //Gráfica de Caídas de Servicio///////////////////////////////////////////////////////
                                     // Dibujando la gráfica
-                                    $('#grafica_caidas_servicio_semanal').highcharts({
+                                    $('#grafica_caidas_servicio_mensual').highcharts({
                                             chart: {type: 'column' },
                                             exporting: { enabled: false },
                                              credits: {enabled: false },
-                                            title: {  text: 'Numero de Caídas de Servicio por Día'},
+                                            title: {  text: 'Numero de Caídas de Servicio '+data.mes},
                                             subtitle: { text: nombre_servicio },
                                             xAxis: {
+                                              categories: categorias,
                                                 type: 'category',
                                                 labels: {
                                                     rotation: -45,
@@ -956,31 +951,21 @@ function mostrarHistorialSemanal() {
                                             series: [{
                                                 color: '#FF8533',
                                                 data: datos_caidas,
-                                                dataLabels: {
-                                                    enabled: true,
-                                                    color: '#000000',
-                                                    align: 'center',
-                                                    format: '<b>{point.y:.0f}</b>', // two decimal
-                                                    y: 25, // 25 pixels down from the top
-                                                    style: {
-                                                        fontSize: '13px',
-                                                        fontFamily: 'Verdana, sans-serif'
-                                                    }
-                                                }
                                             }]
                                         });
 
                                     //Gráfica de Tiempo total Caído de Servicios///////////////////////////////////////////////////////
                                     // Dibujando la gráfica
-                                    $('#grafica_tiempo_servicio_semanal').highcharts({
+                                    $('#grafica_tiempo_servicio_mensual').highcharts({
 
-                                            title: {  text: 'Tiempo Total Caído de Servicio por Día'},
+                                            title: {  text: 'Tiempo Total Caído de Servicio '+data.mes},
                                             subtitle: { text: nombre_servicio },
                                                 chart: { type: 'column' },
                                                 legend: { enabled: false },  
                                                 exporting: { enabled: false },
                                                     credits: { enabled: false },          
                                                xAxis: {
+                                                categories: categorias,
                                                  type: 'category',
                                                  labels: {
                                                  rotation: -45,
@@ -1008,18 +993,6 @@ function mostrarHistorialSemanal() {
                                                  series: [{
                                                                color: '#669999',
                                                                data: datos_tiempos,
-                                                                 dataLabels: {
-                                                                                        enabled: true,
-                                                                                        //rotation: -90,
-                                                                                        color: '#000000',
-                                                                                        align: 'center',
-                                                                                        format: '<b>{point.y:%H:%M:%S}</b>', // two decimal
-                                                                                        y: 25, // 25 pixels down from the top
-                                                                                        style: {
-                                                                                            fontSize: '13px',
-                                                                                            fontFamily: 'Verdana, sans-serif'
-                                                                        }
-                                                               }
                                                             }]
                                                 });  
 
@@ -1029,7 +1002,7 @@ function mostrarHistorialSemanal() {
 
 
                                  //Comienzo de Creación de la tabla de caídas de procesos
-                              var tabla_historial_proceso = '<table class="table table-bordered" id="tabla_caida_procesos_semanal">';
+                              var tabla_historial_proceso = '<table class="table table-bordered" id="tabla_caida_procesos_mensual">';
                                tabla_historial_proceso = tabla_historial_proceso+'<thead >';
                                tabla_historial_proceso = tabla_historial_proceso+'<tr class="active">';
                                tabla_historial_proceso = tabla_historial_proceso+'<th>Proceso <i class="fa fa-sort"></i></th>';
@@ -1055,15 +1028,15 @@ function mostrarHistorialSemanal() {
                               tabla_historial_proceso = tabla_historial_proceso+ '</tbody>';
                                tabla_historial_proceso = tabla_historial_proceso+ '</table>';
 
-                               $("#tabla_procesos_semanal").append(tabla_historial_proceso);
+                               $("#tabla_procesos_mensual").append(tabla_historial_proceso);
 
-                                $('#tabla_caida_procesos_semanal').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+                                $('#tabla_caida_procesos_mensual').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
                                .removeClass('tablesorter')
                                .find('thead th')
                                .unbind('click mousedown')
                                .removeClass('header headerSortDown headerSortUp');
 
-                              $('#tabla_caida_procesos_semanal').dataTable( {
+                              $('#tabla_caida_procesos_mensual').dataTable( {
                                 "iDisplayLength": 4,
                                 "bLengthChange": false,
                                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
@@ -1072,7 +1045,7 @@ function mostrarHistorialSemanal() {
 
 
                                   //Creación de la tabla con lo datos globales de caídas por proceso
-                               var tabla_info_proceso = '<table class="table table-bordered" id="tabla_info_procesos_semanal">';
+                               var tabla_info_proceso = '<table class="table table-bordered" id="tabla_info_procesos_mensual">';
                                tabla_info_proceso = tabla_info_proceso+'<thead >';
                                tabla_info_proceso = tabla_info_proceso+'<tr class="active">';
                                tabla_info_proceso = tabla_info_proceso+'<th>Proceso</th>';
@@ -1100,7 +1073,7 @@ function mostrarHistorialSemanal() {
                               tabla_historial_proceso = tabla_historial_proceso+ '</tbody>';
                                tabla_historial_proceso = tabla_historial_proceso+ '</table>';
 
-                               $("#tabla_info_semanal").append(tabla_info_proceso);
+                               $("#tabla_info_mensual").append(tabla_info_proceso);
 
 
                             //***************************************************************************
@@ -1126,10 +1099,10 @@ function mostrarHistorialSemanal() {
                                     datos_tiempos.push(new Array (nombre_proceso, tiempo_caido*1000)); 
                                  });
 
-                                 var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
+                                 var nombre_servicio = $( "#dropdown_servicios_mensual option:selected" ).text();
 
                                  // Dibujando la gráfica
-                                    $('#grafica_disponibilidad_procesos_semanal').highcharts({
+                                    $('#grafica_disponibilidad_procesos_mensual').highcharts({
                                             chart: { type: 'column'},
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
@@ -1175,7 +1148,7 @@ function mostrarHistorialSemanal() {
 
                               //Gráfica de Caídas de procesos///////////////////////////////////////////////////////
                                     // Dibujando la gráfica
-                                    $('#grafica_caidas_procesos_semanal').highcharts({
+                                    $('#grafica_caidas_procesos_mensual').highcharts({
                                             chart: {type: 'column' },
                                             exporting: { enabled: false },
                                              credits: {enabled: false },
@@ -1221,7 +1194,7 @@ function mostrarHistorialSemanal() {
                                 
                                     //Gráfica de Tiempo total Caído de procesos///////////////////////////////////////////////////////
                                     // Dibujando la gráfica
-                                    $('#grafica_tiempo_procesos_semanal').highcharts({
+                                    $('#grafica_tiempo_procesos_mensual').highcharts({
 
                                             title: {  text: 'Tiempo Total Caído por Procesos Semanal'},
                                             subtitle: { text: nombre_servicio },
@@ -1314,7 +1287,7 @@ function mostrarHistorialSemanal() {
                                          });
 
                                           // Gráfica  lineal de disponibilidad de procesos por día
-                                          $('#grafica_disponibilidad_procesos_semanal2').highcharts({
+                                          $('#grafica_disponibilidad_procesos_mensual2').highcharts({
                                           chart: {
                                               type: 'line'
                                           },
@@ -1334,20 +1307,12 @@ function mostrarHistorialSemanal() {
                                                    text: 'Disponibilidad (%)'
                                               }
                                           },
-                                          plotOptions: {
-                                              line: {
-                                                  dataLabels: {
-                                                      format: '<b>{point.y:.2f} %</b>',
-                                                      enabled: true
-                                                  },
-                                                  enableMouseTracking: false
-                                              }
-                                          },
+                                         tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'},
                                           series: series_disponibilidad_procesos
                                       });
 
                                         // Gráfica tipo columna de disponibilidad de procesos por día
-                                          $('#grafica_disponibilidad_procesos_semanal3').highcharts({
+                                          $('#grafica_disponibilidad_procesos_mensual3').highcharts({
        
                                               exporting: { enabled: false },
                                              credits: { enabled: false },   
@@ -1386,7 +1351,7 @@ function mostrarHistorialSemanal() {
 
 
                                         // Gráfica de columna del numero de caídas de procesos por día
-                                        $('#grafica_caidas_procesos_semanal2').highcharts({
+                                        $('#grafica_caidas_procesos_mensual2').highcharts({
        
                                               exporting: { enabled: false },
                                              credits: { enabled: false },   
@@ -1425,7 +1390,7 @@ function mostrarHistorialSemanal() {
 
 
                                             // Gráfica  lineal del numero de caídas de procesos por día
-                                            $('#grafica_caidas_procesos_semanal3').highcharts({
+                                            $('#grafica_caidas_procesos_mensual3').highcharts({
                                           chart: {
                                               type: 'line'
                                           },
@@ -1455,7 +1420,7 @@ function mostrarHistorialSemanal() {
                                       });
 
                                         // Gráfica tipo barra de la duración total de caída de procesos por día
-                                         $('#grafica_tiempo_procesos_semanal2').highcharts({
+                                         $('#grafica_tiempo_procesos_mensual2').highcharts({
        
                                               exporting: { enabled: false },
                                              credits: { enabled: false },   
@@ -1489,7 +1454,7 @@ function mostrarHistorialSemanal() {
                                                 });  
 
                                            // Gráfica lineal de la duración total de caída de procesos por día
-                                              $('#grafica_tiempo_procesos_semanal3').highcharts({
+                                              $('#grafica_tiempo_procesos_mensual3').highcharts({
                                             chart: {
                                                 type: 'line'
                                             },
@@ -1522,9 +1487,10 @@ function mostrarHistorialSemanal() {
                                     //GRAFICAS DE NIVELES DE SERVICIO POR PROCESO
 
 
-
-
-                              $("#informacion_historial_semanal").fadeIn();  // Mostrando el Contenido del Reporte
+     
+  
+                              $("#informacion_historial_mensual").fadeIn();  // Mostrando el Contenido del Reporte
+                       
 
                              },
                              error: function(xhr, ajaxOptions, thrownError){
@@ -1542,28 +1508,28 @@ function mostrarHistorialSemanal() {
 
 $( document ).ready(function() {
 
-        $("#dropdown_servicios_semanal").change(function () {
-            if($("#dropdown_servicios_semanal").val() != 'seleccione'){             
-                        $("#error_servicio_semanal").empty();
+        $("#dropdown_servicios_mensual").change(function () {
+            if($("#dropdown_servicios_mensual").val() != 'seleccione'){             
+                        $("#error_servicio_mensual").empty();
                     }   
             });
 
 
      // Llenado del dropdown de ANS.
-    $("#dropdown_servicios_semanal").change(function () {
+    $("#dropdown_servicios_mensual").change(function () {
 
-            $("#no_acuerdos_semanal").fadeOut(); 
+            $("#no_acuerdos_mensual").fadeOut(); 
 
-            $("#error_acuerdos_semanal").empty();
-            $("#error_semanal").empty();      
+            $("#error_acuerdos_mensual").empty();
+            $("#error_mensual").empty();      
            
 
            // $('#dia_historial').val("");
-           //  $('#dia_historial_semanal').data("DateTimePicker").disable();
+           //  $('#dia_historial_mensual').data("DateTimePicker").disable();
 
-        if($("#dropdown_servicios_semanal").val() != 'seleccione'){             
+        if($("#dropdown_servicios_mensual").val() != 'seleccione'){             
                     //$("#error_servicio").empty();
-                  var id_servicio = $("#dropdown_servicios_semanal").val();
+                  var id_servicio = $("#dropdown_servicios_mensual").val();
 
                   $.ajax({   
                             url: config.base+'index.php/niveles/reportes/obtener_ans_servicio',
@@ -1576,22 +1542,22 @@ $( document ).ready(function() {
 
                              success: function(data){
 
-                                    $('select#dropdown_acuerdos_semanal').empty();
-                                    $('select#dropdown_acuerdos_semanal').append('<option value="seleccione">Seleccione un Acuerdo</option>');
+                                    $('select#dropdown_acuerdos_mensual').empty();
+                                    $('select#dropdown_acuerdos_mensual').append('<option value="seleccione">Seleccione un Acuerdo</option>');
 
                                     if(data.acuerdos.length > 0){
                                           var option = "";                                    
                                           for (var i = 0; i < data.acuerdos.length; i++) {
                                              option = '<option value="'+data.acuerdos[i].acuerdo_nivel_id+'">'+data.acuerdos[i].nombre_acuerdo+'</option> ';
-                                             $('select#dropdown_acuerdos_semanal').append(option);
+                                             $('select#dropdown_acuerdos_mensual').append(option);
                                           };
                                            
-                                          $("#opciones_reporte_semanal").fadeIn(); 
+                                          $("#opciones_reporte_mensual").fadeIn(); 
                                     }  
                                     else{
 
-                                        $("#opciones_reporte_semanal").hide(); 
-                                        $("#no_acuerdos_semanal").fadeIn(); 
+                                        $("#opciones_reporte_mensual").hide(); 
+                                        $("#no_acuerdos_mensual").fadeIn(); 
                                     }
                                   
                              },
@@ -1603,43 +1569,43 @@ $( document ).ready(function() {
             }
             else{                
 
-                  $("#opciones_reporte_semanal").fadeOut();
+                  $("#opciones_reporte_mensual").fadeOut();
                      
             }   
        });
 
-        $("#dropdown_acuerdos_semanal").change(function () {
+        $("#dropdown_acuerdos_mensual").change(function () {
 
-            if($("#dropdown_acuerdos_semanal").val()  != 'seleccione' ){
+            if($("#dropdown_acuerdos_mensual").val()  != 'seleccione' ){
 
-                 $('#dia_historial_semanal').data("DateTimePicker").enable();
+                 $('#dia_historial_mensual').data("DateTimePicker").enable();
             }
             else{
-                $('#dia_historial_semanal').data("DateTimePicker").disable();
+                $('#dia_historial_mensual').data("DateTimePicker").disable();
             }
         });
 
 
-            $("#dia_historial_semanal").change(function () {
-                if($("#dia_historial_semanal").val() != ''){            
-                            $("#error_semanal").empty();
+            $("#dia_historial_mensual").change(function () {
+                if($("#dia_historial_mensual").val() != ''){            
+                            $("#error_mensual").empty();
                         }   
                 });
 
 
-                $('#dia_historial_semanal').datetimepicker({
-                   
-                    daysOfWeekDisabled: [0,2,3,4,5,6], 
+                $('#dia_historial_mensual').datetimepicker({
+                     format: "MM/YYYY",
+                    viewMode: "months", 
+                    minViewMode: "months",
                     pickTime: false,
                      icons: {
                     time: "fa fa-clock-o",
                     date: "fa fa-calendar",
                     up: "fa fa-chevron-up",
                     down: "fa fa-chevron-down",
-                    //maxDate: new Date(),                   
-                    //useCurrent: false,
+                    maxDate: new Date(),
                 }
                 });
-                $('#dia_historial_semanal').data("DateTimePicker").disable();
+                //$('#dia_historial_mensual').data("DateTimePicker").disable();
 
 });
