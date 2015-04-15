@@ -26,7 +26,7 @@
                 <div class="panel-body">
                     <div class="tab-content">
                         <div class="tab-pane fade " id="tab1default"><?php $this->load->view('niveles/reportes/historial_servicio/diario'); ?></div>
-                        <div class="tab-pane fade" id="tab2default"><?php $this->load->view('niveles/reportes/historial_servicio/semanal'); ?></div>
+                        <div class="tab-pane fade " id="tab2default"><?php $this->load->view('niveles/reportes/historial_servicio/semanal'); ?></div>
                         <div class="tab-pane fade  in active" id="tab3default"><?php $this->load->view('niveles/reportes/historial_servicio/mensual'); ?></div>
                         <div class="tab-pane fade" id="tab4default">Default 4</div>
                         <div class="tab-pane fade" id="tab5default">Default 5</div>

@@ -232,7 +232,7 @@ function mostrarHistorialMensual() {
 
                                 $("#mayor_caida_mensual").append(" <h5>"+data.mayor_caida+" <i class='fa fa-clock-o'></i></h5>");
                                  $("#menor_caida_mensual").append(" <h5>"+data.menor_caida+" <i class='fa fa-clock-o'></i></h5>");
-                                   // FIN del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS
+                                   // FIN del  LLenado de la tabla de Niveles de Servicio Obtenidos y Niveles de Servicios contenidos en el ANS 
 
 
 
@@ -862,7 +862,7 @@ function mostrarHistorialMensual() {
                                               categories: categorias,
                                                 type: 'category',
                                                 labels: {
-                                                    rotation: -45,
+                                                    //rotation: -45,
                                                     style: {
                                                         fontSize: '13px',
                                                         fontFamily: 'Verdana, sans-serif'
@@ -898,7 +898,7 @@ function mostrarHistorialMensual() {
                                           xAxis: {
                                              categories: categorias,
                                               labels: {
-                                                    rotation: -45,
+                                                    //rotation: -45,
                                                     style: {
                                                         fontSize: '13px',
                                                         fontFamily: 'Verdana, sans-serif'
@@ -914,7 +914,7 @@ function mostrarHistorialMensual() {
                                           },
                                           tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.1f} %</b>'},
                                           series: [{
-                                              name: 'Tokyo',
+                                             // name: 'Tokyo',
                                               data: datos_disponibilidad2
                                           }]
                                       });
@@ -931,7 +931,7 @@ function mostrarHistorialMensual() {
                                               categories: categorias,
                                                 type: 'category',
                                                 labels: {
-                                                    rotation: -45,
+                                                    //rotation: -45,
                                                     style: {
                                                         fontSize: '13px',
                                                         fontFamily: 'Verdana, sans-serif'
@@ -968,7 +968,7 @@ function mostrarHistorialMensual() {
                                                 categories: categorias,
                                                  type: 'category',
                                                  labels: {
-                                                 rotation: -45,
+                                                 //rotation: -45,
                                                   style: {
                                                              fontSize: '13px',
                                                                fontFamily: 'Verdana, sans-serif'
@@ -976,6 +976,7 @@ function mostrarHistorialMensual() {
                                                          }
                                                 },            
                                                 yAxis: {
+                                                   min: 0,  
                                                     type: 'datetime', 
                                                      //tickInterval: 0.5 * 60 * 1000,
                                                       dateTimeLabelFormats: { 
@@ -1106,7 +1107,7 @@ function mostrarHistorialMensual() {
                                             chart: { type: 'column'},
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
-                                            title: {text: 'Disponibilidad por Procesos Semanal'},
+                                            title: {text: 'Disponibilidad por Procesos '+data.mes},
                                             subtitle: {text: nombre_servicio},
                                             xAxis: {
                                                 type: 'category',
@@ -1152,7 +1153,7 @@ function mostrarHistorialMensual() {
                                             chart: {type: 'column' },
                                             exporting: { enabled: false },
                                              credits: {enabled: false },
-                                            title: {  text: 'Caídas por Procesos'},
+                                            title: {  text: 'Caídas por Procesos '+data.mes},
                                             subtitle: { text: nombre_servicio },
                                             xAxis: {
                                                 type: 'category',
@@ -1196,7 +1197,7 @@ function mostrarHistorialMensual() {
                                     // Dibujando la gráfica
                                     $('#grafica_tiempo_procesos_mensual').highcharts({
 
-                                            title: {  text: 'Tiempo Total Caído por Procesos Semanal'},
+                                            title: {  text: 'Tiempo Total Caído por Procesos '+data.mes},
                                             subtitle: { text: nombre_servicio },
                                                 chart: { type: 'column' },
                                                 legend: { enabled: false },  
@@ -1213,6 +1214,7 @@ function mostrarHistorialMensual() {
                                                          }
                                                 },            
                                                 yAxis: {
+                                                   min: 0,  
                                                     type: 'datetime', 
                                                      //tickInterval: 0.5 * 60 * 1000,
                                                       dateTimeLabelFormats: { 
@@ -1291,7 +1293,7 @@ function mostrarHistorialMensual() {
                                           chart: {
                                               type: 'line'
                                           },
-                                          title: {text: 'Disponibilidad de Procesos por Día'},
+                                          title: {text: 'Disponibilidad de Procesos '+data.mes},
                                            subtitle: { text: nombre_servicio },
                                           //subtitle: {text: nombre_servicio},
                                           //legend: {enabled: false},
@@ -1319,7 +1321,7 @@ function mostrarHistorialMensual() {
                                               chart: {
                                                   type: 'column'
                                               },
-                                             title: {text: 'Disponibilidad de Procesos por Día'},
+                                             title: {text: 'Disponibilidad de Procesos '+data.mes},
                                               subtitle: { text: nombre_servicio },
                                            
                                               xAxis: {
@@ -1358,7 +1360,7 @@ function mostrarHistorialMensual() {
                                               chart: {
                                                   type: 'column'
                                               },
-                                             title: {text: 'Caídas por Procesos por Día'},
+                                             title: {text: 'Caídas por Procesos '+data.mes},
                                               subtitle: { text: nombre_servicio },
                                            
                                               xAxis: {
@@ -1394,7 +1396,7 @@ function mostrarHistorialMensual() {
                                           chart: {
                                               type: 'line'
                                           },
-                                          title: {text: 'Caídas de Procesos por Día'},
+                                          title: {text: 'Caídas de Procesos '+data.mes},
                                            subtitle: { text: nombre_servicio },
                                           exporting: { enabled: false },
                                           credits: {enabled: false},
@@ -1427,7 +1429,7 @@ function mostrarHistorialMensual() {
                                               chart: {
                                                   type: 'column'
                                               },
-                                             title: {text: 'Tiempo Total Caído de Procesos por Día'},
+                                             title: {text: 'Tiempo Total Caído de Procesos '+data.mes},
                                              subtitle: { text: nombre_servicio },
                                                 chart: { type: 'column' },
                                                 exporting: { enabled: false },
@@ -1436,6 +1438,7 @@ function mostrarHistorialMensual() {
                                                   categories: categorias
                                                 },            
                                                 yAxis: {
+                                                   min: 0,  
                                                     type: 'datetime', 
                                                      //tickInterval: 0.5 * 60 * 1000,
                                                       dateTimeLabelFormats: { 
@@ -1458,7 +1461,7 @@ function mostrarHistorialMensual() {
                                             chart: {
                                                 type: 'line'
                                             },
-                                            title: {text: 'Tiempo Total Caído de Procesos por Día'},
+                                            title: {text: 'Tiempo Total Caído de Procesos '+data.mes},
                                              subtitle: { text: nombre_servicio },
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
@@ -1466,6 +1469,7 @@ function mostrarHistorialMensual() {
                                                categories: categorias
                                             },
                                             yAxis: {
+                                               min: 0,  
                                                 type: 'datetime', 
                                                      //tickInterval: 0.5 * 60 * 1000,
                                                       dateTimeLabelFormats: { 

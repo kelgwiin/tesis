@@ -535,10 +535,10 @@ class Reportes extends MX_Controller
 				$caidas_servicio = $historial_servicio['caidas_servicio'];				
 
 				$nombre_dia = $dias_nombres[$dia_semana]; // Nombre del día de la semana al cual se le esta elaborando el historial
-				// Se le agrega el nombre del día a la información de la hora de caída:
+				// Se le agrega el nombre del día a la información de la hora de caída del Servicio:
 				foreach ($caidas_servicio as $caida) {
-					$caida->inicio_caida = "<b>".$nombre_dia."</b> ".$caida->inicio_caida;
-					$caida->fin_caida =     "<b>".$nombre_dia."</b> ".$caida->fin_caida;
+					$caida->inicio_caida = $caida->inicio_caida." <b>".$nombre_dia."</b> ";
+					$caida->fin_caida =     $caida->fin_caida." <b>".$nombre_dia."</b> ";
 				}
 
 				//Concatenando la información de las caídas de Servicio
@@ -549,7 +549,13 @@ class Reportes extends MX_Controller
 
 				 /** Información de Caídas de Procesos por día ***/
 
-				 $caidas_procesos = $historial_servicio['caidas_procesos'];				 
+				 $caidas_procesos = $historial_servicio['caidas_procesos'];
+
+				 // Se le agrega el nombre del día a la información de la hora de caída de los procesos:
+				foreach ($caidas_procesos as $caida) {
+					$caida->inicio_caida = $caida->inicio_caida." <b>".$nombre_dia."</b> ";
+					$caida->fin_caida =     $caida->fin_caida." <b>".$nombre_dia."</b> ";
+				}				 
 
 				 // Id's de todos los procesos que conforman el servicio
 				 $procesos_id = $historial_servicio['servicio_procesos'];	
@@ -779,7 +785,13 @@ class Reportes extends MX_Controller
 
 				 /** Información de Caídas de Procesos por día ***/
 
-				 $caidas_procesos = $historial_servicio['caidas_procesos'];				 
+				 $caidas_procesos = $historial_servicio['caidas_procesos'];
+
+				 // Se le agrega el nombre del día a la información de la hora de caída de los procesos:
+				foreach ($caidas_procesos as $caida) {
+					$caida->inicio_caida = $caida->inicio_caida." <b>".$nombre_dia."</b> ";
+					$caida->fin_caida =     $caida->fin_caida." <b>".$nombre_dia."</b> ";
+				}				 
 
 				 // Id's de todos los procesos que conforman el servicio
 				 $procesos_id = $historial_servicio['servicio_procesos'];	

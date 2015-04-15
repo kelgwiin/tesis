@@ -74,10 +74,13 @@ function mostrarHistorialDiario() {
                             var nombre_servicio = $( "#dropdown_servicios option:selected" ).text();
                               var nombre_acuerdo = $( "#dropdown_acuerdos option:selected" ).text();
 
+                              var str_fecha = fecha_dia.split("/");
+                              var dia_reporte = data.nombre_dia+" "+str_fecha[1]+"/"+str_fecha[0]+"/"+str_fecha[2];
+
                               //Información de el Nombre de Servicio, ANS y fecha seleccionados
                               $("#info_servicio").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
                               $("#info_acuerdo").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
-                              $("#info_fecha").append('<h4><i class="fa fa-calendar"></i> '+fecha_dia+"</h4>");
+                              $("#info_fecha").append('<h4><i class="fa fa-calendar"></i> '+dia_reporte+"</h4>");
 
                                 // COMIENZO de la Creación de tabla de caídas de servicio
                                var tabla_historial_servicio = '<table class="table table-bordered" id="tabla_caida_servicios">';
@@ -95,8 +98,8 @@ function mostrarHistorialDiario() {
 
                               data.caidas_servicio.forEach(function(caida) {
                                     tabla_historial_servicio = tabla_historial_servicio+'<tr>';
-                                    tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.inicio_caida+'</td>';
-                                    tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.fin_caida+'</td>';
+                                    tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.inicio_caida+" <b> "+data.nombre_dia+'</b></td>';
+                                    tabla_historial_servicio = tabla_historial_servicio+'<td>'+caida.fin_caida+" <b> "+data.nombre_dia+'</b></td>';
                                     tabla_historial_servicio = tabla_historial_servicio+'<td class="text-center">'+caida.duracion_caida+' </td>';
                                     tabla_historial_servicio = tabla_historial_servicio+'</tr>';
                               });
@@ -812,8 +815,8 @@ function mostrarHistorialDiario() {
                               data.caidas_procesos.forEach(function(caida) {
                                     tabla_historial_proceso = tabla_historial_proceso+'<tr>';
                                     tabla_historial_proceso = tabla_historial_proceso+'<td>'+data.procesos_info[caida.proceso_id].nombre+'</td>';
-                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.inicio_caida+'</td>';
-                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.fin_caida+'</td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.inicio_caida+" <b> "+data.nombre_dia+'</b></td>';
+                                    tabla_historial_proceso = tabla_historial_proceso+'<td>'+caida.fin_caida+" <b> "+data.nombre_dia+'</b></td>';
                                     tabla_historial_proceso = tabla_historial_proceso+'<td class="text-center">'+caida.duracion_caida+' </td>';
                                     tabla_historial_proceso = tabla_historial_proceso+'</tr>';
                               });
@@ -912,7 +915,7 @@ function mostrarHistorialDiario() {
                                             chart: { type: 'column'},
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
-                                            title: {text: 'Disponibilidad por Procesos'},
+                                            title: {text: 'Disponibilidad por Procesos para el '+dia_reporte},
                                             subtitle: {text: nombre_servicio},
                                             xAxis: {
                                                 type: 'category',
@@ -957,7 +960,7 @@ function mostrarHistorialDiario() {
                                             chart: {type: 'column' },
                                             exporting: { enabled: false },
                                              credits: {enabled: false },
-                                            title: {  text: 'Caídas por Procesos'},
+                                            title: {  text: 'Caídas por Procesos para el '+dia_reporte},
                                             subtitle: { text: nombre_servicio },
                                             xAxis: {
                                                 type: 'category',
@@ -1001,7 +1004,7 @@ function mostrarHistorialDiario() {
                                     // Dibujando la gráfica
                                     $('#grafica_tiempo_procesos').highcharts({
 
-                                            title: {  text: 'Tiempo Total Caído por Procesos'},
+                                            title: {  text: 'Tiempo Total Caído por Procesos para el '+dia_reporte},
                                             subtitle: { text: nombre_servicio },
                                                 chart: { type: 'column' },
                                                 legend: { enabled: false },  

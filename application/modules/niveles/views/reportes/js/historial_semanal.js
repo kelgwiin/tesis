@@ -97,10 +97,14 @@ function mostrarHistorialSemanal() {
                               var nombre_servicio = $( "#dropdown_servicios_semanal option:selected" ).text();
                               var nombre_acuerdo = $( "#dropdown_acuerdos_semanal option:selected" ).text();
 
+                              var str_lunes = fecha_dia.split("/");
+                              var str_domingo = data.domingo.split("/");
+                               var semana = "Lunes "+str_lunes[1]+"/"+str_lunes[0]+"/"+str_lunes[2]+" -  Domingo "+str_domingo[1]+"/"+str_domingo[0]+"/"+str_domingo[2];
+
                               //Información de el Nombre de Servicio, ANS y fecha seleccionados
                               $("#info_servicio_semanal").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
                               $("#info_acuerdo_semanal").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
-                              $("#info_fecha_semanal").append('<h4><i class="fa fa-calendar"></i> '+fecha_dia+" - "+data.domingo+"</h4>");
+                              $("#info_fecha_semanal").append('<h4><i class="fa fa-calendar"></i> '+semana+"</h4>");
 
                               
                                 // COMIENZO de la Creación de tabla de caídas de servicio
@@ -835,11 +839,14 @@ function mostrarHistorialSemanal() {
                                           var numero_caidas = data.historial_servicios[dia].numero_caidas;
                                           var tiempo_caido = data.historial_servicios[dia].tiempo_caido_segundos;
 
-                                           datos_disponibilidad.push(new Array (nombre_dia, disponibilidad_servicio)); 
+                                          var str_dia = dia.split("/");
+                                          var dia_fecha = str_dia[1]+"/"+str_dia[0]+"/"+str_dia[2];
+
+                                           datos_disponibilidad.push(new Array (nombre_dia+" "+dia_fecha, disponibilidad_servicio)); 
                                            categorias.push(nombre_dia); 
-                                           datos_disponibilidad2.push(disponibilidad_servicio); 
-                                           datos_caidas.push(new Array (nombre_dia, numero_caidas)); 
-                                           datos_tiempos.push(new Array (nombre_dia, tiempo_caido*1000)); 
+                                           datos_disponibilidad2.push(new Array (nombre_dia+" "+dia_fecha, disponibilidad_servicio)); 
+                                           datos_caidas.push(new Array (nombre_dia+" "+dia_fecha, numero_caidas)); 
+                                           datos_tiempos.push(new Array (nombre_dia+" "+dia_fecha, tiempo_caido*1000)); 
 
                                  });
 
@@ -850,9 +857,10 @@ function mostrarHistorialSemanal() {
                                             chart: { type: 'column'},
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
-                                            title: {text: 'Disponibilidad de Servicio por Día'},
+                                            title: {text: 'Disponibilidad de Servicio  '+semana},
                                             subtitle: {text: nombre_servicio},
                                             xAxis: {
+                                              categories: categorias,
                                                 type: 'category',
                                                 labels: {
                                                     rotation: -45,
@@ -895,13 +903,13 @@ function mostrarHistorialSemanal() {
                                           chart: {
                                               type: 'line'
                                           },
-                                          title: {text: 'Disponibilidad de Servicio por Día'},
+                                          title: {text: 'Disponibilidad de Servicio  '+semana},
                                           subtitle: {text: nombre_servicio},
                                           legend: {enabled: false},
                                           exporting: { enabled: false },
                                           credits: {enabled: false},
                                           xAxis: {
-                                             categories: categorias
+                                             categories: categorias,
                                           },
                                           yAxis: {
                                               min: 0,                                              
@@ -916,9 +924,12 @@ function mostrarHistorialSemanal() {
                                                       format: '<b>{point.y:.2f} %</b>',
                                                       enabled: true
                                                   },
-                                                  enableMouseTracking: false
+                                                  
                                               }
                                           },
+                                            tooltip: {
+                                                pointFormat: 'Nº de Caídas: <b>{point.y:.2f} %</b>'
+                                            },
                                           series: [{
                                               name: 'Tokyo',
                                               data: datos_disponibilidad2
@@ -931,9 +942,10 @@ function mostrarHistorialSemanal() {
                                             chart: {type: 'column' },
                                             exporting: { enabled: false },
                                              credits: {enabled: false },
-                                            title: {  text: 'Numero de Caídas de Servicio por Día'},
+                                            title: {  text: 'Numero de Caídas de Servicio  '+semana},
                                             subtitle: { text: nombre_servicio },
                                             xAxis: {
+                                              categories: categorias,
                                                 type: 'category',
                                                 labels: {
                                                     rotation: -45,
@@ -974,13 +986,14 @@ function mostrarHistorialSemanal() {
                                     // Dibujando la gráfica
                                     $('#grafica_tiempo_servicio_semanal').highcharts({
 
-                                            title: {  text: 'Tiempo Total Caído de Servicio por Día'},
+                                            title: {  text: 'Tiempo Total Caído de Servicio  '+semana},
                                             subtitle: { text: nombre_servicio },
                                                 chart: { type: 'column' },
                                                 legend: { enabled: false },  
                                                 exporting: { enabled: false },
                                                     credits: { enabled: false },          
                                                xAxis: {
+                                                categories: categorias,
                                                  type: 'category',
                                                  labels: {
                                                  rotation: -45,
@@ -1133,7 +1146,7 @@ function mostrarHistorialSemanal() {
                                             chart: { type: 'column'},
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
-                                            title: {text: 'Disponibilidad por Procesos Semanal'},
+                                            title: {text: 'Disponibilidad por Procesos  '+semana},
                                             subtitle: {text: nombre_servicio},
                                             xAxis: {
                                                 type: 'category',
@@ -1179,7 +1192,7 @@ function mostrarHistorialSemanal() {
                                             chart: {type: 'column' },
                                             exporting: { enabled: false },
                                              credits: {enabled: false },
-                                            title: {  text: 'Caídas por Procesos'},
+                                            title: {  text: 'Caídas por Procesos '+semana},
                                             subtitle: { text: nombre_servicio },
                                             xAxis: {
                                                 type: 'category',
@@ -1223,7 +1236,7 @@ function mostrarHistorialSemanal() {
                                     // Dibujando la gráfica
                                     $('#grafica_tiempo_procesos_semanal').highcharts({
 
-                                            title: {  text: 'Tiempo Total Caído por Procesos Semanal'},
+                                            title: {  text: 'Tiempo Total Caído por Procesos  '+semana},
                                             subtitle: { text: nombre_servicio },
                                                 chart: { type: 'column' },
                                                 legend: { enabled: false },  
@@ -1295,10 +1308,7 @@ function mostrarHistorialSemanal() {
 
                                                         disponibilidades.push(disponibilidad_proceso);
                                                         datos_caidas.push(numero_caidas); 
-                                                        datos_tiempos.push(tiempo_caido*1000); 
-                                                        
-
-                                                       // alert(nombre_proceso+" "+disponibilidad_proceso);                                                   
+                                                        datos_tiempos.push(tiempo_caido*1000);                                              
                                                        
                                              });
 
@@ -1318,7 +1328,7 @@ function mostrarHistorialSemanal() {
                                           chart: {
                                               type: 'line'
                                           },
-                                          title: {text: 'Disponibilidad de Procesos por Día'},
+                                          title: {text: 'Disponibilidad de Procesos  '+semana},
                                            subtitle: { text: nombre_servicio },
                                           //subtitle: {text: nombre_servicio},
                                           //legend: {enabled: false},
@@ -1334,15 +1344,15 @@ function mostrarHistorialSemanal() {
                                                    text: 'Disponibilidad (%)'
                                               }
                                           },
-                                          plotOptions: {
+                                          /*plotOptions: {
                                               line: {
                                                   dataLabels: {
                                                       format: '<b>{point.y:.2f} %</b>',
                                                       enabled: true
                                                   },
-                                                  enableMouseTracking: false
                                               }
-                                          },
+                                          },*/
+                                           tooltip: {pointFormat: 'Disponibilidad: <b>{point.y:.2f} %</b>'},
                                           series: series_disponibilidad_procesos
                                       });
 
@@ -1354,7 +1364,7 @@ function mostrarHistorialSemanal() {
                                               chart: {
                                                   type: 'column'
                                               },
-                                             title: {text: 'Disponibilidad de Procesos por Día'},
+                                             title: {text: 'Disponibilidad de Procesos  '+semana},
                                               subtitle: { text: nombre_servicio },
                                            
                                               xAxis: {
@@ -1393,7 +1403,7 @@ function mostrarHistorialSemanal() {
                                               chart: {
                                                   type: 'column'
                                               },
-                                             title: {text: 'Caídas por Procesos por Día'},
+                                             title: {text: 'Caídas por Procesos  '+semana},
                                               subtitle: { text: nombre_servicio },
                                            
                                               xAxis: {
@@ -1429,7 +1439,7 @@ function mostrarHistorialSemanal() {
                                           chart: {
                                               type: 'line'
                                           },
-                                          title: {text: 'Caídas de Procesos por Día'},
+                                          title: {text: 'Caídas de Procesos  '+semana},
                                            subtitle: { text: nombre_servicio },
                                           exporting: { enabled: false },
                                           credits: {enabled: false},
@@ -1448,9 +1458,11 @@ function mostrarHistorialSemanal() {
                                                       format: '<b>{point.y:.0f}</b>',
                                                       enabled: true
                                                   },
-                                                  enableMouseTracking: false
                                               }
                                           },
+                                          tooltip: {
+                                                 format: '<b>Nº de Caídas {point.y:.0f}</b>',
+                                              },
                                           series:  series_numero_caidas_procesos,
                                       });
 
@@ -1462,7 +1474,7 @@ function mostrarHistorialSemanal() {
                                               chart: {
                                                   type: 'column'
                                               },
-                                             title: {text: 'Tiempo Total Caído de Procesos por Día'},
+                                             title: {text: 'Tiempo Total Caído de Procesos  '+semana},
                                              subtitle: { text: nombre_servicio },
                                                 chart: { type: 'column' },
                                                 exporting: { enabled: false },
@@ -1493,7 +1505,7 @@ function mostrarHistorialSemanal() {
                                             chart: {
                                                 type: 'line'
                                             },
-                                            title: {text: 'Tiempo Total Caído de Procesos por Día'},
+                                            title: {text: 'Tiempo Total Caído de Procesos  '+semana},
                                              subtitle: { text: nombre_servicio },
                                             exporting: { enabled: false },
                                             credits: {enabled: false},
