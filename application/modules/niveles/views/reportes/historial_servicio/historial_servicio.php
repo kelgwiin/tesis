@@ -2,6 +2,7 @@
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/historial_diario.js"></script>
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/historial_semanal.js"></script>
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/historial_mensual.js"></script>
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/modal_cargando.js"></script>
 
 <div id="page-wrapper">
 

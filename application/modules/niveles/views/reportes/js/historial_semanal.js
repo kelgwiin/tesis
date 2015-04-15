@@ -77,6 +77,8 @@ function mostrarHistorialSemanal() {
                               $("#info_acuerdo_semanal").empty();
                               $("#info_fecha_semanal").empty();
 
+                              waitingDialog.show('Generando Reporte. Por favor espere...');
+
                           $.ajax({
                  
                             
@@ -1537,6 +1539,8 @@ function mostrarHistorialSemanal() {
 
 
                               $("#informacion_historial_semanal").fadeIn();  // Mostrando el Contenido del Reporte
+
+                              waitingDialog.hide('Generando Reporte. Por favor espere...');
 
                              },
                              error: function(xhr, ajaxOptions, thrownError){

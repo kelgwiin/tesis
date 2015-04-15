@@ -675,32 +675,21 @@ class Reportes extends MX_Controller
 
 
 
-	function obtener_historial_servicio_mes(){
+	function obtener_historial_servicio_mensual($servicio_id, $mes, $horario_disponibilidad,$dias_disponibles){
 
-		//Obteniendo datos mediante post:
-		$servicio_id = $this->input->post('servicio_id'); //Servicio ID
-
-		$mes = $this->input->post('mes');  //Mes Seleccionado
-
-		$acuerdo_id = $this->input->post('acuerdo_id'); // Acuerdo ID
-		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$acuerdo_id));  //Información de ANS
-
-		$dias_disponibles = $this->obtener_dias_disponibles2($acuerdo); // Días de la semana en los que el servicio es utilizado según el ANS seleccionado
-
-		$horario_disponibilidad = $this->obtener_horario_disponibilidad($acuerdo); //Información de Horario de disponibilidad del Servicio según el ANS seleccionado	
 
 		$dias_nombres = array('0',"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
 		$meses_nombres = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 		$dias = array();
 		$dias_fecha = array();
-		$historial_semanal['caidas_servicio']  =  array();
+		$historial_mensual['caidas_servicio']  =  array();
 		$total_porcentaje_disponibilidad = 0;
 		$total_tiempo_disponible = 0;
 		$total_tiempo_horario  = 0;
 		$total_numero_caidas = 0;
 		$total_tiempo_caido = 0;
 		$tiempos_caidas = array();		
-		$historial_semanal['caidas_procesos']  = array();
+		$historial_mensual['caidas_procesos']  = array();
 
 		// Obtener cantidad de días que posee el mes
 		$mes_aux = explode("/",$mes );
@@ -713,7 +702,7 @@ class Reportes extends MX_Controller
 		$nombre_mes = $meses_nombres[$numero_mes];
 		$numero_ano = (int)date('Y', strtotime($lunes_inicial));
 
-		$historial_semanal['mes']  = $nombre_mes." del ".$numero_ano;
+		$historial_mensual['mes']  = $nombre_mes." del ".$numero_ano;
 
 
 		// Id's de todos los procesos que conforman el servicio
@@ -724,11 +713,11 @@ class Reportes extends MX_Controller
 
 			//Información de los procesos pertenecientes al servicio
 			$proceso_info[$proceso->servicio_proceso_id] = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$proceso->servicio_proceso_id));
-			$historial_semanal['procesos_info'] = $proceso_info;
+			$historial_mensual['procesos_info'] = $proceso_info;
 
 			$nombre_proceso = $proceso_info[$proceso->servicio_proceso_id]->nombre;		           
 
-		           $historial_semanal['historial_procesos'][$nombre_proceso] = (object) array('disponibilidad' => 0, 'tiempo_disponible' => '00:00:00', 'caidas'=> 0, 'tiempo_caido' => '00:00:00', 'segundos' => 0);
+		           $historial_mensual['historial_procesos'][$nombre_proceso] = (object) array('disponibilidad' => 0, 'tiempo_disponible' => '00:00:00', 'caidas'=> 0, 'tiempo_caido' => '00:00:00', 'segundos' => 0);
 		}
 
 		// Obtenemos el historial de servicio y procesos por cada día de la semana comenzando por el lunes. 
@@ -749,7 +738,7 @@ class Reportes extends MX_Controller
 				$fecha_dia = date ( 'd/m/Y' , $dia);
 				array_push($dias, $fecha_dia);
 
-				$historial_semanal['historial_servicios'][$fecha_dia] = $historial_servicio; //Se almacena el historial completo de cada día. Base para elaborar gráficas
+				$historial_mensual['historial_servicios'][$fecha_dia] = $historial_servicio; //Se almacena el historial completo de cada día. Base para elaborar gráficas
 
 				// Sumatoria de los niveles de servicio por cada día de la semana
 				$total_porcentaje_disponibilidad = $total_porcentaje_disponibilidad + $historial_servicio['disponibilidad'];  // Sumatoria de los porcentajes de disponibilidad
@@ -778,7 +767,7 @@ class Reportes extends MX_Controller
 				}
 
 				//Concatenando la información de las caídas de Servicio
-				 $historial_semanal['caidas_servicio']  = array_merge( $caidas_servicio , $historial_semanal['caidas_servicio'] ); 
+				 $historial_mensual['caidas_servicio']  = array_merge( $caidas_servicio , $historial_mensual['caidas_servicio'] ); 
 
 				 /*******************************************/
 
@@ -818,33 +807,33 @@ class Reportes extends MX_Controller
 
 
 					// Sumatoria de niveles de servicio del proceso
-					$historial_semanal['historial_procesos'][$nombre_proceso]->disponibilidad = $historial_semanal['historial_procesos'][$nombre_proceso]->disponibilidad + $disponibilidad_proceso;
+					$historial_mensual['historial_procesos'][$nombre_proceso]->disponibilidad = $historial_mensual['historial_procesos'][$nombre_proceso]->disponibilidad + $disponibilidad_proceso;
 
-					$tiempo_disponible_aux =  $historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_disponible;
+					$tiempo_disponible_aux =  $historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_disponible;
 					$tiempo_disponible_aux =  $this->tiempoSegundos($tiempo_disponible_aux);
 
-					$historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_disponible = $tiempo_disponible_aux + $tiempo_disponible_proceso;
-					$historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_disponible = $this->transformarSegundos($historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_disponible);
+					$historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_disponible = $tiempo_disponible_aux + $tiempo_disponible_proceso;
+					$historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_disponible = $this->transformarSegundos($historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_disponible);
 
-					$historial_semanal['historial_procesos'][$nombre_proceso]->caidas = $historial_semanal['historial_procesos'][$nombre_proceso]->caidas + $numero_caidas;
+					$historial_mensual['historial_procesos'][$nombre_proceso]->caidas = $historial_mensual['historial_procesos'][$nombre_proceso]->caidas + $numero_caidas;
 
-					$historial_semanal['historial_procesos'][$nombre_proceso]->segundos = $historial_semanal['historial_procesos'][$nombre_proceso]->segundos + $tiempo_segundos;
+					$historial_mensual['historial_procesos'][$nombre_proceso]->segundos = $historial_mensual['historial_procesos'][$nombre_proceso]->segundos + $tiempo_segundos;
 
 
-					$tiempo_caido_aux = $historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_caido;
+					$tiempo_caido_aux = $historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_caido;
 					$tiempo_caido_aux = $this->tiempoSegundos($tiempo_caido_aux);
 
-					$historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_caido = $tiempo_caido_aux + $tiempo_caido;
-					$historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_caido = $this->transformarSegundos($historial_semanal['historial_procesos'][$nombre_proceso]->tiempo_caido);
+					$historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_caido = $tiempo_caido_aux + $tiempo_caido;
+					$historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_caido = $this->transformarSegundos($historial_mensual['historial_procesos'][$nombre_proceso]->tiempo_caido);
 				 }
 
 
-				 $historial_semanal['caidas_procesos']  = array_merge( $caidas_procesos , $historial_semanal['caidas_procesos'] ); 
+				 $historial_mensual['caidas_procesos']  = array_merge( $caidas_procesos , $historial_mensual['caidas_procesos'] ); 
 				  /*******************************************/
 			}
 		}
 
-		$historial_semanal['numero_dias'] = count($dias);
+		$historial_mensual['numero_dias'] = count($dias);
 
 		$cantidad_dias =  count($dias);
 
@@ -852,25 +841,25 @@ class Reportes extends MX_Controller
 		/** Calculando el promedio SEMANAL de los Niveles de Servicio: **/
 
 		//Disponibilidad
-		$historial_semanal['disponibilidad'] = round($total_porcentaje_disponibilidad / $cantidad_dias , 2);  //Promedio del porcentaje de la disponibilidad semanal
+		$historial_mensual['disponibilidad'] = round($total_porcentaje_disponibilidad / $cantidad_dias , 2);  //Promedio del porcentaje de la disponibilidad semanal
 
 		//Numero de caídas
-		$historial_semanal['numero_caidas'] = $total_numero_caidas;
+		$historial_mensual['numero_caidas'] = $total_numero_caidas;
 
 		//Duración de caída
-		$historial_semanal['tiempo_caido'] = $this->transformarSegundos($total_tiempo_caido);
-		$historial_semanal['tiempo_caido_segundos'] =$total_tiempo_caido;
+		$historial_mensual['tiempo_caido'] = $this->transformarSegundos($total_tiempo_caido);
+		$historial_mensual['tiempo_caido_segundos'] =$total_tiempo_caido;
 
 		//Tiempo en linea		
-		$historial_semanal['tiempo_online'] = $this->transformarSegundos($total_tiempo_disponible);
+		$historial_mensual['tiempo_online'] = $this->transformarSegundos($total_tiempo_disponible);
 
 		// Total de Tiempo de horario según ANS
-		$historial_semanal['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);		
+		$historial_mensual['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);		
 
 		//Mayor Caída
 		$mayor_caida = max($tiempos_caidas);
-		$historial_semanal['mayor_caida'] = $this->transformarSegundos($mayor_caida);
-		$historial_semanal['mayor_caida_segundos'] = $mayor_caida;
+		$historial_mensual['mayor_caida'] = $this->transformarSegundos($mayor_caida);
+		$historial_mensual['mayor_caida_segundos'] = $mayor_caida;
 
 		//Menor Caída		
 		if($mayor_caida != "00:00:00"){
@@ -880,13 +869,13 @@ class Reportes extends MX_Controller
 			unset($tiempos_caidas[$clave]);
 		}
 		$menor_caida = min($tiempos_caidas);		
-		$historial_semanal['menor_caida'] = $this->transformarSegundos($menor_caida);
-		$historial_semanal['menor_caida_segundos'] = $menor_caida;
+		$historial_mensual['menor_caida'] = $this->transformarSegundos($menor_caida);
+		$historial_mensual['menor_caida_segundos'] = $menor_caida;
 
 		/******** FIN DE INFORMACION DE SERVICIO **********/
 		
 
-		$historial_semanal['servicio_procesos'] = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=>$servicio_id));
+		$historial_mensual['servicio_procesos'] = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=>$servicio_id));
 		/******** INFORMACION DE PROCESOS **********/
 		$procesos_id = $this->general->get_result('proceso_soporta_servicio',array('servicio_id'=>$servicio_id));
 
@@ -896,17 +885,41 @@ class Reportes extends MX_Controller
 			$proceso_info = $this->general->get_row('servicio_proceso',array('servicio_proceso_id'=>$proceso->servicio_proceso_id));
 		           	$nombre_proceso = $proceso_info->nombre;	
 
-		           	$historial_semanal['historial_procesos'][$nombre_proceso]->disponibilidad = round($historial_semanal['historial_procesos'][$nombre_proceso]->disponibilidad / $cantidad_dias, 2);   
+		           	$historial_mensual['historial_procesos'][$nombre_proceso]->disponibilidad = round($historial_mensual['historial_procesos'][$nombre_proceso]->disponibilidad / $cantidad_dias, 2);   
 		}
 		
-		/******** FIN INFORMACION DE PROCESOS **********/
+		/******** FIN INFORMACION DE PROCESOS **********/		
 
-		$historial_semanal['ans'] = $acuerdo;	
+		$historial_mensual['dias'] =$dias;		
 
-		$historial_semanal['dias'] =$dias;		
-
-		echo json_encode($historial_semanal);
+		return $historial_mensual;
 	}
+
+
+	function obtener_historial_servicio_mes(){
+
+
+		//Obteniendo datos mediante post:
+		$servicio_id = $this->input->post('servicio_id'); //Servicio ID
+
+		$mes = $this->input->post('mes');  //Mes Seleccionado
+
+		$acuerdo_id = $this->input->post('acuerdo_id'); // Acuerdo ID
+		$acuerdo = $this->general->get_row('acuerdo_nivel_servicio',array('acuerdo_nivel_id'=>$acuerdo_id));  //Información de ANS
+
+		$dias_disponibles = $this->obtener_dias_disponibles2($acuerdo); // Días de la semana en los que el servicio es utilizado según el ANS seleccionado
+
+		$horario_disponibilidad = $this->obtener_horario_disponibilidad($acuerdo); //Información de Horario de disponibilidad del Servicio según el ANS seleccionado	
+
+		//$historial_mensual['ans'] = $acuerdo;	
+
+		// Calculando el Historial del Servicio en comparación a los Objetivos establecidos en el ANS
+		$historial_servicio = $this->obtener_historial_servicio_mensual($servicio_id, $mes, $horario_disponibilidad,$dias_disponibles);	
+
+		$historial_servicio['ans'] = $acuerdo;	
+
+		echo json_encode($historial_servicio);		
+ 	}
 
 
 

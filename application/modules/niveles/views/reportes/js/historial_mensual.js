@@ -61,6 +61,8 @@ function mostrarHistorialMensual() {
                               $("#info_acuerdo_mensual").empty();
                               $("#info_fecha_mensual").empty();
 
+                          waitingDialog.show('Generando Reporte. Por favor espere...');
+
                           $.ajax({
                  
                             
@@ -76,22 +78,7 @@ function mostrarHistorialMensual() {
 
                              success: function(data){
 
-                              //alert(data.prueba);
-                                 //alert('hola');
-                                //alert(data.caidas_servicio_mensual.length);
-
-                                //alert(data.dias.length);
-
-                                //alert(data.numero_dias);
-
-
-                             /*  data.dias.forEach(function(dia) {
-
-                                  alert(dia);
-
-                                });*/
-
-                          
+                              
 
                               $("#informacion_historial_mensual").hide();
 
@@ -1494,6 +1481,8 @@ function mostrarHistorialMensual() {
      
   
                               $("#informacion_historial_mensual").fadeIn();  // Mostrando el Contenido del Reporte
+
+                              waitingDialog.hide('Generando Reporte. Por favor espere...');
                        
 
                              },
@@ -1507,7 +1496,6 @@ function mostrarHistorialMensual() {
             }
 
 }
-
 
 
 $( document ).ready(function() {

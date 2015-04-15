@@ -48,6 +48,8 @@ function mostrarHistorialDiario() {
                               $("#info_acuerdo").empty();
                               $("#info_fecha").empty();
 
+                        waitingDialog.show('Generando Reporte. Por favor espere...');
+
                        $.ajax({
                  
                             
@@ -1058,6 +1060,8 @@ function mostrarHistorialDiario() {
 
 
                                             $("#informacion_historial").fadeIn();  // Mostrando el Contenido del Reporte
+
+                                            waitingDialog.hide('Generando Reporte. Por favor espere...');
                              
                                 //    }// Fin del else
 
