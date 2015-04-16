@@ -2,6 +2,7 @@
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/historial_diario.js"></script>
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/historial_semanal.js"></script>
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/historial_mensual.js"></script>
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/historial_anual.js"></script>
 <script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/reportes/js/modal_cargando.js"></script>
 
 <div id="page-wrapper">
@@ -18,8 +19,8 @@
                         <ul class="nav nav-tabs">
                             <li  ><a href="#tab1default" data-toggle="tab">Diario</a></li>
                             <li ><a href="#tab2default" data-toggle="tab">Semanal</a></li>
-                            <li class="active"><a href="#tab3default" data-toggle="tab">Mensual</a></li>
-                             <li><a href="#tab3default" data-toggle="tab">Anual</a></li>
+                            <li ><a href="#tab3default" data-toggle="tab">Mensual</a></li>
+                             <li class="active"><a href="#tab4default" data-toggle="tab">Anual</a></li>
                         </ul>
                 </div>
 
@@ -28,9 +29,8 @@
                     <div class="tab-content">
                         <div class="tab-pane fade " id="tab1default"><?php $this->load->view('niveles/reportes/historial_servicio/diario'); ?></div>
                         <div class="tab-pane fade " id="tab2default"><?php $this->load->view('niveles/reportes/historial_servicio/semanal'); ?></div>
-                        <div class="tab-pane fade  in active" id="tab3default"><?php $this->load->view('niveles/reportes/historial_servicio/mensual'); ?></div>
-                        <div class="tab-pane fade" id="tab4default">Default 4</div>
-                        <div class="tab-pane fade" id="tab5default">Default 5</div>
+                        <div class="tab-pane fade  " id="tab3default"><?php $this->load->view('niveles/reportes/historial_servicio/mensual'); ?></div>
+                        <div class="tab-pane fade in active" id="tab4default"><?php $this->load->view('niveles/reportes/historial_servicio/anual'); ?></div>
                     </div>
                 </div>
             </div>
