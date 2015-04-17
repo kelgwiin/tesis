@@ -18,7 +18,7 @@ class Capacidad extends MX_Controller
 		$l[] = array(
 			"chain" => "Volver a Módulos Principales",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
 		);
 		$l[] = array(
 			"chain" => "Descripción",
@@ -58,7 +58,7 @@ class Capacidad extends MX_Controller
 		$l[] = array(
 			"chain" => "Servicios",
 			"href" => site_url('index.php/Capacidad/Servicios'),
-			"icon" => "fa fa-flag",
+			"icon" => "fa fa-th",
 		);
 		$sublista = array
 		(

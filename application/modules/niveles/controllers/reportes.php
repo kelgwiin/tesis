@@ -29,7 +29,13 @@ class Reportes extends MX_Controller
 		$l[] = array(
 			"chain" => "Inicio",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
+		);
+
+		$l[] = array(
+			"chain" => "Principal GNS",
+			"href" => site_url('index.php/niveles_de_servicio'),
+			"icon" => "fa fa-th-list"
 		);
 
 		
@@ -1173,10 +1179,183 @@ class Reportes extends MX_Controller
  	}
 
 
+ 	function  acuerdos_incumplidos(){  
+
+		
+		$hoy = date('m/d/Y');
+		$ayer = strtotime ( '-1 day' , strtotime($hoy ));
+
+		$fecha_dia = date('m/d/Y',$ayer);
+
+		$dia_semana = (int)date('N', strtotime($fecha_dia));
+
+		$acuerdos = $this->general->get_result('acuerdo_nivel_servicio',array('DATE(fecha_final) >=' => date('Y-m-d',$ayer) )); // Todos los acuerdos
+
+		/**** DATOS DE PRUBA****/
+		$data_view['cantidad_ans'] = count($acuerdos);
+ 		$data_view['ayer'] = $fecha_dia;
+ 		/****************************/		
+
+ 		$i = 0;
+
+		foreach ($acuerdos as $acuerdo) {
+
+			$servicio_id= $acuerdo->id_servicio; //Servicio ID
+			$acuerdo_id =$acuerdo->acuerdo_nivel_id; // Acuerdo ID
+
+			$horario_disponibilidad = $this->obtener_horario_disponibilidad($acuerdo); //Información de Horario de disponibilidad del Servicio
+
+			// Si el dia es un dia disponible segun el ANS, se procede
+			if($horario_disponibilidad[$dia_semana]->horario_inicio != NULL){
+
+				$historial_servicio = $this->obtener_historial_diario($servicio_id,$fecha_dia,$horario_disponibilidad);
+
+				// Calculando el Historial del Servicio en comparación a los Objetivos establecidos en el ANS
+
+				$disponibilidad_reporte = $historial_servicio['disponibilidad'];
+				$numero_caidas_reporte = $historial_servicio['numero_caidas'];
+				
+
+				$acuerdo_comprometido = false; 
+				$acuerdo_violado = false; 
+
+				$estado_acuerdo = "ok"; 
+			            $estado_disp = "ok"; 
+			            $estado_numero_caidas = "ok"; 
+			            $estado_tiempo_total = "ok"; 
+			            $estado_tiempo_mayor = "ok"; 
+			            $estado_tiempo_menor = "ok"; 			
+
+				// Verificando Disponibilidad
+				if($disponibilidad_reporte < $acuerdo->porcentaje_disp){
+					$acuerdo_violado = true;	
+					$estado_disp = "violado"; 			
+				}
+
+				// Verificando Numero de caídas
+				if( $numero_caidas_reporte >= $acuerdo->minimo_num_caidas){
+					$acuerdo_comprometido = true;
+					$estado_numero_caidas = "alerta"; 
+					if($numero_caidas_reporte >= $acuerdo->maximo_num_caidas){
+						$acuerdo_violado = true;
+						$estado_numero_caidas = "violado"; 
+					}				
+				}
+
+				// Preparando datos de tiempos de caídas
+				$tiempo_caido_reporte = $historial_servicio['tiempo_caido_segundos'];
+				$mayor_caida_reporte = $historial_servicio['mayor_caida_segundos'];
+				$menor_caida_reporte = $historial_servicio['menor_caida_segundos'];
+
+				$tiempo_caido_reporte_aux = $historial_servicio['tiempo_caido_segundos'];
+				$mayor_caida_reporte_aux = $historial_servicio['mayor_caida_segundos'];
+				$menor_caida_reporte_aux = $historial_servicio['menor_caida_segundos'];
+	                                  
+	                                   if($acuerdo->unidad_duracion_caidas == "minutos"){
+	                                          $tiempo_caido_reporte =   $tiempo_caido_reporte / 60;
+	                                          $mayor_caida_reporte =  $mayor_caida_reporte / 60;
+	                                          $menor_caida_reporte =  $menor_caida_reporte / 60;
+	                                   }
+
+	                                   if($acuerdo->unidad_duracion_caidas == "horas"){
+	                                           $tiempo_caido_reporte =   $tiempo_caido_reporte / 3600;
+	                                           $mayor_caida_reporte =  $mayor_caida_reporte / 3600;
+	                                           $menor_caida_reporte =  $menor_caida_reporte / 3600;
+	                                    }
+
+
+			           if( is_int($tiempo_caido_reporte) == false){                                        
+	                                          $tiempo_caido_reporte = round($tiempo_caido_reporte, 2);
+	                                    }
+
+	                                    if( is_int($mayor_caida_reporte) == false){                                        
+	                                          $mayor_caida_reporte = round($mayor_caida_reporte, 2);
+	                                    }
+
+	                                    if( is_int($menor_caida_reporte) == false){                                        
+	                                          $menor_caida_reporte = round($menor_caida_reporte, 2);
+	                                    }
+
+
+				// Verificando Tiempo total de caídas
+				if( $tiempo_caido_reporte >= $acuerdo->minimo_duracion_caidas){
+					$acuerdo_comprometido = true;
+					$estado_tiempo_total = "alerta"; 
+					if( $tiempo_caido_reporte >= $acuerdo->maximo_duracion_caidas){
+						$acuerdo_violado = true;
+						$estado_tiempo_total = "violado"; 				
+					}				
+				}
+
+				// Verificando Tiempo de Mayor caídas
+				if( $mayor_caida_reporte >= $acuerdo->minimo_duracion_caidas){
+					$acuerdo_comprometido = true;
+					$estado_tiempo_mayor= "alerta"; 
+					if( $mayor_caida_reporte >= $acuerdo->maximo_duracion_caidas){
+						$acuerdo_violado = true;	
+						$estado_tiempo_mayor= "violado"; 			
+					}				
+				}
+
+				// Verificando Tiempo de Menor caídas
+				if( $menor_caida_reporte >= $acuerdo->minimo_duracion_caidas){
+					$acuerdo_comprometido = true;
+					$estado_tiempo_menor= "alerta"; 
+					if( $menor_caida_reporte >= $acuerdo->maximo_duracion_caidas){
+						$acuerdo_violado = true;
+						$estado_tiempo_menor= "violado"; 				
+					}				
+				}
+
+				
+				if($acuerdo_comprometido == true){
+					$estado_acuerdo = "alerta"; 
+					if($acuerdo_violado == true){
+					        $estado_acuerdo = "violado"; 
+					}
+				}
+
+
+				if($acuerdo_comprometido != false || $acuerdo_violado != false ){
+
+			            	    $ans_violado = array(
+
+						'acuerdo_nivel_id' => $acuerdo_id,
+
+			            		'porcentaje_disp' => $disponibilidad_reporte,
+			            		'numero_caidas' =>$numero_caidas_reporte,
+			            		'tiempo_caido' => $this->segundosToCadena($tiempo_caido_reporte_aux),
+			            		'mayor_caida' => $this->segundosToCadena($mayor_caida_reporte_aux),
+			            		'menor_caida' => $this->segundosToCadena($menor_caida_reporte_aux),
+
+			            		'estado_acuerdo' => $estado_acuerdo ,
+			            		'estado_disp' => $estado_disp,
+			            		'estado_numero_caidas' => $estado_numero_caidas,
+			            		'estado_tiempo_total' =>  $estado_tiempo_total,
+			            		'estado_tiempo_mayor' => $estado_tiempo_mayor,
+			            		'estado_tiempo_menor' => $estado_tiempo_menor ,
+			                               );
+
+					     //$this->general->insert('historial_acuerdo_violado',$ans_violado,'');
+				 }
+
+				$data_view['acuerdos_nivel'][$i]['comprometido'] = $acuerdo_comprometido;
+				$data_view['acuerdos_nivel'][$i]['violado'] = $acuerdo_violado;
+
+
+			}			
+
+			$i++;
+		}	
+
+
+ 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/reportes/ans_incumplidos',$data_view,'Niveles de Servicio | Reportes de Niveles de Servicio','','two_level');
+
+ 	}
 
     	function  procesar_data(){   	 		    
 
-    		    //Inicializar array de informacion de caida encontrada por proceso
+    		    //Inicializar array de información de caída encontrada por proceso
     		    $procesos =  $this->reportes->obtener_procesos();
     		    $cantidad_procesos = count($procesos);
 
@@ -1187,7 +1366,7 @@ class Reportes extends MX_Controller
     		    	$nombre_proceso = $proceso->comando_ejecutable;
     		    }
 
-    		    // Creacion del array con la informacion de cuales procesos soportan cada servicio
+    		    // Creacion del array con la información de cuales procesos soportan cada servicio
     		    $servicios = $this->general->get_table('servicio');
 
     		    foreach ($servicios as  $servicio) {

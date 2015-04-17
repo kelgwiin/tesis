@@ -7,7 +7,7 @@ class Niveles extends MX_Controller
         parent::__construct();
 
 		$this->load->model('general/general_model','general');
-		$this->load->model('niveles_model','catalogo');
+		$this->load->model('niveles/niveles_model','niveles');
 		$this->load->model('utilities/utilities_model');
 
 		//Helpers
@@ -28,7 +28,13 @@ class Niveles extends MX_Controller
 		$l[] = array(
 			"chain" => "Inicio",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
+		);
+
+		$l[] = array(
+			"chain" => "Principal GNS",
+			"href" => site_url('index.php/niveles_de_servicio'),
+			"icon" => "fa fa-th-list"
 		);
 
 		
@@ -67,7 +73,19 @@ class Niveles extends MX_Controller
 	{
 		modules::run('general/is_logged', base_url().'index.php/usuarios/iniciar-sesion');
 
-		$this->utils->template($this->list_sidebar_niveles(1),'niveles/main_niveles','','Niveles de Servicio','','two_level');
+		$fecha_actual = date('Y-m-j H:i:s');
+
+		$date = date('Y-m-d');
+		$newdate = strtotime ( '+8 day' , strtotime ( $date ) ) ;
+		$fecha_proxima = date ( 'Y-m-d 23:59:00' , $newdate );
+
+		$eventos_recientes = $this->niveles->obtener_revisiones_recientes($fecha_actual,$fecha_proxima);
+
+		$data_view['eventos_recientes']	= $eventos_recientes;
+		$data_view['inicio']	= $fecha_actual;
+		$data_view['fin']	= $fecha_proxima;
+
+		$this->utils->template($this->list_sidebar_niveles(1),'niveles/main_niveles',$data_view,'Niveles de Servicio','','two_level');
 	}
 
 

@@ -74,9 +74,16 @@ function mostrarHistorialDiario() {
                               var str_fecha = fecha_dia.split("/");
                               var dia_reporte = data.nombre_dia+" "+str_fecha[1]+"/"+str_fecha[0]+"/"+str_fecha[2];
 
+                              var acuerdo = '<a target="_blank" href="'+config.base+'index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'+id_acuerdo+'" >';
+                              acuerdo = acuerdo+nombre_acuerdo+'</a>';
+
+                              var servicio = '<a target="_blank" href="'+config.base+'index.php/cargar_datos/servicios/ver/'+id_servicio+'" >';
+                              servicio = servicio+nombre_servicio+'</a>';                           
+
+
                               //Información de el Nombre de Servicio, ANS y fecha seleccionados
-                              $("#info_servicio").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
-                              $("#info_acuerdo").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
+                              $("#info_servicio").append('<h4><i class="fa fa-bars"></i> '+servicio+"</h4>");
+                              $("#info_acuerdo").append("<h4><i class='fa fa-file-text-o'></i> "+acuerdo+"</h4>"); 
                               $("#info_fecha").append('<h4><i class="fa fa-calendar"></i> '+dia_reporte+"</h4>");
 
                                 // COMIENZO de la Creación de tabla de caídas de servicio

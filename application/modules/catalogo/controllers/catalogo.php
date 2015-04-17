@@ -29,7 +29,7 @@ class Catalogo extends MX_Controller
 		$l[] = array(
 			"chain" => "Inicio",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
 		);
 
 		$l[] = array(

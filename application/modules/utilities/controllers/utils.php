@@ -78,7 +78,7 @@ class Utils extends MX_Controller
 		$l[] = array(
 			"chain" => "Inicio",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
 		);
 
 		
@@ -108,6 +108,12 @@ class Utils extends MX_Controller
 		//Acuerdos de Niveles de Servicio
 
 		$sublista_niveles = array(
+
+			array(
+			"chain" => "Principal GNS",
+			"href" => site_url('index.php/niveles_de_servicio'),
+			
+			),
 
 			array(
 			"chain" => "Gestión de RNS",
@@ -323,7 +329,7 @@ class Utils extends MX_Controller
 		$l[] = array(
 			"chain" => "Volver a Módulos Principales",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
 		);
 
 		$l[] = array(

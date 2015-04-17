@@ -2918,7 +2918,7 @@ class Cargar_Data extends MX_Controller
 			"chain" => "Inicio",
 			"href" => site_url(''),
 			"active" => false,
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
 		);
 
 		/*$l[] = array(

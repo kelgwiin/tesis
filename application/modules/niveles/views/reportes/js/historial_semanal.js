@@ -103,9 +103,15 @@ function mostrarHistorialSemanal() {
                               var str_domingo = data.domingo.split("/");
                                var semana = "Lunes "+str_lunes[1]+"/"+str_lunes[0]+"/"+str_lunes[2]+" -  Domingo "+str_domingo[1]+"/"+str_domingo[0]+"/"+str_domingo[2];
 
+                               var acuerdo = '<a target="_blank" href="'+config.base+'index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'+id_acuerdo+'" >';
+                              acuerdo = acuerdo+nombre_acuerdo+'</a>';
+
+                              var servicio = '<a target="_blank" href="'+config.base+'index.php/cargar_datos/servicios/ver/'+id_servicio+'" >';
+                              servicio = servicio+nombre_servicio+'</a>';   
+
                               //Información de el Nombre de Servicio, ANS y fecha seleccionados
-                              $("#info_servicio_semanal").append('<h4><i class="fa fa-bars"></i> '+nombre_servicio+"</h4>");
-                              $("#info_acuerdo_semanal").append('<h4><i class="fa fa-file-text-o"></i> '+nombre_acuerdo+"</h4>");
+                              $("#info_servicio_semanal").append('<h4><i class="fa fa-bars"></i> '+servicio+"</h4>");
+                              $("#info_acuerdo_semanal").append('<h4><i class="fa fa-file-text-o"></i> '+acuerdo+"</h4>");
                               $("#info_fecha_semanal").append('<h4><i class="fa fa-calendar"></i> '+semana+"</h4>");
 
                               

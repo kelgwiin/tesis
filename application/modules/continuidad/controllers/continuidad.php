@@ -24,7 +24,7 @@ class Continuidad extends MX_Controller
 		$l[] = array(
 			"chain" => "Volver a Módulos Principales",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
 		);
 		$sublista = array
 		(

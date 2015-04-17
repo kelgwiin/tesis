@@ -25,10 +25,18 @@ class Acuerdos_ns extends MX_Controller
 	private function list_sidebar_niveles($index_active){
 		$l =  array();
 
+
+
 		$l[] = array(
 			"chain" => "Inicio",
 			"href" => site_url(''),
-			"icon" => "fa fa-flag"
+			"icon" => "fa fa-th"
+		);
+
+		$l[] = array(
+			"chain" => "Principal GNS",
+			"href" => site_url('index.php/niveles_de_servicio'),
+			"icon" => "fa fa-th-list"
 		);
 
 		$l[] = array(

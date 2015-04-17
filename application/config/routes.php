@@ -140,6 +140,8 @@ $route['niveles_de_servicio/gestion_Revisiones/eliminar_evento'] = "niveles/revi
 $route['niveles_de_servicio/gestion_Reportes'] =  "niveles/reportes/historial_servicio";
 $route['niveles_de_servicio/gestion_Reportes/procesar_data'] = "niveles/reportes/procesar_data";
 $route['niveles_de_servicio/gestion_Reportes/historial_servicio'] = "niveles/reportes/reportes";
+
+$route['niveles_de_servicio/gestion_Reportes/acuerdos_incumplidos'] = "niveles/reportes/acuerdos_incumplidos";
 /* end of: Rutas para el Módulo de Niveles de Servicio de TI*/
 
 /* Rutas del Modulo de Operaciones*/
