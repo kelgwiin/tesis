@@ -717,7 +717,7 @@ class Reportes extends MX_Controller
 
 
 		$dias_nombres = array('0',"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
-		$meses_nombres = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+		$meses_nombres = array('0',"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 		$dias = array();
 		$dias_fecha = array();
 		$historial_mensual['caidas_servicio']  =  array();

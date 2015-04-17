@@ -78,8 +78,6 @@ function mostrarHistorialMensual() {
 
                              success: function(data){
 
-                              
-
                               $("#informacion_historial_mensual").hide();
 
                               var nombre_servicio = $( "#dropdown_servicios_mensual option:selected" ).text();

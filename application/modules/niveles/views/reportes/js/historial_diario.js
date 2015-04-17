@@ -66,12 +66,7 @@ function mostrarHistorialDiario() {
                              success: function(data){
 
                              $("#informacion_historial").hide();
-                             //$("#no_info").hide();
-
-                            /*  if(data.caidas_servicio.length == 0){
-                                        $("#no_info").fadeIn();
-                            }
-                            else{*/
+                            
 
                             var nombre_servicio = $( "#dropdown_servicios option:selected" ).text();
                               var nombre_acuerdo = $( "#dropdown_acuerdos option:selected" ).text();
