@@ -17,20 +17,20 @@
 <div class="panel with-nav-tabs panel-primary">
                 <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li  ><a href="#tab1default" data-toggle="tab">Diario</a></li>
+                            <li  class="active"><a href="#tab1default" data-toggle="tab">Diario</a></li>
                             <li ><a href="#tab2default" data-toggle="tab">Semanal</a></li>
                             <li ><a href="#tab3default" data-toggle="tab">Mensual</a></li>
-                             <li class="active"><a href="#tab4default" data-toggle="tab">Anual</a></li>
+                             <li ><a href="#tab4default" data-toggle="tab">Anual</a></li>
                         </ul>
                 </div>
 
 
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade " id="tab1default"><?php $this->load->view('niveles/reportes/historial_servicio/diario'); ?></div>
+                        <div class="tab-pane fade in active" id="tab1default"><?php $this->load->view('niveles/reportes/historial_servicio/diario'); ?></div>
                         <div class="tab-pane fade " id="tab2default"><?php $this->load->view('niveles/reportes/historial_servicio/semanal'); ?></div>
                         <div class="tab-pane fade  " id="tab3default"><?php $this->load->view('niveles/reportes/historial_servicio/mensual'); ?></div>
-                        <div class="tab-pane fade in active" id="tab4default"><?php $this->load->view('niveles/reportes/historial_servicio/anual'); ?></div>
+                        <div class="tab-pane fade " id="tab4default"><?php $this->load->view('niveles/reportes/historial_servicio/anual'); ?></div>
                     </div>
                 </div>
             </div>

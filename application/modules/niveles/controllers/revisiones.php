@@ -710,7 +710,7 @@ class Revisiones extends MX_Controller
 
 			$eventos_calendario[$i]['tipo'] = $evento->tipo_evento;
 
-			if (( $evento->tipo_evento == 'revision_ANS')|| ($evento->tipo_evento =='renovacion_ANS') )
+			if (( $evento->tipo_evento == 'revision_ANS') || ($evento->tipo_evento =='renovacion_ANS') )
 			{
 				$acuerdo = $this->general->get_row('evento_ans',array('id_evento'=> $evento->id_evento));
 
