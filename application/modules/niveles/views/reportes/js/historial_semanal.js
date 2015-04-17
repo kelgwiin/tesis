@@ -154,8 +154,8 @@ function mostrarHistorialSemanal() {
 
                                $("#disponibilidad_semanal").append(data.disponibilidad+" %");
                                 $("#disponibilidad_ANS_semanal").append(data.ans.porcentaje_disp+" %");
-                                $("#tiempo_online_semanal").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
-                                $("#tiempo_online_ANS_semanal").append(" <h5>"+data.tiempo_disponible+" <i class='fa fa-clock-o'></i></h5>");
+                                $("#tiempo_online_semanal").append(" <h5>"+data.tiempo_online2+"</h5>");
+                                $("#tiempo_online_ANS_semanal").append(" <h5>"+data.tiempo_disponible2+"</h5>");
 
                                 $("#numero_caidas_semanal").append(data.numero_caidas);
 

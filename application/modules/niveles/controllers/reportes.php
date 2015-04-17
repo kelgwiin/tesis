@@ -70,6 +70,42 @@ class Reportes extends MX_Controller
     	}
 
 
+    	function segundosToCadena($segs){
+	$cadena = "";
+
+	if($segs >= 86400) {
+	$dias = floor($segs/86400);
+	$segs = $segs%86400;
+	$cadena = $dias.' <b>día</b>';
+	if($dias != 1) $cadena .= '<b>s</b>';
+	if($segs >= 0) $cadena .= '<br>';
+	}
+
+	if($segs>=3600){
+	$horas = floor($segs/3600);
+	$segs = $segs%3600;
+	$cadena .= $horas.' <b>hora</b>';
+	if($horas != 1) $cadena .= '<b>s</b>';
+	if($segs >= 0) $cadena .= '<br>';
+	}
+
+	if($segs>=60){
+	$minutes = floor($segs/60);
+	$segs = $segs%60;
+	$cadena .= $minutes.' <b>minuto</b>';
+	if($minutes != 1) $cadena .= '<b>s</b>';
+	if($segs >= 0) $cadena .= '<br>';
+	}
+
+	if($segs != 0){
+	$cadena .= $segs.' <b>segundo</b>';
+	if($segs != 1) $cadena .= '<b>s</b>';}
+
+	return $cadena;
+
+	}
+
+
 	//Transforma segundos al formato hh:mm:ss
 	function  transformarSegundos($segundos){
 
@@ -625,9 +661,11 @@ class Reportes extends MX_Controller
 
 		//Tiempo en linea		
 		$historial_semanal['tiempo_online'] = $this->transformarSegundos($total_tiempo_disponible);
+		$historial_semanal['tiempo_online2'] = $this->segundosToCadena($total_tiempo_disponible);
 
 		// Total de Tiempo de horario según ANS
-		$historial_semanal['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);		
+		$historial_semanal['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);
+		$historial_semanal['tiempo_disponible2'] =  $this->segundosToCadena($total_tiempo_horario);		
 
 		//Mayor Caída
 		$mayor_caida = max($tiempos_caidas);
@@ -852,9 +890,11 @@ class Reportes extends MX_Controller
 
 		//Tiempo en linea		
 		$historial_mensual['tiempo_online'] = $this->transformarSegundos($total_tiempo_disponible);
+		$historial_mensual['tiempo_online2'] = $this->segundosToCadena($total_tiempo_disponible);
 
 		// Total de Tiempo de horario según ANS
-		$historial_mensual['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);		
+		$historial_mensual['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);
+		$historial_mensual['tiempo_disponible2'] = $this->segundosToCadena($total_tiempo_horario);		
 
 		//Mayor Caída
 		$mayor_caida = max($tiempos_caidas);
@@ -993,7 +1033,7 @@ class Reportes extends MX_Controller
 				// Se le agrega el nombre del día a la información de la hora de caída:
 				foreach ($caidas_servicio as $caida) {
 					$caida->inicio_caida = $caida->inicio_caida."/<b> ".$nombre_mes."</b> ";
-					$caida->fin_caida =     $caida->fin_caida."/<b> ".$nombre_mes."</b>";
+					$caida->fin_caida =     $caida->fin_caida." /<b> ".$nombre_mes."</b>";
 				}
 
 				//Concatenando la información de las caídas de Servicio
@@ -1009,7 +1049,7 @@ class Reportes extends MX_Controller
 				 // Se le agrega el nombre del día a la información de la hora de caída de los procesos:
 				foreach ($caidas_procesos as $caida) {
 					$caida->inicio_caida = $caida->inicio_caida."/ <b>".$nombre_mes."</b> ";
-					$caida->fin_caida =     $caida->fin_caida."/ <b>".$nombre_mes."</b> ";
+					$caida->fin_caida =     $caida->fin_caida." / <b>".$nombre_mes."</b> ";
 				}				 
 
 				 // Id's de todos los procesos que conforman el servicio
@@ -1083,10 +1123,12 @@ class Reportes extends MX_Controller
 		$historial_anual['tiempo_caido_segundos'] =$total_tiempo_caido;
 
 		//Tiempo en linea		
-		$historial_anual['tiempo_online'] = $this->transformarSegundos($total_tiempo_disponible);
+		//$historial_anual['tiempo_online'] = $this->transformarSegundos($total_tiempo_disponible);
+		$historial_anual['tiempo_online'] = $this->segundosToCadena($total_tiempo_disponible);
 
 		// Total de Tiempo de horario según ANS
-		$historial_anual['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);		
+		//$historial_anual['tiempo_disponible'] =  $this->transformarSegundos($total_tiempo_horario);	
+		$historial_anual['tiempo_disponible'] = $this->segundosToCadena($total_tiempo_horario);	
 
 		//Mayor Caída
 		$mayor_caida = max($tiempos_caidas);

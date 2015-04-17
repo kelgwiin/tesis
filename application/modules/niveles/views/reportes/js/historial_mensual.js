@@ -131,13 +131,13 @@ function mostrarHistorialMensual() {
                                 "iDisplayLength": 4,
                                 "bLengthChange": false,
                                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"i><"pull-right"p>>>'
-                                });
+                                 });
 
 
                                $("#disponibilidad_mensual").append(data.disponibilidad+" %");
                                 $("#disponibilidad_ANS_mensual").append(data.ans.porcentaje_disp+" %");
-                                $("#tiempo_online_mensual").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
-                                $("#tiempo_online_ANS_mensual").append(" <h5>"+data.tiempo_disponible+" <i class='fa fa-clock-o'></i></h5>");
+                                $("#tiempo_online_mensual").append(" <h5>"+data.tiempo_online2+"</h5>");
+                                $("#tiempo_online_ANS_mensual").append(" <h5>"+data.tiempo_disponible2+"</h5>");
 
                                 $("#numero_caidas_mensual").append(data.numero_caidas);
 

@@ -123,7 +123,7 @@
 					<td class='text-center' id="disponibilidad_ANS_anual"></td>
 				</tr>	
 				<tr>
-					<td width="40%" class="active"><b>Tiempo Disponible</b> </td>
+					<td width="40%" class="active"><b>Tiempo Disponible</b> <i class='fa fa-clock-o'></i></td>
 					<td class='text-center' id="tiempo_online_anual"></td>
 					<td class='text-center' id="tiempo_online_ANS_anual"></td>
 				</tr>	

@@ -137,8 +137,8 @@ function mostrarHistorialAnual() {
 
                                $("#disponibilidad_anual").append(data.disponibilidad+" %");
                                 $("#disponibilidad_ANS_anual").append(data.ans.porcentaje_disp+" %");
-                                $("#tiempo_online_anual").append(" <h5>"+data.tiempo_online+" <i class='fa fa-clock-o'></i></h5>");
-                                $("#tiempo_online_ANS_anual").append(" <h5>"+data.tiempo_disponible+" <i class='fa fa-clock-o'></i></h5>");
+                                $("#tiempo_online_anual").append(" <h5>"+data.tiempo_online+"</h5>");
+                                $("#tiempo_online_ANS_anual").append(" <h5>"+data.tiempo_disponible+"</h5>");
 
                                 $("#numero_caidas_anual").append(data.numero_caidas);
 
