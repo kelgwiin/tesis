@@ -1322,6 +1322,8 @@ class Reportes extends MX_Controller
 
 						'acuerdo_nivel_id' => $acuerdo_id,
 
+						'fecha' => date('Y-m-d',$ayer),
+
 			            		'porcentaje_disp' => $disponibilidad_reporte,
 			            		'numero_caidas' =>$numero_caidas_reporte,
 			            		'tiempo_caido' => $this->segundosToCadena($tiempo_caido_reporte_aux),

@@ -169,4 +169,16 @@ $( document ).ready(function() {
 
 
 
+    // Desactiva el tablesorter.
+     $('#dataTables-ans_incumplidos').unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+       .removeClass('tablesorter')
+       .find('thead th')
+       .unbind('click mousedown')
+       .removeClass('header headerSortDown headerSortUp');
+
+    // Crea el Datatable
+    $('#dataTables-ans_incumplidos').dataTable();
+
+
+
 });

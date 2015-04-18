@@ -12,4 +12,11 @@ class Niveles_model extends CI_Model
 		return $query->result();
 	}
 
+	public function obtener_acuerdos_violados()
+	{
+		$this->db->order_by('fecha', 'desc');
+		$query = $this->db->get('historial_acuerdo_violado'); 
+		return $query->result();
+	}
+
 }

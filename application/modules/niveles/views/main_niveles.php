@@ -1,4 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>application/modules/catalogo/views/js/operaciones_ajax.js"></script>
+<script type="text/javascript" src="<?=base_url()?>application/modules/niveles/views/js/operaciones_ajax.js"></script>
+<link rel="stylesheet" href="<?php echo base_url(); ?>application/modules/niveles/views/ans/css/ans.css">
 
 
 
@@ -118,123 +119,247 @@
 </div>
 
 
-<div class='col-lg-8'>
+<div class='col-lg-12'>
 	<div class="panel panel-primary">
 	   <div class="panel-heading text-center">
-		   <h3 class="panel-title"> <b> <i class="fa fa-calendar"></i>  ANS Incumplidos </b> </h3>
+		   <h3 class="panel-title"> <b> <i class="fa fa-file-excel-o"></i>  ANS Incumplidos </b> </h3>
 		  </div>
 	  <div class="panel-body">
-	    	
-			<div id='calendar'></div>
+	    	<div class="table-responsive">
+			<table class="table table-bordered" id="dataTables-ans_incumplidos">
+                                <thead>
+                                    <tr >  
+                                        <th width="">Fecha</th>            
+                                        <th width="">Acuerdo</th>
+                                         <th width="">Estado ANS</th>
+                                        <th width="">Servicio</th>                                       
+                                        <th width="">% Disp </th>
+                                        <th width="">% Disp ANS </th>
+                                        <th width=""># de Caídas</th>
+                                        <th width="17%"># de Caídas ANS </th>
+                                        <th width="">Tiempo Total Caído</th>
+                                        <th width="">Tiempo Mayor Caída </th>
+                                        <th width="">Tiempo Menor Caída</th>
+                                        <th width="20%">Tiempo de Caída ANS </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                      <?php
+                                          foreach($acuerdos_violados as $acuerdo_violado)
+                                                { 
+
+                                                           foreach($acuerdos as $acuerdo){
+
+                                                                    if($acuerdo_violado->acuerdo_nivel_id == $acuerdo->acuerdo_nivel_id){
+                                                                                  $acuerdo_actual = $acuerdo;
+                                                                    }          
+
+                                                            }
+                                       ?>
+                                       <tr>
+
+                                              <td class="text-center" style="vertical-align: middle;"><?php 
+                                                     $date = date_create($acuerdo_violado->fecha);
+                                                     echo date_format($date,"d/m/Y");  ?>
+                                              </td>
+
+
+                                              <td class="text-center" style="vertical-align: middle;"><a href="<?php echo base_url('index.php/niveles_de_servicio/gestion_ANS/ver_ANS/'.$acuerdo_actual->acuerdo_nivel_id);?>" target="_blank"><?php echo $acuerdo_actual->nombre_acuerdo; ?></a></td>
+
+
+
+                                              <td class="text-center" style="vertical-align: middle;">                                                                
+                                                          <?php if($acuerdo_violado->estado_acuerdo == 'alerta') : ?>
+                                                                <span class="label label-warning"><?php echo $acuerdo_violado->estado_acuerdo; ?></span>
+                                                          <?php endif ?>
+
+                                                          <?php if($acuerdo_violado->estado_acuerdo == 'violado') : ?>
+                                                                <span class="label label-danger"><?php echo $acuerdo_violado->estado_acuerdo; ?></span>
+                                                          <?php endif ?>
+                                                  </td>
+
+                                                <td class="text-center" style="vertical-align: middle;"> <?php 
+                                                    foreach($servicios as $servicio)
+                                                {
+                                                  if($servicio->servicio_id == $acuerdo_actual->id_servicio)
+                                                  {
+                                                    $servicio_actual = $servicio->nombre; 
+                                                  }
+                                                } ?> 
+                                                <a href="<?php echo base_url('index.php/cargar_datos/servicios/ver/'.$acuerdo_actual->id_servicio);?>" target="_blank"><?php echo $servicio_actual ; ?></a> 
+                                              </td>       
+
+                                                                        
+
+                                                   
+                                                  
+
+                                                  <?php if($acuerdo_violado->estado_disp == 'ok') : ?>
+                                                                <td  class="text-center" style="background-color:#A4E8A4; vertical-align: middle;"> <b><?php echo $acuerdo_violado->porcentaje_disp; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_disp == 'alerta') : ?>
+                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->porcentaje_disp; ?></b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_disp == 'violado') : ?>
+                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->porcentaje_disp; ?></b> </td>
+                                                    <?php endif ?>
+
+                                                  <td style="vertical-align: middle;"  class="active text-center"><b><?php echo $acuerdo_actual->porcentaje_disp; ?> </b>  </td>
+
+
+
+                                                   <?php if($acuerdo_violado->estado_numero_caidas == 'ok') : ?>
+                                                                <td class="text-center" style="background-color:#A4E8A4; vertical-align: middle"> <b><?php echo $acuerdo_violado->numero_caidas; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_numero_caidas == 'alerta') : ?>
+                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->numero_caidas; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_numero_caidas == 'violado') : ?>
+                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->numero_caidas; ?> </b> </td>
+                                                    <?php endif ?>
+
+
+                                                    <td style="vertical-align: middle;" class="active">
+
+
+                                                   <b><i>Numero de Caídas <br>(Por <?php echo $acuerdo_actual->unidad_num_caidas; ?>):</i></b><br><br>
+
+                                                  
+                                                    <div class="progress">
+                                                      <div class="progress-bar progress-bar-success" style="width: 33%">
+                                                          <div class='text-center'><b>Normal</b></div>
+                                                      </div>
+                                                      <div class="progress-bar progress-bar-warning" style="width: 33%">
+                                                          <div class='text-center'><b> Alerta </b></div>
+                                                      </div>
+                                                      <div class="progress-bar progress-bar-danger" style="width: 34%">
+                                                           <div class='text-center'><b>Fallo</b> </div>
+                                                      </div>
+                                                    </div>
+                                                    <div class="progress-meter">
+                                                      <div class="meter meter-left" style="width: 33%;"><span class="meter-text">0 Caídas</span></div>
+                                                      <div class="meter meter-left" style="width: 33%;"><span class="meter-text">
+                                                                                              <?php if($acuerdo_actual->minimo_num_caidas > 1) : ?>
+                                                                                                      <?php echo  $acuerdo_actual->minimo_num_caidas.' caídas'; ?> 
+                                                                                                      <?php else : ?>
+                                                                                                      <?php echo  $acuerdo_actual->minimo_num_caidas.' caída'; ?>
+                                                                                                      <?php endif ?>
+                                                                                              </span></div>
+                                                        <div class="meter meter-left" style="width: 34%;"><span class="meter-text">
+                                                                                                <?php if($acuerdo_actual->maximo_num_caidas > 1) : ?>
+                                                                                                      <?php echo  $acuerdo_actual->maximo_num_caidas.' caídas'; ?> 
+                                                                                                      <?php else : ?>
+                                                                                                      <?php echo  $acuerdo_actual->maximo_num_caidas.' caída'; ?>
+                                                                                                      <?php endif ?>
+                                                                                                </span></div>
+
+                                                    </div><br>
+                                            
+
+                                                         </td>
+
+
+                                                  <?php if($acuerdo_violado->estado_tiempo_total == 'ok') : ?>
+                                                                <td class="text-center" style="background-color:#A4E8A4; vertical-align: middle"> <b><?php echo $acuerdo_violado->tiempo_caido; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_tiempo_total == 'alerta') : ?>
+                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->tiempo_caido; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_tiempo_total == 'violado') : ?>
+                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->tiempo_caido; ?> </b> </td>
+                                                    <?php endif ?>
+
+
+                                                    <?php if($acuerdo_violado->estado_tiempo_mayor == 'ok') : ?>
+                                                                <td class="text-center" style="background-color:#A4E8A4; vertical-align: middle"> <b><?php echo $acuerdo_violado->mayor_caida; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_tiempo_mayor == 'alerta') : ?>
+                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->mayor_caida; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_tiempo_mayor == 'violado') : ?>
+                                                                <td  style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->mayor_caida; ?> </b> </td>
+                                                    <?php endif ?>
+
+
+                                                       <?php if($acuerdo_violado->estado_tiempo_menor == 'ok') : ?>
+                                                                <td class="text-center" style="background-color:#A4E8A4; vertical-align: middle"> <b><?php echo $acuerdo_violado->menor_caida; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_tiempo_menor == 'alerta') : ?>
+                                                                <td  style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->menor_caida; ?> </b> </td>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_violado->estado_tiempo_menor == 'violado') : ?>
+                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->menor_caida; ?> </b> </td>
+                                                    <?php endif ?>
+
+
+                                                    <td style="vertical-align: middle;" class="active">
+                                                      <b><i>Duración de las Caídas:</i></b><br><br>
+
+                                                           <div class="progress">
+                                                              <div class="progress-bar progress-bar-success" style="width: 33%">
+                                                                  <div class='text-center'><b>Normal</b></div>
+                                                              </div>
+                                                              <div class="progress-bar progress-bar-warning" style="width: 33%">
+                                                                  <div class='text-center'><b> Alerta </b></div>
+                                                              </div>
+                                                              <div class="progress-bar progress-bar-danger" style="width: 34%">
+                                                                   <div class='text-center'><b>Fallo</b> </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="progress-meter">
+                                                              <div class="meter meter-left" style="width: 33%;"><span class="meter-text">0  <?php echo $acuerdo_actual->unidad_duracion_caidas; ?></span></div>
+                                                              <div class="meter meter-left" style="width: 33%;"><span class="meter-text">
+                                                                                                      <?php if($acuerdo_actual->minimo_duracion_caidas > 1) : ?>
+                                                                                                              <?php echo  $acuerdo_actual->minimo_duracion_caidas.' '.$acuerdo_actual->unidad_duracion_caidas; ?> 
+                                                                                                              <?php else : ?>
+                                                                                                              <?php 
+                                                                                                              $string = $acuerdo_actual->unidad_duracion_caidas;
+                                                                                                      $string = substr ($string, 0, - 1);
+                                                                                                              echo  $acuerdo_actual->minimo_duracion_caidas.' '.$string; ?>
+                                                                                                              <?php endif ?>
+                                                                                                      </span></div>
+                                                                <div class="meter meter-left" style="width: 34%;"><span class="meter-text">
+                                                                                                        <?php if($acuerdo_actual->maximo_duracion_caidas > 1) : ?>
+                                                                                                              <?php echo  $acuerdo_actual->maximo_duracion_caidas.' '.$acuerdo_actual->unidad_duracion_caidas; ?> 
+                                                                                                              <?php else : ?>
+                                                                                                              <?php 
+                                                                                                              $string = $acuerdo_actual->unidad_duracion_caidas;
+                                                                                                      $string = substr ($string, 0, - 1);
+                                                                                                              echo  $acuerdo_actual->maximo_duracion_caidas.' '.$string; ?>
+                                                                                                              <?php endif ?>
+                                                                                                        </span></div>
+                                                            </div>
+                                                    </td> 
+
+
+                                               
+
+
+
+
+                                       </tr>
+                                      <?php
+                                              }
+                                       ?>
+                     
+                                </tbody>
+
+                            </table>
+              </div>
 			
 	  </div>
 	</div>
 </div>
-
-
-	<div class='col-lg-4'>	
-
-		<div class="panel panel-primary">
-		  <div class="panel-heading text-center">
-		    <h3 class="panel-title"><b><i class="fa fa-calendar-o"></i> Próximos Eventos</b></h3>
-		  </div>
-		  <div class="panel-body" style="height:380px; max-height:380px; overflow-y: scroll;">
-
-
-
-		    <table class="table" >
-
-		      <thead>
-
-		     <?php if(count($eventos_recientes) > 0) : ?>
-			
-				  <?php foreach ($eventos_recientes as $evento_reciente) :?>
-				  	
-				  	<tr>
-				  		<td> 							<?php if($evento_reciente->tipo_evento == 'revision_ANS') : ?>
-										  				<span class="label" style="background-color:#42A321;"> </span>
-													  	<?php endif ?>
-								                 		<?php if($evento_reciente->tipo_evento == 'renovacion_ANS') : ?>
-										  				<span class="label" style="background-color:#FF7519;" > </span>
-													  	<?php endif ?>
-													  	<?php if($evento_reciente->tipo_evento == 'vencimiento_ANS') : ?>
-													  				<span class="label" style="background-color:#E64545;"> </span>
-													  	<?php endif ?>
-													  	<?php if($evento_reciente->tipo_evento == 'reunion') : ?>
-													  				<span class="label" style="background-color:#3366FF;"> </span>
-													  	<?php endif ?> 
-													  	<?php if($evento_reciente->tipo_evento == 'otro') : ?>
-													  				<span class="label" style="background-color:#8E8E86;"> </span>
-													  	<?php endif ?> 
-						</td>
-				  		<td  width="30%"> <?php echo $evento_reciente->nombre_evento; ?></td>
-
-				  		<td  width="30%" class="text-right"> <?php 
-				  					$inicio = date_create($evento_reciente->inicio);
-				  					echo '<b>Inicio:</b> '.date_format($inicio,'d/m') ?> <br><?php
-				  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
-				  					{echo "Todo el Día";}
-				  					else
-				  					{echo date_format($inicio,'h:i a');}	
-				  					 ?></td>
-
-				  		<td  width="30%" class="text-right"> <?php $fin = date_create($evento_reciente->fin);
-				  					echo '<b>Fin:</b> '.date_format($fin,'d/m');  ?> <br><?php
-				  					if($evento_reciente->tipo_evento == 'vencimiento_ANS')
-				  					{echo "Todo el Día";}
-				  					else
-				  					{echo date_format($fin,'h:i a');}	
-				  					 ?></td>
-
-				  	</tr>
-
-				  <?php endforeach ?>
-
-			  <?php else : ?>
-
-			  	<tr>
-				  		<td><div class="alert alert-info text-center" role="alert"> <b> <i class="fa fa-exclamation-circle"></i> No existen Eventos dentro de los próximos 8 días. </b></div> </td>
-
-				</tr>
-
-
-
-
-			  <?php endif ?>
-
-
-
-			   </thead>
-			   <TBODY></TBODY>
-
-			</table>
-
-		  </div>
-		</div>
-
-
-		<div class="panel panel-default">
-		    
-		  	<table class="table borderless">
-		  		<tr>
-		  			<td><div class='col-lg-1'> <span class="label" style="background-color:#42A321;"> </span></div> <div class='col-lg-offset-2'><b>Revisión de ANS</b></div> </td>
-		  			<td><div class='col-lg-1'><span class="label" style="background-color:#7A5C99;" > </span></div> <div class='col-lg-offset-2'><b> Renovación de ANS</b></div> </td>
-		  		</tr>
-
-		  		<tr>
-		  			<td><div class='col-lg-1'><span class="label" style="background-color:#FF7519;"> </span></div> <div class='col-lg-offset-2'><b> Recordatorio ANS</b></div></td>
-		  			<td><div class='col-lg-1'><span class="label" style="background-color:#E64545;"> </span></div> <div class='col-lg-offset-2'><b> Vencimiento de ANS</b></div></td>
-		  			
-		  		</tr>
- 
-		  		<tr>
-		  			<td><div class='col-lg-1'><span class="label" style="background-color:#3366FF;" > </span></div> <div class='col-lg-offset-2'><b> Reunión </b></div></td>
-		  			<td><div class='col-lg-1'><span class="label" style="background-color:#8E8E86;" > </span></div> <div class='col-lg-offset-2'><b> Otro </b></div></td>
-		  		</tr>
-		  	</table>
-
-		</div>
-
 	   
 
 	</div>

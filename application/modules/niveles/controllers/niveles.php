@@ -85,6 +85,11 @@ class Niveles extends MX_Controller
 		$data_view['inicio']	= $fecha_actual;
 		$data_view['fin']	= $fecha_proxima;
 
+
+		$data_view['acuerdos'] =$this->general->get_result('acuerdo_nivel_servicio',array('DATE(fecha_final) >=' => date('Y-m-d') ));
+		$data_view['acuerdos_violados']  = $this->niveles->obtener_acuerdos_violados(); // Todos los acuerdos
+		$data_view['servicios'] = $this->general->get_table('servicio');
+
 		$this->utils->template($this->list_sidebar_niveles(1),'niveles/main_niveles',$data_view,'Niveles de Servicio','','two_level');
 	}
 
