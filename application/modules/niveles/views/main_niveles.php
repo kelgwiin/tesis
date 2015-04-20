@@ -140,7 +140,7 @@
                                         <th width="">Tiempo Total Caído</th>
                                         <th width="">Tiempo Mayor Caída </th>
                                         <th width="">Tiempo Menor Caída</th>
-                                        <th width="20%">Tiempo de Caída ANS </th>
+                                        <th width="17%">Tiempo de Caída ANS </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -199,11 +199,11 @@
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_disp == 'alerta') : ?>
-                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->porcentaje_disp; ?></b> </td>
+                                                                <td style=" background-color:#FFFF85; vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->porcentaje_disp; ?></b> </td>
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_disp == 'violado') : ?>
-                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->porcentaje_disp; ?></b> </td>
+                                                                <td style="background-color:#FFBCBC; vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->porcentaje_disp; ?></b> </td>
                                                     <?php endif ?>
 
                                                   <td style="vertical-align: middle;"  class="active text-center"><b><?php echo $acuerdo_actual->porcentaje_disp; ?> </b>  </td>
@@ -215,11 +215,11 @@
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_numero_caidas == 'alerta') : ?>
-                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->numero_caidas; ?> </b> </td>
+                                                                <td style=" background-color:#FFFF85; vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->numero_caidas; ?> </b> </td>
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_numero_caidas == 'violado') : ?>
-                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->numero_caidas; ?> </b> </td>
+                                                                <td style=" background-color:#FFBCBC; vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->numero_caidas; ?> </b> </td>
                                                     <?php endif ?>
 
 
@@ -268,11 +268,11 @@
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_tiempo_total == 'alerta') : ?>
-                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->tiempo_caido; ?> </b> </td>
+                                                                <td style=" background-color:#FFFF85; vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->tiempo_caido; ?> </b> </td>
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_tiempo_total == 'violado') : ?>
-                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->tiempo_caido; ?> </b> </td>
+                                                                <td style=" background-color:#FFBCBC; vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->tiempo_caido; ?> </b> </td>
                                                     <?php endif ?>
 
 
@@ -281,11 +281,11 @@
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_tiempo_mayor == 'alerta') : ?>
-                                                                <td style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->mayor_caida; ?> </b> </td>
+                                                                <td style=" background-color:#FFFF85; vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->mayor_caida; ?> </b> </td>
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_tiempo_mayor == 'violado') : ?>
-                                                                <td  style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->mayor_caida; ?> </b> </td>
+                                                                <td  style=" background-color:#FFBCBC; vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->mayor_caida; ?> </b> </td>
                                                     <?php endif ?>
 
 
@@ -294,11 +294,26 @@
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_tiempo_menor == 'alerta') : ?>
-                                                                <td  style="vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->menor_caida; ?> </b> </td>
+                                                                <td  style="background-color:#FFFF85; vertical-align: middle;" class="warning text-center"> <b><?php echo $acuerdo_violado->menor_caida; ?> </b> </td>
                                                   <?php endif ?>
 
                                                   <?php if($acuerdo_violado->estado_tiempo_menor == 'violado') : ?>
-                                                                <td style="vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->menor_caida; ?> </b> </td>
+                                                                <td style=" background-color:#FFBCBC; vertical-align: middle;" class="danger text-center"> <b><?php echo $acuerdo_violado->menor_caida; ?> </b> </td>
+                                                    <?php endif ?>
+
+
+                                                    
+
+                                                <?php if($acuerdo_actual->unidad_duracion_caidas == 'segundos') : ?>
+                                                               <?php $acuerdo_actual->unidad_duracion_caidas  = 'segs' ; ?>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_actual->unidad_duracion_caidas == 'minutos') : ?>
+                                                                <?php $acuerdo_actual->unidad_duracion_caidas  = 'mins'; ?>
+                                                  <?php endif ?>
+
+                                                  <?php if($acuerdo_actual->unidad_duracion_caidas == 'horas') : ?>
+                                                                <?php $acuerdo_actual->unidad_duracion_caidas  = 'hrs'; ?>
                                                     <?php endif ?>
 
 

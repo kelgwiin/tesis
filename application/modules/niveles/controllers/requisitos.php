@@ -1343,10 +1343,10 @@ class Requisitos extends MX_Controller
 
 	            	if($id_requisito)
 		            	{
-		            		$ruta = $this->generar_pdf_acuerdo($id_requisito);
+		            		/*$ruta = $this->generar_pdf_acuerdo($id_requisito);
 
 								$requisito = array(
-                                'ruta_pdf' => $ruta,
+                                'ruta_pdf' => $ruta,*/
 
                                 );
                                $this->general->update2('requisito_nivel_servicio',$requisito,array('requisito_id'=>$id_requisito));
@@ -2383,10 +2383,10 @@ class Requisitos extends MX_Controller
 
 		            	if($resultado_requisito)
 			            	{
-			            		$ruta = $this->generar_pdf_acuerdo($id_requisito);
+			            		/*$ruta = $this->generar_pdf_acuerdo($id_requisito);
 
 								$requisito = array(
-                                'ruta_pdf' => $ruta,
+                                'ruta_pdf' => $ruta,*/
 
                                 );
                                $this->general->update2('requisito_nivel_servicio',$requisito,array('requisito_id'=>$id_requisito));

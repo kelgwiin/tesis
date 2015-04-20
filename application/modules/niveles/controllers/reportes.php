@@ -1338,7 +1338,7 @@ class Reportes extends MX_Controller
 			            		'estado_tiempo_menor' => $estado_tiempo_menor ,
 			                               );
 
-					     //$this->general->insert('historial_acuerdo_violado',$ans_violado,'');
+					     $this->general->insert('historial_acuerdo_violado',$ans_violado,'');
 				 }
 
 				$data_view['acuerdos_nivel'][$i]['comprometido'] = $acuerdo_comprometido;
